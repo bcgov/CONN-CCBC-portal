@@ -17089,6 +17089,40 @@ type CcbcUser implements Node {
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersByApplicationPendingChangeRequestCreatedByAndArchivedByManyToManyConnection!
 
+  """Reads and enables pagination through a set of `Cbc`."""
+  cbcsByApplicationPendingChangeRequestCreatedByAndCbcId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Cbc`."""
+    orderBy: [CbcsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcFilter
+  ): CcbcUserCbcsByApplicationPendingChangeRequestCreatedByAndCbcIdManyToManyConnection!
+
   """Reads and enables pagination through a set of `Application`."""
   applicationsByApplicationPendingChangeRequestUpdatedByAndApplicationId(
     """Only read the first `n` values of the set."""
@@ -17191,6 +17225,40 @@ type CcbcUser implements Node {
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersByApplicationPendingChangeRequestUpdatedByAndArchivedByManyToManyConnection!
 
+  """Reads and enables pagination through a set of `Cbc`."""
+  cbcsByApplicationPendingChangeRequestUpdatedByAndCbcId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Cbc`."""
+    orderBy: [CbcsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcFilter
+  ): CcbcUserCbcsByApplicationPendingChangeRequestUpdatedByAndCbcIdManyToManyConnection!
+
   """Reads and enables pagination through a set of `Application`."""
   applicationsByApplicationPendingChangeRequestArchivedByAndApplicationId(
     """Only read the first `n` values of the set."""
@@ -17292,6 +17360,40 @@ type CcbcUser implements Node {
     """
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersByApplicationPendingChangeRequestArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Cbc`."""
+  cbcsByApplicationPendingChangeRequestArchivedByAndCbcId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Cbc`."""
+    orderBy: [CbcsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcFilter
+  ): CcbcUserCbcsByApplicationPendingChangeRequestArchivedByAndCbcIdManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByCbcCreatedByAndUpdatedBy(
@@ -22966,6 +23068,9 @@ input ApplicationPendingChangeRequestFilter {
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
 
+  """Filter by the object’s `cbcId` field."""
+  cbcId: IntFilter
+
   """Filter by the object’s `applicationByApplicationId` relation."""
   applicationByApplicationId: ApplicationFilter
 
@@ -22990,6 +23095,12 @@ input ApplicationPendingChangeRequestFilter {
   """A related `ccbcUserByArchivedBy` exists."""
   ccbcUserByArchivedByExists: Boolean
 
+  """Filter by the object’s `cbcByCbcId` relation."""
+  cbcByCbcId: CbcFilter
+
+  """A related `cbcByCbcId` exists."""
+  cbcByCbcIdExists: Boolean
+
   """Checks for all expressions in this list."""
   and: [ApplicationPendingChangeRequestFilter!]
 
@@ -22998,6 +23109,202 @@ input ApplicationPendingChangeRequestFilter {
 
   """Negates the expression."""
   not: ApplicationPendingChangeRequestFilter
+}
+
+"""
+A filter to be used against `Cbc` object types. All fields are combined with a logical ‘and.’
+"""
+input CbcFilter {
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
+
+  """Filter by the object’s `projectNumber` field."""
+  projectNumber: IntFilter
+
+  """Filter by the object’s `sharepointTimestamp` field."""
+  sharepointTimestamp: DatetimeFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
+  """
+  Filter by the object’s `applicationPendingChangeRequestsByCbcId` relation.
+  """
+  applicationPendingChangeRequestsByCbcId: CbcToManyApplicationPendingChangeRequestFilter
+
+  """Some related `applicationPendingChangeRequestsByCbcId` exist."""
+  applicationPendingChangeRequestsByCbcIdExist: Boolean
+
+  """Filter by the object’s `cbcDataByCbcId` relation."""
+  cbcDataByCbcId: CbcToManyCbcDataFilter
+
+  """Some related `cbcDataByCbcId` exist."""
+  cbcDataByCbcIdExist: Boolean
+
+  """Filter by the object’s `cbcDataByProjectNumber` relation."""
+  cbcDataByProjectNumber: CbcToManyCbcDataFilter
+
+  """Some related `cbcDataByProjectNumber` exist."""
+  cbcDataByProjectNumberExist: Boolean
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
+
+  """Checks for all expressions in this list."""
+  and: [CbcFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [CbcFilter!]
+
+  """Negates the expression."""
+  not: CbcFilter
+}
+
+"""
+A filter to be used against many `ApplicationPendingChangeRequest` object types. All fields are combined with a logical ‘and.’
+"""
+input CbcToManyApplicationPendingChangeRequestFilter {
+  """
+  Every related `ApplicationPendingChangeRequest` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ApplicationPendingChangeRequestFilter
+
+  """
+  Some related `ApplicationPendingChangeRequest` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ApplicationPendingChangeRequestFilter
+
+  """
+  No related `ApplicationPendingChangeRequest` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ApplicationPendingChangeRequestFilter
+}
+
+"""
+A filter to be used against many `CbcData` object types. All fields are combined with a logical ‘and.’
+"""
+input CbcToManyCbcDataFilter {
+  """
+  Every related `CbcData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: CbcDataFilter
+
+  """
+  Some related `CbcData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: CbcDataFilter
+
+  """
+  No related `CbcData` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: CbcDataFilter
+}
+
+"""
+A filter to be used against `CbcData` object types. All fields are combined with a logical ‘and.’
+"""
+input CbcDataFilter {
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
+
+  """Filter by the object’s `cbcId` field."""
+  cbcId: IntFilter
+
+  """Filter by the object’s `projectNumber` field."""
+  projectNumber: IntFilter
+
+  """Filter by the object’s `jsonData` field."""
+  jsonData: JSONFilter
+
+  """Filter by the object’s `sharepointTimestamp` field."""
+  sharepointTimestamp: DatetimeFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
+  """Filter by the object’s `cbcByCbcId` relation."""
+  cbcByCbcId: CbcFilter
+
+  """A related `cbcByCbcId` exists."""
+  cbcByCbcIdExists: Boolean
+
+  """Filter by the object’s `cbcByProjectNumber` relation."""
+  cbcByProjectNumber: CbcFilter
+
+  """A related `cbcByProjectNumber` exists."""
+  cbcByProjectNumberExists: Boolean
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
+
+  """Checks for all expressions in this list."""
+  and: [CbcDataFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [CbcDataFilter!]
+
+  """Negates the expression."""
+  not: CbcDataFilter
 }
 
 """
@@ -24004,174 +24311,6 @@ input CcbcUserToManyCbcFilter {
   No related `Cbc` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
   none: CbcFilter
-}
-
-"""
-A filter to be used against `Cbc` object types. All fields are combined with a logical ‘and.’
-"""
-input CbcFilter {
-  """Filter by the object’s `rowId` field."""
-  rowId: IntFilter
-
-  """Filter by the object’s `projectNumber` field."""
-  projectNumber: IntFilter
-
-  """Filter by the object’s `sharepointTimestamp` field."""
-  sharepointTimestamp: DatetimeFilter
-
-  """Filter by the object’s `createdBy` field."""
-  createdBy: IntFilter
-
-  """Filter by the object’s `createdAt` field."""
-  createdAt: DatetimeFilter
-
-  """Filter by the object’s `updatedBy` field."""
-  updatedBy: IntFilter
-
-  """Filter by the object’s `updatedAt` field."""
-  updatedAt: DatetimeFilter
-
-  """Filter by the object’s `archivedBy` field."""
-  archivedBy: IntFilter
-
-  """Filter by the object’s `archivedAt` field."""
-  archivedAt: DatetimeFilter
-
-  """Filter by the object’s `cbcDataByCbcId` relation."""
-  cbcDataByCbcId: CbcToManyCbcDataFilter
-
-  """Some related `cbcDataByCbcId` exist."""
-  cbcDataByCbcIdExist: Boolean
-
-  """Filter by the object’s `cbcDataByProjectNumber` relation."""
-  cbcDataByProjectNumber: CbcToManyCbcDataFilter
-
-  """Some related `cbcDataByProjectNumber` exist."""
-  cbcDataByProjectNumberExist: Boolean
-
-  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
-  ccbcUserByCreatedBy: CcbcUserFilter
-
-  """A related `ccbcUserByCreatedBy` exists."""
-  ccbcUserByCreatedByExists: Boolean
-
-  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
-  ccbcUserByUpdatedBy: CcbcUserFilter
-
-  """A related `ccbcUserByUpdatedBy` exists."""
-  ccbcUserByUpdatedByExists: Boolean
-
-  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
-  ccbcUserByArchivedBy: CcbcUserFilter
-
-  """A related `ccbcUserByArchivedBy` exists."""
-  ccbcUserByArchivedByExists: Boolean
-
-  """Checks for all expressions in this list."""
-  and: [CbcFilter!]
-
-  """Checks for any expressions in this list."""
-  or: [CbcFilter!]
-
-  """Negates the expression."""
-  not: CbcFilter
-}
-
-"""
-A filter to be used against many `CbcData` object types. All fields are combined with a logical ‘and.’
-"""
-input CbcToManyCbcDataFilter {
-  """
-  Every related `CbcData` matches the filter criteria. All fields are combined with a logical ‘and.’
-  """
-  every: CbcDataFilter
-
-  """
-  Some related `CbcData` matches the filter criteria. All fields are combined with a logical ‘and.’
-  """
-  some: CbcDataFilter
-
-  """
-  No related `CbcData` matches the filter criteria. All fields are combined with a logical ‘and.’
-  """
-  none: CbcDataFilter
-}
-
-"""
-A filter to be used against `CbcData` object types. All fields are combined with a logical ‘and.’
-"""
-input CbcDataFilter {
-  """Filter by the object’s `rowId` field."""
-  rowId: IntFilter
-
-  """Filter by the object’s `cbcId` field."""
-  cbcId: IntFilter
-
-  """Filter by the object’s `projectNumber` field."""
-  projectNumber: IntFilter
-
-  """Filter by the object’s `jsonData` field."""
-  jsonData: JSONFilter
-
-  """Filter by the object’s `sharepointTimestamp` field."""
-  sharepointTimestamp: DatetimeFilter
-
-  """Filter by the object’s `createdBy` field."""
-  createdBy: IntFilter
-
-  """Filter by the object’s `createdAt` field."""
-  createdAt: DatetimeFilter
-
-  """Filter by the object’s `updatedBy` field."""
-  updatedBy: IntFilter
-
-  """Filter by the object’s `updatedAt` field."""
-  updatedAt: DatetimeFilter
-
-  """Filter by the object’s `archivedBy` field."""
-  archivedBy: IntFilter
-
-  """Filter by the object’s `archivedAt` field."""
-  archivedAt: DatetimeFilter
-
-  """Filter by the object’s `cbcByCbcId` relation."""
-  cbcByCbcId: CbcFilter
-
-  """A related `cbcByCbcId` exists."""
-  cbcByCbcIdExists: Boolean
-
-  """Filter by the object’s `cbcByProjectNumber` relation."""
-  cbcByProjectNumber: CbcFilter
-
-  """A related `cbcByProjectNumber` exists."""
-  cbcByProjectNumberExists: Boolean
-
-  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
-  ccbcUserByCreatedBy: CcbcUserFilter
-
-  """A related `ccbcUserByCreatedBy` exists."""
-  ccbcUserByCreatedByExists: Boolean
-
-  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
-  ccbcUserByUpdatedBy: CcbcUserFilter
-
-  """A related `ccbcUserByUpdatedBy` exists."""
-  ccbcUserByUpdatedByExists: Boolean
-
-  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
-  ccbcUserByArchivedBy: CcbcUserFilter
-
-  """A related `ccbcUserByArchivedBy` exists."""
-  ccbcUserByArchivedByExists: Boolean
-
-  """Checks for all expressions in this list."""
-  and: [CbcDataFilter!]
-
-  """Checks for any expressions in this list."""
-  or: [CbcDataFilter!]
-
-  """Negates the expression."""
-  not: CbcDataFilter
 }
 
 """
@@ -28514,6 +28653,40 @@ type Application implements Node {
     """
     filter: CcbcUserFilter
   ): ApplicationCcbcUsersByApplicationPendingChangeRequestApplicationIdAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Cbc`."""
+  cbcsByApplicationPendingChangeRequestApplicationIdAndCbcId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Cbc`."""
+    orderBy: [CbcsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcFilter
+  ): ApplicationCbcsByApplicationPendingChangeRequestApplicationIdAndCbcIdManyToManyConnection!
 }
 
 """A connection to a list of `ApplicationStatus` values."""
@@ -38248,6 +38421,11 @@ type ApplicationPendingChangeRequest implements Node {
   archivedAt: Datetime
 
   """
+  ID of the cbc application this application_pending_change_request belongs to
+  """
+  cbcId: Int
+
+  """
   Reads a single `Application` that is related to this `ApplicationPendingChangeRequest`.
   """
   applicationByApplicationId: Application
@@ -38266,15 +38444,569 @@ type ApplicationPendingChangeRequest implements Node {
   Reads a single `CcbcUser` that is related to this `ApplicationPendingChangeRequest`.
   """
   ccbcUserByArchivedBy: CcbcUser
+
+  """
+  Reads a single `Cbc` that is related to this `ApplicationPendingChangeRequest`.
+  """
+  cbcByCbcId: Cbc
 }
 
-"""A `ApplicationPendingChangeRequest` edge in the connection."""
-type ApplicationPendingChangeRequestsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
+"""
+Table containing the data imported from the CBC projects excel file, by rows
+"""
+type Cbc implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
 
-  """The `ApplicationPendingChangeRequest` at the end of the edge."""
-  node: ApplicationPendingChangeRequest
+  """Unique ID for the row"""
+  rowId: Int!
+
+  """The project number, unique for each project"""
+  projectNumber: Int!
+
+  """The timestamp of the last time the data was updated from sharepoint"""
+  sharepointTimestamp: Datetime
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """Reads a single `CcbcUser` that is related to this `Cbc`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Cbc`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `Cbc`."""
+  ccbcUserByArchivedBy: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationPendingChangeRequest`.
+  """
+  applicationPendingChangeRequestsByCbcId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationPendingChangeRequest`."""
+    orderBy: [ApplicationPendingChangeRequestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationPendingChangeRequestCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationPendingChangeRequestFilter
+  ): ApplicationPendingChangeRequestsConnection!
+
+  """Reads and enables pagination through a set of `CbcData`."""
+  cbcDataByCbcId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcData`."""
+    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcDataFilter
+  ): CbcDataConnection!
+
+  """Reads and enables pagination through a set of `CbcData`."""
+  cbcDataByProjectNumber(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcData`."""
+    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcDataFilter
+  ): CbcDataConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationPendingChangeRequestCbcIdAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CbcApplicationsByApplicationPendingChangeRequestCbcIdAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationPendingChangeRequestCbcIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CbcCcbcUsersByApplicationPendingChangeRequestCbcIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationPendingChangeRequestCbcIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CbcCcbcUsersByApplicationPendingChangeRequestCbcIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationPendingChangeRequestCbcIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CbcCcbcUsersByApplicationPendingChangeRequestCbcIdAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Cbc`."""
+  cbcsByCbcDataCbcIdAndProjectNumber(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Cbc`."""
+    orderBy: [CbcsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcFilter
+  ): CbcCbcsByCbcDataCbcIdAndProjectNumberManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByCbcDataCbcIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CbcCcbcUsersByCbcDataCbcIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByCbcDataCbcIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CbcCcbcUsersByCbcDataCbcIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByCbcDataCbcIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CbcCcbcUsersByCbcDataCbcIdAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Cbc`."""
+  cbcsByCbcDataProjectNumberAndCbcId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Cbc`."""
+    orderBy: [CbcsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcFilter
+  ): CbcCbcsByCbcDataProjectNumberAndCbcIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByCbcDataProjectNumberAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CbcCcbcUsersByCbcDataProjectNumberAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByCbcDataProjectNumberAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CbcCcbcUsersByCbcDataProjectNumberAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByCbcDataProjectNumberAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CbcCcbcUsersByCbcDataProjectNumberAndArchivedByManyToManyConnection!
 }
 
 """Methods to use when ordering `ApplicationPendingChangeRequest`."""
@@ -38300,6 +39032,8 @@ enum ApplicationPendingChangeRequestsOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
+  CBC_ID_ASC
+  CBC_ID_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -38338,6 +39072,977 @@ input ApplicationPendingChangeRequestCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+
+  """Checks for equality with the object’s `cbcId` field."""
+  cbcId: Int
+}
+
+"""A connection to a list of `CbcData` values."""
+type CbcDataConnection {
+  """A list of `CbcData` objects."""
+  nodes: [CbcData]!
+
+  """
+  A list of edges which contains the `CbcData` and cursor to aid in pagination.
+  """
+  edges: [CbcDataEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CbcData` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""Table containing the json data for cbc applications"""
+type CbcData implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """Unique ID for the cbc_data"""
+  rowId: Int!
+
+  """ID of the cbc application this cbc_data belongs to"""
+  cbcId: Int
+
+  """Column containing the project number the cbc application is from"""
+  projectNumber: Int
+  jsonData: JSON!
+  sharepointTimestamp: Datetime
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """Reads a single `Cbc` that is related to this `CbcData`."""
+  cbcByCbcId: Cbc
+
+  """Reads a single `Cbc` that is related to this `CbcData`."""
+  cbcByProjectNumber: Cbc
+
+  """Reads a single `CcbcUser` that is related to this `CbcData`."""
+  ccbcUserByCreatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `CbcData`."""
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """Reads a single `CcbcUser` that is related to this `CbcData`."""
+  ccbcUserByArchivedBy: CcbcUser
+}
+
+"""A `CbcData` edge in the connection."""
+type CbcDataEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CbcData` at the end of the edge."""
+  node: CbcData
+}
+
+"""Methods to use when ordering `CbcData`."""
+enum CbcDataOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  CBC_ID_ASC
+  CBC_ID_DESC
+  PROJECT_NUMBER_ASC
+  PROJECT_NUMBER_DESC
+  JSON_DATA_ASC
+  JSON_DATA_DESC
+  SHAREPOINT_TIMESTAMP_ASC
+  SHAREPOINT_TIMESTAMP_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `CbcData` object types. All fields are tested
+for equality and combined with a logical ‘and.’
+"""
+input CbcDataCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `cbcId` field."""
+  cbcId: Int
+
+  """Checks for equality with the object’s `projectNumber` field."""
+  projectNumber: Int
+
+  """Checks for equality with the object’s `jsonData` field."""
+  jsonData: JSON
+
+  """Checks for equality with the object’s `sharepointTimestamp` field."""
+  sharepointTimestamp: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationPendingChangeRequest`.
+"""
+type CbcApplicationsByApplicationPendingChangeRequestCbcIdAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationPendingChangeRequest`, and the cursor to aid in pagination.
+  """
+  edges: [CbcApplicationsByApplicationPendingChangeRequestCbcIdAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationPendingChangeRequest`.
+"""
+type CbcApplicationsByApplicationPendingChangeRequestCbcIdAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationPendingChangeRequest`.
+  """
+  applicationPendingChangeRequestsByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationPendingChangeRequest`."""
+    orderBy: [ApplicationPendingChangeRequestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationPendingChangeRequestCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationPendingChangeRequestFilter
+  ): ApplicationPendingChangeRequestsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationPendingChangeRequest`.
+"""
+type CbcCcbcUsersByApplicationPendingChangeRequestCbcIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationPendingChangeRequest`, and the cursor to aid in pagination.
+  """
+  edges: [CbcCcbcUsersByApplicationPendingChangeRequestCbcIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationPendingChangeRequest`.
+"""
+type CbcCcbcUsersByApplicationPendingChangeRequestCbcIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationPendingChangeRequest`.
+  """
+  applicationPendingChangeRequestsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationPendingChangeRequest`."""
+    orderBy: [ApplicationPendingChangeRequestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationPendingChangeRequestCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationPendingChangeRequestFilter
+  ): ApplicationPendingChangeRequestsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationPendingChangeRequest`.
+"""
+type CbcCcbcUsersByApplicationPendingChangeRequestCbcIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationPendingChangeRequest`, and the cursor to aid in pagination.
+  """
+  edges: [CbcCcbcUsersByApplicationPendingChangeRequestCbcIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationPendingChangeRequest`.
+"""
+type CbcCcbcUsersByApplicationPendingChangeRequestCbcIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationPendingChangeRequest`.
+  """
+  applicationPendingChangeRequestsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationPendingChangeRequest`."""
+    orderBy: [ApplicationPendingChangeRequestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationPendingChangeRequestCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationPendingChangeRequestFilter
+  ): ApplicationPendingChangeRequestsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationPendingChangeRequest`.
+"""
+type CbcCcbcUsersByApplicationPendingChangeRequestCbcIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationPendingChangeRequest`, and the cursor to aid in pagination.
+  """
+  edges: [CbcCcbcUsersByApplicationPendingChangeRequestCbcIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationPendingChangeRequest`.
+"""
+type CbcCcbcUsersByApplicationPendingChangeRequestCbcIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationPendingChangeRequest`.
+  """
+  applicationPendingChangeRequestsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationPendingChangeRequest`."""
+    orderBy: [ApplicationPendingChangeRequestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationPendingChangeRequestCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationPendingChangeRequestFilter
+  ): ApplicationPendingChangeRequestsConnection!
+}
+
+"""A connection to a list of `Cbc` values, with data from `CbcData`."""
+type CbcCbcsByCbcDataCbcIdAndProjectNumberManyToManyConnection {
+  """A list of `Cbc` objects."""
+  nodes: [Cbc]!
+
+  """
+  A list of edges which contains the `Cbc`, info from the `CbcData`, and the cursor to aid in pagination.
+  """
+  edges: [CbcCbcsByCbcDataCbcIdAndProjectNumberManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Cbc` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Cbc` edge in the connection, with data from `CbcData`."""
+type CbcCbcsByCbcDataCbcIdAndProjectNumberManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Cbc` at the end of the edge."""
+  node: Cbc
+
+  """Reads and enables pagination through a set of `CbcData`."""
+  cbcDataByProjectNumber(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcData`."""
+    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcDataFilter
+  ): CbcDataConnection!
+}
+
+"""Methods to use when ordering `Cbc`."""
+enum CbcsOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  PROJECT_NUMBER_ASC
+  PROJECT_NUMBER_DESC
+  SHAREPOINT_TIMESTAMP_ASC
+  SHAREPOINT_TIMESTAMP_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `Cbc` object types. All fields are tested for equality and combined with a logical ‘and.’
+"""
+input CbcCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `projectNumber` field."""
+  projectNumber: Int
+
+  """Checks for equality with the object’s `sharepointTimestamp` field."""
+  sharepointTimestamp: Datetime
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `CbcData`.
+"""
+type CbcCcbcUsersByCbcDataCbcIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `CbcData`, and the cursor to aid in pagination.
+  """
+  edges: [CbcCcbcUsersByCbcDataCbcIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `CbcData`."""
+type CbcCcbcUsersByCbcDataCbcIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `CbcData`."""
+  cbcDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcData`."""
+    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcDataFilter
+  ): CbcDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `CbcData`.
+"""
+type CbcCcbcUsersByCbcDataCbcIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `CbcData`, and the cursor to aid in pagination.
+  """
+  edges: [CbcCcbcUsersByCbcDataCbcIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `CbcData`."""
+type CbcCcbcUsersByCbcDataCbcIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `CbcData`."""
+  cbcDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcData`."""
+    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcDataFilter
+  ): CbcDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `CbcData`.
+"""
+type CbcCcbcUsersByCbcDataCbcIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `CbcData`, and the cursor to aid in pagination.
+  """
+  edges: [CbcCcbcUsersByCbcDataCbcIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `CbcData`."""
+type CbcCcbcUsersByCbcDataCbcIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `CbcData`."""
+  cbcDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcData`."""
+    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcDataFilter
+  ): CbcDataConnection!
+}
+
+"""A connection to a list of `Cbc` values, with data from `CbcData`."""
+type CbcCbcsByCbcDataProjectNumberAndCbcIdManyToManyConnection {
+  """A list of `Cbc` objects."""
+  nodes: [Cbc]!
+
+  """
+  A list of edges which contains the `Cbc`, info from the `CbcData`, and the cursor to aid in pagination.
+  """
+  edges: [CbcCbcsByCbcDataProjectNumberAndCbcIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Cbc` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `Cbc` edge in the connection, with data from `CbcData`."""
+type CbcCbcsByCbcDataProjectNumberAndCbcIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Cbc` at the end of the edge."""
+  node: Cbc
+
+  """Reads and enables pagination through a set of `CbcData`."""
+  cbcDataByCbcId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcData`."""
+    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcDataFilter
+  ): CbcDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `CbcData`.
+"""
+type CbcCcbcUsersByCbcDataProjectNumberAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `CbcData`, and the cursor to aid in pagination.
+  """
+  edges: [CbcCcbcUsersByCbcDataProjectNumberAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `CbcData`."""
+type CbcCcbcUsersByCbcDataProjectNumberAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `CbcData`."""
+  cbcDataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcData`."""
+    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcDataFilter
+  ): CbcDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `CbcData`.
+"""
+type CbcCcbcUsersByCbcDataProjectNumberAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `CbcData`, and the cursor to aid in pagination.
+  """
+  edges: [CbcCcbcUsersByCbcDataProjectNumberAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `CbcData`."""
+type CbcCcbcUsersByCbcDataProjectNumberAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `CbcData`."""
+  cbcDataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcData`."""
+    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcDataFilter
+  ): CbcDataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `CbcData`.
+"""
+type CbcCcbcUsersByCbcDataProjectNumberAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `CbcData`, and the cursor to aid in pagination.
+  """
+  edges: [CbcCcbcUsersByCbcDataProjectNumberAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""A `CcbcUser` edge in the connection, with data from `CbcData`."""
+type CbcCcbcUsersByCbcDataProjectNumberAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `CbcData`."""
+  cbcDataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcData`."""
+    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcDataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcDataFilter
+  ): CbcDataConnection!
+}
+
+"""A `ApplicationPendingChangeRequest` edge in the connection."""
+type ApplicationPendingChangeRequestsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationPendingChangeRequest` at the end of the edge."""
+  node: ApplicationPendingChangeRequest
 }
 
 """A connection to a list of `Announcement` values."""
@@ -43399,6 +45104,72 @@ type ApplicationCcbcUsersByApplicationPendingChangeRequestApplicationIdAndArchiv
   ): ApplicationPendingChangeRequestsConnection!
 }
 
+"""
+A connection to a list of `Cbc` values, with data from `ApplicationPendingChangeRequest`.
+"""
+type ApplicationCbcsByApplicationPendingChangeRequestApplicationIdAndCbcIdManyToManyConnection {
+  """A list of `Cbc` objects."""
+  nodes: [Cbc]!
+
+  """
+  A list of edges which contains the `Cbc`, info from the `ApplicationPendingChangeRequest`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCbcsByApplicationPendingChangeRequestApplicationIdAndCbcIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Cbc` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Cbc` edge in the connection, with data from `ApplicationPendingChangeRequest`.
+"""
+type ApplicationCbcsByApplicationPendingChangeRequestApplicationIdAndCbcIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Cbc` at the end of the edge."""
+  node: Cbc
+
+  """
+  Reads and enables pagination through a set of `ApplicationPendingChangeRequest`.
+  """
+  applicationPendingChangeRequestsByCbcId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationPendingChangeRequest`."""
+    orderBy: [ApplicationPendingChangeRequestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationPendingChangeRequestCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationPendingChangeRequestFilter
+  ): ApplicationPendingChangeRequestsConnection!
+}
+
 """A `Application` edge in the connection."""
 type ApplicationsEdge {
   """A cursor for use in pagination."""
@@ -43948,1074 +45719,6 @@ type CbcsConnection {
 
   """The count of *all* `Cbc` you could get from the connection."""
   totalCount: Int!
-}
-
-"""
-Table containing the data imported from the CBC projects excel file, by rows
-"""
-type Cbc implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  id: ID!
-
-  """Unique ID for the row"""
-  rowId: Int!
-
-  """The project number, unique for each project"""
-  projectNumber: Int!
-
-  """The timestamp of the last time the data was updated from sharepoint"""
-  sharepointTimestamp: Datetime
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime!
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime!
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
-
-  """Reads a single `CcbcUser` that is related to this `Cbc`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Cbc`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `Cbc`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """Reads and enables pagination through a set of `CbcData`."""
-  cbcDataByCbcId(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CbcData`."""
-    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CbcDataCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CbcDataFilter
-  ): CbcDataConnection!
-
-  """Reads and enables pagination through a set of `CbcData`."""
-  cbcDataByProjectNumber(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CbcData`."""
-    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CbcDataCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CbcDataFilter
-  ): CbcDataConnection!
-
-  """Reads and enables pagination through a set of `Cbc`."""
-  cbcsByCbcDataCbcIdAndProjectNumber(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Cbc`."""
-    orderBy: [CbcsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CbcCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CbcFilter
-  ): CbcCbcsByCbcDataCbcIdAndProjectNumberManyToManyConnection!
-
-  """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByCbcDataCbcIdAndCreatedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CcbcUser`."""
-    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CcbcUserCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CcbcUserFilter
-  ): CbcCcbcUsersByCbcDataCbcIdAndCreatedByManyToManyConnection!
-
-  """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByCbcDataCbcIdAndUpdatedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CcbcUser`."""
-    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CcbcUserCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CcbcUserFilter
-  ): CbcCcbcUsersByCbcDataCbcIdAndUpdatedByManyToManyConnection!
-
-  """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByCbcDataCbcIdAndArchivedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CcbcUser`."""
-    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CcbcUserCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CcbcUserFilter
-  ): CbcCcbcUsersByCbcDataCbcIdAndArchivedByManyToManyConnection!
-
-  """Reads and enables pagination through a set of `Cbc`."""
-  cbcsByCbcDataProjectNumberAndCbcId(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `Cbc`."""
-    orderBy: [CbcsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CbcCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CbcFilter
-  ): CbcCbcsByCbcDataProjectNumberAndCbcIdManyToManyConnection!
-
-  """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByCbcDataProjectNumberAndCreatedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CcbcUser`."""
-    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CcbcUserCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CcbcUserFilter
-  ): CbcCcbcUsersByCbcDataProjectNumberAndCreatedByManyToManyConnection!
-
-  """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByCbcDataProjectNumberAndUpdatedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CcbcUser`."""
-    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CcbcUserCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CcbcUserFilter
-  ): CbcCcbcUsersByCbcDataProjectNumberAndUpdatedByManyToManyConnection!
-
-  """Reads and enables pagination through a set of `CcbcUser`."""
-  ccbcUsersByCbcDataProjectNumberAndArchivedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CcbcUser`."""
-    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CcbcUserCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CcbcUserFilter
-  ): CbcCcbcUsersByCbcDataProjectNumberAndArchivedByManyToManyConnection!
-}
-
-"""A connection to a list of `CbcData` values."""
-type CbcDataConnection {
-  """A list of `CbcData` objects."""
-  nodes: [CbcData]!
-
-  """
-  A list of edges which contains the `CbcData` and cursor to aid in pagination.
-  """
-  edges: [CbcDataEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `CbcData` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""Table containing the json data for cbc applications"""
-type CbcData implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  id: ID!
-
-  """Unique ID for the cbc_data"""
-  rowId: Int!
-
-  """ID of the cbc application this cbc_data belongs to"""
-  cbcId: Int
-
-  """Column containing the project number the cbc application is from"""
-  projectNumber: Int
-  jsonData: JSON!
-  sharepointTimestamp: Datetime
-
-  """created by user id"""
-  createdBy: Int
-
-  """created at timestamp"""
-  createdAt: Datetime!
-
-  """updated by user id"""
-  updatedBy: Int
-
-  """updated at timestamp"""
-  updatedAt: Datetime!
-
-  """archived by user id"""
-  archivedBy: Int
-
-  """archived at timestamp"""
-  archivedAt: Datetime
-
-  """Reads a single `Cbc` that is related to this `CbcData`."""
-  cbcByCbcId: Cbc
-
-  """Reads a single `Cbc` that is related to this `CbcData`."""
-  cbcByProjectNumber: Cbc
-
-  """Reads a single `CcbcUser` that is related to this `CbcData`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `CbcData`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `CbcData`."""
-  ccbcUserByArchivedBy: CcbcUser
-}
-
-"""A `CbcData` edge in the connection."""
-type CbcDataEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `CbcData` at the end of the edge."""
-  node: CbcData
-}
-
-"""Methods to use when ordering `CbcData`."""
-enum CbcDataOrderBy {
-  NATURAL
-  ID_ASC
-  ID_DESC
-  CBC_ID_ASC
-  CBC_ID_DESC
-  PROJECT_NUMBER_ASC
-  PROJECT_NUMBER_DESC
-  JSON_DATA_ASC
-  JSON_DATA_DESC
-  SHAREPOINT_TIMESTAMP_ASC
-  SHAREPOINT_TIMESTAMP_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_BY_ASC
-  UPDATED_BY_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  ARCHIVED_BY_ASC
-  ARCHIVED_BY_DESC
-  ARCHIVED_AT_ASC
-  ARCHIVED_AT_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `CbcData` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input CbcDataCondition {
-  """Checks for equality with the object’s `rowId` field."""
-  rowId: Int
-
-  """Checks for equality with the object’s `cbcId` field."""
-  cbcId: Int
-
-  """Checks for equality with the object’s `projectNumber` field."""
-  projectNumber: Int
-
-  """Checks for equality with the object’s `jsonData` field."""
-  jsonData: JSON
-
-  """Checks for equality with the object’s `sharepointTimestamp` field."""
-  sharepointTimestamp: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: Int
-
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedBy` field."""
-  updatedBy: Int
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `archivedBy` field."""
-  archivedBy: Int
-
-  """Checks for equality with the object’s `archivedAt` field."""
-  archivedAt: Datetime
-}
-
-"""A connection to a list of `Cbc` values, with data from `CbcData`."""
-type CbcCbcsByCbcDataCbcIdAndProjectNumberManyToManyConnection {
-  """A list of `Cbc` objects."""
-  nodes: [Cbc]!
-
-  """
-  A list of edges which contains the `Cbc`, info from the `CbcData`, and the cursor to aid in pagination.
-  """
-  edges: [CbcCbcsByCbcDataCbcIdAndProjectNumberManyToManyEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Cbc` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Cbc` edge in the connection, with data from `CbcData`."""
-type CbcCbcsByCbcDataCbcIdAndProjectNumberManyToManyEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Cbc` at the end of the edge."""
-  node: Cbc
-
-  """Reads and enables pagination through a set of `CbcData`."""
-  cbcDataByProjectNumber(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CbcData`."""
-    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CbcDataCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CbcDataFilter
-  ): CbcDataConnection!
-}
-
-"""Methods to use when ordering `Cbc`."""
-enum CbcsOrderBy {
-  NATURAL
-  ID_ASC
-  ID_DESC
-  PROJECT_NUMBER_ASC
-  PROJECT_NUMBER_DESC
-  SHAREPOINT_TIMESTAMP_ASC
-  SHAREPOINT_TIMESTAMP_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_BY_ASC
-  UPDATED_BY_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  ARCHIVED_BY_ASC
-  ARCHIVED_BY_DESC
-  ARCHIVED_AT_ASC
-  ARCHIVED_AT_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `Cbc` object types. All fields are tested for equality and combined with a logical ‘and.’
-"""
-input CbcCondition {
-  """Checks for equality with the object’s `rowId` field."""
-  rowId: Int
-
-  """Checks for equality with the object’s `projectNumber` field."""
-  projectNumber: Int
-
-  """Checks for equality with the object’s `sharepointTimestamp` field."""
-  sharepointTimestamp: Datetime
-
-  """Checks for equality with the object’s `createdBy` field."""
-  createdBy: Int
-
-  """Checks for equality with the object’s `createdAt` field."""
-  createdAt: Datetime
-
-  """Checks for equality with the object’s `updatedBy` field."""
-  updatedBy: Int
-
-  """Checks for equality with the object’s `updatedAt` field."""
-  updatedAt: Datetime
-
-  """Checks for equality with the object’s `archivedBy` field."""
-  archivedBy: Int
-
-  """Checks for equality with the object’s `archivedAt` field."""
-  archivedAt: Datetime
-}
-
-"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
-type CbcCcbcUsersByCbcDataCbcIdAndCreatedByManyToManyConnection {
-  """A list of `CcbcUser` objects."""
-  nodes: [CcbcUser]!
-
-  """
-  A list of edges which contains the `CcbcUser`, info from the `CbcData`, and the cursor to aid in pagination.
-  """
-  edges: [CbcCcbcUsersByCbcDataCbcIdAndCreatedByManyToManyEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `CcbcUser` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `CcbcUser` edge in the connection, with data from `CbcData`."""
-type CbcCcbcUsersByCbcDataCbcIdAndCreatedByManyToManyEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `CcbcUser` at the end of the edge."""
-  node: CcbcUser
-
-  """Reads and enables pagination through a set of `CbcData`."""
-  cbcDataByCreatedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CbcData`."""
-    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CbcDataCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CbcDataFilter
-  ): CbcDataConnection!
-}
-
-"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
-type CbcCcbcUsersByCbcDataCbcIdAndUpdatedByManyToManyConnection {
-  """A list of `CcbcUser` objects."""
-  nodes: [CcbcUser]!
-
-  """
-  A list of edges which contains the `CcbcUser`, info from the `CbcData`, and the cursor to aid in pagination.
-  """
-  edges: [CbcCcbcUsersByCbcDataCbcIdAndUpdatedByManyToManyEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `CcbcUser` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `CcbcUser` edge in the connection, with data from `CbcData`."""
-type CbcCcbcUsersByCbcDataCbcIdAndUpdatedByManyToManyEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `CcbcUser` at the end of the edge."""
-  node: CcbcUser
-
-  """Reads and enables pagination through a set of `CbcData`."""
-  cbcDataByUpdatedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CbcData`."""
-    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CbcDataCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CbcDataFilter
-  ): CbcDataConnection!
-}
-
-"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
-type CbcCcbcUsersByCbcDataCbcIdAndArchivedByManyToManyConnection {
-  """A list of `CcbcUser` objects."""
-  nodes: [CcbcUser]!
-
-  """
-  A list of edges which contains the `CcbcUser`, info from the `CbcData`, and the cursor to aid in pagination.
-  """
-  edges: [CbcCcbcUsersByCbcDataCbcIdAndArchivedByManyToManyEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `CcbcUser` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `CcbcUser` edge in the connection, with data from `CbcData`."""
-type CbcCcbcUsersByCbcDataCbcIdAndArchivedByManyToManyEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `CcbcUser` at the end of the edge."""
-  node: CcbcUser
-
-  """Reads and enables pagination through a set of `CbcData`."""
-  cbcDataByArchivedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CbcData`."""
-    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CbcDataCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CbcDataFilter
-  ): CbcDataConnection!
-}
-
-"""A connection to a list of `Cbc` values, with data from `CbcData`."""
-type CbcCbcsByCbcDataProjectNumberAndCbcIdManyToManyConnection {
-  """A list of `Cbc` objects."""
-  nodes: [Cbc]!
-
-  """
-  A list of edges which contains the `Cbc`, info from the `CbcData`, and the cursor to aid in pagination.
-  """
-  edges: [CbcCbcsByCbcDataProjectNumberAndCbcIdManyToManyEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `Cbc` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `Cbc` edge in the connection, with data from `CbcData`."""
-type CbcCbcsByCbcDataProjectNumberAndCbcIdManyToManyEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `Cbc` at the end of the edge."""
-  node: Cbc
-
-  """Reads and enables pagination through a set of `CbcData`."""
-  cbcDataByCbcId(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CbcData`."""
-    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CbcDataCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CbcDataFilter
-  ): CbcDataConnection!
-}
-
-"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
-type CbcCcbcUsersByCbcDataProjectNumberAndCreatedByManyToManyConnection {
-  """A list of `CcbcUser` objects."""
-  nodes: [CcbcUser]!
-
-  """
-  A list of edges which contains the `CcbcUser`, info from the `CbcData`, and the cursor to aid in pagination.
-  """
-  edges: [CbcCcbcUsersByCbcDataProjectNumberAndCreatedByManyToManyEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `CcbcUser` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `CcbcUser` edge in the connection, with data from `CbcData`."""
-type CbcCcbcUsersByCbcDataProjectNumberAndCreatedByManyToManyEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `CcbcUser` at the end of the edge."""
-  node: CcbcUser
-
-  """Reads and enables pagination through a set of `CbcData`."""
-  cbcDataByCreatedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CbcData`."""
-    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CbcDataCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CbcDataFilter
-  ): CbcDataConnection!
-}
-
-"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
-type CbcCcbcUsersByCbcDataProjectNumberAndUpdatedByManyToManyConnection {
-  """A list of `CcbcUser` objects."""
-  nodes: [CcbcUser]!
-
-  """
-  A list of edges which contains the `CcbcUser`, info from the `CbcData`, and the cursor to aid in pagination.
-  """
-  edges: [CbcCcbcUsersByCbcDataProjectNumberAndUpdatedByManyToManyEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `CcbcUser` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `CcbcUser` edge in the connection, with data from `CbcData`."""
-type CbcCcbcUsersByCbcDataProjectNumberAndUpdatedByManyToManyEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `CcbcUser` at the end of the edge."""
-  node: CcbcUser
-
-  """Reads and enables pagination through a set of `CbcData`."""
-  cbcDataByUpdatedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CbcData`."""
-    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CbcDataCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CbcDataFilter
-  ): CbcDataConnection!
-}
-
-"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
-type CbcCcbcUsersByCbcDataProjectNumberAndArchivedByManyToManyConnection {
-  """A list of `CcbcUser` objects."""
-  nodes: [CcbcUser]!
-
-  """
-  A list of edges which contains the `CcbcUser`, info from the `CbcData`, and the cursor to aid in pagination.
-  """
-  edges: [CbcCcbcUsersByCbcDataProjectNumberAndArchivedByManyToManyEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `CcbcUser` you could get from the connection."""
-  totalCount: Int!
-}
-
-"""A `CcbcUser` edge in the connection, with data from `CbcData`."""
-type CbcCcbcUsersByCbcDataProjectNumberAndArchivedByManyToManyEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `CcbcUser` at the end of the edge."""
-  node: CcbcUser
-
-  """Reads and enables pagination through a set of `CbcData`."""
-  cbcDataByArchivedBy(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CbcData`."""
-    orderBy: [CbcDataOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CbcDataCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CbcDataFilter
-  ): CbcDataConnection!
 }
 
 """A `Cbc` edge in the connection."""
@@ -65174,6 +65877,72 @@ type CcbcUserCcbcUsersByApplicationPendingChangeRequestCreatedByAndArchivedByMan
 }
 
 """
+A connection to a list of `Cbc` values, with data from `ApplicationPendingChangeRequest`.
+"""
+type CcbcUserCbcsByApplicationPendingChangeRequestCreatedByAndCbcIdManyToManyConnection {
+  """A list of `Cbc` objects."""
+  nodes: [Cbc]!
+
+  """
+  A list of edges which contains the `Cbc`, info from the `ApplicationPendingChangeRequest`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCbcsByApplicationPendingChangeRequestCreatedByAndCbcIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Cbc` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Cbc` edge in the connection, with data from `ApplicationPendingChangeRequest`.
+"""
+type CcbcUserCbcsByApplicationPendingChangeRequestCreatedByAndCbcIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Cbc` at the end of the edge."""
+  node: Cbc
+
+  """
+  Reads and enables pagination through a set of `ApplicationPendingChangeRequest`.
+  """
+  applicationPendingChangeRequestsByCbcId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationPendingChangeRequest`."""
+    orderBy: [ApplicationPendingChangeRequestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationPendingChangeRequestCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationPendingChangeRequestFilter
+  ): ApplicationPendingChangeRequestsConnection!
+}
+
+"""
 A connection to a list of `Application` values, with data from `ApplicationPendingChangeRequest`.
 """
 type CcbcUserApplicationsByApplicationPendingChangeRequestUpdatedByAndApplicationIdManyToManyConnection {
@@ -65372,6 +66141,72 @@ type CcbcUserCcbcUsersByApplicationPendingChangeRequestUpdatedByAndArchivedByMan
 }
 
 """
+A connection to a list of `Cbc` values, with data from `ApplicationPendingChangeRequest`.
+"""
+type CcbcUserCbcsByApplicationPendingChangeRequestUpdatedByAndCbcIdManyToManyConnection {
+  """A list of `Cbc` objects."""
+  nodes: [Cbc]!
+
+  """
+  A list of edges which contains the `Cbc`, info from the `ApplicationPendingChangeRequest`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCbcsByApplicationPendingChangeRequestUpdatedByAndCbcIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Cbc` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Cbc` edge in the connection, with data from `ApplicationPendingChangeRequest`.
+"""
+type CcbcUserCbcsByApplicationPendingChangeRequestUpdatedByAndCbcIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Cbc` at the end of the edge."""
+  node: Cbc
+
+  """
+  Reads and enables pagination through a set of `ApplicationPendingChangeRequest`.
+  """
+  applicationPendingChangeRequestsByCbcId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationPendingChangeRequest`."""
+    orderBy: [ApplicationPendingChangeRequestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationPendingChangeRequestCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationPendingChangeRequestFilter
+  ): ApplicationPendingChangeRequestsConnection!
+}
+
+"""
 A connection to a list of `Application` values, with data from `ApplicationPendingChangeRequest`.
 """
 type CcbcUserApplicationsByApplicationPendingChangeRequestArchivedByAndApplicationIdManyToManyConnection {
@@ -65536,6 +66371,72 @@ type CcbcUserCcbcUsersByApplicationPendingChangeRequestArchivedByAndUpdatedByMan
   Reads and enables pagination through a set of `ApplicationPendingChangeRequest`.
   """
   applicationPendingChangeRequestsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationPendingChangeRequest`."""
+    orderBy: [ApplicationPendingChangeRequestsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationPendingChangeRequestCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationPendingChangeRequestFilter
+  ): ApplicationPendingChangeRequestsConnection!
+}
+
+"""
+A connection to a list of `Cbc` values, with data from `ApplicationPendingChangeRequest`.
+"""
+type CcbcUserCbcsByApplicationPendingChangeRequestArchivedByAndCbcIdManyToManyConnection {
+  """A list of `Cbc` objects."""
+  nodes: [Cbc]!
+
+  """
+  A list of edges which contains the `Cbc`, info from the `ApplicationPendingChangeRequest`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCbcsByApplicationPendingChangeRequestArchivedByAndCbcIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Cbc` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Cbc` edge in the connection, with data from `ApplicationPendingChangeRequest`.
+"""
+type CcbcUserCbcsByApplicationPendingChangeRequestArchivedByAndCbcIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Cbc` at the end of the edge."""
+  node: Cbc
+
+  """
+  Reads and enables pagination through a set of `ApplicationPendingChangeRequest`.
+  """
+  applicationPendingChangeRequestsByCbcId(
     """Only read the first `n` values of the set."""
     first: Int
 
@@ -70135,6 +71036,11 @@ type CreateApplicationPendingChangeRequestPayload {
   ccbcUserByArchivedBy: CcbcUser
 
   """
+  Reads a single `Cbc` that is related to this `ApplicationPendingChangeRequest`.
+  """
+  cbcByCbcId: Cbc
+
+  """
   An edge for our `ApplicationPendingChangeRequest`. May be used by Relay 1.
   """
   applicationPendingChangeRequestEdge(
@@ -70187,6 +71093,11 @@ input ApplicationPendingChangeRequestInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """
+  ID of the cbc application this application_pending_change_request belongs to
+  """
+  cbcId: Int
 }
 
 """The output of our create `ApplicationProjectType` mutation."""
@@ -73930,6 +74841,11 @@ type UpdateApplicationPendingChangeRequestPayload {
   ccbcUserByArchivedBy: CcbcUser
 
   """
+  Reads a single `Cbc` that is related to this `ApplicationPendingChangeRequest`.
+  """
+  cbcByCbcId: Cbc
+
+  """
   An edge for our `ApplicationPendingChangeRequest`. May be used by Relay 1.
   """
   applicationPendingChangeRequestEdge(
@@ -73991,6 +74907,11 @@ input ApplicationPendingChangeRequestPatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """
+  ID of the cbc application this application_pending_change_request belongs to
+  """
+  cbcId: Int
 }
 
 """
@@ -77503,6 +78424,11 @@ type DeleteApplicationPendingChangeRequestPayload {
   ccbcUserByArchivedBy: CcbcUser
 
   """
+  Reads a single `Cbc` that is related to this `ApplicationPendingChangeRequest`.
+  """
+  cbcByCbcId: Cbc
+
+  """
   An edge for our `ApplicationPendingChangeRequest`. May be used by Relay 1.
   """
   applicationPendingChangeRequestEdge(
@@ -80417,6 +81343,11 @@ type CreatePendingChangeRequestPayload {
   ccbcUserByArchivedBy: CcbcUser
 
   """
+  Reads a single `Cbc` that is related to this `ApplicationPendingChangeRequest`.
+  """
+  cbcByCbcId: Cbc
+
+  """
   An edge for our `ApplicationPendingChangeRequest`. May be used by Relay 1.
   """
   applicationPendingChangeRequestEdge(
@@ -80432,8 +81363,9 @@ input CreatePendingChangeRequestInput {
   payload verbatim. May be used to track mutations by the client.
   """
   clientMutationId: String
-  _applicationId: Int!
   _isPending: Boolean!
+  _applicationId: Int
+  _cbcId: Int
   _comment: String
 }
 
