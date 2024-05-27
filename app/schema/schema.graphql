@@ -39185,8 +39185,7 @@ enum CbcDataOrderBy {
 }
 
 """
-A condition to be used against `CbcData` object types. All fields are tested
-for equality and combined with a logical ‘and.’
+A condition to be used against `CbcData` object types. All fields are tested for equality and combined with a logical ‘and.’
 """
 input CbcDataCondition {
   """Checks for equality with the object’s `rowId` field."""
@@ -39604,9 +39603,7 @@ input CbcCondition {
   archivedAt: Datetime
 }
 
-"""
-A connection to a list of `CcbcUser` values, with data from `CbcData`.
-"""
+"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
 type CbcCcbcUsersByCbcDataCbcIdAndCreatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
@@ -39666,9 +39663,7 @@ type CbcCcbcUsersByCbcDataCbcIdAndCreatedByManyToManyEdge {
   ): CbcDataConnection!
 }
 
-"""
-A connection to a list of `CcbcUser` values, with data from `CbcData`.
-"""
+"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
 type CbcCcbcUsersByCbcDataCbcIdAndUpdatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
@@ -39728,9 +39723,7 @@ type CbcCcbcUsersByCbcDataCbcIdAndUpdatedByManyToManyEdge {
   ): CbcDataConnection!
 }
 
-"""
-A connection to a list of `CcbcUser` values, with data from `CbcData`.
-"""
+"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
 type CbcCcbcUsersByCbcDataCbcIdAndArchivedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
@@ -39850,9 +39843,7 @@ type CbcCbcsByCbcDataProjectNumberAndCbcIdManyToManyEdge {
   ): CbcDataConnection!
 }
 
-"""
-A connection to a list of `CcbcUser` values, with data from `CbcData`.
-"""
+"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
 type CbcCcbcUsersByCbcDataProjectNumberAndCreatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
@@ -39912,9 +39903,7 @@ type CbcCcbcUsersByCbcDataProjectNumberAndCreatedByManyToManyEdge {
   ): CbcDataConnection!
 }
 
-"""
-A connection to a list of `CcbcUser` values, with data from `CbcData`.
-"""
+"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
 type CbcCcbcUsersByCbcDataProjectNumberAndUpdatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
@@ -39974,9 +39963,7 @@ type CbcCcbcUsersByCbcDataProjectNumberAndUpdatedByManyToManyEdge {
   ): CbcDataConnection!
 }
 
-"""
-A connection to a list of `CcbcUser` values, with data from `CbcData`.
-"""
+"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
 type CbcCcbcUsersByCbcDataProjectNumberAndArchivedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
