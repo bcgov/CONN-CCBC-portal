@@ -86,7 +86,7 @@ db:
     EOF
     psql -f deploy/create_roles.sql;
     PGPASSWORD=$TEST_PG_PASSWORD
-    pg_dump -h ccbc-pgbouncer.ff61fb-test.svc.cluster.local -d ccbc > /tmp/ccbc.sql;
+    pg_dump -h ccbc-replicas.ff61fb-test.svc.cluster.local -d ccbc > /tmp/ccbc.sql;
     PGPASSWORD=$PGPASSWORD_DEV
     psql -f /tmp/ccbc.sql;
 
