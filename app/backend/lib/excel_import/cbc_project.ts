@@ -19,6 +19,18 @@ const createCbcProjectMutation = `
   }
 `;
 
+const createPendingChangeRequestMutation = `
+  mutation createPendingChangeRequestMutation(
+    $input: CreatePendingChangeRequestInput!
+  ) {
+    createPendingChangeRequest(input: $input) {
+      applicationPendingChangeRequest {
+        isPending
+        comment
+      }
+    }
+  }`;
+
 const findCbcQuery = `
   query findCbc($projectNumber: Int!) {
     cbcByProjectNumber (projectNumber: $projectNumber) {
@@ -30,6 +42,16 @@ const findCbcQuery = `
           projectNumber
           rowId
           sharepointTimestamp
+        }
+      }
+      applicationPendingChangeRequestsByCbcId(
+        orderBy: CREATED_AT_DESC
+        first: 1
+      ) {
+        nodes {
+          isPending
+          updatedAt
+          cbcId
         }
       }
     }
@@ -308,6 +330,7 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
       },
       req
     );
+    let createCbcResult = null;
     if (
       findCbcProject.data?.cbcByProjectNumber?.cbcDataByProjectNumber?.nodes
         .length > 0
@@ -329,7 +352,7 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
       );
     } else {
       // create cbc
-      const createCbcResult = await performQuery(
+      createCbcResult = await performQuery(
         createCbcMutation,
         {
           input: {
@@ -357,6 +380,39 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
         req
       );
     }
+    let changeRequestInput = null;
+    const existingChangeRequest =
+      findCbcProject.data?.cbcByProjectNumber
+        ?.applicationPendingChangeRequestsByCbcId?.nodes?.[0];
+
+    if (existingChangeRequest) {
+      // If existing change request is different from the spreadsheet import override
+      if (
+        existingChangeRequest.isPending !==
+        (project.changeRequestPending === 'Yes')
+      ) {
+        changeRequestInput = {
+          _cbcId: existingChangeRequest.cbcId,
+          _isPending: project.changeRequestPending === 'Yes',
+          _comment: null,
+        };
+      }
+    } else if (project.changeRequestPending === 'Yes') {
+      // Only persist change request if it is pending
+      changeRequestInput = {
+        _cbcId: createCbcResult.data.createCbc?.cbc?.rowId,
+        _isPending: true,
+        _comment: null,
+      };
+    }
+    if (changeRequestInput !== null)
+      await performQuery(
+        createPendingChangeRequestMutation,
+        {
+          input: changeRequestInput,
+        },
+        req
+      );
   });
 
   return {

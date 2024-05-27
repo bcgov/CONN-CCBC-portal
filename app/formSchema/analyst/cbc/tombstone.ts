@@ -27,10 +27,6 @@ const cbcTombstone: RJSFSchema = {
       type: 'string',
       title: 'Project Status',
     },
-    changeRequestPending: {
-      type: 'boolean',
-      title: 'Change Request Pending',
-    },
     projectTitle: {
       type: 'string',
       title: 'Project Title',

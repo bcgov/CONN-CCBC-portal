@@ -1,7 +1,7 @@
+import React, { useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { useCreatePendingChangeRequestMutation } from 'schema/mutations/application/createPendingChangeRequest';
 import styled from 'styled-components';
-import { useState } from 'react';
 import useModal from 'lib/helpers/useModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
@@ -19,39 +19,51 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
   margin-left: 8px;
 `;
 
-const PendingChangeRequest = ({ application }) => {
-  const queryFragment = useFragment(
-    graphql`
-      fragment PendingChangeRequest_query on Application {
-        rowId
-        applicationPendingChangeRequestsByApplicationId(
-          orderBy: CREATED_AT_DESC
-          first: 1
-        ) {
-          nodes {
-            comment
-            isPending
+const PendingChangeRequest = ({ application, isCbc = false }) => {
+  const fragment = isCbc
+    ? graphql`
+        fragment PendingChangeRequest_query_cbc on Cbc {
+          rowId
+          applicationPendingChangeRequestsByCbcId(
+            orderBy: CREATED_AT_DESC
+            first: 1
+          ) {
+            nodes {
+              comment
+              isPending
+            }
           }
         }
-      }
-    `,
-    application
-  );
+      `
+    : graphql`
+        fragment PendingChangeRequest_query_application on Application {
+          rowId
+          applicationPendingChangeRequestsByApplicationId(
+            orderBy: CREATED_AT_DESC
+            first: 1
+          ) {
+            nodes {
+              comment
+              isPending
+            }
+          }
+        }
+      `;
+
+  const queryFragment = useFragment(fragment, application);
 
   const pendingChangeRequestModal = useModal();
   const closePendingRequestModal = useModal();
-  const { applicationPendingChangeRequestsByApplicationId, rowId } =
-    queryFragment;
+  const pendingRequests = isCbc
+    ? queryFragment?.applicationPendingChangeRequestsByCbcId
+    : queryFragment?.applicationPendingChangeRequestsByApplicationId;
 
   const [isPending, setIsPending] = useState(
-    applicationPendingChangeRequestsByApplicationId?.nodes?.[0]?.isPending ||
-      false
+    pendingRequests?.nodes?.[0]?.isPending || false
   );
 
   const [comment, setComment] = useState(
-    isPending
-      ? applicationPendingChangeRequestsByApplicationId?.nodes?.[0]?.comment
-      : null
+    isPending ? pendingRequests?.nodes?.[0]?.comment : null
   );
 
   const [isUpdateMode, setIsUpdateMode] = useState(false);
@@ -68,10 +80,13 @@ const PendingChangeRequest = ({ application }) => {
     isPendingRequest: boolean,
     reasonForChange: string
   ) => {
+    const rowParam = isCbc
+      ? { _cbcId: queryFragment.rowId }
+      : { _applicationId: queryFragment.rowId };
     createPendingChangeRequest({
       variables: {
         input: {
-          _applicationId: rowId,
+          ...rowParam,
           _isPending: isPendingRequest,
           _comment: reasonForChange,
         },

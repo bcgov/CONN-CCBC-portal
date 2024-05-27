@@ -14,7 +14,10 @@ jest.mock('../../../backend/lib/graphql', () => ({
 const testQuery = graphql`
   query PendingChangeRequestTestQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
-      ...PendingChangeRequest_query
+      ...PendingChangeRequest_query_application
+    }
+    cbcByRowId(rowId: $rowId) {
+      ...PendingChangeRequest_query_cbc
     }
   }
 `;
@@ -31,6 +34,27 @@ const mockQueryPayload = {
           nodes: [
             {
               comment: 'test comment',
+              isPending: true,
+            },
+          ],
+        },
+      },
+    };
+  },
+};
+
+const mockQueryPayloadCbc = {
+  Query() {
+    return {
+      cbcByRowId: {
+        id: 'WyJjYmMiLDFd',
+        rowId: 1,
+        analystStatus: 'received',
+        externalStatus: 'on_hold',
+        applicationPendingChangeRequestsByCbcId: {
+          nodes: [
+            {
+              comment: 'test comment for CBC',
               isPending: true,
             },
           ],
@@ -64,12 +88,26 @@ const componentTestingHelper =
     defaultQueryResolver: mockQueryPayload,
     getPropsFromTestQuery: (data) => ({
       application: data.applicationByRowId,
+      isCbc: false,
+    }),
+  });
+
+const componentTestingHelperCbc =
+  new ComponentTestingHelper<PendingChangeRequestTestQuery>({
+    component: PendingChangeRequest,
+    testQuery,
+    compiledQuery,
+    defaultQueryResolver: mockQueryPayloadCbc,
+    getPropsFromTestQuery: (data) => ({
+      application: data.cbcByRowId,
+      isCbc: true,
     }),
   });
 
 describe('The Pending Change Request component', () => {
   beforeEach(() => {
     componentTestingHelper.reinit();
+    componentTestingHelperCbc.reinit();
   });
 
   it('render the checkbox and comment icon correctly', () => {
@@ -78,6 +116,55 @@ describe('The Pending Change Request component', () => {
 
     expect(screen.getByTestId('pending-change-request-comments')).toBeVisible();
     expect(screen.getByTestId('pending-change-request-checkbox')).toBeVisible();
+  });
+
+  it('renders the checkbox and comment icon correctly for CBC', async () => {
+    componentTestingHelperCbc.loadQuery();
+    componentTestingHelperCbc.renderComponent();
+
+    expect(screen.getByTestId('pending-change-request-checkbox')).toBeVisible();
+    expect(screen.getByTestId('pending-change-request-comments')).toBeVisible();
+
+    const commentIcon = screen.getByTestId('pending-change-request-comments');
+    await act(async () => {
+      fireEvent.click(commentIcon);
+    });
+
+    expect(screen.getByText('test comment for CBC')).toBeVisible();
+  });
+
+  it('edit comment modal save button calls correct mutation for CBC', async () => {
+    componentTestingHelperCbc.loadQuery();
+    componentTestingHelperCbc.renderComponent();
+
+    const commentIcon = screen.getByTestId('pending-change-request-comments');
+
+    await act(async () => {
+      fireEvent.click(commentIcon);
+    });
+
+    const textArea = screen.getByTestId('root_comment');
+
+    fireEvent.change(textArea, {
+      target: { value: 'Edited comment.' },
+    });
+
+    const saveButton = screen.getByRole('button', { name: 'Save comment' });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelperCbc.expectMutationToBeCalled(
+      'createPendingChangeRequestMutation',
+      {
+        input: {
+          _cbcId: 1,
+          _comment: 'Edited comment.',
+          _isPending: true,
+        },
+      }
+    );
   });
 
   it('load edit comment modal when clicked comment icon', async () => {
