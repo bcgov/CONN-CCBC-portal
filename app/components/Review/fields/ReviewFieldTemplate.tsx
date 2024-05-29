@@ -34,6 +34,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   const pageName = id?.split('_')?.[1];
 
   const formErrorSchema = formContext?.formErrorSchema ?? formContext.errors;
+  const errorColor = formErrorSchema?.[pageName]?.[fieldName]?.color;
   const hasFormContextError =
     formErrorSchema?.[pageName]?.[fieldName]?.__errors?.length > 0;
   const isErrors = (rawErrors && rawErrors.length > 0) || !!hasFormContextError;
@@ -48,7 +49,9 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
       <tr>
         <StyledColLeft id={id}>{title}</StyledColLeft>
         {isErrors && !isFieldInRfi ? (
-          <StyledColError id={`${id}-value`}>{children}</StyledColError>
+          <StyledColError id={`${id}-value`} errorColor={errorColor}>
+            {children}
+          </StyledColError>
         ) : (
           <StyledColRight id={`${id}-value`}>{children}</StyledColRight>
         )}

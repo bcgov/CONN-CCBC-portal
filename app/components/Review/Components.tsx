@@ -28,6 +28,11 @@ export const StyledColRight = styled('td')`
   white-space: pre-line;
 `;
 
-export const StyledColError = styled(StyledColRight)`
-  background-color: ${(props) => props.theme.color.errorBackground};
+interface StyledColErrorProps {
+  errorColor?: string;
+}
+
+export const StyledColError = styled(StyledColRight)<StyledColErrorProps>`
+  background-color: ${(props) =>
+    props?.errorColor ? props.errorColor : props.theme.color.errorBackground};
 `;
