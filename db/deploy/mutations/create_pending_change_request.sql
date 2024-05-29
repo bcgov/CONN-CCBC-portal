@@ -2,6 +2,8 @@
 
 begin;
 
+drop function if exists ccbc_public.create_pending_change_request(_application_id int,  _is_pending boolean, _comment varchar);
+
 create or replace function ccbc_public.create_pending_change_request(_is_pending boolean, _application_id int default null, _cbc_id int default null, _comment varchar default null) returns ccbc_public.application_pending_change_request as $$
 declare
 new_request_id int;
