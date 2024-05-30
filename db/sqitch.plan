@@ -567,3 +567,4 @@ tables/cbc_data 2024-05-08T18:08:06Z Rafael Solorzano <61289255+rafasdc@users.no
 mutations/create_pending_change_request 2024-05-22T16:44:01Z ,,, <ryohani89@NH504670> # add create application pending change request mutation
 @1.162.0 2024-05-23T21:23:23Z CCBC Service Account <ccbc@button.is> # release v1.162.0
 @1.162.1 2024-05-30T16:25:42Z CCBC Service Account <ccbc@button.is> # release v1.162.1
+@1.162.2 2024-05-30T17:51:32Z CCBC Service Account <ccbc@button.is> # release v1.162.2
