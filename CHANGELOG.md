@@ -1,3 +1,9 @@
+## [1.162.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.162.0...v1.162.1) (2024-05-30)
+
+### Bug Fixes
+
+- filter on all dashboard due to undefined intake ([9b78ac0](https://github.com/bcgov/CONN-CCBC-portal/commit/9b78ac0e8d28a4eba06befd8d631cfc8b6e2b5d6))
+
 # [1.162.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.161.0...v1.162.0) (2024-05-23)
 
 ### Bug Fixes

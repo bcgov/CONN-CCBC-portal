@@ -5,6 +5,7 @@ import assesmentSecondReviewChange from './templates/assesmentSecondReviewChange
 import handleEmailNotification from './handleEmailNotification';
 import agreementSignedStatusChangeDataTeam from './templates/agreementSignedStatusChangeDataTeam';
 import assessmentAssigneeChange from './templates/assessmentAssigneeChange';
+import householdCountUpdate from './templates/householdCountUpdate';
 
 const email = Router();
 
@@ -44,6 +45,11 @@ email.post('/api/email/assessmentAssigneeChange', limiter, (req, res) => {
     params,
     true
   );
+});
+
+email.post('/api/email/householdCountUpdate', limiter, (req, res) => {
+  const { params } = req.body;
+  return handleEmailNotification(req, res, householdCountUpdate, params);
 });
 
 export default email;

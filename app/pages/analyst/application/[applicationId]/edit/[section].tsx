@@ -20,10 +20,12 @@ import { useCreateNewFormDataMutation } from 'schema/mutations/application/creat
 import { analystProjectArea, benefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
 import { RJSFSchema } from '@rjsf/utils';
+import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
 
 const getSectionQuery = graphql`
   query SectionQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
+      ccbcNumber
       formData {
         formSchemaId
         jsonData
@@ -46,6 +48,7 @@ const EditApplication = ({
   const {
     session,
     applicationByRowId: {
+      ccbcNumber,
       formData: {
         formByFormSchemaId: { jsonSchema },
         formSchemaId,
@@ -82,6 +85,7 @@ const EditApplication = ({
   const [changeReason, setChangeReason] = useState('');
   const [isFormSaved, setIsFormSaved] = useState(true);
   const changeModal = useModal();
+  const { notifyHHCountUpdate } = useHHCountUpdateEmail();
   const handleChange = (e: IChangeEvent) => {
     setIsFormSaved(false);
     const newFormSectionData = { ...e.formData };
@@ -120,7 +124,21 @@ const EditApplication = ({
           formSchemaId,
         },
       },
-      onCompleted: () => {
+      onCompleted: async () => {
+        // Notifying the user that the HH count has been updated
+        if (sectionName === 'benefits') {
+          notifyHHCountUpdate(
+            calculatedSectionData,
+            jsonData.benefits,
+            applicationId,
+            {
+              ccbcNumber,
+              timestamp: new Date().toLocaleString(),
+              reasonProvided: changeReason || 'No reason provided',
+              manualUpdate: true,
+            }
+          );
+        }
         router.push(`/analyst/application/${applicationId}`);
       },
     });
