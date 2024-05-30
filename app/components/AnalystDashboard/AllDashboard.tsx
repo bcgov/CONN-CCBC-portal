@@ -394,7 +394,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             rowId: project.node.cbcId,
             ...project.node.jsonData,
             zones: [],
-            intakeNumber: project.node.jsonData.intake,
+            intakeNumber: project.node.jsonData?.intake || 'N/A',
             projectId: project.node.jsonData.projectNumber,
             internalStatus: null,
             externalStatus: project.node.jsonData.projectStatus
@@ -416,6 +416,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       ...new Set(
         allApplications.edges.map((edge) => edge.node?.intakeNumber?.toString())
       ),
+      'N/A',
     ];
 
     const uniqueZones = [
