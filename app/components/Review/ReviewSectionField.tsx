@@ -28,6 +28,8 @@ const ReviewSectionField: React.FC<FieldProps> = (props) => {
       name={name}
       defaultToggled={uiOptions.defaultExpanded || hasErrors}
       toggled={formContext.toggleOverride}
+      cbcId={formContext.cbcId}
+      isCBC={formContext.isCBC}
       error={hasErrors}
       title={schema.title}
       allowAnalystEdit={allowAnalystEdit}

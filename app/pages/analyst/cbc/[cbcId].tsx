@@ -272,11 +272,15 @@ const Cbc = ({
           )}
         </RightAlignText>
         <StyledCbcForm
-          additionalContext={
-            editMode
-              ? { toggleOverride: toggleOverrideEdit, errors: formErrors }
-              : { toggleOverride: toggleOverrideReadOnly, errors: formErrors }
-          }
+          additionalContext={{
+            toggleOverride: editMode
+              ? toggleOverrideEdit
+              : toggleOverrideReadOnly,
+            isEditable: true,
+            isCBC: true,
+            cbcId: cbcData.rowId,
+            errors: formErrors,
+          }}
           formData={formData}
           handleChange={(e) => {
             setFormData({ ...e.formData });
