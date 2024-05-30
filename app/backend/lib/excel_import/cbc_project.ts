@@ -19,12 +19,12 @@ const createCbcProjectMutation = `
   }
 `;
 
-const createPendingChangeRequestMutation = `
-  mutation createPendingChangeRequestMutation(
-    $input: CreatePendingChangeRequestInput!
+const createCbcPendingChangeRequestMutation = `
+  mutation createCbcPendingChangeRequestMutation(
+    $input: CreateCbcPendingChangeRequestInput!
   ) {
-    createPendingChangeRequest(input: $input) {
-      applicationPendingChangeRequest {
+    createCbcPendingChangeRequest(input: $input) {
+      cbcApplicationPendingChangeRequest {
         isPending
         comment
       }
@@ -44,7 +44,7 @@ const findCbcQuery = `
           sharepointTimestamp
         }
       }
-      applicationPendingChangeRequestsByCbcId(
+      cbcApplicationPendingChangeRequestsByCbcId(
         orderBy: CREATED_AT_DESC
         first: 1
       ) {
@@ -383,7 +383,7 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
     let changeRequestInput = null;
     const existingChangeRequest =
       findCbcProject.data?.cbcByProjectNumber
-        ?.applicationPendingChangeRequestsByCbcId?.nodes?.[0];
+        ?.cbcApplicationPendingChangeRequestsByCbcId?.nodes?.[0];
 
     if (existingChangeRequest) {
       // If existing change request is different from the spreadsheet import override
@@ -407,7 +407,7 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
     }
     if (changeRequestInput !== null)
       await performQuery(
-        createPendingChangeRequestMutation,
+        createCbcPendingChangeRequestMutation,
         {
           input: changeRequestInput,
         },

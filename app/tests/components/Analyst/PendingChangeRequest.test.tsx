@@ -51,7 +51,7 @@ const mockQueryPayloadCbc = {
         rowId: 1,
         analystStatus: 'received',
         externalStatus: 'on_hold',
-        applicationPendingChangeRequestsByCbcId: {
+        cbcApplicationPendingChangeRequestsByCbcId: {
           nodes: [
             {
               comment: 'test comment for CBC',
@@ -156,7 +156,7 @@ describe('The Pending Change Request component', () => {
     });
 
     componentTestingHelperCbc.expectMutationToBeCalled(
-      'createPendingChangeRequestMutation',
+      'createCbcPendingChangeRequestMutation',
       {
         input: {
           _cbcId: 1,

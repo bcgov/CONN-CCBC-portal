@@ -6,6 +6,9 @@ import useModal from 'lib/helpers/useModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
 import * as Sentry from '@sentry/nextjs';
+import { useCreateCbcPendingChangeRequestMutation } from 'schema/mutations/application/createCbcPendingChangeRequest';
+import { CreatePendingChangeRequestInput } from '__generated__/createPendingChangeRequestMutation.graphql';
+import { CreateCbcPendingChangeRequestInput } from '__generated__/createCbcPendingChangeRequestMutation.graphql';
 import PendingChangeRequestModal from './PendingChangeRequestModal';
 import ClosePendingRequestModal from './ClosePendingRequestModal';
 
@@ -24,7 +27,7 @@ const PendingChangeRequest = ({ application, isCbc = false }) => {
     ? graphql`
         fragment PendingChangeRequest_query_cbc on Cbc {
           rowId
-          applicationPendingChangeRequestsByCbcId(
+          cbcApplicationPendingChangeRequestsByCbcId(
             orderBy: CREATED_AT_DESC
             first: 1
           ) {
@@ -55,7 +58,7 @@ const PendingChangeRequest = ({ application, isCbc = false }) => {
   const pendingChangeRequestModal = useModal();
   const closePendingRequestModal = useModal();
   const pendingRequests = isCbc
-    ? queryFragment?.applicationPendingChangeRequestsByCbcId
+    ? queryFragment?.cbcApplicationPendingChangeRequestsByCbcId
     : queryFragment?.applicationPendingChangeRequestsByApplicationId;
 
   const [isPending, setIsPending] = useState(
@@ -75,21 +78,28 @@ const PendingChangeRequest = ({ application, isCbc = false }) => {
   };
 
   const [createPendingChangeRequest] = useCreatePendingChangeRequestMutation();
+  const [createCbcPendingChangeRequest] =
+    useCreateCbcPendingChangeRequestMutation();
 
-  const handleChangePendingRequest = (
-    isPendingRequest: boolean,
-    reasonForChange: string
-  ) => {
+  const handleChangePendingRequest = (isPendingRequest, reasonForChange) => {
+    const createRequest = isCbc
+      ? createCbcPendingChangeRequest
+      : createPendingChangeRequest;
+
     const rowParam = isCbc
       ? { _cbcId: queryFragment.rowId }
       : { _applicationId: queryFragment.rowId };
-    createPendingChangeRequest({
+
+    const input = {
+      ...rowParam,
+      _isPending: isPendingRequest,
+      _comment: reasonForChange,
+    };
+
+    createRequest({
       variables: {
-        input: {
-          ...rowParam,
-          _isPending: isPendingRequest,
-          _comment: reasonForChange,
-        },
+        input: input as CreateCbcPendingChangeRequestInput &
+          CreatePendingChangeRequestInput,
       },
       onCompleted: () => {
         setIsPending(isPendingRequest);
