@@ -74,8 +74,8 @@ select function_privs_are(
 );
 
 select function_privs_are(
-  'ccbc_public', 'application_organization_name', ARRAY['ccbc_public.application'], 'ccbc_auth_user', ARRAY[]::text[],
-  'ccbc_auth_user cannot execute ccbc_public.application_organization_name(ccbc_public.application)'
+  'ccbc_public', 'application_organization_name', ARRAY['ccbc_public.application'], 'ccbc_auth_user', ARRAY['EXECUTE'],
+  'ccbc_auth_user can execute ccbc_public.application_organization_name(ccbc_public.application)'
 );
 
 select finish();
