@@ -1,6 +1,5 @@
 import { SectionCbcDataQuery } from '__generated__/SectionCbcDataQuery.graphql';
 import CbcAnalystLayout from 'components/Analyst/CBC/CbcAnalystLayout';
-import CbcForm from 'components/Analyst/CBC/CbcForm';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import { usePreloadedQuery } from 'react-relay';
@@ -9,16 +8,33 @@ import { graphql } from 'relay-runtime';
 import review from 'formSchema/analyst/cbc/review';
 import { ProjectTheme } from 'components/Analyst/Project';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
-import { useRef } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
+import { FormBase } from 'components/Form';
+import { Button } from '@button-inc/bcgov-theme';
+import { RJSFSchema } from '@rjsf/utils';
+import useModal from 'lib/helpers/useModal';
+import { ChangeModal } from 'components/Analyst';
 
 const getCbcSectionQuery = graphql`
   query SectionCbcDataQuery($rowId: Int!) {
-    cbcDataByRowId(rowId: $rowId) {
-      jsonData
+    cbcByRowId(rowId: $rowId) {
       projectNumber
       rowId
+      sharepointTimestamp
+      cbcDataByCbcId {
+        edges {
+          node {
+            jsonData
+            sharepointTimestamp
+            rowId
+            projectNumber
+            updatedAt
+            updatedBy
+          }
+        }
+      }
     }
     session {
       sub
@@ -31,13 +47,15 @@ const EditCbcSection = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, SectionCbcDataQuery>) => {
   const query = usePreloadedQuery(getCbcSectionQuery, preloadedQuery);
-  const { cbcDataByRowId, session } = query;
+  const { session, cbcByRowId } = query;
   const router = useRouter();
-  const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   const section = router.query.section as string;
   const [updateFormData] = useUpdateCbcDataByRowIdMutation();
+  const [changeReason, setChangeReason] = useState<null | string>(null);
+  const [formData, setFormData] = useState<any>(null);
 
-  const { jsonData } = cbcDataByRowId;
+  const { cbcDataByCbcId, rowId } = cbcByRowId;
+  const { jsonData, rowId: cbcDataRowId } = cbcDataByCbcId.edges[0].node;
 
   const tombstone = {
     projectNumber: jsonData.projectNumber,
@@ -111,22 +129,6 @@ const EditCbcSection = ({
     reviewNotes: jsonData.reviewNotes,
   };
 
-  const handleSubmit = (e) => {
-    hiddenSubmitRef.current?.click();
-    e.preventDefault();
-    updateFormData({
-      variables: {
-        input: {
-          rowId: cbcDataByRowId.rowId,
-          cbcDataPatch: {
-            jsonData: {},
-          },
-        },
-      },
-      debounceKey: 'cbc_update_section_data',
-    });
-  };
-
   const dataBySection = {
     tombstone,
     projectType,
@@ -137,23 +139,75 @@ const EditCbcSection = ({
     projectDataReviews,
   };
 
+  const changeModal = useModal();
+
+  const handleChangeRequestModal = (e) => {
+    changeModal.open();
+    setFormData({ ...dataBySection, [section]: e.formData });
+  };
+
+  const handleSubmit = () => {
+    updateFormData({
+      variables: {
+        input: {
+          rowId: cbcDataRowId,
+          cbcDataPatch: {
+            jsonData: {
+              ...formData.tombstone,
+              ...formData.projectType,
+              ...formData.locationsAndCounts,
+              ...formData.funding,
+              ...formData.eventsAndDates,
+              ...formData.miscellaneous,
+              ...formData.projectDataReviews,
+            },
+          },
+        },
+      },
+      debounceKey: 'cbc_update_section_data',
+      onCompleted: () => {
+        router.push(`/analyst/cbc/${rowId}`);
+      },
+    });
+  };
+
   return (
     <Layout title="Edit CBC Section" session={session}>
       <CbcAnalystLayout query={query}>
-        <CbcForm
+        <FormBase
           formData={dataBySection[section]}
-          hiddenSubmitRef={hiddenSubmitRef}
-          isExpanded
-          isFormEditMode
-          title="CBC Form"
-          schema={review.properties[section]}
+          schema={review.properties[section] as RJSFSchema}
           theme={ProjectTheme}
           uiSchema={editUiSchema[section]}
-          resetFormData={() => {}}
-          onSubmit={handleSubmit}
-          saveBtnText="Save & Close"
-        />
+          onSubmit={handleChangeRequestModal}
+          noValidate
+          noHtml5Validate
+          omitExtraData={false}
+        >
+          <Button>Save</Button>
+          <Button
+            variant="secondary"
+            style={{ marginLeft: '24px' }}
+            onClick={(e) => {
+              e.preventDefault();
+              router.push(`/analyst/cbc/${rowId}`);
+            }}
+          >
+            Cancel
+          </Button>
+        </FormBase>
       </CbcAnalystLayout>
+      <ChangeModal
+        id="change-modal-cbc"
+        onCancel={() => {
+          setChangeReason(null);
+          changeModal.close();
+        }}
+        value={changeReason}
+        onChange={(e) => setChangeReason(e.target.value)}
+        onSave={handleSubmit}
+        {...changeModal}
+      />
     </Layout>
   );
 };
@@ -162,7 +216,6 @@ export const withRelayOptions = {
   ...defaultRelayOptions,
 
   variablesFromContext: (ctx) => {
-    console.log(ctx.query);
     return {
       rowId: parseInt(ctx.query.cbcId.toString(), 10),
       section: ctx.query.section,
