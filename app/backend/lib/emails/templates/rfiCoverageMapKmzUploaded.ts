@@ -11,7 +11,6 @@ const rfiCoverageMapKmzUploaded: EmailTemplateProvider = (
 ): EmailTemplate => {
   const { ccbcNumber, rfiFormData, rfiNumber, changes, organizationName } =
     params;
-  console.log('params', params);
   return {
     emailTo: [77, 34, 72], // Temporary IDs to handle email recipients
     emailCC: [],

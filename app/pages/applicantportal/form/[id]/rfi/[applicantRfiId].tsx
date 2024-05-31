@@ -112,7 +112,6 @@ const ApplicantRfiPage = ({
         },
       },
       onCompleted: () => {
-        console.log('e.formData', e.formData);
         if (e.formData?.rfiAdditionalFiles?.geographicCoverageMap?.length > 0) {
           notifyRfiCoverageMapKmzUploaded(
             rfiDataByRowId,
