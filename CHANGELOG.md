@@ -1,3 +1,10 @@
+# [1.163.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.162.1...v1.163.0) (2024-05-31)
+
+### Features
+
+- assessment hh included in count ([bfb9bd0](https://github.com/bcgov/CONN-CCBC-portal/commit/bfb9bd0c60a41f0901a998a6d3a18d3dacaf9a9c))
+- show gis assessment data for history ([f97b3b5](https://github.com/bcgov/CONN-CCBC-portal/commit/f97b3b5b9b6542d052389caee8c22fb16e1e758a))
+
 ## [1.162.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.162.0...v1.162.1) (2024-05-30)
 
 ### Bug Fixes

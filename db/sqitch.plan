@@ -570,3 +570,4 @@ mutations/create_pending_change_request 2024-05-22T16:44:01Z ,,, <ryohani89@NH50
 tables/application_gis_assessment_hh_001 2024-05-15T20:36:30Z Anthony Bushara <anthony@button.is> # gis hh has upsert columns
 extensions/application_gis_assessment_hh_history 2024-05-15T19:51:28Z Anthony Bushara <anthony@button.is> # Enable audit tracking on gis assessment hh
 computed_columns/application_history [computed_columns/application_history@1.159.0] 2024-05-15T19:31:39Z Anthony Bushara <anthony@button.is> # Rework to include updates to application_gis_data
+@1.163.0 2024-05-31T15:58:20Z CCBC Service Account <ccbc@button.is> # release v1.163.0
