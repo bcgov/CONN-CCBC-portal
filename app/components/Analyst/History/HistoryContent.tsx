@@ -9,6 +9,8 @@ import projectInformationSchema from 'formSchema/uiSchema/history/projectInforma
 import { diff } from 'json-diff';
 import conditionalApprovalSchema from 'formSchema/uiSchema/history/conditionalApproval';
 import screeningSchema from 'formSchema/uiSchema/history/screening';
+import gis from 'formSchema/uiSchema/history/gis';
+import gisAssessmentHhSchema from 'formSchema/uiSchema/history/gisAssessmentHh';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -386,6 +388,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
 
     const assessmentSchema = (assessmentName) => {
       if (assessmentName === 'screening') return screeningSchema;
+      if (assessmentName === 'gis') return gis;
       return {};
     };
 
@@ -395,7 +398,8 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
       prevAssessmentFilesArray
     );
 
-    const isScreeningAssessment = assessmentType === 'screening';
+    const isDetailedAssessment =
+      assessmentType === 'gis' || assessmentType === 'screening';
 
     return (
       <div>
@@ -404,7 +408,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
           <b>{formatAssessment(assessmentType)} Assessment</b>
           <span> on {createdAtFormatted}</span>
         </StyledContent>
-        {showHistoryDetails && isScreeningAssessment && (
+        {showHistoryDetails && isDetailedAssessment && (
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record?.json_data || {}}
@@ -419,10 +423,10 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
               'otherFiles',
               'assessmentTemplate',
             ]}
-            overrideParent="screening"
+            overrideParent={assessmentType}
           />
         )}
-        {showOtherFilesDiff && isScreeningAssessment && (
+        {showOtherFilesDiff && isDetailedAssessment && (
           <HistoryFile
             filesArray={record.json_data?.otherFiles || []}
             previousFileArray={
@@ -431,7 +435,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             title={`${formatAssessment(assessmentType)} Other Files`}
           />
         )}
-        {showAssessmentFilesDiff && isScreeningAssessment && (
+        {showAssessmentFilesDiff && isDetailedAssessment && (
           <HistoryFile
             filesArray={assessmentFilesArray}
             previousFileArray={prevAssessmentFilesArray}
@@ -497,6 +501,39 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             prevJson={prevHistoryItem?.record?.json_data || {}}
             excludedKeys={['ccbc_number']}
             diffSchema={applicationGisDataSchema}
+            overrideParent="gis"
+          />
+        )}
+        {reasonForChange && <ChangeReason reason={reasonForChange} />}
+      </div>
+    );
+  }
+
+  if (tableName === 'application_gis_assessment_hh') {
+    return (
+      <div>
+        <StyledContent data-testid="history-content-gis-assessment-hh">
+          <span>
+            {displayName}
+            {' updated the '}
+            <b>GIS Assessment Household Count </b>
+          </span>
+          on {createdAtFormatted}
+        </StyledContent>
+        {showHistoryDetails && (
+          <HistoryDetails
+            json={record}
+            prevJson={prevHistoryItem?.record || {}}
+            excludedKeys={[
+              'id',
+              'updated_at',
+              'created_at',
+              'created_by',
+              'updated_by',
+              'archived_at',
+              'archived_by',
+            ]}
+            diffSchema={gisAssessmentHhSchema}
             overrideParent="gis"
           />
         )}
