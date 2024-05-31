@@ -38,20 +38,19 @@ const householdCountUpdate: EmailTemplateProvider = (
       </ul>
     `;
   }
-  const b = (
-    manualUpdate
-      ? `
-    <p>${organizationName || initiator.givenName} has manually updated the <strong>${Object.keys(fieldsChanged).join(' and ')}</strong> on ${timestamp}</p>
-    <em>Reason given: ${reasonProvided}<em>
-  `
-      : bodyFromUploadUpdate
-  ).concat(emailFooter);
+
   return {
     emailTo: [77], // Temporary IDs to handle email recipients
     emailCC: [],
     tag: 'agreement-signed-status-change',
     subject: `${organizationName || initiator.givenName} has updated the household numbers for ${ccbcNumber}`,
-    body: b,
+    body: (manualUpdate
+      ? `
+      <p>${organizationName || initiator.givenName} has manually updated the <strong>${Object.keys(fieldsChanged).join(' and ')}</strong> on ${timestamp}</p>
+      <em>Reason given: ${reasonProvided}<em>
+    `
+      : bodyFromUploadUpdate
+    ).concat(emailFooter),
   };
 };
 
