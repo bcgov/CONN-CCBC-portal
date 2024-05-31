@@ -4177,6 +4177,114 @@ type CcbcUser implements Node {
     filter: ApplicationAnnouncementFilter
   ): ApplicationAnnouncementsConnection!
 
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+
   """Reads and enables pagination through a set of `ApplicationSowData`."""
   applicationSowDataByCreatedBy(
     """Only read the first `n` values of the set."""
@@ -11582,6 +11690,312 @@ type CcbcUser implements Node {
   ): CcbcUserCcbcUsersByApplicationAnnouncementArchivedByAndUpdatedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationGisAssessmentHhCreatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationGisAssessmentHhCreatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisAssessmentHhCreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationGisAssessmentHhCreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisAssessmentHhCreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationGisAssessmentHhCreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationGisAssessmentHhUpdatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationGisAssessmentHhUpdatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisAssessmentHhUpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationGisAssessmentHhUpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisAssessmentHhUpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationGisAssessmentHhUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationGisAssessmentHhArchivedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationGisAssessmentHhArchivedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisAssessmentHhArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationGisAssessmentHhArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisAssessmentHhArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationGisAssessmentHhArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
   applicationsByApplicationSowDataCreatedByAndApplicationId(
     """Only read the first `n` values of the set."""
     first: Int
@@ -18359,6 +18773,30 @@ input CcbcUserFilter {
   """Some related `applicationAnnouncementsByArchivedBy` exist."""
   applicationAnnouncementsByArchivedByExist: Boolean
 
+  """
+  Filter by the object’s `applicationGisAssessmentHhsByCreatedBy` relation.
+  """
+  applicationGisAssessmentHhsByCreatedBy: CcbcUserToManyApplicationGisAssessmentHhFilter
+
+  """Some related `applicationGisAssessmentHhsByCreatedBy` exist."""
+  applicationGisAssessmentHhsByCreatedByExist: Boolean
+
+  """
+  Filter by the object’s `applicationGisAssessmentHhsByUpdatedBy` relation.
+  """
+  applicationGisAssessmentHhsByUpdatedBy: CcbcUserToManyApplicationGisAssessmentHhFilter
+
+  """Some related `applicationGisAssessmentHhsByUpdatedBy` exist."""
+  applicationGisAssessmentHhsByUpdatedByExist: Boolean
+
+  """
+  Filter by the object’s `applicationGisAssessmentHhsByArchivedBy` relation.
+  """
+  applicationGisAssessmentHhsByArchivedBy: CcbcUserToManyApplicationGisAssessmentHhFilter
+
+  """Some related `applicationGisAssessmentHhsByArchivedBy` exist."""
+  applicationGisAssessmentHhsByArchivedByExist: Boolean
+
   """Filter by the object’s `applicationSowDataByCreatedBy` relation."""
   applicationSowDataByCreatedBy: CcbcUserToManyApplicationSowDataFilter
 
@@ -21337,8 +21775,44 @@ input ApplicationGisAssessmentHhFilter {
   """Filter by the object’s `eligibleIndigenous` field."""
   eligibleIndigenous: FloatFilter
 
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
   """Filter by the object’s `applicationByApplicationId` relation."""
   applicationByApplicationId: ApplicationFilter
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
 
   """Checks for all expressions in this list."""
   and: [ApplicationGisAssessmentHhFilter!]
@@ -23545,6 +24019,26 @@ input CcbcUserToManyApplicationAnnouncementFilter {
   No related `ApplicationAnnouncement` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
   none: ApplicationAnnouncementFilter
+}
+
+"""
+A filter to be used against many `ApplicationGisAssessmentHh` object types. All fields are combined with a logical ‘and.’
+"""
+input CcbcUserToManyApplicationGisAssessmentHhFilter {
+  """
+  Every related `ApplicationGisAssessmentHh` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ApplicationGisAssessmentHhFilter
+
+  """
+  Some related `ApplicationGisAssessmentHh` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ApplicationGisAssessmentHhFilter
+
+  """
+  No related `ApplicationGisAssessmentHh` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ApplicationGisAssessmentHhFilter
 }
 
 """
@@ -27154,6 +27648,108 @@ type Application implements Node {
     """
     filter: CcbcUserFilter
   ): ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisAssessmentHhApplicationIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationGisAssessmentHhApplicationIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisAssessmentHhApplicationIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationGisAssessmentHhApplicationIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationGisAssessmentHhApplicationIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationGisAssessmentHhApplicationIdAndArchivedByManyToManyConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByApplicationSowDataApplicationIdAndCreatedBy(
@@ -34104,10 +34700,43 @@ type ApplicationGisAssessmentHh implements Node {
   """The number of eligible indigenous households"""
   eligibleIndigenous: Float
 
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
   """
   Reads a single `Application` that is related to this `ApplicationGisAssessmentHh`.
   """
   applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
 }
 
 """A `ApplicationGisAssessmentHh` edge in the connection."""
@@ -34130,6 +34759,18 @@ enum ApplicationGisAssessmentHhsOrderBy {
   ELIGIBLE_DESC
   ELIGIBLE_INDIGENOUS_ASC
   ELIGIBLE_INDIGENOUS_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -34150,6 +34791,24 @@ input ApplicationGisAssessmentHhCondition {
 
   """Checks for equality with the object’s `eligibleIndigenous` field."""
   eligibleIndigenous: Float
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
 }
 
 """A connection to a list of `ApplicationSowData` values."""
@@ -40707,6 +41366,204 @@ type ApplicationCcbcUsersByApplicationAnnouncementApplicationIdAndArchivedByMany
     """
     filter: ApplicationAnnouncementFilter
   ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisAssessmentHh`.
+"""
+type ApplicationCcbcUsersByApplicationGisAssessmentHhApplicationIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisAssessmentHh`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationGisAssessmentHhApplicationIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisAssessmentHh`.
+"""
+type ApplicationCcbcUsersByApplicationGisAssessmentHhApplicationIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisAssessmentHh`.
+"""
+type ApplicationCcbcUsersByApplicationGisAssessmentHhApplicationIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisAssessmentHh`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationGisAssessmentHhApplicationIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisAssessmentHh`.
+"""
+type ApplicationCcbcUsersByApplicationGisAssessmentHhApplicationIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisAssessmentHh`.
+"""
+type ApplicationCcbcUsersByApplicationGisAssessmentHhApplicationIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisAssessmentHh`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationGisAssessmentHhApplicationIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisAssessmentHh`.
+"""
+type ApplicationCcbcUsersByApplicationGisAssessmentHhApplicationIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
 }
 
 """
@@ -54755,6 +55612,600 @@ type CcbcUserCcbcUsersByApplicationAnnouncementArchivedByAndUpdatedByManyToManyE
     """
     filter: ApplicationAnnouncementFilter
   ): ApplicationAnnouncementsConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserApplicationsByApplicationGisAssessmentHhCreatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationGisAssessmentHh`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationGisAssessmentHhCreatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserApplicationsByApplicationGisAssessmentHhCreatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserCcbcUsersByApplicationGisAssessmentHhCreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisAssessmentHh`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationGisAssessmentHhCreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserCcbcUsersByApplicationGisAssessmentHhCreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserCcbcUsersByApplicationGisAssessmentHhCreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisAssessmentHh`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationGisAssessmentHhCreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserCcbcUsersByApplicationGisAssessmentHhCreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserApplicationsByApplicationGisAssessmentHhUpdatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationGisAssessmentHh`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationGisAssessmentHhUpdatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserApplicationsByApplicationGisAssessmentHhUpdatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserCcbcUsersByApplicationGisAssessmentHhUpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisAssessmentHh`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationGisAssessmentHhUpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserCcbcUsersByApplicationGisAssessmentHhUpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserCcbcUsersByApplicationGisAssessmentHhUpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisAssessmentHh`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationGisAssessmentHhUpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserCcbcUsersByApplicationGisAssessmentHhUpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserApplicationsByApplicationGisAssessmentHhArchivedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationGisAssessmentHh`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationGisAssessmentHhArchivedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserApplicationsByApplicationGisAssessmentHhArchivedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserCcbcUsersByApplicationGisAssessmentHhArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisAssessmentHh`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationGisAssessmentHhArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserCcbcUsersByApplicationGisAssessmentHhArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserCcbcUsersByApplicationGisAssessmentHhArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationGisAssessmentHh`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationGisAssessmentHhArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationGisAssessmentHh`.
+"""
+type CcbcUserCcbcUsersByApplicationGisAssessmentHhArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
+  """
+  applicationGisAssessmentHhsByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationGisAssessmentHh`."""
+    orderBy: [ApplicationGisAssessmentHhsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationGisAssessmentHhCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationGisAssessmentHhFilter
+  ): ApplicationGisAssessmentHhsConnection!
 }
 
 """
@@ -69896,6 +71347,21 @@ type CreateApplicationGisAssessmentHhPayload {
   """
   applicationByApplicationId: Application
 
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
   """An edge for our `ApplicationGisAssessmentHh`. May be used by Relay 1."""
   applicationGisAssessmentHhEdge(
     """The method to use when ordering `ApplicationGisAssessmentHh`."""
@@ -69925,6 +71391,24 @@ input ApplicationGisAssessmentHhInput {
 
   """The number of eligible indigenous households"""
   eligibleIndigenous: Float
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """The output of our create `ApplicationGisData` mutation."""
@@ -73275,6 +74759,21 @@ type UpdateApplicationGisAssessmentHhPayload {
   """
   applicationByApplicationId: Application
 
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
   """An edge for our `ApplicationGisAssessmentHh`. May be used by Relay 1."""
   applicationGisAssessmentHhEdge(
     """The method to use when ordering `ApplicationGisAssessmentHh`."""
@@ -73313,6 +74812,24 @@ input ApplicationGisAssessmentHhPatch {
 
   """The number of eligible indigenous households"""
   eligibleIndigenous: Float
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """All input for the `updateApplicationGisAssessmentHhByRowId` mutation."""
@@ -77289,6 +78806,21 @@ type DeleteApplicationGisAssessmentHhPayload {
   """
   applicationByApplicationId: Application
 
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
   """An edge for our `ApplicationGisAssessmentHh`. May be used by Relay 1."""
   applicationGisAssessmentHhEdge(
     """The method to use when ordering `ApplicationGisAssessmentHh`."""
@@ -81083,6 +82615,21 @@ type SaveGisAssessmentHhPayload {
   Reads a single `Application` that is related to this `ApplicationGisAssessmentHh`.
   """
   applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationGisAssessmentHh`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
 
   """An edge for our `ApplicationGisAssessmentHh`. May be used by Relay 1."""
   applicationGisAssessmentHhEdge(

@@ -2831,6 +2831,31 @@ const mockQueryPayload = {
               sessionSub: 'test-session-sub@idir',
               tableName: 'application_project_type',
             },
+            {
+              applicationId: 1,
+              createdAt: '2024-01-12T18:27:42.139106+00:00',
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 5,
+                created_at: '2024-01-12T18:27:42.139106+00:00',
+                created_by: 3,
+                updated_at: '2024-01-12T18:27:42.139106+00:00',
+                updated_by: 3,
+                eligible: 10,
+                eligible_indigenous: 5,
+                archived_at: null,
+                archived_by: null,
+                application_id: 7,
+              },
+              oldRecord: null,
+              recordId: 'd6431f27-b78d-5212-916d-380e0cce9583',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_gis_assessment_hh',
+            },
           ],
         },
       },
@@ -3044,7 +3069,7 @@ describe('The index page', () => {
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(26);
+    expect(diffTables.length).toBe(27);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -3059,6 +3084,17 @@ describe('The index page', () => {
       screen.getAllByTestId('history-content-form-data')[2]
     ).toHaveTextContent(
       'Foo Bar uploaded the GIS Analysis on Mar 3, 2023, 8:35 a.m.'
+    );
+  });
+
+  it('shows the correct history for gis assessment hh', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getAllByTestId('history-content-gis-assessment-hh')[0]
+    ).toHaveTextContent(
+      'Foo Bar updated the GIS Assessment Household Count on Jan 12, 2024, 10:27 a.m.'
     );
   });
 
