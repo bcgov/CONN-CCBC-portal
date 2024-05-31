@@ -19,6 +19,7 @@ application_package
 application_milestone_excel_data
 application_milestone_data
 application_internal_description
+application_gis_assessment_hh
 application_community_report_excel_data
 application_community_progress_report_data
 application_claims_excel_data
@@ -27,7 +28,6 @@ cbc_project
 application_rfi_data
 application_form_data
 record_version
-application_gis_assessment_hh
 form_data
 application_status
 rfi_data

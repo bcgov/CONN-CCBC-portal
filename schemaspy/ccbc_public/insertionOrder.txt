@@ -17,7 +17,6 @@ gis_data
 rfi_data
 application_status
 form_data
-application_gis_assessment_hh
 record_version
 application_form_data
 application_rfi_data
@@ -26,6 +25,7 @@ application_claims_data
 application_claims_excel_data
 application_community_progress_report_data
 application_community_report_excel_data
+application_gis_assessment_hh
 application_internal_description
 application_milestone_data
 application_milestone_excel_data
