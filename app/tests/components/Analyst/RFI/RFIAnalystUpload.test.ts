@@ -5,6 +5,15 @@ import RFIAnalystUpload from 'components/Analyst/RFI/RFIAnalystUpload';
 import compiledQuery, {
   RFIAnalystUploadTestQuery,
 } from '__generated__/RFIAnalystUploadTestQuery.graphql';
+import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
+import { mocked } from 'jest-mock';
+
+jest.mock('lib/helpers/useHHCountUpdateEmail');
+
+const mockNotifyHHCountUpdate = jest.fn();
+mocked(useHHCountUpdateEmail).mockReturnValue({
+  notifyHHCountUpdate: mockNotifyHHCountUpdate,
+});
 
 const testQuery = graphql`
   query RFIAnalystUploadTestQuery($rowId: Int!, $rfiId: Int!)
@@ -18,9 +27,15 @@ const mockQueryPayload = {
     return {
       applicationByRowId: {
         rowId: 1,
+        ccbcNumber: 'CCBC-12345',
         formData: {
           formSchemaId: 1,
-          jsonData: {},
+          jsonData: {
+            benefits: {
+              householdsImpactedIndigenous: 13,
+              numberOfHouseholds: 12,
+            },
+          },
         },
       },
       rfiDataByRowId: {
@@ -92,7 +107,7 @@ describe('The RFIAnalystUpload component', () => {
     ).toBeInTheDocument();
   });
 
-  it('should call the createNewFormDataMutation on excel upload', async () => {
+  it('should call the createNewFormDataMutation and email notification on excel upload', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -220,6 +235,27 @@ describe('The RFIAnalystUpload component', () => {
             'Auto updated from upload of Template 1 for RFI: RFI-01',
           formSchemaId: 1,
         },
+      }
+    );
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {},
+      });
+    });
+
+    expect(mockNotifyHHCountUpdate).toHaveBeenCalledWith(
+      {
+        householdsImpactedIndigenous: 123987,
+        numberOfHouseholds: 2,
+      },
+      { householdsImpactedIndigenous: 13, numberOfHouseholds: 12 },
+      1,
+      {
+        ccbcNumber: 'CCBC-12345',
+        manualUpdate: false,
+        rfiNumber: 'RFI-01',
+        timestamp: expect.any(String),
       }
     );
   });

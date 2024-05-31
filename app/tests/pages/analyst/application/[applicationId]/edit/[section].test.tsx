@@ -6,6 +6,15 @@ import compiledSectionQuery, {
   SectionQuery,
 } from '__generated__/SectionQuery.graphql';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
+import { mocked } from 'jest-mock';
+import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
+
+jest.mock('lib/helpers/useHHCountUpdateEmail');
+
+const mockNotifyHHCountUpdate = jest.fn();
+mocked(useHHCountUpdateEmail).mockReturnValue({
+  notifyHHCountUpdate: mockNotifyHHCountUpdate,
+});
 
 const mockQueryPayload = {
   Query() {
@@ -16,7 +25,12 @@ const mockQueryPayload = {
         projectName: 'test project',
         formData: {
           formSchemaId: 1,
-          jsonData: {},
+          jsonData: {
+            benefits: {
+              numberOfHouseholds: 12,
+              householdsImpactedIndigenous: 13,
+            },
+          },
           formByFormSchemaId: {
             jsonSchema: schema,
           },
@@ -195,6 +209,10 @@ describe('The analyst edit application page', () => {
       input: {
         applicationRowId: 1,
         jsonData: {
+          benefits: {
+            numberOfHouseholds: 12,
+            householdsImpactedIndigenous: 13,
+          },
           projectInformation: {
             projectTitle: 'test project',
           },
@@ -213,5 +231,70 @@ describe('The analyst edit application page', () => {
         },
       });
     });
+  });
+
+  it('trigger email notification for manual hh count updates', async () => {
+    pageTestingHelper.setMockRouterValues({
+      query: { applicationId: '1', section: 'benefits' },
+    });
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    await userEvent.type(screen.getByTestId('root_numberOfHouseholds'), '2');
+
+    const formSaveButton = screen.getByRole('button', { name: 'Save' });
+
+    await act(async () => {
+      fireEvent.click(formSaveButton);
+    });
+
+    const textarea = screen.getAllByTestId('reason-for-change')[0];
+
+    fireEvent.change(textarea, { target: { value: 'test text' } });
+
+    const saveButton = screen.getAllByTestId('status-change-save-btn')[0];
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('createNewFormDataMutation', {
+      input: {
+        applicationRowId: 1,
+        jsonData: {
+          benefits: {
+            numberOfHouseholds: 122,
+            householdsImpactedIndigenous: 13,
+          },
+        },
+        reasonForChange: 'test text',
+        formSchemaId: 1,
+      },
+    });
+
+    act(() => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          formData: {
+            jsonData: {},
+          },
+        },
+      });
+    });
+
+    expect(mockNotifyHHCountUpdate).toHaveBeenCalledWith(
+      {
+        numberOfHouseholds: 122,
+        householdsImpactedIndigenous: 13,
+      },
+      { householdsImpactedIndigenous: 13, numberOfHouseholds: 12 },
+      '1',
+      {
+        ccbcNumber: 'CCBC-10001',
+        manualUpdate: true,
+        reasonProvided: 'test text',
+        timestamp: expect.any(String),
+      }
+    );
   });
 });

@@ -40,7 +40,7 @@ export interface EmailTemplateProvider {
 }
 
 const isAuthorized = (authRole: any) => {
-  const authorizedRoles = ['ccbc_admin', 'ccbc_analyst'];
+  const authorizedRoles = ['ccbc_admin', 'ccbc_analyst', 'ccbc_auth_user'];
   return authRole && authorizedRoles.includes(authRole.pgRole);
 };
 

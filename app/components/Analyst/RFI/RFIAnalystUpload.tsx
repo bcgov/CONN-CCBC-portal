@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import styled from 'styled-components';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
+import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
 
 const Flex = styled('header')`
   display: flex;
@@ -24,6 +25,7 @@ const RfiAnalystUpload = ({ query }) => {
         applicationByRowId(rowId: $rowId) {
           id
           rowId
+          ccbcNumber
           formData {
             formSchemaId
             jsonData
@@ -46,6 +48,7 @@ const RfiAnalystUpload = ({ query }) => {
   const {
     formData: { formSchemaId, jsonData },
     rowId: applicationId,
+    ccbcNumber,
   } = applicationByRowId;
 
   const { rfiNumber } = rfiDataByRowId;
@@ -57,6 +60,7 @@ const RfiAnalystUpload = ({ query }) => {
   const [templateData, setTemplateData] = useState(null);
   const [excelImportFields, setExcelImportFields] = useState([]);
   const router = useRouter();
+  const { notifyHHCountUpdate } = useHHCountUpdateEmail();
 
   useEffect(() => {
     if (templateData?.templateNumber === 1) {
@@ -108,6 +112,19 @@ const RfiAnalystUpload = ({ query }) => {
               },
             },
             onCompleted: () => {
+              if (templateData?.templateNumber === 1) {
+                notifyHHCountUpdate(
+                  newFormData.benefits,
+                  jsonData.benefits,
+                  applicationId,
+                  {
+                    ccbcNumber,
+                    timestamp: new Date().toLocaleString(),
+                    manualUpdate: false,
+                    rfiNumber,
+                  }
+                );
+              }
               router.push(
                 `/analyst/application/${router.query.applicationId}/rfi`
               );

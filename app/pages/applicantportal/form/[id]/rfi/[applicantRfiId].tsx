@@ -16,6 +16,7 @@ import FormDiv from 'components/FormDiv';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
+import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
 
 const Flex = styled('header')`
   display: flex;
@@ -38,6 +39,8 @@ const getApplicantRfiIdQuery = graphql`
     applicationByRowId(rowId: $applicationId) {
       ...RfiFormStatus_application
       id
+      ccbcNumber
+      organizationName
       formData {
         id
         formSchemaId
@@ -64,10 +67,12 @@ const ApplicantRfiPage = ({
   const formJsonData = applicationByRowId?.formData?.jsonData;
   const applicationId = router.query.id as string;
   const formSchemaId = applicationByRowId?.formData?.formSchemaId;
+  const ccbcNumber = applicationByRowId?.ccbcNumber;
   const [newFormData, setNewFormData] = useState(formJsonData);
   const [createNewFormData] = useCreateNewFormDataMutation();
   const [templateData, setTemplateData] = useState(null);
   const [formData, setFormData] = useState(rfiDataByRowId.jsonData);
+  const { notifyHHCountUpdate } = useHHCountUpdateEmail();
 
   useEffect(() => {
     if (templateData?.templateNumber === 1) {
@@ -128,6 +133,20 @@ const ApplicantRfiPage = ({
           console.log('Error creating new form data', err);
         },
         onCompleted: () => {
+          if (templateData?.templateNumber === 1) {
+            notifyHHCountUpdate(
+              newFormData.benefits,
+              formJsonData.benefits,
+              applicationId,
+              {
+                ccbcNumber,
+                timestamp: new Date().toLocaleString(),
+                manualUpdate: false,
+                rfiNumber,
+                organizationName: applicationByRowId.organizationName,
+              }
+            );
+          }
           setTemplateData(null);
           router.push(`/applicantportal/dashboard`);
         },
