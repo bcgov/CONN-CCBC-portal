@@ -114,15 +114,6 @@ returns setof ccbc_public.history_item as $$
         and v.record->>'application_id'=application.id::varchar(10)
 
   union all
-    select application.id, v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
-        v.record->>'history_operation' as item,
-        u.family_name, u.given_name, u.session_sub, u.external_analyst
-    from ccbc_public.record_version as v
-        inner join ccbc_public.ccbc_user u on v.created_by = u.id
-    where (v.op='INSERT' or v.op='UPDATE') and v.table_name='application_gis_assessment_hh'
-        and v.record->>'archived_by' is null and v.record->>'application_id'=application.id::varchar(10)
-
-  union all
     select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
         v.record->>'history_operation' as item,
         u.family_name, u.given_name, u.session_sub, u.external_analyst
@@ -174,7 +165,7 @@ returns setof ccbc_public.history_item as $$
         v.record->>'application_community_progress_report_data' as item,
         u.family_name, u.given_name, u.session_sub, u.external_analyst
     from ccbc_public.record_version as v
-        inner join ccbc_public.ccbc_user u on (v.record->>'updated_by')::integer=u.id
+        inner join ccbc_public.ccbc_user u on v.created_by=u.id
     where v.op='UPDATE' and v.table_name='application_community_progress_report_data' and v.record->>'history_operation'='deleted'
         and v.record->>'application_id'=application.id::varchar(10)
 
@@ -183,7 +174,7 @@ returns setof ccbc_public.history_item as $$
         v.record->>'application_claims_data' as item,
         u.family_name, u.given_name, u.session_sub, u.external_analyst
     from ccbc_public.record_version as v
-        inner join ccbc_public.ccbc_user u on (v.record->>'updated_by')::integer=u.id
+        inner join ccbc_public.ccbc_user u on v.created_by=u.id
     where v.op='UPDATE' and v.table_name='application_claims_data' and v.record->>'history_operation'='deleted'
         and v.record->>'application_id'=application.id::varchar(10)
 
@@ -210,7 +201,7 @@ returns setof ccbc_public.history_item as $$
         v.record->>'application_milestone_data' as item,
         u.family_name, u.given_name, u.session_sub, u.external_analyst
     from ccbc_public.record_version as v
-        inner join ccbc_public.ccbc_user u on (v.record->>'updated_by')::integer=u.id
+        inner join ccbc_public.ccbc_user u on v.created_by=u.id
     where v.op='UPDATE' and v.table_name='application_milestone_data' and v.record->>'history_operation'='deleted'
         and v.record->>'application_id'=application.id::varchar(10)
 
