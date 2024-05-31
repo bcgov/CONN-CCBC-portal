@@ -13,6 +13,7 @@ sow_tab_1
 project_information_data
 conditional_approval_data
 change_request_data
+cbc_application_pending_change_request
 application_project_type
 application_pending_change_request
 application_package

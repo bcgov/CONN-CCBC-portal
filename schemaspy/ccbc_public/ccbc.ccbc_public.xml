@@ -847,6 +847,7 @@
       </table>
       <table name="cbc" remarks="Table containing the data imported from the CBC projects excel file, by rows" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the row" size="10" type="int4" typeCode="4">
+            <child column="cbc_id" foreignKey="cbc_application_pending_change_request_cbc_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_application_pending_change_request"/>
             <child column="cbc_id" foreignKey="cbc_data_cbc_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="project_number" nullable="false" remarks="The project number, unique for each project" size="10" type="int4" typeCode="4">
@@ -882,6 +883,39 @@
             <column ascending="true" name="created_by"/>
          </index>
          <index name="ccbc_public_cbc_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="cbc_application_pending_change_request" remarks="Table containing the pending change request details of the application" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the cbc_application_pending_change_request" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="cbc_id" nullable="true" remarks="ID of the cbc application this cbc_application_pending_change_request belongs to" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_application_pending_change_request_cbc_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc"/>
+         </column>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="2" name="is_pending" nullable="true" remarks="Column defining if the change request pending or not" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="comment" nullable="true" remarks="Column containing the comment for the change request or completion of the change request" size="100" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_application_pending_change_request_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="5" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_application_pending_change_request_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="7" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_application_pending_change_request_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="9" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="cbc_application_pending_change_request_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_cbc_application_pending_change_request_archived_by_" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_cbc_application_pending_change_request_created_by_f" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_cbc_application_pending_change_request_updated_by_f" unique="false">
             <column ascending="true" name="updated_by"/>
          </index>
       </table>
@@ -1019,6 +1053,9 @@
             <child column="archived_by" foreignKey="cbc_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc"/>
             <child column="created_by" foreignKey="cbc_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc"/>
             <child column="updated_by" foreignKey="cbc_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc"/>
+            <child column="archived_by" foreignKey="cbc_application_pending_change_request_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_application_pending_change_request"/>
+            <child column="created_by" foreignKey="cbc_application_pending_change_request_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_application_pending_change_request"/>
+            <child column="updated_by" foreignKey="cbc_application_pending_change_request_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_application_pending_change_request"/>
             <child column="archived_by" foreignKey="cbc_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
             <child column="created_by" foreignKey="cbc_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
             <child column="updated_by" foreignKey="cbc_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
