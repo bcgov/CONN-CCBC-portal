@@ -20,6 +20,11 @@ const householdCountUpdate: EmailTemplateProvider = (
   } = params;
 
   let bodyFromUploadUpdate = null;
+
+  const emailFooter = `
+    <p>This email is for information purposes, no action is necessarily required.</p>
+    <p>To unsubscribe from this notification please forward this email with your request to <a href="mailto:meherzad.romer@gov.bc.ca">meherzad.romer@gov.bc.ca<a/></p>`;
+
   if (!manualUpdate) {
     const fieldChanges = Object.entries(fieldsChanged).map(
       ([field, counts]: [string, any]) =>
@@ -33,18 +38,20 @@ const householdCountUpdate: EmailTemplateProvider = (
       </ul>
     `;
   }
-
+  const b = (
+    manualUpdate
+      ? `
+    <p>${organizationName || initiator.givenName} has manually updated the <strong>${Object.keys(fieldsChanged).join(' and ')}</strong> on ${timestamp}</p>
+    <em>Reason given: ${reasonProvided}<em>
+  `
+      : bodyFromUploadUpdate
+  ).concat(emailFooter);
   return {
     emailTo: [77], // Temporary IDs to handle email recipients
     emailCC: [],
     tag: 'agreement-signed-status-change',
     subject: `${organizationName || initiator.givenName} has updated the household numbers for ${ccbcNumber}`,
-    body: manualUpdate
-      ? `
-        <p>${organizationName || initiator.givenName} has manually updated the <strong>${Object.keys(fieldsChanged).join(' and ')}</strong> on ${timestamp}</p>
-        <em>Reason given: ${reasonProvided}<em>
-      `
-      : bodyFromUploadUpdate,
+    body: b,
   };
 };
 

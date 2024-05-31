@@ -124,7 +124,7 @@ const EditApplication = ({
           formSchemaId,
         },
       },
-      onCompleted: async () => {
+      onCompleted: () => {
         // Notifying the user that the HH count has been updated
         if (sectionName === 'benefits') {
           notifyHHCountUpdate(

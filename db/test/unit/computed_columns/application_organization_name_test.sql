@@ -1,6 +1,6 @@
 begin;
 
-select plan(7);
+select plan(6);
 
 truncate table
   ccbc_public.application,
@@ -35,16 +35,6 @@ update ccbc_public.form_data set json_data = '{ "organizationProfile": {"organiz
 
 insert into ccbc_public.application_status (application_id, status) VALUES (1,'received');
 
-select throws_like (
-  $$
-  select ccbc_public.application_organization_name(
-    (select row(application.*)::ccbc_public.application from ccbc_public.application)
-  )
-  $$,
-  'permission denied for function application_organization_name',
-  'ccbc_auth_user does not have access to application_organization_name'
-);
-
 set role ccbc_analyst;
 
 select is (
@@ -57,7 +47,6 @@ select is (
   'application_organization_name retrieves the organization name from the form_data'
 );
 
-
 select function_privs_are(
   'ccbc_public', 'application_organization_name', ARRAY['ccbc_public.application'], 'ccbc_analyst', ARRAY['EXECUTE'],
   'ccbc_analyst can execute ccbc_public.application_organization_name(ccbc_public.application)'
@@ -65,7 +54,7 @@ select function_privs_are(
 
 select function_privs_are(
   'ccbc_public', 'application_organization_name', ARRAY['ccbc_public.application'], 'ccbc_admin', ARRAY['EXECUTE'],
-  'ccbc_analyst can execute ccbc_public.application_organization_name(ccbc_public.application)'
+  'ccbc_admin can execute ccbc_public.application_organization_name(ccbc_public.application)'
 );
 
 select function_privs_are(

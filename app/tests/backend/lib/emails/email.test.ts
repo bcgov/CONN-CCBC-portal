@@ -11,6 +11,7 @@ import handleEmailNotification from 'backend/lib/emails/handleEmailNotification'
 import agreementSignedStatusChange from 'backend/lib/emails/templates/agreementSignedStatusChange';
 import agreementSignedStatusChangeDataTeam from 'backend/lib/emails/templates/agreementSignedStatusChangeDataTeam';
 import assessmentAssigneeChange from 'backend/lib/emails/templates/assessmentAssigneeChange';
+import householdCountUpdate from 'backend/lib/emails/templates/householdCountUpdate';
 
 jest.mock('backend/lib/emails/handleEmailNotification');
 
@@ -90,6 +91,20 @@ describe('Email API Endpoints', () => {
       assessmentAssigneeChange,
       { assignments: [] },
       true
+    );
+  });
+
+  it('calls handleEmailNotification with correct parameters once householdCountUpdate called', async () => {
+    const reqBody = {
+      applicationId: '',
+      params: { organizationName: 'test' },
+    };
+    await request(app).post('/api/email/householdCountUpdate').send(reqBody);
+    expect(handleEmailNotification).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      householdCountUpdate,
+      { organizationName: 'test' }
     );
   });
 });
