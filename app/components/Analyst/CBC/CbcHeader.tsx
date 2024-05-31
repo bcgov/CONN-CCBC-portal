@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import CbcChangeStatus from './CbcChangeStatus';
 import AssignField from './AssignField';
+import PendingChangeRequest from '../PendingChangeRequest/PendingChangeRequest';
 
 const StyledCallout = styled.div`
   margin-bottom: 0.5em;
@@ -33,7 +34,7 @@ const StyledDiv = styled.div`
 `;
 
 const StyledLabel = styled.label`
-  min-width: 130px;
+  min-width: 210px;
   color: ${(props) => props.theme.color.components};
   padding-right: 1rem;
   direction: rtl;
@@ -47,6 +48,10 @@ const StyledItem = styled.div`
 
 const StyledAssign = styled(StyledItem)`
   margin: 8px 0 0 0;
+`;
+
+const StyledPendingChangeRequests = styled(StyledItem)`
+  margin: 8px 0;
 `;
 
 interface Props {
@@ -75,6 +80,7 @@ const CbcHeader: React.FC<Props> = ({ query }) => {
           }
           ...CbcChangeStatus_query
           ...AssignField_query
+          ...PendingChangeRequest_query_cbc
         }
       }
     `,
@@ -133,6 +139,12 @@ const CbcHeader: React.FC<Props> = ({ query }) => {
             cbc={cbcByRowId}
           />
         </StyledAssign>
+        <StyledPendingChangeRequests>
+          <StyledLabel htmlFor="assign-project-type">
+            Pending Change Request
+          </StyledLabel>
+          <PendingChangeRequest application={cbcByRowId} isCbc />
+        </StyledPendingChangeRequests>
       </StyledDiv>
     </StyledCallout>
   );

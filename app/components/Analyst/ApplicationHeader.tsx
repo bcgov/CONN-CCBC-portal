@@ -118,7 +118,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           ...AssignPackage_query
           ...EditProjectDescription_query
           ...AssignProjectType_query
-          ...PendingChangeRequest_query
+          ...PendingChangeRequest_query_application
         }
         ...AssignLead_query
         allApplicationStatusTypes(

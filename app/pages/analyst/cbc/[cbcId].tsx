@@ -80,7 +80,6 @@ const Cbc = ({
     phase: jsonData.phase,
     intake: jsonData.intake,
     projectStatus: jsonData.projectStatus,
-    changeRequestPending: jsonData.changeRequestPending,
     projectTitle: jsonData.projectTitle,
     projectDescription: jsonData.projectDescription,
     applicantContractualName: jsonData.applicantContractualName,

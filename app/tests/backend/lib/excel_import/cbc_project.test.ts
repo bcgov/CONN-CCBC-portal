@@ -88,7 +88,7 @@ describe('cbc_project', () => {
       .spyOn(XLSX.utils, 'sheet_to_json')
       .mockReturnValue([
         { ...columnList },
-        { A: 121231, B: 2, C: 3, D: 4, E: 5, AH: '2023-01-01' },
+        { A: 121231, B: 2, C: 3, D: 4, E: 5, F: 'Yes', AH: '2023-01-01' },
       ]);
 
     mocked(performQuery).mockImplementation(async () => {
@@ -106,10 +106,20 @@ describe('cbc_project', () => {
             cbcDataByProjectNumber: {
               nodes: [],
             },
+            applicationPendingChangeRequestsByCbcId: {
+              nodes: [],
+            },
           },
           createCbc: {
             cbc: {
               rowId: 1,
+            },
+          },
+          createPendingChangeRequest: {
+            pendingChangeRequest: {
+              cbcId: '1',
+              isPending: true,
+              comment: null,
             },
           },
         },
@@ -133,10 +143,107 @@ describe('cbc_project', () => {
           cbcDataByProjectNumber: {
             nodes: [],
           },
+          applicationPendingChangeRequestsByCbcId: {
+            nodes: [],
+          },
         },
         createCbc: {
           cbc: {
             rowId: 1,
+          },
+        },
+        createPendingChangeRequest: {
+          pendingChangeRequest: {
+            cbcId: '1',
+            isPending: true,
+            comment: null,
+          },
+        },
+      },
+      errorLog: [],
+    });
+  });
+
+  it('should update when existing pending change request is different to parsed data', async () => {
+    jest
+      .spyOn(XLSX.utils, 'sheet_to_json')
+      .mockReturnValue([
+        { ...columnList },
+        { A: 121231, B: 2, C: 3, D: 4, E: 5, F: 'No', AH: '2023-01-01' },
+      ]);
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          createCbcProject: {
+            cbcProject: {
+              id: '1',
+              rowId: 1,
+              jsonData: {},
+            },
+            clientMutationId: '1',
+          },
+          cbcByProjectNumber: {
+            cbcDataByProjectNumber: {
+              nodes: [{ rowId: 1, projectNumber: 121231, id: '1' }],
+            },
+            applicationPendingChangeRequestsByCbcId: {
+              nodes: [
+                {
+                  rowId: 1,
+                  cbcId: '1',
+                  isPending: true,
+                },
+              ],
+            },
+          },
+          createCbc: {
+            cbc: {
+              rowId: 1,
+            },
+          },
+          createPendingChangeRequest: {
+            pendingChangeRequest: {
+              cbcId: '1',
+              isPending: false,
+              comment: null,
+            },
+          },
+        },
+      };
+    });
+
+    const wb = XLSX.read(null);
+    const data = await LoadCbcProjectData(wb, 'CBC Project', null, request);
+
+    expect(data).toEqual({
+      data: {
+        createCbcProject: {
+          cbcProject: {
+            id: '1',
+            rowId: 1,
+            jsonData: {},
+          },
+          clientMutationId: '1',
+        },
+        cbcByProjectNumber: {
+          cbcDataByProjectNumber: {
+            nodes: [{ rowId: 1, projectNumber: 121231, id: '1' }],
+          },
+          applicationPendingChangeRequestsByCbcId: {
+            nodes: [{ rowId: 1, cbcId: '1', isPending: true }],
+          },
+        },
+        createCbc: {
+          cbc: {
+            rowId: 1,
+          },
+        },
+        createPendingChangeRequest: {
+          pendingChangeRequest: {
+            cbcId: '1',
+            isPending: false,
+            comment: null,
           },
         },
       },
