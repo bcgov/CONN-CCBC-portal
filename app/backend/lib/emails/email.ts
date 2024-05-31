@@ -6,6 +6,7 @@ import handleEmailNotification from './handleEmailNotification';
 import agreementSignedStatusChangeDataTeam from './templates/agreementSignedStatusChangeDataTeam';
 import assessmentAssigneeChange from './templates/assessmentAssigneeChange';
 import householdCountUpdate from './templates/householdCountUpdate';
+import rfiCoverageMapKmzUploaded from './templates/rfiCoverageMapKmzUploaded';
 
 const email = Router();
 
@@ -51,5 +52,13 @@ email.post('/api/email/householdCountUpdate', limiter, (req, res) => {
   const { params } = req.body;
   return handleEmailNotification(req, res, householdCountUpdate, params);
 });
+email.post(
+  '/api/email/notifyRfiCoverageMapKmzUploaded',
+  limiter,
+  (req, res) => {
+    const params = req.body;
+    return handleEmailNotification(req, res, rfiCoverageMapKmzUploaded, params);
+  }
+);
 
 export default email;

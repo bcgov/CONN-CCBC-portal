@@ -9,8 +9,10 @@ import { rfiAnalystUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { useRouter } from 'next/router';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import styled from 'styled-components';
+
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
+import useRfiCoverageMapKmzUploadedEmail from 'lib/helpers/useRfiCoverageMapKmzUploadedEmail';
 
 const Flex = styled('header')`
   display: flex;
@@ -61,6 +63,8 @@ const RfiAnalystUpload = ({ query }) => {
   const [excelImportFields, setExcelImportFields] = useState([]);
   const router = useRouter();
   const { notifyHHCountUpdate } = useHHCountUpdateEmail();
+  const { notifyRfiCoverageMapKmzUploaded } =
+    useRfiCoverageMapKmzUploadedEmail();
 
   useEffect(() => {
     if (templateData?.templateNumber === 1) {
@@ -130,6 +134,17 @@ const RfiAnalystUpload = ({ query }) => {
               );
             },
           });
+        } else if (
+          rfiFormData?.rfiAdditionalFiles?.geographicCoverageMap?.length > 0
+        ) {
+          notifyRfiCoverageMapKmzUploaded(
+            rfiDataByRowId,
+            rfiFormData,
+            applicationId,
+            ccbcNumber,
+            rfiNumber
+          );
+          router.push(`/analyst/application/${router.query.applicationId}/rfi`);
         } else {
           router.push(`/analyst/application/${router.query.applicationId}/rfi`);
         }
