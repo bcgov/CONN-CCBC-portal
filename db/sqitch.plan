@@ -573,3 +573,4 @@ computed_columns/application_history [computed_columns/application_history@1.159
 tables/cbc_application_pending_change_request 2024-05-30T13:31:09Z ,,, <ryohani89@NH504670> # add cbc pending change request Table
 mutations/create_cbc_pending_change_request 2024-05-30T13:49:25Z ,,, <ryohani89@NH504670> # add create_cbc_pending_change_request mutation
 computed_columns/application_organization_name [computed_columns/application_organization_name@1.162.0] 2024-05-30T18:09:08Z ,,, <ryohani89@NH504670> # fix: allow applicant to access organization name
+@1.163.0 2024-06-01T14:10:23Z CCBC Service Account <ccbc@button.is> # release v1.163.0
