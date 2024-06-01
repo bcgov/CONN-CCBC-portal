@@ -41,7 +41,7 @@ jobs:
           ignore-unfixed: false
           severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@b7cec7526559c32f1616476ff32d17ba4c59b2d6
+        uses: github/codeql-action/upload-sarif@f079b8493333aace61c81488f8bd40919487bd9f
         with:
           sarif_file: 'trivy-results.sarif'
 
@@ -61,13 +61,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@b7cec7526559c32f1616476ff32d17ba4c59b2d6
+        uses: github/codeql-action/init@f079b8493333aace61c81488f8bd40919487bd9f
         with:
           languages: ${{ matrix.language }}
       - name: Autobuild
-        uses: github/codeql-action/autobuild@b7cec7526559c32f1616476ff32d17ba4c59b2d6
+        uses: github/codeql-action/autobuild@f079b8493333aace61c81488f8bd40919487bd9f
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@b7cec7526559c32f1616476ff32d17ba4c59b2d6
+        uses: github/codeql-action/analyze@f079b8493333aace61c81488f8bd40919487bd9f
 
   cocogitto:
     runs-on: ubuntu-latest
@@ -92,7 +92,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: ./.bin/install-gitleaks-linux-x64.sh
       - run: ./gitleaks detect --exit-code 0 --report-format sarif --report-path "gitleaks.sarif"
-      - uses: github/codeql-action/upload-sarif@b7cec7526559c32f1616476ff32d17ba4c59b2d6
+      - uses: github/codeql-action/upload-sarif@f079b8493333aace61c81488f8bd40919487bd9f
         with:
           sarif_file: 'gitleaks.sarif'
 
