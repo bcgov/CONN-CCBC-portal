@@ -13,27 +13,27 @@ const pagesAuthorization = [
   {
     routePaths: ['/analyst/application/(.*)'],
     isProtected: true,
-    allowedRoles: ['ccbc_admin', 'ccbc_analyst'],
+    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin'],
   },
   {
     routePaths: ['/analyst/cbc/(.*)'],
     isProtected: true,
-    allowedRoles: ['ccbc_admin', 'ccbc_analyst'],
+    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin'],
   },
   {
     routePaths: ['/analyst/dashboard'],
     isProtected: true,
-    allowedRoles: ['ccbc_admin', 'ccbc_analyst'],
+    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin'],
   },
   {
     routePaths: ['/analyst/assessments'],
     isProtected: true,
-    allowedRoles: ['ccbc_admin', 'ccbc_analyst'],
+    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin'],
   },
   {
     routePaths: ['/analyst/gis/(.*)'],
     isProtected: true,
-    allowedRoles: ['ccbc_admin', 'ccbc_analyst'],
+    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin'],
   },
   {
     routePaths: ['/analyst/admin/(.*)'],

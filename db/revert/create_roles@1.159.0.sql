@@ -70,16 +70,8 @@ begin
     create user ccbc_archiver;
   end if;
 
-  if not exists (
-    select true
-    from pg_catalog.pg_roles
-    where rolname = 'cbc_admin') then
 
-    create role cbc_admin;
-  end if;
-
-
-  grant ccbc_guest, ccbc_auth_user, ccbc_job_executor, cbc_admin, ccbc_analyst, ccbc_admin, ccbc_archiver, ccbc_service_account to ccbc_app;
+  grant ccbc_guest, ccbc_auth_user, ccbc_job_executor, ccbc_analyst, ccbc_admin, ccbc_archiver, ccbc_service_account to ccbc_app;
   execute format('grant create, connect on database %I to ccbc_app', current_database());
 
 end

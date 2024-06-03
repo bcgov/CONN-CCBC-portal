@@ -34,8 +34,15 @@ const getAuthRole = (req: Request) => {
   const roles = req.claims.client_roles as any;
   const isAdmin = roles?.includes('admin');
   const isAnalyst = roles?.includes('analyst');
+  const isCbcAdmin = roles?.includes('cbc_admin');
 
   if (idp === 'idir') {
+    if (isCbcAdmin) {
+      return {
+        pgRole: 'cbc_admin',
+        landingRoute: defaultLandingRoutes.ccbc_analyst,
+      };
+    }
     if (isAdmin) {
       return {
         pgRole: 'ccbc_admin',
