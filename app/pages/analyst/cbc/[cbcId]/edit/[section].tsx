@@ -7,7 +7,6 @@ import { RelayProps, withRelay } from 'relay-nextjs';
 import { graphql } from 'relay-runtime';
 import review from 'formSchema/analyst/cbc/review';
 import { ProjectTheme } from 'components/Analyst/Project';
-import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
@@ -16,6 +15,7 @@ import { Button } from '@button-inc/bcgov-theme';
 import { RJSFSchema } from '@rjsf/utils';
 import useModal from 'lib/helpers/useModal';
 import { ChangeModal } from 'components/Analyst';
+import { useUpdateCbcDataAndInsertChangeRequest } from 'schema/mutations/cbc/updateCbcDataAndInsertChangeReason';
 
 const getCbcSectionQuery = graphql`
   query SectionCbcDataQuery($rowId: Int!) {
@@ -50,7 +50,7 @@ const EditCbcSection = ({
   const { session, cbcByRowId } = query;
   const router = useRouter();
   const section = router.query.section as string;
-  const [updateFormData] = useUpdateCbcDataByRowIdMutation();
+  const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
   const [changeReason, setChangeReason] = useState<null | string>(null);
   const [formData, setFormData] = useState<any>(null);
 
@@ -149,7 +149,7 @@ const EditCbcSection = ({
   const handleSubmit = () => {
     updateFormData({
       variables: {
-        input: {
+        inputCbcData: {
           rowId: cbcDataRowId,
           cbcDataPatch: {
             jsonData: {
@@ -161,6 +161,12 @@ const EditCbcSection = ({
               ...formData.miscellaneous,
               ...formData.projectDataReviews,
             },
+          },
+        },
+        inputCbcChangeReason: {
+          cbcDataChangeReason: {
+            description: changeReason,
+            cbcDataId: cbcDataRowId,
           },
         },
       },

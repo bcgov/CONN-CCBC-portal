@@ -12,6 +12,8 @@ select ccbc_private.upsert_timestamp_columns('ccbc_public', 'cbc_data_change_rea
 select audit.enable_tracking('ccbc_public.cbc_data_change_reason'::regclass);
 
 
+grant all on sequence ccbc_public.cbc_data_change_reason_id_seq to cbc_admin;
+
 do
 $grant$
 begin
@@ -25,6 +27,12 @@ perform ccbc_private.grant_permissions('update', 'cbc_data_change_reason', 'cbc_
 
 end
 $grant$;
+
+
+comment on table ccbc_public.cbc_data_change_reason is 'Table containing the reasons for changes to cbc_data';
+comment on column ccbc_public.cbc_data_change_reason.id is 'Unique ID for the cbc_data_change_reason';
+comment on column ccbc_public.cbc_data_change_reason.cbc_data_id is 'ID of the cbc_data this cbc_data_change_reason belongs to';
+comment on column ccbc_public.cbc_data_change_reason.description is 'The reason for the change to the cbc_data';
 
 
 commit;
