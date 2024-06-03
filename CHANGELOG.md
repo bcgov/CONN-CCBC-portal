@@ -1,3 +1,18 @@
+# [1.163.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.162.1...v1.163.0) (2024-06-03)
+
+### Bug Fixes
+
+- ambiguos function names for pending change request mutation ([d778be1](https://github.com/bcgov/CONN-CCBC-portal/commit/d778be1da6cbd8069c8d3baeb460f734f68a6a2a))
+- schema issue ([c5fc794](https://github.com/bcgov/CONN-CCBC-portal/commit/c5fc7943351b477b9585210045d9c00002dca985))
+- schema issue ([e797afa](https://github.com/bcgov/CONN-CCBC-portal/commit/e797afaeeec1ced9e99985fc3e7804a60c5bf8a4))
+
+### Features
+
+- assessment hh included in count ([bfb9bd0](https://github.com/bcgov/CONN-CCBC-portal/commit/bfb9bd0c60a41f0901a998a6d3a18d3dacaf9a9c))
+- cbc_admin role ([07cdab4](https://github.com/bcgov/CONN-CCBC-portal/commit/07cdab42b5d01db2055876816b6e0dff95381b57))
+- grant and revoke permissions for future tables ([7f681ee](https://github.com/bcgov/CONN-CCBC-portal/commit/7f681ee1ec97f893a92cc4b31237365a229917c5))
+- show gis assessment data for history ([f97b3b5](https://github.com/bcgov/CONN-CCBC-portal/commit/f97b3b5b9b6542d052389caee8c22fb16e1e758a))
+
 ## [1.162.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.162.0...v1.162.1) (2024-05-30)
 
 ### Bug Fixes
