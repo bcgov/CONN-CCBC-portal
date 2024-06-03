@@ -4,7 +4,7 @@ begin;
 
 create table ccbc_public.cbc_data_change_reason (
     id serial primary key,
-    cbc_data_id integer not null references cbc_public.cbc_data(id),
+    cbc_data_id integer not null references ccbc_public.cbc_data(id),
     description text
 );
 
