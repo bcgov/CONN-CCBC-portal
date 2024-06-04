@@ -183,6 +183,7 @@ const ChangeStatus: React.FC<Props> = ({
           message: response,
         });
       }
+      return response.json();
     });
   };
 
