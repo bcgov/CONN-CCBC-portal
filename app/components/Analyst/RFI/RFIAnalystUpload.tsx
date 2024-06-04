@@ -129,6 +129,18 @@ const RfiAnalystUpload = ({ query }) => {
                   }
                 );
               }
+              if (
+                rfiFormData?.rfiAdditionalFiles?.geographicCoverageMap?.length >
+                0
+              ) {
+                notifyRfiCoverageMapKmzUploaded(
+                  rfiDataByRowId,
+                  rfiFormData,
+                  applicationId,
+                  ccbcNumber,
+                  rfiNumber
+                );
+              }
               router.push(
                 `/analyst/application/${router.query.applicationId}/rfi`
               );

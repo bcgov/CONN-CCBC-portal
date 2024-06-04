@@ -12,6 +12,7 @@ import agreementSignedStatusChange from 'backend/lib/emails/templates/agreementS
 import agreementSignedStatusChangeDataTeam from 'backend/lib/emails/templates/agreementSignedStatusChangeDataTeam';
 import assessmentAssigneeChange from 'backend/lib/emails/templates/assessmentAssigneeChange';
 import householdCountUpdate from 'backend/lib/emails/templates/householdCountUpdate';
+import rfiCoverageMapKmzUploaded from 'backend/lib/emails/templates/rfiCoverageMapKmzUploaded';
 
 jest.mock('backend/lib/emails/handleEmailNotification');
 
@@ -105,6 +106,73 @@ describe('Email API Endpoints', () => {
       expect.anything(),
       householdCountUpdate,
       { organizationName: 'test' }
+    );
+  });
+
+  it('calls handleEmailNotification with correct parameters once rfiCoverageMapKmzUploaded called', async () => {
+    const reqBody = {
+      applicationId: '1',
+      params: {
+        applicationId: '1',
+        host: 'http://mock_host.ca',
+        ccbcNumber: 'CCBC-010040',
+        rfiFormData: {
+          rfiType: ['Technical'],
+          rfiAdditionalFiles: {
+            geographicCoverageMap: {},
+            geographicCoverageMapRfi: true,
+          },
+          rfiDueBy: '2024-06-26',
+        },
+        rfiNumber: 'CCBC-010040-8',
+        changes: [
+          {
+            id: 1937,
+            uuid: 'e723c93c-e656-45c9-9a5c-39ab8d4ab6e5',
+            name: '1.kmz',
+            size: 0,
+            type: '',
+            uploadedAt: '2024-05-31T14:05:03.509-07:00',
+          },
+        ],
+        organizationName: 'test',
+      },
+    };
+    await request(app)
+      .post('/api/email/notifyRfiCoverageMapKmzUploaded')
+      .send(reqBody);
+    expect(handleEmailNotification).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      rfiCoverageMapKmzUploaded,
+      {
+        applicationId: '1',
+        params: {
+          applicationId: '1',
+          host: 'http://mock_host.ca',
+          ccbcNumber: 'CCBC-010040',
+          rfiFormData: {
+            rfiType: ['Technical'],
+            rfiAdditionalFiles: {
+              geographicCoverageMap: {},
+              geographicCoverageMapRfi: true,
+            },
+            rfiDueBy: '2024-06-26',
+          },
+          rfiNumber: 'CCBC-010040-8',
+          changes: [
+            {
+              id: 1937,
+              uuid: 'e723c93c-e656-45c9-9a5c-39ab8d4ab6e5',
+              name: '1.kmz',
+              size: 0,
+              type: '',
+              uploadedAt: '2024-05-31T14:05:03.509-07:00',
+            },
+          ],
+          organizationName: 'test',
+        },
+      }
     );
   });
 });
