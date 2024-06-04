@@ -38,17 +38,14 @@ const PendingChangeRequestModal: React.FC<Props> = ({
       actions={[
         {
           id: 'pending-request-change-save-btn',
-          label: 'Save comment',
+          label: 'Save',
           onClick: () => onSave(formData.comment),
-          disabled: value === formData?.comment,
+          disabled: value && value === formData?.comment,
         },
         {
           id: 'pending-request-change-cancel-btn',
           label: 'Cancel',
-          onClick: () => {
-            setFormData({ comment: value });
-            onCancel();
-          },
+          onClick: onCancel,
           variant: 'secondary',
         },
       ]}
