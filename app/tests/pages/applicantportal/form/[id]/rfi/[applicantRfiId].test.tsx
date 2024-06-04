@@ -99,6 +99,23 @@ describe('The applicantRfiId Page', () => {
             rfiAdditionalFiles: {
               eligibilityAndImpactsCalculatorRfi: true,
               detailedBudgetRfi: true,
+              geographicCoverageMapRfi: true,
+              geographicCoverageMap: [
+                {
+                  uuid: 1,
+                  name: '1.kmz',
+                  size: 0,
+                  type: '',
+                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
+                },
+                {
+                  uuid: 2,
+                  name: '2.kmz',
+                  size: 0,
+                  type: '',
+                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
+                },
+              ],
             },
             rfiDueBy: '2022-12-22',
           },
@@ -221,6 +238,23 @@ describe('The applicantRfiId Page', () => {
                   size: 1,
                   type: 'application/vnd.ms-excel',
                   uploadedAt: expect.anything(),
+                },
+              ],
+              geographicCoverageMapRfi: true,
+              geographicCoverageMap: [
+                {
+                  uuid: 1,
+                  name: '1.kmz',
+                  size: 0,
+                  type: '',
+                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
+                },
+                {
+                  uuid: 2,
+                  name: '2.kmz',
+                  size: 0,
+                  type: '',
+                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
                 },
               ],
             },
