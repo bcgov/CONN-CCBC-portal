@@ -129,24 +129,10 @@ const RfiAnalystUpload = ({ query }) => {
                   }
                 );
               }
-              if (
-                rfiFormData?.rfiAdditionalFiles?.geographicCoverageMap?.length >
-                0
-              ) {
-                notifyRfiCoverageMapKmzUploaded(
-                  rfiDataByRowId,
-                  rfiFormData,
-                  applicationId,
-                  ccbcNumber,
-                  rfiNumber
-                );
-              }
-              router.push(
-                `/analyst/application/${router.query.applicationId}/rfi`
-              );
             },
           });
-        } else if (
+        }
+        if (
           rfiFormData?.rfiAdditionalFiles?.geographicCoverageMap?.length > 0
         ) {
           notifyRfiCoverageMapKmzUploaded(
@@ -156,10 +142,8 @@ const RfiAnalystUpload = ({ query }) => {
             ccbcNumber,
             rfiNumber
           );
-          router.push(`/analyst/application/${router.query.applicationId}/rfi`);
-        } else {
-          router.push(`/analyst/application/${router.query.applicationId}/rfi`);
         }
+        router.push(`/analyst/application/${router.query.applicationId}/rfi`);
       },
       onError: (err) => {
         // eslint-disable-next-line no-console
