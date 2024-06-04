@@ -123,6 +123,12 @@ describe('The applicantRfiId Page', () => {
         },
       }
     );
+
+    act(() => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {},
+      });
+    });
   });
 
   it('uses template 1 and 2 data to auto populate form data', async () => {
