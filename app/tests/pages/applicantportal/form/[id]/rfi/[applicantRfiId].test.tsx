@@ -14,6 +14,23 @@ const mockQueryPayload = {
           rfiAdditionalFiles: {
             detailedBudgetRfi: true,
             eligibilityAndImpactsCalculatorRfi: true,
+            geographicCoverageMapRfi: true,
+            geographicCoverageMap: [
+              {
+                uuid: 1,
+                name: '1.kmz',
+                size: 0,
+                type: '',
+                uploadedAt: '2024-05-31T14:05:03.509-07:00',
+              },
+              {
+                uuid: 2,
+                name: '2.kmz',
+                size: 0,
+                type: '',
+                uploadedAt: '2024-05-31T14:05:03.509-07:00',
+              },
+            ],
           },
         },
         rowId: 1,
