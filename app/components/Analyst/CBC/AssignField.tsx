@@ -14,11 +14,17 @@ const StyledDropdown = styled.select`
   border-radius: 4px;
 `;
 
-const AssignField = ({ fieldName, fieldOptions, fieldType, cbc }) => {
+const AssignField = ({
+  fieldName,
+  fieldOptions,
+  fieldType,
+  cbc,
+  isFormEditMode,
+}) => {
   const queryFragment = useFragment(
     graphql`
       fragment AssignField_query on Cbc {
-        cbcDataByCbcId {
+        cbcDataByCbcId(first: 500) @connection(key: "CbcData__cbcDataByCbcId") {
           edges {
             node {
               jsonData
@@ -43,7 +49,8 @@ const AssignField = ({ fieldName, fieldOptions, fieldType, cbc }) => {
       : jsonData[fieldName] || null
   );
 
-  const allowEdit = useFeature('show_cbc_edit').value ?? false;
+  const allowEdit =
+    (useFeature('show_cbc_edit').value ?? false) && !isFormEditMode;
 
   const handleChange = (e) => {
     const { rowId } = queryFragment.cbcDataByCbcId.edges[0].node;

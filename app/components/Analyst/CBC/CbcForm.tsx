@@ -5,6 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { RJSFSchema } from '@rjsf/utils';
 import Button from '@button-inc/bcgov-theme/Button';
 import ProjectTheme from '../Project/ProjectTheme';
+import { ProjectFormProps } from '../Project/ProjectFormProps';
 
 const LoadingContainer = styled.div`
   display: block;
@@ -21,46 +22,29 @@ const LoadingItem = styled.div`
   justify-content: center;
 `;
 
-const StyledBtn = styled(Button)`
-  margin: 0 8px;
-  padding: 8px 16px;
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: 20px auto;
 `;
 
-interface Props {
-  additionalContext?: any;
-  before?: React.ReactNode;
-  children?: React.ReactNode;
-  formAnimationHeight?: number;
-  formAnimationHeightOffset?: number;
-  formData: any;
-  formHeader?: string | React.ReactNode | JSX.Element;
-  handleChange: any;
-  showEditBtn?: boolean;
-  /** The hidden submit button's ref, used to enforce validation on the form
-   *  (the red-outline we see on widgets) */
-  hiddenSubmitRef?: any;
-  isExpanded?: boolean;
-  isFormEditMode: boolean;
-  isFormAnimated?: boolean;
-  liveValidate?: boolean;
-  onSubmit: any;
-  resetFormData: any;
-  saveBtnText?: string;
-  saveBtnDisabled?: boolean;
-  cancelBtnDisabled?: boolean;
-  schema: RJSFSchema;
-  setFormData?: any;
-  setIsFormEditMode: any;
-  submitting?: boolean;
-  submittingText?: string;
-  theme?: any;
-  title: string;
-  uiSchema?: any;
-  saveDataTestId?: string;
-  validate?: any;
-}
+const StyledBtn = styled(Button)`
+  @media (min-width: 1024px) {
+    position: fixed;
+    bottom: 5vh;
+    left: 80vw;
 
-const CbcForm: React.FC<Props> = ({
+    &:nth-child(2) {
+      left: 85vw;
+    }
+  }
+  @media (max-width: 1900px) {
+    margin: 0 8px;
+    padding: 8px 16px;
+  }
+`;
+
+const CbcForm: React.FC<ProjectFormProps> = ({
   additionalContext,
   before,
   children,
@@ -136,7 +120,7 @@ const CbcForm: React.FC<Props> = ({
             )}
           </FormBase>
           {isFormEditMode && (
-            <>
+            <StyledContainer>
               <StyledBtn
                 data-testid={saveDataTestId}
                 id={`${title.toLowerCase().split(' ').join('-')}-save-button`}
@@ -151,13 +135,13 @@ const CbcForm: React.FC<Props> = ({
                 variant="secondary"
                 disabled={cancelBtnDisabled}
                 onClick={() => {
-                  setFormData();
+                  resetFormData();
                   setIsFormEditMode(false);
                 }}
               >
                 Cancel
               </StyledBtn>
-            </>
+            </StyledContainer>
           )}
         </div>
       )}

@@ -6,19 +6,28 @@ const eventsAndDates: RJSFSchema = {
   type: 'object',
   properties: {
     nditConditionalApprovalLetterSent: {
-      type: 'string',
+      type: 'boolean',
       title: 'NDIT Conditional Approval Letter Sent',
-      enum: [null, 'Yes', 'No'],
+      oneOf: [
+        { const: true, title: 'Yes' },
+        { const: false, title: 'No' },
+      ],
     },
     bindingAgreementSignedNditRecipient: {
-      type: 'string',
+      type: 'boolean',
       title: 'Binding Agreement Signed - NDIT Recipient',
-      enum: [null, 'Yes', 'No'],
+      oneOf: [
+        { const: true, title: 'Yes' },
+        { const: false, title: 'No' },
+      ],
     },
     announcedByProvince: {
-      type: 'string',
+      type: 'boolean',
       title: 'Announced by Province',
-      enum: [null, 'Yes', 'No'],
+      oneOf: [
+        { const: true, title: 'Yes' },
+        { const: false, title: 'No' },
+      ],
     },
     dateApplicationReceived: {
       type: 'string',

@@ -14,11 +14,12 @@ const mockErrorData = {
   phase: '4b',
   intake: undefined,
   projectStatus: 'Not Applicable',
+  changeRequestPending: true,
   projectTitle: 'Program Fee (1%) - Community',
   projectDescription: undefined,
   currentOperatingName: 'Northern Development',
   applicantContractualName: 'Northern Development',
-  eightThirtyMillionFunding: 'No',
+  eightThirtyMillionFunding: false,
   federalFundingSource: undefined,
   federalProjectNumber: undefined,
   projectType: 'Program Fee',
@@ -41,7 +42,7 @@ const mockErrorData = {
   totalProjectBudget: null,
   nditConditionalApprovalLetterSent: undefined,
   bindingAgreementSignedNditRecipient: undefined,
-  announcedByProvince: undefined,
+  announcedByProvince: true,
   dateApplicationReceived: null,
   dateConditionallyApproved: null,
   dateAgreementSigned: null,
@@ -55,7 +56,7 @@ const mockErrorData = {
   primaryNewsRelease: undefined,
   secondaryNewsRelease: undefined,
   notes: undefined,
-  locked: undefined,
+  locked: true,
   lastReviewed: null,
   reviewNotes: undefined,
   errorLog: [
@@ -475,5 +476,106 @@ describe('cbc_project', () => {
     expect(
       result.data.createCbcProject.cbcProject.jsonData[0].currentOperatingName
     ).toEqual('Northern Development');
+  });
+
+  it('should turn yes-no and x to boolean', async () => {
+    jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue([
+      { ...columnList },
+      {
+        A: 9999,
+        C: '4b',
+        E: 'Not Applicable',
+        F: 'Yes',
+        G: 'Program Fee (1%) - Community',
+        H: 'NULL',
+        I: 'Northern Development',
+        J: 'Northern Development',
+        K: 'No',
+        L: 'NULL',
+        M: 'NULL',
+        N: 'Program Fee',
+        O: 'NULL',
+        P: 'NULL',
+        Q: 'NULL',
+        R: 'NULL',
+        S: 'NULL',
+        T: 'NULL',
+        U: 'should be a number',
+        V: 'should be a number',
+        W: 'should be a number',
+        Y: 'should be a number',
+        Z: 'NULL',
+        AA: 'should be a number',
+        AB: 'should be a number',
+        AC: 'should be a number',
+        AD: 'NULL',
+        AE: 'NULL',
+        AF: 'NULL',
+        AG: 'NULL',
+        AH: 'YES',
+        AI: 'should be a date',
+        AJ: 'should be a date',
+        AK: 'should be a date',
+        AL: 'should be a date',
+        AM: 'should be a date',
+        AN: 'should be a date',
+        AO: 'NULL',
+        AP: 'should be a date',
+        AQ: 'should be a date',
+        AR: 'NULL',
+        AS: 'NULL',
+        AT: 'NULL',
+        AU: 'NULL',
+        AV: 'x',
+        AW: 'should be a date',
+      },
+    ]);
+
+    const wb = XLSX.read(null);
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          createCbcProject: {
+            cbcProject: {
+              id: '1',
+              rowId: 1,
+              jsonData: [mockErrorData],
+            },
+            clientMutationId: '1',
+          },
+          cbcByProjectNumber: {
+            cbcDataByProjectNumber: {
+              nodes: [],
+            },
+          },
+          createCbc: {
+            cbc: {
+              rowId: 1,
+            },
+          },
+        },
+      };
+    });
+
+    const result = (await LoadCbcProjectData(
+      wb,
+      'CBC Project',
+      null,
+      request
+    )) as any;
+    expect(result.data.createCbcProject.cbcProject.jsonData[0].locked).toEqual(
+      true
+    );
+    expect(
+      result.data.createCbcProject.cbcProject.jsonData[0].changeRequestPending
+    ).toEqual(true);
+    expect(
+      result.data.createCbcProject.cbcProject.jsonData[0]
+        .eightThirtyMillionFunding
+    ).toEqual(false);
+    expect(
+      result.data.createCbcProject.cbcProject.jsonData[0].announcedByProvince
+    ).toEqual(true);
   });
 });

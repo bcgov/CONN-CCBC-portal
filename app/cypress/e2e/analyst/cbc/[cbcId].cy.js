@@ -23,4 +23,12 @@ describe('The cbc project view', () => {
     cy.contains('h2', 'Project data reviews');
     cy.get('body').happoScreenshot({ component: 'CBC project view' });
   });
+
+  it('triggers quick edit', () => {
+    cy.visit('/analyst/cbc/1');
+    cy.get('button').contains('Quick edit').click();
+    cy.get('body').happoScreenshot({
+      component: 'CBC project view - quick edit',
+    });
+  });
 });

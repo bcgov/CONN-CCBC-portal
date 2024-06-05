@@ -37,12 +37,44 @@ const reviewUiSchema = {
   },
   eventsAndDates: {
     ...eventsAndDatesUiSchema,
+    dateApplicationReceived: {
+      ...eventsAndDatesUiSchema.dateApplicationReceived,
+      'ui:widget': 'DateWidget',
+    },
+    dateConditionallyApproved: {
+      ...eventsAndDatesUiSchema.dateConditionallyApproved,
+      'ui:widget': 'DateWidget',
+    },
+    dateAgreementSigned: {
+      ...eventsAndDatesUiSchema.dateAgreementSigned,
+      'ui:widget': 'DateWidget',
+    },
+    proposedStartDate: {
+      ...eventsAndDatesUiSchema.proposedStartDate,
+      'ui:widget': 'DateWidget',
+    },
+    proposedCompletionDate: {
+      ...eventsAndDatesUiSchema.proposedCompletionDate,
+      'ui:widget': 'DateWidget',
+    },
+    reportingCompletionDate: {
+      ...eventsAndDatesUiSchema.reportingCompletionDate,
+      'ui:widget': 'DateWidget',
+    },
+    dateAnnounced: {
+      ...eventsAndDatesUiSchema.dateAnnounced,
+      'ui:widget': 'DateWidget',
+    },
   },
   miscellaneous: {
     ...miscellaneousUiSchema,
   },
   projectDataReviews: {
     ...projectDataReviewsUiSchema,
+    lastReviewed: {
+      ...projectDataReviewsUiSchema.lastReviewed,
+      'ui:widget': 'DateWidget',
+    },
   },
 };
 
