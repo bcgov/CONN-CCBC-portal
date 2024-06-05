@@ -1,3 +1,9 @@
+# [1.165.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.164.0...v1.165.0) (2024-06-05)
+
+### Features
+
+- notify analyst when coverage kmz uploaded ([3829491](https://github.com/bcgov/CONN-CCBC-portal/commit/38294911389e5ca99a916c0be3dcdb4465833c39))
+
 # [1.164.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.163.0...v1.164.0) (2024-06-05)
 
 ### Features
