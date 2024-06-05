@@ -17,6 +17,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
+import useRfiCoverageMapKmzUploadedEmail from 'lib/helpers/useRfiCoverageMapKmzUploadedEmail';
 
 const Flex = styled('header')`
   display: flex;
@@ -73,6 +74,8 @@ const ApplicantRfiPage = ({
   const [templateData, setTemplateData] = useState(null);
   const [formData, setFormData] = useState(rfiDataByRowId.jsonData);
   const { notifyHHCountUpdate } = useHHCountUpdateEmail();
+  const { notifyRfiCoverageMapKmzUploaded } =
+    useRfiCoverageMapKmzUploadedEmail();
 
   useEffect(() => {
     if (templateData?.templateNumber === 1) {
@@ -109,6 +112,16 @@ const ApplicantRfiPage = ({
         },
       },
       onCompleted: () => {
+        if (e.formData?.rfiAdditionalFiles?.geographicCoverageMap?.length > 0) {
+          notifyRfiCoverageMapKmzUploaded(
+            rfiDataByRowId,
+            e.formData,
+            applicationId,
+            ccbcNumber,
+            rfiNumber,
+            applicationByRowId.organizationName
+          );
+        }
         if (!templateData) {
           router.push(`/applicantportal/dashboard`);
         }

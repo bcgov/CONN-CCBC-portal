@@ -6,13 +6,20 @@ import compiledQuery, {
   RFIAnalystUploadTestQuery,
 } from '__generated__/RFIAnalystUploadTestQuery.graphql';
 import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
+import useRfiCoverageMapKmzUploadedEmail from 'lib/helpers/useRfiCoverageMapKmzUploadedEmail';
 import { mocked } from 'jest-mock';
 
 jest.mock('lib/helpers/useHHCountUpdateEmail');
+jest.mock('lib/helpers/useRfiCoverageMapKmzUploadedEmail');
 
 const mockNotifyHHCountUpdate = jest.fn();
 mocked(useHHCountUpdateEmail).mockReturnValue({
   notifyHHCountUpdate: mockNotifyHHCountUpdate,
+});
+
+const mockNotifyRfiCoverageMapKmzUploaded = jest.fn();
+mocked(useRfiCoverageMapKmzUploadedEmail).mockReturnValue({
+  notifyRfiCoverageMapKmzUploaded: mockNotifyRfiCoverageMapKmzUploaded,
 });
 
 const testQuery = graphql`
@@ -45,6 +52,23 @@ const mockQueryPayload = {
           rfiAdditionalFiles: {
             detailedBudgetRfi: true,
             eligibilityAndImpactsCalculatorRfi: true,
+            geographicCoverageMapRfi: true,
+            geographicCoverageMap: [
+              {
+                uuid: 1,
+                name: '1.kmz',
+                size: 0,
+                type: '',
+                uploadedAt: '2024-05-31T14:05:03.509-07:00',
+              },
+              {
+                uuid: 2,
+                name: '2.kmz',
+                size: 0,
+                type: '',
+                uploadedAt: '2024-05-31T14:05:03.509-07:00',
+              },
+            ],
           },
         },
       },
@@ -194,6 +218,23 @@ describe('The RFIAnalystUpload component', () => {
               detailedBudgetRfi: true,
               eligibilityAndImpactsCalculatorRfi: true,
               eligibilityAndImpactsCalculator: expect.anything(),
+              geographicCoverageMapRfi: true,
+              geographicCoverageMap: [
+                {
+                  uuid: 1,
+                  name: '1.kmz',
+                  size: 0,
+                  type: '',
+                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
+                },
+                {
+                  uuid: 2,
+                  name: '2.kmz',
+                  size: 0,
+                  type: '',
+                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
+                },
+              ],
             },
           },
           rfiRowId: 1,
@@ -212,6 +253,23 @@ describe('The RFIAnalystUpload component', () => {
                   detailedBudgetRfi: true,
                   eligibilityAndImpactsCalculatorRfi: true,
                   eligibilityAndImpactsCalculator: expect.anything(),
+                  geographicCoverageMapRfi: true,
+                  geographicCoverageMap: [
+                    {
+                      uuid: 1,
+                      name: '1.kmz',
+                      size: 0,
+                      type: '',
+                      uploadedAt: '2024-05-31T14:05:03.509-07:00',
+                    },
+                    {
+                      uuid: 2,
+                      name: '2.kmz',
+                      size: 0,
+                      type: '',
+                      uploadedAt: '2024-05-31T14:05:03.509-07:00',
+                    },
+                  ],
                 },
               },
             },
@@ -258,5 +316,7 @@ describe('The RFIAnalystUpload component', () => {
         timestamp: expect.any(String),
       }
     );
+
+    expect(mockNotifyRfiCoverageMapKmzUploaded).toHaveBeenCalledTimes(1);
   });
 });
