@@ -69,7 +69,7 @@ const Cbc = ({
   const [editMode, setEditMode] = useState(false);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   const { session } = query;
-
+  const { rowId } = query.cbcByRowId;
   const [formData, setFormData] = useState({} as any);
   const [baseFormData, setBaseFormData] = useState({} as any);
   useEffect(() => {

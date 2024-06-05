@@ -23,7 +23,7 @@ const getCbcSectionQuery = graphql`
       projectNumber
       rowId
       sharepointTimestamp
-      cbcDataByCbcId {
+      cbcDataByCbcId(first: 500) {
         edges {
           node {
             jsonData

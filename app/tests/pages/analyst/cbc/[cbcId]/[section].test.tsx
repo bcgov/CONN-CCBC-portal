@@ -83,8 +83,8 @@ describe('EditCbcSection', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByTestId('root_originalProjectNumber')).toHaveValue(
-      '5,555'
+    expect(screen.getByTestId('root_projectDescription')).toHaveValue(
+      'Description 1'
     );
   });
 
