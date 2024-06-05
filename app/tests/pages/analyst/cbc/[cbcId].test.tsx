@@ -205,7 +205,6 @@ describe('Cbc', () => {
             phase: 2,
             intake: 1,
             projectStatus: 'Reporting Complete',
-            changeRequestPending: 'No',
             projectTitle: 'Project 1',
             projectDescription: 'Description 1',
             applicantContractualName: 'Internet company 1',
