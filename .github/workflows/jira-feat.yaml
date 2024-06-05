@@ -4,8 +4,6 @@ on:
   workflow_call:
     secrets:
       JIRA_AUTH: { required: true }
-  pull_request_review:
-    types: [submitted]
 
 env:
   FEATURE_NAME: ${{ github.event.pull_request.head.ref }}

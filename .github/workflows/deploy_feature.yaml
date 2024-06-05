@@ -36,13 +36,16 @@ on:
       CHES_TO_EMAIL: { required: true }
       CHES_KEYCLOAK_HOST: { required: true }
       TEST_PG_PASSWORD: { required: true }
+      JIRA_AUTH: { required: true }
   pull_request:
     branches: [main]
     types: [ready_for_review]
+  pull_request_review:
+    types: [submitted]
 
 env:
   TAG: sha-${{ github.sha }}
-  FEATURE_NAME: ${{ github.head_ref }}
+  FEATURE_NAME: ${{ github.event.pull_request.head.ref }}
 
 jobs:
   setup-feature-database:
@@ -108,3 +111,90 @@ jobs:
           ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           test_pg_password: ${{ secrets.TEST_PG_PASSWORD }}
           environment: dev
+  update-jira-issue:
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+    needs: [deploy-feature-to-openshift-development]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Get JIRA Issue Key
+        id: extract_jira_key
+        run: |
+          echo "JIRA_KEY=$(echo "$FEATURE_NAME" | grep -oE 'NDT-[0-9]+')" >> $GITHUB_ENV
+      - name: Update JIRA Issue
+        # JIRA_AUTH must be passed pre encoded
+        run: |
+          FEATURE_NAME_LOWER=$(echo $FEATURE_NAME | tr '[:upper:]' '[:lower:]')
+          FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
+          curl -X POST \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+                  "body": {
+                      "type": "doc",
+                      "version": 1,
+                      "content": [
+                          {
+                              "type": "paragraph",
+                              "content": [
+                                  {
+                                      "text": "AUTOMATIC COMMENT: ",
+                                      "type": "text",
+                                      "marks": [
+                                          {
+                                            "type": "strong"
+                                          }
+                                      ]
+                                  },
+                                  {
+                                      "text": "Feature deployed! URL: ",
+                                      "type": "text"
+                                  },
+                                  {
+                                    "text": "https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca",
+                                    "type": "text",
+                                    "marks": [
+                                        {
+                                            "type": "link",
+                                            "attrs": {
+                                                "href": "https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca",
+                                                "title": "https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca"
+                                            }
+                                        }
+                                    ]
+                                }
+                              ]
+                          }
+                      ]
+                  }
+              }' \
+            "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY/comment"
+      - name: Check PR Approval
+        id: pr_approval
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: reviews } = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+
+            const approved = reviews.some(review => review.state === 'APPROVED');
+            console.log(`PR has been ${approved ? 'approved' : 'not approved'}`);
+            return approved;
+      - name: Transition Issue
+        if: steps.pr_approval.outputs.result == 'true'
+        run: |
+          curl -X POST \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+                  "transition": {
+                      "id": "10"
+                  }
+              }' \
+            "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY/transitions"
