@@ -125,12 +125,16 @@ const readSummary = async (wb, sheet) => {
       phase: project['C'],
       intake: project['D'],
       projectStatus: project['E'],
-      changeRequestPending: project['F'],
+      changeRequestPending: project?.['F']
+        ? project?.['F'].toLowerCase() === 'yes'
+        : null,
       projectTitle: project['G'],
       projectDescription: project['H'],
       applicantContractualName: project['I'],
       currentOperatingName: project['J'],
-      eightThirtyMillionFunding: project['K'],
+      eightThirtyMillionFunding: project?.['K']
+        ? project?.['K'].toLowerCase() === 'yes'
+        : null,
       federalFundingSource: project['L'],
       federalProjectNumber: project['M'],
       projectType: project['N'],
@@ -138,7 +142,9 @@ const readSummary = async (wb, sheet) => {
       highwayProjectType: project['P'],
       lastMileProjectType: project['Q'],
       lastMileMinimumSpeed: project['R'],
-      connectedCoastNetworkDependant: project['S'],
+      connectedCoastNetworkDependant: project?.['S']
+        ? project?.['S'].toLowerCase() === 'yes'
+        : null,
       projectLocations: project['T'],
       communitiesAndLocalesCount: validateNumber(
         project['U'],
@@ -201,9 +207,15 @@ const readSummary = async (wb, sheet) => {
         errorLog,
         projectNumber
       ),
-      nditConditionalApprovalLetterSent: project['AF'],
-      bindingAgreementSignedNditRecipient: project['AG'],
-      announcedByProvince: project['AH'],
+      nditConditionalApprovalLetterSent: project?.['AF']
+        ? project?.['AF'].toLowerCase() === 'yes'
+        : null,
+      bindingAgreementSignedNditRecipient: project?.['AG']
+        ? project?.['AG'].toLowerCase() === 'yes'
+        : null,
+      announcedByProvince: project?.['AH']
+        ? project?.['AH'].toLowerCase() === 'yes'
+        : null,
       dateApplicationReceived: validateDate(
         project['AI'],
         'dateApplicationReceived',
@@ -262,7 +274,7 @@ const readSummary = async (wb, sheet) => {
       primaryNewsRelease: project['AS'],
       secondaryNewsRelease: project['AT'],
       notes: project['AU'],
-      locked: project['AV'],
+      locked: project?.['AV'] ? project?.['AV'].toLowerCase() === 'x' : null,
       lastReviewed: validateDate(
         project['AW'],
         'lastReviewed',

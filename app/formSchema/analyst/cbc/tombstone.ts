@@ -46,7 +46,10 @@ const cbcTombstone: RJSFSchema = {
     eightThirtyMillionFunding: {
       type: 'string',
       title: '$8.30 Million Funding',
-      enum: [null, 'Yes', 'No'],
+      oneOf: [
+        { const: true, title: 'Yes' },
+        { const: false, title: 'No' },
+      ],
     },
     federalFundingSource: {
       type: 'string',

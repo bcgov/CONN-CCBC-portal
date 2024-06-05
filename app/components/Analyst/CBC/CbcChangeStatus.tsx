@@ -70,15 +70,23 @@ interface Props {
   cbc: any;
   status: string;
   statusList: any;
+  isFormEditMode: boolean;
 }
 
-const CbcChangeStatus: React.FC<Props> = ({ cbc, status, statusList }) => {
+const CbcChangeStatus: React.FC<Props> = ({
+  cbc,
+  status,
+  statusList,
+  isFormEditMode,
+}) => {
   const queryFragment = useFragment(
     graphql`
       fragment CbcChangeStatus_query on Cbc {
-        cbcDataByCbcId {
+        cbcDataByCbcId(first: 500) @connection(key: "CbcData__cbcDataByCbcId") {
+          __id
           edges {
             node {
+              id
               jsonData
               sharepointTimestamp
               rowId
@@ -94,7 +102,8 @@ const CbcChangeStatus: React.FC<Props> = ({ cbc, status, statusList }) => {
   );
   const [updateStatus] = useUpdateCbcDataByRowIdMutation();
   const [currentStatus, setCurrentStatus] = useState(getStatus(status));
-  const allowEdit = useFeature('show_cbc_edit').value ?? false;
+  const allowEdit =
+    (useFeature('show_cbc_edit').value ?? false) && !isFormEditMode;
 
   const handleChange = (e) => {
     const newStatus = e.target.value;
@@ -124,7 +133,7 @@ const CbcChangeStatus: React.FC<Props> = ({ cbc, status, statusList }) => {
       onChange={(e) => {
         // eslint-disable-next-line no-void
         void (() => handleChange(e))();
-      }} // Use draft status for colour so it changes as user selects it
+      }}
       statusStyles={statusStyles[getStatus(status)]}
       value={currentStatus}
       id="change-status"
