@@ -1,3 +1,9 @@
+# [1.164.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.163.0...v1.164.0) (2024-06-05)
+
+### Features
+
+- quick edit cbc project data ([e9c87c1](https://github.com/bcgov/CONN-CCBC-portal/commit/e9c87c10a9adf34c09d7b27f3051f387485b43f4))
+
 # [1.163.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.162.1...v1.163.0) (2024-06-03)
 
 ### Bug Fixes
