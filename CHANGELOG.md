@@ -1,3 +1,13 @@
+# [1.165.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.164.0...v1.165.0) (2024-06-05)
+
+### Bug Fixes
+
+- jira job runs only if approved and deployed ([49f14b3](https://github.com/bcgov/CONN-CCBC-portal/commit/49f14b3f67e633ae348130e18656d3ff06946f7f))
+
+### Features
+
+- notify analyst when coverage kmz uploaded ([3829491](https://github.com/bcgov/CONN-CCBC-portal/commit/38294911389e5ca99a916c0be3dcdb4465833c39))
+
 # [1.164.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.163.0...v1.164.0) (2024-06-05)
 
 ### Features
