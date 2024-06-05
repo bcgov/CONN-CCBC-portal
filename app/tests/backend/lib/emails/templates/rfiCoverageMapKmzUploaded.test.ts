@@ -54,7 +54,7 @@ describe('rfiCoverageMapKmzUploaded email template', () => {
         <h1>KMZ file uploaded for RFI CCBC-010040-8</h1>
         <p>CCBC USER has uploaded the following KMZ(s):</p>
         <ul>
-          <li>1.kmz</li>
+          <li>1.kmz uploaded on 2024-05-31T14:05:03.509-07:00</li>
         </ul>
         <p>This <a href='http://mock_host.ca/analyst/application/1/rfi'>RFI</a> closes/closed on 2024-06-26<p>
         <p>To unsubscribe from this notification please forward this email with your request to <a href="mailto:meherzad.romer@gov.bc.ca">meherzad.romer@gov.bc.ca<a/></p>`),
@@ -72,6 +72,7 @@ describe('rfiCoverageMapKmzUploaded email template', () => {
       { givenName: 'CCBC ANALYST' },
       {
         ...defaultParams,
+        changes: [{ ...defaultParams.changes[0], fileDate: '2024-05-31' }],
       }
     );
 
@@ -87,7 +88,7 @@ describe('rfiCoverageMapKmzUploaded email template', () => {
         <h1>KMZ file uploaded for RFI CCBC-010040-8</h1>
         <p>CCBC ANALYST has uploaded the following KMZ(s):</p>
         <ul>
-          <li>1.kmz</li>
+          <li>1.kmz received on 2024-05-31</li>
         </ul>
         <p>This <a href='http://mock_host.ca/analyst/application/1/rfi'>RFI</a> closes/closed on 2024-06-26<p>
         <p>To unsubscribe from this notification please forward this email with your request to <a href="mailto:meherzad.romer@gov.bc.ca">meherzad.romer@gov.bc.ca<a/></p>`),
@@ -121,7 +122,7 @@ describe('rfiCoverageMapKmzUploaded email template', () => {
         <h1>KMZ file uploaded for RFI CCBC-010040-8</h1>
         <p>CCBC ORG has uploaded the following KMZ(s):</p>
         <ul>
-          <li>1.kmz</li>
+          <li>1.kmz uploaded on 2024-05-31T14:05:03.509-07:00</li>
         </ul>
         <p>This <a href='http://mock_host.ca/analyst/application/1/rfi'>RFI</a> closes/closed on 2024-06-26<p>
         <p>To unsubscribe from this notification please forward this email with your request to <a href="mailto:meherzad.romer@gov.bc.ca">meherzad.romer@gov.bc.ca<a/></p>`),
