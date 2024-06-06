@@ -14,22 +14,22 @@ db:
       psql -v "ON_ERROR_STOP=1" -f "${file}";
     done;
 
-dataSource:
-  enabled: true
-  secretName: s3-pgbackrest
-  repo:
-    name: repo2
-    path: '/'
-    s3:
-      bucket: ''
-      endpoint: 's3.ca-central-1.amazonaws.com'
-      region: 'ca-central-1'
-    stanza: db
-
-pgBackRest:
-  repos:
-    s3:
-      enabled: false
+crunchy-postgres:
+  dataSource:
+    enabled: true
+    secretName: s3-pgbackrest
+    repo:
+      name: repo2
+      path: '/'
+      s3:
+        bucket: ''
+        endpoint: 's3.ca-central-1.amazonaws.com'
+        region: 'ca-central-1'
+      stanza: db
+  pgBackRest:
+    repos:
+      s3:
+        enabled: false
 
 metabase:
   prodIngress:
