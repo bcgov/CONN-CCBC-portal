@@ -160,7 +160,6 @@ const PendingChangeRequest = ({ application, isCbc = false }) => {
         }}
         value={isPending ? comment : null}
         onCancel={() => {
-          if (!isUpdateMode) handleChangePendingRequest(!isPending, comment);
           setIsUpdateMode(false);
           pendingChangeRequestModal.close();
         }}
