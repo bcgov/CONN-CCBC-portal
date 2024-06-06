@@ -178,7 +178,7 @@ runs:
           --set ches.clientSecret="${{ inputs.ches_client_secret }}" \
           --set ches.to="${{ inputs.ches_to }}" \
           --set ches.keycloakHost="${{ inputs.ches_keycloak_host }}" \
-          --set dataSource.repo.s3.bucket="${{ inputs.pgbackrest_s3_bucket }}" \
-          --values values-${{ inputs.environment }}.yaml
+          --set crunchy-postgres.dataSource.repo.s3.bucket="${{ inputs.pgbackrest_s3_bucket }}" \
+          --values values-dev.yaml
 
       shell: bash
