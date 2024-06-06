@@ -8,7 +8,7 @@ import CbcAnalystLayout from 'components/Analyst/CBC/CbcAnalystLayout';
 import CbcForm from 'components/Analyst/CBC/CbcForm';
 import styled from 'styled-components';
 import ReviewTheme from 'components/Review/ReviewTheme';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 // import { ProjectTheme } from 'components/Analyst/Project';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
 import review from 'formSchema/analyst/cbc/review';
@@ -203,6 +203,30 @@ const Cbc = ({
     setEditMode(false);
   };
 
+  const validate = (data) => {
+    const errors: any = {};
+    if (
+      (data.funding?.bcFundingRequest || 0) +
+        (data.funding?.federalFunding || 0) +
+        (data.funding?.applicantAmount || 0) +
+        (data.funding?.otherFunding || 0) !==
+      data.funding?.totalProjectBudget
+    ) {
+      errors.funding = {
+        totalProjectBudget: {
+          __errors: [
+            'Total project budget must equal the sum of the funding sources',
+          ],
+          color: '#f8e78f',
+        },
+      };
+    }
+    // append other validation logic here
+    return errors;
+  };
+
+  const formErrors = useMemo(() => validate(formData), [formData]);
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <CbcAnalystLayout query={query} isFormEditMode={editMode}>
@@ -250,8 +274,8 @@ const Cbc = ({
         <StyledCbcForm
           additionalContext={
             editMode
-              ? { toggleOverride: toggleOverrideEdit }
-              : { toggleOverride: toggleOverrideReadOnly }
+              ? { toggleOverride: toggleOverrideEdit, errors: formErrors }
+              : { toggleOverride: toggleOverrideReadOnly, errors: formErrors }
           }
           formData={formData}
           handleChange={(e) => {
