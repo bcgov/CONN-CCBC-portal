@@ -15,8 +15,32 @@ db:
     done;
 
 crunchy-postgres:
+  instances:
+    replicas: 1
+  dataVolumeClaimSpec:
+    storage: 1Gi
+  limits:
+    cpu: 500m
+  dataSource:
+    enabled: false
+    secretName: s3-pgbackrest
+    repo:
+      name: repo2
+      path: '/'
+      s3:
+        bucket: ''
+        endpoint: 's3.ca-central-1.amazonaws.com'
+        region: 'ca-central-1'
+      stanza: db
   pgBackRest:
+    s3:
+      enabled: false
     retention: '1'
+
+pgBackRest:
+  repos:
+    s3:
+      enabled: false
 
 metabase:
   prodIngress:

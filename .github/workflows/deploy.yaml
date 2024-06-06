@@ -44,6 +44,8 @@ on:
       CHES_TO_EMAIL: { required: true }
       CHES_KEYCLOAK_HOST: { required: true }
       AWS_S3_BACKUPS_BUCKET: { required: true }
+      RECOVERY_OPENSHIFT_TOKEN: { required: true }
+      RECOVERY_APP_NAMESPACE: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -76,8 +78,8 @@ jobs:
         uses: ./.github/actions/app
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
-          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
-          openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+          openshift_token: ${{ secrets.RECOVERY_OPENSHIFT_TOKEN }}
+          openshift_app_namespace: ${{ secrets.RECOVERY_APP_NAMESPACE }}
           openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
           openshift_metabase_prod_namespace: ${{ secrets.OPENSHIFT_METABASE_PROD_NAMESPACE }}
           next_public_growthbook_api_key: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
