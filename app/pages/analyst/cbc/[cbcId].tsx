@@ -8,7 +8,7 @@ import CbcAnalystLayout from 'components/Analyst/CBC/CbcAnalystLayout';
 import CbcForm from 'components/Analyst/CBC/CbcForm';
 import styled from 'styled-components';
 import ReviewTheme from 'components/Review/ReviewTheme';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 // import { ProjectTheme } from 'components/Analyst/Project';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
 import review from 'formSchema/analyst/cbc/review';
@@ -16,6 +16,7 @@ import reviewUiSchema from 'formSchema/uiSchema/cbc/reviewUiSchema';
 import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
 import { useFeature } from '@growthbook/growthbook-react';
 import CbcTheme from 'components/Analyst/CBC/CbcTheme';
+import { createCbcSchemaData } from 'utils/schemaUtils';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -69,7 +70,7 @@ const Cbc = ({
   const [editMode, setEditMode] = useState(false);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   const { session } = query;
-
+  const { rowId } = query.cbcByRowId;
   const [formData, setFormData] = useState({} as any);
   const [baseFormData, setBaseFormData] = useState({} as any);
   useEffect(() => {
@@ -78,76 +79,16 @@ const Cbc = ({
     const { edges } = cbcDataByCbcId;
     const cbcData = edges[0].node;
     const { jsonData } = cbcData;
-    const tombstone = {
-      projectNumber: jsonData.projectNumber,
-      originalProjectNumber: jsonData.originalProjectNumber,
-      phase: jsonData.phase,
-      intake: jsonData.intake,
-      projectStatus: jsonData.projectStatus,
-      projectTitle: jsonData.projectTitle,
-      projectDescription: jsonData.projectDescription,
-      applicantContractualName: jsonData.applicantContractualName,
-      currentOperatingName: jsonData.currentOperatingName,
-      eightThirtyMillionFunding: jsonData.eightThirtyMillionFunding,
-      federalFundingSource: jsonData.federalFundingSource,
-      federalProjectNumber: jsonData.federalProjectNumber,
-    };
 
-    const projectType = {
-      projectType: jsonData.projectType,
-      transportProjectType: jsonData.transportProjectType,
-      highwayProjectType: jsonData.highwayProjectType,
-      lastMileProjectType: jsonData.lastMileProjectType,
-      lastMileMinimumSpeed: jsonData.lastMileMinimumSpeed,
-      connectedCoastNetworkDependant: jsonData.connectedCoastNetworkDependant,
-    };
-    const locationsAndCounts = {
-      projectLocations: jsonData.projectLocations,
-      communitiesAndLocalesCount: jsonData.communitiesAndLocalesCount,
-      indigenousCommunities: jsonData.indigenousCommunities,
-      householdCount: jsonData.householdCount,
-      transportKm: jsonData.transportKm,
-      highwayKm: jsonData.highwayKm,
-      restAreas: jsonData.restAreas,
-    };
-
-    const funding = {
-      bcFundingRequest: jsonData.bcFundingRequest,
-      federalFunding: jsonData.federalFunding,
-      applicantAmount: jsonData.applicantAmount,
-      otherFunding: jsonData.otherFunding,
-      totalProjectBudget: jsonData.totalProjectBudget,
-    };
-
-    const eventsAndDates = {
-      nditConditionalApprovalLetterSent:
-        jsonData.nditConditionalApprovalLetterSent,
-      bindingAgreementSignedNditRecipient:
-        jsonData.bindingAgreementSignedNditRecipient,
-      announcedByProvince: jsonData.announcedByProvince,
-      dateApplicationReceived: jsonData.dateApplicationReceived,
-      dateConditionallyApproved: jsonData.dateConditionallyApproved,
-      dateAgreementSigned: jsonData.dateAgreementSigned,
-      proposedStartDate: jsonData.proposedStartDate,
-      proposedCompletionDate: jsonData.proposedCompletionDate,
-      reportingCompletionDate: jsonData.reportingCompletionDate,
-      dateAnnounced: jsonData.dateAnnounced,
-    };
-
-    const miscellaneous = {
-      projectMilestoneCompleted: jsonData.projectMilestoneCompleted,
-      constructionCompletedOn: jsonData.constructionCompletedOn,
-      milestoneComments: jsonData.milestoneComments,
-      primaryNewsRelease: jsonData.primaryNewsRelease,
-      secondaryNewsRelease: jsonData.secondaryNewsRelease,
-      notes: jsonData.notes,
-    };
-
-    const projectDataReviews = {
-      locked: jsonData.locked,
-      lastReviewed: jsonData.lastReviewed,
-      reviewNotes: jsonData.reviewNotes,
-    };
+    const {
+      tombstone,
+      projectType,
+      locationsAndCounts,
+      funding,
+      eventsAndDates,
+      miscellaneous,
+      projectDataReviews,
+    } = createCbcSchemaData(jsonData);
 
     setFormData({
       tombstone,
@@ -203,6 +144,30 @@ const Cbc = ({
     setEditMode(false);
   };
 
+  const validate = (data) => {
+    const errors: any = {};
+    if (
+      (data.funding?.bcFundingRequest || 0) +
+        (data.funding?.federalFunding || 0) +
+        (data.funding?.applicantAmount || 0) +
+        (data.funding?.otherFunding || 0) !==
+      data.funding?.totalProjectBudget
+    ) {
+      errors.funding = {
+        totalProjectBudget: {
+          __errors: [
+            'Total project budget must equal the sum of the funding sources',
+          ],
+          color: '#f8e78f',
+        },
+      };
+    }
+    // append other validation logic here
+    return errors;
+  };
+
+  const formErrors = useMemo(() => validate(formData), [formData]);
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <CbcAnalystLayout query={query} isFormEditMode={editMode}>
@@ -248,11 +213,15 @@ const Cbc = ({
           )}
         </RightAlignText>
         <StyledCbcForm
-          additionalContext={
-            editMode
-              ? { toggleOverride: toggleOverrideEdit }
-              : { toggleOverride: toggleOverrideReadOnly }
-          }
+          additionalContext={{
+            toggleOverride: editMode
+              ? toggleOverrideEdit
+              : toggleOverrideReadOnly,
+            isEditable: true,
+            isCBC: true,
+            cbcId: rowId,
+            errors: formErrors,
+          }}
           formData={formData}
           handleChange={(e) => {
             setFormData({ ...e.formData });

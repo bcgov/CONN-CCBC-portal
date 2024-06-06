@@ -131,76 +131,6 @@ jobs:
               git rebase --abort
             fi
           done
-  create-release-pr:
-    if: github.event.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
-      - name: Set up Git and import GPG key
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
-        run: |
-          echo "${GPG_PRIVATE_KEY}" | gpg --import
-          git config user.name "CCBC Service Account"
-          git config user.email "116113628+ccbc-service-account@users.noreply.github.com"
-          git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
-          git config commit.gpgsign true
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
-      - name: Delete Latest Tag If It Already Exists
-        run: |
-          git checkout main
-          yarn
-          NEW_TAG=$(yarn release-it --release-version | awk 'match($0, /^ *([0-9]+\.[0-9]+\.[0-9]+)/, a) { if (NR == 1) next; print "v" a[1]; exit; }')
-          TAG_EXISTS=$(git tag -l $NEW_TAG)
-          echo $NEW_TAG
-          if [ "$TAG_EXISTS" ]; then
-              git tag -d $NEW_TAG
-              git push --delete origin $NEW_TAG
-          fi
-      - name: Delete and Recreate Branch
-        run: |
-          git branch -D chore/release || true
-          git push origin --delete chore/release || true
-          git checkout main
-          git checkout -b chore/release
-      - name: Close Previous PRs
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { owner, repo } = context.repo
-            const prs = await github.rest.pulls.list({ owner, repo, state: 'open', head: 'bcgov:chore/release' })
-            for (const pr of prs.data) {
-              await github.rest.pulls.update({ owner, repo, pull_number: pr.number, state: 'closed' })
-            }
-      - name: Setup Sqitch User
-        run: |
-          sqitch config --user user.name 'CCBC Service Account'
-          sqitch config --user user.email 'ccbc@button.is'
-      - name: Make Release
-        run: |
-          git checkout chore/release
-          git push --set-upstream origin chore/release
-          git pull
-          echo '--ci' | make release
-      - name: Create PR
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
-          script: |
-            const { owner, repo } = context.repo
-            await github.rest.pulls.create({
-              owner,
-              repo,
-              title: 'chore: release',
-              head: 'chore/release',
-              base: 'main',
-            });
 
   is-tagged-release:
     runs-on: ubuntu-latest
@@ -274,7 +204,7 @@ jobs:
 
   deploy-feature:
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
-    needs: [test-code, test-containers]
+    needs: [build]
     uses: ./.github/workflows/deploy_feature.yaml
     secrets:
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
@@ -310,6 +240,7 @@ jobs:
       CHES_TO_EMAIL: ${{ secrets.CHES_TO_EMAIL }}
       CHES_KEYCLOAK_HOST: ${{ secrets.CHES_KEYCLOAK_HOST }}
       TEST_PG_PASSWORD: ${{ secrets.TEST_PG_PASSWORD }}
+      JIRA_AUTH: ${{ secrets.JIRA_AUTH }}
 
   cleanup_feature:
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == true

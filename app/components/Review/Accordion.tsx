@@ -67,6 +67,8 @@ const Accordion = ({
   allowAnalystEdit,
   children,
   defaultToggled,
+  isCBC,
+  cbcId,
   error,
   name,
   onToggle,
@@ -96,7 +98,11 @@ const Accordion = ({
         <StyledToggleRight>
           {allowAnalystEdit && (
             <StyledLink
-              href={`/analyst/application/${applicationId}/edit/${name}`}
+              href={
+                isCBC
+                  ? `/analyst/cbc/${cbcId}/edit/${name}`
+                  : `/analyst/application/${applicationId}/edit/${name}`
+              }
               passHref
             >
               <StyledButton>
