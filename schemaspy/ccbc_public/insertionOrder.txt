@@ -8,14 +8,15 @@ form
 ccbc_user
 intake
 application
-application_sow_data
 cbc
+application_sow_data
 analyst
 announcement
 email_record
 gis_data
 rfi_data
 application_status
+cbc_data
 form_data
 record_version
 application_form_data
@@ -33,6 +34,7 @@ application_package
 application_pending_change_request
 application_project_type
 cbc_application_pending_change_request
+cbc_data_change_reason
 change_request_data
 conditional_approval_data
 project_information_data
@@ -45,6 +47,5 @@ application_announcement
 application_gis_data
 assessment_data
 attachment
-cbc_data
 notification
 history_item

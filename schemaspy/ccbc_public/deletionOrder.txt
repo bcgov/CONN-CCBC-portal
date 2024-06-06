@@ -1,6 +1,5 @@
 history_item
 notification
-cbc_data
 attachment
 assessment_data
 application_gis_data
@@ -13,6 +12,7 @@ sow_tab_1
 project_information_data
 conditional_approval_data
 change_request_data
+cbc_data_change_reason
 cbc_application_pending_change_request
 application_project_type
 application_pending_change_request
@@ -30,14 +30,15 @@ application_rfi_data
 application_form_data
 record_version
 form_data
+cbc_data
 application_status
 rfi_data
 gis_data
 email_record
 announcement
 analyst
-cbc
 application_sow_data
+cbc
 application
 intake
 ccbc_user

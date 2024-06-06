@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><database name="ccbc" schema="ccbc_public" type="PostgreSQL - 14.1">
    <sequences>
+      <sequence increment="1" name="cbc_data_change_reason_id_seq" startValue="1"/>
       <sequence increment="1" name="record_version_id_seq" startValue="1"/>
    </sequences>
    <tables>
@@ -920,7 +921,9 @@
          </index>
       </table>
       <table name="cbc_data" remarks="Table containing the json data for cbc applications" schema="ccbc_public" type="TABLE">
-         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the cbc_data" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the cbc_data" size="10" type="int4" typeCode="4">
+            <child column="cbc_data_id" foreignKey="cbc_data_change_reason_cbc_data_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data_change_reason"/>
+         </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="cbc_id" nullable="true" remarks="ID of the cbc application this cbc_data belongs to" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="cbc_data_cbc_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc"/>
          </column>
@@ -952,6 +955,38 @@
             <column ascending="true" name="created_by"/>
          </index>
          <index name="ccbc_public_cbc_data_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="cbc_data_change_reason" remarks="Table containing the reasons for changes to cbc_data" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('ccbc_public.cbc_data_change_reason_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the cbc_data_change_reason" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="cbc_data_id" nullable="false" remarks="ID of the cbc_data this cbc_data_change_reason belongs to" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_data_change_reason_cbc_data_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="description" nullable="true" remarks="The reason for the change to the cbc_data" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_data_change_reason_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_data_change_reason_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_data_change_reason_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="cbc_data_change_reason_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_cbc_data_change_reason_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_cbc_data_change_reason_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_cbc_data_change_reason_updated_by_foreign_key" unique="false">
             <column ascending="true" name="updated_by"/>
          </index>
       </table>
@@ -1059,6 +1094,9 @@
             <child column="archived_by" foreignKey="cbc_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
             <child column="created_by" foreignKey="cbc_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
             <child column="updated_by" foreignKey="cbc_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
+            <child column="archived_by" foreignKey="cbc_data_change_reason_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data_change_reason"/>
+            <child column="created_by" foreignKey="cbc_data_change_reason_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data_change_reason"/>
+            <child column="updated_by" foreignKey="cbc_data_change_reason_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data_change_reason"/>
             <child column="archived_by" foreignKey="cbc_project_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project"/>
             <child column="created_by" foreignKey="cbc_project_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project"/>
             <child column="updated_by" foreignKey="cbc_project_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project"/>
