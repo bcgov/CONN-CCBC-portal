@@ -25,15 +25,19 @@ const reviewUiSchema = {
     projectTitle: {
       'ui:widget': 'TextWidget',
     },
+    'ui:options': { allowAnalystEdit: true },
   },
   projectType: {
     ...projectTypeUiSchema,
+    'ui:options': { allowAnalystEdit: true },
   },
   locationsAndCounts: {
     ...locationsAndCountsUiSchema,
+    'ui:options': { allowAnalystEdit: true },
   },
   funding: {
     ...fundingUiSchema,
+    'ui:options': { allowAnalystEdit: true },
   },
   eventsAndDates: {
     ...eventsAndDatesUiSchema,
@@ -65,9 +69,11 @@ const reviewUiSchema = {
       ...eventsAndDatesUiSchema.dateAnnounced,
       'ui:widget': 'DateWidget',
     },
+    'ui:options': { allowAnalystEdit: true },
   },
   miscellaneous: {
     ...miscellaneousUiSchema,
+    'ui:options': { allowAnalystEdit: true },
   },
   projectDataReviews: {
     ...projectDataReviewsUiSchema,
@@ -75,6 +81,7 @@ const reviewUiSchema = {
       ...projectDataReviewsUiSchema.lastReviewed,
       'ui:widget': 'DateWidget',
     },
+    'ui:options': { allowAnalystEdit: true },
   },
 };
 
