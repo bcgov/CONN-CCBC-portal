@@ -1,3 +1,21 @@
+# [1.165.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.164.0...v1.165.0) (2024-06-06)
+
+### Bug Fixes
+
+- jira job runs only if approved and deployed ([49f14b3](https://github.com/bcgov/CONN-CCBC-portal/commit/49f14b3f67e633ae348130e18656d3ff06946f7f))
+- use proper rowId ([9389b83](https://github.com/bcgov/CONN-CCBC-portal/commit/9389b83359d285faf6da1e743469cc8426210b26))
+
+### Features
+
+- add cbc change_reason table ([b588007](https://github.com/bcgov/CONN-CCBC-portal/commit/b588007ccbfeb7675c344c265935eeca582b7479))
+- **cbc:** show error colour for total project funding ([6a3c180](https://github.com/bcgov/CONN-CCBC-portal/commit/6a3c180a36cf509c63b7e2d0e0e453dd408a8a7c))
+- edit cbc data ([6acbace](https://github.com/bcgov/CONN-CCBC-portal/commit/6acbace0877a942397ea409acf544c7e6225a180))
+- notify analyst when coverage kmz uploaded ([3829491](https://github.com/bcgov/CONN-CCBC-portal/commit/38294911389e5ca99a916c0be3dcdb4465833c39))
+- quick edit cbc project data ([1a8b1b1](https://github.com/bcgov/CONN-CCBC-portal/commit/1a8b1b1095c6aacb417b2e8b601b1db637c91a87))
+- send email when conditionally_approved ([83b102c](https://github.com/bcgov/CONN-CCBC-portal/commit/83b102cac5d2c019759749f5465ddf0f01c500e9))
+- send email when conditionally_approved and header details missing ([fbb6052](https://github.com/bcgov/CONN-CCBC-portal/commit/fbb6052e70baad77f9e95f69e6cc01d370a858cc))
+- update with cbc change reason ([02cef6e](https://github.com/bcgov/CONN-CCBC-portal/commit/02cef6ee55c610d50a06ef6e91f7d0acbc550d29))
+
 # [1.164.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.163.0...v1.164.0) (2024-06-05)
 
 ### Features
