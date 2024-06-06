@@ -1,11 +1,30 @@
 autoscaling:
   enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 110
 
 deploy:
   enabled: true
 
 cronsp:
   schedule: '0 0 15 10 *' # dev run once a year on October 15
+
+resources:
+  app:
+    requests:
+      cpu: 1m
+      memory: '256Mi'
+    limits:
+      cpu: 100m
+      memory: '512Mi'
+  psql:
+    requests:
+      cpu: 1m
+      memory: '128Mi'
+    limits:
+      cpu: 100m
+      memory: '256Mi'
 
 db:
   postMigrationCommand: |
