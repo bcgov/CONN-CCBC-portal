@@ -7,6 +7,7 @@ import agreementSignedStatusChangeDataTeam from './templates/agreementSignedStat
 import assessmentAssigneeChange from './templates/assessmentAssigneeChange';
 import householdCountUpdate from './templates/householdCountUpdate';
 import rfiCoverageMapKmzUploaded from './templates/rfiCoverageMapKmzUploaded';
+import notifyConditionallyApproved from './templates/notifyConditionallyApproved';
 
 const email = Router();
 
@@ -60,5 +61,13 @@ email.post(
     return handleEmailNotification(req, res, rfiCoverageMapKmzUploaded, params);
   }
 );
+
+email.post('/api/email/notifyConditionalApproval', limiter, (req, res) => {
+  const { ccbcNumber, params } = req.body;
+  return handleEmailNotification(req, res, notifyConditionallyApproved, {
+    ...params,
+    ccbcNumber,
+  });
+});
 
 export default email;

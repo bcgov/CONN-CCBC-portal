@@ -13,6 +13,7 @@ import agreementSignedStatusChangeDataTeam from 'backend/lib/emails/templates/ag
 import assessmentAssigneeChange from 'backend/lib/emails/templates/assessmentAssigneeChange';
 import householdCountUpdate from 'backend/lib/emails/templates/householdCountUpdate';
 import rfiCoverageMapKmzUploaded from 'backend/lib/emails/templates/rfiCoverageMapKmzUploaded';
+import notifyConditionallyApproved from 'backend/lib/emails/templates/notifyConditionallyApproved';
 
 jest.mock('backend/lib/emails/handleEmailNotification');
 
@@ -173,6 +174,23 @@ describe('Email API Endpoints', () => {
           organizationName: 'test',
         },
       }
+    );
+  });
+
+  it('calls notifyConditionalApproval with correct parameters once notifyConditionalApproval called', async () => {
+    const reqBody = {
+      applicationId: '',
+      ccbcNumber: 'CCBC-00001',
+      params: { requiredFields: ['Project Type'] },
+    };
+    await request(app)
+      .post('/api/email/notifyConditionalApproval')
+      .send(reqBody);
+    expect(handleEmailNotification).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      notifyConditionallyApproved,
+      { ccbcNumber: 'CCBC-00001', requiredFields: ['Project Type'] }
     );
   });
 });
