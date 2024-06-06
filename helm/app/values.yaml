@@ -198,6 +198,8 @@ crunchy-postgres:
       region: ca-central-1
       key: ''
       keySecret: ''
+  standby:
+    enabled: false
   patroni:
     postgresql:
       pg_hba: 'host all all 0.0.0.0/0 md5'

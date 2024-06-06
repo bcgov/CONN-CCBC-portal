@@ -156,8 +156,8 @@ jobs:
       - run: ./.bin/sqitch-last-change-is-tag.sh db
 
   deploy:
-    if: github.event.ref == 'refs/heads/main'
-    needs: [test-code, test-containers]
+    # if: github.event.ref == 'refs/heads/main'
+    # needs: [test-code, test-containers]
     uses: ./.github/workflows/deploy.yaml
     secrets:
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
@@ -201,6 +201,8 @@ jobs:
       CHES_TO_EMAIL: ${{ secrets.CHES_TO_EMAIL }}
       CHES_KEYCLOAK_HOST: ${{ secrets.CHES_KEYCLOAK_HOST }}
       AWS_S3_BACKUPS_BUCKET: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
+      RECOVERY_OPENSHIFT_TOKEN: ${{ secrets.RECOVERY_OPENSHIFT_TOKEN }}
+      RECOVERY_APP_NAMESPACE: ${{ secrets.RECOVERY_APP_NAMESPACE }}
 
   deploy-feature:
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == false

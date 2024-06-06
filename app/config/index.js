@@ -98,7 +98,7 @@ const config = convict({
   },
   OPENSHIFT_APP_NAMESPACE: {
     doc: 'Namespace on OpenShift to which the app is deployed',
-    format: ['ff61fb-dev', 'ff61fb-test', 'ff61fb-prod', ''],
+    format: ['ff61fb-dev', 'ff61fb-test', 'ff61fb-prod', 'bc5936-dev', ''],
     default: '',
     env: 'OPENSHIFT_APP_NAMESPACE',
   },
