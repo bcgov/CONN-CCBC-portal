@@ -15,6 +15,10 @@ db:
     done;
 
 crunchy-postgres:
+  instances:
+    replicas: 1
+  dataVolumeClaimSpec:
+    storage: 1Gi
   dataSource:
     enabled: true
     secretName: s3-pgbackrest
@@ -27,9 +31,8 @@ crunchy-postgres:
         region: 'ca-central-1'
       stanza: db
   pgBackRest:
-    repos:
-      s3:
-        enabled: false
+    s3:
+      enabled: false
 
 metabase:
   prodIngress:
