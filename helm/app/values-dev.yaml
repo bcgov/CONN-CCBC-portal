@@ -35,12 +35,6 @@ crunchy-postgres:
   pgBackRest:
     s3:
       enabled: false
-    retention: '1'
-
-pgBackRest:
-  repos:
-    s3:
-      enabled: false
 
 metabase:
   prodIngress:
