@@ -219,7 +219,7 @@ const Cbc = ({
               : toggleOverrideReadOnly,
             isEditable: true,
             isCBC: true,
-            cbcId: cbcData.rowId,
+            cbcId: rowId,
             errors: formErrors,
           }}
           formData={formData}
