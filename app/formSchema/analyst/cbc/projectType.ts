@@ -8,7 +8,15 @@ const projectType: RJSFSchema = {
     projectType: {
       type: 'string',
       title: 'Project Type',
-      enum: [null, 'Transport', 'Highway', 'Last Mile'],
+      enum: [
+        null,
+        'Highway',
+        'Last-Mile',
+        'Last-Mile & Cellular',
+        'Last-Mile & Transport',
+        'Plan',
+        'Transport',
+      ],
     },
     transportProjectType: {
       type: 'string',
@@ -32,7 +40,10 @@ const projectType: RJSFSchema = {
     connectedCoastNetworkDependant: {
       type: 'string',
       title: 'Connected Coast Network Dependant',
-      enum: [null, 'Yes', 'No'],
+      oneOf: [
+        { const: true, title: 'Yes' },
+        { const: false, title: 'No' },
+      ],
     },
   },
 };

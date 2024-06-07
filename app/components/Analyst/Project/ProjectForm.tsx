@@ -6,8 +6,8 @@ import Accordion from 'components/Accordion';
 import { FormBase } from 'components/Form';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Collapse } from '@mui/material';
-import { RJSFSchema } from '@rjsf/utils';
 import ProjectTheme from './ProjectTheme';
+import { ProjectFormProps } from './ProjectFormProps';
 
 const ToggleRight = styled.div`
   display: flex;
@@ -58,41 +58,7 @@ const StyledBtn = styled(Button)`
   padding: 8px 16px;
 `;
 
-interface Props {
-  additionalContext?: any;
-  before?: React.ReactNode;
-  children?: React.ReactNode;
-  formAnimationHeight?: number;
-  formAnimationHeightOffset?: number;
-  formData: any;
-  formHeader?: string | React.ReactNode | JSX.Element;
-  handleChange: any;
-  showEditBtn?: boolean;
-  /** The hidden submit button's ref, used to enforce validation on the form
-   *  (the red-outline we see on widgets) */
-  hiddenSubmitRef?: any;
-  isExpanded?: boolean;
-  isFormEditMode: boolean;
-  isFormAnimated?: boolean;
-  liveValidate?: boolean;
-  onSubmit: any;
-  resetFormData: any;
-  saveBtnText?: string;
-  saveBtnDisabled?: boolean;
-  cancelBtnDisabled?: boolean;
-  schema: RJSFSchema;
-  setFormData?: any;
-  setIsFormEditMode: any;
-  submitting?: boolean;
-  submittingText?: string;
-  theme?: any;
-  title: string;
-  uiSchema?: any;
-  saveDataTestId?: string;
-  validate?: any;
-}
-
-const ProjectForm: React.FC<Props> = ({
+const ProjectForm: React.FC<ProjectFormProps> = ({
   additionalContext,
   before,
   children,

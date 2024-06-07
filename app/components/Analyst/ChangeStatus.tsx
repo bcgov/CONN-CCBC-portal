@@ -82,6 +82,15 @@ const ChangeStatus: React.FC<Props> = ({
         analystStatus
         rowId
         ccbcNumber
+        internalDescription
+        applicationProjectTypesByApplicationId(
+          orderBy: CREATED_AT_DESC
+          first: 1
+        ) {
+          nodes {
+            projectType
+          }
+        }
         conditionalApprovalDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
           orderBy: CREATED_AT_DESC
@@ -109,6 +118,8 @@ const ChangeStatus: React.FC<Props> = ({
     id,
     rowId,
     ccbcNumber,
+    internalDescription,
+    applicationProjectTypesByApplicationId,
   } = queryFragment;
   const [createStatus] = useCreateApplicationStatusMutation();
   // Filter unwanted status types
@@ -131,6 +142,9 @@ const ChangeStatus: React.FC<Props> = ({
 
   const conditionalApprovalData = conditionalApproval?.jsonData;
 
+  const projectType =
+    applicationProjectTypesByApplicationId?.nodes?.[0]?.projectType;
+
   // Check conditional approval requirements are met for external status change
   const isAllowedConditionalApproval =
     isExternalStatus &&
@@ -147,6 +161,31 @@ const ChangeStatus: React.FC<Props> = ({
     setDraftStatus(getStatus(status, statusTypes));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
+
+  const sendEmailNotification = async (
+    url: string,
+    params: any,
+    errorMessage: string
+  ) => {
+    fetch(`/api/email/${url}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        applicationId: rowId,
+        host: window.location.origin,
+        ccbcNumber,
+        params,
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        Sentry.captureException({
+          name: errorMessage,
+          message: response,
+        });
+      }
+      return response.json();
+    });
+  };
 
   const handleSave = async (value) => {
     const newStatus = value || draftStatus?.name;
@@ -170,42 +209,35 @@ const ChangeStatus: React.FC<Props> = ({
         setChangeReason('');
         setCurrentStatus(draftStatus);
         internalChangeModal.close();
-        // Send email notification
+        // Send email notification for status changes
         if (newStatus === 'approved' && !isExternalStatus) {
-          const commonEmailObject = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              applicationId: rowId,
-              host: window.location.origin,
-              ccbcNumber,
-            }),
-          };
-          fetch('/api/email/notifyAgreementSigned', commonEmailObject).then(
-            (response) => {
-              if (!response.ok) {
-                Sentry.captureException({
-                  name: 'Email sending Agreement Signed Analyst failed',
-                  message: response,
-                });
-              }
-              return response.json();
+          sendEmailNotification(
+            'notifyAgreementSigned',
+            {},
+            'Email sending Agreement Signed Analyst failed'
+          );
+          sendEmailNotification(
+            'notifyAgreementSignedDataTeam',
+            {},
+            'Email sending Agreement Signed Data Team failed'
+          );
+        }
+        if (newStatus === 'conditionally_approved' && !isExternalStatus) {
+          const requiredFields = ['Project Description', 'Project Type'].filter(
+            (field) => {
+              if (field === 'Project Description') return !internalDescription;
+              if (field === 'Project Type') return !projectType;
+              return false;
             }
           );
-
-          fetch(
-            '/api/email/notifyAgreementSignedDataTeam',
-            commonEmailObject
-          ).then((responseDataTeam) => {
-            if (!responseDataTeam.ok) {
-              Sentry.captureException({
-                name: 'Email sending Agreement Signed Data Team failed',
-                message: responseDataTeam,
-              });
-            }
-          });
+          if (requiredFields.length > 0)
+            sendEmailNotification(
+              'notifyConditionalApproval',
+              {
+                requiredFields,
+              },
+              'Email sending Conditionally Approved Analyst failed'
+            );
         }
       },
       updater: (store) => {

@@ -42,9 +42,9 @@ const CheckboxWidget: React.FC<WidgetProps> = ({
       required={required}
       aria-label={label}
       disabled={disabled}
-      onChange={(event: { target: { checked: any } }) =>
-        onChange(event.target.checked)
-      }
+      onChange={(event: { target: { checked: any } }) => {
+        onChange(event.target.checked);
+      }}
     />
     <StyledP>{label}</StyledP>
   </StyledDiv>

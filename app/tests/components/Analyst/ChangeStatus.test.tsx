@@ -17,6 +17,15 @@ const testQuery = graphql`
       projectName
       rowId
       externalStatus
+      internalDescription
+      applicationProjectTypesByApplicationId(
+        orderBy: CREATED_AT_DESC
+        first: 1
+      ) {
+        nodes {
+          projectType
+        }
+      }
       ...AssignPackage_query
       ...ChangeStatus_query
     }
@@ -42,6 +51,10 @@ const mockQueryPayload = {
         rowId: 1,
         analystStatus: 'received',
         externalStatus: 'on_hold',
+        internalDescription: null,
+        applicationProjectTypesByApplicationId: {
+          nodes: [],
+        },
       },
       allApplicationStatusTypes: {
         ...allApplicationStatusTypes,
@@ -58,6 +71,10 @@ const mockConditionalApprovalQueryPayload = {
         rowId: 1,
         analystStatus: 'conditionally_approved',
         externalStatus: 'received',
+        internalDescription: 'internal description',
+        applicationProjectTypesByApplicationId: {
+          nodes: [{ projectType: 'Project Type' }],
+        },
         conditionalApprovalDataByApplicationId: {
           edges: [
             {
@@ -408,5 +425,87 @@ describe('The application header component', () => {
         body: expect.anything(),
       }
     );
+  });
+
+  it('sends notification once internal status is changed to conditionally approved', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const select = screen.getByTestId('change-status');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: 'conditionally_approved' } });
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue(
+      'conditionally_approved'
+    );
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+
+    const okButton = screen.getByText('Save change');
+    await act(async () => {
+      fireEvent.click(okButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createApplicationStatusMutation',
+      expect.anything()
+    );
+    componentTestingHelper.environment.mock.resolveMostRecentOperation({
+      errors: [],
+      data: {},
+    });
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/email/notifyConditionalApproval',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: expect.anything(),
+      }
+    );
+  });
+
+  it('does not send notification when internal status is changed to conditionally approved but fields are not empty', async () => {
+    componentTestingHelper.loadQuery(mockConditionalApprovalQueryPayload);
+    componentTestingHelper.renderComponent();
+
+    const select = screen.getByTestId('change-status');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: 'conditionally_approved' } });
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue(
+      'conditionally_approved'
+    );
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+
+    const okButton = screen.getByText('Save change');
+    await act(async () => {
+      fireEvent.click(okButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createApplicationStatusMutation',
+      expect.anything()
+    );
+    componentTestingHelper.environment.mock.resolveMostRecentOperation({
+      errors: [],
+      data: {},
+    });
+
+    expect(global.fetch).not.toHaveBeenCalled();
   });
 });

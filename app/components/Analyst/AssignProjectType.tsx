@@ -22,6 +22,7 @@ const AssignProjectType = ({ application }) => {
           first: 1
         ) {
           nodes {
+            id
             projectType
           }
         }
@@ -30,8 +31,8 @@ const AssignProjectType = ({ application }) => {
     application
   );
   const { applicationProjectTypesByApplicationId, rowId } = queryFragment;
-  const applicationProjectType =
-    applicationProjectTypesByApplicationId.nodes?.[0]?.projectType;
+  const { id, projectType: applicationProjectType } =
+    applicationProjectTypesByApplicationId.nodes?.[0] || {};
 
   const [createProjectType] = useCreateProjectTypeMutation();
 
@@ -44,6 +45,10 @@ const AssignProjectType = ({ application }) => {
           _applicationId: rowId,
           _projectType: projectType,
         },
+      },
+      updater: (store) => {
+        const record = store.get(id);
+        record.setValue(projectType, 'projectType');
       },
     });
   };

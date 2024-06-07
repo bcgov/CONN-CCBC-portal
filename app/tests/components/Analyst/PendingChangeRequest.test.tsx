@@ -149,7 +149,7 @@ describe('The Pending Change Request component', () => {
       target: { value: 'Edited comment.' },
     });
 
-    const saveButton = screen.getByRole('button', { name: 'Save comment' });
+    const saveButton = screen.getByRole('button', { name: 'Save' });
 
     await act(async () => {
       fireEvent.click(saveButton);
@@ -208,7 +208,7 @@ describe('The Pending Change Request component', () => {
       target: { value: 'Edited comment.' },
     });
 
-    const saveButton = screen.getByRole('button', { name: 'Save comment' });
+    const saveButton = screen.getByRole('button', { name: 'Save' });
 
     await act(async () => {
       fireEvent.click(saveButton);
@@ -307,7 +307,7 @@ describe('The Pending Change Request component', () => {
 
     const saveButton = screen.getByTestId('pending-request-change-save-btn');
 
-    expect(saveButton).toBeDisabled();
+    expect(saveButton).toBeEnabled();
 
     const cancelButton = screen.getByTestId(
       'pending-request-change-cancel-btn'
@@ -338,7 +338,7 @@ describe('The Pending Change Request component', () => {
       target: { value: 'This is a test comment.' },
     });
 
-    const saveButton = screen.getByRole('button', { name: 'Save comment' });
+    const saveButton = screen.getByRole('button', { name: 'Save' });
 
     await act(async () => {
       fireEvent.click(saveButton);
@@ -356,7 +356,7 @@ describe('The Pending Change Request component', () => {
     );
   });
 
-  it('create pending change request comments are mandatory', async () => {
+  it('create pending change request comments are optional', async () => {
     componentTestingHelper.loadQuery(mockEmptyQueryPayload);
     componentTestingHelper.renderComponent();
 
@@ -372,7 +372,7 @@ describe('The Pending Change Request component', () => {
       screen.getByText('Comments on pending changes (optional)')
     ).toBeVisible();
 
-    const cancelButton = screen.getByRole('button', { name: 'Cancel' });
+    const cancelButton = screen.getByRole('button', { name: 'Save' });
 
     await act(async () => {
       fireEvent.click(cancelButton);
@@ -390,7 +390,7 @@ describe('The Pending Change Request component', () => {
     );
   });
 
-  it('pending change request comment edit close button handle modal close only', async () => {
+  it('pending change request close button handle modal close only', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 

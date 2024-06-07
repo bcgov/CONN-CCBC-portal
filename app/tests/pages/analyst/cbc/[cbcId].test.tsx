@@ -176,4 +176,76 @@ describe('Cbc', () => {
     // expect not to find one
     expect(isAllHidden).toBeUndefined();
   });
+
+  it('should send the mutation on save', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const editButton = screen.getByRole('button', {
+      name: 'Quick edit',
+    });
+    act(() => {
+      fireEvent.click(editButton);
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+    act(() => {
+      fireEvent.click(saveButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('updateCbcDataByRowIdMutation', {
+      input: {
+        rowId: 1,
+        cbcDataPatch: {
+          jsonData: {
+            projectNumber: 5555,
+            phase: 2,
+            intake: 1,
+            projectStatus: 'Reporting Complete',
+            projectTitle: 'Project 1',
+            changeRequestPending: 'No',
+            projectDescription: 'Description 1',
+            applicantContractualName: 'Internet company 1',
+            currentOperatingName: 'Internet company 1',
+            eightThirtyMillionFunding: 'No',
+            federalFundingSource: 'ISED-CTI',
+            projectType: 'Transport',
+            transportProjectType: 'Fibre',
+            connectedCoastNetworkDependant: 'NO',
+            projectLocations: 'Location 1',
+            communitiesAndLocalesCount: 5,
+            indigenousCommunities: 5,
+            householdCount: null,
+            transportKm: 124,
+            highwayKm: null,
+            bcFundingRequest: 5555555,
+            federalFunding: 555555,
+            applicantAmount: 555555,
+            otherFunding: 265000,
+            totalProjectBudget: 5555555,
+            nditConditionalApprovalLetterSent: 'YES',
+            bindingAgreementSignedNditRecipient: 'YES',
+            announcedByProvince: 'YES',
+            dateApplicationReceived: null,
+            dateConditionallyApproved: '2019-06-26T00:00:00.000Z',
+            dateAgreementSigned: '2021-02-24T00:00:00.000Z',
+            proposedStartDate: '2020-07-01T00:00:00.000Z',
+            proposedCompletionDate: '2023-03-31T00:00:00.000Z',
+            reportingCompletionDate: null,
+            dateAnnounced: '2019-07-02T00:00:00.000Z',
+            projectMilestoneCompleted: 0.5,
+            constructionCompletedOn: null,
+            milestoneComments: 'Requested extension to March 31, 2024',
+            primaryNewsRelease:
+              'https://www.canada.ca/en/innovation-science-economic-development/news/2019/07/rural-communities-in-british-columbia-will-benefit-from-faster-internet.html',
+            lastReviewed: '2023-07-11T00:00:00.000Z',
+            reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
+          },
+        },
+      },
+    });
+  });
 });
