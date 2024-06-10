@@ -13,6 +13,8 @@ import bytesToSize from 'utils/bytesToText';
 import FileComponent from 'lib/theme/components/FileComponent';
 import useDisposeOnRouteChange from 'lib/helpers/useDisposeOnRouteChange';
 import { DateTime } from 'luxon';
+import { useToast } from 'components/AppProvider';
+import { ToastType } from 'components/Toast';
 
 type File = {
   id: string | number;
@@ -65,6 +67,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const maxFileSizeInBytes = 104857600;
   const fileId = isFiles && value[0].id;
   const { setTemplateData } = formContext;
+  const { showToast, hideToast } = useToast();
 
   useEffect(() => {
     if (rawErrors?.length > 0) {
@@ -73,6 +76,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   }, [rawErrors, setErrors]);
 
   const getValidatedFile = async (file: any, formId: number) => {
+    let isTemplateValid = true;
     if (templateValidate) {
       const fileFormData = new FormData();
       if (file) {
@@ -92,6 +96,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
                   data,
                 });
               });
+            } else {
+              isTemplateValid = false;
             }
           });
         }
@@ -109,6 +115,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     }
 
     return {
+      isTemplateValid,
       input: {
         attachment: {
           file,
@@ -153,6 +160,19 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     });
   };
 
+  const showToastMessage = (files, type: ToastType = 'success') => {
+    const fields =
+      templateNumber === 1
+        ? 'Total Households and Indigenous Households data'
+        : 'Total eligible costs and Total project costs data';
+    const message =
+      type === 'success'
+        ? `Template ${templateNumber} validation successful, new values for ${fields} data in the application will update upon 'Save'`
+        : `Template ${templateNumber} validation failed: ${files.join(', ')} did not validate due to formatting issues. ${fields} in the application will not update.`;
+
+    showToast(message, type, 100000000);
+  };
+
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
     const span = transaction.startChild({
@@ -161,6 +181,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     });
 
     if (loading) return;
+    hideToast();
     const formId =
       parseInt(router?.query?.id as string, 10) ||
       parseInt(router?.query?.applicationId as string, 10);
@@ -177,6 +198,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     const validatedFiles = resp.filter((file) => file.input);
     setErrors(resp.filter((file) => file.error));
 
+    const validationErrors = resp.filter((file) => !file.isTemplateValid);
+
     const uploadResponse = await Promise.all(
       validatedFiles.map(async (payload) => handleUpload(payload))
     );
@@ -190,6 +213,20 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     } else {
       span.setStatus('ok');
     }
+
+    if (templateValidate) {
+      if (validationErrors.length > 0) {
+        showToastMessage(
+          validationErrors.map(
+            (error) => error.fileName || error.input?.attachment?.fileName
+          ),
+          'error'
+        );
+      } else if (validationErrors.length === 0 && uploadErrors.length === 0) {
+        showToastMessage(fileDetails.map((file) => file.name));
+      }
+    }
+
     span.finish();
     transaction.finish();
 
