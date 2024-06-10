@@ -10,6 +10,7 @@ import { MockResolvers } from 'relay-test-utils/lib/RelayMockPayloadGenerator';
 import GlobalTheme from 'styles/GlobalTheme';
 import GlobalStyle from 'styles/GobalStyles';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
+import { AppProvider } from 'components/AppProvider';
 import TestingHelper from './TestingHelper';
 
 interface ComponentTestingHelperOptions<TQuery extends OperationType> {
@@ -85,10 +86,12 @@ class ComponentTestingHelper<
         <GlobalStyle />
         <RouterContext.Provider value={this.router}>
           <RelayEnvironmentProvider environment={this.environment}>
-            <this.TestRenderer
-              getPropsFromTestQuery={getPropsFromTestQuery}
-              extraProps={extraProps}
-            />
+            <AppProvider>
+              <this.TestRenderer
+                getPropsFromTestQuery={getPropsFromTestQuery}
+                extraProps={extraProps}
+              />
+            </AppProvider>
           </RelayEnvironmentProvider>
         </RouterContext.Provider>
       </GlobalTheme>

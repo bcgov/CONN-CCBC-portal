@@ -13,11 +13,17 @@ import styled from 'styled-components';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
 import useRfiCoverageMapKmzUploadedEmail from 'lib/helpers/useRfiCoverageMapKmzUploadedEmail';
+import { useToast } from 'components/AppProvider';
+import Link from 'next/link';
 
 const Flex = styled('header')`
   display: flex;
   justify-content: space-between;
   width: 100%;
+`;
+
+const StyledLink = styled(Link)`
+  color: ${(props) => props.theme.color.white};
 `;
 
 const RfiAnalystUpload = ({ query }) => {
@@ -52,6 +58,7 @@ const RfiAnalystUpload = ({ query }) => {
     rowId: applicationId,
     ccbcNumber,
   } = applicationByRowId;
+  const { showToast, hideToast } = useToast();
 
   const { rfiNumber } = rfiDataByRowId;
 
@@ -94,9 +101,30 @@ const RfiAnalystUpload = ({ query }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templateData]);
 
+  const getToastMessage = () => {
+    return (
+      <>
+        {' '}
+        `Template {templateData?.templateNumber} data changed successfully, new
+        values for{' '}
+        {templateData?.templateNumber === 1
+          ? 'Total Households and Indigenous Households'
+          : 'Total eligible costs and Total project costs'}{' '}
+        data in the application now reflect template uploads. Please see{' '}
+        <StyledLink
+          href={`/analyst/application/${router.query.applicationId}/history`}
+        >
+          history page
+        </StyledLink>{' '}
+        for details.`
+      </>
+    );
+  };
+
   const handleSubmit = () => {
     const updatedExcelFields = excelImportFields.join(', ');
     const reasonForChange = `Auto updated from upload of ${updatedExcelFields} for RFI: ${rfiNumber}`;
+    hideToast();
     updateRfi({
       variables: {
         input: {
@@ -129,6 +157,15 @@ const RfiAnalystUpload = ({ query }) => {
                   }
                 );
               }
+              if (
+                templateData?.templateNumber === 1 ||
+                templateData?.templateNumber === 2
+              ) {
+                showToast(getToastMessage(), 'success', 100000000);
+              }
+              router.push(
+                `/analyst/application/${router.query.applicationId}/rfi`
+              );
             },
           });
         }
