@@ -8,18 +8,21 @@ import React, {
 } from 'react';
 import Toast, { ToastType } from 'components/Toast';
 
-type ToastContextType = {
+type AppContextType = {
   showToast?: (message: ReactNode, type?: ToastType, timeout?: number) => void;
   hideToast?: () => void;
 };
 
-const ToastContext = createContext<ToastContextType>({});
+const AppContext = createContext<AppContextType>({});
 
 export const useToast = () => {
-  return useContext(ToastContext);
+  return useContext(AppContext);
 };
 
 export const AppProvider = ({ children }) => {
+  /**
+   * handling global toast messages
+   */
   const [toast, setToast] = useState<{
     visible: boolean;
     message?: ReactNode;
@@ -48,13 +51,13 @@ export const AppProvider = ({ children }) => {
   );
 
   return (
-    <ToastContext.Provider value={contextValue}>
+    <AppContext.Provider value={contextValue}>
       {children}
       {toast?.visible && (
         <Toast type={toast?.type} onClose={hideToast} timeout={toast.timeout}>
           {toast.message}
         </Toast>
       )}
-    </ToastContext.Provider>
+    </AppContext.Provider>
   );
 };

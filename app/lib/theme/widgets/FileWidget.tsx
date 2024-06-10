@@ -14,6 +14,7 @@ import FileComponent from 'lib/theme/components/FileComponent';
 import useDisposeOnRouteChange from 'lib/helpers/useDisposeOnRouteChange';
 import { DateTime } from 'luxon';
 import { useToast } from 'components/AppProvider';
+import { ToastType } from 'components/Toast';
 
 type File = {
   id: string | number;
@@ -81,23 +82,24 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       if (file) {
         fileFormData.append('file', file);
         if (setTemplateData) {
-          const response = await fetch(
+          await fetch(
             `/api/applicant/template?templateNumber=${templateNumber}`,
             {
               method: 'POST',
               body: fileFormData,
             }
-          );
-          if (response.ok) {
-            response.json().then((data) => {
-              setTemplateData({
-                templateNumber,
-                data,
+          ).then((response) => {
+            if (response.ok) {
+              response.json().then((data) => {
+                setTemplateData({
+                  templateNumber,
+                  data,
+                });
               });
-            });
-          } else {
-            isTemplateValid = false;
-          }
+            } else {
+              isTemplateValid = false;
+            }
+          });
         }
       }
     }
@@ -158,15 +160,17 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     });
   };
 
-  const getToastMessage = (files: any[], isSuccess: boolean = true) => {
+  const showToastMessage = (files, type: ToastType = 'success') => {
     const fields =
       templateNumber === 1
         ? 'Total Households and Indigenous Households data'
         : 'Total eligible costs and Total project costs data';
-    if (isSuccess) {
-      return `Template ${templateNumber} validation successful, new values for ${fields} data in the application will update upon 'Save'`;
-    }
-    return `Template ${templateNumber} validation failed : ${files.join(', ')} did not validate due to formatting issues. ${fields} in the application will not update.`;
+    const message =
+      type === 'success'
+        ? `Template ${templateNumber} validation successful, new values for ${fields} data in the application will update upon 'Save'`
+        : `Template ${templateNumber} validation failed: ${files.join(', ')} did not validate due to formatting issues. ${fields} in the application will not update.`;
+
+    showToast(message, type, 100000000);
   };
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -212,18 +216,14 @@ const FileWidget: React.FC<FileWidgetProps> = ({
 
     if (templateValidate) {
       if (validationErrors.length > 0) {
-        showToast(
-          getToastMessage(
-            validationErrors.map(
-              (error) => error.fileName || error.input?.attachment?.fileName
-            ),
-            false
+        showToastMessage(
+          validationErrors.map(
+            (error) => error.fileName || error.input?.attachment?.fileName
           ),
-          'error',
-          100000000
+          'error'
         );
       } else if (validationErrors.length === 0 && uploadErrors.length === 0) {
-        showToast(getToastMessage(fileDetails), 'success', 100000000);
+        showToastMessage(fileDetails.map((file) => file.name));
       }
     }
 

@@ -163,9 +163,6 @@ const RfiAnalystUpload = ({ query }) => {
               ) {
                 showToast(getToastMessage(), 'success', 100000000);
               }
-              router.push(
-                `/analyst/application/${router.query.applicationId}/rfi`
-              );
             },
           });
         }
