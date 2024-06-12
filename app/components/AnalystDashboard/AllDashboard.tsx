@@ -145,7 +145,7 @@ const normalizeStatusName = (status) => {
 };
 
 const statusFilter = (row, id, filterValue) => {
-  if (filterValue.length !== 0) {
+  if (filterValue.length === 0) {
     return true;
   }
   return filterValue.includes(normalizeStatusName(row.getValue(id)));
