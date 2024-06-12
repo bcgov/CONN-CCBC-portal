@@ -443,9 +443,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         ),
         ...allCbcData.edges
           .map((edge) => edge.node?.jsonData?.projectStatus)
-          .filter((status) => status !== undefined && status !== null)
-          .map((status) => cbcProjectStatusConverter(status))
-          .map((status) => normalizeStatusName(status)),
+          .map((status) =>
+            normalizeStatusName(cbcProjectStatusConverter(status))
+          ),
       ]),
     ];
 
