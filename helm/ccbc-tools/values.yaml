@@ -3,6 +3,8 @@ namespacePrefix: ~
 deployer:
   serviceAccount:
     enabled: true
+  githubToken: '' # The GitHub token must be passed in via the deploy script
+  headerSecret: '' # The header secret must be passed in via the deploy script
 
 linter:
   serviceAccount:
