@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/s2i-base@sha256:798d3d983bde082429eaced15475722585c994612ba062dbce6428877ee3ca32
+FROM registry.access.redhat.com/ubi9/s2i-base@sha256:abebf84d2a613503f38870f2569a256f8230a7b5778afaa402f96d10b363b807
 
 ENV SUMMARY="An image for the CONN-CCBC-portal app" \
   DESCRIPTION="This image contains the compiled CONN-CCBC-portal node app"
