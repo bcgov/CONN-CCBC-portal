@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { theme } from 'styles/GlobalTheme';
 
-type ToastType = 'success' | 'warning' | 'error';
+export type ToastType = 'success' | 'warning' | 'error';
 
 type ToastDirection = 'left' | 'right';
 

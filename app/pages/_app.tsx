@@ -18,6 +18,7 @@ import GlobalStyle from 'styles/GobalStyles';
 import GlobalTheme from 'styles/GlobalTheme';
 import BCGovTypography from 'components/BCGovTypography';
 import { SessionExpiryHandler } from 'components';
+import { AppProvider } from 'components/AppProvider';
 
 config.autoAddCss = false;
 
@@ -94,8 +95,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <BCGovTypography />
           <Sentry.ErrorBoundary fallback={<Error500 />}>
             <RelayEnvironmentProvider environment={env}>
-              {typeof window !== 'undefined' && <SessionExpiryHandler />}
-              {component}
+              <AppProvider>
+                {typeof window !== 'undefined' && <SessionExpiryHandler />}
+                {component}
+              </AppProvider>
             </RelayEnvironmentProvider>
           </Sentry.ErrorBoundary>
         </ThemeProvider>

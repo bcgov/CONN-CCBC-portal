@@ -200,6 +200,8 @@ describe('The RFIAnalystUpload component', () => {
 
     expect(screen.getByText('template_one.xlsx')).toBeInTheDocument();
 
+    expect(screen.getByText(/Template 1 validation successful/)).toBeVisible();
+
     const saveButton = screen.getByRole('button', {
       name: 'Save',
     });
@@ -318,5 +320,160 @@ describe('The RFIAnalystUpload component', () => {
     );
 
     expect(mockNotifyRfiCoverageMapKmzUploaded).toHaveBeenCalledTimes(1);
+    expect(
+      screen.getByText(/Template 1 data changed successfully/)
+    ).toBeVisible();
+  });
+
+  it('should render success toast for template two when upload successful', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        status: 200,
+        json: () =>
+          Promise.resolve({
+            result: {
+              totalEligibleCosts: 92455,
+              totalProjectCosts: 101230,
+            },
+          }),
+      })
+    );
+
+    const dateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dateInput, {
+        target: {
+          value: '2025-07-01',
+        },
+      });
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'template_two.xlsx', {
+      type: 'application/excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAttachmentMutation',
+      {
+        input: {
+          attachment: {
+            file: expect.anything(),
+            fileName: 'template_two.xlsx',
+            fileSize: '1 Bytes',
+            fileType: 'application/excel',
+            applicationId: expect.anything(),
+          },
+        },
+      }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.getByText('template_two.xlsx')).toBeInTheDocument();
+
+    expect(screen.getByText(/Template 2 validation successful/)).toBeVisible();
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateWithTrackingRfiMutation',
+      {
+        input: {
+          jsonData: {
+            rfiType: [],
+            rfiAdditionalFiles: {
+              detailedBudgetRfi: true,
+              eligibilityAndImpactsCalculatorRfi: true,
+              detailedBudget: expect.anything(),
+              geographicCoverageMapRfi: true,
+              geographicCoverageMap: expect.anything(),
+            },
+          },
+          rfiRowId: 1,
+        },
+      }
+    );
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          updateWithTrackingRfi: {
+            rfiData: {
+              rowId: 1,
+              jsonData: {
+                rfiAdditionalFiles: {
+                  detailedBudgetRfi: true,
+                  eligibilityAndImpactsCalculatorRfi: true,
+                  detailedBudget: expect.anything(),
+                  geographicCoverageMapRfi: true,
+                  geographicCoverageMap: expect.anything(),
+                },
+              },
+            },
+          },
+        },
+      });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createNewFormDataMutation',
+      {
+        input: {
+          applicationRowId: 1,
+          jsonData: {
+            benefits: {
+              householdsImpactedIndigenous: 13,
+              numberOfHouseholds: 12,
+            },
+            budgetDetails: {
+              totalEligibleCosts: 92455,
+              totalProjectCost: 101230,
+            },
+          },
+          reasonForChange:
+            'Auto updated from upload of Template 2 for RFI: RFI-01',
+          formSchemaId: 1,
+        },
+      }
+    );
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {},
+      });
+    });
+
+    expect(
+      screen.getByText(/Template 2 data changed successfully/)
+    ).toBeVisible();
   });
 });

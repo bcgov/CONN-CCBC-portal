@@ -52,6 +52,7 @@ const componentTestingHelper = new ComponentTestingHelper<FileWidgetTestQuery>({
     application: data.application,
     pageNumber: getFormPage(uiSchema['ui:order'], 'coverage'),
     query: data.query,
+    formContext: { setTemplateData: jest.fn() },
   }),
 });
 
@@ -535,6 +536,55 @@ describe('The FileWidget', () => {
       { body: formData, method: 'POST' }
     );
   });
+
+  it('displays an error toast when template validation fails', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 11,
+      query: data.query,
+    }));
+
+    const mockFetchPromiseTemplateOne = Promise.resolve({
+      json: () => Promise.resolve(null),
+    });
+
+    global.fetch = jest.fn(() => {
+      return mockFetchPromiseTemplateOne;
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xlsx', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+    const formData = new FormData();
+    formData.append('file', file);
+    expect(global.fetch).toHaveBeenCalledOnce();
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/applicant/template?templateNumber=1',
+      { body: formData, method: 'POST' }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.getByText(/Template 1 validation failed/)).toBeVisible();
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
