@@ -1,23 +1,26 @@
-import { SNSClient, PublishCommand } from "@aws-sdk/client-sns"; 
+import { SNSClient, PublishCommand } from '@aws-sdk/client-sns';
 
-import awsConfig from './awsCommon'
+import { awsSNSConfig } from './awsCommon';
 
-export const snsClient = new SNSClient(awsConfig);
+export const snsClient = new SNSClient(awsSNSConfig);
 
-export const pushMessage = async (topic:string, uuid: string, body: string) => {
+export const pushMessage = async (
+  topic: string,
+  uuid: string,
+  body: string
+) => {
   const params = {
     Message: body,
     Subject: uuid,
-    TopicArn: topic 
+    TopicArn: topic,
   };
 
-  const response = {result:''};
+  const response = { result: '' };
   try {
     await snsClient.send(new PublishCommand(params));
     response.result = 'Success';
-  } catch (e) { 
+  } catch (e) {
     response.result = `Error ${e.stack}`;
   }
   return Promise.resolve(response);
 };
-
