@@ -1,3 +1,15 @@
+# [1.166.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.165.0...v1.166.0) (2024-06-18)
+
+### Bug Fixes
+
+- benefit schema validation issue ([1888584](https://github.com/bcgov/CONN-CCBC-portal/commit/1888584d97196c12903166f63cb87439c5fb2e71))
+- replace aws-http-handler with smithy types ([d8c322a](https://github.com/bcgov/CONN-CCBC-portal/commit/d8c322ad917890c35a749b50bf1c5f4c47ae9afc))
+- trailing dashes on feature env ([3ddf000](https://github.com/bcgov/CONN-CCBC-portal/commit/3ddf00083f554b4d3117e5c44ba14c6e650b655e))
+
+### Features
+
+- add toast after file upload RFI template 1 and 2 ([b6a4e72](https://github.com/bcgov/CONN-CCBC-portal/commit/b6a4e72693e04b8ee01e452d7f22f217afb291c4))
+
 # [1.165.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.164.0...v1.165.0) (2024-06-06)
 
 ### Bug Fixes
