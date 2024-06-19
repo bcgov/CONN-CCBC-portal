@@ -452,7 +452,8 @@ const LoadCbcProjectData = async (
       ) || [];
 
     persistCbcCommunities(
-      findCbcProject.data?.cbcByProjectNumber?.rowId,
+      findCbcProject.data?.cbcByProjectNumber?.rowId ??
+        createCbcResult?.data?.createCbc?.cbc?.rowId,
       existingCbcCommunities,
       cbcProjectCommunitiesByProjectNumber[project.projectNumber] || [],
       req
