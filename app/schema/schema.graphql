@@ -26872,9 +26872,6 @@ input CommunitiesSourceDataFilter {
   """Filter by the object’s `longitude` field."""
   longitude: FloatFilter
 
-  """Filter by the object’s `csduid` field."""
-  csduid: IntFilter
-
   """Filter by the object’s `mapLink` field."""
   mapLink: StringFilter
 
@@ -48742,9 +48739,6 @@ type CommunitiesSourceData implements Node {
   """The longitude value of the geograhic region"""
   longitude: Float
 
-  """The csduid of the geograhic region"""
-  csduid: Int
-
   """map url of the geograhic region for verification"""
   mapLink: String
 
@@ -50093,8 +50087,6 @@ enum CommunitiesSourceDataOrderBy {
   LATITUDE_DESC
   LONGITUDE_ASC
   LONGITUDE_DESC
-  CSDUID_ASC
-  CSDUID_DESC
   MAP_LINK_ASC
   MAP_LINK_DESC
   CREATED_BY_ASC
@@ -50141,9 +50133,6 @@ input CommunitiesSourceDataCondition {
 
   """Checks for equality with the object’s `longitude` field."""
   longitude: Float
-
-  """Checks for equality with the object’s `csduid` field."""
-  csduid: Int
 
   """Checks for equality with the object’s `mapLink` field."""
   mapLink: String
@@ -79858,9 +79847,6 @@ input CommunitiesSourceDataInput {
   """The longitude value of the geograhic region"""
   longitude: Float
 
-  """The csduid of the geograhic region"""
-  csduid: Int
-
   """map url of the geograhic region for verification"""
   mapLink: String
 
@@ -84699,9 +84685,6 @@ input CommunitiesSourceDataPatch {
 
   """The longitude value of the geograhic region"""
   longitude: Float
-
-  """The csduid of the geograhic region"""
-  csduid: Int
 
   """map url of the geograhic region for verification"""
   mapLink: String

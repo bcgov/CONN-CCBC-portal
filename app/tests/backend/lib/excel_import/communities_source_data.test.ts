@@ -17,7 +17,6 @@ const columnList = {
   E: 'Economic Region',
   F: 'Latitude',
   G: 'Longitude',
-  H: 'CSDUID',
   I: 'Map Link (for verifying)',
 };
 
@@ -72,7 +71,6 @@ describe('communities_source_data', () => {
                   economicRegion: 'test economic region 1',
                   latitude: 121.122,
                   longitude: 263.123,
-                  csduid: 123,
                   mapLink: 'link',
                 },
               ],
@@ -89,40 +87,41 @@ describe('communities_source_data', () => {
       request
     );
     expect(data).toEqual({
-      '0': {
-        data: {
-          createCommunitiesSourceData: {
-            clientMutationId: '2',
-            communitiesSourceData: {
-              id: '2',
+      communitiesSourceData: [
+        {
+          data: {
+            createCommunitiesSourceData: {
+              clientMutationId: '2',
+              communitiesSourceData: {
+                id: '2',
+              },
             },
-          },
-          updateCommunitiesSourceData: {
-            clientMutationId: '1',
-            communitiesSourceData: {
-              id: '1',
+            updateCommunitiesSourceData: {
+              clientMutationId: '1',
+              communitiesSourceData: {
+                id: '1',
+              },
             },
-          },
-          findCommunitiesSourceData: {
-            communitiesSourceDataByGeographicNameId: {
-              nodes: [
-                {
-                  id: '1',
-                  geographicNameId: 1,
-                  bcGeographicName: 'Test geographic name 1',
-                  type: 'Community 1',
-                  regionalDistrict: 'Test regional district 1',
-                  economicRegion: 'test economic region 1',
-                  latitude: 121.122,
-                  longitude: 263.123,
-                  csduid: 123,
-                  mapLink: 'link',
-                },
-              ],
+            findCommunitiesSourceData: {
+              communitiesSourceDataByGeographicNameId: {
+                nodes: [
+                  {
+                    id: '1',
+                    geographicNameId: 1,
+                    bcGeographicName: 'Test geographic name 1',
+                    type: 'Community 1',
+                    regionalDistrict: 'Test regional district 1',
+                    economicRegion: 'test economic region 1',
+                    latitude: 121.122,
+                    longitude: 263.123,
+                    mapLink: 'link',
+                  },
+                ],
+              },
             },
           },
         },
-      },
+      ],
       errorLog: [],
     });
   });
@@ -157,7 +156,6 @@ describe('communities_source_data', () => {
         'Column heading "Wrong Name" in column E does not match expected name: "Economic Region"',
         'Column heading "Wrong Name" in column F does not match expected name: "Latitude"',
         'Column heading "Wrong Name" in column G does not match expected name: "Longitude"',
-        'Column heading "Wrong Name" in column H does not match expected name: "CSDUID"',
         'Column heading "Wrong Name" in column I does not match expected name: "Map Link (for verifying)"',
       ],
     });

@@ -110,20 +110,22 @@ const persistCbcCommunities = async (
         !existingCbcCommunities.includes(community.communitiesSourceDataId)
     ) || [];
 
-  newCbcCommunities.forEach(async (community) => {
-    await performQuery(
-      createCbcProjectCommunityMutation,
-      {
-        input: {
-          cbcProjectCommunity: {
-            cbcId,
-            communitiesSourceDataId: community.communitiesSourceDataId,
+  Promise.all(
+    newCbcCommunities.map((community) =>
+      performQuery(
+        createCbcProjectCommunityMutation,
+        {
+          input: {
+            cbcProjectCommunity: {
+              cbcId,
+              communitiesSourceDataId: community.communitiesSourceDataId,
+            },
           },
         },
-      },
-      req
-    );
-  });
+        req
+      )
+    )
+  );
 };
 
 export { persistCbcCommunities, readCbcCommunitiesData };
