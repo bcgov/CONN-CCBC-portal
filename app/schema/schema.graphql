@@ -1165,9 +1165,7 @@ type Query implements Node {
     filter: ChangeRequestDataFilter
   ): ChangeRequestDataConnection
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   allCommunitiesSourceData(
     """Only read the first `n` values of the set."""
     first: Int
@@ -2226,9 +2224,7 @@ type Query implements Node {
     id: ID!
   ): ChangeRequestData
 
-  """
-  Reads a single `CommunitiesSourceData` using its globally unique `ID`.
-  """
+  """Reads a single `CommunitiesSourceData` using its globally unique `ID`."""
   communitiesSourceData(
     """
     The globally unique `ID` to be used in selecting a single `CommunitiesSourceData`.
@@ -6878,9 +6874,7 @@ type CcbcUser implements Node {
     filter: CbcDataChangeReasonFilter
   ): CbcDataChangeReasonsConnection!
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByCreatedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -6914,9 +6908,7 @@ type CcbcUser implements Node {
     filter: CommunitiesSourceDataFilter
   ): CommunitiesSourceDataConnection!
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -6950,9 +6942,7 @@ type CcbcUser implements Node {
     filter: CommunitiesSourceDataFilter
   ): CommunitiesSourceDataConnection!
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -19770,9 +19760,7 @@ type CcbcUser implements Node {
     filter: CbcFilter
   ): CcbcUserCbcsByCbcProjectCommunityCreatedByAndCbcIdManyToManyConnection!
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByCbcProjectCommunityCreatedByAndCommunitiesSourceDataId(
     """Only read the first `n` values of the set."""
     first: Int
@@ -19908,9 +19896,7 @@ type CcbcUser implements Node {
     filter: CbcFilter
   ): CcbcUserCbcsByCbcProjectCommunityUpdatedByAndCbcIdManyToManyConnection!
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByCbcProjectCommunityUpdatedByAndCommunitiesSourceDataId(
     """Only read the first `n` values of the set."""
     first: Int
@@ -20046,9 +20032,7 @@ type CcbcUser implements Node {
     filter: CbcFilter
   ): CcbcUserCbcsByCbcProjectCommunityArchivedByAndCbcIdManyToManyConnection!
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByCbcProjectCommunityArchivedByAndCommunitiesSourceDataId(
     """Only read the first `n` values of the set."""
     first: Int
@@ -47755,9 +47739,7 @@ type Cbc implements Node {
     filter: CcbcUserFilter
   ): CbcCcbcUsersByCbcApplicationPendingChangeRequestCbcIdAndArchivedByManyToManyConnection!
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId(
     """Only read the first `n` values of the set."""
     first: Int
@@ -49419,9 +49401,7 @@ type CbcCbcsByCbcDataCbcIdAndProjectNumberManyToManyEdge {
   ): CbcDataConnection!
 }
 
-"""
-A connection to a list of `CcbcUser` values, with data from `CbcData`.
-"""
+"""A connection to a list of `CcbcUser` values, with data from `CbcData`."""
 type CbcCcbcUsersByCbcDataCbcIdAndCreatedByManyToManyConnection {
   """A list of `CcbcUser` objects."""
   nodes: [CcbcUser]!
@@ -73842,9 +73822,7 @@ type CcbcUserCcbcUsersByCommunitiesSourceDataCreatedByAndUpdatedByManyToManyEdge
   """The `CcbcUser` at the end of the edge."""
   node: CcbcUser
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -73908,9 +73886,7 @@ type CcbcUserCcbcUsersByCommunitiesSourceDataCreatedByAndArchivedByManyToManyEdg
   """The `CcbcUser` at the end of the edge."""
   node: CcbcUser
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -73974,9 +73950,7 @@ type CcbcUserCcbcUsersByCommunitiesSourceDataUpdatedByAndCreatedByManyToManyEdge
   """The `CcbcUser` at the end of the edge."""
   node: CcbcUser
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByCreatedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -74040,9 +74014,7 @@ type CcbcUserCcbcUsersByCommunitiesSourceDataUpdatedByAndArchivedByManyToManyEdg
   """The `CcbcUser` at the end of the edge."""
   node: CcbcUser
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByArchivedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -74106,9 +74078,7 @@ type CcbcUserCcbcUsersByCommunitiesSourceDataArchivedByAndCreatedByManyToManyEdg
   """The `CcbcUser` at the end of the edge."""
   node: CcbcUser
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByCreatedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -74172,9 +74142,7 @@ type CcbcUserCcbcUsersByCommunitiesSourceDataArchivedByAndUpdatedByManyToManyEdg
   """The `CcbcUser` at the end of the edge."""
   node: CcbcUser
 
-  """
-  Reads and enables pagination through a set of `CommunitiesSourceData`.
-  """
+  """Reads and enables pagination through a set of `CommunitiesSourceData`."""
   communitiesSourceDataByUpdatedBy(
     """Only read the first `n` values of the set."""
     first: Int
@@ -77403,9 +77371,7 @@ type Mutation {
     input: DeleteChangeRequestDataByRowIdInput!
   ): DeleteChangeRequestDataPayload
 
-  """
-  Deletes a single `CommunitiesSourceData` using its globally unique id.
-  """
+  """Deletes a single `CommunitiesSourceData` using its globally unique id."""
   deleteCommunitiesSourceData(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
