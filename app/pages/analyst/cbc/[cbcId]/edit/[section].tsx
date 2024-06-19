@@ -36,6 +36,17 @@ const getCbcSectionQuery = graphql`
           }
         }
       }
+      cbcProjectCommunitiesByCbcId {
+        nodes {
+          communitiesSourceDataByCommunitiesSourceDataId {
+            economicRegion
+            geographicNameId
+            geographicType
+            regionalDistrict
+            bcGeographicName
+          }
+        }
+      }
     }
     session {
       sub
@@ -55,10 +66,17 @@ const EditCbcSection = ({
   const [changeReason, setChangeReason] = useState<null | string>(null);
   const [formData, setFormData] = useState<any>(null);
 
-  const { cbcDataByCbcId, rowId } = cbcByRowId;
+  const { cbcDataByCbcId, rowId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
   const { jsonData, rowId: cbcDataRowId } = cbcDataByCbcId.edges[0].node;
+  const cbcCommunitiesData =
+    cbcProjectCommunitiesByCbcId.nodes?.map(
+      (node) => node.communitiesSourceDataByCommunitiesSourceDataId
+    ) || [];
 
-  const dataBySection = createCbcSchemaData(jsonData);
+  const dataBySection = createCbcSchemaData({
+    ...jsonData,
+    cbcCommunitiesData,
+  });
 
   const changeModal = useModal();
 
@@ -68,6 +86,12 @@ const EditCbcSection = ({
   };
 
   const handleSubmit = () => {
+    const {
+      geographicNames,
+      regionalDistricts,
+      economicRegions,
+      ...updatedLocationsAndCounts
+    } = formData.locationsAndCounts;
     updateFormData({
       variables: {
         inputCbcData: {
@@ -76,7 +100,7 @@ const EditCbcSection = ({
             jsonData: {
               ...formData.tombstone,
               ...formData.projectType,
-              ...formData.locationsAndCounts,
+              ...updatedLocationsAndCounts,
               ...formData.funding,
               ...formData.eventsAndDates,
               ...formData.miscellaneous,

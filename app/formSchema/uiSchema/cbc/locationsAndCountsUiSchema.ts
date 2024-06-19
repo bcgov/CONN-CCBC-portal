@@ -11,6 +11,18 @@ const locationsAndCountsUiSchema = {
       maxLength: 1000,
     },
   },
+  geographicNames: {
+    'ui:widget': 'ReadOnlyWidget',
+    'ui:label': 'Geographic Names',
+  },
+  regionalDistricts: {
+    'ui:widget': 'ReadOnlyWidget',
+    'ui:label': 'Regional Districts',
+  },
+  economicRegions: {
+    'ui:widget': 'ReadOnlyWidget',
+    'ui:label': 'Economic Regions',
+  },
   communitiesAndLocalesCount: {
     'ui:widget': 'NumberWidget',
     'ui:label': 'Communities and Locales Count',

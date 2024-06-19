@@ -57,6 +57,19 @@ const mockQueryPayload = {
             },
           ],
         },
+        cbcProjectCommunitiesByCbcId: {
+          nodes: [
+            {
+              communitiesSourceDataByCommunitiesSourceDataId: {
+                economicRegion: 'Economic Region',
+                geographicNameId: 1,
+                geographicType: 'Geographic Type',
+                regionalDistrict: 'Regional District',
+                bcGeographicName: 'BC Geographic Name',
+              },
+            },
+          ],
+        },
       },
     };
   },
