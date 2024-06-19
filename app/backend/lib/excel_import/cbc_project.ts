@@ -5,6 +5,10 @@ import {
   validateDate,
   validateNumber,
 } from './validate_cbc_project';
+import {
+  persistCbcCommunities,
+  readCbcCommunitiesData,
+} from './cbc_project_communities';
 
 const createCbcProjectMutation = `
   mutation cbcProjectMutation($input: CreateCbcProjectInput!) {
@@ -52,6 +56,11 @@ const findCbcQuery = `
           isPending
           updatedAt
           cbcId
+        }
+      }
+      cbcProjectCommunitiesByCbcId {
+        nodes {
+          communitiesSourceDataId
         }
       }
     }
@@ -309,8 +318,18 @@ const ValidateData = async (wb, sheet) => {
   return errors;
 };
 
-const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
+const LoadCbcProjectData = async (
+  wb,
+  sheet,
+  projectCommunitiesDataSheet,
+  sharepointTimestamp,
+  req
+) => {
   const data = await readSummary(wb, sheet);
+  const cbcProjectCommunitiesByProjectNumber = await readCbcCommunitiesData(
+    wb,
+    projectCommunitiesDataSheet
+  );
 
   const errorList = await ValidateData(wb, sheet);
 
@@ -425,6 +444,19 @@ const LoadCbcProjectData = async (wb, sheet, sharepointTimestamp, req) => {
         },
         req
       );
+
+    // persist cbc project communities
+    const existingCbcCommunities =
+      findCbcProject.data?.cbcByProjectNumber?.cbcProjectCommunitiesByCbcId?.nodes?.map(
+        (community) => community.communitiesSourceDataId
+      ) || [];
+
+    persistCbcCommunities(
+      findCbcProject.data?.cbcByProjectNumber?.rowId,
+      existingCbcCommunities,
+      cbcProjectCommunitiesByProjectNumber[project.projectNumber] || [],
+      req
+    );
   });
 
   return {

@@ -7,6 +7,7 @@ import getAuthRole from '../../utils/getAuthRole';
 import LoadCbcProjectData from './excel_import/cbc_project';
 import validateKeycloakToken from './keycloakValidate';
 import { performQuery } from './graphql';
+import LoadCommunitiesSourceData from './excel_import/communities_source_data';
 
 const SP_SITE = config.get('SP_SITE');
 const SP_DOC_LIBRARY = config.get('SP_DOC_LIBRARY');
@@ -143,11 +144,31 @@ const importSharePointData = async (req, res) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const wb = XLSX.read(bufferResponse);
       const sheet = 'CBC Projects';
+      const communitiesDataSheet = 'Communities Source Data';
+      const projectCommunitiesDataSheet = 'CBC & CCBC Project Communities';
       // Throw error if sheet is not found
       if (!wb.SheetNames.includes(sheet)) {
         errorList.push({
           level: 'workbook',
           error: `missing required sheet "${sheet}". Found: ${JSON.stringify(
+            wb.SheetNames
+          )}`,
+        });
+      }
+
+      if (!wb.SheetNames.includes(communitiesDataSheet)) {
+        errorList.push({
+          level: 'workbook',
+          error: `missing required sheet "${communitiesDataSheet}". Found: ${JSON.stringify(
+            wb.SheetNames
+          )}`,
+        });
+      }
+
+      if (!wb.SheetNames.includes(projectCommunitiesDataSheet)) {
+        errorList.push({
+          level: 'workbook',
+          error: `missing required sheet "${projectCommunitiesDataSheet}". Found: ${JSON.stringify(
             wb.SheetNames
           )}`,
         });
@@ -169,9 +190,13 @@ const importSharePointData = async (req, res) => {
         return res.status(400).json(errorlistJson).end();
       }
 
+      // Loading communities source data to the db
+      await LoadCommunitiesSourceData(wb, communitiesDataSheet, req);
+
       const result = await LoadCbcProjectData(
         wb,
         sheet,
+        projectCommunitiesDataSheet,
         sharepointTimestamp,
         req
       );
