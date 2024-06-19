@@ -16,6 +16,11 @@ const createCommunitiesSourceDataMutation = `
       clientMutationId
       communitiesSourceData {
         id
+        geographicNameId
+        bcGeographicName
+        geographicType
+        regionalDistrict
+        economicRegion
       }
     }
   }
@@ -27,6 +32,11 @@ const updateCommunitiesSourceDataMutation = `
       clientMutationId
       communitiesSourceData {
         id
+        geographicNameId
+        bcGeographicName
+        geographicType
+        regionalDistrict
+        economicRegion
       }
     }
   }
@@ -77,7 +87,6 @@ const readCommunitiesSourceDataSummary = async (wb, sheet) => {
       economicRegion: community['E'],
       latitude: community['F'],
       longitude: community['G'],
-      csduid: null,
       mapLink: community['I'],
       errorLog,
     };
@@ -109,7 +118,6 @@ const ValidateData = async (wb, sheet) => {
     'Economic Region': 'E',
     Latitude: 'F',
     Longitude: 'G',
-    CSDUID: 'H',
     'Map Link (for verifying)': 'I',
   };
 
@@ -181,7 +189,7 @@ const LoadCommunitiesSourceData = async (wb, sheet, req) => {
   );
 
   return {
-    ...communitiesSourceDataList,
+    communitiesSourceData: communitiesSourceDataList,
     errorLog: communitiesSourceDataErrorList,
   };
 };

@@ -191,7 +191,11 @@ const importSharePointData = async (req, res) => {
       }
 
       // Loading communities source data to the db
-      await LoadCommunitiesSourceData(wb, communitiesDataSheet, req);
+      const communitiesSourceDataResult = await LoadCommunitiesSourceData(
+        wb,
+        communitiesDataSheet,
+        req
+      );
 
       const result = await LoadCbcProjectData(
         wb,
@@ -234,7 +238,13 @@ const importSharePointData = async (req, res) => {
       }
 
       if (result) {
-        return res.status(200).json(result).end();
+        return res
+          .status(200)
+          .json({
+            result,
+            communitiesSourceDataResult,
+          })
+          .end();
       }
     } else {
       return res.sendStatus(500);

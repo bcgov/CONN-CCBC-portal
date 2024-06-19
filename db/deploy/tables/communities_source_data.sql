@@ -11,7 +11,6 @@ create table ccbc_public.communities_source_data(
   economic_region varchar(1000),
   latitude double precision,
   longitude double precision,
-  csduid integer,
   map_link varchar(1000)
 );
 
@@ -46,7 +45,6 @@ comment on column ccbc_public.communities_source_data.regional_district is 'The 
 comment on column ccbc_public.communities_source_data.economic_region is 'The economic region of the geograhic region';
 comment on column ccbc_public.communities_source_data.latitude is 'The latitude value of the geograhic region';
 comment on column ccbc_public.communities_source_data.longitude is 'The longitude value of the geograhic region';
-comment on column ccbc_public.communities_source_data.csduid is 'The csduid of the geograhic region';
 comment on column ccbc_public.communities_source_data.map_link is 'map url of the geograhic region for verification';
 
 commit;
