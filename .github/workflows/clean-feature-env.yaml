@@ -32,12 +32,13 @@ jobs:
           ./lib/feature_envs/delete_feature_db.sh ccbc ${{ env.FEATURE_NAME }} ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
       - name: Uninstall feature Helm release
         run: |
-          FEATURE_NAME_LOWER=$(echo "${{ env.FEATURE_NAME }}" | tr '[:upper:]' '[:lower:]')
+          FEATURE_NAME_LOWER=$(echo $FEATURE_NAME | tr '[:upper:]' '[:lower:]' | sed 's/-*$//')
+          FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30 | sed 's/-*$//')
           NAMESPACE="${{ secrets.OPENSHIFT_APP_NAMESPACE }}"
           # Check if the release exists
-          if helm list -n "$NAMESPACE" | grep -q "^$FEATURE_NAME_LOWER\s"; then
+          if helm list -n "$NAMESPACE" | grep -q "^$FEATURE_NAME_LOWER_SHORT\s"; then
               # Release exists, uninstall it
-              helm uninstall "$FEATURE_NAME_LOWER" -n "$NAMESPACE"
+              helm uninstall "$FEATURE_NAME_LOWER_SHORT" -n "$NAMESPACE"
           else
-              echo "Helm release $FEATURE_NAME_LOWER not found, nothing to do"
+              echo "Helm release $FEATURE_NAME_LOWER_SHORT not found, nothing to do"
           fi
