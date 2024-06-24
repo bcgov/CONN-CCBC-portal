@@ -1,3 +1,12 @@
+## [1.166.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.0...v1.166.1) (2024-06-24)
+
+### Bug Fixes
+
+- ccbc-prepare-download ([3a07b5d](https://github.com/bcgov/CONN-CCBC-portal/commit/3a07b5df9904add245a1112a5a2ec6af43fe2e25))
+- comma on filename extension on download ([69a5786](https://github.com/bcgov/CONN-CCBC-portal/commit/69a5786902fe33d298fd159eaa446b13b3561016))
+- feature db name to match release name ([2cc62df](https://github.com/bcgov/CONN-CCBC-portal/commit/2cc62dff4c52cb0b1adea17d3074c4da640d8912))
+- use shortened feature name for helm and route ([b8b6dfd](https://github.com/bcgov/CONN-CCBC-portal/commit/b8b6dfdbb1f80aac1c0ade0b685f6bcf78df60f9))
+
 # [1.166.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.165.0...v1.166.0) (2024-06-18)
 
 ### Bug Fixes
