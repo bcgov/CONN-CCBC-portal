@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
+import { HistoryTable_query$key } from '__generated__/HistoryTable_query.graphql';
+import { useMemo } from 'react';
 import HistoryRow from './HistoryRow';
 
 const StyledTable = styled.table`
@@ -28,7 +30,7 @@ interface Props {
 }
 
 const HistoryTable: React.FC<Props> = ({ query }) => {
-  const queryFragment = useFragment(
+  const queryFragment = useFragment<HistoryTable_query$key>(
     graphql`
       fragment HistoryTable_query on Query {
         applicationByRowId(rowId: $rowId) {
@@ -48,6 +50,9 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
               tableName
             }
           }
+          formData {
+            jsonData
+          }
         }
       }
     `,
@@ -55,8 +60,13 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
   );
 
   const {
-    applicationByRowId: { history },
+    applicationByRowId: { history, formData },
   } = queryFragment;
+  const originalProjectTitle =
+    formData?.jsonData?.projectInformation?.projectTitle;
+  const originalOrganizationName =
+    formData?.jsonData?.organizationProfile?.organizationName;
+
   const applicationHistory = [...history.nodes]?.sort((a, b) => {
     // sort by updated at if the record was delete
     const aDeleted = a.op === 'UPDATE';
@@ -72,6 +82,32 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
 
   const filteredHistory = applicationHistory.slice(receivedIndex).reverse();
 
+  const chronologicalFilteredHistory = filteredHistory.toReversed();
+
+  // use a memo here since we only need to find the record once,
+  // unlikely that applicationHistory or originalName will change on re-render
+
+  const recordWithTitleChange = useMemo(() => {
+    return chronologicalFilteredHistory.find(
+      (historyItem) =>
+        historyItem.tableName === 'application_sow_data' &&
+        historyItem.record?.json_data?.projectTitle !== originalProjectTitle &&
+        historyItem.record?.json_data?.projectTitle != null &&
+        historyItem.op !== 'UPDATE'
+    ).recordId;
+  }, [chronologicalFilteredHistory, originalProjectTitle]);
+
+  const recordWithOrgChange = useMemo(() => {
+    return chronologicalFilteredHistory.find(
+      (historyItem) =>
+        historyItem.tableName === 'application_sow_data' &&
+        historyItem.record?.json_data?.organizationName !==
+          originalOrganizationName &&
+        historyItem.record?.json_data?.organizationName != null &&
+        historyItem.op !== 'UPDATE'
+    ).recordId;
+  }, [chronologicalFilteredHistory, originalOrganizationName]);
+
   return (
     <StyledTable cellSpacing="0" cellPadding="0">
       <tbody>
@@ -82,27 +118,28 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
           if (historyItem.op === 'UPDATE') {
             prevItems = [{ record: historyItem.oldRecord }];
           } else {
-            prevItems = a.filter((item) => {
+            prevItems = a.filter((previousItem) => {
               // assessment data must match by item type
-              if (item.tableName === 'assessment_data') {
+              if (previousItem.tableName === 'assessment_data') {
                 return (
-                  item.tableName === historyItem.tableName &&
-                  item.item === historyItem.item
+                  previousItem.tableName === historyItem.tableName &&
+                  previousItem.item === historyItem.item
                 );
               }
               // rfis must match by rfi_number
-              if (item.tableName === 'rfi_data') {
+              if (previousItem.tableName === 'rfi_data') {
                 return (
-                  item.tableName === historyItem.tableName &&
-                  item.record.rfi_number === historyItem.record.rfi_number &&
-                  item.op === 'INSERT'
+                  previousItem.tableName === historyItem.tableName &&
+                  previousItem.record.rfi_number ===
+                    historyItem.record.rfi_number &&
+                  previousItem.op === 'INSERT'
                 );
               }
               // community reports must match by quarter
               if (
-                item.tableName ===
+                previousItem.tableName ===
                   'application_community_progress_report_data' &&
-                item.tableName === historyItem.tableName
+                previousItem.tableName === historyItem.tableName
               ) {
                 const quarter =
                   historyItem.record.json_data.dueDate &&
@@ -111,15 +148,16 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
                   historyItem.record.json_data.dueDate &&
                   getFiscalYear(historyItem.record.json_data.dueDate);
                 const updated =
-                  item.op === 'INSERT' &&
-                  getFiscalQuarter(item.record.json_data.dueDate) === quarter &&
-                  getFiscalYear(item.record.json_data.dueDate) === year;
+                  previousItem.op === 'INSERT' &&
+                  getFiscalQuarter(previousItem.record.json_data.dueDate) ===
+                    quarter &&
+                  getFiscalYear(previousItem.record.json_data.dueDate) === year;
                 return updated;
               }
               // application milestone needs to match by quarter
               if (
-                item.tableName === 'application_milestone_data' &&
-                item.tableName === historyItem.tableName
+                previousItem.tableName === 'application_milestone_data' &&
+                previousItem.tableName === historyItem.tableName
               ) {
                 const quarter =
                   historyItem.record.json_data.dueDate &&
@@ -128,16 +166,17 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
                   historyItem.record.json_data.dueDate &&
                   getFiscalYear(historyItem.record.json_data.dueDate);
                 const updated =
-                  item.op === 'INSERT' &&
-                  getFiscalQuarter(item.record.json_data.dueDate) === quarter &&
-                  getFiscalYear(item.record.json_data.dueDate) === year;
+                  previousItem.op === 'INSERT' &&
+                  getFiscalQuarter(previousItem.record.json_data.dueDate) ===
+                    quarter &&
+                  getFiscalYear(previousItem.record.json_data.dueDate) === year;
                 return updated;
               }
-              return item.tableName === historyItem.tableName;
+              return previousItem.tableName === historyItem.tableName;
             });
           }
-          const prevHistoryItem = prevItems.length > 0 ? prevItems[0] : {};
 
+          const prevHistoryItem = prevItems.length > 0 ? prevItems[0] : {};
           // using index + recordId for key as just recordId was causing strange duplicate record bug for delete history item until page refresh
           return (
             <HistoryRow
@@ -145,6 +184,10 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
               key={index + recordId}
               historyItem={historyItem}
               prevHistoryItem={prevHistoryItem}
+              originalProjectTitle={originalProjectTitle}
+              originalOrganizationName={originalOrganizationName}
+              recordWithOrgChange={recordWithOrgChange}
+              recordWithTitleChange={recordWithTitleChange}
             />
           );
         })}

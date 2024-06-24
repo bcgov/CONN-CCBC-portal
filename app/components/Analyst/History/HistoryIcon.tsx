@@ -46,6 +46,7 @@ const iconMap = {
   conditional_approval_data: faStamp,
   application_gis_data: faMap,
   project_information_data: faChartGantt,
+  application_sow_data: faChartGantt,
   change_request_data: faArrowRightArrowLeft,
   application_community_progress_report_data: faTreeCity,
   application_milestone_data: faSignsPost,
