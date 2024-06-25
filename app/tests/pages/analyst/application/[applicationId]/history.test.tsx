@@ -2856,7 +2856,49 @@ const mockQueryPayload = {
               sessionSub: 'test-session-sub@idir',
               tableName: 'application_gis_assessment_hh',
             },
+            {
+              applicationId: 1,
+              createdAt: '2024-01-12T18:27:42.139106+00:00',
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                projectTitle: 'newProjectTitle',
+                organizationName: 'newOrganizationName',
+              },
+              recordId: 'asdfrewq123456789i0',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_sow_data',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2024-01-13T18:27:42.139106+00:00',
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                projectTitle: 'newProjectTitleAgain',
+                organizationName: 'newOrganizationNameRoundTwo',
+              },
+              recordId: 'asdfrewq123456789i0',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_sow_data',
+            },
           ],
+        },
+        formData: {
+          jsonData: {
+            projectInformation: {
+              projectTitle: 'originalProjectTitle',
+            },
+            organizationProfile: {
+              organizationName: 'originalOrganizationName',
+            },
+          },
         },
       },
     };
@@ -3277,5 +3319,19 @@ describe('The index page', () => {
     expect(claimHistoryFile).toHaveTextContent(
       'UBF-AA-00000-Milestone-Report.xlsx'
     );
+  });
+
+  it('shows the correct history for changing project title from sow upload', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const sowHistory = screen.getAllByTestId('history-content-sow-data')[0];
+
+    expect(sowHistory).toHaveTextContent(
+      'Foo Bar Uploaded the Sow file on Jan 13, 2024, 10:27 a.m'
+    );
+
+    // should show correct number of times
+    expect(screen.getAllByTestId('history-content-sow-data').length).toBe(2);
   });
 });
