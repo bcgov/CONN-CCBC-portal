@@ -212,6 +212,32 @@ describe('Cbc', () => {
     options.forEach((option) => {
       expect(option).toBeEnabled();
     });
+
+    const projectTypeInput = screen.getByLabelText('Project Type');
+    expect(projectTypeInput).toBeEnabled();
+
+    await act(async () => {
+      fireEvent.change(projectTypeInput, { target: { value: 'Telecom' } });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('updateCbcDataByRowIdMutation', {
+      input: expect.any(Object),
+    });
+
+    const projectDescriptionField = screen.getByText('Description 1');
+    await act(async () => {
+      fireEvent.click(projectDescriptionField);
+    });
+    const projectDescriptionInput = screen.getByRole('textbox');
+    await act(async () => {
+      fireEvent.change(projectDescriptionInput, {
+        target: { value: 'testing edit 2' },
+      });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('updateCbcDataByRowIdMutation', {
+      input: expect.any(Object),
+    });
   });
 
   it('header should not be editable by non cbc admin users', async () => {
@@ -234,6 +260,25 @@ describe('Cbc', () => {
     options.forEach((option) => {
       expect(option).toBeDisabled();
     });
+  });
+
+  it('accordions should not be editable when record locked', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockLockedQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const accordionEditButton = screen.getByTestId('tombstone-lock-edit');
+    expect(accordionEditButton).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(accordionEditButton);
+    });
+
+    expect(
+      screen.getByText(
+        'The project is currently locked for editing. Would you still like to continue?'
+      )
+    ).toBeInTheDocument();
   });
 
   it('should have the correct actions when edit enabled', async () => {
@@ -263,6 +308,15 @@ describe('Cbc', () => {
 
     expect(screen.queryByText('Quick-edit')).not.toBeInTheDocument();
     expect(screen.queryByTestId('record-lock')).not.toBeInTheDocument();
+  });
+
+  it('accordions should not be editable when non cbc-admin', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockNonCbcQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const accordionEditButton = screen.queryByText('Quick edit');
+    expect(accordionEditButton).not.toBeInTheDocument();
   });
 
   it('expand and collapse all work as expected', () => {
