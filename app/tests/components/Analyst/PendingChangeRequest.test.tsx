@@ -106,6 +106,18 @@ const componentTestingHelperCbc =
     }),
   });
 
+const componentTestingHelperReadOnly =
+  new ComponentTestingHelper<PendingChangeRequestTestQuery>({
+    component: PendingChangeRequest,
+    testQuery,
+    compiledQuery,
+    defaultQueryResolver: mockQueryPayloadCbc,
+    getPropsFromTestQuery: (data) => ({
+      application: data.cbcByRowId,
+      isCbc: true,
+    }),
+  });
+
 describe('The Pending Change Request component', () => {
   beforeEach(() => {
     componentTestingHelper.reinit();
@@ -446,5 +458,43 @@ describe('The Pending Change Request component', () => {
     ).not.toBeVisible();
 
     expect(performQuery).not.toHaveBeenCalled();
+  });
+
+  it('load checkbox correctly in edit mode', async () => {
+    componentTestingHelperReadOnly.loadQuery();
+    componentTestingHelperReadOnly.renderComponent();
+
+    const checkBox = screen.getByTestId('pending-change-request-checkbox');
+
+    expect(checkBox).toBeChecked();
+    expect(checkBox).toBeDisabled();
+  });
+
+  it('load edit comment modal read only mode when clicked comment icon when not editable', async () => {
+    componentTestingHelperReadOnly.loadQuery();
+    componentTestingHelperReadOnly.renderComponent();
+
+    const commentIcon = screen.getByTestId('pending-change-request-comments');
+
+    await act(async () => {
+      fireEvent.click(commentIcon);
+    });
+
+    expect(
+      screen.getByText('Comments on pending changes (optional)')
+    ).toBeVisible();
+
+    expect(screen.getByText('test comment for CBC')).toBeVisible();
+    const textArea = screen.getByTestId('root_comment');
+
+    expect(textArea).toBeDisabled();
+
+    const saveButton = screen.queryByTestId('pending-request-change-save-btn');
+    expect(saveButton).not.toBeInTheDocument();
+
+    const cancelButton = screen.queryByTestId(
+      'pending-request-change-cancel-btn'
+    );
+    expect(cancelButton).not.toBeInTheDocument();
   });
 });
