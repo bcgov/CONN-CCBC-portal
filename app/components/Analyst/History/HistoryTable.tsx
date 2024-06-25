@@ -82,7 +82,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
 
   const filteredHistory = applicationHistory.slice(receivedIndex).reverse();
 
-  const chronologicalFilteredHistory = filteredHistory.toReversed();
+  const chronologicalFilteredHistory = filteredHistory?.toReversed();
 
   // use a memo here since we only need to find the record once,
   // unlikely that applicationHistory or originalName will change on re-render
@@ -94,7 +94,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
         historyItem.record?.json_data?.projectTitle !== originalProjectTitle &&
         historyItem.record?.json_data?.projectTitle != null &&
         historyItem.op !== 'UPDATE'
-    ).recordId;
+    )?.recordId;
   }, [chronologicalFilteredHistory, originalProjectTitle]);
 
   const recordWithOrgChange = useMemo(() => {
@@ -105,7 +105,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
           originalOrganizationName &&
         historyItem.record?.json_data?.organizationName != null &&
         historyItem.op !== 'UPDATE'
-    ).recordId;
+    )?.recordId;
   }, [chronologicalFilteredHistory, originalOrganizationName]);
 
   return (
