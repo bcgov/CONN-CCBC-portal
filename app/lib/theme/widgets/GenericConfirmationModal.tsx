@@ -12,14 +12,13 @@ const GenericConfirmationModal = ({
   isOpen,
   close,
   onConfirm,
-  onClose = close,
 }) => {
   return (
     <Modal
       id={id}
       data-testid="generic-confirmation-modal"
       open={isOpen}
-      onClose={onClose}
+      onClose={close}
       title={title}
       actions={[
         {
@@ -30,7 +29,7 @@ const GenericConfirmationModal = ({
         {
           id: 'generic-cancel-btn',
           label: cancelLabel,
-          onClick: onClose,
+          onClick: close,
         },
       ]}
     >
