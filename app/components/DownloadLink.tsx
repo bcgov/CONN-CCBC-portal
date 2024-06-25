@@ -13,7 +13,8 @@ const StyledLink = styled.a`
 `;
 
 const handleDownload = async (uuid, fileName, setQuarantinedLink) => {
-  const url = `/api/s3/download/${uuid}/${fileName}`;
+  const cleanFileName = fileName.replace(/,$/, '');
+  const url = `/api/s3/download/${uuid}/${cleanFileName}`;
   await fetch(url)
     .then((response) => response.json())
     .then((response) => {
