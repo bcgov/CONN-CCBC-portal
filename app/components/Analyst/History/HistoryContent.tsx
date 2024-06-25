@@ -671,17 +671,10 @@ const HistoryContent = ({
     if (recordWithTitleChange === historyItem.recordId) {
       formattedApplicationData.projectTitle = originalProjectTitle;
     }
-    console.log('formattedApplicationData', formattedApplicationData);
-    console.log(
-      recordWithOrgChange,
-      recordWithTitleChange,
-      historyItem.recordId,
-      recordWithOrgChange === historyItem.recordId
-    );
 
     return (
       <>
-        <StyledContent data-testid="history-content-sow">
+        <StyledContent data-testid="history-content-sow-data">
           <span>{displayName} Uploaded the </span>
           <b>Sow</b>
           <span> file on {createdAtFormatted}</span>
