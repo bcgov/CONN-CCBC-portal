@@ -10,5 +10,10 @@ if (global.self) {
   });
 }
 
+// eslint-disable-next-line no-extend-native, func-names
+Array.prototype.toReversed = function () {
+  return this.slice().reverse();
+};
+
 Settings.defaultLocale = 'en-CA';
 Settings.defaultZone = 'America/Vancouver';
