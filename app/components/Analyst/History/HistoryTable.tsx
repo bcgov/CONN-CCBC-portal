@@ -82,7 +82,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
 
   const filteredHistory = applicationHistory.slice(receivedIndex).reverse();
 
-  const chronologicalFilteredHistory = filteredHistory?.toReversed();
+  const chronologicalFilteredHistory = filteredHistory.slice().reverse();
 
   // use a memo here since we only need to find the record once,
   // unlikely that applicationHistory or originalName will change on re-render
