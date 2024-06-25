@@ -89,6 +89,7 @@ const componentTestingHelper =
     getPropsFromTestQuery: (data) => ({
       application: data.applicationByRowId,
       isCbc: false,
+      isHeaderEditable: true,
     }),
   });
 
@@ -101,6 +102,7 @@ const componentTestingHelperCbc =
     getPropsFromTestQuery: (data) => ({
       application: data.cbcByRowId,
       isCbc: true,
+      isHeaderEditable: true,
     }),
   });
 

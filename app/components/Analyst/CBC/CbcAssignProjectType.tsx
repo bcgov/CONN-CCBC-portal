@@ -3,6 +3,11 @@ import { graphql, useFragment } from 'react-relay';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
 import styled from 'styled-components';
 
+interface Props {
+  cbc: any;
+  isHeaderEditable: boolean;
+}
+
 const StyledDropdown = styled.select`
   text-overflow: ellipsis;
   color: ${(props) => props.theme.color.links};
@@ -13,19 +18,15 @@ const StyledDropdown = styled.select`
   border-radius: 4px;
 `;
 
-const AssignField = ({
-  fieldName,
-  fieldOptions,
-  fieldType,
-  cbc,
-  isHeaderEditable,
-}) => {
+const CbcAssignProjectType: React.FC<Props> = ({ cbc, isHeaderEditable }) => {
   const queryFragment = useFragment(
     graphql`
-      fragment AssignField_query on Cbc {
+      fragment CbcAssignProjectType_query on Cbc {
         cbcDataByCbcId(first: 500) @connection(key: "CbcData__cbcDataByCbcId") {
+          __id
           edges {
             node {
+              id
               jsonData
               sharepointTimestamp
               rowId
@@ -39,51 +40,52 @@ const AssignField = ({
     `,
     cbc
   );
-  const { jsonData } = queryFragment.cbcDataByCbcId.edges[0].node;
+  const { rowId, jsonData } =
+    queryFragment?.cbcDataByCbcId?.edges[0].node || {};
+  const [projectType, setProjectType] = useState(jsonData?.projectType);
+  const [updateStatus] = useUpdateCbcDataByRowIdMutation();
 
-  const [updateField] = useUpdateCbcDataByRowIdMutation();
-  const [fieldValue, setFieldValue] = useState(
-    fieldType === 'string'
-      ? jsonData[fieldName].toString() || null
-      : jsonData[fieldName] || null
-  );
-
-  const handleChange = (e) => {
-    const { rowId } = queryFragment.cbcDataByCbcId.edges[0].node;
-    updateField({
+  const handleAssignProjectType = (e: any) => {
+    const newProjectType = e.target.value || null;
+    const cbcDataId = rowId;
+    updateStatus({
       variables: {
         input: {
-          rowId,
+          rowId: cbcDataId,
           cbcDataPatch: {
             jsonData: {
               ...jsonData,
-              [fieldName]:
-                fieldType === 'number'
-                  ? parseInt(e.target.value, 10)
-                  : e.target.value,
+              projectType: newProjectType,
             },
           },
         },
       },
       onCompleted: () => {
-        setFieldValue(e.target.value);
+        setProjectType(newProjectType);
       },
-      debounceKey: 'cbc_assign_field',
+      debounceKey: 'cbc_change_status',
     });
   };
-
+  const options = [
+    'Transport',
+    'Plan',
+    'Last-Mile',
+    'Last-Mile & Transport',
+    'Last-Mile & Cellular',
+    'Cellular',
+  ];
   return (
     <StyledDropdown
-      id={`assign-${fieldName}`}
-      onChange={(e) => handleChange(e)}
-      data-testid={`assign-${fieldName}`}
+      id="assign-project-type"
+      onChange={handleAssignProjectType}
+      data-testid="assign-cbc-project_type"
     >
-      {fieldOptions.map((option) => {
+      {options.map((option) => {
         return (
           <option
             key={option}
             value={option}
-            selected={fieldValue === option}
+            selected={projectType === option}
             disabled={!isHeaderEditable}
           >
             {option}
@@ -94,4 +96,4 @@ const AssignField = ({
   );
 };
 
-export default AssignField;
+export default CbcAssignProjectType;

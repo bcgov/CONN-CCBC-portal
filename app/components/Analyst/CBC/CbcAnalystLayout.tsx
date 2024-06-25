@@ -28,7 +28,7 @@ interface Props {
 const CbcAnalystLayout: React.FC<Props> = ({
   children,
   query,
-  isFormEditMode = false,
+  isFormEditMode = true,
 }) => {
   const queryFragment = useFragment(
     graphql`
