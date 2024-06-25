@@ -23,7 +23,14 @@ const StyledCell = styled.td`
   }
 `;
 
-const HistoryRow = ({ historyItem, prevHistoryItem }) => {
+const HistoryRow = ({
+  historyItem,
+  prevHistoryItem,
+  originalOrganizationName,
+  originalProjectTitle,
+  recordWithOrgChange,
+  recordWithTitleChange,
+}) => {
   const { tableName } = historyItem;
 
   return (
@@ -36,6 +43,10 @@ const HistoryRow = ({ historyItem, prevHistoryItem }) => {
           <HistoryContent
             historyItem={historyItem}
             prevHistoryItem={prevHistoryItem}
+            originalOrganizationName={originalOrganizationName}
+            originalProjectTitle={originalProjectTitle}
+            recordWithOrgChange={recordWithOrgChange}
+            recordWithTitleChange={recordWithTitleChange}
           />
         </StyledCell>
       </tr>
