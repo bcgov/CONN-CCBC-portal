@@ -31,7 +31,8 @@ s3download.get('/api/s3/download/:uuid/:fileName', async (req, res) => {
   }
   if (
     authRole?.pgRole === 'ccbc_admin' ||
-    authRole?.pgRole === 'ccbc_analyst'
+    authRole?.pgRole === 'ccbc_analyst' ||
+    authRole?.pgRole === 'cbc_admin'
   ) {
     // first check AV tag
     // only for admin and analyst
