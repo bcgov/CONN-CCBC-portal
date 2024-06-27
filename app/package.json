@@ -93,7 +93,7 @@
     "path-to-regexp": "^6.2.1",
     "pg": "^8.11.5",
     "pluralize": "^7.0.0",
-    "postgraphile": "^4.12.9",
+    "postgraphile": "^4.13.0",
     "postgraphile-plugin-connection-filter": "^2.3.0",
     "postinstall-postinstall": "^2.1.0",
     "react": "^18.2.0",
