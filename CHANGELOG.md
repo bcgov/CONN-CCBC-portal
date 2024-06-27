@@ -1,3 +1,9 @@
+## [1.166.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.1...v1.166.2) (2024-06-26)
+
+### Bug Fixes
+
+- add cbc_admin role to allowed download of attachments ([7502ba7](https://github.com/bcgov/CONN-CCBC-portal/commit/7502ba7df12face7652dfca5d588fce3e95fb0e6))
+
 ## [1.166.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.0...v1.166.1) (2024-06-24)
 
 ### Bug Fixes
