@@ -14,23 +14,23 @@ jest.mock('../../../utils/getAuthRole');
 
 jest.mock('../../../backend/lib/s3client', () => {
   return {
-    s3ClientV3: jest.fn().mockImplementation(() =>{}), 
-    getFileFromS3: (uuid, filename )=> {
+    s3ClientV3: jest.fn().mockImplementation(() => {}),
+    getFileFromS3: (uuid, filename) => {
       if (filename === 'error') {
         return Promise.reject(new Error('oops'));
-      }  
-      return new Promise((resolve)=>{ 
-        resolve({uuid});
+      }
+      return new Promise((resolve) => {
+        resolve({ uuid });
       });
     },
-    getFileTagging: () => { 
+    getFileTagging: () => {
       return new Promise((resolve) => {
         resolve({
           TagSet: [{ Key: 'av-status', Value: 'clean' }],
         });
       });
     },
-  }
+  };
 });
 
 jest.setTimeout(10000000);
@@ -62,24 +62,35 @@ describe('The s3 download', () => {
         pgRole: 'ccbc_auth_user',
         landingRoute: '/',
       };
-    }); 
+    });
 
     const response = await request(app).get('/api/s3/download/test/test');
     expect(response.status).toBe(200);
   });
-  
+
+  it('should receive the correct response for cbc_admin user', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'cbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    const response = await request(app).get('/api/s3/download/test/test');
+    expect(response.status).toBe(200);
+  });
+
   it('should receive the correct response for auth user and error', async () => {
     mocked(getAuthRole).mockImplementation(() => {
       return {
         pgRole: 'ccbc_auth_user',
         landingRoute: '/',
       };
-    }); 
+    });
 
     const response = await request(app).get('/api/s3/download/test/error');
     expect(response.status).toBe(500);
   });
-
 
   jest.resetAllMocks();
 });

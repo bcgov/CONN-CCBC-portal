@@ -62,8 +62,10 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
       - name: Setup database
         run: |
+          FEATURE_NAME_LOWER=$(echo $FEATURE_NAME | tr '[:upper:]' '[:lower:]' | sed 's/-*$//')
+          FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30 | sed 's/-*$//')
           chmod +x ./lib/feature_envs/create_feature_db.sh
-          ./lib/feature_envs/create_feature_db.sh ccbc ${{ env.FEATURE_NAME }} ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+          ./lib/feature_envs/create_feature_db.sh ccbc "$FEATURE_NAME_LOWER_SHORT"  ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
   deploy-feature-to-openshift-development:
     needs: [setup-feature-database]
     runs-on: ubuntu-latest
@@ -126,8 +128,8 @@ jobs:
       - name: Update JIRA Issue
         # JIRA_AUTH must be passed pre encoded
         run: |
-          FEATURE_NAME_LOWER=$(echo $FEATURE_NAME | tr '[:upper:]' '[:lower:]')
-          FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
+          FEATURE_NAME_LOWER=$(echo $FEATURE_NAME | tr '[:upper:]' '[:lower:]' | sed 's/-*$//')
+          FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30 | sed 's/-*$//')
           curl -X POST \
             -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
             -H "Content-Type: application/json" \

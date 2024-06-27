@@ -20,7 +20,7 @@ spec:
           containers:
             - env: {{ include "ccbc.ccbcAppUserPgEnv" . | nindent 16 }}
               name: {{ template "ccbc.fullname" . }}-receive-applications
-              image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
+              image: docker.io/alpine/curl
               imagePullPolicy: {{ .Values.image.db.pullPolicy }}
               resources:
                 limits:
@@ -31,7 +31,7 @@ spec:
                   memory: 64Mi
               command:
                 - /usr/bin/env
-                - bash
+                - sh
                 - -c
                 - |
                   curl --location --request GET '{{ .Values.secureRoute.host }}/api/analyst/admin-archive/-1' --header 'x-api-key: {{ .Values.objectStorage.awsS3SecretKey }}'

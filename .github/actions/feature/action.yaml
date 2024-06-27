@@ -119,8 +119,8 @@ runs:
     # full name override should match db name as it is used in some secret creations
     # as well as deployments
     - run: |
-        FEATURE_NAME_LOWER=$(echo "${{ inputs.feature_name }}" | tr '[:upper:]' '[:lower:]')
-        FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30)
+        FEATURE_NAME_LOWER=$(echo "${{ inputs.feature_name }}" | tr '[:upper:]' '[:lower:]' | sed 's/-*$//')
+        FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30 | sed 's/-*$//')
         chmod +x ./lib/app_deploy_feature.sh
         ./lib/app_deploy_feature.sh -n ${{ inputs.openshift_app_namespace }} \
           --set fullnameOverride="$FEATURE_NAME_LOWER_SHORT" \
@@ -151,7 +151,7 @@ runs:
           --set sharepoint.spDocLibrary="${{ inputs.sp_doc_library }}" \
           --set sharepoint.spMsFileName="${{ inputs.sp_ms_file_name }}" \
           --set sharepoint.spListName="${{ inputs.sp_list_name }}" \
-          --set secureRoute.host="$FEATURE_NAME_LOWER"-ccbc.apps.silver.devops.gov.bc.ca \
-          "$FEATURE_NAME_LOWER"
+          --set secureRoute.host="$FEATURE_NAME_LOWER_SHORT"-ccbc.apps.silver.devops.gov.bc.ca \
+          "$FEATURE_NAME_LOWER_SHORT"
 
       shell: bash

@@ -1,10 +1,11 @@
 import http from 'https';
-import { NodeHttpHandler } from '@aws-sdk/node-http-handler';
+import { NodeHttpHandler } from '@smithy/node-http-handler';
 import {
   fromTemporaryCredentials,
   fromEnv,
 } from '@aws-sdk/credential-providers';
 import { S3ClientConfig } from '@aws-sdk/client-s3';
+import { SNSClientConfig } from '@aws-sdk/client-sns';
 import config from '../../config';
 import CustomHttpsAgent from './CustomHttpsAgent';
 
@@ -24,7 +25,7 @@ const nodeHandler = new NodeHttpHandler({
   connectionTimeout: 30000,
 });
 
-const awsConfig: S3ClientConfig = {
+const awsConfig: any = {
   region: AWS_S3_REGION,
   logger: ENABLE_AWS_LOGS && console,
   requestHandler: nodeHandler,
@@ -40,4 +41,10 @@ const awsConfig: S3ClientConfig = {
   }),
 };
 
-export default awsConfig;
+export const awsS3Config: S3ClientConfig = {
+  ...awsConfig,
+};
+
+export const awsSNSConfig: SNSClientConfig = {
+  ...awsConfig,
+};
