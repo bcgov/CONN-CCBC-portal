@@ -81,6 +81,10 @@ const reviewUiSchema = {
       ...projectDataReviewsUiSchema.lastReviewed,
       'ui:widget': 'DateWidget',
     },
+    locked: {
+      ...projectDataReviewsUiSchema.locked,
+      'ui:widget': 'RadioWidget',
+    },
     'ui:options': { allowAnalystEdit: true },
   },
 };
