@@ -16,6 +16,7 @@ const mockQueryPayload = {
         intakeByIntakeId: {
           ccbcIntakeNumber: 1,
           closeTimestamp: '2022-09-06T23:59:59-07:00',
+          rollingIntake: false,
         },
         projectName: 'Project testing title',
         updatedAt: '2022-08-15T16:43:28.973734-04:00',
@@ -55,6 +56,10 @@ const pageTestingHelper = new PageTestingHelper<successQuery>({
   defaultQueryVariables: {
     rowId: 1,
   },
+});
+
+afterEach(() => {
+  pageTestingHelper.reinit();
 });
 
 it('displays the correct nav links when user is logged in', () => {
