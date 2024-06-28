@@ -25,6 +25,7 @@ const getApplicationIntakesQuery = graphql`
           description
           closeTimestamp
           openTimestamp
+          rollingIntake
           rowId
 
           ...Intake_query
