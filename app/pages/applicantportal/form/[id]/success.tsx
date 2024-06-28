@@ -60,8 +60,11 @@ const Success = ({
   };
 
   const projectName = applicationByRowId?.projectName;
-  const { ccbcIntakeNumber, closeTimestamp, rollingIntake } =
-    applicationByRowId?.intakeByIntakeId || {};
+  const {
+    ccbcIntakeNumber,
+    closeTimestamp,
+    rollingIntake = false,
+  } = applicationByRowId?.intakeByIntakeId || {};
 
   const dateUpdatedAt =
     typeof applicationByRowId.updatedAt === 'string'
@@ -85,7 +88,7 @@ const Success = ({
             {` ${getDateString(dateUpdatedAt)}`} at{' '}
             {` ${getTimeString(dateUpdatedAt)}`}.
           </div>
-          {rollingIntake !== true && (
+          {!rollingIntake && (
             <div>
               You can edit this application until the intake closes on{' '}
               {getDateString(dateCloseTimestamp)}

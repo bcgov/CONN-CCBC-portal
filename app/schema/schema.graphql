@@ -63952,9 +63952,7 @@ type CcbcUserApplicationsByApplicationClaimsDataArchivedByAndApplicationIdManyTo
   """The `Application` at the end of the edge."""
   node: Application
 
-  """
-  Reads and enables pagination through a set of `ApplicationClaimsData`.
-  """
+  """Reads and enables pagination through a set of `ApplicationClaimsData`."""
   applicationClaimsDataByApplicationId(
     """Only read the first `n` values of the set."""
     first: Int
