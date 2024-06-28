@@ -8,6 +8,7 @@ import assessmentAssigneeChange from './templates/assessmentAssigneeChange';
 import householdCountUpdate from './templates/householdCountUpdate';
 import rfiCoverageMapKmzUploaded from './templates/rfiCoverageMapKmzUploaded';
 import notifyConditionallyApproved from './templates/notifyConditionallyApproved';
+import notifyApplicationSubmission from './templates/notifyApplicationSubmission';
 
 const email = Router();
 
@@ -67,6 +68,13 @@ email.post('/api/email/notifyConditionalApproval', limiter, (req, res) => {
   return handleEmailNotification(req, res, notifyConditionallyApproved, {
     ...params,
     ccbcNumber,
+  });
+});
+
+email.post('/api/email/notifyApplicationSubmission', limiter, (req, res) => {
+  const { params } = req.body;
+  return handleEmailNotification(req, res, notifyApplicationSubmission, {
+    ...params,
   });
 });
 

@@ -34,6 +34,7 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
     };
   }
   let { intake } = req.params;
+  const { isRollingIntake } = req.query;
   if (intake === '-1') {
     intake = await getLastIntakeId(req);
   } else {
@@ -48,13 +49,12 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
     Key: `${s3Key}.zip`,
   };
   const alreadyExists = await checkFileExists(s3params);
-  if (alreadyExists) {
+  if (alreadyExists && !isRollingIntake) {
     await getFileFromS3(s3params.Key, s3params.Key, res);
     return res.status(200).end();
   }
   // turn ccbc intake number into intake id
   // as some intakes had id which did not match their intake number
-
   const attachments = await getAttachmentList(
     parseInt(intake as string, 10),
     req
