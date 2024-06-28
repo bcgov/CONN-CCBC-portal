@@ -55,6 +55,7 @@ const mockQueryPayload = {
     return {
       openIntake: {
         closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
+        rollingIntake: false,
       },
     };
   },
@@ -101,6 +102,52 @@ const submissionPayload = {
     return {
       openIntake: {
         closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
+      },
+    };
+  },
+};
+
+const mockQueryPayloadRollingIntake = {
+  Application() {
+    return {
+      formData: {
+        id: 'TestFormId',
+        rowId: 123,
+        jsonData: {
+          submission: {
+            submissionCompletedFor: 'Bob Loblaw',
+            submissionDate: '2022-08-10',
+            submissionCompletedBy: 'Bob Loblaw',
+            submissionTitle: 'some title',
+          },
+          projectArea: {
+            geographicArea: [1],
+          },
+          review: {
+            acknowledgeIncomplete: true,
+          },
+          acknowledgements: {
+            acknowledgementsList: acknowledgementsEnum,
+          },
+        },
+        formByFormSchemaId: {
+          jsonSchema: schema,
+        },
+        isEditable: true,
+        updatedAt: '2022-09-12T14:04:10.790848-07:00',
+      },
+      intakeByIntakeId: {
+        ccbcIntakeNumber: 1,
+        closeTimestamp: null,
+      },
+      status: 'draft',
+    };
+  },
+  Query() {
+    return {
+      openIntake: {
+        closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
+        rollingIntake: true,
       },
     };
   },
@@ -214,6 +261,21 @@ describe('The submission form page', () => {
     expect(
       screen.getByText(
         'Certify that you have the authority to submit this information on behalf of the Applicant. After submission, you can continue to edit this application until the intake closes.'
+      )
+    ).toBeInTheDocument();
+  });
+
+  it('Submission page displays correct message for application submission when rolling intake', async () => {
+    componentTestingHelper.loadQuery(mockQueryPayloadRollingIntake);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+      query: data.query,
+    }));
+
+    expect(
+      screen.getByText(
+        /After submission, you will no longer be able to edit this application/
       )
     ).toBeInTheDocument();
   });
@@ -559,5 +621,60 @@ describe('The submission form page', () => {
     expect(
       screen.getByRole('button', { name: 'Return to dashboard' })
     ).toBeInTheDocument();
+  });
+
+  it('asks for confirmation when submitting in a rolling intake and sends notifications after submission', async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({}),
+      })
+    ) as jest.Mock;
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
+    componentTestingHelper.loadQuery(mockQueryPayloadRollingIntake);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 21,
+      query: data.query,
+    }));
+
+    const submitButton = screen.getByRole('button', { name: 'Submit' });
+
+    expect(submitButton).toBeInTheDocument();
+    expect(submitButton).toBeEnabled();
+
+    await userEvent.click(submitButton);
+
+    const confirmButton = screen.getByRole('button', {
+      name: 'Confirm Submission',
+    });
+    expect(confirmButton).toBeInTheDocument();
+
+    await userEvent.click(confirmButton);
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'submitApplicationMutation',
+      {
+        input: {
+          applicationRowId: 42,
+          _formSchemaId: 42,
+        },
+      }
+    );
+
+    componentTestingHelper.environment.mock.resolveMostRecentOperation({
+      data: {
+        applicationsAddCcbcId: {
+          application: {
+            ccbcNumber: 'CCBC-010042',
+            status: 'submitted',
+          },
+        },
+      },
+    });
+
+    expect(fetch).toHaveBeenCalledWith(
+      '/api/email/notifyApplicationSubmission',
+      expect.objectContaining({ method: 'POST' })
+    );
   });
 });

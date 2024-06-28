@@ -134,5 +134,40 @@ describe('The attachments archive', () => {
     );
   });
 
+  it('should always re-prepare the archive when it is a rolling intake', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          allApplications: {
+            nodes: [
+              {
+                formData: {
+                  jsonData: {},
+                },
+                ccbcNumber: 'CCBC-100001',
+              },
+            ],
+          },
+        },
+      };
+    });
+    mockObjectExists = false;
+    const response = await request(app).get(
+      '/api/analyst/admin-archive/1?isRollingIntake=true'
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toBe(
+      'application/json; charset=utf-8'
+    );
+  });
+
   jest.resetAllMocks();
 });

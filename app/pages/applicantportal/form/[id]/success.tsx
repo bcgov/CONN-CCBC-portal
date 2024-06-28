@@ -29,6 +29,7 @@ const getSuccessQuery = graphql`
       intakeByIntakeId {
         ccbcIntakeNumber
         closeTimestamp
+        rollingIntake
       }
     }
 
@@ -59,7 +60,7 @@ const Success = ({
   };
 
   const projectName = applicationByRowId?.projectName;
-  const { ccbcIntakeNumber, closeTimestamp } =
+  const { ccbcIntakeNumber, closeTimestamp, rollingIntake } =
     applicationByRowId?.intakeByIntakeId || {};
 
   const dateUpdatedAt =
@@ -84,10 +85,12 @@ const Success = ({
             {` ${getDateString(dateUpdatedAt)}`} at{' '}
             {` ${getTimeString(dateUpdatedAt)}`}.
           </div>
-          <div>
-            You can edit this application until the intake closes on{' '}
-            {getDateString(dateCloseTimestamp)}
-          </div>
+          {rollingIntake !== true && (
+            <div>
+              You can edit this application until the intake closes on{' '}
+              {getDateString(dateCloseTimestamp)}
+            </div>
+          )}
         </StyledSection>
         <Link href="/applicantportal/dashboard" passHref>
           <Button>Return to dashboard</Button>

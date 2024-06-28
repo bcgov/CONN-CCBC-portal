@@ -132,6 +132,7 @@ const mockQueryPayload = {
       openIntake: {
         openTimestamp: '2022-08-19T09:00:00-07:00',
         closeTimestamp: '2027-08-19T09:00:00-07:00',
+        rollingIntake: false,
       },
       openHiddenIntake: {
         id: '',
@@ -150,6 +151,7 @@ const mockNoApplicationsPayload = {
       openIntake: {
         openTimestamp: '2022-08-19T09:00:00-07:00',
         closeTimestamp: '2027-08-19T09:00:00-07:00',
+        rollingIntake: false,
       },
       openHiddenIntake: {
         id: '',
@@ -181,6 +183,50 @@ const mockClosedIntakeOpenHiddenIntakePayload = {
       openIntake: null,
       openHiddenIntake: {
         id: 'asdf',
+      },
+    };
+  },
+};
+
+const mockQueryPayloadRollingIntake = {
+  Query() {
+    return {
+      allApplications: {
+        edges: [
+          {
+            node: {
+              id: 'WyJhcHBsaWNhdGlvbnMiLDJd',
+              rowId: 2,
+              owner: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+              status: 'withdrawn',
+              projectName: null,
+              ccbcNumber: 'CCBC-010001',
+              formData: {
+                lastEditedPage: '',
+                isEditable: false,
+                formByFormSchemaId: {
+                  jsonSchema: schema,
+                },
+              },
+              intakeByIntakeId: {
+                ccbcIntakeNumber: 1,
+                closeTimestamp: '2022-09-09T13:49:23.513427-07:00',
+                openTimestamp: '2022-07-25T00:00:00-07:00',
+              },
+            },
+          },
+        ],
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+      openIntake: {
+        openTimestamp: '2022-08-19T09:00:00-07:00',
+        closeTimestamp: '2027-08-19T09:00:00-07:00',
+        rollingIntake: true,
+      },
+      openHiddenIntake: {
+        id: '',
       },
     };
   },
@@ -333,6 +379,33 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByText('Delete')).toBeInTheDocument();
+  });
+
+  it('should show correct message for intake submission', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText(
+        /You can edit draft and submitted applications until this date/
+      )
+    ).toBeInTheDocument();
+  });
+
+  it('should show correct message for intake submission when rolling intake', async () => {
+    pageTestingHelper.loadQuery(mockQueryPayloadRollingIntake);
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.queryByText(
+        /You can edit draft and submitted applications until this date/
+      )
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /The review of applications will begin immediately after submission. You will no longer be able to edit your application after submission/
+      )
+    ).toBeInTheDocument();
   });
 
   afterEach(() => {

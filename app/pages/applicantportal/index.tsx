@@ -61,6 +61,7 @@ const getApplicantportalQuery = graphql`
     openIntake {
       openTimestamp
       closeTimestamp
+      rollingIntake
     }
     nextIntake {
       openTimestamp
@@ -75,6 +76,7 @@ const Home = ({
     getApplicantportalQuery,
     preloadedQuery
   );
+  const isRollingIntake = openIntake?.rollingIntake || false;
 
   const openIntakeBanner = useFeature('open_intake_alert').value || {};
   const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
@@ -103,8 +105,13 @@ const Home = ({
       <BoldText>
         {`Applications will be accepted until ${formattedClosingDate}.`}
         <br />
-        Review of applications will not begin until this date. <br />
-        Draft and submitted applications will be editable until then.
+        {isRollingIntake
+          ? `The review of applications will begin after submission.`
+          : `Review of applications will not begin until this date.`}{' '}
+        <br />
+        {isRollingIntake
+          ? `Drafts will be editable until then.`
+          : `Draft and submitted applications will be editable until then.`}
       </BoldText>
     );
   }, [openIntake]);
