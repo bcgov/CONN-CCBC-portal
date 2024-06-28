@@ -75377,7 +75377,7 @@ type CreateAssessmentDataPayload {
   """
   query: Query
 
-  """Reads a single `Application` that is related to this `AssessmentData`."""
+"""Reads a single `Application` that is related to this `AssessmentData`."""
   applicationByApplicationId: Application
 
   """
@@ -79659,7 +79659,7 @@ type UpdateAssessmentDataPayload {
   """
   query: Query
 
-  """Reads a single `Application` that is related to this `AssessmentData`."""
+"""Reads a single `Application` that is related to this `AssessmentData`."""
   applicationByApplicationId: Application
 
   """
@@ -83183,7 +83183,7 @@ type DeleteAssessmentDataPayload {
   """
   query: Query
 
-  """Reads a single `Application` that is related to this `AssessmentData`."""
+"""Reads a single `Application` that is related to this `AssessmentData`."""
   applicationByApplicationId: Application
 
   """
@@ -85497,7 +85497,7 @@ type CreateAssessmentFormPayload {
   """
   query: Query
 
-  """Reads a single `Application` that is related to this `AssessmentData`."""
+"""Reads a single `Application` that is related to this `AssessmentData`."""
   applicationByApplicationId: Application
 
   """
@@ -85843,6 +85843,7 @@ input CreateIntakeInput {
   startTime: Datetime!
   endTime: Datetime!
   intakeDescription: String
+  rollingIntake: Boolean
 }
 
 """The output of our `createNewFormData` mutation."""
