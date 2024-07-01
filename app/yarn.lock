@@ -5284,10 +5284,10 @@
     "@types/parse5" "*"
     "@types/tough-cookie" "*"
 
-"@types/json-diff@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@types/json-diff/-/json-diff-1.0.0.tgz#c6812deaaed499e2f5a24caf45aad13c6c2a1ade"
-  integrity sha512-dCXC1F73Sqriz2d8Wt/sP/DztE+rlfIRPxW9WSYheHp/l3gvkeSvM6l4vhm7t4Dgn8AJAxNKajx/eobbPdP6Wg==
+"@types/json-diff@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/json-diff/-/json-diff-1.0.3.tgz#2d387d5a69560bc9b6cde52a5b9026fe54ea39d6"
+  integrity sha512-Qvxm8fpRMv/1zZR3sQWImeRK2mBYJji20xF51Fq9Gt//Ed18u0x6/FNLogLS1xhfUWTEmDyqveJqn95ltB6Kvw==
 
 "@types/json-schema@*":
   version "7.0.12"
