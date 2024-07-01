@@ -1087,17 +1087,18 @@
   dependencies:
     tslib "^2.3.1"
 
-"@aws-sdk/lib-storage@^3.226.0":
-  version "3.229.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/lib-storage/-/lib-storage-3.229.0.tgz#8a0073b20b56e9e68c002a745df5362f2ef9dea7"
-  integrity sha512-ym5uLcT3yvME33ad2ekdFcSVKXj+qL9hD1VHrW2Bgf09cOO9PjbAx8vtFf/Ohh8aEcBjA1xtgEoCZELTLj99bw==
+"@aws-sdk/lib-storage@^3.592.0":
+  version "3.592.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/lib-storage/-/lib-storage-3.592.0.tgz#2cb04537b9cac4eb1ab0bf1a606237a684e7aadf"
+  integrity sha512-4RrqEcPMB/mpWaHYmSXmz5HlJBD2jzUIAA0YfKYF9AA5+34cub6pdApGq43/uvwLO02PsniS9ZOKRnfA0ShX2A==
   dependencies:
-    "@aws-sdk/middleware-endpoint" "3.226.0"
-    "@aws-sdk/smithy-client" "3.226.0"
+    "@smithy/abort-controller" "^3.0.0"
+    "@smithy/middleware-endpoint" "^3.0.1"
+    "@smithy/smithy-client" "^3.1.1"
     buffer "5.6.0"
     events "3.3.0"
     stream-browserify "3.0.0"
-    tslib "^2.3.1"
+    tslib "^2.6.2"
 
 "@aws-sdk/middleware-apply-body-checksum@^3.374.0":
   version "3.374.0"
@@ -1562,15 +1563,6 @@
     "@aws-sdk/util-hex-encoding" "3.201.0"
     "@aws-sdk/util-middleware" "3.226.0"
     "@aws-sdk/util-uri-escape" "3.201.0"
-    tslib "^2.3.1"
-
-"@aws-sdk/smithy-client@3.226.0":
-  version "3.226.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/smithy-client/-/smithy-client-3.226.0.tgz#d6869ca3627ca33024616c0ec3f707981e080d59"
-  integrity sha512-BWr1FhWSUhkSBp0TLzliD5AQBjA2Jmo9FlOOt+cBwd9BKkSGlGj+HgATYJ83Sjjg2+J6qvEZBxB78LKVHhorBw==
-  dependencies:
-    "@aws-sdk/middleware-stack" "3.226.0"
-    "@aws-sdk/types" "3.226.0"
     tslib "^2.3.1"
 
 "@aws-sdk/smithy-client@3.234.0":
@@ -3686,15 +3678,7 @@
     "@smithy/types" "^2.9.1"
     tslib "^2.5.0"
 
-"@smithy/abort-controller@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@smithy/abort-controller/-/abort-controller-3.0.0.tgz#5815f5d4618e14bf8d031bb98a99adabbb831168"
-  integrity sha512-p6GlFGBt9K4MYLu72YuJ523NVR4A8oHlC5M2JO6OmQqN8kAc/uh1JqLE+FizTokrSJGg0CSvC+BrsmGzKtsZKA==
-  dependencies:
-    "@smithy/types" "^3.0.0"
-    tslib "^2.6.2"
-
-"@smithy/abort-controller@^3.1.0":
+"@smithy/abort-controller@^3.0.0", "@smithy/abort-controller@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@smithy/abort-controller/-/abort-controller-3.1.0.tgz#408fbc0da13c30bc0aac859a44be08a5ba18126a"
   integrity sha512-XOm4LkuC0PsK1sf2bBJLIlskn5ghmVxiEBVlo/jg0R8hxASBKYYgOoJEhKWgOr4vWGkN+5rC+oyBAqHYtxjnwQ==
