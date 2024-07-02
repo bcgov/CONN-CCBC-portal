@@ -33,14 +33,6 @@ const Gcpe = ({ reportList }) => {
     setSelectedTargetReport(e.target.value);
   };
 
-  const convertBufferToBlob = (buffer) => {
-    const arrayBuffer = Uint8Array.from(buffer).buffer;
-    const fileBlob = new Blob([arrayBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    });
-    return fileBlob;
-  };
-
   const handleBlob = (
     blob,
     toastMessage,
@@ -87,19 +79,19 @@ const Gcpe = ({ reportList }) => {
         onClick={async () => {
           hideToast();
           await fetch('/api/reporting/gcpe')
-            .then(async (response) => {
-              const data = await response.json();
-              const { buffer, rowId } = data;
-              const fileBlob = convertBufferToBlob(buffer);
-              handleBlob(
-                fileBlob,
-                'The report has been generated and downloaded successfully',
-                true,
-                DateTime.now()
-                  .setZone('America/Los_Angeles')
-                  .toLocaleString(DateTime.DATETIME_FULL),
-                rowId
-              );
+            .then((response) => {
+              const rowId = response.headers.get('rowId');
+              response.blob().then((blob) => {
+                handleBlob(
+                  blob,
+                  'The report has been generated and downloaded successfully',
+                  true,
+                  DateTime.now()
+                    .setZone('America/Los_Angeles')
+                    .toLocaleString(DateTime.DATETIME_FULL),
+                  rowId
+                );
+              });
             })
             .catch((error) => {
               handleError(error);
@@ -198,18 +190,18 @@ const Gcpe = ({ reportList }) => {
             body: JSON.stringify({ rowId: selectedReportCompare }),
           })
             .then(async (response) => {
-              const data = await response.json();
-              const { buffer, rowId } = data;
-              const fileBlob = convertBufferToBlob(buffer);
-              handleBlob(
-                fileBlob,
-                'The comparison report has been generated and downloaded successfully',
-                true,
-                DateTime.now()
-                  .setZone('America/Los_Angeles')
-                  .toLocaleString(DateTime.DATETIME_FULL),
-                rowId
-              );
+              const rowId = response.headers.get('rowId');
+              response.blob().then((blob) => {
+                handleBlob(
+                  blob,
+                  'The comparison report has been generated and downloaded successfully',
+                  true,
+                  DateTime.now()
+                    .setZone('America/Los_Angeles')
+                    .toLocaleString(DateTime.DATETIME_FULL),
+                  rowId
+                );
+              });
             })
             .catch((error) => {
               handleError(error);
