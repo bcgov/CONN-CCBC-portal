@@ -512,6 +512,20 @@ describe('The index page', () => {
     expect(externalStatus).toBeInTheDocument();
   });
 
+  it('shows the project type filters with default filters', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const ccbcFilterCheckbox = screen.getByTestId('projectTypeFilterCcbc');
+    const cbcFilterCheckbox = screen.getByTestId('projectTypeFilterCbc');
+
+    expect(ccbcFilterCheckbox).toBeInTheDocument();
+    expect(cbcFilterCheckbox).toBeInTheDocument();
+
+    expect(ccbcFilterCheckbox).toBeChecked();
+    expect(cbcFilterCheckbox).toBeChecked();
+  });
+
   it('has the correct cancelled status styles', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
@@ -615,5 +629,63 @@ describe('The index page', () => {
 
     const option = screen.getAllByText('Received')[0];
     expect(option).toBeInTheDocument();
+  });
+
+  it('correctly filters project type', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('5555')).toBeInTheDocument();
+    expect(screen.queryByText('CCBC-010004')).toBeInTheDocument();
+    const cbcFilterCheckbox = screen.getByTestId('projectTypeFilterCbc');
+    const ccbcFilterCheckbox = screen.getByTestId('projectTypeFilterCcbc');
+    expect(cbcFilterCheckbox).toBeChecked();
+    expect(ccbcFilterCheckbox).toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(cbcFilterCheckbox);
+    });
+    expect(cbcFilterCheckbox).not.toBeChecked();
+
+    expect(screen.queryByText('5555')).not.toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(ccbcFilterCheckbox);
+    });
+    expect(ccbcFilterCheckbox).not.toBeChecked();
+
+    expect(screen.queryByText('CCBC-010004')).not.toBeInTheDocument();
+  });
+
+  it('clear filters correctly restore project type filter', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('5555')).toBeInTheDocument();
+    const cbcFilterCheckbox = screen.getByTestId('projectTypeFilterCbc');
+    expect(cbcFilterCheckbox).toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(cbcFilterCheckbox);
+    });
+    expect(cbcFilterCheckbox).not.toBeChecked();
+
+    expect(screen.queryByText('5555')).not.toBeInTheDocument();
+
+    const clearFiltersBtn = screen.getByText('Clear Filtering');
+    await act(async () => {
+      fireEvent.click(clearFiltersBtn);
+    });
+
+    expect(cbcFilterCheckbox).toBeChecked();
+    expect(screen.queryByText('5555')).toBeInTheDocument();
   });
 });
