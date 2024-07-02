@@ -79,6 +79,37 @@ const mockQueryPayload = {
             },
           ],
         },
+        cbcProjectCommunitiesByCbcId: {
+          nodes: [
+            {
+              communitiesSourceDataByCommunitiesSourceDataId: {
+                economicRegion: 'Economic Region 1',
+                geographicNameId: 1,
+                geographicType: 'Geographic Type 1',
+                regionalDistrict: 'Regional District 1',
+                bcGeographicName: 'BC Geographic Name 1',
+              },
+            },
+            {
+              communitiesSourceDataByCommunitiesSourceDataId: {
+                economicRegion: 'Economic Region 1',
+                geographicNameId: 1,
+                geographicType: 'Geographic Type 2',
+                regionalDistrict: 'Regional District 2',
+                bcGeographicName: 'BC Geographic Name 2',
+              },
+            },
+            {
+              communitiesSourceDataByCommunitiesSourceDataId: {
+                economicRegion: 'Economic Region 2',
+                geographicNameId: 2,
+                geographicType: 'Geographic Type 2',
+                regionalDistrict: 'Regional District 1',
+                bcGeographicName: 'BC Geographic Name 3',
+              },
+            },
+          ],
+        },
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -175,6 +206,24 @@ describe('Cbc', () => {
     });
     // expect not to find one
     expect(isAllHidden).toBeUndefined();
+  });
+
+  it('should have the correct communities data', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    // left side of header
+    expect(
+      screen.getByText('Economic Region 1, Economic Region 2')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('Regional District 1, Regional District 2')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'BC Geographic Name 1, BC Geographic Name 2, BC Geographic Name 3'
+      )
+    ).toBeInTheDocument();
   });
 
   it('should send the mutation on save', async () => {
