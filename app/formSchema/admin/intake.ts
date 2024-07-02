@@ -21,6 +21,9 @@ const intake: RJSFSchema = {
       type: 'string',
       title: 'Description (optional)',
     },
+    rollingIntake: {
+      type: 'boolean',
+    },
   },
 };
 

@@ -23,6 +23,7 @@ const getDownloadAttachmentsQuery = graphql`
         closeTimestamp
         openTimestamp
         rowId
+        rollingIntake
       }
     }
   }
@@ -68,7 +69,7 @@ const AttachmentsTab = (allIntakes) => {
   const today = DateTime.fromMillis(dateValue);
 
   const filtered = nodes.filter(
-    (x) => DateTime.fromISO(x.closeTimestamp) <= today
+    (x) => DateTime.fromISO(x.closeTimestamp) <= today || x.rollingIntake
   );
 
   const lastIntake =
@@ -81,7 +82,11 @@ const AttachmentsTab = (allIntakes) => {
   };
 
   const handleDownload = async () => {
-    const url = `/api/analyst/admin-archive/${intake}`;
+    const selectedIntake =
+      nodes.filter((node) => node.ccbcIntakeNumber === intake) || [];
+    const isRollingIntake = selectedIntake[0]?.rollingIntake ?? false;
+    const url = `/api/analyst/admin-archive/${intake}?isRollingIntake=${isRollingIntake}`;
+
     await fetch(url)
       .then((response) => response.json())
       .then((response) => {

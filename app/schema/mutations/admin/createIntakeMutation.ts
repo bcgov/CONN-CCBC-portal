@@ -15,6 +15,7 @@ const mutation = graphql`
           ccbcIntakeNumber
           closeTimestamp
           openTimestamp
+          rollingIntake
           rowId
         }
       }

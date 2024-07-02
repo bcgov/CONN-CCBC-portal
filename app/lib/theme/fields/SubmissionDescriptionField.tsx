@@ -12,7 +12,7 @@ import Description from '../components/Description';
 */
 const SubmissionField: React.FC<FieldProps> = (props) => {
   const {
-    formContext: { intakeCloseTimestamp },
+    formContext: { intakeCloseTimestamp, isRollingIntake },
     schema,
     registry,
   } = props;
@@ -27,9 +27,12 @@ const SubmissionField: React.FC<FieldProps> = (props) => {
     intakeCloseTimestamp &&
     dateTimeSubtracted(intakeCloseTimestamp, showSubtractedTime);
 
-  const submissionDescriptionText = `Certify that you have the authority to submit this information on behalf of the Applicant. After submission, you can continue to edit this application until the intake closes${
+  let submissionDescriptionText = `Certify that you have the authority to submit this information on behalf of the Applicant. After submission, you can continue to edit this application until the intake closes${
     formattedTime ? ` on ${formattedTime}` : ''
   }.`;
+  if (isRollingIntake) {
+    submissionDescriptionText = `Certify that you have the authority to submit this information on behalf of the Applicant. After submission, you will no longer be able to edit this application.`;
+  }
 
   return (
     <>

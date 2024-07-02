@@ -22,18 +22,21 @@ const mockQueryPayload = {
             closeTimestamp: '2022-08-09T13:49:23-07:00',
             openTimestamp: '2022-07-25T00:00:00-07:00',
             rowId: 1,
+            rollingIntake: false,
           },
           {
             ccbcIntakeNumber: 2,
             openTimestamp: '2022-09-19T09:00:00-07:00',
             closeTimestamp: '2023-01-02T09:00:00-07:00',
             rowId: 2,
+            rollingIntake: false,
           },
           {
             ccbcIntakeNumber: 3,
             openTimestamp: '2042-09-19T09:00:00-07:00',
             closeTimestamp: '2043-01-02T09:00:00-07:00',
             rowId: 2,
+            rollingIntake: false,
           },
         ],
       },
@@ -126,7 +129,9 @@ describe('The Download attachments admin page', () => {
     await act(async () => {
       await userEvent.click(link);
     });
-    expect(fetch).toHaveBeenCalledWith('/api/analyst/admin-archive/2');
+    expect(fetch).toHaveBeenCalledWith(
+      '/api/analyst/admin-archive/2?isRollingIntake=false'
+    );
   });
 
   afterEach(() => {
