@@ -37,6 +37,9 @@ on:
       CHES_KEYCLOAK_HOST: { required: true }
       TEST_PG_PASSWORD: { required: true }
       JIRA_AUTH: { required: true }
+      AWS_S3_FEAT_BUCKET: { required: true }
+      AWS_S3_FEAT_CLAM_BUCKET: { required: true }
+      AWS_FEAT_ARN: { required: true }
   pull_request:
     branches: [main]
     types: [ready_for_review]
@@ -86,12 +89,12 @@ jobs:
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           secure_route: ${{ env.FEATURE_NAME }}-ccbc.apps.silver.devops.gov.bc.ca
-          aws_s3_bucket: ${{ secrets.AWS_S3_BUCKET }}
+          aws_s3_bucket: ${{ secrets.AWS_S3_FEAT_BUCKET }}
           aws_s3_region: ${{ secrets.AWS_S3_REGION }}
           aws_s3_key: ${{ secrets.AWS_S3_KEY }}
           aws_s3_secret_key: ${{ secrets.AWS_S3_SECRET_KEY }}
-          aws_clam_s3_bucket: ${{ secrets.AWS_CLAM_S3_BUCKET }}
-          aws_role_arn: ${{ secrets.AWS_ROLE_ARN }}
+          aws_clam_s3_bucket: ${{ secrets.AWS_S3_FEAT_CLAM_BUCKET }}
+          aws_role_arn: ${{ secrets.AWS_FEAT_ARN }}
           certbot_email: ${{ secrets.CERTBOT_EMAIL }}
           certbot_server: ${{ secrets.CERTBOT_SERVER }}
           metabase_site_url: ${{ secrets.METABASE_SITE_URL }}
@@ -155,14 +158,14 @@ jobs:
                                       "type": "text"
                                   },
                                   {
-                                    "text": "https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca",
+                                    "text": "https://'$FEATURE_NAME_LOWER_SHORT'-ccbc.apps.silver.devops.gov.bc.ca",
                                     "type": "text",
                                     "marks": [
                                         {
                                             "type": "link",
                                             "attrs": {
-                                                "href": "https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca",
-                                                "title": "https://'$FEATURE_NAME_LOWER_SHORT'.apps.silver.devops.gov.bc.ca"
+                                                "href": "https://'$FEATURE_NAME_LOWER_SHORT'-ccbc.apps.silver.devops.gov.bc.ca",
+                                                "title": "https://'$FEATURE_NAME_LOWER_SHORT'-ccbc.apps.silver.devops.gov.bc.ca"
                                             }
                                         }
                                     ]
