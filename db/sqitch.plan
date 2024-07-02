@@ -592,3 +592,4 @@ tables/cbc_data_change_reason 2024-05-31T19:02:06Z Anthony Bushara <anthony@butt
 tables/intake_009_add_rolling_intake_column 2024-06-26T21:40:13Z ,,, <ryohani89@NH504670> # Add rolling_intake column to intake table
 mutations/submit_application [mutations/submit_application@1.165.0] 2024-06-27T18:21:31Z ,,, <ryohani89@NH504670> # update submit application to go to recieve status
 mutations/create_intake [mutations/create_intake@1.165.0] 2024-06-28T14:03:53Z ,,, <ryohani89@NH504670> # change create intake mutation to accept rolling flag
+mutations/update_intake [mutations/update_intake@1.165.0] 2024-06-28T22:32:24Z ,,, <ryohani89@NH504670> # change update intake mutation to accept rolling flag

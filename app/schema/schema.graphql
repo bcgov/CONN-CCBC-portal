@@ -86983,6 +86983,7 @@ input UpdateIntakeInput {
   startTime: Datetime!
   endTime: Datetime!
   intakeDescription: String
+  isRollingIntake: Boolean
 }
 
 """The output of our `updateRfi` mutation."""
