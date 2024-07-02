@@ -13,7 +13,7 @@ concurrency:
 env:
   REGISTRY: ghcr.io
   GIT_HASH: ${{ github.sha }}
-  SENTRY_AUTH_TOKEN: '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'
+  SENTRY_AUTH_TOKEN: '${{ secrets.SENTRY_AUTH_TOKEN }}'
 
 jobs:
   build-and-push-image:
