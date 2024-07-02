@@ -115,6 +115,17 @@ describe('The Gcpe reporting page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
+    // Create a buffer and convert it to a base64 string
+    const buffer = Buffer.from('test content');
+    const base64Buffer = buffer.toString('base64');
+
+    // Mocking global.fetch to return a JSON response with a buffer and rowId
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({ buffer: base64Buffer, rowId: 1 }),
+      })
+    ) as jest.Mock;
+
     const generateButton = screen.getByRole('button', {
       name: 'Generate',
     });
