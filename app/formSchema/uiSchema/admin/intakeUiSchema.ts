@@ -18,6 +18,12 @@ const intakeUiSchema = {
       showCharacterCount: true,
     },
   },
+  rollingIntake: {
+    'ui:widget': 'CheckboxWidget',
+    'ui:options': {
+      title: 'Is Rolling intake',
+    },
+  },
 };
 
 export default intakeUiSchema;

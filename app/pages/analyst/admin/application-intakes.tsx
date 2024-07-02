@@ -71,8 +71,13 @@ const ApplicationIntakes = ({
     });
 
   const handleEdit = (intake) => {
-    const { ccbcIntakeNumber, closeTimestamp, description, openTimestamp } =
-      intake;
+    const {
+      ccbcIntakeNumber,
+      closeTimestamp,
+      description,
+      openTimestamp,
+      rollingIntake,
+    } = intake;
 
     const currentDateTime = DateTime.now();
     const intakeStartDate = DateTime.fromISO(openTimestamp);
@@ -85,6 +90,7 @@ const ApplicationIntakes = ({
       startDate: openTimestamp,
       endDate: closeTimestamp,
       description,
+      rollingIntake,
     });
     if (currentDateTime >= intakeStartDate) {
       setIsStartDateDisabled(true);

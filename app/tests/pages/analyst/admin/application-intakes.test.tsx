@@ -82,6 +82,7 @@ const mockEditQueryPayload = {
               description: 'Intake 3 description',
               openTimestamp: '2031-01-15T00:00:00-08:00',
               rowId: 3,
+              rollingIntake: false,
             },
           },
           {
@@ -91,6 +92,7 @@ const mockEditQueryPayload = {
               description: 'Intake 3 description',
               openTimestamp: '2024-01-15T00:00:00-08:00',
               rowId: 3,
+              rollingIntake: true,
             },
           },
         ],
@@ -415,6 +417,7 @@ describe('The Application intakes admin page', () => {
         startTime: '2025-07-01T07:00:00.000Z',
         endTime: '2025-07-02T07:00:00.000Z',
         intakeDescription: 'Test description',
+        isRollingIntake: true,
       },
     });
 
