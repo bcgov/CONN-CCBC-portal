@@ -1,7 +1,10 @@
 # Builds the docker containers
 name: build
 
-on: workflow_call
+on:
+  workflow_call:
+    secrets:
+      SENTRY_AUTH_TOKEN: { required: true }
 
 concurrency:
   group: build-${{ github.ref }}
