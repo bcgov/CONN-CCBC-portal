@@ -59,6 +59,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     'primary') as string;
   const templateValidate =
     (uiSchema['ui:options']?.templateValidate as boolean) ?? false;
+  const showValidationToast =
+    (uiSchema['ui:options']?.showValidationMessage as boolean) ?? false;
   const templateNumber =
     (uiSchema['ui:options']?.templateNumber as number) ?? 0;
   const isFiles = value?.length > 0;
@@ -214,7 +216,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       span.setStatus('ok');
     }
 
-    if (templateValidate) {
+    if (templateValidate && showValidationToast) {
       if (validationErrors.length > 0) {
         showToastMessage(
           validationErrors.map(
