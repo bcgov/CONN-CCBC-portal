@@ -33,6 +33,14 @@ const Gcpe = ({ reportList }) => {
     setSelectedTargetReport(e.target.value);
   };
 
+  const convertBufferToBlob = (buffer) => {
+    const arrayBuffer = Uint8Array.from(buffer).buffer;
+    const fileBlob = new Blob([arrayBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    return fileBlob;
+  };
+
   const handleBlob = (
     blob,
     toastMessage,
@@ -82,11 +90,7 @@ const Gcpe = ({ reportList }) => {
             .then(async (response) => {
               const data = await response.json();
               const { buffer, rowId } = data;
-              // Convert buffer to Blob
-              const arrayBuffer = Uint8Array.from(buffer).buffer;
-              const fileBlob = new Blob([arrayBuffer], {
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-              });
+              const fileBlob = convertBufferToBlob(buffer);
               handleBlob(
                 fileBlob,
                 'The report has been generated and downloaded successfully',
@@ -196,11 +200,7 @@ const Gcpe = ({ reportList }) => {
             .then(async (response) => {
               const data = await response.json();
               const { buffer, rowId } = data;
-              // Convert buffer to Blob
-              const arrayBuffer = Uint8Array.from(buffer).buffer;
-              const fileBlob = new Blob([arrayBuffer], {
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-              });
+              const fileBlob = convertBufferToBlob(buffer);
               handleBlob(
                 fileBlob,
                 'The comparison report has been generated and downloaded successfully',
