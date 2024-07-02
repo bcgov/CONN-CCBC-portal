@@ -80,6 +80,7 @@ const moduleExports = {
 const sentryWebpackPluginOptions = {
   // Set to false to create a sentry release on build with the sentry CLI
   // This will upload sourcemaps to sentry.
+  authToken: process.env.SENTRY_AUTH_TOKEN,
   dryRun: false,
   silent: true,
 };

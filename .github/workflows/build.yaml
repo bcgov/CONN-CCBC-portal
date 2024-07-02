@@ -10,6 +10,7 @@ concurrency:
 env:
   REGISTRY: ghcr.io
   GIT_HASH: ${{ github.sha }}
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
 jobs:
   build-and-push-image:
