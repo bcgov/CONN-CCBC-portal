@@ -33,6 +33,35 @@ const Gcpe = ({ reportList }) => {
     setSelectedTargetReport(e.target.value);
   };
 
+  const handleBlob = (
+    blob,
+    toastMessage,
+    addToReportList,
+    reportDate,
+    rowId = null
+  ) => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${reportDate}_Connectivity_Projects_GCPE_List.xlsx`;
+    document.body.appendChild(a); // Append to the DOM to ensure click works in Firefox
+    a.click();
+    a.remove(); // Remove the element after clicking
+    window.URL.revokeObjectURL(url); // Clean up and release object URL
+    if (addToReportList) {
+      setGcpeReports([
+        ...gcpeReports,
+        {
+          node: {
+            rowId,
+            createdAt: DateTime.now().setZone('America/Los_Angeles').toISO(),
+          },
+        },
+      ]);
+    }
+    showToast(toastMessage, 'success', 15000);
+  };
+
   const handleError = (error) => {
     Sentry.captureException(error);
     showToast('An error occurred. Please try again.', 'error', 15000);
@@ -50,33 +79,23 @@ const Gcpe = ({ reportList }) => {
         onClick={async () => {
           hideToast();
           await fetch('/api/reporting/gcpe')
-            .then((response) => {
-              response.blob().then((blob) => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${DateTime.now().setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}_Connectivity_Projects_GCPE_List.xlsx`;
-                document.body.appendChild(a); // Append to the DOM to ensure click works in Firefox
-                a.click();
-                a.remove(); // Remove the element after clicking
-                window.URL.revokeObjectURL(url); // Clean up and release object URL
-                setGcpeReports([
-                  ...gcpeReports,
-                  {
-                    node: {
-                      rowId: gcpeReports.length,
-                      createdAt: DateTime.now()
-                        .setZone('America/Los_Angeles')
-                        .toISO(),
-                    },
-                  },
-                ]);
-                showToast(
-                  'The report has been generated and downloaded successfully',
-                  'success',
-                  15000
-                );
+            .then(async (response) => {
+              const data = await response.json();
+              const { buffer, rowId } = data;
+              // Convert buffer to Blob
+              const arrayBuffer = Uint8Array.from(buffer).buffer;
+              const fileBlob = new Blob([arrayBuffer], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
               });
+              handleBlob(
+                fileBlob,
+                'The report has been generated and downloaded successfully',
+                true,
+                DateTime.now()
+                  .setZone('America/Los_Angeles')
+                  .toLocaleString(DateTime.DATETIME_FULL),
+                rowId
+              );
             })
             .catch((error) => {
               handleError(error);
@@ -121,18 +140,11 @@ const Gcpe = ({ reportList }) => {
           })
             .then((response) => {
               response.blob().then((blob) => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${selectedReportDate}_Connectivity_Projects_GCPE_List.xlsx`;
-                document.body.appendChild(a); // Append to the DOM to ensure click works in Firefox
-                a.click();
-                a.remove(); // Remove the element after clicking
-                window.URL.revokeObjectURL(url); // Clean up and release object URL
-                showToast(
+                handleBlob(
+                  blob,
                   'The report has been regenerated and downloaded successfully',
-                  'success',
-                  15000
+                  false,
+                  selectedReportDate
                 );
               });
             })
@@ -181,22 +193,23 @@ const Gcpe = ({ reportList }) => {
             },
             body: JSON.stringify({ rowId: selectedReportCompare }),
           })
-            .then((response) => {
-              response.blob().then((blob) => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${DateTime.now().setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}_Connectivity_Projects_GCPE_List.xlsx`;
-                document.body.appendChild(a); // Append to the DOM to ensure click works in Firefox
-                a.click();
-                a.remove(); // Remove the element after clicking
-                window.URL.revokeObjectURL(url); // Clean up and release object URL
-                showToast(
-                  'The comparison report has been generated and downloaded successfully',
-                  'success',
-                  15000
-                );
+            .then(async (response) => {
+              const data = await response.json();
+              const { buffer, rowId } = data;
+              // Convert buffer to Blob
+              const arrayBuffer = Uint8Array.from(buffer).buffer;
+              const fileBlob = new Blob([arrayBuffer], {
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
               });
+              handleBlob(
+                fileBlob,
+                'The comparison report has been generated and downloaded successfully',
+                true,
+                DateTime.now()
+                  .setZone('America/Los_Angeles')
+                  .toLocaleString(DateTime.DATETIME_FULL),
+                rowId
+              );
             })
             .catch((error) => {
               handleError(error);
@@ -277,18 +290,13 @@ const Gcpe = ({ reportList }) => {
           })
             .then((response) => {
               response.blob().then((blob) => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${DateTime.now().setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}_Connectivity_Projects_GCPE_List.xlsx`;
-                document.body.appendChild(a); // Append to the DOM to ensure click works in Firefox
-                a.click();
-                a.remove(); // Remove the element after clicking
-                window.URL.revokeObjectURL(url); // Clean up and release object URL
-                showToast(
+                handleBlob(
+                  blob,
                   'The comparison has been generated and downloaded successfully',
-                  'success',
-                  15000
+                  false,
+                  DateTime.now()
+                    .setZone('America/Los_Angeles')
+                    .toLocaleString(DateTime.DATETIME_FULL)
                 );
               });
             })
