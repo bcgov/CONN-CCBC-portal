@@ -469,8 +469,9 @@ export const generateGcpeReport = async (req) => {
     sheet: 'GCPE Report',
     columns: columnOptions,
   });
+  let mutationResult;
   if (blob) {
-    await performQuery(
+    mutationResult = await performQuery(
       createReportingGcpeMutation,
       {
         input: {
@@ -482,7 +483,10 @@ export const generateGcpeReport = async (req) => {
       req
     );
   }
-  return blob;
+  return {
+    blob,
+    rowId: mutationResult?.data?.createReportingGcpe?.reportingGcpe?.rowId,
+  };
 };
 
 export const compareAndGenerateGcpeReport = async (compareRowId, req) => {
@@ -526,8 +530,9 @@ export const compareAndGenerateGcpeReport = async (compareRowId, req) => {
     sheet: 'GCPE Report',
     columns: columnOptions,
   });
+  let mutationResult;
   if (blob) {
-    await performQuery(
+    mutationResult = await performQuery(
       createReportingGcpeMutation,
       {
         input: {
@@ -539,7 +544,10 @@ export const compareAndGenerateGcpeReport = async (compareRowId, req) => {
       req
     );
   }
-  return blob;
+  return {
+    blob,
+    rowId: mutationResult?.data?.createReportingGcpe?.reportingGcpe?.rowId,
+  };
 };
 
 export const compareGcpeReports = async (sourceRowId, targetRowId, req) => {

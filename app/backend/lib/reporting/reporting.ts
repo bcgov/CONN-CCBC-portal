@@ -15,10 +15,10 @@ const limiter = RateLimit({
 });
 
 reporting.get('/api/reporting/gcpe', limiter, async (req, res) => {
-  const blob = await generateGcpeReport(req);
+  const { blob, rowId } = await generateGcpeReport(req);
   // Convert blob to buffer
   const buffer = Buffer.from(await blob.arrayBuffer());
-  res.send(buffer);
+  res.send({ buffer, rowId });
 });
 
 reporting.post('/api/reporting/gcpe/regenerate', limiter, async (req, res) => {
@@ -33,11 +33,14 @@ reporting.post(
   '/api/reporting/gcpe/generateAndCompare',
   limiter,
   async (req, res) => {
-    const { rowId } = req.body;
-    const blob = await compareAndGenerateGcpeReport(rowId, req);
+    const requestRowId = req.body.rowId;
+    const { blob, rowId } = await compareAndGenerateGcpeReport(
+      requestRowId,
+      req
+    );
     // Convert blob to buffer
     const buffer = Buffer.from(await blob.arrayBuffer());
-    res.send(buffer);
+    res.send({ buffer, rowId });
   }
 );
 
