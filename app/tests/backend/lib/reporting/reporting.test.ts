@@ -39,7 +39,7 @@ describe('Reporting API', () => {
     const response = await request(app).get('/api/reporting/gcpe');
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ buffer: expect.anything(), rowId: 2 });
+    expect(response.body).toEqual(expect.any(Buffer));
     expect(generateGcpeReport).toHaveBeenCalledWith(expect.any(Object));
   });
 
@@ -89,7 +89,7 @@ describe('Reporting API', () => {
       .send({ rowId: 1 });
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({ buffer: expect.anything(), rowId: 2 });
+    expect(response.body).toEqual(expect.any(Buffer));
     expect(compareAndGenerateGcpeReport).toHaveBeenCalledWith(
       1,
       expect.any(Object)
