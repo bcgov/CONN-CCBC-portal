@@ -167,7 +167,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
         : 'Total eligible costs and Total project costs data';
     const message =
       type === 'success'
-        ? `Template ${templateNumber} validation successful, new values for ${fields} data in the application will update upon 'Save'`
+        ? `Template ${templateNumber} validation successful, new values for ${fields} in the application will update upon 'Save'`
         : `Template ${templateNumber} validation failed: ${files.join(', ')} did not validate due to formatting issues. ${fields} in the application will not update.`;
 
     showToast(message, type, 100000000);
