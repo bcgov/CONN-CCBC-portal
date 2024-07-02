@@ -5,9 +5,11 @@ import { StyledDropdown } from 'components/Analyst/AssignLead';
 import { useToast } from 'components/AppProvider';
 import * as Sentry from '@sentry/nextjs';
 import styled from 'styled-components';
+import LoadingSpinner from 'components/LoadingSpinner';
 
 const Gcpe = ({ reportList }) => {
   const [gcpeReports, setGcpeReports] = useState(reportList);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedReport, setSelectedReport] = useState(-1);
   const [selectedReportDate, setSelectedReportDate] = useState('');
   const [selectedReportCompare, setSelectedReportCompare] = useState(-1);
@@ -76,7 +78,9 @@ const Gcpe = ({ reportList }) => {
       <StyledH2>Generate a new report</StyledH2>
       <p>Generate a new report with the current CBC and CCBC data.</p>
       <Button
+        disabled={isLoading}
         onClick={async () => {
+          setIsLoading(true);
           hideToast();
           await fetch('/api/reporting/gcpe')
             .then((response) => {
@@ -91,6 +95,7 @@ const Gcpe = ({ reportList }) => {
                     .toLocaleString(DateTime.DATETIME_FULL),
                   rowId
                 );
+                setIsLoading(false);
               });
             })
             .catch((error) => {
@@ -98,7 +103,7 @@ const Gcpe = ({ reportList }) => {
             });
         }}
       >
-        Generate
+        {isLoading ? <LoadingSpinner /> : 'Generate'}
       </Button>
       <StyledH2>Download an existing report</StyledH2>
       <p>Download an already existing report</p>
@@ -124,8 +129,9 @@ const Gcpe = ({ reportList }) => {
       <br />
       <br />
       <Button
-        disabled={selectedReport.toString() === '-1'}
+        disabled={selectedReport.toString() === '-1' || isLoading}
         onClick={async () => {
+          setIsLoading(true);
           hideToast();
           await fetch('/api/reporting/gcpe/regenerate', {
             method: 'POST',
@@ -142,6 +148,7 @@ const Gcpe = ({ reportList }) => {
                   false,
                   selectedReportDate
                 );
+                setIsLoading(false);
               });
             })
             .catch((error) => {
@@ -149,7 +156,7 @@ const Gcpe = ({ reportList }) => {
             });
         }}
       >
-        Download
+        {isLoading ? <LoadingSpinner /> : 'Download'}
       </Button>
 
       <StyledH2>Generate and compare</StyledH2>
@@ -179,8 +186,9 @@ const Gcpe = ({ reportList }) => {
       <br />
       <br />
       <Button
-        disabled={selectedReportCompare.toString() === '-1'}
+        disabled={selectedReportCompare.toString() === '-1' || isLoading}
         onClick={async () => {
+          setIsLoading(true);
           hideToast();
           await fetch('/api/reporting/gcpe/generateAndCompare', {
             method: 'POST',
@@ -201,6 +209,7 @@ const Gcpe = ({ reportList }) => {
                     .toLocaleString(DateTime.DATETIME_FULL),
                   rowId
                 );
+                setIsLoading(false);
               });
             })
             .catch((error) => {
@@ -208,7 +217,7 @@ const Gcpe = ({ reportList }) => {
             });
         }}
       >
-        Generate & Compare
+        {isLoading ? <LoadingSpinner /> : 'Generate & Compare'}
       </Button>
 
       <StyledH2>Compare</StyledH2>
@@ -266,9 +275,11 @@ const Gcpe = ({ reportList }) => {
       <Button
         disabled={
           selectedSourceReport.toString() === '-1' ||
-          selectedTargetReport.toString() === '-1'
+          selectedTargetReport.toString() === '-1' ||
+          isLoading
         }
         onClick={async () => {
+          setIsLoading(true);
           hideToast();
           await fetch('/api/reporting/gcpe/compare', {
             method: 'POST',
@@ -290,6 +301,7 @@ const Gcpe = ({ reportList }) => {
                     .setZone('America/Los_Angeles')
                     .toLocaleString(DateTime.DATETIME_FULL)
                 );
+                setIsLoading(false);
               });
             })
             .catch((error) => {
@@ -297,7 +309,7 @@ const Gcpe = ({ reportList }) => {
             });
         }}
       >
-        Compare
+        {isLoading ? <LoadingSpinner /> : 'Compare'}
       </Button>
     </div>
   );
