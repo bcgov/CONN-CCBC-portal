@@ -13,7 +13,7 @@ concurrency:
 env:
   REGISTRY: ghcr.io
   GIT_HASH: ${{ github.sha }}
-  SENTRY_AUTH_TOKEN: '${{ secrets.SENTRY_AUTH_TOKEN }}'
+  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
 jobs:
   build-and-push-image:
@@ -72,7 +72,7 @@ jobs:
       - name: Build and push Docker image
         env:
           GIT_HASH: ${{ env.GIT_HASH }}
-          SENRTY_AUTH_TOKEN: '${{ env.SENTRY_AUTH_TOKEN }}'
+          SENTRY_AUTH_TOKEN: ${{ env.SENTRY_AUTH_TOKEN }}
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
@@ -82,8 +82,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
+            SENTRY_AUTH_TOKEN=${{ env.SENTRY_AUTH_TOKEN }}
             GIT_HASH=${{ env.GIT_HASH }}
-            SENRTY_AUTH_TOKEN='${{ env.SENTRY_AUTH_TOKEN }}'
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
         # Temp fix
