@@ -5,11 +5,11 @@ const funding: RJSFSchema = {
   description: '',
   type: 'object',
   properties: {
-    bcFundingRequest: {
+    bcFundingRequested: {
       type: 'number',
       title: 'BC Funding Request',
     },
-    federalFunding: {
+    federalFundingRequested: {
       type: 'number',
       title: 'Federal Funding',
     },
@@ -17,7 +17,7 @@ const funding: RJSFSchema = {
       type: 'number',
       title: 'Applicant Amount',
     },
-    otherFunding: {
+    otherFundingRequested: {
       type: 'number',
       title: 'Other Amount',
     },

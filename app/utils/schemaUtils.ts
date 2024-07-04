@@ -79,18 +79,16 @@ export const createCbcSchemaData = (jsonData) => {
   };
 
   const funding = {
-    bcFundingRequest: jsonData.bcFundingRequest,
-    federalFunding: jsonData.federalFunding,
+    bcFundingRequested: jsonData.bcFundingRequested,
+    federalFundingRequested: jsonData.federalFundingRequested,
     applicantAmount: jsonData.applicantAmount,
-    otherFunding: jsonData.otherFunding,
+    otherFundingRequested: jsonData.otherFundingRequested,
     totalProjectBudget: jsonData.totalProjectBudget,
   };
 
   const eventsAndDates = {
-    nditConditionalApprovalLetterSent:
-      jsonData.nditConditionalApprovalLetterSent,
-    bindingAgreementSignedNditRecipient:
-      jsonData.bindingAgreementSignedNditRecipient,
+    conditionalApprovalLetterSent: jsonData.conditionalApprovalLetterSent,
+    agreementSigned: jsonData.agreementSigned,
     announcedByProvince: jsonData.announcedByProvince,
     dateApplicationReceived: jsonData.dateApplicationReceived,
     dateConditionallyApproved: jsonData.dateConditionallyApproved,
