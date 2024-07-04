@@ -6,11 +6,11 @@ import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import CbcAnalystLayout from 'components/Analyst/CBC/CbcAnalystLayout';
 import CbcForm from 'components/Analyst/CBC/CbcForm';
+import { ChangeModal } from 'components/Analyst';
 import styled from 'styled-components';
 import ReviewTheme from 'components/Review/ReviewTheme';
 import { useEffect, useMemo, useRef, useState } from 'react';
-// import { ProjectTheme } from 'components/Analyst/Project';
-import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
+import { useUpdateCbcDataAndInsertChangeRequest } from 'schema/mutations/cbc/updateCbcDataAndInsertChangeReason';
 import review from 'formSchema/analyst/cbc/review';
 import reviewUiSchema from 'formSchema/uiSchema/cbc/reviewUiSchema';
 import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
@@ -19,6 +19,7 @@ import CbcTheme from 'components/Analyst/CBC/CbcTheme';
 import { createCbcSchemaData } from 'utils/schemaUtils';
 import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
 import CbcRecordLock from 'components/Analyst/CBC/CbcRecordLock';
+import useModal from 'lib/helpers/useModal';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -51,6 +52,7 @@ const getCbcQuery = graphql`
       }
     }
     session {
+      authRole
       sub
       authRole
     }
@@ -78,18 +80,23 @@ const Cbc = ({
   const isCbcAdmin = query.session.authRole === 'cbc_admin';
   const editFeatureEnabled = useFeature('show_cbc_edit').value ?? false;
   const allowEdit = isCbcAdmin && editFeatureEnabled;
+  const { session } = query;
   const [toggleOverrideReadOnly, setToggleExpandOrCollapseAllReadOnly] =
     useState<boolean | undefined>(true);
   const [toggleOverrideEdit, setToggleExpandOrCollapseAllEdit] = useState<
     boolean | undefined
   >(true);
   const [editMode, setEditMode] = useState(false);
+  const [changeReason, setChangeReason] = useState<null | string>(null);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
-  const { session } = query;
+
   const { rowId } = query.cbcByRowId;
   const [formData, setFormData] = useState({} as any);
   const [baseFormData, setBaseFormData] = useState({} as any);
   const recordLocked = formData?.projectDataReviews?.locked;
+
+  const changeModal = useModal();
+
   useEffect(() => {
     const { cbcByRowId } = query;
     const { cbcDataByCbcId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
@@ -133,11 +140,13 @@ const Cbc = ({
     });
   }, [query]);
 
-  const [updateFormData] = useUpdateCbcDataByRowIdMutation();
+  const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
 
-  const handleSubmit = (e) => {
-    hiddenSubmitRef.current.click();
-    e.preventDefault();
+  const handleChangeRequestModal = () => {
+    changeModal.open();
+  };
+
+  const handleSubmit = () => {
     const {
       geographicNames,
       regionalDistricts,
@@ -146,7 +155,7 @@ const Cbc = ({
     } = formData.locationsAndCounts;
     updateFormData({
       variables: {
-        input: {
+        inputCbcData: {
           rowId: query?.cbcByRowId?.cbcDataByCbcId?.edges[0].node.rowId || null,
           cbcDataPatch: {
             jsonData: {
@@ -160,10 +169,18 @@ const Cbc = ({
             },
           },
         },
+        inputCbcChangeReason: {
+          cbcDataChangeReason: {
+            description: changeReason,
+            cbcDataId:
+              query?.cbcByRowId?.cbcDataByCbcId?.edges[0].node.rowId || null,
+          },
+        },
       },
       debounceKey: 'cbc_update_form_data',
       onCompleted: () => {
         setEditMode(false);
+        changeModal.close();
       },
     });
   };
@@ -296,11 +313,25 @@ const Cbc = ({
           theme={editMode ? CbcTheme : ReviewTheme}
           uiSchema={editMode ? editUiSchema : reviewUiSchema}
           resetFormData={handleResetFormData}
-          onSubmit={handleSubmit}
+          onSubmit={handleChangeRequestModal}
           setIsFormEditMode={setEditMode}
           saveBtnText="Save"
         />
       </CbcAnalystLayout>
+      <ChangeModal
+        id="change-modal-cbc"
+        onCancel={() => {
+          setChangeReason(null);
+          setFormData(baseFormData);
+          setEditMode(false);
+          changeModal.close();
+        }}
+        value={changeReason}
+        saveDisabled={changeReason === null || changeReason.trim() === ''}
+        onChange={(e) => setChangeReason(e.target.value)}
+        onSave={handleSubmit}
+        {...changeModal}
+      />
     </Layout>
   );
 };

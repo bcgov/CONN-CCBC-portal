@@ -155,6 +155,7 @@ const EditCbcSection = ({
           changeModal.close();
         }}
         value={changeReason}
+        saveDisabled={changeReason === null || changeReason.trim() === ''}
         onChange={(e) => setChangeReason(e.target.value)}
         onSave={handleSubmit}
         {...changeModal}

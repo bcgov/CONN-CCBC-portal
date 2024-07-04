@@ -22,6 +22,7 @@ interface Props {
   saveLabel?: string;
   title?: string;
   value: string;
+  saveDisabled?: boolean;
 }
 
 const ChangeModal: React.FC<Props> = ({
@@ -35,6 +36,7 @@ const ChangeModal: React.FC<Props> = ({
   onSave,
   saveLabel = 'Save',
   value,
+  saveDisabled = false,
 }) => {
   return (
     <Modal
@@ -46,6 +48,7 @@ const ChangeModal: React.FC<Props> = ({
         {
           id: 'status-change-save-btn',
           label: saveLabel,
+          disabled: saveDisabled,
           onClick: () => onSave(),
         },
         {
