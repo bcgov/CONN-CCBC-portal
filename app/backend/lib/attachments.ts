@@ -2,25 +2,10 @@ import * as Sentry from '@sentry/nextjs';
 import config from '../../config';
 import getArchivePath from '../../utils/getArchivePath';
 import { getFileTagging } from './s3client';
-import { performQuery } from './graphql';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const INFECTED_FILE_PREFIX = 'BROKEN';
 const checkTags = config.get('CHECK_TAGS');
-
-const getApplicationsQuery = `
-query getApplications($intakeId: Int!) {
-  allApplications(condition:  {intakeId: $intakeId}) {
-    nodes {
-      formData {
-        rowId
-        jsonData
-      }
-      ccbcNumber
-    }
-  }
-}
-`;
 
 const formatAttachments = (formData) => {
   return {
@@ -63,7 +48,7 @@ const formatAttachments = (formData) => {
   };
 };
 
-const getAttachmentList = async (intake: number, req) => {
+const getAttachmentList = async (allApplications) => {
   const infected = [];
   const attachments = [];
   // untility functions
@@ -139,11 +124,6 @@ const getAttachmentList = async (intake: number, req) => {
     });
   };
 
-  const allApplications = await performQuery(
-    getApplicationsQuery,
-    { intakeId: intake },
-    req
-  );
   if (allApplications.errors) {
     throw new Error(
       `Failed to retrieve form data:\n${allApplications.errors.join('\n')}`

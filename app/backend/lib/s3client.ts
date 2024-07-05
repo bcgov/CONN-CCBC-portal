@@ -42,11 +42,17 @@ export const checkFileExists = async (params) => {
   try {
     const command = new HeadObjectCommand(params);
     const response = await s3ClientV3sdk.send(command);
-    if (response.$metadata?.httpStatusCode !== 200) return false;
+    if (response.$metadata?.httpStatusCode === 200) {
+      return {
+        alreadyExists: true,
+        requestedAt: response.Metadata['requested-at'] || null,
+      };
+    }
   } catch (error) {
-    return false;
+    return { alreadyExists: false };
   }
-  return true;
+
+  return { alreadyExists: false };
 };
 
 export const getFileTagging = async (params) => {

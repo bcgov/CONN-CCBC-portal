@@ -31,6 +31,7 @@ exports.handler = async (event, context, callback) => {
       })
       .promise();
     const message = s3Object.Body;
+    const metaData = s3Object.Metadata;
     console.log(
       `Got list of attachments from S3; file size: ${message.length}`
     );
@@ -151,6 +152,9 @@ exports.handler = async (event, context, callback) => {
         Bucket: AWS_S3_BUCKET,
         Key: key,
         Body: blob,
+        Metadata: {
+          'requested-at': metaData['requested-at'],
+        },
       };
       await uploadFileToS3(params);
       console.log(
@@ -171,6 +175,7 @@ async function uploadFileToS3(params) {
         Bucket: params.Bucket,
         Key: params.Key,
         Body: params.Body,
+        Metadata: params.Metadata,
       })
       .promise();
   } catch (ex) {
