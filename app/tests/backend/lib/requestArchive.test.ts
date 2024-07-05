@@ -18,7 +18,7 @@ jest.setTimeout(10000000);
 
 const mockStream = new PassThrough();
 
-let mockObjectExists;
+let mockObjectExists = { alreadyExists: true, requestedAt: null };
 
 jest.mock('../../../backend/lib/s3client', () => {
   return {
@@ -88,7 +88,7 @@ describe('The attachments archive', () => {
         },
       };
     });
-    mockObjectExists = true;
+    mockObjectExists = { alreadyExists: true, requestedAt: null };
     const response = await request(app).get('/api/analyst/admin-archive/1');
 
     expect(response.status).toBe(200);
@@ -125,7 +125,7 @@ describe('The attachments archive', () => {
         },
       };
     });
-    mockObjectExists = false;
+    mockObjectExists = { alreadyExists: false, requestedAt: null };
     const response = await request(app).get('/api/analyst/admin-archive/1');
 
     expect(response.status).toBe(200);
@@ -134,7 +134,7 @@ describe('The attachments archive', () => {
     );
   });
 
-  it('should always re-prepare the archive when it is a rolling intake', async () => {
+  it('should re-prepare the archive when it is a rolling intake and new applications present', async () => {
     mocked(getAuthRole).mockImplementation(() => {
       return {
         pgRole: 'ccbc_admin',
@@ -152,13 +152,23 @@ describe('The attachments archive', () => {
                   jsonData: {},
                 },
                 ccbcNumber: 'CCBC-100001',
+                applicationStatusesByApplicationId: {
+                  nodes: [
+                    {
+                      createdAt: '2021-07-01T10:00:00Z',
+                    },
+                  ],
+                },
               },
             ],
           },
         },
       };
     });
-    mockObjectExists = false;
+    mockObjectExists = {
+      alreadyExists: true,
+      requestedAt: '2021-06-01T10:00:00Z',
+    };
     const response = await request(app).get(
       '/api/analyst/admin-archive/1?isRollingIntake=true'
     );
@@ -166,6 +176,55 @@ describe('The attachments archive', () => {
     expect(response.status).toBe(200);
     expect(response.headers['content-type']).toBe(
       'application/json; charset=utf-8'
+    );
+  });
+
+  it('should receive prepared archive when it is a rolling intake and no new applications present', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          allApplications: {
+            nodes: [
+              {
+                formData: {
+                  jsonData: {},
+                },
+                ccbcNumber: 'CCBC-100001',
+                applicationStatusesByApplicationId: {
+                  nodes: [
+                    {
+                      createdAt: '2021-06-01T10:00:00Z',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      };
+    });
+    mockObjectExists = {
+      alreadyExists: true,
+      requestedAt: '2021-07-01T10:00:00Z',
+    };
+    const response = await request(app).get(
+      '/api/analyst/admin-archive/1?isRollingIntake=true'
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-disposition']).toMatch(
+      /attachment; filename=Intake_1_attachments.zip/
+    );
+
+    expect(response.headers['content-type']).toBe(
+      'application/zip; charset=utf-8'
     );
   });
 
