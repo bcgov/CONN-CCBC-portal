@@ -45,7 +45,7 @@ export const checkFileExists = async (params) => {
     if (response.$metadata?.httpStatusCode === 200) {
       return {
         alreadyExists: true,
-        requestedAt: response.Metadata['requested-at'] || null,
+        requestedAt: response?.Metadata?.['requested-at'] || null,
       };
     }
   } catch (error) {
