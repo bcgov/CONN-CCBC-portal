@@ -121,6 +121,7 @@ runs:
     - run: |
         FEATURE_NAME_LOWER=$(echo "${{ inputs.feature_name }}" | tr '[:upper:]' '[:lower:]' | sed 's/-*$//')
         FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30 | sed 's/-*$//')
+        SHA_ONLY=$(echo ${{ inputs.tag }} | cut -c 5-)
         chmod +x ./lib/app_deploy_feature.sh
         ./lib/app_deploy_feature.sh -n ${{ inputs.openshift_app_namespace }} \
           --set fullnameOverride="$FEATURE_NAME_LOWER_SHORT" \
@@ -130,7 +131,7 @@ runs:
           --set metabase.prodNamespace=${{ inputs.openshift_metabase_prod_namespace }} \
           --set metabase.siteUrl=${{ inputs.metabase_site_url }} \
           --set metabase.embedSecret=${{ inputs.metabase_embed_secret }} \
-          --set image.app.tag=${{ inputs.tag  }} \
+          --set image.app.tag="$SHA_ONLY" \
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.cronsp.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
