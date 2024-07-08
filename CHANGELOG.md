@@ -1,3 +1,9 @@
+## [1.166.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.2...v1.166.3) (2024-07-08)
+
+### Bug Fixes
+
+- s3 buckets, feat env url ([3bc4e1b](https://github.com/bcgov/CONN-CCBC-portal/commit/3bc4e1b38ddeb604b8277ff27b6578198afb1f36))
+
 ## [1.166.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.1...v1.166.2) (2024-06-26)
 
 ### Bug Fixes
