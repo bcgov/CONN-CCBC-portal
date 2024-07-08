@@ -243,6 +243,9 @@ jobs:
       CHES_KEYCLOAK_HOST: ${{ secrets.CHES_KEYCLOAK_HOST }}
       TEST_PG_PASSWORD: ${{ secrets.TEST_PG_PASSWORD }}
       JIRA_AUTH: ${{ secrets.JIRA_AUTH }}
+      AWS_S3_FEAT_BUCKET: ${{ secrets.AWS_S3_FEAT_BUCKET }}
+      AWS_S3_FEAT_CLAM_BUCKET: ${{ secrets.AWS_S3_FEAT_CLAM_BUCKET }}
+      AWS_FEAT_ARN: ${{ secrets.AWS_FEAT_ARN }}
 
   cleanup_feature:
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == true
