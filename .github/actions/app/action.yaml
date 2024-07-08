@@ -136,6 +136,7 @@ runs:
         pgbackrest_s3_bucket: ${{ inputs.pgbackrest_s3_bucket }}
         insecure_skip_tls_verify: true
     - run: |
+        SHA_ONLY=$(echo ${{ inputs.tag }} | cut -c 5-)
         chmod +x ./lib/app_deploy.sh
         ./lib/app_deploy.sh -n ${{ inputs.openshift_app_namespace }} \
           --set app.namespace=${{ inputs.openshift_app_namespace }} \
@@ -143,7 +144,7 @@ runs:
           --set metabase.prodNamespace=${{ inputs.openshift_metabase_prod_namespace }} \
           --set metabase.siteUrl=${{ inputs.metabase_site_url }} \
           --set metabase.embedSecret=${{ inputs.metabase_embed_secret }} \
-          --set image.app.tag=${{ inputs.tag }} \
+          --set image.app.tag="$SHA_ONLY" \
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.cronsp.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
