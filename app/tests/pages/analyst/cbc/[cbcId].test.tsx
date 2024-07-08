@@ -489,6 +489,16 @@ describe('Cbc', () => {
         },
       }
     );
+
+    pageTestingHelper.environment.mock.resolveMostRecentOperation({
+      data: {
+        updateCbcDataAndInsertChangeReason: {
+          cbcData: {
+            rowId: 1,
+          },
+        },
+      },
+    });
   });
 
   it('should prompt confirmation on locked edit click', async () => {
