@@ -235,6 +235,22 @@ spec:
                   name: ccbc-cron-sp-sso
             - name: SP_LIST_NAME
               value: {{ .Values.sharepoint.spListName }}
+            - name: CHES_API_URL
+              value: {{ .Values.ches.url }}
+            - name: CHES_CLIENT
+              valueFrom:
+                secretKeyRef:
+                  key: client
+                  name: ccbc-ches
+            - name: CHES_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: client-secret
+                  name: ccbc-ches
+            - name: CHES_TO_EMAIL
+              value: {{ .Values.ches.to }}
+            - name: CHES_KEYCLOAK_HOST
+              value: {{ .Values.ches.keycloakHost }}
           resources:
             requests:
               memory: {{ .Values.resources.app.requests.memory }}

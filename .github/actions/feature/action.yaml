@@ -83,6 +83,20 @@ inputs:
   sp_list_name:
     description: 'SharePoint CBC Project error list name'
     required: true
+  ches_url:
+    description: 'CHES URL'
+    required: true
+  ches_client:
+    description: 'CHES client'
+    required: true
+  ches_client_secret:
+    description: 'CHES client secret'
+    required: true
+  ches_to:
+    description: 'CHES temporary to field'
+    required: true
+  ches_keycloak_host:
+    description: 'CHES keycloak host'
   feature_name:
     description: 'Feature name'
     required: true
@@ -153,6 +167,11 @@ runs:
           --set sharepoint.spDocLibrary="${{ inputs.sp_doc_library }}" \
           --set sharepoint.spMsFileName="${{ inputs.sp_ms_file_name }}" \
           --set sharepoint.spListName="${{ inputs.sp_list_name }}" \
+          --set ches.url="${{ inputs.ches_url }}" \
+          --set ches.client="${{ inputs.ches_client }}" \
+          --set ches.clientSecret="${{ inputs.ches_client_secret }}" \
+          --set ches.to="${{ inputs.ches_to }}" \
+          --set ches.keycloakHost="${{ inputs.ches_keycloak_host }}" \
           --set secureRoute.host="$FEATURE_NAME_LOWER_SHORT"-ccbc.apps.silver.devops.gov.bc.ca \
           "$FEATURE_NAME_LOWER_SHORT"
 
