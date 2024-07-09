@@ -1,3 +1,9 @@
+## [1.167.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.167.0...v1.167.1) (2024-07-09)
+
+### Bug Fixes
+
+- typo in alert RFI upload ([a2076f1](https://github.com/bcgov/CONN-CCBC-portal/commit/a2076f182eb462b15b83912e2b38cae74936a4cb))
+
 # [1.167.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.6...v1.167.0) (2024-07-09)
 
 ### Bug Fixes
