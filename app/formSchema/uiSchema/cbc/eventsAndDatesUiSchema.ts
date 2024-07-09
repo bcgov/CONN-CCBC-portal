@@ -22,7 +22,7 @@ const eventsAndDatesUiSchema = {
   },
   dateConditionallyApproved: {
     'ui:widget': 'DatePickerWidget',
-    'ui:label': 'Date Conditionally Approved Approved',
+    'ui:label': 'Date Conditionally Approved',
   },
   dateAgreementSigned: {
     'ui:widget': 'DatePickerWidget',

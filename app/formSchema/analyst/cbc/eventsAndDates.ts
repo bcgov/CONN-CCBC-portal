@@ -15,7 +15,7 @@ const eventsAndDates: RJSFSchema = {
     },
     agreementSigned: {
       type: 'boolean',
-      title: 'Binding Agreement Signed - NDIT Recipient',
+      title: 'Agreement Signed',
       oneOf: [
         { const: true, title: 'Yes' },
         { const: false, title: 'No' },
