@@ -4,13 +4,13 @@ const eventsAndDatesUiSchema = {
     dividers: true,
   },
   'ui:title': 'Events and Dates',
-  nditConditionalApprovalLetterSent: {
+  conditionalApprovalLetterSent: {
     'ui:widget': 'RadioWidget',
-    'ui:label': 'NDIT Conditional Approval Letter Sent',
+    'ui:label': 'Conditional Approval Letter Sent',
   },
-  bindingAgreementSignedNditRecipient: {
+  agreementSigned: {
     'ui:widget': 'RadioWidget',
-    'ui:label': 'Binding Agreement Signed NDIT Recipient',
+    'ui:label': 'Agreement Signed',
   },
   announcedByProvince: {
     'ui:widget': 'RadioWidget',
@@ -22,7 +22,7 @@ const eventsAndDatesUiSchema = {
   },
   dateConditionallyApproved: {
     'ui:widget': 'DatePickerWidget',
-    'ui:label': 'Date Conditionally Approved Approved',
+    'ui:label': 'Date Conditionally Approved',
   },
   dateAgreementSigned: {
     'ui:widget': 'DatePickerWidget',

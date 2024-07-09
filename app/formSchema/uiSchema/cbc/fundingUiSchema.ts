@@ -4,21 +4,21 @@ const fundingUiSchema = {
     dividers: true,
   },
   'ui:title': 'Funding',
-  bcFundingRequest: {
+  bcFundingRequested: {
     'ui:widget': 'MoneyWidget',
-    'ui:label': 'BC Funding Request',
+    'ui:label': 'BC Funding Requested',
   },
-  federalFunding: {
+  federalFundingRequested: {
     'ui:widget': 'MoneyWidget',
-    'ui:label': 'Federal Funding',
+    'ui:label': 'Federal Funding Requested',
   },
   applicantAmount: {
     'ui:widget': 'MoneyWidget',
     'ui:label': 'Applicant Amount',
   },
-  otherFunding: {
+  otherFundingRequested: {
     'ui:widget': 'MoneyWidget',
-    'ui:label': 'Other Funding',
+    'ui:label': 'Other Funding Requested',
   },
   totalProjectBudget: {
     'ui:widget': 'MoneyWidget',

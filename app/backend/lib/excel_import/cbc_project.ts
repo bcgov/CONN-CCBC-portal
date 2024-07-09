@@ -177,15 +177,15 @@ const readSummary = async (wb, sheet) => {
         projectNumber
       ),
       restAreas: project['Z'],
-      bcFundingRequest: validateNumber(
+      bcFundingRequested: validateNumber(
         project['AA'],
-        'bcFundingRequest',
+        'bcFundingRequested',
         errorLog,
         projectNumber
       ),
-      federalFunding: validateNumber(
+      federalFundingRequested: validateNumber(
         project['AB'],
-        'federalFunding',
+        'federalFundingRequested',
         errorLog,
         projectNumber
       ),
@@ -195,9 +195,9 @@ const readSummary = async (wb, sheet) => {
         errorLog,
         projectNumber
       ),
-      otherFunding: validateNumber(
+      otherFundingRequested: validateNumber(
         project['AD'],
-        'otherFunding',
+        'otherFundingRequested',
         errorLog,
         projectNumber
       ),
@@ -207,10 +207,10 @@ const readSummary = async (wb, sheet) => {
         errorLog,
         projectNumber
       ),
-      nditConditionalApprovalLetterSent: project?.['AF']
+      conditionalApprovalLetterSent: project?.['AF']
         ? project?.['AF'].toLowerCase() === 'yes'
         : null,
-      bindingAgreementSignedNditRecipient: project?.['AG']
+      agreementSigned: project?.['AG']
         ? project?.['AG'].toLowerCase() === 'yes'
         : null,
       announcedByProvince: project?.['AH']
