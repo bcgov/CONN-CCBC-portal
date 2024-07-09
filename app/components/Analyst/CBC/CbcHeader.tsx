@@ -118,7 +118,7 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
               },
               { description: 'Agreement Signed', name: 'approved', id: 3 },
               { description: 'Reporting Complete', name: 'complete', id: 2 },
-              { description: 'Withdrawn', name: 'withdrawn', id: 2 },
+              { description: 'Withdrawn', name: 'withdrawn', id: 4 },
             ]}
             isFormEditMode={isFormEditMode}
           />
