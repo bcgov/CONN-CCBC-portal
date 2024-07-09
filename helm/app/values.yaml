@@ -25,6 +25,9 @@ image:
     pullPolicy: IfNotPresent
     tag: 'sha-65212713aa9902ec41a0ee00df51ded83c971a0d' # The tag value must be passed in via the deploy script
 
+sentry:
+  release: '' # The release value must be passed in via the deploy script
+
 cronsp:
   clientSecret: '' # client-secret must be passed in via deploy script
   clientId: '' # client-id must be passed in via deploy script
