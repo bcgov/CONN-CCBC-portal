@@ -1,3 +1,10 @@
+## [1.166.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.4...v1.166.5) (2024-07-09)
+
+### Bug Fixes
+
+- add missing ches to feature env ([5b3f52e](https://github.com/bcgov/CONN-CCBC-portal/commit/5b3f52ee68d28991b3e5ce274039a50d3f801712))
+- increase liveness/readiness time ([2247357](https://github.com/bcgov/CONN-CCBC-portal/commit/22473577dc852b4712b13194d27dffc3d616a343))
+
 ## [1.166.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.3...v1.166.4) (2024-07-08)
 
 ### Bug Fixes
