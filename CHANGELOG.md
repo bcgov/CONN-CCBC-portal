@@ -1,3 +1,23 @@
+## [1.166.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.4...v1.166.5) (2024-07-09)
+
+### Bug Fixes
+
+- add missing ches to feature env ([5b3f52e](https://github.com/bcgov/CONN-CCBC-portal/commit/5b3f52ee68d28991b3e5ce274039a50d3f801712))
+- increase liveness/readiness time ([2247357](https://github.com/bcgov/CONN-CCBC-portal/commit/22473577dc852b4712b13194d27dffc3d616a343))
+
+## [1.166.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.3...v1.166.4) (2024-07-08)
+
+### Bug Fixes
+
+- match sentry release with app ([971a591](https://github.com/bcgov/CONN-CCBC-portal/commit/971a591490dd3bdfbde22f7f0eac7aece1846048))
+- match sentry release with app ([9f5ca6b](https://github.com/bcgov/CONN-CCBC-portal/commit/9f5ca6bd9d30774b8c15a414cb541dc929a50390))
+
+## [1.166.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.2...v1.166.3) (2024-07-08)
+
+### Bug Fixes
+
+- s3 buckets, feat env url ([3bc4e1b](https://github.com/bcgov/CONN-CCBC-portal/commit/3bc4e1b38ddeb604b8277ff27b6578198afb1f36))
+
 ## [1.166.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.1...v1.166.2) (2024-06-26)
 
 ### Bug Fixes

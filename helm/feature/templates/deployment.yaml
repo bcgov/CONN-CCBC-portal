@@ -206,7 +206,7 @@ spec:
             - name: AWS_ROLE_ARN
               value: {{ .Values.objectStorage.awsRoleArn }}
             - name: SENTRY_RELEASE
-              value: {{ .Values.image.app.tag }}
+              value: {{ .Values.sentry.release }}
             - name: ENABLE_MOCK_AUTH
               value: {{ .Values.loadTest.enable | quote }}
             - name: METABASE_SITE_URL
@@ -235,6 +235,22 @@ spec:
                   name: ccbc-cron-sp-sso
             - name: SP_LIST_NAME
               value: {{ .Values.sharepoint.spListName }}
+            - name: CHES_API_URL
+              value: {{ .Values.ches.url }}
+            - name: CHES_CLIENT
+              valueFrom:
+                secretKeyRef:
+                  key: client
+                  name: ccbc-ches
+            - name: CHES_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: client-secret
+                  name: ccbc-ches
+            - name: CHES_TO_EMAIL
+              value: {{ .Values.ches.to }}
+            - name: CHES_KEYCLOAK_HOST
+              value: {{ .Values.ches.keycloakHost }}
           resources:
             requests:
               memory: {{ .Values.resources.app.requests.memory }}
@@ -254,7 +270,7 @@ spec:
             failureThreshold: 1
             successThreshold: 1
             periodSeconds: 5
-            timeoutSeconds: 5
+            timeoutSeconds: 35
             initialDelaySeconds: 30
           livenessProbe:
           # the liveness probe is here to ensure that a pod does not get
@@ -264,7 +280,7 @@ spec:
               path: /live
               port: {{ .Values.app.probesPort }}
             initialDelaySeconds: 30
-            periodSeconds: 10
+            periodSeconds: 30
             failureThreshold: 3
             successThreshold: 1
-            timeoutSeconds: 5
+            timeoutSeconds: 35
