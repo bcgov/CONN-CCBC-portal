@@ -59,6 +59,9 @@ const cbcProjectStatusConverter = (status) => {
   if (status === 'Agreement Signed') {
     return 'approved';
   }
+  if (status === 'Withdrawn') {
+    return 'withdrawn';
+  }
   return status;
 };
 
@@ -445,11 +448,16 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     ];
 
     const externalStatuses = [
-      ...new Set(
-        allApplications.edges.map((edge) =>
+      ...new Set([
+        ...allApplications.edges.map((edge) =>
           normalizeStatusName(edge.node.externalStatus)
-        )
-      ),
+        ),
+        ...allCbcData.edges
+          .map((edge) => edge.node?.jsonData?.projectStatus)
+          .map((status) =>
+            normalizeStatusName(cbcProjectStatusConverter(status))
+          ),
+      ]),
     ];
 
     const uniqueLeads = [

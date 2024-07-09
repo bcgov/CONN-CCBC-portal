@@ -1,3 +1,9 @@
+## [1.166.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.5...v1.166.6) (2024-07-09)
+
+### Bug Fixes
+
+- external status filters to add cbc statuses ([98776df](https://github.com/bcgov/CONN-CCBC-portal/commit/98776df4c3367804432d455703ae8754a9eaf9d4))
+
 ## [1.166.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.4...v1.166.5) (2024-07-09)
 
 ### Bug Fixes
