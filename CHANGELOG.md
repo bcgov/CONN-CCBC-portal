@@ -1,3 +1,13 @@
+# [1.167.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.6...v1.167.0) (2024-07-09)
+
+### Bug Fixes
+
+- revert test code ([b5a23fb](https://github.com/bcgov/CONN-CCBC-portal/commit/b5a23fbac064237ff72bf1697a8678c484a54f01))
+
+### Features
+
+- add project type filters to dashboard ([954caa3](https://github.com/bcgov/CONN-CCBC-portal/commit/954caa3d4f7a04945d6a5fbe144c8ef4e4062276))
+
 ## [1.166.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.5...v1.166.6) (2024-07-09)
 
 ### Bug Fixes
