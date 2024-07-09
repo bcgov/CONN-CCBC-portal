@@ -105,7 +105,7 @@ const RfiAnalystUpload = ({ query }) => {
     return (
       <>
         {' '}
-        `Template {templateData?.templateNumber} data changed successfully, new
+        Template {templateData?.templateNumber} data changed successfully, new
         values for{' '}
         {templateData?.templateNumber === 1
           ? 'Total Households and Indigenous Households'
@@ -116,7 +116,7 @@ const RfiAnalystUpload = ({ query }) => {
         >
           history page
         </StyledLink>{' '}
-        for details.`
+        for details.
       </>
     );
   };

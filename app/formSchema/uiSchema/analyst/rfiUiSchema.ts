@@ -594,6 +594,7 @@ while (stack.length) {
         currentObj[key]['ui:options'].useFileDate = true;
         currentObj[key]['ui:options'].fileDateTitle = 'Date received';
         currentObj[key]['ui:options'].maxDate = new Date();
+        currentObj[key]['ui:options'].showValidationMessage = true;
       }
       stack.push(currentObj[key]);
     }
