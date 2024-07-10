@@ -176,10 +176,9 @@ export const authCallbackController =
       req.session.tokenSet = tokenSet;
       req.claims = tokenSet.claims();
 
-      // Temporarily disable the onAuthCallback for debugging purposes
-      // if (typeof options.onAuthCallback === 'function') {
-      //   await options.onAuthCallback(req);
-      // }
+      if (typeof options.onAuthCallback === 'function') {
+        await options.onAuthCallback(req);
+      }
 
       delete req.session.codeVerifier;
 
