@@ -472,8 +472,9 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         })
         .filter(
           (data: any) =>
+            data.techAssessment.jsonData.assignedTo &&
             data.techAssessment.jsonData.assignedTo !==
-            data.notifications[0]?.node?.jsonData?.to
+              data.notifications[0]?.node?.jsonData?.to
         )
         .map((data: any) => {
           return {
