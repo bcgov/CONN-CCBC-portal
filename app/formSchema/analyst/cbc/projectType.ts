@@ -4,13 +4,14 @@ const projectType: RJSFSchema = {
   title: 'Project type',
   description: '',
   type: 'object',
+  required: ['projectType'],
   properties: {
     projectType: {
       type: 'string',
       title: 'Project Type',
       enum: [
         null,
-        'Highway',
+        'Cellular',
         'Last-Mile',
         'Last-Mile & Cellular',
         'Last-Mile & Transport',
@@ -26,11 +27,24 @@ const projectType: RJSFSchema = {
     highwayProjectType: {
       type: 'string',
       title: 'Highway Project Type',
+      enum: [null, 'Cellular', 'Emergency Call Boxes', 'Rest Areas Wi-Fi'],
     },
     lastMileProjectType: {
       type: 'string',
       title: 'Last Mile Project Type',
-      enum: [null, 'Fibre', 'Coaxial', 'LTE'],
+      enum: [
+        null,
+        'Fibre',
+        'Coaxial',
+        'LTE',
+        'Fibre & Coaxial',
+        'Fibre & Fixed Wireless',
+        'Fixed Wireless',
+        'Fixed Wireless (LTE)',
+        'Upgrade Coax & Wireless',
+        'Upgrade DSL',
+        'Upgrade Wireless',
+      ],
     },
     lastMileMinimumSpeed: {
       type: 'string',

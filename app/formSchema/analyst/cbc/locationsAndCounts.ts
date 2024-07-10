@@ -4,6 +4,12 @@ const locationsAndCounts: RJSFSchema = {
   title: 'Locations and counts',
   description: '',
   type: 'object',
+  required: [
+    'projectLocations',
+    'communitiesAndLocalesCount',
+    'indigenousCommunities',
+    'householdCount',
+  ],
   properties: {
     projectLocations: {
       type: 'string',

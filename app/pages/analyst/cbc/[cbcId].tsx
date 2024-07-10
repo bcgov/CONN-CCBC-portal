@@ -17,6 +17,7 @@ import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
 import { useFeature } from '@growthbook/growthbook-react';
 import CbcTheme from 'components/Analyst/CBC/CbcTheme';
 import { createCbcSchemaData } from 'utils/schemaUtils';
+import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -144,29 +145,45 @@ const Cbc = ({
     setEditMode(false);
   };
 
-  const validate = (data) => {
+  const validate = (data, schema) => {
     const errors: any = {};
-    if (
-      (data.funding?.bcFundingRequested || 0) +
-        (data.funding?.federalFundingRequested || 0) +
-        (data.funding?.applicantAmount || 0) +
-        (data.funding?.otherFundingRequested || 0) !==
-      data.funding?.totalProjectBudget
-    ) {
-      errors.funding = {
-        totalProjectBudget: {
-          __errors: [
-            'Total project budget must equal the sum of the funding sources',
-          ],
-          color: '#f8e78f',
-        },
-      };
-    }
-    // append other validation logic here
+    if (!schema?.properties) return errors;
+
+    Object.entries(schema?.properties).forEach(
+      ([key, property]: [string, any]) => {
+        const fieldErrors = {};
+
+        Object.keys(property.properties).forEach((fieldKey) => {
+          // validate custom rules for fields
+          const fieldErrorList = customValidate(data, key, fieldKey);
+
+          // add required field error if no other custom validation errors
+          if (
+            fieldErrorList.length === 0 &&
+            property.required?.includes(fieldKey) &&
+            !data[key]?.[fieldKey]
+          ) {
+            fieldErrorList.push('Please enter a value');
+          }
+
+          if (fieldErrorList.length > 0) {
+            fieldErrors[fieldKey] = {
+              __errors: fieldErrorList,
+              CBC_WARN_COLOR,
+            };
+          }
+        });
+
+        if (Object.keys(fieldErrors).length > 0) {
+          errors[key] = fieldErrors;
+        }
+      }
+    );
+
     return errors;
   };
 
-  const formErrors = useMemo(() => validate(formData), [formData]);
+  const formErrors = useMemo(() => validate(formData, review), [formData]);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
