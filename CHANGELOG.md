@@ -1,3 +1,16 @@
+# [1.168.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.167.2...v1.168.0) (2024-07-10)
+
+### Bug Fixes
+
+- download attachements for roling intake ([a29f2cd](https://github.com/bcgov/CONN-CCBC-portal/commit/a29f2cd0bc56d9572ca647b1c2d0788a0ca7741e))
+- failing schema ([73ad65a](https://github.com/bcgov/CONN-CCBC-portal/commit/73ad65ac6f978117ed70432ba7aede719b67e546))
+- failing schema ([6d097d3](https://github.com/bcgov/CONN-CCBC-portal/commit/6d097d383cc394a9be94fa30130ceb82fa9162a8))
+- pass requested date for zip generation ([fe89624](https://github.com/bcgov/CONN-CCBC-portal/commit/fe8962483949b766505f54de90ece00f2333f6af))
+
+### Features
+
+- rolling intake ([1ca4dac](https://github.com/bcgov/CONN-CCBC-portal/commit/1ca4dac0c4b167720a54527e0d32de0bf3e84568))
+
 ## [1.167.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.167.1...v1.167.2) (2024-07-09)
 
 ## [1.167.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.167.0...v1.167.1) (2024-07-09)
