@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import { useFeature } from '@growthbook/growthbook-react';
 import CbcChangeStatus from './CbcChangeStatus';
-import AssignField from './AssignField';
 import PendingChangeRequest from '../PendingChangeRequest/PendingChangeRequest';
 import CbcEditProjectDescription from './CbcEditProjectDescription';
 import CbcAssignProjectType from './CbcAssignProjectType';
@@ -46,10 +45,6 @@ const StyledLabel = styled.label`
 const StyledItem = styled.div`
   display: flex;
   align-items: center;
-  margin: 8px 0 0 0;
-`;
-
-const StyledAssign = styled(StyledItem)`
   margin: 8px 0 0 0;
 `;
 
@@ -144,28 +139,6 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
             isHeaderEditable={isHeaderEditable}
           />
         </StyledItem>
-        <StyledAssign>
-          <StyledLabel htmlFor="assign-phase">Phase</StyledLabel>
-          <AssignField
-            // fieldValue={jsonData?.phase.toString() || null}
-            fieldName="phase"
-            fieldOptions={['1', '2', '3', '4', '4b']}
-            fieldType="string"
-            cbc={cbcByRowId}
-            isHeaderEditable={isHeaderEditable}
-          />
-        </StyledAssign>
-        <StyledAssign>
-          <StyledLabel htmlFor="assign-intake">Intake</StyledLabel>
-          <AssignField
-            // fieldValue={jsonData?.intake || null}
-            fieldName="intake"
-            fieldOptions={[null, 1, 2, 3, 4]}
-            fieldType="number"
-            cbc={cbcByRowId}
-            isHeaderEditable={isHeaderEditable}
-          />
-        </StyledAssign>
         <StyledProjectType>
           <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>
           <CbcAssignProjectType

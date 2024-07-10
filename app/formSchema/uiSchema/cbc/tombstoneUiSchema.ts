@@ -6,8 +6,18 @@ const tombstoneUiSchema = {
   },
   'ui:title': 'Tombstone',
   originalProjectNumber: {
-    'ui:widget': 'ReadOnlyWidget',
+    'ui:widget': 'TextWidget',
     'ui:label': 'Original Project Number',
+  },
+  phase: {
+    'ui:widget': 'SelectWidget',
+    'ui:placeholder': 'Select a phase',
+    'ui:label': 'Phase',
+  },
+  intake: {
+    'ui:widget': 'SelectWidget',
+    'ui:placeholder': 'Select an intake',
+    'ui:label': 'Intake',
   },
   applicantContractualName: {
     'ui:widget': 'TextWidget',
@@ -19,7 +29,7 @@ const tombstoneUiSchema = {
   },
   eightThirtyMillionFunding: {
     'ui:widget': 'RadioWidget',
-    'ui:label': '8.30M Funding',
+    'ui:label': '$830 Million Funding',
   },
   federalFundingSource: {
     'ui:widget': 'SelectWidget',

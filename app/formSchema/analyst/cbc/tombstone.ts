@@ -14,6 +14,16 @@ const cbcTombstone: RJSFSchema = {
       type: 'string',
       title: 'Original Project Number',
     },
+    phase: {
+      type: 'string',
+      title: 'Project Phase',
+      enum: ['1', '2', '3', '4', '4b'],
+    },
+    intake: {
+      type: 'string',
+      title: 'Intake',
+      enum: [null, 1, 2, 3, 4],
+    },
     applicantContractualName: {
       type: 'string',
       title: 'Applicant Contractual Name',

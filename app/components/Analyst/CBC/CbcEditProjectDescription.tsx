@@ -57,9 +57,12 @@ const CbcEditProjectDescription: React.FC<Props> = ({
         },
         onCompleted: () => {
           setDescription(newDescription);
+          setIsEditing(false);
         },
         debounceKey: 'cbc_change_status',
       });
+    } else {
+      setIsEditing(false);
     }
   };
   return (
