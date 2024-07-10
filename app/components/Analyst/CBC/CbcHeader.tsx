@@ -51,10 +51,6 @@ const StyledProjectType = styled(StyledItem)`
   margin: 8px 0 0 0;
 `;
 
-const StyledProjectType = styled(StyledItem)`
-  margin: 8px 0 0 0;
-`;
-
 const StyledPendingChangeRequests = styled(StyledItem)`
   margin: 8px 0;
 `;
