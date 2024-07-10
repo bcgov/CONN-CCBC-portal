@@ -21,6 +21,7 @@ import { applicantBenefits as applicantBenefitsSchema } from 'formSchema/pages';
 import { applicantBenefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
 import { RJSFSchema } from '@rjsf/utils';
+import GenericConfirmationModal from 'lib/theme/widgets/GenericConfirmationModal';
 import SubmitButtons from './SubmitButtons';
 import FormBase from './FormBase';
 import {
@@ -177,6 +178,7 @@ const ApplicationForm: React.FC<Props> = ({
         openIntake {
           closeTimestamp
           ccbcIntakeNumber
+          rollingIntake
         }
         allIntakes(
           first: 1
@@ -225,6 +227,7 @@ const ApplicationForm: React.FC<Props> = ({
   const latestIntakeNumber =
     openIntake?.ccbcIntakeNumber ??
     allIntakes?.edges[0]?.node?.ccbcIntakeNumber;
+  const isRollingIntake = openIntake?.rollingIntake ?? false;
 
   const acceptedProjectAreas = useFeature('intake_zones_json');
   const acceptedProjectAreasArray =
@@ -281,6 +284,7 @@ const ApplicationForm: React.FC<Props> = ({
   const [savingError, setSavingError] = useState(null);
   const [savedAsDraft, setSavedAsDraft] = useState(false);
   const projectAreaModal = useModal();
+  const submissionConfirmationModal = useModal();
 
   const [isProjectAreaSelected, setProjectAreaSelected] = useState(
     jsonData?.projectArea?.geographicArea?.length > 0
@@ -323,6 +327,7 @@ const ApplicationForm: React.FC<Props> = ({
       acceptedProjectAreasArray,
       isProjectAreaSelected,
       intakeNumber,
+      isRollingIntake,
     };
   }, [
     openIntake,
@@ -337,6 +342,7 @@ const ApplicationForm: React.FC<Props> = ({
     isProjectAreaSelected,
     latestIntakeNumber,
     ccbcIntakeNumber,
+    isRollingIntake,
   ]);
 
   const updateAreAllAcknowledgementFieldsSet = (
@@ -452,6 +458,25 @@ const ApplicationForm: React.FC<Props> = ({
     // Todo: proper 404
     return <h2>404 not found</h2>;
   }
+
+  const notifyRollingApplicationSubmission = () => {
+    fetch(`/api/email/notifyApplicationSubmission`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        applicationId: rowId,
+        host: window.location.origin,
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        Sentry.captureException({
+          name: 'Error sending email notification for application submit',
+          message: response,
+        });
+      }
+      return response.json();
+    });
+  };
 
   const saveForm = (
     newFormSectionData: any,
@@ -664,8 +689,10 @@ const ApplicationForm: React.FC<Props> = ({
             _formSchemaId: formSchemaId,
           },
         },
-        onCompleted: () =>
-          router.push(`/applicantportal/form/${rowId}/success`),
+        onCompleted: () => {
+          router.push(`/applicantportal/form/${rowId}/success`);
+          if (isRollingIntake) notifyRollingApplicationSubmission();
+        },
       });
     }
   };
@@ -697,7 +724,11 @@ const ApplicationForm: React.FC<Props> = ({
         />
       </Flex>
       <FormBase
-        onSubmit={handleSubmit}
+        onSubmit={(e) =>
+          isRollingIntake && isSubmitPage
+            ? submissionConfirmationModal.open()
+            : handleSubmit(e)
+        }
         onChange={handleChange}
         // Moved here to prevent cycle of FormBase calling the ReviewField through DefaultTheme
         fields={{ ReviewField }}
@@ -726,6 +757,22 @@ const ApplicationForm: React.FC<Props> = ({
         {...projectAreaModal}
         projectAreaModalType={projectAreaModalType}
         acceptedProjectAreasArray={acceptedProjectAreasArray}
+      />
+      <GenericConfirmationModal
+        id="submission-confirm-modal"
+        title="Edit"
+        message="You are about to submit your application. You will no longer be able to edit after this action."
+        okLabel="Confirm Submission"
+        cancelLabel="Keep as Draft"
+        onConfirm={(e) => {
+          handleSubmit(e);
+          submissionConfirmationModal.close();
+        }}
+        onClose={(e) => {
+          saveForm(e.formData, {}, false, true);
+          submissionConfirmationModal.close();
+        }}
+        {...submissionConfirmationModal}
       />
     </>
   );

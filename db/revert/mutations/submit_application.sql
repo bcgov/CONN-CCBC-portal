@@ -71,12 +71,21 @@ begin
   insert into ccbc_public.application_status
     (application_id, status) values (application_row_id, 'submitted');
 
-  update ccbc_public.application set
-  ccbc_number=format(
-      'CCBC-%s%s', lpad(current_intake_number::text , 2, '0'),
-      lpad((ccbc_public.increment_counter(_counter_id::int))::text, 4, '0')
-    ),
-    intake_id = current_intake_id where id = application_row_id;
+  if current_intake_number = 99 then
+    update ccbc_public.application set
+      ccbc_number = format(
+          'CCBC-025%s',
+          lpad((ccbc_public.increment_counter(_counter_id::int))::text, 3, '0')
+      ),
+      intake_id = current_intake_id where id = application_row_id;
+  else
+    update ccbc_public.application set
+    ccbc_number=format(
+        'CCBC-%s%s', lpad(current_intake_number::text , 2, '0'),
+        lpad((ccbc_public.increment_counter(_counter_id::int))::text, 4, '0')
+      ),
+      intake_id = current_intake_id where id = application_row_id;
+  end if;
 
   update ccbc_public.form_data set
     form_data_status_type_id = 'committed',

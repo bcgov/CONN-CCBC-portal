@@ -41,7 +41,7 @@ const StyledBtnContainer = styled.div<EditProps>`
 
 const StyledForm = styled.section<EditProps>`
   overflow: hidden;
-  max-height: ${({ isFormEditMode }) => (isFormEditMode ? '500px' : '0px')};
+  max-height: ${({ isFormEditMode }) => (isFormEditMode ? '560px' : '0px')};
   transition: max-height 0.5s;
   padding-left: 4px;
   max-width: 480px;
@@ -127,6 +127,7 @@ const AddIntake: React.FC<Props> = ({
               ccbcIntakeNumber
               closeTimestamp
               openTimestamp
+              rollingIntake
             }
           }
         }
@@ -163,7 +164,8 @@ const AddIntake: React.FC<Props> = ({
   };
 
   const handleSubmit = (e) => {
-    const { startDate, endDate, intakeNumber, description } = e.formData;
+    const { startDate, endDate, intakeNumber, description, rollingIntake } =
+      e.formData;
 
     if (isIntakeEdit) {
       updateIntake({
@@ -173,6 +175,7 @@ const AddIntake: React.FC<Props> = ({
             startTime: startDate,
             endTime: endDate,
             intakeDescription: description,
+            isRollingIntake: rollingIntake,
           },
         },
         onCompleted: () => {
@@ -187,6 +190,7 @@ const AddIntake: React.FC<Props> = ({
             intakeDescription: description,
             endTime: endDate,
             startTime: startDate,
+            rollingIntake,
           },
         },
         onCompleted: () => {

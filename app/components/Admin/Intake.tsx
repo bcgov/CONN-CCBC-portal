@@ -117,6 +117,7 @@ const Intake: React.FC<IntakeProps> = ({
         description
         closeTimestamp
         openTimestamp
+        rollingIntake
         rowId
       }
     `,
