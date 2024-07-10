@@ -24,6 +24,9 @@ import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTabl
 import { TableCellProps } from '@mui/material';
 import { useFeature } from '@growthbook/growthbook-react';
 import { filterZones, sortZones } from './AssessmentAssignmentTable';
+import AdditionalFilters, {
+  additionalFilterColumns,
+} from './AdditionalFilters';
 
 type Application = {
   ccbcNumber: string;
@@ -56,6 +59,9 @@ const cbcProjectStatusConverter = (status) => {
   if (status === 'Agreement Signed') {
     return 'approved';
   }
+  if (status === 'Withdrawn') {
+    return 'withdrawn';
+  }
   return status;
 };
 
@@ -66,6 +72,12 @@ const StyledLink = styled(Link)`
   &:hover {
     text-decoration: underline;
   }
+`;
+
+const StyledTableHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 `;
 
 const muiTableBodyCellProps = (props): TableCellProps => {
@@ -220,14 +232,14 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const [isFirstRender, setIsFirstRender] = useState(true);
 
-  const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
-    []
-  );
+  const defaultFilters = [{ id: 'projectType', value: ['CCBC', 'CBC'] }];
+  const [columnFilters, setColumnFilters] =
+    useState<MRT_ColumnFiltersState>(defaultFilters);
   const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
   const showCbcProjects = useFeature('show_cbc_projects').value ?? false;
   const showCbcProjectsLink = useFeature('show_cbc_view_link').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
-    { Lead: false }
+    { Lead: false, projectType: false }
   );
 
   const [visibilityPreference, setVisibilityPreference] =
@@ -381,6 +393,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     return [
       ...allApplications.edges.map((application) => ({
         ...application.node,
+        projectType: 'CCBC',
         projectId: application.node.ccbcNumber,
         packageNumber: application.node.package,
         projectTitle:
@@ -393,6 +406,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         ? allCbcData.edges.map((project) => ({
             rowId: project.node.cbcId,
             ...project.node.jsonData,
+            projectType: 'CBC',
             zones: [],
             intakeNumber: project.node.jsonData?.intake || 'N/A',
             projectId: project.node.jsonData.projectNumber,
@@ -434,11 +448,16 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     ];
 
     const externalStatuses = [
-      ...new Set(
-        allApplications.edges.map((edge) =>
+      ...new Set([
+        ...allApplications.edges.map((edge) =>
           normalizeStatusName(edge.node.externalStatus)
-        )
-      ),
+        ),
+        ...allCbcData.edges
+          .map((edge) => edge.node?.jsonData?.projectStatus)
+          .map((status) =>
+            normalizeStatusName(cbcProjectStatusConverter(status))
+          ),
+      ]),
     ];
 
     const uniqueLeads = [
@@ -510,6 +529,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         filterVariant: 'select',
         filterSelectOptions: uniquePackages,
       },
+      // adding dummy columns for filter purposes
+      ...additionalFilterColumns,
     ];
   }, [AssignAnalystLead, allApplications]);
 
@@ -544,7 +565,17 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       statusFilter,
     },
     renderTopToolbarCustomActions: () => (
-      <ClearFilters table={table} filters={table.getState().columnFilters} />
+      <StyledTableHeader>
+        <ClearFilters
+          table={table}
+          filters={table.getState().columnFilters}
+          defaultFilters={defaultFilters}
+        />
+        <AdditionalFilters
+          filters={columnFilters}
+          setFilters={setColumnFilters}
+        />
+      </StyledTableHeader>
     ),
   });
 

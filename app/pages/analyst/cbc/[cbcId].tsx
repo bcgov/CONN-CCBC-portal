@@ -147,10 +147,10 @@ const Cbc = ({
   const validate = (data) => {
     const errors: any = {};
     if (
-      (data.funding?.bcFundingRequest || 0) +
-        (data.funding?.federalFunding || 0) +
+      (data.funding?.bcFundingRequested || 0) +
+        (data.funding?.federalFundingRequested || 0) +
         (data.funding?.applicantAmount || 0) +
-        (data.funding?.otherFunding || 0) !==
+        (data.funding?.otherFundingRequested || 0) !==
       data.funding?.totalProjectBudget
     ) {
       errors.funding = {

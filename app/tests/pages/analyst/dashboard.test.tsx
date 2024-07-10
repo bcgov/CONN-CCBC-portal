@@ -105,15 +105,15 @@ const mockQueryPayload = {
                 reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
                 transportKm: 124,
                 lastReviewed: '2023-07-11T00:00:00.000Z',
-                otherFunding: 265000,
+                otherFundingRequested: 265000,
                 projectTitle: 'Project 1',
                 dateAnnounced: '2019-07-02T00:00:00.000Z',
                 projectNumber: 5555,
                 projectStatus: 'Reporting Complete',
-                federalFunding: 555555,
+                federalFundingRequested: 555555,
                 householdCount: null,
                 applicantAmount: 555555,
-                bcFundingRequest: 5555555,
+                bcFundingRequested: 5555555,
                 projectLocations: 'Location 1',
                 milestoneComments: 'Requested extension to March 31, 2024',
                 proposedStartDate: '2020-07-01T00:00:00.000Z',
@@ -138,8 +138,8 @@ const mockQueryPayload = {
                 projectMilestoneCompleted: 0.5,
                 communitiesAndLocalesCount: 5,
                 connectedCoastNetworkDependant: 'NO',
-                nditConditionalApprovalLetterSent: 'YES',
-                bindingAgreementSignedNditRecipient: 'YES',
+                conditionalApprovalLetterSent: 'YES',
+                agreementSigned: 'YES',
               },
             },
           },
@@ -154,15 +154,15 @@ const mockQueryPayload = {
                 reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
                 transportKm: 100,
                 lastReviewed: '2023-07-11T00:00:00.000Z',
-                otherFunding: 444444,
+                otherFundingRequested: 444444,
                 projectTitle: 'Project 1',
                 dateAnnounced: '2019-07-02T00:00:00.000Z',
                 projectNumber: 4444,
                 projectStatus: 'Agreement Signed',
-                federalFunding: 444444,
+                federalFundingRequested: 444444,
                 householdCount: null,
                 applicantAmount: 444444,
-                bcFundingRequest: 444444,
+                bcFundingRequested: 444444,
                 projectLocations: 'Location 2',
                 milestoneComments: 'Requested extension to March 31, 2024',
                 proposedStartDate: '2020-07-01T00:00:00.000Z',
@@ -187,8 +187,8 @@ const mockQueryPayload = {
                 projectMilestoneCompleted: 0.5,
                 communitiesAndLocalesCount: 5,
                 connectedCoastNetworkDependant: 'NO',
-                nditConditionalApprovalLetterSent: 'YES',
-                bindingAgreementSignedNditRecipient: 'YES',
+                conditionalApprovalLetterSent: 'YES',
+                agreementSigned: 'YES',
               },
             },
           },
@@ -203,15 +203,15 @@ const mockQueryPayload = {
                 reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
                 transportKm: 99,
                 lastReviewed: '2023-07-11T00:00:00.000Z',
-                otherFunding: 33333,
+                otherFundingRequested: 33333,
                 projectTitle: 'Project 3',
                 dateAnnounced: '2019-07-02T00:00:00.000Z',
                 projectNumber: 3333,
                 projectStatus: 'Reporting Complete',
-                federalFunding: 333333,
+                federalFundingRequested: 333333,
                 householdCount: null,
                 applicantAmount: 33333,
-                bcFundingRequest: 333333,
+                bcFundingRequested: 333333,
                 projectLocations: 'Location 3',
                 milestoneComments: 'Requested extension to March 31, 2024',
                 proposedStartDate: '2020-07-01T00:00:00.000Z',
@@ -236,8 +236,8 @@ const mockQueryPayload = {
                 projectMilestoneCompleted: 0.5,
                 communitiesAndLocalesCount: 5,
                 connectedCoastNetworkDependant: 'NO',
-                nditConditionalApprovalLetterSent: 'YES',
-                bindingAgreementSignedNditRecipient: 'YES',
+                conditionalApprovalLetterSent: 'YES',
+                agreementSigned: 'YES',
               },
             },
           },
@@ -512,6 +512,20 @@ describe('The index page', () => {
     expect(externalStatus).toBeInTheDocument();
   });
 
+  it('shows the project type filters with default filters', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const ccbcFilterCheckbox = screen.getByTestId('projectTypeFilterCcbc');
+    const cbcFilterCheckbox = screen.getByTestId('projectTypeFilterCbc');
+
+    expect(ccbcFilterCheckbox).toBeInTheDocument();
+    expect(cbcFilterCheckbox).toBeInTheDocument();
+
+    expect(ccbcFilterCheckbox).toBeChecked();
+    expect(cbcFilterCheckbox).toBeChecked();
+  });
+
   it('has the correct cancelled status styles', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
@@ -615,5 +629,63 @@ describe('The index page', () => {
 
     const option = screen.getAllByText('Received')[0];
     expect(option).toBeInTheDocument();
+  });
+
+  it('correctly filters project type', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('5555')).toBeInTheDocument();
+    expect(screen.queryByText('CCBC-010004')).toBeInTheDocument();
+    const cbcFilterCheckbox = screen.getByTestId('projectTypeFilterCbc');
+    const ccbcFilterCheckbox = screen.getByTestId('projectTypeFilterCcbc');
+    expect(cbcFilterCheckbox).toBeChecked();
+    expect(ccbcFilterCheckbox).toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(cbcFilterCheckbox);
+    });
+    expect(cbcFilterCheckbox).not.toBeChecked();
+
+    expect(screen.queryByText('5555')).not.toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(ccbcFilterCheckbox);
+    });
+    expect(ccbcFilterCheckbox).not.toBeChecked();
+
+    expect(screen.queryByText('CCBC-010004')).not.toBeInTheDocument();
+  });
+
+  it('clear filters correctly restore project type filter', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('5555')).toBeInTheDocument();
+    const cbcFilterCheckbox = screen.getByTestId('projectTypeFilterCbc');
+    expect(cbcFilterCheckbox).toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(cbcFilterCheckbox);
+    });
+    expect(cbcFilterCheckbox).not.toBeChecked();
+
+    expect(screen.queryByText('5555')).not.toBeInTheDocument();
+
+    const clearFiltersBtn = screen.getByText('Clear Filtering');
+    await act(async () => {
+      fireEvent.click(clearFiltersBtn);
+    });
+
+    expect(cbcFilterCheckbox).toBeChecked();
+    expect(screen.queryByText('5555')).toBeInTheDocument();
   });
 });

@@ -5,17 +5,17 @@ const eventsAndDates: RJSFSchema = {
   description: '',
   type: 'object',
   properties: {
-    nditConditionalApprovalLetterSent: {
+    conditionalApprovalLetterSent: {
       type: 'boolean',
-      title: 'NDIT Conditional Approval Letter Sent',
+      title: 'Conditional Approval Letter Sent',
       oneOf: [
         { const: true, title: 'Yes' },
         { const: false, title: 'No' },
       ],
     },
-    bindingAgreementSignedNditRecipient: {
+    agreementSigned: {
       type: 'boolean',
-      title: 'Binding Agreement Signed - NDIT Recipient',
+      title: 'Agreement Signed',
       oneOf: [
         { const: true, title: 'Yes' },
         { const: false, title: 'No' },

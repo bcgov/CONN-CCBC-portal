@@ -1,3 +1,47 @@
+# [1.168.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.167.2...v1.168.0) (2024-07-10)
+
+### Bug Fixes
+
+- download attachements for roling intake ([a29f2cd](https://github.com/bcgov/CONN-CCBC-portal/commit/a29f2cd0bc56d9572ca647b1c2d0788a0ca7741e))
+- failing schema ([73ad65a](https://github.com/bcgov/CONN-CCBC-portal/commit/73ad65ac6f978117ed70432ba7aede719b67e546))
+- failing schema ([6d097d3](https://github.com/bcgov/CONN-CCBC-portal/commit/6d097d383cc394a9be94fa30130ceb82fa9162a8))
+- pass requested date for zip generation ([fe89624](https://github.com/bcgov/CONN-CCBC-portal/commit/fe8962483949b766505f54de90ece00f2333f6af))
+
+### Features
+
+- rolling intake ([1ca4dac](https://github.com/bcgov/CONN-CCBC-portal/commit/1ca4dac0c4b167720a54527e0d32de0bf3e84568))
+
+## [1.167.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.167.1...v1.167.2) (2024-07-09)
+
+## [1.167.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.167.0...v1.167.1) (2024-07-09)
+
+### Bug Fixes
+
+- typo in alert RFI upload ([a2076f1](https://github.com/bcgov/CONN-CCBC-portal/commit/a2076f182eb462b15b83912e2b38cae74936a4cb))
+
+# [1.167.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.6...v1.167.0) (2024-07-09)
+
+### Bug Fixes
+
+- revert test code ([b5a23fb](https://github.com/bcgov/CONN-CCBC-portal/commit/b5a23fbac064237ff72bf1697a8678c484a54f01))
+
+### Features
+
+- add project type filters to dashboard ([954caa3](https://github.com/bcgov/CONN-CCBC-portal/commit/954caa3d4f7a04945d6a5fbe144c8ef4e4062276))
+
+## [1.166.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.5...v1.166.6) (2024-07-09)
+
+### Bug Fixes
+
+- external status filters to add cbc statuses ([98776df](https://github.com/bcgov/CONN-CCBC-portal/commit/98776df4c3367804432d455703ae8754a9eaf9d4))
+
+## [1.166.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.4...v1.166.5) (2024-07-09)
+
+### Bug Fixes
+
+- add missing ches to feature env ([5b3f52e](https://github.com/bcgov/CONN-CCBC-portal/commit/5b3f52ee68d28991b3e5ce274039a50d3f801712))
+- increase liveness/readiness time ([2247357](https://github.com/bcgov/CONN-CCBC-portal/commit/22473577dc852b4712b13194d27dffc3d616a343))
+
 ## [1.166.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.166.3...v1.166.4) (2024-07-08)
 
 ### Bug Fixes

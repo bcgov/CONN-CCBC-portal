@@ -16,6 +16,28 @@ const mockQueryPayload = {
         intakeByIntakeId: {
           ccbcIntakeNumber: 1,
           closeTimestamp: '2022-09-06T23:59:59-07:00',
+          rollingIntake: false,
+        },
+        projectName: 'Project testing title',
+        updatedAt: '2022-08-15T16:43:28.973734-04:00',
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+    };
+  },
+};
+
+const mockQueryPayloadRollingIntake = {
+  Query() {
+    return {
+      applicationByRowId: {
+        status: 'submitted',
+        ccbcNumber: 'CCBC-010001',
+        intakeByIntakeId: {
+          ccbcIntakeNumber: 1,
+          closeTimestamp: '2022-09-06T23:59:59-07:00',
+          rollingIntake: true,
         },
         projectName: 'Project testing title',
         updatedAt: '2022-08-15T16:43:28.973734-04:00',
@@ -34,6 +56,10 @@ const pageTestingHelper = new PageTestingHelper<successQuery>({
   defaultQueryVariables: {
     rowId: 1,
   },
+});
+
+afterEach(() => {
+  pageTestingHelper.reinit();
 });
 
 it('displays the correct nav links when user is logged in', () => {
@@ -84,6 +110,17 @@ it('displays the correct intake closing date', () => {
       'You can edit this application until the intake closes on 2022-09-06'
     )
   ).toBeInTheDocument();
+});
+
+it('displays the correct message for rolling intake applications', () => {
+  pageTestingHelper.loadQuery(mockQueryPayloadRollingIntake);
+  pageTestingHelper.renderPage();
+
+  expect(
+    screen.queryByText(
+      'You can edit this application until the intake closes on 2022-09-06'
+    )
+  ).not.toBeInTheDocument();
 });
 
 describe('The index page', () => {

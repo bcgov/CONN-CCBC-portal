@@ -67,6 +67,7 @@ const getDashboardQuery = graphql`
     }
     openIntake {
       closeTimestamp
+      rollingIntake
     }
     nextIntake {
       openTimestamp
@@ -90,6 +91,7 @@ const Dashboard = ({
     query;
 
   const closeTimestamp = openIntake?.closeTimestamp;
+  const isRollingIntake = openIntake?.rollingIntake ?? false;
   const isInternalIntakeEnabled = useFeature('internal_intake').value ?? false;
   const [isApplicationCreated, setIsApplicationCreated] = useState(false);
 
@@ -163,9 +165,11 @@ const Dashboard = ({
           <h1>Dashboard</h1>
           {openIntake ? (
             <p>
-              Review of applications will begin on{' '}
-              {dateTimeSubtracted(closeTimestamp, showSubtractedTime)}. You can
-              edit draft and submitted applications until this date.
+              {isRollingIntake
+                ? `The review of applications will begin immediately after submission. You will no longer be able to edit your application after submission. However, you can edit your draft application until the end of the intake period.`
+                : `Review of applications will begin on
+              ${dateTimeSubtracted(closeTimestamp, showSubtractedTime)}. You can
+              edit draft and submitted applications until this date.`}
             </p>
           ) : (
             <div>

@@ -294,7 +294,7 @@ spec:
             failureThreshold: 1
             successThreshold: 1
             periodSeconds: 5
-            timeoutSeconds: 5
+            timeoutSeconds: 35
             initialDelaySeconds: 30
           livenessProbe:
           # the liveness probe is here to ensure that a pod does not get
@@ -304,10 +304,10 @@ spec:
               path: /live
               port: {{ .Values.app.probesPort }}
             initialDelaySeconds: 30
-            periodSeconds: 10
+            periodSeconds: 30
             failureThreshold: 3
             successThreshold: 1
-            timeoutSeconds: 5
+            timeoutSeconds: 35
       volumes:
         - name: cache-volume
           persistentVolumeClaim:

@@ -16,6 +16,7 @@ const mockQueryPayload = {
       openIntake: {
         openTimestamp: '2022-08-19T09:00:00-07:00',
         closeTimestamp: '2027-08-19T09:00:00-07:00',
+        rollingIntake: false,
       },
     };
   },
@@ -39,6 +40,21 @@ const loggedOutPayload = {
         sub: null,
       },
       openIntake: null,
+    };
+  },
+};
+
+const mockQueryPayloadRollingIntake = {
+  Query() {
+    return {
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+      openIntake: {
+        openTimestamp: '2022-08-19T09:00:00-07:00',
+        closeTimestamp: '2027-08-19T09:00:00-07:00',
+        rollingIntake: true,
+      },
     };
   },
 };
@@ -141,6 +157,23 @@ describe('The index page', () => {
         /Applications will be accepted until August 19, 2027, 8:30:00 a.m. PDT./
       )
     ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Draft and submitted applications will be editable until then./
+      )
+    ).toBeInTheDocument();
+  });
+
+  it('Displays the callout message with correct information about submission', () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockSubtractedValue);
+    pageTestingHelper.loadQuery(mockQueryPayloadRollingIntake);
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.queryByText(
+        /Draft and submitted applications will be editable until then./
+      )
+    ).not.toBeInTheDocument();
   });
 
   it('Displays the Business BCeID login button', () => {
