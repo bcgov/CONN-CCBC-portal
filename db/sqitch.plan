@@ -595,3 +595,4 @@ mutations/create_intake [mutations/create_intake@1.165.0] 2024-06-28T14:03:53Z ,
 mutations/update_intake [mutations/update_intake@1.165.0] 2024-06-28T22:32:24Z ,,, <ryohani89@NH504670> # change update intake mutation to accept rolling flag
 @1.168.0 2024-07-10T13:35:28Z CCBC Service Account <ccbc@button.is> # release v1.168.0
 tables/cbc_application_pending_change_request_001_service_account 2024-07-09T22:28:27Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant service account access to cbc application pending change request table
+@1.168.1 2024-07-10T23:15:41Z CCBC Service Account <ccbc@button.is> # release v1.168.1
