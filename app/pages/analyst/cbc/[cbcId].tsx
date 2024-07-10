@@ -169,7 +169,7 @@ const Cbc = ({
           if (fieldErrorList.length > 0) {
             fieldErrors[fieldKey] = {
               __errors: fieldErrorList,
-              CBC_WARN_COLOR,
+              errorColor: CBC_WARN_COLOR,
             };
           }
         });
@@ -238,6 +238,7 @@ const Cbc = ({
             isCBC: true,
             cbcId: rowId,
             errors: formErrors,
+            showErrorHint: true,
           }}
           formData={formData}
           handleChange={(e) => {

@@ -41,9 +41,10 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   const after = uiSchema?.['ui:after'];
   const fieldName = id?.split('_')?.[2];
   const pageName = id?.split('_')?.[1];
+  const showErrorHint = formContext?.showErrorHint ?? false;
 
   const formErrorSchema = formContext?.formErrorSchema ?? formContext.errors;
-  const { color: errorColor, __errors: formContextErrors } =
+  const { errorColor, __errors: formContextErrors } =
     formErrorSchema?.[pageName]?.[fieldName] || {};
   const hasFormContextError = formContextErrors?.length > 0;
   const isErrors = (rawErrors && rawErrors.length > 0) || !!hasFormContextError;
@@ -60,7 +61,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
         {isErrors && !isFieldInRfi ? (
           <StyledColError data-testid={`${id}-value`} errorColor={errorColor}>
             {children}
-            {hasFormContextError && (
+            {showErrorHint && hasFormContextError && (
               <Tooltip
                 title={
                   <span style={{ whiteSpace: 'pre-line' }}>

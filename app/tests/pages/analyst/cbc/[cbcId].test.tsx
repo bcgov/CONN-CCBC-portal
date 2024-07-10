@@ -258,7 +258,7 @@ describe('Cbc', () => {
       'root_tombstone_projectStatus-value'
     );
     expect(projectStatusElement).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon = projectStatusElement.querySelector(
       '[data-testid="HelpIcon"]'
@@ -279,7 +279,7 @@ describe('Cbc', () => {
       'root_tombstone_federalProjectNumber-value'
     );
     expect(element).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon).toBeInTheDocument();
@@ -325,7 +325,7 @@ describe('Cbc', () => {
       'root_tombstone_federalProjectNumber-value'
     );
     expect(element).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon).toBeInTheDocument();
@@ -373,7 +373,7 @@ describe('Cbc', () => {
       'root_tombstone_federalProjectNumber-value'
     );
     expect(element).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon).toBeInTheDocument();
@@ -421,7 +421,7 @@ describe('Cbc', () => {
       'root_miscellaneous_projectMilestoneCompleted-value'
     );
     expect(element).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon).toBeInTheDocument();
@@ -452,8 +452,8 @@ describe('Cbc', () => {
                       dateAnnounced: null,
                       reportingCompletionDate: null,
                       dateConditionallyApproved: '2024-06-26T00:00:00.000Z',
-                      bindingAgreementSignedNditRecipient: 'YES',
-                      nditConditionalApprovalLetterSent: 'YES',
+                      agreementSigned: 'YES',
+                      conditionalApprovalLetterSent: 'YES',
                       dateAgreementSigned: null,
                     },
                   },
@@ -471,7 +471,7 @@ describe('Cbc', () => {
       'root_eventsAndDates_dateAnnounced-value'
     );
     expect(elementDateAnnounced).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon1 = elementDateAnnounced.querySelector(
       '[data-testid="HelpIcon"]'
@@ -486,7 +486,7 @@ describe('Cbc', () => {
       'root_eventsAndDates_reportingCompletionDate-value'
     );
     expect(elementReportingCompletion).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon2 = elementReportingCompletion.querySelector(
       '[data-testid="HelpIcon"]'
@@ -503,7 +503,7 @@ describe('Cbc', () => {
       'root_eventsAndDates_proposedCompletionDate-value'
     );
     expect(elementProposedCompletionDate).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon3 = elementProposedCompletionDate.querySelector(
       '[data-testid="HelpIcon"]'
@@ -520,7 +520,7 @@ describe('Cbc', () => {
       'root_eventsAndDates_dateAgreementSigned-value'
     );
     expect(elementDateAgreementSigned).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon4 = elementDateAgreementSigned.querySelector(
       '[data-testid="HelpIcon"]'
@@ -530,23 +530,6 @@ describe('Cbc', () => {
     fireEvent.mouseOver(helpIcon4);
     const tooltip4 = await screen.findByText(/Missing date agreement signed/);
     expect(tooltip4).toBeInTheDocument();
-
-    // const elementDateConditionallyApproved = screen.getByTestId(
-    //   'root_eventsAndDates_dateConditionallyApproved-value'
-    // );
-    // expect(elementDateConditionallyApproved).toHaveStyle({
-    //   backgroundColor: 'rgba(248,214,203,0.4)',
-    // });
-    // const helpIcon5 = elementDateConditionallyApproved.querySelector(
-    //   '[data-testid="HelpIcon"]'
-    // );
-    // expect(helpIcon5).toBeInTheDocument();
-
-    // fireEvent.mouseOver(helpIcon5);
-    // const tooltip5 = await screen.findByText(
-    //   /Missing date conditionally approved/
-    // );
-    // expect(tooltip5).toBeInTheDocument();
   });
 
   it('should have the correct validation errors for funding', async () => {
@@ -567,8 +550,8 @@ describe('Cbc', () => {
                     jsonData: {
                       ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
                         .edges[0].node.jsonData,
-                      bcFundingRequest: 100000,
-                      federalFunding: 555555,
+                      bcFundingRequested: 100000,
+                      federalFundingRequested: 555555,
                       totalProjectBudget: 5555555,
                       federalFundingSource: null,
                       applicantAmount: null,
@@ -586,7 +569,7 @@ describe('Cbc', () => {
 
     const element = screen.getByTestId('root_funding_totalProjectBudget-value');
     expect(element).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon).toBeInTheDocument();
@@ -597,9 +580,11 @@ describe('Cbc', () => {
     );
     expect(tooltip).toBeInTheDocument();
 
-    const element2 = screen.getByTestId('root_funding_federalFunding-value');
+    const element2 = screen.getByTestId(
+      'root_funding_federalFundingRequested-value'
+    );
     expect(element2).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon2 = element2.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon).toBeInTheDocument();
@@ -610,7 +595,7 @@ describe('Cbc', () => {
 
     const element3 = screen.getByTestId('root_funding_applicantAmount-value');
     expect(element3).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon3 = element3.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon).toBeInTheDocument();
@@ -658,7 +643,7 @@ describe('Cbc', () => {
       'root_locationsAndCounts_indigenousCommunities-value'
     );
     expect(element).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon).toBeInTheDocument();
@@ -673,7 +658,7 @@ describe('Cbc', () => {
       'root_locationsAndCounts_transportKm-value'
     );
     expect(element2).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon2 = element2.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon2).toBeInTheDocument();
@@ -721,7 +706,7 @@ describe('Cbc', () => {
       'root_locationsAndCounts_highwayKm-value'
     );
     expect(element).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon).toBeInTheDocument();
@@ -767,7 +752,7 @@ describe('Cbc', () => {
       'root_projectType_lastMileProjectType-value'
     );
     expect(element).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon).toBeInTheDocument();
@@ -813,7 +798,7 @@ describe('Cbc', () => {
       'root_projectType_highwayProjectType-value'
     );
     expect(element).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon).toBeInTheDocument();
@@ -859,7 +844,7 @@ describe('Cbc', () => {
       'root_projectType_transportProjectType-value'
     );
     expect(element).toHaveStyle({
-      backgroundColor: 'rgba(248,214,203,0.4)',
+      backgroundColor: 'rgb(248, 231, 143)',
     });
     const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
     expect(helpIcon).toBeInTheDocument();

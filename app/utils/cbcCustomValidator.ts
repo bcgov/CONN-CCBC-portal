@@ -98,7 +98,7 @@ const CBC_VALIDATIONS = {
       rules: [
         {
           condition: (data) =>
-            data.eventsAndDates?.bindingAgreementSignedNditRecipient &&
+            data.eventsAndDates?.agreementSigned &&
             !data.eventsAndDates?.dateAgreementSigned,
           error: 'Missing date agreement signed',
         },
@@ -109,30 +109,30 @@ const CBC_VALIDATIONS = {
       rules: [
         {
           condition: (data) =>
-            data.eventsAndDates?.nditConditionalApprovalLetterSent &&
+            data.eventsAndDates?.conditionalApprovalLetterSent &&
             !data.eventsAndDates?.dateConditionallyApproved,
           error: 'Missing date conditionally approved',
         },
       ],
       color: CBC_WARN_COLOR,
     },
-    bindingAgreementSignedNditRecipient: {
+    agreementSigned: {
       rules: [
         {
           condition: (data) =>
             data.tombstone?.projectStatus === 'Agreement Signed' &&
-            !data.eventsAndDates?.bindingAgreementSignedNditRecipient,
+            !data.eventsAndDates?.agreementSigned,
           error: 'Missing information : yes, no?',
         },
       ],
       color: CBC_WARN_COLOR,
     },
-    nditConditionalApprovalLetterSent: {
+    conditionalApprovalLetterSent: {
       rules: [
         {
           condition: (data) =>
             data.tombstone?.projectStatus === 'Conditionally Approved' &&
-            !data.eventsAndDates?.nditConditionalApprovalLetterSent,
+            !data.eventsAndDates?.conditionalApprovalLetterSent,
           error: `Status is Conditionally Approved, approval letter should have been sent, if so select 'Yes'`,
         },
       ],
@@ -144,10 +144,10 @@ const CBC_VALIDATIONS = {
       rules: [
         {
           condition: (data) =>
-            (data.funding?.bcFundingRequest || 0) +
-              (data.funding?.federalFunding || 0) +
+            (data.funding?.bcFundingRequested || 0) +
+              (data.funding?.federalFundingRequested || 0) +
               (data.funding?.applicantAmount || 0) +
-              (data.funding?.otherFunding || 0) !==
+              (data.funding?.otherFundingRequested || 0) !==
             data.funding?.totalProjectBudget,
           error:
             'Total project budget must equal the sum of the funding sources',
@@ -155,11 +155,11 @@ const CBC_VALIDATIONS = {
       ],
       color: CBC_WARN_COLOR,
     },
-    federalFunding: {
+    federalFundingRequested: {
       rules: [
         {
           condition: (data) =>
-            data.funding?.federalFunding &&
+            data.funding?.federalFundingRequested &&
             !data.tombstone?.federalFundingSource,
           error: 'Missing Federal funding source',
         },
@@ -247,8 +247,7 @@ const CBC_VALIDATIONS = {
 };
 
 const validateRule = (rule, data) => {
-  const { condition, error } = rule || {};
-  return condition && condition(data) ? error : null;
+  return rule?.condition?.(data) ? rule.error : null;
 };
 
 const customValidate = (data, key, fieldKey) => {
