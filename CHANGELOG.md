@@ -1,3 +1,9 @@
+## [1.168.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.168.0...v1.168.1) (2024-07-10)
+
+### Bug Fixes
+
+- grant service account to cbc change request table ([38917f7](https://github.com/bcgov/CONN-CCBC-portal/commit/38917f775498e2f41a4edb8bf72b3c6b2a49488e))
+
 # [1.168.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.167.2...v1.168.0) (2024-07-10)
 
 ### Bug Fixes
