@@ -139,7 +139,6 @@ const CbcEditProjectNumber: React.FC<Props> = ({
           'Content-Type': 'application/json',
         },
       });
-      console.log('response', response);
       if (!response.ok) return false;
       const data = await response.json();
       return data;
