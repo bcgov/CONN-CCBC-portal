@@ -1,3 +1,9 @@
+# [1.169.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.168.1...v1.169.0) (2024-07-15)
+
+### Features
+
+- reorganize cbc status header, add withdrawn ([73cff29](https://github.com/bcgov/CONN-CCBC-portal/commit/73cff29136cb22841f0aeb53073902490a4ad1da))
+
 ## [1.168.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.168.0...v1.168.1) (2024-07-10)
 
 ### Bug Fixes
