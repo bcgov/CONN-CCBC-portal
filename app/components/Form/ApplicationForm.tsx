@@ -265,13 +265,6 @@ const ApplicationForm: React.FC<Props> = ({
       },
       'ui:order': filteredUiSchemaOrder,
     };
-    if (
-      latestIntakeNumber === 5 &&
-      (ccbcIntakeNumber === null || ccbcIntakeNumber === 5)
-    ) {
-      finalUiSchema.projectArea.acceptedGeographicArea['ui:widget'] =
-        'ReadOnlyProjectAreaWidgetIntakeFive';
-    }
     jsonSchema = {
       ...jsonSchema,
       properties: {

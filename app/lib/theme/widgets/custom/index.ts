@@ -3,4 +3,3 @@ export { default as SubmissionCompletedForWidget } from './SubmissionCompletedFo
 export { default as AnalystSelectWidget } from './AnalystSelectWidget';
 export { default as ReadOnlyProjectAreaWidget } from './ReadOnlyProjectAreaWidget';
 export { default as ReadOnlyProjectAreaWidgetIntakeFour } from './ReadOnlyProjectAreaWidgetIntakeFour';
-export { default as ReadOnlyProjectAreaWidgetIntakeFive } from './ReadOnlyProjectAreaWidgetIntakeFive';
