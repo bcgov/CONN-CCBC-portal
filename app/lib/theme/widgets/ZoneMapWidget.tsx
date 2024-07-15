@@ -42,7 +42,8 @@ const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
 
   const updatedMapIntakeFour = '/images/zone-map-intake-4.png';
 
-  const updatedMapIntakeFive = '/images/zone-map-intake-5.png';
+  // TODO: uncomment and update this to the correct image in later PR
+  // const updatedMapIntakeFive = '/images/zone-map-intake-5.png';
 
   const intakeNumber = formContext?.intakeNumber;
 
@@ -51,7 +52,8 @@ const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
   const updatedMapDict = {
     3: updatedMap,
     4: updatedMapIntakeFour,
-    5: updatedMapIntakeFive,
+    // TODO: update this to the correct image in later PR
+    5: updatedMapIntakeFour,
   };
 
   const zoneMapUrlDict = {
