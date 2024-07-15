@@ -316,6 +316,9 @@ describe('The application form', () => {
               jsonSchema: schema,
             },
           },
+          intakeByIntakeId: {
+            ccbcIntakeNumber: 5,
+          },
         };
       },
       Query() {
