@@ -302,6 +302,54 @@ describe('The application form', () => {
     });
   });
 
+  it('Project Area page displays Intake 5 specific text', async () => {
+    const payload = {
+      Application() {
+        return {
+          id: 'TestApplicationId',
+          status: 'submitted',
+          formData: {
+            jsonData: {
+              id: 'TestFormId',
+            },
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
+          },
+          intakeByIntakeId: {
+            ccbcIntakeNumber: 5,
+          },
+        };
+      },
+      Query() {
+        return {
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+            ccbcIntakeNumber: 5,
+          },
+          allIntakes: {
+            edges: [
+              {
+                node: {
+                  ccbcIntakeNumber: 5,
+                },
+              },
+            ],
+          },
+        };
+      },
+    };
+
+    componentTestingHelper.loadQuery(payload);
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 2,
+      query: data.query,
+    }));
+
+    expect(screen.getByText(/IMPORTANT: For Intake 5/)).toBeInTheDocument();
+  });
+
   it('acknowledgement page shows continue on submitted application', async () => {
     const mockSubmittedQueryPayload = {
       Application() {
