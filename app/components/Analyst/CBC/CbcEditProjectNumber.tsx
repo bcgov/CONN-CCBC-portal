@@ -101,7 +101,7 @@ const CbcEditProjectNumber: React.FC<Props> = ({
           setIsEditing(false);
         },
         onError: (e) => {
-          if (e.message.indexOf('duplicate key') !== -1) {
+          if (e?.message?.indexOf('duplicate key') !== -1) {
             setError('A project with this number already exists.');
           } else {
             setError(
