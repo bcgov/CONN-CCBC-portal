@@ -96,7 +96,7 @@ const CbcEditProjectNumber: React.FC<Props> = ({
           },
         },
         onCompleted: () => {
-          setProjectNumber(projectNumber);
+          setProjectNumber(parsedValue);
           setBaseProjectNumber(parsedValue);
           setIsEditing(false);
         },
