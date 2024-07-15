@@ -324,6 +324,15 @@ describe('The application form', () => {
             closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
             ccbcIntakeNumber: 5,
           },
+          allIntakes: {
+            edges: [
+              {
+                node: {
+                  ccbcIntakeNumber: 5,
+                },
+              },
+            ],
+          },
         };
       },
     };
