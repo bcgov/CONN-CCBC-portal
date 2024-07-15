@@ -81,14 +81,14 @@ jobs:
 
           echo "::set-output name=status::$status"
       - name: Transition Issue
-        if: steps.get_status.outputs.status == "In Progress"
+        if: github.event.review.state == 'approved' && steps.get_status.outputs.status != 'SPRINT Done' && steps.get_status.outputs.status != 'Closed'
         run: |
           curl -X POST \
             -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
             -H "Content-Type: application/json" \
             -d '{
                   "transition": {
-                      "id": "11"
+                      "id": "10"
                   }
               }' \
             "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY/transitions"
