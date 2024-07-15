@@ -255,16 +255,27 @@ const ApplicationForm: React.FC<Props> = ({
     };
   } else {
     // if it is intake 4, use v3 of UIschema
-    const isIntake4 =
-      latestIntakeNumber === 4 &&
-      (ccbcIntakeNumber === null || ccbcIntakeNumber === 4);
+    const isIntake4AndAfter =
+      latestIntakeNumber >= 4 &&
+      (ccbcIntakeNumber === null || ccbcIntakeNumber >= 4);
     finalUiSchema = {
-      ...(isIntake4 ? uiSchemaV3 : uiSchema),
+      ...(isIntake4AndAfter ? uiSchemaV3 : uiSchema),
       benefits: {
         ...applicantBenefits,
       },
       'ui:order': filteredUiSchemaOrder,
     };
+    if (
+      latestIntakeNumber === 5 &&
+      (ccbcIntakeNumber === null || ccbcIntakeNumber === 5)
+    ) {
+      finalUiSchema.projectArea.acceptedGeographicArea = {
+        'ui:widget': 'ReadOnlyProjectAreaWidgetIntakeFive',
+        'ui:options': {
+          label: false,
+        },
+      };
+    }
     jsonSchema = {
       ...jsonSchema,
       properties: {
