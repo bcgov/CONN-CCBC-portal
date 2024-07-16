@@ -1,3 +1,9 @@
+## [1.170.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.170.2...v1.170.3) (2024-07-16)
+
+### Bug Fixes
+
+- use intake five map if no dict match ([33fbd81](https://github.com/bcgov/CONN-CCBC-portal/commit/33fbd81317430b35e5e07e5a51292a5c54c38911))
+
 ## [1.170.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.170.1...v1.170.2) (2024-07-16)
 
 ## [1.170.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.170.0...v1.170.1) (2024-07-16)
