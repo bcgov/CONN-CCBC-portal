@@ -1,3 +1,9 @@
+## [1.170.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.170.0...v1.170.1) (2024-07-16)
+
+### Bug Fixes
+
+- onAuthCallBack re-enabled ([b02833c](https://github.com/bcgov/CONN-CCBC-portal/commit/b02833c0de3b9df519330e710bcb805caa8637c7))
+
 # [1.170.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.169.0...v1.170.0) (2024-07-15)
 
 ### Features
