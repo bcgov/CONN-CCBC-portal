@@ -90,7 +90,11 @@ describe('The SharePoint API', () => {
 
     jest.spyOn(XLSX, 'read').mockReturnValue({
       Sheets: { Sheet1: {} },
-      SheetNames: ['CBC Projects'],
+      SheetNames: [
+        'CBC Projects',
+        'Communities Source Data',
+        'CBC & CCBC Project Communities',
+      ],
     });
 
     jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(fakeSummary);

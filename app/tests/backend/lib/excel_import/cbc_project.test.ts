@@ -5,6 +5,7 @@ import { mocked } from 'jest-mock';
 import * as XLSX from 'xlsx';
 import request from 'supertest';
 import columnList from 'tests/backend/lib/excel_import/validate_cbc_project.test';
+import { readCbcCommunitiesData } from 'backend/lib/excel_import/cbc_project_communities';
 import { performQuery } from '../../../../backend/lib/graphql';
 import LoadCbcProjectData from '../../../../backend/lib/excel_import/cbc_project';
 
@@ -75,6 +76,9 @@ const mockErrorData = {
   ],
 };
 jest.mock('../../../../backend/lib/graphql');
+jest.mock('backend/lib/excel_import/cbc_project_communities');
+
+mocked(readCbcCommunitiesData).mockResolvedValue({});
 
 describe('cbc_project', () => {
   beforeEach(() => {
@@ -128,7 +132,13 @@ describe('cbc_project', () => {
     });
 
     const wb = XLSX.read(null);
-    const data = await LoadCbcProjectData(wb, 'CBC Project', null, request);
+    const data = await LoadCbcProjectData(
+      wb,
+      'CBC Project',
+      'CBC & CCBC Project Communities',
+      null,
+      request
+    );
 
     expect(data).toEqual({
       data: {
@@ -215,7 +225,13 @@ describe('cbc_project', () => {
     });
 
     const wb = XLSX.read(null);
-    const data = await LoadCbcProjectData(wb, 'CBC Project', null, request);
+    const data = await LoadCbcProjectData(
+      wb,
+      'CBC Project',
+      'CBC & CCBC Project Communities',
+      null,
+      request
+    );
 
     expect(data).toEqual({
       data: {
@@ -245,6 +261,140 @@ describe('cbc_project', () => {
             cbcId: '1',
             isPending: false,
             comment: null,
+          },
+        },
+      },
+      errorLog: [],
+    });
+  });
+
+  it('should create communities data records successfully', async () => {
+    jest
+      .spyOn(XLSX.utils, 'sheet_to_json')
+      .mockReturnValue([
+        { ...columnList },
+        { A: 121231, B: 2, C: 3, D: 4, E: 5, F: 'No', AH: '2023-01-01' },
+      ]);
+
+    mocked(readCbcCommunitiesData).mockResolvedValue({
+      '121231': [
+        {
+          projectNumber: 121231,
+          communitiesSourceDataId: 1,
+        },
+        {
+          projectNumber: 121231,
+          communitiesSourceDataId: 2,
+        },
+      ],
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          createCbcProject: {
+            cbcProject: {
+              id: '1',
+              rowId: 1,
+              jsonData: {},
+            },
+            clientMutationId: '1',
+          },
+          cbcByProjectNumber: {
+            cbcDataByProjectNumber: {
+              nodes: [{ rowId: 1, projectNumber: 121231, id: '1' }],
+            },
+            applicationPendingChangeRequestsByCbcId: {
+              nodes: [
+                {
+                  rowId: 1,
+                  cbcId: '1',
+                  isPending: true,
+                },
+              ],
+            },
+            cbcProjectCommunitiesByCbcId: {
+              nodes: [
+                { rowId: 2, cbcId: '121231', communitiesSourceDataId: '1' },
+              ],
+            },
+          },
+          createCbc: {
+            cbc: {
+              rowId: 1,
+            },
+          },
+          createPendingChangeRequest: {
+            pendingChangeRequest: {
+              cbcId: '1',
+              isPending: false,
+              comment: null,
+            },
+          },
+          createCbcProjectCommunity: {
+            cbcProjectCommunity: {
+              rowId: 2,
+              cbcId: '1',
+              communitiesSourceDataId: '2',
+            },
+          },
+        },
+      };
+    });
+
+    const wb = XLSX.read(null);
+    const data = await LoadCbcProjectData(
+      wb,
+      'CBC Project',
+      'CBC & CCBC Project Communities',
+      null,
+      request
+    );
+
+    expect(data).toEqual({
+      data: {
+        createCbcProject: {
+          cbcProject: {
+            id: '1',
+            rowId: 1,
+            jsonData: {},
+          },
+          clientMutationId: '1',
+        },
+        cbcByProjectNumber: {
+          cbcDataByProjectNumber: {
+            nodes: [{ rowId: 1, projectNumber: 121231, id: '1' }],
+          },
+          applicationPendingChangeRequestsByCbcId: {
+            nodes: [{ rowId: 1, cbcId: '1', isPending: true }],
+          },
+          cbcProjectCommunitiesByCbcId: {
+            nodes: [
+              {
+                rowId: 2,
+                cbcId: '121231',
+                communitiesSourceDataId: '1',
+              },
+            ],
+          },
+        },
+        createCbc: {
+          cbc: {
+            rowId: 1,
+          },
+        },
+        createPendingChangeRequest: {
+          pendingChangeRequest: {
+            cbcId: '1',
+            isPending: false,
+            comment: null,
+          },
+        },
+        createCbcProjectCommunity: {
+          cbcProjectCommunity: {
+            rowId: 2,
+            cbcId: '1',
+            communitiesSourceDataId: '2',
           },
         },
       },
@@ -331,7 +481,13 @@ describe('cbc_project', () => {
       };
     });
 
-    const response = await LoadCbcProjectData(wb, 'CBC Project', null, request);
+    const response = await LoadCbcProjectData(
+      wb,
+      'CBC Project',
+      'CBC & CCBC Project Communities',
+      null,
+      request
+    );
 
     expect(response).toEqual({
       data: {
@@ -457,6 +613,7 @@ describe('cbc_project', () => {
     const result = (await LoadCbcProjectData(
       wb,
       'CBC Project',
+      'CBC & CCBC Project Communities',
       null,
       request
     )) as any;
@@ -561,6 +718,7 @@ describe('cbc_project', () => {
     const result = (await LoadCbcProjectData(
       wb,
       'CBC Project',
+      'CBC & CCBC Project Communities',
       null,
       request
     )) as any;

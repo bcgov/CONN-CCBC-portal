@@ -31,6 +31,9 @@ export const getSectionNameFromPageNumber = (
   return uiSchema['ui:order'][pageNumber - 1] as keyof typeof uiSchema;
 };
 
+const getDistinctValues = (data: any, key: string) =>
+  [...new Set(data?.map((record: any) => record[key]))].join(', ');
+
 export const createCbcSchemaData = (jsonData) => {
   if (jsonData === null || jsonData === undefined) {
     return {
@@ -70,6 +73,18 @@ export const createCbcSchemaData = (jsonData) => {
   };
   const locationsAndCounts = {
     projectLocations: jsonData.projectLocations,
+    geographicNames: getDistinctValues(
+      jsonData.cbcCommunitiesData,
+      'bcGeographicName'
+    ),
+    regionalDistricts: getDistinctValues(
+      jsonData.cbcCommunitiesData,
+      'regionalDistrict'
+    ),
+    economicRegions: getDistinctValues(
+      jsonData.cbcCommunitiesData,
+      'economicRegion'
+    ),
     communitiesAndLocalesCount: jsonData.communitiesAndLocalesCount,
     indigenousCommunities: jsonData.indigenousCommunities,
     householdCount: jsonData.householdCount,
