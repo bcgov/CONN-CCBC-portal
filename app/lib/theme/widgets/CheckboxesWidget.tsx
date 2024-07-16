@@ -2,7 +2,7 @@ import { WidgetProps } from '@rjsf/utils';
 import Checkbox from '@button-inc/bcgov-theme/Checkbox';
 import styled from 'styled-components';
 import kmzAndPdfLinks from 'data/zoneKmzLinksIntake3';
-import kmzAndPdfLinksIntake4 from 'data/zoneKmzLinksIntake4';
+import kmzAndPdfLinksIntake4And5 from 'data/zoneKmzLinksIntake4And5';
 
 const StyledLink = styled.a`
   color: ${(props) => props.theme.color.links};
@@ -57,7 +57,8 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
 
   const downloadLinksDict = {
     3: kmzAndPdfLinks,
-    4: kmzAndPdfLinksIntake4,
+    4: kmzAndPdfLinksIntake4And5,
+    5: kmzAndPdfLinksIntake4And5,
   };
 
   const downloadLinks = downloadLinksDict[intakeNumber];

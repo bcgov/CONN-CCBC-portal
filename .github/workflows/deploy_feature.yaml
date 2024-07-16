@@ -191,8 +191,20 @@ jobs:
             const approved = reviews.some(review => review.state === 'APPROVED');
             console.log(`PR has been ${approved ? 'approved' : 'not approved'}`);
             return approved;
+      - name: Get Issue Status
+        id: get_status
+        run: |
+          response=$(curl -s -X GET \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H "Content-Type: application/json" \
+            "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY")
+
+          status=$(echo "$response" | jq -r '.fields.status.name')
+          echo "Issue status: $status"
+
+          echo "::set-output name=status::$status"
       - name: Transition Issue
-        if: steps.pr_approval.outputs.result == 'true'
+        if: steps.pr_approval.outputs.result == 'true' && steps.get_status.outputs.status != 'SPRINT Done' && steps.get_status.outputs.status != 'Closed'
         run: |
           curl -X POST \
             -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \

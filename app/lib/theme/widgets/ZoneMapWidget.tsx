@@ -42,25 +42,31 @@ const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
 
   const updatedMapIntakeFour = '/images/zone-map-intake-4.png';
 
+  // TODO: uncomment and update this to the correct image in later PR
+  const updatedMapIntakeFive = '/images/zone-map-intake-5.png';
+
   const intakeNumber = formContext?.intakeNumber;
 
-  const isIntakeFour = intakeNumber === 4;
+  const isIntakeFourOrFive = intakeNumber >= 4;
 
   const updatedMapDict = {
     3: updatedMap,
     4: updatedMapIntakeFour,
+    // TODO: update this to the correct image in later PR
+    5: updatedMapIntakeFive,
   };
 
   const zoneMapUrlDict = {
     3: ZONE_MAP_URL,
     4: ZONE_MAP_URL_INTAKE_4,
+    5: ZONE_MAP_URL_INTAKE_4,
   };
 
   // default map for intake 3
   const zoneMapUrl = zoneMapUrlDict[intakeNumber] ?? ZONE_MAP_URL_INTAKE_4;
 
   // default links for intake 3
-  const updatedMapUrl = updatedMapDict[intakeNumber] ?? updatedMapIntakeFour;
+  const updatedMapUrl = updatedMapDict[intakeNumber] ?? updatedMapIntakeFive;
 
   const handleDownload = (e: any) => {
     e.preventDefault();
@@ -91,7 +97,7 @@ const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
         height={0}
         sizes="100vw"
       />
-      <div style={{ marginLeft: isIntakeFour ? '6%' : '' }}>
+      <div style={{ marginLeft: isIntakeFourOrFive ? '6%' : '' }}>
         <StyledLink
           title="internet-blocking-map"
           data-testid="internet-blocking-map-download-link"

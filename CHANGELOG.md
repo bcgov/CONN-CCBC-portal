@@ -1,3 +1,38 @@
+## [1.170.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.170.3...v1.170.4) (2024-07-16)
+
+## [1.170.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.170.2...v1.170.3) (2024-07-16)
+
+### Bug Fixes
+
+- use intake five map if no dict match ([33fbd81](https://github.com/bcgov/CONN-CCBC-portal/commit/33fbd81317430b35e5e07e5a51292a5c54c38911))
+
+## [1.170.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.170.1...v1.170.2) (2024-07-16)
+
+## [1.170.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.170.0...v1.170.1) (2024-07-16)
+
+### Bug Fixes
+
+- onAuthCallBack re-enabled ([b02833c](https://github.com/bcgov/CONN-CCBC-portal/commit/b02833c0de3b9df519330e710bcb805caa8637c7))
+
+# [1.170.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.169.0...v1.170.0) (2024-07-15)
+
+### Features
+
+- update text for intake 5 and scaffolding for new links ([0a12b19](https://github.com/bcgov/CONN-CCBC-portal/commit/0a12b198a600696c9e30da379d6da57119644a76))
+- update zone map for intake 5 ([b2a5603](https://github.com/bcgov/CONN-CCBC-portal/commit/b2a5603e62d9bd014e2cff67ea9b66522ab10fb3))
+
+# [1.169.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.168.1...v1.169.0) (2024-07-15)
+
+### Features
+
+- reorganize cbc status header, add withdrawn ([73cff29](https://github.com/bcgov/CONN-CCBC-portal/commit/73cff29136cb22841f0aeb53073902490a4ad1da))
+
+## [1.168.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.168.0...v1.168.1) (2024-07-10)
+
+### Bug Fixes
+
+- grant service account to cbc change request table ([38917f7](https://github.com/bcgov/CONN-CCBC-portal/commit/38917f775498e2f41a4edb8bf72b3c6b2a49488e))
+
 # [1.168.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.167.2...v1.168.0) (2024-07-10)
 
 ### Bug Fixes
