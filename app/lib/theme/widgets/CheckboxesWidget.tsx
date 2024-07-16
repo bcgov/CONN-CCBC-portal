@@ -58,6 +58,7 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
   const downloadLinksDict = {
     3: kmzAndPdfLinks,
     4: kmzAndPdfLinksIntake4,
+    5: kmzAndPdfLinksIntake4,
   };
 
   const downloadLinks = downloadLinksDict[intakeNumber];
