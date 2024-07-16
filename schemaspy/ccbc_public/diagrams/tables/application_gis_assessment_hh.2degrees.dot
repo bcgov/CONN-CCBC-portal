@@ -109,10 +109,18 @@ digraph "twoDegreesRelationshipsDiagram" {
   "cbc_project":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "cbc_project":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "cbc_project":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "cbc_project_communities":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "cbc_project_communities":"elipses":w -> "cbc":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
+  "cbc_project_communities":"elipses":w -> "communities_source_data":"elipses":e [arrowhead=none dir=back arrowtail=crowodot];
+  "cbc_project_communities":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "cbc_project_communities":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "change_request_data":"elipses":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "change_request_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "change_request_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "change_request_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "communities_source_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "communities_source_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
+  "communities_source_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "conditional_approval_data":"elipses":w -> "application":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "conditional_approval_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
   "conditional_approval_data":"elipses":w -> "ccbc_user":"id":e [arrowhead=none dir=back arrowtail=crowodot];
@@ -425,7 +433,7 @@ digraph "twoDegreesRelationshipsDiagram" {
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3"  BGCOLOR="#f5f5f5"><TABLE BORDER="0" CELLSPACING="0"><TR><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="19" HEIGHT="16"><B>cbc</B></TD><TD ALIGN="RIGHT">[table]</TD></TR></TABLE></TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">3 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">4 &gt;</TD></TR>
     </TABLE>>
     URL="cbc.html"
     target="_top"
@@ -475,12 +483,23 @@ digraph "twoDegreesRelationshipsDiagram" {
     target="_top"
     tooltip="cbc_project"
   ];
+  "cbc_project_communities" [
+   label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3"  BGCOLOR="#f5f5f5"><TABLE BORDER="0" CELLSPACING="0"><TR><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="150" HEIGHT="16"><B>cbc_project_communities</B></TD><TD ALIGN="RIGHT">[table]</TD></TR></TABLE></TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 5</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD></TR>
+    </TABLE>>
+    URL="cbc_project_communities.html"
+    target="_top"
+    tooltip="cbc_project_communities"
+  ];
   "ccbc_user" [
    label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
       <TR><TD COLSPAN="3"  BGCOLOR="#f5f5f5"><TABLE BORDER="0" CELLSPACING="0"><TR><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="57" HEIGHT="16"><B>ccbc_user</B></TD><TD ALIGN="RIGHT">[table]</TD></TR></TABLE></TD></TR>
       <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">121 &gt;</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">127 &gt;</TD></TR>
     </TABLE>>
     URL="ccbc_user.html"
     target="_top"
@@ -496,6 +515,17 @@ digraph "twoDegreesRelationshipsDiagram" {
     URL="change_request_data.html"
     target="_top"
     tooltip="change_request_data"
+  ];
+  "communities_source_data" [
+   label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3"  BGCOLOR="#f5f5f5"><TABLE BORDER="0" CELLSPACING="0"><TR><TD ALIGN="LEFT" FIXEDSIZE="TRUE" WIDTH="155" HEIGHT="16"><B>communities_source_data</B></TD><TD ALIGN="RIGHT">[table]</TD></TR></TABLE></TD></TR>
+      <TR><TD PORT="elipses" COLSPAN="3" ALIGN="LEFT">...</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#ffffff">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">  </TD><TD ALIGN="RIGHT" BGCOLOR="#ffffff">1 &gt;</TD></TR>
+    </TABLE>>
+    URL="communities_source_data.html"
+    target="_top"
+    tooltip="communities_source_data"
   ];
   "conditional_approval_data" [
    label=<

@@ -12,6 +12,7 @@ cbc
 application_sow_data
 analyst
 announcement
+communities_source_data
 email_record
 gis_data
 rfi_data
@@ -47,5 +48,6 @@ application_announcement
 application_gis_data
 assessment_data
 attachment
+cbc_project_communities
 notification
 history_item

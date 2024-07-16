@@ -850,6 +850,7 @@
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the row" size="10" type="int4" typeCode="4">
             <child column="cbc_id" foreignKey="cbc_application_pending_change_request_cbc_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_application_pending_change_request"/>
             <child column="cbc_id" foreignKey="cbc_data_cbc_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
+            <child column="cbc_id" foreignKey="cbc_project_communities_cbc_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project_communities"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="project_number" nullable="false" remarks="The project number, unique for each project" size="10" type="int4" typeCode="4">
             <child column="project_number" foreignKey="cbc_data_project_number_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
@@ -1020,6 +1021,40 @@
             <column ascending="true" name="updated_by"/>
          </index>
       </table>
+      <table name="cbc_project_communities" remarks="Table containing the communities data for a CBC project" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the row" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="cbc_id" nullable="true" remarks="The cbc id of the record" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_project_communities_cbc_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="communities_source_data_id" nullable="true" remarks="The reference to the communities source data id" size="10" type="int4" typeCode="4">
+            <parent column="geographic_name_id" foreignKey="cbc_project_communities_communities_source_data_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="communities_source_data"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_project_communities_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_project_communities_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="cbc_project_communities_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="cbc_project_communities_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_cbc_project_communities_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_cbc_project_communities_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_cbc_project_communities_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
       <table name="ccbc_user" remarks="Table containing information about the application's users, this is business contact information not personally identifiable information" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the user" size="10" type="int4" typeCode="4">
             <child column="archived_by" foreignKey="analyst_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="analyst"/>
@@ -1100,12 +1135,18 @@
             <child column="archived_by" foreignKey="cbc_project_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project"/>
             <child column="created_by" foreignKey="cbc_project_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project"/>
             <child column="updated_by" foreignKey="cbc_project_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project"/>
+            <child column="archived_by" foreignKey="cbc_project_communities_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project_communities"/>
+            <child column="created_by" foreignKey="cbc_project_communities_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project_communities"/>
+            <child column="updated_by" foreignKey="cbc_project_communities_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project_communities"/>
             <child column="archived_by" foreignKey="ccbc_user_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
             <child column="created_by" foreignKey="ccbc_user_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
             <child column="updated_by" foreignKey="ccbc_user_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
             <child column="archived_by" foreignKey="change_request_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="change_request_data"/>
             <child column="created_by" foreignKey="change_request_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="change_request_data"/>
             <child column="updated_by" foreignKey="change_request_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="change_request_data"/>
+            <child column="archived_by" foreignKey="communities_source_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="communities_source_data"/>
+            <child column="created_by" foreignKey="communities_source_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="communities_source_data"/>
+            <child column="updated_by" foreignKey="communities_source_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="communities_source_data"/>
             <child column="archived_by" foreignKey="conditional_approval_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="conditional_approval_data"/>
             <child column="created_by" foreignKey="conditional_approval_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="conditional_approval_data"/>
             <child column="updated_by" foreignKey="conditional_approval_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="conditional_approval_data"/>
@@ -1209,6 +1250,47 @@
          </index>
          <index name="ccbc_public_change_request_data_updated_by_foreign_key" unique="false">
             <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="communities_source_data" remarks="Table containing the communities source data imported from CBC projects excel file" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the row" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="geographic_name_id" nullable="false" remarks="The unique Geographic Name Id" size="10" type="int4" typeCode="4">
+            <child column="communities_source_data_id" foreignKey="cbc_project_communities_communities_source_data_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project_communities"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="bc_geographic_name" nullable="false" remarks="The Geographic Name" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="geographic_type" nullable="true" remarks="The type of the geograhic region" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="regional_district" nullable="true" remarks="The regional district of the geograhic region" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="economic_region" nullable="true" remarks="The economic region of the geograhic region" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="17" id="6" name="latitude" nullable="true" remarks="The latitude value of the geograhic region" size="17" type="float8" typeCode="8"/>
+         <column autoUpdated="false" defaultValue="null" digits="17" id="7" name="longitude" nullable="true" remarks="The longitude value of the geograhic region" size="17" type="float8" typeCode="8"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="map_link" nullable="true" remarks="map url of the geograhic region for verification" size="1000" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="communities_source_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="10" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="communities_source_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="12" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="13" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="communities_source_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="14" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="communities_source_data_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_communities_source_data_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_communities_source_data_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_communities_source_data_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+         <index name="communities_source_data_geographic_name_id_key" unique="true">
+            <column ascending="true" name="geographic_name_id"/>
          </index>
       </table>
       <table name="conditional_approval_data" remarks="Table to store conditional approval data" schema="ccbc_public" type="TABLE">

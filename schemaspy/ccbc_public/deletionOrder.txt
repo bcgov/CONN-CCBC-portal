@@ -1,5 +1,6 @@
 history_item
 notification
+cbc_project_communities
 attachment
 assessment_data
 application_gis_data
@@ -35,6 +36,7 @@ application_status
 rfi_data
 gis_data
 email_record
+communities_source_data
 announcement
 analyst
 application_sow_data
