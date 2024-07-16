@@ -8,13 +8,16 @@ const StyledError = styled('div')`
   padding-bottom: 10px;
 `;
 
-const ReadOnlyProjectAreaWidgetIntakeFour: React.FC<WidgetProps> = () => {
+const ReadOnlyProjectAreaWidgetIntakeFour: React.FC<WidgetProps> = ({
+  formContext,
+}) => {
   return (
     <>
       <StyledError>
-        IMPORTANT: For Intake 4, CCBC will accept applications for all eligible
-        areas in the Province. In particular, in certain areas of interest that
-        have been highlighted in all zones. Refer to the{' '}
+        IMPORTANT: For Intake {formContext?.intakeNumber}, CCBC will accept
+        applications for all eligible areas in the Province. In particular, in
+        certain areas of interest that have been highlighted in all zones. Refer
+        to the{' '}
         <Link
           href={INTAKE_4_AREAS_OF_INTEREST}
           target="_blank"
