@@ -6,7 +6,8 @@ on:
 jobs:
   clear-cache:
     uses: ./.github/workflows/cache.yaml
-  main:
-    needs: [clear-cache]
-    uses: ./.github/workflows/main.yaml
-    secrets: inherit
+  # Temp disable nightly main workflow
+  # main:
+  #   needs: [clear-cache]
+  #   uses: ./.github/workflows/main.yaml
+  #   secrets: inherit
