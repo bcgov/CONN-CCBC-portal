@@ -59,7 +59,7 @@ jobs:
           fs.writeFileSync('results.sarif', JSON.stringify(sarifJson, null, 2));
           EOF
         working-directory: ./app
-      - uses: github/codeql-action/upload-sarif@23acc5c183826b7a8a97bce3cecc52db901f8251
+      - uses: github/codeql-action/upload-sarif@4fa2a7953630fd2f3fb380f21be14ede0169dd4f
         with:
           sarif_file: app/results.sarif
 
