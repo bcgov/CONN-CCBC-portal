@@ -8,9 +8,6 @@ on:
       OPENSHIFT_APP_NAMESPACE: { required: true }
       OPENSHIFT_SERVER: { required: true }
 
-env:
-  FEATURE_NAME: ${{ github.head_ref }}
-
 jobs:
   clean-dev-env-jobs:
     runs-on: ubuntu-latest
