@@ -6,6 +6,11 @@ on:
 jobs:
   clear-cache:
     uses: ./.github/workflows/cache.yaml
+  # add back install test env only
+  install-test-env:
+    needs: [clear-cache]
+    uses: ./.github/workflows/install-env.yaml
+    secrets: inherit
   # Temp disable nightly main workflow
   # main:
   #   needs: [clear-cache]

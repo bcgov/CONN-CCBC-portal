@@ -1,3 +1,24 @@
+## [1.171.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.171.1...v1.171.2) (2024-07-17)
+
+### Bug Fixes
+
+- unassined tech assessments enables email button ([abd4b61](https://github.com/bcgov/CONN-CCBC-portal/commit/abd4b6126457db4c56a6a3c5f84a60e7d55eea5a))
+
+## [1.171.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.171.0...v1.171.1) (2024-07-16)
+
+# [1.171.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.170.4...v1.171.0) (2024-07-16)
+
+### Bug Fixes
+
+- cbc_id not saving correctly ([063fb31](https://github.com/bcgov/CONN-CCBC-portal/commit/063fb31bfb40c0e02bb36ccb2c1aa2e66f014fa4))
+- failing tests ([e8b5f41](https://github.com/bcgov/CONN-CCBC-portal/commit/e8b5f4167e70c3c361e311b59537d02987c66624))
+
+### Features
+
+- import and show cbc communities data ([688bdb8](https://github.com/bcgov/CONN-CCBC-portal/commit/688bdb8c2337897d98d10fb19c45b10aa6061293))
+
+## [1.170.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.170.3...v1.170.4) (2024-07-16)
+
 ## [1.170.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.170.2...v1.170.3) (2024-07-16)
 
 ### Bug Fixes

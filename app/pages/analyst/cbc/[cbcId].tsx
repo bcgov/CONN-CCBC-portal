@@ -37,6 +37,17 @@ const getCbcQuery = graphql`
           }
         }
       }
+      cbcProjectCommunitiesByCbcId {
+        nodes {
+          communitiesSourceDataByCommunitiesSourceDataId {
+            economicRegion
+            geographicNameId
+            geographicType
+            regionalDistrict
+            bcGeographicName
+          }
+        }
+      }
     }
     session {
       sub
@@ -76,8 +87,11 @@ const Cbc = ({
   const [baseFormData, setBaseFormData] = useState({} as any);
   useEffect(() => {
     const { cbcByRowId } = query;
-    const { cbcDataByCbcId } = cbcByRowId;
+    const { cbcDataByCbcId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
     const { edges } = cbcDataByCbcId;
+    const cbcCommunitiesData = cbcProjectCommunitiesByCbcId.nodes?.map(
+      (node) => node.communitiesSourceDataByCommunitiesSourceDataId
+    );
     const cbcData = edges[0].node;
     const { jsonData } = cbcData;
 
@@ -89,7 +103,10 @@ const Cbc = ({
       eventsAndDates,
       miscellaneous,
       projectDataReviews,
-    } = createCbcSchemaData(jsonData);
+    } = createCbcSchemaData({
+      ...jsonData,
+      cbcCommunitiesData,
+    });
 
     setFormData({
       tombstone,
@@ -116,6 +133,12 @@ const Cbc = ({
   const handleSubmit = (e) => {
     hiddenSubmitRef.current.click();
     e.preventDefault();
+    const {
+      geographicNames,
+      regionalDistricts,
+      economicRegions,
+      ...updatedLocationsAndCounts
+    } = formData.locationsAndCounts;
     updateFormData({
       variables: {
         input: {
@@ -124,7 +147,7 @@ const Cbc = ({
             jsonData: {
               ...formData.tombstone,
               ...formData.projectType,
-              ...formData.locationsAndCounts,
+              ...updatedLocationsAndCounts,
               ...formData.funding,
               ...formData.eventsAndDates,
               ...formData.miscellaneous,
