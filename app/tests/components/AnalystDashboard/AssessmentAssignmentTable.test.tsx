@@ -167,6 +167,56 @@ const mockQueryPayload = {
   },
 };
 
+const mockQueryPayloadUnassignedTechAssesment = {
+  Query() {
+    return {
+      ...mockQueryPayload.Query(),
+      allApplications: {
+        edges: [
+          {
+            node: {
+              allAssessments: {
+                edges: [
+                  {
+                    node: {
+                      jsonData: {
+                        decision: 'No decision',
+                        nextStep: 'Assessment complete',
+                        assignedTo: null,
+                        targetDate: '2023-10-26',
+                      },
+                      assessmentDataType: 'technical',
+                      rowId: 7,
+                      updatedAt: '2024-04-23T00:57:02.743866+00:00',
+                    },
+                  },
+                ],
+              },
+              notificationsByApplicationId: {
+                edges: [
+                  {
+                    node: {
+                      jsonData: { to: 'Tester 1' },
+                      notificationType: 'assignment_technical',
+                      createdAt: '2020-04-23T00:57:02.743866+00:00',
+                    },
+                  },
+                ],
+              },
+              organizationName: 'org name received',
+              status: 'received',
+              ccbcNumber: 'CCBC-010001',
+              rowId: 1,
+              intakeNumber: 1,
+              zones: [2],
+            },
+          },
+        ],
+      },
+    };
+  },
+};
+
 const componentTestingHelper =
   new ComponentTestingHelper<AssessmentAssignmentTableTestQuery>({
     component: AssessmentAssignmentTable,
@@ -486,6 +536,19 @@ describe('The AssessmentAssignmentTable component', () => {
     expect(
       screen.getByText(/will be sent to Test Analyst Technical/)
     ).toBeInTheDocument();
+  });
+
+  it('should not show active email send icon button when there are pending notifications but unassigned tech assessment', async () => {
+    componentTestingHelper.loadQuery(mockQueryPayloadUnassignedTechAssesment);
+    componentTestingHelper.renderComponent();
+
+    const notifyButton = screen.getByRole('button', {
+      name: 'Notify by email',
+    });
+
+    expect(notifyButton).toBeInTheDocument();
+
+    expect(notifyButton).toBeDisabled();
   });
 
   it('should call correct endpoint when send email notifications confirmed', async () => {

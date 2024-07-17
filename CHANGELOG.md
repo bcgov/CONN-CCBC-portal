@@ -1,3 +1,9 @@
+## [1.171.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.171.1...v1.171.2) (2024-07-17)
+
+### Bug Fixes
+
+- unassined tech assessments enables email button ([abd4b61](https://github.com/bcgov/CONN-CCBC-portal/commit/abd4b6126457db4c56a6a3c5f84a60e7d55eea5a))
+
 ## [1.171.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.171.0...v1.171.1) (2024-07-16)
 
 # [1.171.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.170.4...v1.171.0) (2024-07-16)
