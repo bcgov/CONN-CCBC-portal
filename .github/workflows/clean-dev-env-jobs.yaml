@@ -1,6 +1,7 @@
 name: clean-dev-env-jobs
 
 on:
+  workflow_dispatch:
   workflow_call:
     secrets:
       OPENSHIFT_TOKEN: { required: true }
