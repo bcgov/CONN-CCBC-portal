@@ -25,7 +25,9 @@ const sowUpload = Router();
 const processSow: ExpressMiddleware = async (req, res) => {
   const authRole = getAuthRole(req);
   const isRoleAuthorized =
-    authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'ccbc_analyst';
+    authRole?.pgRole === 'ccbc_admin' ||
+    authRole?.pgRole === 'ccbc_analyst' ||
+    authRole?.pgRole === 'cbc_admin';
 
   if (!isRoleAuthorized) {
     return res.status(404).end();
@@ -91,7 +93,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
       const tab7 = await LoadTab7Data(sowId, wb, '7', req);
       exportError = (tab7 as any)?.error;
       if (exportError) {
-        errorList.push({ level: 'tab8', error: exportError });
+        errorList.push({ level: 'tab7', error: exportError });
       }
       const tab8 = await LoadTab8Data(sowId, wb, '8', req);
       exportError = (tab8 as any)?.error;
