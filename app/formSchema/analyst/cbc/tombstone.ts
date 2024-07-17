@@ -4,6 +4,11 @@ const cbcTombstone: RJSFSchema = {
   title: 'Tombstone',
   description: '',
   type: 'object',
+  required: [
+    'applicantContractualName',
+    'currentOperatingName',
+    'federalFundingSource',
+  ],
   properties: {
     projectNumber: {
       type: 'string',
@@ -54,7 +59,13 @@ const cbcTombstone: RJSFSchema = {
     federalFundingSource: {
       type: 'string',
       title: 'Federal Funding Source',
-      enum: [null, 'CRTC', 'CTI', 'UBF', 'UBF RRS'],
+      enum: [
+        null,
+        'CRTC Broadband Fund',
+        'ISED-CTI',
+        'ISED-UBF Core',
+        'ISED-UBF RRS',
+      ],
     },
     federalProjectNumber: {
       type: 'string',

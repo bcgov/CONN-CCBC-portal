@@ -5,6 +5,15 @@ import {
   StyledColRight,
   StyledColError,
 } from 'components/Review/Components';
+import { Help } from '@mui/icons-material';
+import styled from 'styled-components';
+import { Tooltip } from '@mui/material';
+
+const StyledHelp = styled(Help)`
+  color: ${(props) => props.theme.color.primaryBlue};
+  float: right;
+  cursor: pointer;
+`;
 
 const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   id,
@@ -32,11 +41,12 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   const after = uiSchema?.['ui:after'];
   const fieldName = id?.split('_')?.[2];
   const pageName = id?.split('_')?.[1];
+  const showErrorHint = formContext?.showErrorHint ?? false;
 
   const formErrorSchema = formContext?.formErrorSchema ?? formContext.errors;
-  const errorColor = formErrorSchema?.[pageName]?.[fieldName]?.color;
-  const hasFormContextError =
-    formErrorSchema?.[pageName]?.[fieldName]?.__errors?.length > 0;
+  const { errorColor, __errors: formContextErrors } =
+    formErrorSchema?.[pageName]?.[fieldName] || {};
+  const hasFormContextError = formContextErrors?.length > 0;
   const isErrors = (rawErrors && rawErrors.length > 0) || !!hasFormContextError;
   // check if the field is in the rfi list so we can display rfi files for required fields that have an error
   const isFieldInRfi = formContext?.rfiList?.some((rfi) =>
@@ -49,8 +59,20 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
       <tr>
         <StyledColLeft id={id}>{title}</StyledColLeft>
         {isErrors && !isFieldInRfi ? (
-          <StyledColError id={`${id}-value`} errorColor={errorColor}>
+          <StyledColError data-testid={`${id}-value`} errorColor={errorColor}>
             {children}
+            {showErrorHint && hasFormContextError && (
+              <Tooltip
+                title={
+                  <span style={{ whiteSpace: 'pre-line' }}>
+                    {formContextErrors.join('\n')}
+                  </span>
+                }
+                placement="top"
+              >
+                <StyledHelp />
+              </Tooltip>
+            )}
           </StyledColError>
         ) : (
           <StyledColRight id={`${id}-value`}>{children}</StyledColRight>

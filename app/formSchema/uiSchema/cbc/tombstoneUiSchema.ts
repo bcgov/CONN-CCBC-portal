@@ -56,7 +56,7 @@ const tombstoneUiSchema = {
     'ui:label': '8.30M Funding',
   },
   federalFundingSource: {
-    'ui:widget': 'TextWidget',
+    'ui:widget': 'SelectWidget',
     'ui:label': 'Federal Funding Source',
   },
   federalProjectNumber: {
