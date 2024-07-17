@@ -5,13 +5,13 @@ on:
   schedule:
     - cron: '0 5 * * *'
 jobs:
-  clear-cache:
-    uses: ./.github/workflows/cache.yaml
-  # add back install test env only
-  install-test-env:
-    needs: [clear-cache]
-    uses: ./.github/workflows/install-env.yaml
-    secrets: inherit
+  # clear-cache:
+  #   uses: ./.github/workflows/cache.yaml
+  # # add back install test env only
+  # install-test-env:
+  #   needs: [clear-cache]
+  #   uses: ./.github/workflows/install-env.yaml
+  #   secrets: inherit
   clean-dev-env:
     uses: ./.github/workflows/clean-dev-env-jobs.yaml
     secrets: inherit
