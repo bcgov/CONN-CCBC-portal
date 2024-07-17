@@ -1,3 +1,14 @@
+# [1.172.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.171.2...v1.172.0) (2024-07-17)
+
+### Bug Fixes
+
+- validations for cbc ([9f40f75](https://github.com/bcgov/CONN-CCBC-portal/commit/9f40f755e3bcfec3576c884dbb7d2d0d11cd10c2))
+
+### Features
+
+- add required validation to tombstone ([633ce43](https://github.com/bcgov/CONN-CCBC-portal/commit/633ce43b91023697882bf637c0b0abdddd5bfa4a))
+- add validations to CBC ([7a972a6](https://github.com/bcgov/CONN-CCBC-portal/commit/7a972a605a8e67e24a52e01b7ef96d133a04a7df))
+
 ## [1.171.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.171.1...v1.171.2) (2024-07-17)
 
 ### Bug Fixes
