@@ -190,7 +190,7 @@ const generateExcelData = async (
       // ubf/federal project #
       { value: node?.jsonData?.federalProjectNumber },
       // applicant
-      { value: node?.jsonData?.applicantContractualName },
+      { value: node?.jsonData?.currentOperatingName },
       // project title
       { value: node?.jsonData?.projectTitle },
       // economic region
