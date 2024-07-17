@@ -43,7 +43,7 @@ const DashboardTabs = ({ session }) => {
   const isAdmin = authRole === 'ccbc_admin';
   const router = useRouter();
   const showGisUpload = useFeature('show_gis_upload').value;
-  const showReporting = true;
+  const showReporting = useFeature('show_reporting').value;
   return (
     <StyledNav>
       <StyledLink
