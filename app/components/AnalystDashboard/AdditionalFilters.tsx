@@ -60,6 +60,13 @@ const AdditionalFilters = ({ filters, setFilters }) => {
         onChange={() => handleProjectTypeFilterChange('CBC')}
       />
       CBC
+      <StyledCheckbox
+        type="checkbox"
+        data-testid="projectTypeFilterAtlin"
+        checked={projectTypeFilters.includes('Atlin')}
+        onChange={() => handleProjectTypeFilterChange('Atlin')}
+      />
+      Atlin
     </StyledDiv>
   );
 };

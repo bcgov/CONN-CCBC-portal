@@ -232,7 +232,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const [isFirstRender, setIsFirstRender] = useState(true);
 
-  const defaultFilters = [{ id: 'projectType', value: ['CCBC', 'CBC'] }];
+  const defaultFilters = [
+    { id: 'projectType', value: ['CCBC', 'CBC', 'Atlin'] },
+  ];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
@@ -393,7 +395,12 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     return [
       ...allApplications.edges.map((application) => ({
         ...application.node,
-        projectType: 'CCBC',
+        projectType: application.node.ccbcNumber.includes('000074')
+          ? 'Atlin'
+          : 'CCBC',
+        intakeNumber: application.node.ccbcNumber.includes('000074')
+          ? 'N/A'
+          : application.node.intakeNumber,
         projectId: application.node.ccbcNumber,
         packageNumber: application.node.package,
         projectTitle:
