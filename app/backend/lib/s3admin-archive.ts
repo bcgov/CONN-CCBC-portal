@@ -64,7 +64,8 @@ const regenerateForRollingIntake = (
 // eslint-disable-next-line consistent-return
 s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
   const authRole = getAuthRole(req);
-  const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
+  const isRoleAuthorized =
+    authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'super_admin';
   if (!isRoleAuthorized) {
     // check header
     const apiKey = req.headers['x-api-key'];

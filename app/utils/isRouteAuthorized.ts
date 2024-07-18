@@ -13,7 +13,7 @@ const pagesAuthorization = [
   {
     routePaths: ['/analyst/application/(.*)'],
     isProtected: true,
-    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin'],
+    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin', 'super_admin'],
   },
   {
     routePaths: ['/analyst/cbc/(.*)/edit(.*)'],
@@ -23,22 +23,22 @@ const pagesAuthorization = [
   {
     routePaths: ['/analyst/cbc/(.*)'],
     isProtected: true,
-    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin'],
+    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin', 'super_admin'],
   },
   {
     routePaths: ['/analyst/dashboard'],
     isProtected: true,
-    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin'],
+    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin', 'super_admin'],
   },
   {
     routePaths: ['/analyst/assessments'],
     isProtected: true,
-    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin'],
+    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin', 'super_admin'],
   },
   {
     routePaths: ['/analyst/gis/(.*)'],
     isProtected: true,
-    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin'],
+    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin', 'super_admin'],
   },
   {
     routePaths: ['/analyst/reporting/(.*)'],
@@ -48,7 +48,7 @@ const pagesAuthorization = [
   {
     routePaths: ['/analyst/admin/(.*)'],
     isProtected: true,
-    allowedRoles: ['ccbc_admin'],
+    allowedRoles: ['ccbc_admin', 'super_admin'],
   },
   {
     routePaths: ['/applicantportal/(.*)'],

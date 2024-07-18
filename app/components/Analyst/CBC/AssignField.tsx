@@ -18,7 +18,7 @@ const AssignField = ({
   fieldOptions,
   fieldType,
   cbc,
-  isHeaderEditable,
+  isFormEditable,
 }) => {
   const queryFragment = useFragment(
     graphql`
@@ -84,7 +84,7 @@ const AssignField = ({
             key={option}
             value={option}
             selected={fieldValue === option}
-            disabled={!isHeaderEditable}
+            disabled={!isFormEditable}
           >
             {option}
           </option>

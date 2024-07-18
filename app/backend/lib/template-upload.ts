@@ -23,7 +23,8 @@ const processTemplateUpload: ExpressMiddleware = async (req, res) => {
   const isRoleAuthorized =
     pgRole === 'ccbc_auth_user' ||
     pgRole === 'ccbc_admin' ||
-    pgRole === 'ccbc_analyst';
+    pgRole === 'ccbc_analyst' ||
+    pgRole === 'super_admin';
 
   const templateNumber = Number(req.query?.templateNumber);
 

@@ -40,7 +40,7 @@ const DashboardTabs = ({ session }) => {
   );
 
   const { authRole } = queryFragment;
-  const isAdmin = authRole === 'ccbc_admin';
+  const isAdmin = authRole === 'ccbc_admin' || authRole === 'super_admin';
   const router = useRouter();
   const showGisUpload = useFeature('show_gis_upload').value;
   const showReporting = useFeature('show_reporting').value;

@@ -25,7 +25,7 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
 const PendingChangeRequest = ({
   application,
   isCbc = false,
-  isHeaderEditable = false,
+  isFormEditable = true,
 }) => {
   const fragment = isCbc
     ? graphql`
@@ -124,7 +124,7 @@ const PendingChangeRequest = ({
         type="checkbox"
         checked={isPending}
         data-testid="pending-change-request-checkbox"
-        disabled={!isHeaderEditable}
+        disabled={isFormEditable}
         onChange={(e) => {
           if (e.target.checked) {
             pendingChangeRequestModal.open();
@@ -168,7 +168,7 @@ const PendingChangeRequest = ({
           setIsUpdateMode(false);
           pendingChangeRequestModal.close();
         }}
-        isHeaderEditable={isHeaderEditable}
+        isHeaderEditable={isFormEditable}
       />
       <ClosePendingRequestModal
         {...closePendingRequestModal}

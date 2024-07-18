@@ -256,7 +256,7 @@ const Cbc = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <CbcAnalystLayout query={query} isFormEditMode={editMode}>
+      <CbcAnalystLayout query={query} isFormEditable={false}>
         <RightAlignText>
           <>
             <StyledButton

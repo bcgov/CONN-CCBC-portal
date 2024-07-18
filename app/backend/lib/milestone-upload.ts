@@ -21,7 +21,9 @@ const milestoneUpload = Router();
 const processMilestone: ExpressMiddleware = async (req, res) => {
   const authRole = getAuthRole(req);
   const isRoleAuthorized =
-    authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'ccbc_analyst';
+    authRole?.pgRole === 'ccbc_admin' ||
+    authRole?.pgRole === 'ccbc_analyst' ||
+    authRole?.pgRole === 'super_admin';
 
   if (!isRoleAuthorized) {
     return res.status(404).end();

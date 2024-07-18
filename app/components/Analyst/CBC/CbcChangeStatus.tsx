@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
 import { useState } from 'react';
+import { useFeature } from '@growthbook/growthbook-react';
 
 interface DropdownProps {
   statusStyles: {
@@ -69,14 +70,14 @@ interface Props {
   cbc: any;
   status: string;
   statusList: any;
-  isHeaderEditable: boolean;
+  isFormEditable: boolean;
 }
 
 const CbcChangeStatus: React.FC<Props> = ({
   cbc,
   status,
   statusList,
-  isHeaderEditable,
+  isFormEditable,
 }) => {
   const queryFragment = useFragment(
     graphql`
@@ -101,6 +102,8 @@ const CbcChangeStatus: React.FC<Props> = ({
   );
   const [updateStatus] = useUpdateCbcDataByRowIdMutation();
   const [currentStatus, setCurrentStatus] = useState(getStatus(status));
+  const allowEdit =
+    (useFeature('show_cbc_edit').value ?? false) && isFormEditable;
 
   const handleChange = (e) => {
     const newStatus = e.target.value;
@@ -139,7 +142,7 @@ const CbcChangeStatus: React.FC<Props> = ({
         const { description, name, id } = statusType;
 
         return (
-          <StyledOption value={name} key={id} disabled={!isHeaderEditable}>
+          <StyledOption value={name} key={id} disabled={!isFormEditable}>
             {description}
           </StyledOption>
         );

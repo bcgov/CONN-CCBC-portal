@@ -27,7 +27,8 @@ const processSow: ExpressMiddleware = async (req, res) => {
   const isRoleAuthorized =
     authRole?.pgRole === 'ccbc_admin' ||
     authRole?.pgRole === 'ccbc_analyst' ||
-    authRole?.pgRole === 'cbc_admin';
+    authRole?.pgRole === 'cbc_admin' ||
+    authRole?.pgRole === 'super_admin';
 
   if (!isRoleAuthorized) {
     return res.status(404).end();

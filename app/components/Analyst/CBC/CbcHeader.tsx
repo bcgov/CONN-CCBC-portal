@@ -58,10 +58,10 @@ const StyledPendingChangeRequests = styled(StyledItem)`
 
 interface Props {
   query: any;
-  isFormEditMode: boolean;
+  isFormEditable: boolean;
 }
 
-const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
+const CbcHeader: React.FC<Props> = ({ query, isFormEditable }) => {
   const queryFragment = useFragment(
     graphql`
       fragment CbcHeader_query on Query {
@@ -136,16 +136,27 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
               { description: 'Reporting Complete', name: 'complete', id: 2 },
               { description: 'Withdrawn', name: 'withdrawn', id: 4 },
             ]}
-            isHeaderEditable={isHeaderEditable}
+            isFormEditable={isFormEditable}
           />
         </StyledItem>
         <StyledProjectType>
           <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>
           <CbcAssignProjectType
             cbc={cbcByRowId}
-            isHeaderEditable={isHeaderEditable}
+            isFormEditable={isFormEditable}
           />
-        </StyledProjectType>
+        </StyledAssign>
+        <StyledAssign>
+          <StyledLabel htmlFor="assign-intake">Intake</StyledLabel>
+          <AssignField
+            // fieldValue={jsonData?.intake || null}
+            fieldName="intake"
+            fieldOptions={[null, 1, 2, 3, 4]}
+            fieldType="number"
+            cbc={cbcByRowId}
+            isFormEditable={isFormEditable}
+          />
+        </StyledAssign>
         <StyledPendingChangeRequests>
           <StyledLabel htmlFor="assign-project-type">
             Pending Change Request
@@ -153,7 +164,7 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
           <PendingChangeRequest
             application={cbcByRowId}
             isCbc
-            isHeaderEditable={isHeaderEditable}
+            isFormEditable={isFormEditable}
           />
         </StyledPendingChangeRequests>
       </StyledDiv>
