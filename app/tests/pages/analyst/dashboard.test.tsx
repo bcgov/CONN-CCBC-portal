@@ -431,7 +431,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const countRows = screen.getAllByText(/Showing 7 of 7 rows/i);
+    const countRows = screen.getAllByText(/Showing 8 of 8 rows/i);
     expect(countRows).toHaveLength(2);
   });
 
