@@ -657,10 +657,10 @@ describe('The index page', () => {
     expect(screen.queryByText('CCBC-010004')).toBeInTheDocument();
     const cbcFilterCheckbox = screen.getByTestId('projectTypeFilterCbc');
     const ccbcFilterCheckbox = screen.getByTestId('projectTypeFilterCcbc');
-    const atlinFilterCheckbox = screen.getByTestId('projectTypeFilterAtlin');
+    const otherFilterCheckbox = screen.getByTestId('projectTypeFilterOther');
     expect(cbcFilterCheckbox).toBeChecked();
     expect(ccbcFilterCheckbox).toBeChecked();
-    expect(atlinFilterCheckbox).toBeChecked();
+    expect(otherFilterCheckbox).toBeChecked();
 
     await act(async () => {
       fireEvent.click(cbcFilterCheckbox);

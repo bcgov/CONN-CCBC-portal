@@ -233,7 +233,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const [isFirstRender, setIsFirstRender] = useState(true);
 
   const defaultFilters = [
-    { id: 'projectType', value: ['CCBC', 'CBC', 'Atlin'] },
+    { id: 'projectType', value: ['CCBC', 'CBC', 'Other'] },
   ];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
@@ -396,7 +396,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       ...allApplications.edges.map((application) => ({
         ...application.node,
         projectType: application.node.ccbcNumber.includes('000074')
-          ? 'Atlin'
+          ? 'Other'
           : 'CCBC',
         intakeNumber: application.node.ccbcNumber.includes('000074')
           ? 'N/A'

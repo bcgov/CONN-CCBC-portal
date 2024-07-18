@@ -62,11 +62,11 @@ const AdditionalFilters = ({ filters, setFilters }) => {
       CBC
       <StyledCheckbox
         type="checkbox"
-        data-testid="projectTypeFilterAtlin"
-        checked={projectTypeFilters.includes('Atlin')}
-        onChange={() => handleProjectTypeFilterChange('Atlin')}
+        data-testid="projectTypeFilterOther"
+        checked={projectTypeFilters.includes('Other')}
+        onChange={() => handleProjectTypeFilterChange('Other')}
       />
-      Atlin
+      Other
     </StyledDiv>
   );
 };
