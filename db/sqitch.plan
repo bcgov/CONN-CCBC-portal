@@ -610,3 +610,4 @@ tables/cbc_project_communities 2024-06-14T16:27:57Z ,,, <ryohani89@NH504670> # a
 @1.172.0 2024-07-17T14:12:14Z CCBC Service Account <ccbc@button.is> # release v1.172.0
 computed_columns/application_history [computed_columns/application_history@1.163.0] 2024-06-10T21:11:06Z Anthony Bushara <anthony@button.is> # Add application sow data to history
 @1.173.0 2024-07-18T17:55:13Z CCBC Service Account <ccbc@button.is> # release v1.173.0
+@1.173.1 2024-07-19T14:19:13Z CCBC Service Account <ccbc@button.is> # release v1.173.1
