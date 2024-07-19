@@ -1,3 +1,9 @@
+# [1.175.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.174.0...v1.175.0) (2024-07-19)
+
+### Features
+
+- add transport project type to ccbc ([bd6be0f](https://github.com/bcgov/CONN-CCBC-portal/commit/bd6be0fe727e09471f2d54449116d22e8e45dbba))
+
 # [1.174.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.173.2...v1.174.0) (2024-07-19)
 
 ### Features
