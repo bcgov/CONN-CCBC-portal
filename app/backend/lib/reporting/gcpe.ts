@@ -260,7 +260,7 @@ const generateExcelData = async (
       // indigenous communities
       { value: node?.jsonData?.indigenousCommunities },
       // project locations
-      { value: node?.jsonData?.projectLocation },
+      { value: node?.jsonData?.projectLocations },
       // household count
       { value: node?.jsonData?.householdCount },
       // transport km
@@ -396,8 +396,12 @@ const generateExcelData = async (
       { value: node?.formData?.jsonData?.communitiesAndLocalesCount },
       // indigenous communities
       { value: node?.formData?.jsonData?.householdsImpactedIndigenous },
-      // project
-      { value: node?.formData?.jsonData?.projectLocation },
+      // project locations
+      {
+        value:
+          node?.formData?.jsonData?.projectInformation
+            ?.geographicAreaDescription,
+      },
       // household count
       {
         value: getHouseholdCount(
