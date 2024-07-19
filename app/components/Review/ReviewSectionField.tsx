@@ -33,6 +33,7 @@ const ReviewSectionField: React.FC<FieldProps> = (props) => {
       error={hasErrors}
       title={schema.title}
       allowAnalystEdit={allowAnalystEdit}
+      recordLocked={formContext.recordLocked}
     >
       <table>
         <tbody>

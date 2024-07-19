@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
+import { useFeature } from '@growthbook/growthbook-react';
 import CbcChangeStatus from './CbcChangeStatus';
-import AssignField from './AssignField';
 import PendingChangeRequest from '../PendingChangeRequest/PendingChangeRequest';
+import CbcEditProjectDescription from './CbcEditProjectDescription';
+import CbcAssignProjectType from './CbcAssignProjectType';
 
 const StyledCallout = styled.div`
   margin-bottom: 0.5em;
@@ -46,7 +48,7 @@ const StyledItem = styled.div`
   margin: 8px 0 0 0;
 `;
 
-const StyledAssign = styled(StyledItem)`
+const StyledProjectType = styled(StyledItem)`
   margin: 8px 0 0 0;
 `;
 
@@ -83,19 +85,29 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
           ...CbcChangeStatus_query
           ...AssignField_query
           ...PendingChangeRequest_query_cbc
+          ...CbcEditProjectDescription_query
+          ...CbcAssignProjectType_query
+        }
+        session {
+          sub
+          authRole
         }
       }
     `,
     query
   );
 
-  const { cbcByRowId } = queryFragment;
+  const { cbcByRowId, session } = queryFragment;
   const { projectNumber, cbcDataByCbcId } = cbcByRowId;
 
   const { edges } = cbcDataByCbcId;
   const cbcData = edges[0].node;
   const { jsonData } = cbcData;
   const status = jsonData.projectStatus;
+  const isRecordLocked = jsonData.locked || false;
+  const editFeatureEnabled = useFeature('show_cbc_edit').value ?? false;
+  const allowEdit = session.authRole === 'cbc_admin' && editFeatureEnabled;
+  const isHeaderEditable = allowEdit && !(isRecordLocked && !isFormEditMode);
 
   return (
     <StyledCallout>
@@ -103,10 +115,14 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
         <StyledH2>{projectNumber}</StyledH2>
         <StyledH1>{jsonData.projectTitle}</StyledH1>
         <StyledH2>{jsonData.applicantContractualName}</StyledH2>
+        <CbcEditProjectDescription
+          cbc={cbcByRowId}
+          isHeaderEditable={isHeaderEditable}
+        />
       </StyledProjectInfo>
       <StyledDiv>
         <StyledItem>
-          <StyledLabel htmlFor="change-status">Status</StyledLabel>
+          <StyledLabel htmlFor="change-status">External Status</StyledLabel>
           <CbcChangeStatus
             cbc={cbcByRowId}
             status={status}
@@ -120,36 +136,25 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
               { description: 'Reporting Complete', name: 'complete', id: 2 },
               { description: 'Withdrawn', name: 'withdrawn', id: 4 },
             ]}
-            isFormEditMode={isFormEditMode}
+            isHeaderEditable={isHeaderEditable}
           />
         </StyledItem>
-        <StyledAssign>
-          <StyledLabel htmlFor="assign-phase">Phase</StyledLabel>
-          <AssignField
-            // fieldValue={jsonData?.phase.toString() || null}
-            fieldName="phase"
-            fieldOptions={['1', '2', '3', '4', '4b']}
-            fieldType="string"
+        <StyledProjectType>
+          <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>
+          <CbcAssignProjectType
             cbc={cbcByRowId}
-            isFormEditMode={isFormEditMode}
+            isHeaderEditable={isHeaderEditable}
           />
-        </StyledAssign>
-        <StyledAssign>
-          <StyledLabel htmlFor="assign-intake">Intake</StyledLabel>
-          <AssignField
-            // fieldValue={jsonData?.intake || null}
-            fieldName="intake"
-            fieldOptions={[null, 1, 2, 3, 4]}
-            fieldType="number"
-            cbc={cbcByRowId}
-            isFormEditMode={isFormEditMode}
-          />
-        </StyledAssign>
+        </StyledProjectType>
         <StyledPendingChangeRequests>
           <StyledLabel htmlFor="assign-project-type">
             Pending Change Request
           </StyledLabel>
-          <PendingChangeRequest application={cbcByRowId} isCbc />
+          <PendingChangeRequest
+            application={cbcByRowId}
+            isCbc
+            isHeaderEditable={isHeaderEditable}
+          />
         </StyledPendingChangeRequests>
       </StyledDiv>
     </StyledCallout>
