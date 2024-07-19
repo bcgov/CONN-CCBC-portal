@@ -379,6 +379,39 @@ describe('Cbc', () => {
     expect(screen.queryByText('5554')).not.toBeInTheDocument();
   });
 
+  it('should not change input on same project number', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const projectNumberField = screen.getByText('5555');
+    await act(async () => {
+      fireEvent.click(projectNumberField);
+    });
+    const projectNumberInput = screen.getByRole('spinbutton');
+    await act(async () => {
+      fireEvent.change(projectNumberInput, {
+        target: { value: '5555' },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.keyDown(projectNumberInput, { key: 'Enter', code: 'Enter' });
+    });
+
+    expect(
+      pageTestingHelper.environment.mock.getAllOperations()
+    ).not.toContainEqual(
+      expect.objectContaining({
+        request: expect.objectContaining({
+          operation: expect.objectContaining({
+            name: 'updateCbcProjectNumberMutation',
+          }),
+        }),
+      })
+    );
+  });
+
   it('header should not be editable by non cbc admin users', async () => {
     jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery(mockNonCbcQueryPayload);

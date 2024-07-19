@@ -220,8 +220,6 @@ const CbcEditProjectNumber: React.FC<Props> = ({
       {error && (
         <StyledMessage>
           {error && <StyledError>{error}</StyledError>}
-
-          {/* {help && <Label>{help}</Label>} */}
         </StyledMessage>
       )}
     </StyledDiv>
