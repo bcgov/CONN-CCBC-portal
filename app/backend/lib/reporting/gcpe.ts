@@ -211,27 +211,23 @@ const generateExcelData = async (
       { value: node?.jsonData?.projectDescription },
       // ndit conditional approval letter send to applicant
       {
-        value: convertBoolean(
-          node?.jsonData?.nditConditionalApprovalLetterSent
-        ),
+        value: convertBoolean(node?.jsonData?.conditionalApprovalLetterSent),
       },
       // binding agreement signed
       {
-        value: convertBoolean(
-          node?.jsonData?.bindingAgreementSignedNditRecipient
-        ),
+        value: convertBoolean(node?.jsonData?.agreementSigned),
       },
       // project type
       { value: node?.jsonData?.projectType },
       // bc funding request
       {
-        value: node?.jsonData?.bcFundingRequest,
+        value: node?.jsonData?.bcFundingRequested,
         format: '$#,##0.00',
         type: Number,
       },
       // federal funding
       {
-        value: node?.jsonData?.federalFunding,
+        value: node?.jsonData?.federalFundingRequested,
         format: '$#,##0.00',
         type: Number,
       },
@@ -245,7 +241,7 @@ const generateExcelData = async (
       },
       // other funding
       {
-        value: node?.jsonData?.otherFunding,
+        value: node?.jsonData?.otherFundingRequested,
         format: '$#,##0.00',
         type: Number,
       },
