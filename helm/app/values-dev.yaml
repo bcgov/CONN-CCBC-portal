@@ -14,6 +14,10 @@ db:
       psql -v "ON_ERROR_STOP=1" -f "${file}";
     done;
 
+crunchy-postgres:
+  pgBackRest:
+    retention: '1'
+
 metabase:
   prodIngress:
     enable: true

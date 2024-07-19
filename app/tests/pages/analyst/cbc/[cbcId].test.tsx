@@ -14,6 +14,53 @@ const mockShowCbcEdit: moduleApi.FeatureResult<boolean> = {
   ruleId: 'show_cbc_edit',
 };
 
+const cbcJsonData = {
+  phase: 2,
+  intake: 1,
+  errorLog: [],
+  highwayKm: null,
+  projectType: 'Transport',
+  reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
+  transportKm: 124,
+  lastReviewed: '2023-07-11T00:00:00.000Z',
+  otherFundingRequested: 265000,
+  projectTitle: 'Project 1',
+  dateAnnounced: '2019-07-02T00:00:00.000Z',
+  projectNumber: 5555,
+  projectStatus: 'Reporting Complete',
+  federalFundingRequested: 555555,
+  householdCount: null,
+  applicantAmount: 555555,
+  bcFundingRequested: 5555555,
+  projectLocations: 'Location 1',
+  milestoneComments: 'Requested extension to March 31, 2024',
+  proposedStartDate: '2020-07-01T00:00:00.000Z',
+  primaryNewsRelease:
+    'https://www.canada.ca/en/innovation-science-economic-development/news/2019/07/rural-communities-in-british-columbia-will-benefit-from-faster-internet.html',
+  projectDescription: 'Description 1',
+  totalProjectBudget: 5555555,
+  announcedByProvince: 'YES',
+  dateAgreementSigned: '2021-02-24T00:00:00.000Z',
+  changeRequestPending: 'No',
+  currentOperatingName: 'Internet company 1',
+  federalFundingSource: 'ISED-CTI',
+  transportProjectType: 'Fibre',
+  indigenousCommunities: 5,
+  proposedCompletionDate: '2023-03-31T00:00:00.000Z',
+  constructionCompletedOn: null,
+  dateApplicationReceived: null,
+  reportingCompletionDate: null,
+  applicantContractualName: 'Internet company 1',
+  dateConditionallyApproved: '2019-06-26T00:00:00.000Z',
+  eightThirtyMillionFunding: 'No',
+  projectMilestoneCompleted: 0.5,
+  communitiesAndLocalesCount: 5,
+  connectedCoastNetworkDependant: 'NO',
+  conditionalApprovalLetterSent: 'YES',
+  agreementSigned: 'YES',
+  locked: false,
+};
+
 const mockQueryPayload = {
   Query() {
     return {
@@ -25,51 +72,7 @@ const mockQueryPayload = {
           edges: [
             {
               node: {
-                jsonData: {
-                  phase: 2,
-                  intake: 1,
-                  errorLog: [],
-                  highwayKm: null,
-                  projectType: 'Transport',
-                  reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
-                  transportKm: 124,
-                  lastReviewed: '2023-07-11T00:00:00.000Z',
-                  otherFundingRequested: 265000,
-                  projectTitle: 'Project 1',
-                  dateAnnounced: '2019-07-02T00:00:00.000Z',
-                  projectNumber: 5555,
-                  projectStatus: 'Reporting Complete',
-                  federalFundingRequested: 555555,
-                  householdCount: null,
-                  applicantAmount: 555555,
-                  bcFundingRequested: 5555555,
-                  projectLocations: 'Location 1',
-                  milestoneComments: 'Requested extension to March 31, 2024',
-                  proposedStartDate: '2020-07-01T00:00:00.000Z',
-                  primaryNewsRelease:
-                    'https://www.canada.ca/en/innovation-science-economic-development/news/2019/07/rural-communities-in-british-columbia-will-benefit-from-faster-internet.html',
-                  projectDescription: 'Description 1',
-                  totalProjectBudget: 5555555,
-                  announcedByProvince: 'YES',
-                  dateAgreementSigned: '2021-02-24T00:00:00.000Z',
-                  changeRequestPending: 'No',
-                  currentOperatingName: 'Internet company 1',
-                  federalFundingSource: 'ISED-CTI',
-                  transportProjectType: 'Fibre',
-                  indigenousCommunities: 5,
-                  proposedCompletionDate: '2023-03-31T00:00:00.000Z',
-                  constructionCompletedOn: null,
-                  dateApplicationReceived: null,
-                  reportingCompletionDate: null,
-                  applicantContractualName: 'Internet company 1',
-                  dateConditionallyApproved: '2019-06-26T00:00:00.000Z',
-                  eightThirtyMillionFunding: 'No',
-                  projectMilestoneCompleted: 0.5,
-                  communitiesAndLocalesCount: 5,
-                  connectedCoastNetworkDependant: 'NO',
-                  conditionalApprovalLetterSent: 'YES',
-                  agreementSigned: 'YES',
-                },
+                jsonData: cbcJsonData,
                 sharepointTimestamp: '2024-10-01T00:00:00.000Z',
                 rowId: 1,
                 projectNumber: 5555,
@@ -113,6 +116,67 @@ const mockQueryPayload = {
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+        authRole: 'cbc_admin',
+      },
+    };
+  },
+};
+
+const mockNonCbcQueryPayload = {
+  Query() {
+    return {
+      cbcByRowId: {
+        projectNumber: 5555,
+        rowId: 1,
+        sharepointTimestamp: '2024-10-01T00:00:00.000Z',
+        cbcDataByCbcId: {
+          edges: [
+            {
+              node: {
+                jsonData: cbcJsonData,
+                sharepointTimestamp: '2024-10-01T00:00:00.000Z',
+                rowId: 1,
+                projectNumber: 5555,
+                updatedAt: '2024-10-01T00:00:00.000Z',
+                updatedBy: 'test',
+              },
+            },
+          ],
+        },
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+        authRole: 'ccbc_admin',
+      },
+    };
+  },
+};
+
+const mockLockedQueryPayload = {
+  Query() {
+    return {
+      cbcByRowId: {
+        projectNumber: 5555,
+        rowId: 1,
+        sharepointTimestamp: '2024-10-01T00:00:00.000Z',
+        cbcDataByCbcId: {
+          edges: [
+            {
+              node: {
+                jsonData: { ...cbcJsonData, locked: true },
+                sharepointTimestamp: '2024-10-01T00:00:00.000Z',
+                rowId: 1,
+                projectNumber: 5555,
+                updatedAt: '2024-10-01T00:00:00.000Z',
+                updatedBy: 'test',
+              },
+            },
+          ],
+        },
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+        authRole: 'cbc_admin',
       },
     };
   },
@@ -158,14 +222,92 @@ describe('Cbc', () => {
     expect(
       screen.getByRole('heading', { name: 'Internet company 1' })
     ).toBeInTheDocument();
+    expect(screen.getByText('Description 1')).toBeInTheDocument();
     // right side (editable) of header
-    expect(screen.getByLabelText('Status')).toBeInTheDocument();
-    expect(screen.getByLabelText('Status')).toHaveValue('complete');
-    expect(screen.getByLabelText('Phase')).toBeInTheDocument();
-    expect(screen.getByLabelText('Phase')).toHaveValue('2');
-    expect(screen.getByLabelText('Intake')).toBeInTheDocument();
-    expect(screen.getByLabelText('Intake')).toHaveValue('1');
+    expect(screen.getByLabelText('External Status')).toBeInTheDocument();
+    expect(screen.getByLabelText('External Status')).toHaveValue('complete');
+    expect(screen.getByLabelText('Project Type')).toBeInTheDocument();
+    expect(screen.getByLabelText('Project Type')).toHaveValue('Transport');
   });
+
+  it('header should be editable for cbc admin', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const options = screen.getAllByRole('option');
+    options.forEach((option) => {
+      expect(option).toBeEnabled();
+    });
+
+    const projectTypeInput = screen.getByLabelText('Project Type');
+    expect(projectTypeInput).toBeEnabled();
+
+    await act(async () => {
+      fireEvent.change(projectTypeInput, { target: { value: 'Telecom' } });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('updateCbcDataByRowIdMutation', {
+      input: expect.any(Object),
+    });
+
+    const projectDescriptionField = screen.getByText('Description 1');
+    await act(async () => {
+      fireEvent.click(projectDescriptionField);
+    });
+    const projectDescriptionInput = screen.getByRole('textbox');
+    await act(async () => {
+      fireEvent.change(projectDescriptionInput, {
+        target: { value: 'testing edit 2' },
+      });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('updateCbcDataByRowIdMutation', {
+      input: expect.any(Object),
+    });
+  });
+
+  it('header should not be editable by non cbc admin users', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockNonCbcQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const options = screen.getAllByRole('option');
+    options.forEach((option) => {
+      expect(option).toBeDisabled();
+    });
+  });
+
+  it('header should not be editable when record locked', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockLockedQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const options = screen.getAllByRole('option');
+    options.forEach((option) => {
+      expect(option).toBeDisabled();
+    });
+  });
+
+  it('accordions should not be editable when record locked', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockLockedQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const accordionEditButton = screen.getByTestId('tombstone-lock-edit');
+    expect(accordionEditButton).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(accordionEditButton);
+    });
+
+    expect(
+      screen.getByText(
+        'The project is currently locked for editing. Would you still like to continue?'
+      )
+    ).toBeInTheDocument();
+  });
+
   it('should have the correct actions when edit enabled', async () => {
     jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery();
@@ -174,6 +316,34 @@ describe('Cbc', () => {
     expect(screen.getByText('Expand all')).toBeInTheDocument();
     expect(screen.getByText('Collapse all')).toBeInTheDocument();
     expect(screen.getByText('Quick edit')).toBeInTheDocument();
+  });
+
+  it('should have the correct actions when record locked', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockLockedQueryPayload);
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('Expand all')).toBeInTheDocument();
+    expect(screen.getByText('Collapse all')).toBeInTheDocument();
+    expect(screen.getByTestId('record-lock')).toBeInTheDocument();
+  });
+
+  it('should not have the quick edit actions when non cbc-admin', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockNonCbcQueryPayload);
+    pageTestingHelper.renderPage();
+
+    expect(screen.queryByText('Quick-edit')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('record-lock')).not.toBeInTheDocument();
+  });
+
+  it('accordions should not be editable when non cbc-admin', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockNonCbcQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const accordionEditButton = screen.queryByText('Quick edit');
+    expect(accordionEditButton).not.toBeInTheDocument();
   });
 
   it('expand and collapse all work as expected', () => {
@@ -254,8 +424,8 @@ describe('Cbc', () => {
             phase: 2,
             intake: 1,
             projectStatus: 'Reporting Complete',
-            projectTitle: 'Project 1',
             changeRequestPending: 'No',
+            projectTitle: 'Project 1',
             projectDescription: 'Description 1',
             applicantContractualName: 'Internet company 1',
             currentOperatingName: 'Internet company 1',
@@ -292,614 +462,35 @@ describe('Cbc', () => {
               'https://www.canada.ca/en/innovation-science-economic-development/news/2019/07/rural-communities-in-british-columbia-will-benefit-from-faster-internet.html',
             lastReviewed: '2023-07-11T00:00:00.000Z',
             reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
+            locked: false,
           },
         },
       },
     });
   });
 
-  it('should have the correct validation errors for tombstone projectStatus', async () => {
+  it('should prompt confirmation on locked edit click', async () => {
     jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
-    pageTestingHelper.loadQuery(mockQueryPayload);
+    pageTestingHelper.loadQuery(mockLockedQueryPayload);
     pageTestingHelper.renderPage();
 
-    const projectStatusElement = screen.getByTestId(
-      'root_tombstone_projectStatus-value'
-    );
-    expect(projectStatusElement).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
+    const editLockButton = screen.getByTestId('record-lock');
+    act(() => {
+      fireEvent.click(editLockButton);
     });
-    const helpIcon = projectStatusElement.querySelector(
-      '[data-testid="HelpIcon"]'
-    );
-    expect(helpIcon).toBeInTheDocument();
 
-    fireEvent.mouseOver(helpIcon);
-    const tooltip = await screen.findByText(/Missing project status/);
-    expect(tooltip).toBeInTheDocument();
-  });
-
-  it('should have the correct validation errors for tombstone federal project number', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
-    pageTestingHelper.loadQuery(mockQueryPayload);
-    pageTestingHelper.renderPage();
-
-    const element = screen.getByTestId(
-      'root_tombstone_federalProjectNumber-value'
-    );
-    expect(element).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
+    const confirmButton = screen.getByRole('button', {
+      name: 'Yes, edit',
     });
-    const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon).toBeInTheDocument();
 
-    fireEvent.mouseOver(helpIcon);
-    const tooltip = await screen.findByText(/Missing Federal project number/);
-    expect(tooltip).toBeInTheDocument();
-  });
-
-  it('should have the correct validation errors for tombstone federal project number format for UBF', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
-    const mockQueryPayloadUBF = {
-      Query() {
-        return {
-          ...mockQueryPayload.Query(),
-          cbcByRowId: {
-            ...mockQueryPayload.Query().cbcByRowId,
-            cbcDataByCbcId: {
-              ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId,
-              edges: [
-                {
-                  node: {
-                    ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                      .edges[0].node,
-                    jsonData: {
-                      ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                        .edges[0].node.jsonData,
-                      federalFundingSource: 'ISED-UBF',
-                      federalProjectNumber: '1234',
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        };
-      },
-    };
-    pageTestingHelper.loadQuery(mockQueryPayloadUBF);
-    pageTestingHelper.renderPage();
-
-    const element = screen.getByTestId(
-      'root_tombstone_federalProjectNumber-value'
-    );
-    expect(element).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
+    expect(confirmButton).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(confirmButton);
     });
-    const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon).toBeInTheDocument();
 
-    fireEvent.mouseOver(helpIcon);
-    const tooltip = await screen.findByText(
-      /UBF project numbers must begin with 'UBF-'/
-    );
-    expect(tooltip).toBeInTheDocument();
-  });
-
-  it('should have the correct validation errors for tombstone federal project number format for CTI', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
-    const mockQueryPayloadUBF = {
-      Query() {
-        return {
-          ...mockQueryPayload.Query(),
-          cbcByRowId: {
-            ...mockQueryPayload.Query().cbcByRowId,
-            cbcDataByCbcId: {
-              ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId,
-              edges: [
-                {
-                  node: {
-                    ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                      .edges[0].node,
-                    jsonData: {
-                      ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                        .edges[0].node.jsonData,
-                      federalFundingSource: 'ISED-CTI',
-                      federalProjectNumber: '1234',
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        };
-      },
-    };
-    pageTestingHelper.loadQuery(mockQueryPayloadUBF);
-    pageTestingHelper.renderPage();
-
-    const element = screen.getByTestId(
-      'root_tombstone_federalProjectNumber-value'
-    );
-    expect(element).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
     });
-    const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon);
-    const tooltip = await screen.findByText(
-      /CTI project numbers must begin with 'CTI-'/
-    );
-    expect(tooltip).toBeInTheDocument();
-  });
-
-  it('should have the correct validation errors for miscellaneous', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
-    const mockQueryPayloadMisc = {
-      Query() {
-        return {
-          ...mockQueryPayload.Query(),
-          cbcByRowId: {
-            ...mockQueryPayload.Query().cbcByRowId,
-            cbcDataByCbcId: {
-              ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId,
-              edges: [
-                {
-                  node: {
-                    ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                      .edges[0].node,
-                    jsonData: {
-                      ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                        .edges[0].node.jsonData,
-                      projectMilestoneCompleted: 1,
-                      constructionCompletedOn: null,
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        };
-      },
-    };
-    pageTestingHelper.loadQuery(mockQueryPayloadMisc);
-    pageTestingHelper.renderPage();
-
-    const element = screen.getByTestId(
-      'root_miscellaneous_projectMilestoneCompleted-value'
-    );
-    expect(element).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon);
-    const tooltip = await screen.findByText(/Missing date/);
-    expect(tooltip).toBeInTheDocument();
-  });
-
-  it('should have the correct validation errors for events and dates', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
-    const mockQueryPayloadMisc = {
-      Query() {
-        return {
-          ...mockQueryPayload.Query(),
-          cbcByRowId: {
-            ...mockQueryPayload.Query().cbcByRowId,
-            cbcDataByCbcId: {
-              ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId,
-              edges: [
-                {
-                  node: {
-                    ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                      .edges[0].node,
-                    jsonData: {
-                      ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                        .edges[0].node.jsonData,
-                      dateAnnounced: null,
-                      reportingCompletionDate: null,
-                      dateConditionallyApproved: '2024-06-26T00:00:00.000Z',
-                      agreementSigned: 'YES',
-                      conditionalApprovalLetterSent: 'YES',
-                      dateAgreementSigned: null,
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        };
-      },
-    };
-    pageTestingHelper.loadQuery(mockQueryPayloadMisc);
-    pageTestingHelper.renderPage();
-
-    const elementDateAnnounced = screen.getByTestId(
-      'root_eventsAndDates_dateAnnounced-value'
-    );
-    expect(elementDateAnnounced).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon1 = elementDateAnnounced.querySelector(
-      '[data-testid="HelpIcon"]'
-    );
-    expect(helpIcon1).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon1);
-    const tooltip1 = await screen.findByText(/Missing date announced/);
-    expect(tooltip1).toBeInTheDocument();
-
-    const elementReportingCompletion = screen.getByTestId(
-      'root_eventsAndDates_reportingCompletionDate-value'
-    );
-    expect(elementReportingCompletion).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon2 = elementReportingCompletion.querySelector(
-      '[data-testid="HelpIcon"]'
-    );
-    expect(helpIcon2).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon2);
-    const tooltip2 = await screen.findByText(
-      /Missing reporting completion date/
-    );
-    expect(tooltip2).toBeInTheDocument();
-
-    const elementProposedCompletionDate = screen.getByTestId(
-      'root_eventsAndDates_proposedCompletionDate-value'
-    );
-    expect(elementProposedCompletionDate).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon3 = elementProposedCompletionDate.querySelector(
-      '[data-testid="HelpIcon"]'
-    );
-    expect(helpIcon3).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon3);
-    const tooltip3 = await screen.findByText(
-      /Please review Proposed Completion Date accuracy in relation to Date Conditionally Approved and Proposed Start Date/
-    );
-    expect(tooltip3).toBeInTheDocument();
-
-    const elementDateAgreementSigned = screen.getByTestId(
-      'root_eventsAndDates_dateAgreementSigned-value'
-    );
-    expect(elementDateAgreementSigned).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon4 = elementDateAgreementSigned.querySelector(
-      '[data-testid="HelpIcon"]'
-    );
-    expect(helpIcon4).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon4);
-    const tooltip4 = await screen.findByText(/Missing date agreement signed/);
-    expect(tooltip4).toBeInTheDocument();
-  });
-
-  it('should have the correct validation errors for funding', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
-    const mockQueryPayloadMisc = {
-      Query() {
-        return {
-          ...mockQueryPayload.Query(),
-          cbcByRowId: {
-            ...mockQueryPayload.Query().cbcByRowId,
-            cbcDataByCbcId: {
-              ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId,
-              edges: [
-                {
-                  node: {
-                    ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                      .edges[0].node,
-                    jsonData: {
-                      ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                        .edges[0].node.jsonData,
-                      bcFundingRequested: 100000,
-                      federalFundingRequested: 555555,
-                      totalProjectBudget: 5555555,
-                      federalFundingSource: null,
-                      applicantAmount: null,
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        };
-      },
-    };
-    pageTestingHelper.loadQuery(mockQueryPayloadMisc);
-    pageTestingHelper.renderPage();
-
-    const element = screen.getByTestId('root_funding_totalProjectBudget-value');
-    expect(element).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon);
-    const tooltip = await screen.findByText(
-      /Total project budget must equal the sum of the funding sources/
-    );
-    expect(tooltip).toBeInTheDocument();
-
-    const element2 = screen.getByTestId(
-      'root_funding_federalFundingRequested-value'
-    );
-    expect(element2).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon2 = element2.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon2);
-    const tooltip2 = await screen.findByText(/Missing Federal funding source/);
-    expect(tooltip2).toBeInTheDocument();
-
-    const element3 = screen.getByTestId('root_funding_applicantAmount-value');
-    expect(element3).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon3 = element3.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon3);
-    const tooltip3 = await screen.findByText(/Please enter a value/);
-    expect(tooltip3).toBeInTheDocument();
-  });
-
-  it('should have the correct validation errors for locations and counts transport kms', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
-    const mockQueryPayloadMisc = {
-      Query() {
-        return {
-          ...mockQueryPayload.Query(),
-          cbcByRowId: {
-            ...mockQueryPayload.Query().cbcByRowId,
-            cbcDataByCbcId: {
-              ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId,
-              edges: [
-                {
-                  node: {
-                    ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                      .edges[0].node,
-                    jsonData: {
-                      ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                        .edges[0].node.jsonData,
-                      indigenousCommunities: 6,
-                      communitiesAndLocalesCount: 5,
-                      projectType: 'Transport',
-                      transportKm: null,
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        };
-      },
-    };
-    pageTestingHelper.loadQuery(mockQueryPayloadMisc);
-    pageTestingHelper.renderPage();
-
-    const element = screen.getByTestId(
-      'root_locationsAndCounts_indigenousCommunities-value'
-    );
-    expect(element).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon);
-    const tooltip = await screen.findByText(
-      /Indigenous communities cannot be greater than total communities/
-    );
-    expect(tooltip).toBeInTheDocument();
-
-    const element2 = screen.getByTestId(
-      'root_locationsAndCounts_transportKm-value'
-    );
-    expect(element2).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon2 = element2.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon2).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon2);
-    const tooltip2 = await screen.findByText(/Missing transport KMs/);
-    expect(tooltip2).toBeInTheDocument();
-  });
-
-  it('should have the correct validation errors for locations and counts highway kms', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
-    const mockQueryPayloadMisc = {
-      Query() {
-        return {
-          ...mockQueryPayload.Query(),
-          cbcByRowId: {
-            ...mockQueryPayload.Query().cbcByRowId,
-            cbcDataByCbcId: {
-              ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId,
-              edges: [
-                {
-                  node: {
-                    ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                      .edges[0].node,
-                    jsonData: {
-                      ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                        .edges[0].node.jsonData,
-                      indigenousCommunities: 6,
-                      communitiesAndLocalesCount: 5,
-                      projectType: 'Cellular',
-                      highwayKm: null,
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        };
-      },
-    };
-    pageTestingHelper.loadQuery(mockQueryPayloadMisc);
-    pageTestingHelper.renderPage();
-
-    const element = screen.getByTestId(
-      'root_locationsAndCounts_highwayKm-value'
-    );
-    expect(element).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon);
-    const tooltip = await screen.findByText(/Missing highway KMs/);
-    expect(tooltip).toBeInTheDocument();
-  });
-
-  it('should have the correct validation errors for project type and last mile project Type', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
-    const mockQueryPayloadMisc = {
-      Query() {
-        return {
-          ...mockQueryPayload.Query(),
-          cbcByRowId: {
-            ...mockQueryPayload.Query().cbcByRowId,
-            cbcDataByCbcId: {
-              ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId,
-              edges: [
-                {
-                  node: {
-                    ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                      .edges[0].node,
-                    jsonData: {
-                      ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                        .edges[0].node.jsonData,
-                      projectType: 'Last-Mile',
-                      lastMileProjectType: null,
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        };
-      },
-    };
-    pageTestingHelper.loadQuery(mockQueryPayloadMisc);
-    pageTestingHelper.renderPage();
-
-    const element = screen.getByTestId(
-      'root_projectType_lastMileProjectType-value'
-    );
-    expect(element).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon);
-    const tooltip = await screen.findByText(/Missing Last-Mile project type/);
-    expect(tooltip).toBeInTheDocument();
-  });
-
-  it('should have the correct validation errors for project type and highway project Type', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
-    const mockQueryPayloadMisc = {
-      Query() {
-        return {
-          ...mockQueryPayload.Query(),
-          cbcByRowId: {
-            ...mockQueryPayload.Query().cbcByRowId,
-            cbcDataByCbcId: {
-              ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId,
-              edges: [
-                {
-                  node: {
-                    ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                      .edges[0].node,
-                    jsonData: {
-                      ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                        .edges[0].node.jsonData,
-                      projectType: 'Cellular',
-                      highwayProjectType: null,
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        };
-      },
-    };
-    pageTestingHelper.loadQuery(mockQueryPayloadMisc);
-    pageTestingHelper.renderPage();
-
-    const element = screen.getByTestId(
-      'root_projectType_highwayProjectType-value'
-    );
-    expect(element).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon);
-    const tooltip = await screen.findByText(/Missing highway project type/);
-    expect(tooltip).toBeInTheDocument();
-  });
-
-  it('should have the correct validation errors for project type and transport project Type', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
-    const mockQueryPayloadMisc = {
-      Query() {
-        return {
-          ...mockQueryPayload.Query(),
-          cbcByRowId: {
-            ...mockQueryPayload.Query().cbcByRowId,
-            cbcDataByCbcId: {
-              ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId,
-              edges: [
-                {
-                  node: {
-                    ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                      .edges[0].node,
-                    jsonData: {
-                      ...mockQueryPayload.Query().cbcByRowId.cbcDataByCbcId
-                        .edges[0].node.jsonData,
-                      projectType: 'Transport',
-                      transportProjectType: null,
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        };
-      },
-    };
-    pageTestingHelper.loadQuery(mockQueryPayloadMisc);
-    pageTestingHelper.renderPage();
-
-    const element = screen.getByTestId(
-      'root_projectType_transportProjectType-value'
-    );
-    expect(element).toHaveStyle({
-      backgroundColor: 'rgb(248, 231, 143)',
-    });
-    const helpIcon = element.querySelector('[data-testid="HelpIcon"]');
-    expect(helpIcon).toBeInTheDocument();
-
-    fireEvent.mouseOver(helpIcon);
-    const tooltip = await screen.findByText(/Missing Transport project type/);
-    expect(tooltip).toBeInTheDocument();
+    expect(saveButton).toBeInTheDocument();
   });
 });

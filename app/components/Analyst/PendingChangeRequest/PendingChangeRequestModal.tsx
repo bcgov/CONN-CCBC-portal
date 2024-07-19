@@ -10,6 +10,7 @@ interface Props {
   onCancel?: Function;
   onSave: Function;
   value: string;
+  isHeaderEditable: boolean;
 }
 
 const StyledFormBase = styled(FormBase)`
@@ -21,6 +22,7 @@ const PendingChangeRequestModal: React.FC<Props> = ({
   onCancel = () => {},
   onSave,
   value,
+  isHeaderEditable = true,
 }) => {
   const [formData, setFormData] = useState({ comment: value });
 
@@ -35,26 +37,31 @@ const PendingChangeRequestModal: React.FC<Props> = ({
       onClose={onCancel}
       size="lg"
       title="Comments on pending changes (optional)"
-      actions={[
-        {
-          id: 'pending-request-change-save-btn',
-          label: 'Save',
-          onClick: () => onSave(formData.comment),
-          disabled: value && value === formData?.comment,
-        },
-        {
-          id: 'pending-request-change-cancel-btn',
-          label: 'Cancel',
-          onClick: onCancel,
-          variant: 'secondary',
-        },
-      ]}
+      actions={
+        isHeaderEditable
+          ? [
+              {
+                id: 'pending-request-change-save-btn',
+                label: 'Save',
+                onClick: () => onSave(formData.comment),
+                disabled: value && value === formData?.comment,
+              },
+              {
+                id: 'pending-request-change-cancel-btn',
+                label: 'Cancel',
+                onClick: onCancel,
+                variant: 'secondary',
+              },
+            ]
+          : []
+      }
     >
       <StyledFormBase
         schema={pendingChangeRequestComment}
         uiSchema={pendingChangeRequestCommentUiSchema}
         formData={formData}
         onChange={(e) => setFormData(e.formData)}
+        disabled={!isHeaderEditable}
         // Pass children to hide submit button
         // eslint-disable-next-line react/no-children-prop
         children
