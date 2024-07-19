@@ -124,7 +124,7 @@ const PendingChangeRequest = ({
         type="checkbox"
         checked={isPending}
         data-testid="pending-change-request-checkbox"
-        disabled={isFormEditable}
+        disabled={!isFormEditable}
         onChange={(e) => {
           if (e.target.checked) {
             pendingChangeRequestModal.open();

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
-import { useFeature } from '@growthbook/growthbook-react';
 import CbcChangeStatus from './CbcChangeStatus';
 import PendingChangeRequest from '../PendingChangeRequest/PendingChangeRequest';
 import CbcEditProjectDescription from './CbcEditProjectDescription';
@@ -61,7 +60,7 @@ interface Props {
   isFormEditable: boolean;
 }
 
-const CbcHeader: React.FC<Props> = ({ query, isFormEditable }) => {
+const CbcHeader: React.FC<Props> = ({ query, isFormEditable = false }) => {
   const queryFragment = useFragment(
     graphql`
       fragment CbcHeader_query on Query {
@@ -97,17 +96,13 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditable }) => {
     query
   );
 
-  const { cbcByRowId, session } = queryFragment;
+  const { cbcByRowId } = queryFragment;
   const { projectNumber, cbcDataByCbcId } = cbcByRowId;
 
   const { edges } = cbcDataByCbcId;
   const cbcData = edges[0].node;
   const { jsonData } = cbcData;
   const status = jsonData.projectStatus;
-  const isRecordLocked = jsonData.locked || false;
-  const editFeatureEnabled = useFeature('show_cbc_edit').value ?? false;
-  const allowEdit = session.authRole === 'cbc_admin' && editFeatureEnabled;
-  const isHeaderEditable = allowEdit && !(isRecordLocked && !isFormEditable);
 
   return (
     <StyledCallout>
@@ -117,7 +112,7 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditable }) => {
         <StyledH2>{jsonData.applicantContractualName}</StyledH2>
         <CbcEditProjectDescription
           cbc={cbcByRowId}
-          isHeaderEditable={isHeaderEditable}
+          isHeaderEditable={isFormEditable}
         />
       </StyledProjectInfo>
       <StyledDiv>
@@ -143,7 +138,7 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditable }) => {
           <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>
           <CbcAssignProjectType
             cbc={cbcByRowId}
-            isHeaderEditable={isHeaderEditable}
+            isHeaderEditable={isFormEditable}
           />
         </StyledProjectType>
         <StyledPendingChangeRequests>
