@@ -107,7 +107,7 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditable }) => {
   const isRecordLocked = jsonData.locked || false;
   const editFeatureEnabled = useFeature('show_cbc_edit').value ?? false;
   const allowEdit = session.authRole === 'cbc_admin' && editFeatureEnabled;
-  const isHeaderEditable = allowEdit && !(isRecordLocked && !isFormEditMode);
+  const isHeaderEditable = allowEdit && !(isRecordLocked && !isFormEditable);
 
   return (
     <StyledCallout>
@@ -143,20 +143,9 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditable }) => {
           <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>
           <CbcAssignProjectType
             cbc={cbcByRowId}
-            isFormEditable={isFormEditable}
+            isHeaderEditable={isHeaderEditable}
           />
-        </StyledAssign>
-        <StyledAssign>
-          <StyledLabel htmlFor="assign-intake">Intake</StyledLabel>
-          <AssignField
-            // fieldValue={jsonData?.intake || null}
-            fieldName="intake"
-            fieldOptions={[null, 1, 2, 3, 4]}
-            fieldType="number"
-            cbc={cbcByRowId}
-            isFormEditable={isFormEditable}
-          />
-        </StyledAssign>
+        </StyledProjectType>
         <StyledPendingChangeRequests>
           <StyledLabel htmlFor="assign-project-type">
             Pending Change Request
