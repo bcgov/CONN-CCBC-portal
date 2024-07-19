@@ -56,7 +56,8 @@ const AssignProjectType = ({ application }) => {
   const options = [
     { key: null, value: null },
     { key: 'Last Mile', value: 'lastMile' },
-    { key: 'Last Mile & Transport', value: 'lastMileAndTransport' },
+    { key: 'Last-Mile & Transport', value: 'lastMileAndTransport' },
+    { key: 'Transport', value: 'transport' },
   ];
   return (
     <StyledDropdown

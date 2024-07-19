@@ -613,3 +613,5 @@ computed_columns/application_history [computed_columns/application_history@1.163
 @1.173.1 2024-07-19T14:19:13Z CCBC Service Account <ccbc@button.is> # release v1.173.1
 @1.173.2 2024-07-19T15:08:32Z CCBC Service Account <ccbc@button.is> # release v1.173.2
 @1.174.0 2024-07-19T21:16:49Z CCBC Service Account <ccbc@button.is> # release v1.174.0
+tables/application_project_type_001_modify_check_constraint 2024-07-19T20:58:37Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # modify check constraint for project type
+@1.175.0 2024-07-19T21:34:53Z CCBC Service Account <ccbc@button.is> # release v1.175.0
