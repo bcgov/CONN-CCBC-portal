@@ -12,7 +12,7 @@ const StyledDiv = styled.div`
   gap: 10px;
 `;
 
-const projectTypeFilter = (row, id, filterValue) => {
+const programFilter = (row, id, filterValue) => {
   if (filterValue.length === 0) {
     return false;
   }
@@ -21,26 +21,26 @@ const projectTypeFilter = (row, id, filterValue) => {
 
 export const additionalFilterColumns = [
   {
-    accessorKey: 'projectType',
-    header: 'Project Type',
-    filterFn: projectTypeFilter,
+    accessorKey: 'program',
+    header: 'Program',
+    filterFn: programFilter,
     visibleInShowHideMenu: false,
     enableHiding: true,
   },
 ];
 
 const AdditionalFilters = ({ filters, setFilters }) => {
-  const projectTypeFilters =
-    filters.filter((f) => f.id === 'projectType')?.[0]?.value ?? [];
+  const programFilters =
+    filters.filter((f) => f.id === 'program')?.[0]?.value ?? [];
 
-  const handleProjectTypeFilterChange = (type) => {
-    const newFilters = projectTypeFilters.includes(type)
-      ? projectTypeFilters.filter((v) => v !== type)
-      : [...projectTypeFilters, type];
+  const handleProgramFilterChange = (program) => {
+    const newFilters = programFilters.includes(program)
+      ? programFilters.filter((v) => v !== program)
+      : [...programFilters, program];
 
     setFilters([
-      ...filters.filter((f) => f.id !== 'projectType'),
-      { id: 'projectType', value: newFilters },
+      ...filters.filter((f) => f.id !== 'program'),
+      { id: 'program', value: newFilters },
     ]);
   };
 
@@ -48,25 +48,25 @@ const AdditionalFilters = ({ filters, setFilters }) => {
     <StyledDiv>
       <StyledCheckbox
         type="checkbox"
-        data-testid="projectTypeFilterCcbc"
-        checked={projectTypeFilters.includes('CCBC')}
-        onChange={() => handleProjectTypeFilterChange('CCBC')}
+        data-testid="programFilterCcbc"
+        checked={programFilters.includes('CCBC')}
+        onChange={() => handleProgramFilterChange('CCBC')}
       />
       CCBC
       <StyledCheckbox
         type="checkbox"
-        data-testid="projectTypeFilterCbc"
-        checked={projectTypeFilters.includes('CBC')}
-        onChange={() => handleProjectTypeFilterChange('CBC')}
+        data-testid="programFilterCbc"
+        checked={programFilters.includes('CBC')}
+        onChange={() => handleProgramFilterChange('CBC')}
       />
       CBC
       <StyledCheckbox
         type="checkbox"
-        data-testid="projectTypeFilterOther"
-        checked={projectTypeFilters.includes('Other')}
-        onChange={() => handleProjectTypeFilterChange('Other')}
+        data-testid="programFilterOther"
+        checked={programFilters.includes('OTHER')}
+        onChange={() => handleProgramFilterChange('OTHER')}
       />
-      Other
+      OTHER
     </StyledDiv>
   );
 };

@@ -15,21 +15,19 @@ const ClearFilters: React.FC<Props> = ({
   filters,
   defaultFilters = [],
 }) => {
-  // Clear all filters except projectType
+  // Clear all filters except program
   const clearFilters = () => {
     table.resetColumnFilters();
     table.setColumnFilters(defaultFilters);
   };
 
   const isTableFiltersPresent =
-    filters.filter(
-      (f) => f.id !== 'projectType' && (f.value as any[]).length > 0
-    ).length > 0;
+    filters.filter((f) => f.id !== 'program' && (f.value as any[]).length > 0)
+      .length > 0;
 
   const isExternalFiltersPresent =
-    filters.filter(
-      (f) => f.id === 'projectType' && (f.value as any[]).length < 3
-    ).length > 0;
+    filters.filter((f) => f.id === 'program' && (f.value as any[]).length < 3)
+      .length > 0;
 
   return (
     <Button
