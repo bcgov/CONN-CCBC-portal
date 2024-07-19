@@ -28,7 +28,7 @@ const ClearFilters: React.FC<Props> = ({
 
   const isExternalFiltersPresent =
     filters.filter(
-      (f) => f.id === 'projectType' && (f.value as any[]).length < 2
+      (f) => f.id === 'projectType' && (f.value as any[]).length < 3
     ).length > 0;
 
   return (

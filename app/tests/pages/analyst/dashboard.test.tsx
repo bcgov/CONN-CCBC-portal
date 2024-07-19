@@ -76,6 +76,20 @@ const mockQueryPayload = {
               zones: [],
             },
           },
+          {
+            node: {
+              id: '5',
+              rowId: 5,
+              analystStatus: 'complete',
+              externalStatus: 'complete',
+              projectName: 'Atlin',
+              ccbcNumber: 'BC-000074',
+              organizationName: 'Atlin',
+              intakeNumber: 99,
+              zone: null,
+              zones: [],
+            },
+          },
         ],
       },
       allAnalysts: {
@@ -417,7 +431,7 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const countRows = screen.getAllByText(/Showing 7 of 7 rows/i);
+    const countRows = screen.getAllByText(/Showing 8 of 8 rows/i);
     expect(countRows).toHaveLength(2);
   });
 
@@ -643,8 +657,10 @@ describe('The index page', () => {
     expect(screen.queryByText('CCBC-010004')).toBeInTheDocument();
     const cbcFilterCheckbox = screen.getByTestId('projectTypeFilterCbc');
     const ccbcFilterCheckbox = screen.getByTestId('projectTypeFilterCcbc');
+    const otherFilterCheckbox = screen.getByTestId('projectTypeFilterOther');
     expect(cbcFilterCheckbox).toBeChecked();
     expect(ccbcFilterCheckbox).toBeChecked();
+    expect(otherFilterCheckbox).toBeChecked();
 
     await act(async () => {
       fireEvent.click(cbcFilterCheckbox);

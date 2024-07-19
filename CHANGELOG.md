@@ -1,3 +1,9 @@
+# [1.174.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.173.2...v1.174.0) (2024-07-19)
+
+### Features
+
+- "separate" Atlin project from ccbc ([bd5540a](https://github.com/bcgov/CONN-CCBC-portal/commit/bd5540a51d0f39a2a8383a01b0ceaad19b90548d))
+
 ## [1.173.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.173.1...v1.173.2) (2024-07-19)
 
 ### Bug Fixes
