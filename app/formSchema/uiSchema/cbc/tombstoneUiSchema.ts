@@ -5,43 +5,19 @@ const tombstoneUiSchema = {
     dividers: true,
   },
   'ui:title': 'Tombstone',
-  projectTitle: {
-    'ui:widget': 'ReadOnlyWidget',
-    'ui:label': 'Project Title',
-  },
   originalProjectNumber: {
-    'ui:widget': 'ReadOnlyWidget',
+    'ui:widget': 'TextWidget',
     'ui:label': 'Original Project Number',
   },
-  projectNumber: {
-    'ui:widget': 'ReadOnlyWidget',
-    'ui:label': 'Project Number',
-  },
   phase: {
-    'ui:widget': 'ReadOnlyWidget',
+    'ui:widget': 'SelectWidget',
     'ui:placeholder': 'Select a phase',
     'ui:label': 'Phase',
   },
   intake: {
-    'ui:widget': 'ReadOnlyWidget',
+    'ui:widget': 'SelectWidget',
     'ui:placeholder': 'Select an intake',
     'ui:label': 'Intake',
-  },
-  projectStatus: {
-    'ui:widget': 'ReadOnlyWidget',
-    'ui:placeholder': 'Select a status',
-    'ui:label': 'Status',
-  },
-  changeRequestPending: {
-    'ui:widget': 'ReadOnlyWidget',
-    'ui:label': 'Change Request Pending',
-  },
-  projectDescription: {
-    'ui:widget': 'TextAreaWidget',
-    'ui:label': 'Project Description',
-    'ui:options': {
-      maxLength: 1000,
-    },
   },
   applicantContractualName: {
     'ui:widget': 'TextWidget',
@@ -53,7 +29,7 @@ const tombstoneUiSchema = {
   },
   eightThirtyMillionFunding: {
     'ui:widget': 'RadioWidget',
-    'ui:label': '8.30M Funding',
+    'ui:label': '$830 Million Funding',
   },
   federalFundingSource: {
     'ui:widget': 'SelectWidget',

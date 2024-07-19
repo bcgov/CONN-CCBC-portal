@@ -240,51 +240,75 @@ const sharedReviewThemeTests = (renderTest) => {
     renderTest(mockQueryPayloadWithFormData);
 
     expect(
-      document.getElementById('root_projectFunding_fundingRequestedCCBC2223')
+      document.getElementById(
+        'root_projectFunding_fundingRequestedCCBC2223_title'
+      )
     ).toHaveTextContent(`2022-23`);
 
     expect(
-      document.getElementById('root_projectFunding_fundingRequestedCCBC2324')
+      document.getElementById(
+        'root_projectFunding_fundingRequestedCCBC2324_title'
+      )
     ).toHaveTextContent(`2023-24`);
 
     expect(
-      document.getElementById('root_projectFunding_fundingRequestedCCBC2425')
+      document.getElementById(
+        'root_projectFunding_fundingRequestedCCBC2425_title'
+      )
     ).toHaveTextContent(`2024-25`);
 
     expect(
-      document.getElementById('root_projectFunding_fundingRequestedCCBC2526')
+      document.getElementById(
+        'root_projectFunding_fundingRequestedCCBC2526_title'
+      )
     ).toHaveTextContent(`2025-26`);
 
     expect(
-      document.getElementById('root_projectFunding_fundingRequestedCCBC2627')
+      document.getElementById(
+        'root_projectFunding_fundingRequestedCCBC2627_title'
+      )
     ).toHaveTextContent(`2026-27`);
 
     expect(
-      document.getElementById('root_projectFunding_totalFundingRequestedCCBC')
+      document.getElementById(
+        'root_projectFunding_totalFundingRequestedCCBC_title'
+      )
     ).toHaveTextContent(`Total amount requested under CCBC`);
 
     expect(
-      document.getElementById('root_projectFunding_applicationContribution2223')
+      document.getElementById(
+        'root_projectFunding_applicationContribution2223_title'
+      )
     ).toHaveTextContent(`2022-23`);
 
     expect(
-      document.getElementById('root_projectFunding_applicationContribution2324')
+      document.getElementById(
+        'root_projectFunding_applicationContribution2324_title'
+      )
     ).toHaveTextContent(`2023-24`);
 
     expect(
-      document.getElementById('root_projectFunding_applicationContribution2425')
+      document.getElementById(
+        'root_projectFunding_applicationContribution2425_title'
+      )
     ).toHaveTextContent(`2024-25`);
 
     expect(
-      document.getElementById('root_projectFunding_applicationContribution2526')
+      document.getElementById(
+        'root_projectFunding_applicationContribution2526_title'
+      )
     ).toHaveTextContent(`2025-26`);
 
     expect(
-      document.getElementById('root_projectFunding_applicationContribution2627')
+      document.getElementById(
+        'root_projectFunding_applicationContribution2627_title'
+      )
     ).toHaveTextContent(`2026-27`);
 
     expect(
-      document.getElementById('root_projectFunding_totalApplicantContribution')
+      document.getElementById(
+        'root_projectFunding_totalApplicantContribution_title'
+      )
     ).toHaveTextContent(`Total amount Applicant will contribute`);
   });
 

@@ -34,6 +34,7 @@ const mockQueryPayload = {
                   originalProjectNumber: 5555,
                   projectStatus: 'Reporting Complete',
                   federalFundingRequested: 555555,
+                  applicantContractualName: 'Test project contractual name',
                   householdCount: null,
                   applicantAmount: 555555,
                   bcFundingRequested: 5555555,
@@ -96,8 +97,8 @@ describe('EditCbcSection', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByTestId('root_projectDescription')).toHaveValue(
-      'Description 1'
+    expect(screen.getByTestId('root_applicantContractualName')).toHaveValue(
+      'Test project contractual name'
     );
   });
 
@@ -207,6 +208,7 @@ describe('EditCbcSection', () => {
               federalFundingSource: 'ISED-CTI',
               projectType: 'Transport',
               transportProjectType: 'Fibre',
+              applicantContractualName: 'Test project contractual name',
               projectLocations: 'Location 1',
               indigenousCommunities: 5,
               householdCount: null,

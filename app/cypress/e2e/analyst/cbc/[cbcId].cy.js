@@ -1,6 +1,6 @@
 describe('The cbc project view', () => {
   beforeEach(() => {
-    cy.mockLogin('ccbc_admin');
+    cy.mockLogin('cbc_admin');
     const mockedDateString = '2024-01-03';
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
