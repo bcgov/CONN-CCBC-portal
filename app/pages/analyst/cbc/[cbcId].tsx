@@ -266,30 +266,6 @@ const Cbc = ({
     );
   };
 
-  const handleQuickEditClick = (isEditMode: boolean) => {
-    setEditMode(isEditMode);
-    setFormData(baseFormData);
-  };
-
-  const getQuickEditButton = () => {
-    if (recordLocked && !editMode) {
-      return (
-        <CbcRecordLock
-          id="record-lock"
-          onConfirm={() => handleQuickEditClick(true)}
-        />
-      );
-    }
-    return (
-      <StyledButton
-        onClick={() => handleQuickEditClick(!editMode)}
-        type="button"
-      >
-        {editMode ? 'Cancel quick edit' : 'Quick edit'}
-      </StyledButton>
-    );
-  };
-
   return (
     <Layout session={session} title="Connecting Communities BC">
       <CbcAnalystLayout query={query} isFormEditable={allowEdit}>
