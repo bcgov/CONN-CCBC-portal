@@ -11,6 +11,7 @@ import conditionalApprovalSchema from 'formSchema/uiSchema/history/conditionalAp
 import screeningSchema from 'formSchema/uiSchema/history/screening';
 import gis from 'formSchema/uiSchema/history/gis';
 import gisAssessmentHhSchema from 'formSchema/uiSchema/history/gisAssessmentHh';
+import applicationSowDataSchema from 'formSchema/uiSchema/history/applicationSowData';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -66,7 +67,14 @@ const filterArrays = (obj: Record<string, any>): Record<string, any> => {
   return Object.fromEntries(filteredEntries);
 };
 
-const HistoryContent = ({ historyItem, prevHistoryItem }) => {
+const HistoryContent = ({
+  historyItem,
+  prevHistoryItem,
+  originalOrganizationName,
+  originalProjectTitle,
+  recordWithOrgChange,
+  recordWithTitleChange,
+}) => {
   const {
     givenName,
     familyName,
@@ -601,7 +609,7 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
                 previousFileArray={
                   prevHistoryItem?.record?.json_data?.statementOfWorkUpload
                 }
-                title={`Statement of Work Excel ${showSow}`}
+                title="Statement of Work Excel"
               />
             )}
             {showSowWireless && (
@@ -647,6 +655,52 @@ const HistoryContent = ({ historyItem, prevHistoryItem }) => {
             )}
           </>
         )}
+      </>
+    );
+  }
+
+  if (tableName === 'application_sow_data') {
+    const formattedApplicationData = {
+      projectTitle: prevHistoryItem?.record?.json_data?.projectTitle,
+      organizationName: prevHistoryItem?.record?.json_data?.organizationName,
+    };
+
+    if (recordWithOrgChange === historyItem.recordId) {
+      formattedApplicationData.organizationName = originalOrganizationName;
+    }
+    if (recordWithTitleChange === historyItem.recordId) {
+      formattedApplicationData.projectTitle = originalProjectTitle;
+    }
+
+    return (
+      <>
+        <StyledContent data-testid="history-content-sow-data">
+          <span>{displayName} Uploaded the </span>
+          <b>Sow</b>
+          <span> file on {createdAtFormatted}</span>
+        </StyledContent>
+        <HistoryDetails
+          json={record.json_data}
+          prevJson={formattedApplicationData || {}}
+          overrideParent="application_sow_data"
+          excludedKeys={[
+            'province',
+            'ccbc_number',
+            'effectiveStartDate',
+            'projectStartDate',
+            'projectCompletionDate',
+            'backboneFibre',
+            'backboneMicrowave',
+            'backboneSatellite',
+            'lastMileFibre',
+            'lastMileCable',
+            'lastMileDSL',
+            'lastMileMobileWireless',
+            'lastMileFixedWireless',
+            'lastMileSatellite',
+          ]}
+          diffSchema={applicationSowDataSchema}
+        />
       </>
     );
   }

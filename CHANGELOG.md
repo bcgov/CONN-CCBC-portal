@@ -1,3 +1,17 @@
+## [1.173.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.173.1...v1.173.2) (2024-07-19)
+
+### Bug Fixes
+
+- sow upload error ([38aab1c](https://github.com/bcgov/CONN-CCBC-portal/commit/38aab1cddfcad77759a4da84335a9f7a7cf2788a))
+
+## [1.173.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.173.0...v1.173.1) (2024-07-19)
+
+# [1.173.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.172.0...v1.173.0) (2024-07-18)
+
+### Features
+
+- show change in project title and org name ([3573ff8](https://github.com/bcgov/CONN-CCBC-portal/commit/3573ff8d9ae2696123f2236568c9e7520b6eac0f))
+
 # [1.172.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.171.2...v1.172.0) (2024-07-17)
 
 ### Bug Fixes

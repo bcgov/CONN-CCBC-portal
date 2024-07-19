@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
+import CbcRecordLock from 'components/Analyst/CBC/CbcRecordLock';
 import AlertIcon from './AlertIcon';
 
 export function getToggledState(
@@ -74,6 +75,7 @@ const Accordion = ({
   onToggle,
   toggled,
   title,
+  recordLocked,
   ...rest
 }: any) => {
   const [isToggled, setIsToggled] = useState(
@@ -85,6 +87,9 @@ const Accordion = ({
     setIsToggled((toggle) => !toggle);
     if (onToggle) onToggle(event);
   };
+  const editUrl = isCBC
+    ? `/analyst/cbc/${cbcId}/edit/${name}`
+    : `/analyst/application/${applicationId}/edit/${name}`;
 
   // ugly and I don't like it
   useEffect(() => {
@@ -96,20 +101,19 @@ const Accordion = ({
       <header>
         <h2>{title}</h2>
         <StyledToggleRight>
-          {allowAnalystEdit && (
-            <StyledLink
-              href={
-                isCBC
-                  ? `/analyst/cbc/${cbcId}/edit/${name}`
-                  : `/analyst/application/${applicationId}/edit/${name}`
-              }
-              passHref
-            >
-              <StyledButton>
-                <FontAwesomeIcon icon={faPen} fixedWidth color="#1A5A96" />
-              </StyledButton>
-            </StyledLink>
-          )}
+          {allowAnalystEdit &&
+            (recordLocked ? (
+              <CbcRecordLock
+                id={`${name}-lock-edit`}
+                onConfirm={() => router.push(editUrl)}
+              />
+            ) : (
+              <StyledLink href={editUrl} passHref>
+                <StyledButton>
+                  <FontAwesomeIcon icon={faPen} fixedWidth color="#1A5A96" />
+                </StyledButton>
+              </StyledLink>
+            ))}
 
           {error && (
             <StyledAlert>
