@@ -467,10 +467,10 @@ describe('The Pending Change Request component', () => {
     const checkBox = screen.getByTestId('pending-change-request-checkbox');
 
     expect(checkBox).toBeChecked();
-    expect(checkBox).toBeDisabled();
+    expect(checkBox).toBeEnabled();
   });
 
-  it('load edit comment modal read only mode when clicked comment icon when not editable', async () => {
+  it('load edit comment modal when clicked comment icon when editable', async () => {
     componentTestingHelperReadOnly.loadQuery();
     componentTestingHelperReadOnly.renderComponent();
 
@@ -487,14 +487,14 @@ describe('The Pending Change Request component', () => {
     expect(screen.getByText('test comment for CBC')).toBeVisible();
     const textArea = screen.getByTestId('root_comment');
 
-    expect(textArea).toBeDisabled();
+    expect(textArea).toBeEnabled();
 
     const saveButton = screen.queryByTestId('pending-request-change-save-btn');
-    expect(saveButton).not.toBeInTheDocument();
+    expect(saveButton).toBeInTheDocument();
 
     const cancelButton = screen.queryByTestId(
       'pending-request-change-cancel-btn'
     );
-    expect(cancelButton).not.toBeInTheDocument();
+    expect(cancelButton).toBeInTheDocument();
   });
 });
