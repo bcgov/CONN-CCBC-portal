@@ -89,10 +89,13 @@ const GeographicCoverageMap = (
   </div>
 );
 
+const ProjectDependency = <strong>Dependency</strong>;
+
 export {
   GeographicArea,
   GeographicCoverageMap,
   IndigenousEntity,
   ProjectBenefits,
   SupportingDocuments,
+  ProjectDependency,
 };
