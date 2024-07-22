@@ -182,7 +182,7 @@ const generateExcelData = async (
       // change request pending
       { value: convertBoolean(node?.jsonData?.changeRequestPending) },
       // project complete
-      { value: node?.jsonData?.projectComplete },
+      { value: node?.jsonData?.projectStatus === 'complete' ? 'YES' : 'NO' },
       // phase
       { value: node?.jsonData?.phase },
       // project #
