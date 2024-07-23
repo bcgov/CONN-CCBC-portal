@@ -1,0 +1,27 @@
+name: clean-dev-env-jobs
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      OPENSHIFT_TOKEN: { required: true }
+      OPENSHIFT_APP_NAMESPACE: { required: true }
+      OPENSHIFT_SERVER: { required: true }
+
+jobs:
+  clean-dev-env-jobs:
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Authenticate with OpenShift
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+      - name: Clean dev environment lingering completed jobs
+        run: |
+          chmod +x ./lib/clean_dev.sh
+          ./lib/clean_dev.sh ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
