@@ -37,7 +37,7 @@ jobs:
           severity: CRITICAL
           timeout: 10m0s
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@23acc5c183826b7a8a97bce3cecc52db901f8251
+        uses: github/codeql-action/upload-sarif@2d790406f505036ef40ecba973cc774a50395aac
         with:
           sarif_file: 'trivy-results.sarif'
       - name: Get Results Length From Sarif
@@ -64,7 +64,7 @@ jobs:
           severity: CRITICAL
           timeout: 10m0s
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@23acc5c183826b7a8a97bce3cecc52db901f8251
+        uses: github/codeql-action/upload-sarif@2d790406f505036ef40ecba973cc774a50395aac
         with:
           sarif_file: 'trivy-results.sarif'
       - name: Get Results Length From Sarif
