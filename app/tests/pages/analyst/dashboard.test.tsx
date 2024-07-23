@@ -84,21 +84,6 @@ const mockQueryPayload = {
             node: {
               id: '5',
               rowId: 5,
-              analystStatus: 'agreement_signed',
-              externalStatus: 'closed',
-              projectName: 'Test Proj Name 5',
-              ccbcNumber: 'CCBC-010005',
-              organizationName: 'Test Org Name 5',
-              intakeNumber: 3,
-              zone: null,
-              zones: [],
-              program: 'OTHER',
-            },
-          },
-          {
-            node: {
-              id: '5',
-              rowId: 5,
               analystStatus: 'complete',
               externalStatus: 'complete',
               projectName: 'Atlin',
@@ -107,6 +92,7 @@ const mockQueryPayload = {
               intakeNumber: 99,
               zone: null,
               zones: [],
+              program: 'OTHER',
             },
           },
         ],
@@ -674,7 +660,7 @@ describe('The index page', () => {
 
     expect(screen.getByText('5555')).toBeInTheDocument();
     expect(screen.queryByText('CCBC-010004')).toBeInTheDocument();
-    expect(screen.queryByText('CCBC-010005')).toBeInTheDocument();
+    expect(screen.queryByText('BC-000074')).toBeInTheDocument();
     const cbcFilterCheckbox = screen.getByTestId('programFilterCbc');
     const ccbcFilterCheckbox = screen.getByTestId('programFilterCcbc');
     const otherFilterCheckbox = screen.getByTestId('programFilterOther');
@@ -701,7 +687,7 @@ describe('The index page', () => {
     });
     expect(otherFilterCheckbox).not.toBeChecked();
 
-    expect(screen.queryByText('CCBC-010005')).not.toBeInTheDocument();
+    expect(screen.queryByText('BC-000074')).not.toBeInTheDocument();
   });
 
   it('clear filters correctly restore project type filter', async () => {
