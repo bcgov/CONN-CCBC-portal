@@ -607,3 +607,11 @@ tables/cbc_project_communities 2024-06-14T16:27:57Z ,,, <ryohani89@NH504670> # a
 @1.171.0 2024-07-16T22:33:19Z CCBC Service Account <ccbc@button.is> # release v1.171.0
 @1.171.1 2024-07-16T23:03:28Z CCBC Service Account <ccbc@button.is> # release v1.171.1
 @1.171.2 2024-07-17T13:56:50Z CCBC Service Account <ccbc@button.is> # release v1.171.2
+@1.172.0 2024-07-17T14:12:14Z CCBC Service Account <ccbc@button.is> # release v1.172.0
+computed_columns/application_history [computed_columns/application_history@1.163.0] 2024-06-10T21:11:06Z Anthony Bushara <anthony@button.is> # Add application sow data to history
+@1.173.0 2024-07-18T17:55:13Z CCBC Service Account <ccbc@button.is> # release v1.173.0
+@1.173.1 2024-07-19T14:19:13Z CCBC Service Account <ccbc@button.is> # release v1.173.1
+@1.173.2 2024-07-19T15:08:32Z CCBC Service Account <ccbc@button.is> # release v1.173.2
+@1.174.0 2024-07-19T21:16:49Z CCBC Service Account <ccbc@button.is> # release v1.174.0
+tables/application_project_type_001_modify_check_constraint 2024-07-19T20:58:37Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # modify check constraint for project type
+@1.175.0 2024-07-19T21:34:53Z CCBC Service Account <ccbc@button.is> # release v1.175.0

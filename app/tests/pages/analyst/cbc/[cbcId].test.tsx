@@ -14,6 +14,53 @@ const mockShowCbcEdit: moduleApi.FeatureResult<boolean> = {
   ruleId: 'show_cbc_edit',
 };
 
+const cbcJsonData = {
+  phase: 2,
+  intake: 1,
+  errorLog: [],
+  highwayKm: null,
+  projectType: 'Transport',
+  reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
+  transportKm: 124,
+  lastReviewed: '2023-07-11T00:00:00.000Z',
+  otherFundingRequested: 265000,
+  projectTitle: 'Project 1',
+  dateAnnounced: '2019-07-02T00:00:00.000Z',
+  projectNumber: 5555,
+  projectStatus: 'Reporting Complete',
+  federalFundingRequested: 555555,
+  householdCount: null,
+  applicantAmount: 555555,
+  bcFundingRequested: 5555555,
+  projectLocations: 'Location 1',
+  milestoneComments: 'Requested extension to March 31, 2024',
+  proposedStartDate: '2020-07-01T00:00:00.000Z',
+  primaryNewsRelease:
+    'https://www.canada.ca/en/innovation-science-economic-development/news/2019/07/rural-communities-in-british-columbia-will-benefit-from-faster-internet.html',
+  projectDescription: 'Description 1',
+  totalProjectBudget: 5555555,
+  announcedByProvince: 'YES',
+  dateAgreementSigned: '2021-02-24T00:00:00.000Z',
+  changeRequestPending: 'No',
+  currentOperatingName: 'Internet company 1',
+  federalFundingSource: 'ISED-CTI',
+  transportProjectType: 'Fibre',
+  indigenousCommunities: 5,
+  proposedCompletionDate: '2023-03-31T00:00:00.000Z',
+  constructionCompletedOn: null,
+  dateApplicationReceived: null,
+  reportingCompletionDate: null,
+  applicantContractualName: 'Internet company 1',
+  dateConditionallyApproved: '2019-06-26T00:00:00.000Z',
+  eightThirtyMillionFunding: 'No',
+  projectMilestoneCompleted: 0.5,
+  communitiesAndLocalesCount: 5,
+  connectedCoastNetworkDependant: 'NO',
+  conditionalApprovalLetterSent: 'YES',
+  agreementSigned: 'YES',
+  locked: false,
+};
+
 const mockQueryPayload = {
   Query() {
     return {
@@ -25,51 +72,7 @@ const mockQueryPayload = {
           edges: [
             {
               node: {
-                jsonData: {
-                  phase: 2,
-                  intake: 1,
-                  errorLog: [],
-                  highwayKm: null,
-                  projectType: 'Transport',
-                  reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
-                  transportKm: 124,
-                  lastReviewed: '2023-07-11T00:00:00.000Z',
-                  otherFundingRequested: 265000,
-                  projectTitle: 'Project 1',
-                  dateAnnounced: '2019-07-02T00:00:00.000Z',
-                  projectNumber: 5555,
-                  projectStatus: 'Reporting Complete',
-                  federalFundingRequested: 555555,
-                  householdCount: null,
-                  applicantAmount: 555555,
-                  bcFundingRequested: 5555555,
-                  projectLocations: 'Location 1',
-                  milestoneComments: 'Requested extension to March 31, 2024',
-                  proposedStartDate: '2020-07-01T00:00:00.000Z',
-                  primaryNewsRelease:
-                    'https://www.canada.ca/en/innovation-science-economic-development/news/2019/07/rural-communities-in-british-columbia-will-benefit-from-faster-internet.html',
-                  projectDescription: 'Description 1',
-                  totalProjectBudget: 5555555,
-                  announcedByProvince: 'YES',
-                  dateAgreementSigned: '2021-02-24T00:00:00.000Z',
-                  changeRequestPending: 'No',
-                  currentOperatingName: 'Internet company 1',
-                  federalFundingSource: 'ISED-CTI',
-                  transportProjectType: 'Fibre',
-                  indigenousCommunities: 5,
-                  proposedCompletionDate: '2023-03-31T00:00:00.000Z',
-                  constructionCompletedOn: null,
-                  dateApplicationReceived: null,
-                  reportingCompletionDate: null,
-                  applicantContractualName: 'Internet company 1',
-                  dateConditionallyApproved: '2019-06-26T00:00:00.000Z',
-                  eightThirtyMillionFunding: 'No',
-                  projectMilestoneCompleted: 0.5,
-                  communitiesAndLocalesCount: 5,
-                  connectedCoastNetworkDependant: 'NO',
-                  conditionalApprovalLetterSent: 'YES',
-                  agreementSigned: 'YES',
-                },
+                jsonData: cbcJsonData,
                 sharepointTimestamp: '2024-10-01T00:00:00.000Z',
                 rowId: 1,
                 projectNumber: 5555,
@@ -113,6 +116,67 @@ const mockQueryPayload = {
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+        authRole: 'cbc_admin',
+      },
+    };
+  },
+};
+
+const mockNonCbcQueryPayload = {
+  Query() {
+    return {
+      cbcByRowId: {
+        projectNumber: 5555,
+        rowId: 1,
+        sharepointTimestamp: '2024-10-01T00:00:00.000Z',
+        cbcDataByCbcId: {
+          edges: [
+            {
+              node: {
+                jsonData: cbcJsonData,
+                sharepointTimestamp: '2024-10-01T00:00:00.000Z',
+                rowId: 1,
+                projectNumber: 5555,
+                updatedAt: '2024-10-01T00:00:00.000Z',
+                updatedBy: 'test',
+              },
+            },
+          ],
+        },
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+        authRole: 'ccbc_admin',
+      },
+    };
+  },
+};
+
+const mockLockedQueryPayload = {
+  Query() {
+    return {
+      cbcByRowId: {
+        projectNumber: 5555,
+        rowId: 1,
+        sharepointTimestamp: '2024-10-01T00:00:00.000Z',
+        cbcDataByCbcId: {
+          edges: [
+            {
+              node: {
+                jsonData: { ...cbcJsonData, locked: true },
+                sharepointTimestamp: '2024-10-01T00:00:00.000Z',
+                rowId: 1,
+                projectNumber: 5555,
+                updatedAt: '2024-10-01T00:00:00.000Z',
+                updatedBy: 'test',
+              },
+            },
+          ],
+        },
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+        authRole: 'cbc_admin',
       },
     };
   },
@@ -158,14 +222,92 @@ describe('Cbc', () => {
     expect(
       screen.getByRole('heading', { name: 'Internet company 1' })
     ).toBeInTheDocument();
+    expect(screen.getByText('Description 1')).toBeInTheDocument();
     // right side (editable) of header
-    expect(screen.getByLabelText('Status')).toBeInTheDocument();
-    expect(screen.getByLabelText('Status')).toHaveValue('complete');
-    expect(screen.getByLabelText('Phase')).toBeInTheDocument();
-    expect(screen.getByLabelText('Phase')).toHaveValue('2');
-    expect(screen.getByLabelText('Intake')).toBeInTheDocument();
-    expect(screen.getByLabelText('Intake')).toHaveValue('1');
+    expect(screen.getByLabelText('External Status')).toBeInTheDocument();
+    expect(screen.getByLabelText('External Status')).toHaveValue('complete');
+    expect(screen.getByLabelText('Project Type')).toBeInTheDocument();
+    expect(screen.getByLabelText('Project Type')).toHaveValue('Transport');
   });
+
+  it('header should be editable for cbc admin', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const options = screen.getAllByRole('option');
+    options.forEach((option) => {
+      expect(option).toBeEnabled();
+    });
+
+    const projectTypeInput = screen.getByLabelText('Project Type');
+    expect(projectTypeInput).toBeEnabled();
+
+    await act(async () => {
+      fireEvent.change(projectTypeInput, { target: { value: 'Telecom' } });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('updateCbcDataByRowIdMutation', {
+      input: expect.any(Object),
+    });
+
+    const projectDescriptionField = screen.getByText('Description 1');
+    await act(async () => {
+      fireEvent.click(projectDescriptionField);
+    });
+    const projectDescriptionInput = screen.getByRole('textbox');
+    await act(async () => {
+      fireEvent.change(projectDescriptionInput, {
+        target: { value: 'testing edit 2' },
+      });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('updateCbcDataByRowIdMutation', {
+      input: expect.any(Object),
+    });
+  });
+
+  it('header should not be editable by non cbc admin users', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockNonCbcQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const options = screen.getAllByRole('option');
+    options.forEach((option) => {
+      expect(option).toBeDisabled();
+    });
+  });
+
+  it('header should not be editable when record locked', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockLockedQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const options = screen.getAllByRole('option');
+    options.forEach((option) => {
+      expect(option).toBeDisabled();
+    });
+  });
+
+  it('accordions should not be editable when record locked', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockLockedQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const accordionEditButton = screen.getByTestId('tombstone-lock-edit');
+    expect(accordionEditButton).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(accordionEditButton);
+    });
+
+    expect(
+      screen.getByText(
+        'The project is currently locked for editing. Would you still like to continue?'
+      )
+    ).toBeInTheDocument();
+  });
+
   it('should have the correct actions when edit enabled', async () => {
     jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery();
@@ -174,6 +316,34 @@ describe('Cbc', () => {
     expect(screen.getByText('Expand all')).toBeInTheDocument();
     expect(screen.getByText('Collapse all')).toBeInTheDocument();
     expect(screen.getByText('Quick edit')).toBeInTheDocument();
+  });
+
+  it('should have the correct actions when record locked', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockLockedQueryPayload);
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('Expand all')).toBeInTheDocument();
+    expect(screen.getByText('Collapse all')).toBeInTheDocument();
+    expect(screen.getByTestId('record-lock')).toBeInTheDocument();
+  });
+
+  it('should not have the quick edit actions when non cbc-admin', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockNonCbcQueryPayload);
+    pageTestingHelper.renderPage();
+
+    expect(screen.queryByText('Quick-edit')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('record-lock')).not.toBeInTheDocument();
+  });
+
+  it('accordions should not be editable when non cbc-admin', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockNonCbcQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const accordionEditButton = screen.queryByText('Quick edit');
+    expect(accordionEditButton).not.toBeInTheDocument();
   });
 
   it('expand and collapse all work as expected', () => {
@@ -254,8 +424,8 @@ describe('Cbc', () => {
             phase: 2,
             intake: 1,
             projectStatus: 'Reporting Complete',
-            projectTitle: 'Project 1',
             changeRequestPending: 'No',
+            projectTitle: 'Project 1',
             projectDescription: 'Description 1',
             applicantContractualName: 'Internet company 1',
             currentOperatingName: 'Internet company 1',
@@ -292,9 +462,35 @@ describe('Cbc', () => {
               'https://www.canada.ca/en/innovation-science-economic-development/news/2019/07/rural-communities-in-british-columbia-will-benefit-from-faster-internet.html',
             lastReviewed: '2023-07-11T00:00:00.000Z',
             reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
+            locked: false,
           },
         },
       },
     });
+  });
+
+  it('should prompt confirmation on locked edit click', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery(mockLockedQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const editLockButton = screen.getByTestId('record-lock');
+    act(() => {
+      fireEvent.click(editLockButton);
+    });
+
+    const confirmButton = screen.getByRole('button', {
+      name: 'Yes, edit',
+    });
+
+    expect(confirmButton).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(confirmButton);
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+    expect(saveButton).toBeInTheDocument();
   });
 });

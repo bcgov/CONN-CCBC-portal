@@ -1,3 +1,40 @@
+# [1.175.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.174.0...v1.175.0) (2024-07-19)
+
+### Features
+
+- add transport project type to ccbc ([bd6be0f](https://github.com/bcgov/CONN-CCBC-portal/commit/bd6be0fe727e09471f2d54449116d22e8e45dbba))
+
+# [1.174.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.173.2...v1.174.0) (2024-07-19)
+
+### Features
+
+- "separate" Atlin project from ccbc ([bd5540a](https://github.com/bcgov/CONN-CCBC-portal/commit/bd5540a51d0f39a2a8383a01b0ceaad19b90548d))
+
+## [1.173.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.173.1...v1.173.2) (2024-07-19)
+
+### Bug Fixes
+
+- sow upload error ([38aab1c](https://github.com/bcgov/CONN-CCBC-portal/commit/38aab1cddfcad77759a4da84335a9f7a7cf2788a))
+
+## [1.173.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.173.0...v1.173.1) (2024-07-19)
+
+# [1.173.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.172.0...v1.173.0) (2024-07-18)
+
+### Features
+
+- show change in project title and org name ([3573ff8](https://github.com/bcgov/CONN-CCBC-portal/commit/3573ff8d9ae2696123f2236568c9e7520b6eac0f))
+
+# [1.172.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.171.2...v1.172.0) (2024-07-17)
+
+### Bug Fixes
+
+- validations for cbc ([9f40f75](https://github.com/bcgov/CONN-CCBC-portal/commit/9f40f755e3bcfec3576c884dbb7d2d0d11cd10c2))
+
+### Features
+
+- add required validation to tombstone ([633ce43](https://github.com/bcgov/CONN-CCBC-portal/commit/633ce43b91023697882bf637c0b0abdddd5bfa4a))
+- add validations to CBC ([7a972a6](https://github.com/bcgov/CONN-CCBC-portal/commit/7a972a605a8e67e24a52e01b7ef96d133a04a7df))
+
 ## [1.171.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.171.1...v1.171.2) (2024-07-17)
 
 ### Bug Fixes

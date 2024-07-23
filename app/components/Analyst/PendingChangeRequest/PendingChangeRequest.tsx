@@ -22,7 +22,11 @@ const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
   margin-left: 8px;
 `;
 
-const PendingChangeRequest = ({ application, isCbc = false }) => {
+const PendingChangeRequest = ({
+  application,
+  isCbc = false,
+  isHeaderEditable = false,
+}) => {
   const fragment = isCbc
     ? graphql`
         fragment PendingChangeRequest_query_cbc on Cbc {
@@ -120,6 +124,7 @@ const PendingChangeRequest = ({ application, isCbc = false }) => {
         type="checkbox"
         checked={isPending}
         data-testid="pending-change-request-checkbox"
+        disabled={!isHeaderEditable}
         onChange={(e) => {
           if (e.target.checked) {
             pendingChangeRequestModal.open();
@@ -163,6 +168,7 @@ const PendingChangeRequest = ({ application, isCbc = false }) => {
           setIsUpdateMode(false);
           pendingChangeRequestModal.close();
         }}
+        isHeaderEditable={isHeaderEditable}
       />
       <ClosePendingRequestModal
         {...closePendingRequestModal}

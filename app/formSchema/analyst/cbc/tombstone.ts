@@ -4,11 +4,12 @@ const cbcTombstone: RJSFSchema = {
   title: 'Tombstone',
   description: '',
   type: 'object',
+  required: [
+    'applicantContractualName',
+    'currentOperatingName',
+    'federalFundingSource',
+  ],
   properties: {
-    projectNumber: {
-      type: 'string',
-      title: 'Project Number',
-    },
     originalProjectNumber: {
       type: 'string',
       title: 'Original Project Number',
@@ -21,19 +22,7 @@ const cbcTombstone: RJSFSchema = {
     intake: {
       type: 'string',
       title: 'Intake',
-      enum: [null, '1', '2', '3', '4', '5', '6'],
-    },
-    projectStatus: {
-      type: 'string',
-      title: 'Project Status',
-    },
-    projectTitle: {
-      type: 'string',
-      title: 'Project Title',
-    },
-    projectDescription: {
-      type: 'string',
-      title: 'Project Description',
+      enum: [null, 1, 2, 3, 4],
     },
     applicantContractualName: {
       type: 'string',
@@ -45,7 +34,7 @@ const cbcTombstone: RJSFSchema = {
     },
     eightThirtyMillionFunding: {
       type: 'string',
-      title: '$8.30 Million Funding',
+      title: '$830 Million Funding',
       oneOf: [
         { const: true, title: 'Yes' },
         { const: false, title: 'No' },
@@ -54,7 +43,13 @@ const cbcTombstone: RJSFSchema = {
     federalFundingSource: {
       type: 'string',
       title: 'Federal Funding Source',
-      enum: [null, 'CRTC', 'CTI', 'UBF', 'UBF RRS'],
+      enum: [
+        null,
+        'CRTC Broadband Fund',
+        'ISED-CTI',
+        'ISED-UBF Core',
+        'ISED-UBF RRS',
+      ],
     },
     federalProjectNumber: {
       type: 'string',

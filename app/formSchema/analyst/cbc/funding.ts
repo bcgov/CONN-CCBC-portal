@@ -4,6 +4,7 @@ const funding: RJSFSchema = {
   title: 'Funding',
   description: '',
   type: 'object',
+  required: ['bcFundingRequest', 'applicantAmount', 'totalProjectBudget'],
   properties: {
     bcFundingRequested: {
       type: 'number',

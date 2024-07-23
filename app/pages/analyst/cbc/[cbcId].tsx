@@ -17,6 +17,8 @@ import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
 import { useFeature } from '@growthbook/growthbook-react';
 import CbcTheme from 'components/Analyst/CBC/CbcTheme';
 import { createCbcSchemaData } from 'utils/schemaUtils';
+import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
+import CbcRecordLock from 'components/Analyst/CBC/CbcRecordLock';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -50,6 +52,7 @@ const getCbcQuery = graphql`
     }
     session {
       sub
+      authRole
     }
     ...CbcAnalystLayout_query
   }
@@ -72,7 +75,9 @@ const Cbc = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, CbcIdQuery>) => {
   const query = usePreloadedQuery(getCbcQuery, preloadedQuery);
-  const allowEdit = useFeature('show_cbc_edit').value ?? false;
+  const isCbcAdmin = query.session.authRole === 'cbc_admin';
+  const editFeatureEnabled = useFeature('show_cbc_edit').value ?? false;
+  const allowEdit = isCbcAdmin && editFeatureEnabled;
   const [toggleOverrideReadOnly, setToggleExpandOrCollapseAllReadOnly] =
     useState<boolean | undefined>(true);
   const [toggleOverrideEdit, setToggleExpandOrCollapseAllEdit] = useState<
@@ -84,6 +89,7 @@ const Cbc = ({
   const { rowId } = query.cbcByRowId;
   const [formData, setFormData] = useState({} as any);
   const [baseFormData, setBaseFormData] = useState({} as any);
+  const recordLocked = formData?.projectDataReviews?.locked;
   useEffect(() => {
     const { cbcByRowId } = query;
     const { cbcDataByCbcId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
@@ -167,29 +173,69 @@ const Cbc = ({
     setEditMode(false);
   };
 
-  const validate = (data) => {
+  const validate = (data, schema) => {
     const errors: any = {};
-    if (
-      (data.funding?.bcFundingRequested || 0) +
-        (data.funding?.federalFundingRequested || 0) +
-        (data.funding?.applicantAmount || 0) +
-        (data.funding?.otherFundingRequested || 0) !==
-      data.funding?.totalProjectBudget
-    ) {
-      errors.funding = {
-        totalProjectBudget: {
-          __errors: [
-            'Total project budget must equal the sum of the funding sources',
-          ],
-          color: '#f8e78f',
-        },
-      };
-    }
-    // append other validation logic here
+    if (!schema?.properties) return errors;
+
+    Object.entries(schema?.properties).forEach(
+      ([key, property]: [string, any]) => {
+        const fieldErrors = {};
+
+        Object.keys(property.properties).forEach((fieldKey) => {
+          // validate custom rules for fields
+          const fieldErrorList = customValidate(data, key, fieldKey);
+
+          // add required field error if no other custom validation errors
+          if (
+            fieldErrorList.length === 0 &&
+            property.required?.includes(fieldKey) &&
+            !data[key]?.[fieldKey]
+          ) {
+            fieldErrorList.push('Please enter a value');
+          }
+
+          if (fieldErrorList.length > 0) {
+            fieldErrors[fieldKey] = {
+              __errors: fieldErrorList,
+              errorColor: CBC_WARN_COLOR,
+            };
+          }
+        });
+
+        if (Object.keys(fieldErrors).length > 0) {
+          errors[key] = fieldErrors;
+        }
+      }
+    );
+
     return errors;
   };
 
-  const formErrors = useMemo(() => validate(formData), [formData]);
+  const formErrors = useMemo(() => validate(formData, review), [formData]);
+
+  const handleQuickEditClick = (isEditMode: boolean) => {
+    setEditMode(isEditMode);
+    setFormData(baseFormData);
+  };
+
+  const getQuickEditButton = () => {
+    if (recordLocked && !editMode) {
+      return (
+        <CbcRecordLock
+          id="record-lock"
+          onConfirm={() => handleQuickEditClick(true)}
+        />
+      );
+    }
+    return (
+      <StyledButton
+        onClick={() => handleQuickEditClick(!editMode)}
+        type="button"
+      >
+        {editMode ? 'Cancel quick edit' : 'Quick edit'}
+      </StyledButton>
+    );
+  };
 
   return (
     <Layout session={session} title="Connecting Communities BC">
@@ -223,27 +269,19 @@ const Cbc = ({
             </StyledButton>
             {' | '}
           </>
-          {allowEdit && (
-            <StyledButton
-              onClick={() => {
-                setEditMode(!editMode);
-                setFormData(baseFormData);
-              }}
-              type="button"
-            >
-              {editMode ? 'Cancel quick edit' : 'Quick edit'}
-            </StyledButton>
-          )}
+          {allowEdit && getQuickEditButton()}
         </RightAlignText>
         <StyledCbcForm
           additionalContext={{
             toggleOverride: editMode
               ? toggleOverrideEdit
               : toggleOverrideReadOnly,
-            isEditable: true,
+            isEditable: allowEdit,
             isCBC: true,
             cbcId: rowId,
             errors: formErrors,
+            showErrorHint: true,
+            recordLocked,
           }}
           formData={formData}
           handleChange={(e) => {
