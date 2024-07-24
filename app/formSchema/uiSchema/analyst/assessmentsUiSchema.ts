@@ -1,3 +1,4 @@
+import { ProjectDependency } from 'components/Form/CustomTitles';
 import { ANALYST_EXCEL_FILE_EXTENSIONS } from '../constants';
 
 const assessmentsUiSchema = {
@@ -7,6 +8,8 @@ const assessmentsUiSchema = {
     'nextStep',
     'decision',
     'notesAndConsiderations',
+    'connectedCoastNetworkDependent',
+    'crtcProjectDependent',
     'contestingMap',
     'assessmentTemplate',
     'completedAssessment',
@@ -39,6 +42,19 @@ const assessmentsUiSchema = {
     'ui:widget': 'RadioWidget',
     'ui:options': {
       boldTitle: true,
+    },
+  },
+  connectedCoastNetworkDependent: {
+    'ui:widget': 'CheckboxWidget',
+    'ui:options': {
+      boldTitle: true,
+      customTitle: ProjectDependency,
+    },
+  },
+  crtcProjectDependent: {
+    'ui:widget': 'CheckboxWidget',
+    'ui:options': {
+      label: false,
     },
   },
   contestingMap: {

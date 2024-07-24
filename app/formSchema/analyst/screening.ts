@@ -47,6 +47,14 @@ const screening: RJSFSchema = {
       ],
       default: 'No decision',
     },
+    connectedCoastNetworkDependent: {
+      title: 'Connected Coast Network Dependent',
+      type: 'boolean',
+    },
+    crtcProjectDependent: {
+      title: 'CRTC Project Dependent',
+      type: 'boolean',
+    },
     contestingMap: {
       title: 'Contesting Map',
       type: 'array',
