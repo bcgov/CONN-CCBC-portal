@@ -11,6 +11,9 @@ jobs:
     needs: [clear-cache]
     uses: ./.github/workflows/install-env.yaml
     secrets: inherit
+  clean-dev-env:
+    uses: ./.github/workflows/clean-dev-env-jobs.yaml
+    secrets: inherit
   # Temp disable nightly main workflow
   # main:
   #   needs: [clear-cache]
