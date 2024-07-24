@@ -7,6 +7,12 @@ const screeningSchema = {
       contestingMap: {
         title: 'Contesting Map',
       },
+      connectedCoastNetworkDependent: {
+        title: 'Connected Coast Network Dependent',
+      },
+      crtcProjectDependent: {
+        title: 'CRTC Project Dependent',
+      },
     },
   },
 };
