@@ -49,6 +49,12 @@ const NavigationSidebar = () => {
         <section>
           <NavItem
             currentPath={asPath}
+            href={`/analyst/application/${applicationId}/summary`}
+            icon={faClipboardList}
+            label="Summary"
+          />
+          <NavItem
+            currentPath={asPath}
             href={`/analyst/application/${applicationId}`}
             icon={faClipboardList}
             label="Application"
