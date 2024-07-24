@@ -1,3 +1,14 @@
+# [1.176.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.175.0...v1.176.0) (2024-07-24)
+
+### Bug Fixes
+
+- connected coast and CRTC dependant history title ([46c455d](https://github.com/bcgov/CONN-CCBC-portal/commit/46c455d5af025fb841d17080eb647da4c722854a))
+
+### Features
+
+- add dependants checkboxes to screening ([d474fd7](https://github.com/bcgov/CONN-CCBC-portal/commit/d474fd75ab2e89af84abb7828d0f276a8bfc2d6b))
+- clean lingering completed jobs on dev env ([6e10845](https://github.com/bcgov/CONN-CCBC-portal/commit/6e1084515936abc36260c5b9227a46fc9093a415))
+
 # [1.175.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.174.0...v1.175.0) (2024-07-19)
 
 ### Features
