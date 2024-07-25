@@ -43,7 +43,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@graphile-contrib/pg-many-to-many": "^1.0.1",
     "@graphile/persisted-operations": "^0.1.1",
-    "@growthbook/growthbook-react": "^0.9.0",
+    "@growthbook/growthbook-react": "^1.1.0",
     "@mui/base": "^5.0.0-alpha.115",
     "@mui/icons-material": "^5.14.13",
     "@mui/material": "^5.14.13",

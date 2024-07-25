@@ -2795,17 +2795,19 @@
   resolved "https://registry.yarnpkg.com/@graphile/persisted-operations/-/persisted-operations-0.1.1.tgz#9a753a5fc46f7935d97620e3bf5a703202304ffb"
   integrity sha512-9GDVvGXCmg7Vo8Zbbpx083nHTgM8nPXV13K+IoS9qX5d1HyDcWDXvI+fj2Bb122dFOyhfCeGyhiYpWvMrABBgA==
 
-"@growthbook/growthbook-react@^0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@growthbook/growthbook-react/-/growthbook-react-0.9.0.tgz#c0f3b71349addb04225fa5524a8a2fce3059bfb1"
-  integrity sha512-8WJ6ckj5Wzg+pDos3/DNF2BJNL7S8NeFu+LLTtv/p+hGW1Epkl2et0N1goMQRfnyIhtLerOgTBR9eZoy9AxK2Q==
+"@growthbook/growthbook-react@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@growthbook/growthbook-react/-/growthbook-react-1.1.0.tgz#88bc2c10be7a825cbc56122e2c4fcbc7f36a684f"
+  integrity sha512-LR6PKqoPLIZN7pqSlkRvbwOARn1jKXyVYUhyCUyxLz3XIFihomTk90S2F95ec+jkMqzmMxL36iDRMP4o0stFvQ==
   dependencies:
-    "@growthbook/growthbook" "^0.18.0"
+    "@growthbook/growthbook" "^1.1.0"
 
-"@growthbook/growthbook@^0.18.0":
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/@growthbook/growthbook/-/growthbook-0.18.0.tgz#7ce599a6d9eaacaef1fdc5340aeeb8730345b25c"
-  integrity sha512-Z7ydUgVdYN9Qcu3KIfmkcL2CnnIMyscd4EuFaDJ7oi/TJ+v3VrJer0pZzZ9MZlUaQU+j4Z7MDOCB2NBKENXLkQ==
+"@growthbook/growthbook@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@growthbook/growthbook/-/growthbook-1.1.0.tgz#3b9503a1e774c2888637152b0679d8a0df3d50cf"
+  integrity sha512-TBgUnMcYxOVo4dDDZJ8J2Z9DjDy9PlL+J2GpLMMD6SPpw66gSDcnnwGk9H6diHS/IuUmDXNkU+24+L/bXulWww==
+  dependencies:
+    dom-mutator "^0.6.0"
 
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
@@ -7575,6 +7577,11 @@ dom-helpers@^5.0.1:
   dependencies:
     "@babel/runtime" "^7.8.7"
     csstype "^3.0.2"
+
+dom-mutator@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/dom-mutator/-/dom-mutator-0.6.0.tgz#079d7a4b3e8981a562cd777548b99baab51d65c5"
+  integrity sha512-iCt9o0aYfXMUkz/43ZOAUFQYotjGB+GNbYJiJdz4TgXkyToXbbRy5S6FbTp72lRBtfpUMwEc1KmpFEU4CZeoNg==
 
 dom-serializer@^1.0.1:
   version "1.4.1"
