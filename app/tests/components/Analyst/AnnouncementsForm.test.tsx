@@ -1,10 +1,68 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import compiledQuery, {
+  AnnouncementsFormTestQuery,
+} from '__generated__/AnnouncementsFormTestQuery.graphql';
+import { AnnouncementsForm } from 'components/Analyst/Project/Announcements';
 import {
   toastContent,
   updateStoreAfterDelete,
 } from 'components/Analyst/Project/Announcements/AnnouncementsForm';
+import { act } from 'react';
+import { graphql } from 'react-relay';
 
 import GlobalTheme from 'styles/GlobalTheme';
+import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
+
+const testQuery = graphql`
+  query AnnouncementsFormTestQuery($rowId: Int!) {
+    ...AnnouncementsForm_query
+  }
+`;
+
+const mockQueryPayload = {
+  Query() {
+    return {
+      applicationByRowId: {
+        id: 'TestApplicationId',
+        rowId: 1,
+        ccbcNumber: '123456789',
+        announced: false,
+        announcements: {
+          edges: [
+            {
+              node: {
+                id: '1',
+                rowId: 1,
+                jsonData: {},
+                ccbcNumbers: '123456789',
+              },
+            },
+          ],
+        },
+      },
+      allApplications: {
+        nodes: [
+          {
+            ccbcNumber: '123456789',
+            rowId: 1,
+          },
+        ],
+      },
+    };
+  },
+};
+
+const componentTestingHelper =
+  new ComponentTestingHelper<AnnouncementsFormTestQuery>({
+    component: AnnouncementsForm,
+    testQuery,
+    compiledQuery,
+    defaultQueryResolver: mockQueryPayload,
+    getPropsFromTestQuery: (data) => ({
+      query: data,
+      isExpanded: true,
+    }),
+  });
 
 describe('Test pure functions in AnnouncementsForm', () => {
   it('renders all links when there are less than three ccbcIds', () => {
@@ -89,5 +147,40 @@ describe('Test pure functions in AnnouncementsForm', () => {
     updateStoreAfterDelete(mockStore, relayConnectionId, announcement);
     expect(mockStore.get).toHaveBeenCalledWith(relayConnectionId);
     expect(mockStore.delete).toHaveBeenCalledWith(announcement.id);
+  });
+});
+
+describe('Announcement Form Announced by checkbox', () => {
+  beforeEach(() => {
+    componentTestingHelper.reinit();
+  });
+
+  it('renders the form when the application is not announced', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const checkbox = screen.getByTestId('announced-checkbox');
+
+    expect(checkbox).toBeInTheDocument();
+    expect(checkbox).not.toBeChecked();
+
+    await act(async () => {
+      fireEvent.click(checkbox);
+    });
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createApplicationAnnouncedRecord: {
+            application: {
+              id: 'TestApplicationId',
+              announced: true,
+            },
+          },
+        },
+      });
+    });
+
+    expect(checkbox).toBeChecked();
   });
 });

@@ -12,6 +12,7 @@ import Link from 'next/link';
 import Toast from 'components/Toast';
 import { Tooltip } from 'components';
 import Ajv8Validator from '@rjsf/validator-ajv8';
+import { useCreateApplicationAnnouncedMutation } from 'schema/mutations/application/createApplicationAnnounced';
 import ProjectTheme from '../ProjectTheme';
 
 interface EditProps {
@@ -28,6 +29,14 @@ const StyledProjectForm = styled(ProjectForm)<EditProps>`
 
 const StyledLink = styled(Link)`
   color: #ffffff;
+`;
+
+const StyledCheckbox = styled.input`
+  transform: scale(1.5);
+  transform-origin: left;
+  cursor: pointer;
+  margin-right: ${(props) => props.theme.spacing.medium};
+  margin-bottom: ${(props) => props.theme.spacing.large};
 `;
 
 export const updateStoreAfterMutation = (
@@ -117,8 +126,10 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
     graphql`
       fragment AnnouncementsForm_query on Query {
         applicationByRowId(rowId: $rowId) {
+          id
           rowId
           ccbcNumber
+          announced
           announcements(first: 1000)
             @connection(key: "AnnouncementsForm_announcements") {
             __id
@@ -144,8 +155,11 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
   );
 
   const {
-    applicationByRowId: { announcements, ccbcNumber, rowId },
+    applicationByRowId: { id, announcements, ccbcNumber, rowId, announced },
   } = queryFragment;
+
+  const [createApplicationAnnouncedRecord] =
+    useCreateApplicationAnnouncedMutation();
 
   const announcementsList = announcements.edges.map((announcement) => {
     return announcement.node;
@@ -248,20 +262,45 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
     updateStoreAfterDelete(store, relayConnectionId, deletedAnnouncementData);
   };
 
+  const handleAnnouncedByChange = (event) => {
+    const value = event.target.checked;
+    createApplicationAnnouncedRecord({
+      variables: {
+        input: {
+          _applicationId: rowId,
+          isAnnounced: value,
+        },
+      },
+      updater: (store) => {
+        const applicationRecord = store.get(id);
+        applicationRecord.setValue(value, 'announced');
+      },
+    });
+  };
+
   // Filter out this application CCBC ID
   const ccbcIdList = queryFragment.allApplications.nodes;
 
   return (
     <StyledProjectForm
       before={
-        <AddButton
-          isFormEditMode={isFormEditMode}
-          onClick={() => {
-            setIsFormEditMode(true);
-            setIsSubmitAttempted(false);
-          }}
-          title="Add announcement"
-        />
+        <>
+          <StyledCheckbox
+            type="checkbox"
+            checked={announced}
+            data-testid="announced-checkbox"
+            onChange={handleAnnouncedByChange}
+          />
+          Announced by BC/ISED
+          <AddButton
+            isFormEditMode={isFormEditMode}
+            onClick={() => {
+              setIsFormEditMode(true);
+              setIsSubmitAttempted(false);
+            }}
+            title="Add announcement"
+          />
+        </>
       }
       additionalContext={{ ccbcIdList, ccbcNumber, rowId }}
       formData={formData}
