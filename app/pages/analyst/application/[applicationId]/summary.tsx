@@ -11,7 +11,7 @@ import reviewUiSchema from 'formSchema/uiSchema/summary/reviewUiSchema';
 import review from 'formSchema/analyst/summary/review';
 import styled from 'styled-components';
 import { Tooltip } from '@mui/material';
-import { Help } from '@mui/icons-material';
+import { Info } from '@mui/icons-material';
 import { useState } from 'react';
 
 const getSummaryQuery = graphql`
@@ -112,6 +112,13 @@ const getSummaryQuery = graphql`
     }
     ...AnalystLayout_query
   }
+`;
+
+const StyledInfo = styled(Info)`
+  color: ${(props) => props.theme.color.primaryBlue};
+  float: right;
+  cursor: pointer;
+  padding-bottom: 2px;
 `;
 
 const StyledSummaryForm = styled(CbcForm)`
@@ -535,10 +542,14 @@ const generateFormData = (applicationData, sowData, allIntakes) => {
     // dependency is one source
     formData: {
       dependency: {
-        connectedCoastNetworkDependent:
-          screeningAssessment?.jsonData?.connectedCoastNetworkDependent,
-        crtcProjectDependent:
-          screeningAssessment?.jsonData?.crtcProjectDependent,
+        connectedCoastNetworkDependent: screeningAssessment?.jsonData
+          ?.connectedCoastNetworkDependent
+          ? 'Yes'
+          : null,
+        crtcProjectDependent: screeningAssessment?.jsonData
+          ?.crtcProjectDependent
+          ? 'Yes'
+          : null,
       },
       counts: { ...formData?.counts },
       funding: { ...formData?.funding },
@@ -603,12 +614,14 @@ const Summary = ({
             <Tooltip
               title={
                 <span style={{ whiteSpace: 'pre-line' }}>
-                  Some title goes here
+                  The fields on this page are read-only and display information
+                  from the application, Conditional Approval, and SOW documents,
+                  based on the application&apos;s status.
                 </span>
               }
               placement="top"
             >
-              <Help>Help</Help>
+              <StyledInfo />
             </Tooltip>
           </>
         </RightAlignText>
