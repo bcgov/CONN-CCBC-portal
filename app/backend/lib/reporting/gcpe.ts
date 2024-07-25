@@ -204,7 +204,9 @@ const generateExcelData = async (
       { value: node?.jsonData?.projectStatus },
       // project milestone complete percent
       {
-        value: node?.jsonData?.projectMilestoneCompleted,
+        value: node?.jsonData?.projectMilestoneCompleted
+          ? node.jsonData.projectMilestoneCompleted / 100
+          : null,
         format: '0%',
         type: Number,
       },
