@@ -29524,7 +29524,9 @@ type Application implements Node {
   """Computed column to display organization name from json data"""
   organizationName: String
 
-  """Computed column to return the application announced status for an application"""
+  """
+  Computed column to return the application announced status for an application
+  """
   package: Int
 
   """Computed column to return project information data"""
@@ -82615,9 +82617,7 @@ type CreateSowTab1Payload {
   """
   query: Query
 
-  """
-  Reads a single `ApplicationSowData` that is related to this `SowTab1`.
-  """
+  """Reads a single `ApplicationSowData` that is related to this `SowTab1`."""
   applicationSowDataBySowId: ApplicationSowData
 
   """Reads a single `CcbcUser` that is related to this `SowTab1`."""
