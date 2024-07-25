@@ -10,6 +10,8 @@ import ReviewTheme from 'components/Review/ReviewTheme';
 import reviewUiSchema from 'formSchema/uiSchema/summary/reviewUiSchema';
 import review from 'formSchema/analyst/summary/review';
 import styled from 'styled-components';
+import { Tooltip } from '@mui/material';
+import { Help } from '@mui/icons-material';
 import { useState } from 'react';
 
 const getSummaryQuery = graphql`
@@ -198,8 +200,11 @@ const getCommunities = (communities) => {
   const benefitingIndigenousCommunities = [];
   let totalBenefitingIndigenousCommunities = 0;
   communities.forEach((community) => {
-    if (community?.indigenous === 'N') {
-      if (community?.bcGeoName && community?.impacted === 'Yes') {
+    if (community?.indigenous?.toUpperCase() === 'N') {
+      if (
+        community?.bcGeoName &&
+        community?.impacted?.toUpperCase() === 'YES'
+      ) {
         totalBenefitingCommunities += 1;
         benefitingCommunities.push({
           name: community?.bcGeoName,
@@ -207,8 +212,11 @@ const getCommunities = (communities) => {
         });
       }
     }
-    if (community?.indigenous === 'Y') {
-      if (community?.bcGeoName && community?.impacted === 'Yes') {
+    if (community?.indigenous?.toUpperCase() === 'Y') {
+      if (
+        community?.bcGeoName &&
+        community?.impacted?.toUpperCase() === 'YES'
+      ) {
         totalBenefitingIndigenousCommunities += 1;
         benefitingIndigenousCommunities.push({
           name: community?.bcGeoName,
@@ -225,10 +233,47 @@ const getCommunities = (communities) => {
   };
 };
 
+const getSowErrors = (sowData, communitiesData) => {
+  // error on benefiting communities
+  const errors = {
+    counts: {
+      benefitingCommunities: {},
+      benefitingIndigenousCommunities: {},
+    },
+  };
+  const communitiesNumber =
+    sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData?.communitiesNumber;
+  const indigenousCommunitiesNumber =
+    sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
+      ?.indigenousCommunitiesNumber;
+  if (communitiesNumber !== communitiesData.totalBenefitingCommunities) {
+    errors.counts.benefitingCommunities = {
+      __errors: [
+        `Communities count mismatch ${communitiesNumber} and ${communitiesData.totalBenefitingCommunities}`,
+      ],
+      errorColor: '#f8e78f',
+    };
+    // error on benefiting indigenous communities
+  }
+  if (
+    indigenousCommunitiesNumber !==
+    communitiesData.totalBenefitingIndigenousCommunities
+  ) {
+    errors.counts.benefitingIndigenousCommunities = {
+      __errors: [
+        `Indigenous communities count mismatch ${indigenousCommunitiesNumber} and ${communitiesData.totalBenefitingIndigenousCommunities}`,
+      ],
+      errorColor: '#f8e78f',
+    };
+  }
+  return errors;
+};
+
 const getSowData = (sowData, baseSowData) => {
   const communitiesData = getCommunities(
     sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData?.geoNames
   );
+  const errors = getSowErrors(sowData, communitiesData);
   return {
     formData: {
       counts: {
@@ -240,8 +285,7 @@ const getSowData = (sowData, baseSowData) => {
           sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
             ?.indigenousCommunitiesNumber,
         benefitingIndigenousCommunities:
-          sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
-            ?.benefitingIndigenousCommunities,
+          communitiesData.benefitingIndigenousCommunities,
         totalHouseholdsImpacted:
           sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
             ?.totalNumberCommunitiesImpacted,
@@ -297,6 +341,7 @@ const getSowData = (sowData, baseSowData) => {
       proposedCompletionDate: 'SOW',
       dateAgreementSigned: 'SOW',
     },
+    errors,
   };
 };
 
@@ -389,6 +434,7 @@ const generateFormData = (applicationData, sowData, allIntakes) => {
   );
   let formData;
   let formDataSource;
+  let errors = null;
   // received, screening, assessment
   // not selected, withdrawn will have bare data from application
   if (
@@ -482,6 +528,7 @@ const generateFormData = (applicationData, sowData, allIntakes) => {
       ...sowFormDataSource,
       dateConditionallyApproved: 'Conditional Approval',
     };
+    errors = sowSummaryData.errors;
   }
 
   return {
@@ -510,6 +557,7 @@ const generateFormData = (applicationData, sowData, allIntakes) => {
       crtcProjectDependent: 'Screening',
       percentProjectMilestoneComplete: 'Milestone Report',
     },
+    errors,
   };
 };
 
@@ -523,7 +571,7 @@ const Summary = ({
     boolean | undefined
   >(true);
 
-  const { formData, formDataSource } = generateFormData(
+  const { formData, formDataSource, errors } = generateFormData(
     applicationByRowId,
     allApplicationSowData,
     allIntakes
@@ -551,6 +599,17 @@ const Summary = ({
             >
               Collapse all
             </StyledButton>
+            {' | '}
+            <Tooltip
+              title={
+                <span style={{ whiteSpace: 'pre-line' }}>
+                  Some title goes here
+                </span>
+              }
+              placement="top"
+            >
+              <Help>Help</Help>
+            </Tooltip>
           </>
         </RightAlignText>
         <StyledSummaryForm
@@ -558,7 +617,9 @@ const Summary = ({
             toggleOverride,
             isCbc: false,
             isEditable: false,
+            errors,
             formDataSource,
+            showErrorHint: true,
           }}
           formData={formData}
           handleChange={() => {}}
