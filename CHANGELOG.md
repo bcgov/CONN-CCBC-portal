@@ -1,3 +1,9 @@
+# [1.177.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.176.0...v1.177.0) (2024-07-26)
+
+### Features
+
+- add change reason to quick edit, check role ([fc24c6f](https://github.com/bcgov/CONN-CCBC-portal/commit/fc24c6f1a6f3df7ca388fe3107dba6ea90cc267c))
+
 # [1.176.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.175.0...v1.176.0) (2024-07-24)
 
 ### Bug Fixes
