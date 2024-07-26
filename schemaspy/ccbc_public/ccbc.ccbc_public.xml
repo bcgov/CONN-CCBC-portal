@@ -114,6 +114,7 @@
             <parent column="id" foreignKey="application_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="6" id="9" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="'CCBC'::text" digits="0" id="10" name="program" nullable="false" remarks="Program type of the project" size="2147483647" type="text" typeCode="12"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="application_pkey" unique="true">
             <column ascending="true" name="id"/>
