@@ -501,6 +501,40 @@ describe('Cbc', () => {
     });
   });
 
+  it('do nothing on cancel modal', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const editButton = screen.getByRole('button', {
+      name: 'Quick edit',
+    });
+    act(() => {
+      fireEvent.click(editButton);
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+    act(() => {
+      fireEvent.click(saveButton);
+    });
+
+    const changeReasonInput = screen.getByTestId('reason-for-change');
+    act(() => {
+      fireEvent.change(changeReasonInput, {
+        target: { value: 'Updated reason' },
+      });
+    });
+
+    const cancelModalButton = screen.getByRole('button', { name: /cancel/i });
+    act(() => {
+      fireEvent.click(cancelModalButton);
+    });
+
+    expect(screen.queryByTestId('reason-for-change')).not.toBeVisible();
+  });
+
   it('should prompt confirmation on locked edit click', async () => {
     jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery(mockLockedQueryPayload);
