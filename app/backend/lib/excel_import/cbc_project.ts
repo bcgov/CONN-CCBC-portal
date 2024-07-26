@@ -272,7 +272,9 @@ const readSummary = async (wb, sheet) => {
         'projectMilestoneCompleted',
         errorLog,
         projectNumber
-      ),
+      )
+        ? project['AP'] * 100
+        : null,
       constructionCompletedOn: validateDate(
         project['AQ'],
         'constructionCompletedOn',

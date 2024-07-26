@@ -43,6 +43,7 @@ const DashboardTabs = ({ session }) => {
   const isAdmin = authRole === 'ccbc_admin';
   const router = useRouter();
   const showGisUpload = useFeature('show_gis_upload').value;
+  const showReporting = useFeature('show_reporting').value;
   return (
     <StyledNav>
       <StyledLink
@@ -74,6 +75,16 @@ const DashboardTabs = ({ session }) => {
           selected={router?.pathname.startsWith('/analyst/gis')}
         >
           GIS
+        </StyledLink>
+      )}
+      {showReporting && (
+        <StyledLink
+          href="/analyst/reporting/gcpe"
+          passHref
+          isAdmin={isAdmin}
+          selected={router?.pathname.startsWith('/analyst/reporting')}
+        >
+          Reporting
         </StyledLink>
       )}
     </StyledNav>
