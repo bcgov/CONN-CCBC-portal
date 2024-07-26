@@ -1,5 +1,5 @@
 import React from 'react';
-import PaginationUnstyled from '@mui/base/TablePaginationUnstyled';
+import { TablePagination } from '@mui/base/TablePagination';
 import { Dropdown, Button } from '@button-inc/bcgov-theme';
 import styled from 'styled-components';
 
@@ -96,8 +96,7 @@ const FilterableTablePagination: React.FunctionComponent<Props> = ({
       aria-disabled={disabled}
       className={disabled ? 'disabled' : ''}
     >
-      <PaginationUnstyled
-        component="div"
+      <TablePagination
         count={totalCount}
         page={activePage}
         rowsPerPage={pageSize}
