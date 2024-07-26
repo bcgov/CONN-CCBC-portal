@@ -1,3 +1,9 @@
+# [1.178.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.177.1...v1.178.0) (2024-07-26)
+
+### Features
+
+- generate gcpe report ([0ae7d3e](https://github.com/bcgov/CONN-CCBC-portal/commit/0ae7d3e3621b748315669b8fa474a4fffd149272))
+
 ## [1.177.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.177.0...v1.177.1) (2024-07-26)
 
 # [1.177.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.176.0...v1.177.0) (2024-07-26)
