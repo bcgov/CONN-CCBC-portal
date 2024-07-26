@@ -618,3 +618,4 @@ tables/application_project_type_001_modify_check_constraint 2024-07-19T20:58:37Z
 @1.176.0 2024-07-24T22:40:30Z CCBC Service Account <ccbc@button.is> # release v1.176.0
 @1.177.0 2024-07-26T19:55:31Z CCBC Service Account <ccbc@button.is> # release v1.177.0
 tables/application_003_add_program 2024-07-19T16:40:06Z ,,, <ryohani89@NH504670> # add program column
+@1.177.1 2024-07-26T21:30:05Z CCBC Service Account <ccbc@button.is> # release v1.177.1
