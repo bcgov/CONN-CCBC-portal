@@ -1,7 +1,7 @@
 import React from 'react';
-import { TablePagination } from '@mui/base/TablePagination';
 import { Dropdown, Button } from '@button-inc/bcgov-theme';
 import styled from 'styled-components';
+import TablePagination from '@mui/material/TablePagination';
 
 interface Props {
   /**
@@ -97,6 +97,7 @@ const FilterableTablePagination: React.FunctionComponent<Props> = ({
       className={disabled ? 'disabled' : ''}
     >
       <TablePagination
+        component="div"
         count={totalCount}
         page={activePage}
         rowsPerPage={pageSize}
@@ -104,7 +105,7 @@ const FilterableTablePagination: React.FunctionComponent<Props> = ({
         onPageChange={handlePageChange}
         onRowsPerPageChange={handlePageSizeChange}
         labelRowsPerPage="Items per page:"
-        slots={paginationComponents}
+        slots={paginationComponents as any}
         slotProps={paginationComponentsProps as any}
       />
     </td>
