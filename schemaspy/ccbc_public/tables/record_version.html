@@ -419,14 +419,6 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>record_version_check</td>
-                                    <td>(((COALESCE(record_id, old_record_id) IS NOT NULL) OR (op &#61; &#39;TRUNCATE&#39;::audit.operation)))</td>
-                                </tr>
-                                <tr>
-                                    <td>record_version_check4</td>
-                                    <td>(((op &#61; ANY (ARRAY[&#39;UPDATE&#39;::audit.operation, &#39;DELETE&#39;::audit.operation])) &#61; (old_record IS NOT NULL)))</td>
-                                </tr>
-                                <tr>
                                     <td>record_version_check3</td>
                                     <td>(((op &#61; ANY (ARRAY[&#39;UPDATE&#39;::audit.operation, &#39;DELETE&#39;::audit.operation])) &#61; (old_record_id IS NOT NULL)))</td>
                                 </tr>
@@ -437,6 +429,14 @@
                                 <tr>
                                     <td>record_version_check1</td>
                                     <td>(((op &#61; ANY (ARRAY[&#39;INSERT&#39;::audit.operation, &#39;UPDATE&#39;::audit.operation])) &#61; (record_id IS NOT NULL)))</td>
+                                </tr>
+                                <tr>
+                                    <td>record_version_check4</td>
+                                    <td>(((op &#61; ANY (ARRAY[&#39;UPDATE&#39;::audit.operation, &#39;DELETE&#39;::audit.operation])) &#61; (old_record IS NOT NULL)))</td>
+                                </tr>
+                                <tr>
+                                    <td>record_version_check</td>
+                                    <td>(((COALESCE(record_id, old_record_id) IS NOT NULL) OR (op &#61; &#39;TRUNCATE&#39;::audit.operation)))</td>
                                 </tr>
                                 </tbody>
                             </table>
