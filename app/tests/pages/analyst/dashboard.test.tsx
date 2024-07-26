@@ -32,6 +32,7 @@ const mockQueryPayload = {
               intakeNumber: 1,
               zone: 1,
               zones: [1, 2],
+              program: 'CCBC',
             },
           },
           {
@@ -46,6 +47,7 @@ const mockQueryPayload = {
               intakeNumber: 2189,
               zone: null,
               zones: [],
+              program: 'CCBC',
             },
           },
           {
@@ -60,6 +62,7 @@ const mockQueryPayload = {
               intakeNumber: 1,
               zone: null,
               zones: [],
+              program: 'CCBC',
             },
           },
           {
@@ -74,6 +77,7 @@ const mockQueryPayload = {
               intakeNumber: 3,
               zone: null,
               zones: [],
+              program: 'CCBC',
             },
           },
           {
@@ -88,6 +92,7 @@ const mockQueryPayload = {
               intakeNumber: 99,
               zone: null,
               zones: [],
+              program: 'OTHER',
             },
           },
         ],
@@ -530,8 +535,8 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const ccbcFilterCheckbox = screen.getByTestId('projectTypeFilterCcbc');
-    const cbcFilterCheckbox = screen.getByTestId('projectTypeFilterCbc');
+    const ccbcFilterCheckbox = screen.getByTestId('programFilterCcbc');
+    const cbcFilterCheckbox = screen.getByTestId('programFilterCbc');
 
     expect(ccbcFilterCheckbox).toBeInTheDocument();
     expect(cbcFilterCheckbox).toBeInTheDocument();
@@ -655,9 +660,10 @@ describe('The index page', () => {
 
     expect(screen.getByText('5555')).toBeInTheDocument();
     expect(screen.queryByText('CCBC-010004')).toBeInTheDocument();
-    const cbcFilterCheckbox = screen.getByTestId('projectTypeFilterCbc');
-    const ccbcFilterCheckbox = screen.getByTestId('projectTypeFilterCcbc');
-    const otherFilterCheckbox = screen.getByTestId('projectTypeFilterOther');
+    expect(screen.queryByText('BC-000074')).toBeInTheDocument();
+    const cbcFilterCheckbox = screen.getByTestId('programFilterCbc');
+    const ccbcFilterCheckbox = screen.getByTestId('programFilterCcbc');
+    const otherFilterCheckbox = screen.getByTestId('programFilterOther');
     expect(cbcFilterCheckbox).toBeChecked();
     expect(ccbcFilterCheckbox).toBeChecked();
     expect(otherFilterCheckbox).toBeChecked();
@@ -675,6 +681,13 @@ describe('The index page', () => {
     expect(ccbcFilterCheckbox).not.toBeChecked();
 
     expect(screen.queryByText('CCBC-010004')).not.toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(otherFilterCheckbox);
+    });
+    expect(otherFilterCheckbox).not.toBeChecked();
+
+    expect(screen.queryByText('BC-000074')).not.toBeInTheDocument();
   });
 
   it('clear filters correctly restore project type filter', async () => {
@@ -686,7 +699,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByText('5555')).toBeInTheDocument();
-    const cbcFilterCheckbox = screen.getByTestId('projectTypeFilterCbc');
+    const cbcFilterCheckbox = screen.getByTestId('programFilterCbc');
     expect(cbcFilterCheckbox).toBeChecked();
 
     await act(async () => {

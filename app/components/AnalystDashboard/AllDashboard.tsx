@@ -179,6 +179,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
               rowId
               projectName
               intakeNumber
+              program
               zones
               applicationSowDataByApplicationId(
                 condition: { isAmendment: false }
@@ -232,16 +233,14 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const [isFirstRender, setIsFirstRender] = useState(true);
 
-  const defaultFilters = [
-    { id: 'projectType', value: ['CCBC', 'CBC', 'Other'] },
-  ];
+  const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
   const showCbcProjects = useFeature('show_cbc_projects').value ?? false;
   const showCbcProjectsLink = useFeature('show_cbc_view_link').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
-    { Lead: false, projectType: false }
+    { Lead: false, program: false }
   );
 
   const [visibilityPreference, setVisibilityPreference] =
@@ -395,9 +394,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     return [
       ...allApplications.edges.map((application) => ({
         ...application.node,
-        projectType: application.node.ccbcNumber.includes('000074')
-          ? 'Other'
-          : 'CCBC',
         intakeNumber: application.node.ccbcNumber.includes('000074')
           ? null
           : application.node.intakeNumber,
@@ -413,7 +409,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         ? allCbcData.edges.map((project) => ({
             rowId: project.node.cbcId,
             ...project.node.jsonData,
-            projectType: 'CBC',
+            program: 'CBC',
             zones: [],
             intakeNumber: project.node.jsonData?.intake || 'N/A',
             projectId: project.node.jsonData.projectNumber,
