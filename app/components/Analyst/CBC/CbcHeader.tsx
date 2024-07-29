@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
-import { useFeature } from '@growthbook/growthbook-react';
 import CbcChangeStatus from './CbcChangeStatus';
 import PendingChangeRequest from '../PendingChangeRequest/PendingChangeRequest';
 import CbcEditProjectDescription from './CbcEditProjectDescription';
@@ -58,10 +57,10 @@ const StyledPendingChangeRequests = styled(StyledItem)`
 
 interface Props {
   query: any;
-  isFormEditMode: boolean;
+  isFormEditable: boolean;
 }
 
-const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
+const CbcHeader: React.FC<Props> = ({ query, isFormEditable = false }) => {
   const queryFragment = useFragment(
     graphql`
       fragment CbcHeader_query on Query {
@@ -97,17 +96,13 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
     query
   );
 
-  const { cbcByRowId, session } = queryFragment;
+  const { cbcByRowId } = queryFragment;
   const { projectNumber, cbcDataByCbcId } = cbcByRowId;
 
   const { edges } = cbcDataByCbcId;
   const cbcData = edges[0].node;
   const { jsonData } = cbcData;
   const status = jsonData.projectStatus;
-  const isRecordLocked = jsonData.locked || false;
-  const editFeatureEnabled = useFeature('show_cbc_edit').value ?? false;
-  const allowEdit = session.authRole === 'cbc_admin' && editFeatureEnabled;
-  const isHeaderEditable = allowEdit && !(isRecordLocked && !isFormEditMode);
 
   return (
     <StyledCallout>
@@ -117,7 +112,7 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
         <StyledH2>{jsonData.applicantContractualName}</StyledH2>
         <CbcEditProjectDescription
           cbc={cbcByRowId}
-          isHeaderEditable={isHeaderEditable}
+          isHeaderEditable={isFormEditable}
         />
       </StyledProjectInfo>
       <StyledDiv>
@@ -136,14 +131,14 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
               { description: 'Reporting Complete', name: 'complete', id: 2 },
               { description: 'Withdrawn', name: 'withdrawn', id: 4 },
             ]}
-            isHeaderEditable={isHeaderEditable}
+            isFormEditable={isFormEditable}
           />
         </StyledItem>
         <StyledProjectType>
           <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>
           <CbcAssignProjectType
             cbc={cbcByRowId}
-            isHeaderEditable={isHeaderEditable}
+            isHeaderEditable={isFormEditable}
           />
         </StyledProjectType>
         <StyledPendingChangeRequests>
@@ -153,7 +148,7 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditMode }) => {
           <PendingChangeRequest
             application={cbcByRowId}
             isCbc
-            isHeaderEditable={isHeaderEditable}
+            isFormEditable={isFormEditable}
           />
         </StyledPendingChangeRequests>
       </StyledDiv>

@@ -77,10 +77,12 @@ const Cbc = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, CbcIdQuery>) => {
   const query = usePreloadedQuery(getCbcQuery, preloadedQuery);
-  const isCbcAdmin = query.session.authRole === 'cbc_admin';
+  const isCbcAdmin =
+    query.session.authRole === 'cbc_admin' ||
+    query.session.authRole === 'super_admin';
   const editFeatureEnabled = useFeature('show_cbc_edit').value ?? false;
-  const allowEdit = isCbcAdmin && editFeatureEnabled;
   const { session } = query;
+
   const [toggleOverrideReadOnly, setToggleExpandOrCollapseAllReadOnly] =
     useState<boolean | undefined>(true);
   const [toggleOverrideEdit, setToggleExpandOrCollapseAllEdit] = useState<
@@ -93,10 +95,13 @@ const Cbc = ({
   const { rowId } = query.cbcByRowId;
   const [formData, setFormData] = useState({} as any);
   const [baseFormData, setBaseFormData] = useState({} as any);
-  const recordLocked = formData?.projectDataReviews?.locked;
 
   const changeModal = useModal();
 
+  const [recordLocked, setRecordLocked] = useState(false);
+  const [allowEdit, setAllowEdit] = useState(
+    isCbcAdmin && editFeatureEnabled && !recordLocked
+  );
   useEffect(() => {
     const { cbcByRowId } = query;
     const { cbcDataByCbcId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
@@ -138,7 +143,11 @@ const Cbc = ({
       miscellaneous,
       projectDataReviews,
     });
-  }, [query]);
+    setRecordLocked(projectDataReviews?.locked || false);
+    setAllowEdit(
+      isCbcAdmin && editFeatureEnabled && !projectDataReviews?.locked
+    );
+  }, [query, isCbcAdmin, editFeatureEnabled]);
 
   const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
 
@@ -181,6 +190,7 @@ const Cbc = ({
       onCompleted: () => {
         setEditMode(false);
         changeModal.close();
+        setAllowEdit(isCbcAdmin && editFeatureEnabled);
       },
     });
   };
@@ -188,6 +198,7 @@ const Cbc = ({
   const handleResetFormData = () => {
     setFormData(baseFormData);
     setEditMode(false);
+    setAllowEdit(isCbcAdmin && editFeatureEnabled);
   };
 
   const validate = (data, schema) => {
@@ -232,6 +243,7 @@ const Cbc = ({
 
   const handleQuickEditClick = (isEditMode: boolean) => {
     setEditMode(isEditMode);
+    setAllowEdit(isEditMode);
     setFormData(baseFormData);
   };
 
@@ -256,7 +268,7 @@ const Cbc = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <CbcAnalystLayout query={query} isFormEditMode={editMode}>
+      <CbcAnalystLayout query={query} isFormEditable={allowEdit}>
         <RightAlignText>
           <>
             <StyledButton
@@ -286,14 +298,14 @@ const Cbc = ({
             </StyledButton>
             {' | '}
           </>
-          {allowEdit && getQuickEditButton()}
+          {isCbcAdmin && editFeatureEnabled && getQuickEditButton()}
         </RightAlignText>
         <StyledCbcForm
           additionalContext={{
             toggleOverride: editMode
               ? toggleOverrideEdit
               : toggleOverrideReadOnly,
-            isEditable: allowEdit,
+            isEditable: isCbcAdmin && editFeatureEnabled,
             isCBC: true,
             cbcId: rowId,
             errors: formErrors,

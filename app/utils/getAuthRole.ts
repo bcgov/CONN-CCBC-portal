@@ -37,6 +37,12 @@ const getAuthRole = (req: Request) => {
   const isCbcAdmin = roles?.includes('cbc_admin');
 
   if (idp === 'idir') {
+    if (isCbcAdmin && isAdmin) {
+      return {
+        pgRole: 'super_admin',
+        landingRoute: defaultLandingRoutes.ccbc_admin,
+      };
+    }
     if (isCbcAdmin) {
       return {
         pgRole: 'cbc_admin',

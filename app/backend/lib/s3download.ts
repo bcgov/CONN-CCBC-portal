@@ -24,7 +24,8 @@ s3download.get('/api/s3/download/:uuid/:fileName', async (req, res) => {
     authRole?.pgRole === 'ccbc_admin' ||
     authRole?.pgRole === 'ccbc_analyst' ||
     authRole?.pgRole === 'ccbc_auth_user' ||
-    authRole?.pgRole === 'cbc_admin';
+    authRole?.pgRole === 'cbc_admin' ||
+    authRole?.pgRole === 'super_admin';
 
   if (!isRoleAuthorized || !uuid || !fileName) {
     return res.status(404).end();
@@ -32,7 +33,8 @@ s3download.get('/api/s3/download/:uuid/:fileName', async (req, res) => {
   if (
     authRole?.pgRole === 'ccbc_admin' ||
     authRole?.pgRole === 'ccbc_analyst' ||
-    authRole?.pgRole === 'cbc_admin'
+    authRole?.pgRole === 'cbc_admin' ||
+    authRole?.pgRole === 'super_admin'
   ) {
     // first check AV tag
     // only for admin and analyst

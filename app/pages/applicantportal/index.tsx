@@ -241,7 +241,10 @@ export const withRelayOptions = {
     const request = ctx.req as any;
     const authRole = getAuthRole(request);
     const pgRole = authRole?.pgRole;
-    const isAnalyst = pgRole === 'ccbc_admin' || pgRole === 'ccbc_analyst';
+    const isAnalyst =
+      pgRole === 'ccbc_admin' ||
+      pgRole === 'ccbc_analyst' ||
+      pgRole === 'super_admin';
 
     // Redirect signed in analysts to the analyst landing page
     if (isAnalyst) {

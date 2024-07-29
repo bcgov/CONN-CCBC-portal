@@ -63,7 +63,9 @@ export const withRelayOptions = {
     const isIdirUser = request?.claims?.identity_provider === 'idir';
     const authRole = getAuthRole(request);
     const isAuthenticatedAnalyst =
-      authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'ccbc_analyst';
+      authRole?.pgRole === 'ccbc_admin' ||
+      authRole?.pgRole === 'ccbc_analyst' ||
+      authRole?.pgRole === 'super_admin';
 
     // They're logged in and have a ccbc_admin or ccbc_analyst role
     if (isAuthenticatedAnalyst) {

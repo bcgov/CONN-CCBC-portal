@@ -258,7 +258,8 @@ const sharepoint = Router();
 // eslint-disable-next-line consistent-return
 sharepoint.get('/api/sharepoint/cbc-project', (req, res) => {
   const authRole = getAuthRole(req);
-  const isRoleAuthorized = authRole?.pgRole === 'ccbc_admin';
+  const isRoleAuthorized =
+    authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'super_admin';
   if (!isRoleAuthorized) {
     return res.status(404).end();
   }

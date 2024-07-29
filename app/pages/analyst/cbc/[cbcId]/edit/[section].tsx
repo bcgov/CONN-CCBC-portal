@@ -124,7 +124,7 @@ const EditCbcSection = ({
 
   return (
     <Layout title="Edit CBC Section" session={session}>
-      <CbcAnalystLayout query={query}>
+      <CbcAnalystLayout query={query} isFormEditable>
         <FormBase
           formData={dataBySection[section]}
           schema={review.properties[section] as RJSFSchema}

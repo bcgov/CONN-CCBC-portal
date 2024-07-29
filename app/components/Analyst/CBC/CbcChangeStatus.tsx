@@ -69,14 +69,14 @@ interface Props {
   cbc: any;
   status: string;
   statusList: any;
-  isHeaderEditable: boolean;
+  isFormEditable: boolean;
 }
 
 const CbcChangeStatus: React.FC<Props> = ({
   cbc,
   status,
   statusList,
-  isHeaderEditable,
+  isFormEditable,
 }) => {
   const queryFragment = useFragment(
     graphql`
@@ -139,7 +139,7 @@ const CbcChangeStatus: React.FC<Props> = ({
         const { description, name, id } = statusType;
 
         return (
-          <StyledOption value={name} key={id} disabled={!isHeaderEditable}>
+          <StyledOption value={name} key={id} disabled={!isFormEditable}>
             {description}
           </StyledOption>
         );
