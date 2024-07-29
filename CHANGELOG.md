@@ -1,3 +1,9 @@
+# [1.179.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.178.0...v1.179.0) (2024-07-29)
+
+### Features
+
+- allow cbc and ccbc admin roles to be combined ([83e91ac](https://github.com/bcgov/CONN-CCBC-portal/commit/83e91ac1c34a603ace45dd307c4bad306c55b3b5))
+
 # [1.178.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.177.1...v1.178.0) (2024-07-26)
 
 ### Features

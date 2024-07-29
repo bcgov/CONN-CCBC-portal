@@ -623,3 +623,4 @@ tables/reporting_gcpe 2024-06-10T18:04:18Z Rafael Solorzano <61289255+rafasdc@us
 @1.178.0 2024-07-26T21:54:02Z CCBC Service Account <ccbc@button.is> # release v1.178.0
 create_roles [create_roles@1.171.0] 2024-07-17T20:40:52Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create super_admin role
 grant_super_admin 2024-07-17T20:43:20Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grants analyst, ccbc and cbc admin to super_user role
+@1.179.0 2024-07-29T16:16:57Z CCBC Service Account <ccbc@button.is> # release v1.179.0
