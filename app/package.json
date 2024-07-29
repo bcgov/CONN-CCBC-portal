@@ -76,7 +76,7 @@
     "graphql": "^15.6.1",
     "graphql-upload": "^15.0.2",
     "helmet": "^7.1.0",
-    "iframe-resizer-react": "^1.1.0",
+    "iframe-resizer-react": "^5.1.5",
     "js-cookie": "^3.0.1",
     "json-diff": "^1.0.6",
     "json-schema": "^0.4.0",

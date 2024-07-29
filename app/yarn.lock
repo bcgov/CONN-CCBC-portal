@@ -2303,6 +2303,13 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@babel/runtime@^7.24.7":
+  version "7.25.0"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.25.0.tgz#3af9a91c1b739c569d5d80cc917280919c544ecb"
+  integrity sha512-7dRy4DwXwtzBrPbZflqxnvfxLF8kdZXPkhymtDeFoFqE6ldzjQFgYTtYIFARcLEYDrqfBfYcZt1WqFxRoyC9Rw==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/template@^7.16.7", "@babel/template@^7.3.3":
   version "7.16.7"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.16.7.tgz#8d126c8701fde4d66b264b3eba3d96f07666d155"
@@ -2837,6 +2844,20 @@
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-2.0.3.tgz#4a2868d75d6d6963e423bcf90b7fd1be343409d3"
   integrity sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==
+
+"@iframe-resizer/core@5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@iframe-resizer/core/-/core-5.1.5.tgz#cea8b91df13fb5b87e5456bc684ca18fdd7fe11b"
+  integrity sha512-uu0Ptk+R7vYY7R9HFsc5R4+p68rgGxrsWIq2sK9oanJPBtQ2P9pMYoRseM8F4AfOONHOeHxGByWeBmw7LTXmdA==
+
+"@iframe-resizer/react@5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@iframe-resizer/react/-/react-5.1.5.tgz#882831485d821361b8c501cdc5206c1ba45b0bc7"
+  integrity sha512-klGfad00ZiVHIplWYJ04ACp8vU6xa5ujLSWEJOFcc8SqQyJv7T0UtxuUGPiEXvSGeaP5HgFvYFzua7YOw/blIg==
+  dependencies:
+    "@babel/runtime" "^7.24.7"
+    "@iframe-resizer/core" "5.1.5"
+    warning "^4.0.3"
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
@@ -9486,18 +9507,12 @@ ieee754@^1.1.13, ieee754@^1.1.4, ieee754@^1.2.1:
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
   integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
 
-iframe-resizer-react@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/iframe-resizer-react/-/iframe-resizer-react-1.1.0.tgz#5009e019b7a5c7f1c009bff5bcdf0dbf33557465"
-  integrity sha512-FrytSq91AIJaDgE+6uK/Vdd6IR8CrwLoZ6eGmL2qQMPTzF0xlSV2jaSzRRUh5V2fttD7vzl21jvBl97bV40eBw==
+iframe-resizer-react@^5.1.5:
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/iframe-resizer-react/-/iframe-resizer-react-5.1.5.tgz#e4cc48e216f2a9fb81813a3816cefa0e06670498"
+  integrity sha512-R7kJgzniX9S16Lc9QWUyc+NYXftQnT0agdroFISojxC+/ARJa+ZhrcSns/3xjzQnsY+nk5TdkafkrRNIpr3Big==
   dependencies:
-    iframe-resizer "^4.3.0"
-    warning "^4.0.3"
-
-iframe-resizer@^4.3.0:
-  version "4.3.6"
-  resolved "https://registry.yarnpkg.com/iframe-resizer/-/iframe-resizer-4.3.6.tgz#61d92c1adefe5d416bff4fbf80c7f1f74be70ec0"
-  integrity sha512-wz0WodRIF6eP0oGQa5NIP1yrITAZ59ZJvVaVJqJRjaeCtfm461vy2C3us6CKx0e7pooqpIGLpVMSTzrfAjX9Sg==
+    "@iframe-resizer/react" "5.1.5"
 
 ignore-by-default@^1.0.1:
   version "1.0.1"
