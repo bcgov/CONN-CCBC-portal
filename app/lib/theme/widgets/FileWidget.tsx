@@ -90,18 +90,22 @@ const FileWidget: React.FC<FileWidgetProps> = ({
               method: 'POST',
               body: fileFormData,
             }
-          ).then((response) => {
-            if (response.ok) {
-              response.json().then((data) => {
-                setTemplateData({
-                  templateNumber,
-                  data,
+          )
+            .then((response) => {
+              if (response.ok) {
+                response.json().then((data) => {
+                  setTemplateData({
+                    templateNumber,
+                    data,
+                  });
                 });
-              });
-            } else {
+              } else {
+                isTemplateValid = false;
+              }
+            })
+            .catch(() => {
               isTemplateValid = false;
-            }
-          });
+            });
         }
       }
     }

@@ -94,7 +94,6 @@ export const displayExcelUploadErrors = (err) => {
     error: errorMessage,
     filename = 'Statement of Work',
   } = err;
-
   let title = `An unknown error has occured while validating the ${filename} data`;
   if (errorType?.includes('tab')) {
     title = `There was an error importing the ${filename} data at ${errorType}`;
@@ -112,6 +111,9 @@ export const displayExcelUploadErrors = (err) => {
   }
   if (errorType === 'claimNumber') {
     title = `A Claim & Progress Report already exists with this claim number. Data were not imported.`;
+  }
+  if (errorType === 'timeout') {
+    title = `Processing of the file ${filename} took too long. Please try again.`;
   }
   // for cell level errors
   if (typeof errorMessage !== 'string') {
