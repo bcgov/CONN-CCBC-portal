@@ -627,3 +627,4 @@ grant_super_admin 2024-07-17T20:43:20Z Rafael Solorzano <61289255+rafasdc@users.
 tables/application_announced 2024-07-22T20:17:52Z ,,, <ryohani89@NH504670> # add application_announced table
 mutations/create_application_announced_record 2024-07-22T22:22:54Z ,,, <ryohani89@NH504670> # add create_application_announced_record
 computed_columns/application_announced 2024-07-24T18:07:20Z ,,, <ryohani89@NH504670> # add application_announced computed column
+computed_columns/application_history [computed_columns/application_history@1.179.0] 2024-07-31T16:19:17Z ,,, <ryohani89@NH504670> # rework history to fetch application announced history

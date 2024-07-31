@@ -12,6 +12,7 @@ import screeningSchema from 'formSchema/uiSchema/history/screening';
 import gis from 'formSchema/uiSchema/history/gis';
 import gisAssessmentHhSchema from 'formSchema/uiSchema/history/gisAssessmentHh';
 import applicationSowDataSchema from 'formSchema/uiSchema/history/applicationSowData';
+import applicationAnnounced from 'formSchema/uiSchema/history/applicationAnnounced';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -241,6 +242,31 @@ const HistoryContent = ({
         <span>
           {displayName} {operation} an announcement on {createdAtFormatted}
         </span>
+      </StyledContent>
+    );
+  }
+
+  if (tableName === 'application_announced') {
+    return (
+      <StyledContent data-testid="history-content-announced">
+        <span>
+          {displayName} updated <b>application announced</b> status on{' '}
+          {createdAtFormatted}
+        </span>
+        <HistoryDetails
+          json={record}
+          prevJson={prevHistoryItem?.record || {}}
+          excludedKeys={[
+            'id',
+            'updated_at',
+            'created_at',
+            'created_by',
+            'updated_by',
+            'archived_at',
+            'archived_by',
+          ]}
+          diffSchema={applicationAnnounced}
+        />
       </StyledContent>
     );
   }
