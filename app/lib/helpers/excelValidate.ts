@@ -44,7 +44,8 @@ function excelValidateGenerator(
         if (setExcelValidationErrors) {
           setExcelValidationErrors([
             {
-              error: 'The process took too long and timed out.',
+              error:
+                ' If the issue persists, <a href="mailto:meherzad.romer@gov.bc.ca">contact the development team.</a>',
               level: 'timeout',
               filename: file.name,
             },
@@ -52,7 +53,8 @@ function excelValidateGenerator(
         }
         return {
           level: 'timeout',
-          error: 'The process took too long and timed out.',
+          error:
+            ' If the issue persists, <a href="mailto:meherzad.romer@gov.bc.ca">contact the development team.</a>',
           filename: file.name,
         };
       }
