@@ -250,23 +250,25 @@ const HistoryContent = ({
     return (
       <StyledContent data-testid="history-content-announced">
         <span>
-          {displayName} updated <b>application announced</b> status on{' '}
-          {createdAtFormatted}
+          {displayName} updated <b>Announcement info</b> on {createdAtFormatted}
         </span>
-        <HistoryDetails
-          json={record}
-          prevJson={prevHistoryItem?.record || {}}
-          excludedKeys={[
-            'id',
-            'updated_at',
-            'created_at',
-            'created_by',
-            'updated_by',
-            'archived_at',
-            'archived_by',
-          ]}
-          diffSchema={applicationAnnounced}
-        />
+        {showHistoryDetails && (
+          <HistoryDetails
+            json={record}
+            prevJson={prevHistoryItem?.record || {}}
+            excludedKeys={[
+              'id',
+              'updated_at',
+              'created_at',
+              'created_by',
+              'updated_by',
+              'archived_at',
+              'archived_by',
+            ]}
+            diffSchema={applicationAnnounced}
+            overrideParent="applicationAnnounced"
+          />
+        )}
       </StyledContent>
     );
   }

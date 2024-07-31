@@ -2888,6 +2888,54 @@ const mockQueryPayload = {
               sessionSub: 'test-session-sub@idir',
               tableName: 'application_sow_data',
             },
+            {
+              applicationId: 1,
+              createdAt: '2024-07-31T14:42:33.523087+00:00',
+              externalAnalyst: null,
+              familyName: 'Foo',
+              givenName: 'Bar',
+              item: null,
+              oldRecord: null,
+              op: 'INSERT',
+              record: {
+                announced: true,
+                application_id: 1,
+                archived_at: null,
+                archived_by: null,
+                created_at: '2024-07-31T14:42:33.523087+00:00',
+                created_by: 243,
+                id: 1,
+                updated_at: '2024-07-31T14:42:33.523087+00:00',
+                updated_by: 243,
+              },
+              recordId: '48007280-d84e-565e-9697-ea2d4c156550',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_announced',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2024-07-31T15:25:51.587461+00:00',
+              externalAnalyst: null,
+              familyName: 'Foo',
+              givenName: 'Bar',
+              item: null,
+              oldRecord: null,
+              op: 'INSERT',
+              record: {
+                announced: false,
+                application_id: 1,
+                archived_at: null,
+                archived_by: null,
+                created_at: '2024-07-31T15:25:51.587461+00:00',
+                created_by: 243,
+                id: 2,
+                updated_at: '2024-07-31T15:25:51.587461+00:00',
+                updated_by: 243,
+              },
+              recordId: 'e1cd0148-ab72-5e3f-b2d2-d7debd866bfc',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_announced',
+            },
           ],
         },
         formData: {
@@ -3111,7 +3159,7 @@ describe('The index page', () => {
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(27);
+    expect(diffTables.length).toBe(29);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -3333,5 +3381,18 @@ describe('The index page', () => {
 
     // should show correct number of times
     expect(screen.getAllByTestId('history-content-sow-data').length).toBe(2);
+  });
+
+  it('shows the correct history for changing application announced status', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const sowHistory = screen.getAllByTestId('history-content-announced')[0];
+
+    expect(sowHistory).toBeInTheDocument();
+
+    expect(sowHistory).toHaveTextContent(
+      'Bar Foo updated Announcement info on Jul 31, 2024, 8:25 a.m.'
+    );
   });
 });

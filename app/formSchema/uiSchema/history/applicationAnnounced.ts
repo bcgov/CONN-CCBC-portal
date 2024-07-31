@@ -1,6 +1,10 @@
 const applicationAnnounced = {
-  announced: {
-    title: 'Application Announced',
+  applicationAnnounced: {
+    properties: {
+      announced: {
+        title: 'Announced by BC/ISED',
+      },
+    },
   },
 };
 
