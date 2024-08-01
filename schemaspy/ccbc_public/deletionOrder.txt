@@ -26,6 +26,7 @@ application_community_report_excel_data
 application_community_progress_report_data
 application_claims_excel_data
 application_claims_data
+application_announced
 reporting_gcpe
 cbc_project
 application_rfi_data

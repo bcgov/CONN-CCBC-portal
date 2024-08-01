@@ -73,6 +73,7 @@
       <table name="application" remarks="Table containing the data associated with the CCBC respondents application" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Primary key ID for the application" size="10" type="int4" typeCode="4">
             <child column="application_id" foreignKey="application_analyst_lead_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_analyst_lead"/>
+            <child column="application_id" foreignKey="application_announced_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_announced"/>
             <child column="application_id" foreignKey="application_announcement_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_announcement"/>
             <child column="application_id" foreignKey="application_claims_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_claims_data"/>
             <child column="application_id" foreignKey="application_claims_excel_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_claims_excel_data"/>
@@ -169,6 +170,41 @@
             <column ascending="true" name="created_by"/>
          </index>
          <index name="ccbc_public_application_analyst_lead_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="application_announced" remarks="Table containing if the application has been announced by BC or ISED" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the application_announced" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="ID of the application this record belongs to" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_announced_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="2" name="announced" nullable="true" remarks="Whether the application has been announced by BC or ISED" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_announced_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_announced_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_announced_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="application_announced_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="application_announced_application_id_index" unique="false">
+            <column ascending="true" name="application_id"/>
+         </index>
+         <index name="ccbc_public_application_announced_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_application_announced_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_application_announced_updated_by_foreign_key" unique="false">
             <column ascending="true" name="updated_by"/>
          </index>
       </table>
@@ -1070,6 +1106,9 @@
             <child column="archived_by" foreignKey="application_analyst_lead_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_analyst_lead"/>
             <child column="created_by" foreignKey="application_analyst_lead_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_analyst_lead"/>
             <child column="updated_by" foreignKey="application_analyst_lead_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_analyst_lead"/>
+            <child column="archived_by" foreignKey="application_announced_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_announced"/>
+            <child column="created_by" foreignKey="application_announced_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_announced"/>
+            <child column="updated_by" foreignKey="application_announced_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_announced"/>
             <child column="archived_by" foreignKey="application_announcement_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_announcement"/>
             <child column="created_by" foreignKey="application_announcement_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_announcement"/>
             <child column="updated_by" foreignKey="application_announcement_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_announcement"/>
