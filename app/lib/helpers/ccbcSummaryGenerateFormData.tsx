@@ -116,7 +116,7 @@ const getSowErrors = (sowData, communitiesData) => {
   const indigenousCommunitiesNumber =
     sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
       ?.indigenousCommunitiesNumber;
-  if (communitiesNumber !== communitiesData.totalBenefitingCommunities) {
+  if (communitiesNumber !== communitiesData?.totalBenefitingCommunities) {
     errors.counts.benefitingCommunities = {
       __errors: [
         `Communities count mismatch ${communitiesNumber} and ${communitiesData.totalBenefitingCommunities}`,
@@ -127,7 +127,7 @@ const getSowErrors = (sowData, communitiesData) => {
   }
   if (
     indigenousCommunitiesNumber !==
-    communitiesData.totalBenefitingIndigenousCommunities
+    communitiesData?.totalBenefitingIndigenousCommunities
   ) {
     errors.counts.benefitingIndigenousCommunities = {
       __errors: [
@@ -150,12 +150,12 @@ const getSowData = (sowData, baseSowData) => {
         communities:
           sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
             ?.communitiesNumber,
-        benefitingCommunities: communitiesData.benefitingCommunities,
+        benefitingCommunities: communitiesData?.benefitingCommunities,
         indigenousCommunities:
           sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
             ?.indigenousCommunitiesNumber,
         benefitingIndigenousCommunities:
-          communitiesData.benefitingIndigenousCommunities,
+          communitiesData?.benefitingIndigenousCommunities,
         totalHouseholdsImpacted:
           sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
             ?.totalNumberCommunitiesImpacted,
