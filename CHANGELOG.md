@@ -1,3 +1,9 @@
+# [1.180.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.179.0...v1.180.0) (2024-08-01)
+
+### Features
+
+- add announced checkbox to announcement tab ([a0c8dd8](https://github.com/bcgov/CONN-CCBC-portal/commit/a0c8dd890fca208914f57b8eeaa6e4f882b2ae92))
+
 # [1.179.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.178.0...v1.179.0) (2024-07-29)
 
 ### Features
