@@ -34,6 +34,7 @@ const StyledIcon = styled.div`
 
 const iconMap = {
   application_announcement: faBullhorn,
+  application_announced: faBullhorn,
   application_status: faDotCircle,
   application: faClipboardList,
   application_claims_data: faDollarSign,
