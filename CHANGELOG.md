@@ -1,3 +1,9 @@
+## [1.180.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.0...v1.180.1) (2024-08-06)
+
+### Bug Fixes
+
+- intake filter ([ec3e34e](https://github.com/bcgov/CONN-CCBC-portal/commit/ec3e34e6b351ea810ed9ba9742aa4ddc1376f350))
+
 # [1.180.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.179.0...v1.180.0) (2024-08-01)
 
 ### Features

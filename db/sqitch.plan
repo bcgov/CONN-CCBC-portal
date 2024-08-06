@@ -629,3 +629,4 @@ mutations/create_application_announced_record 2024-07-22T22:22:54Z ,,, <ryohani8
 computed_columns/application_announced 2024-07-24T18:07:20Z ,,, <ryohani89@NH504670> # add application_announced computed column
 computed_columns/application_history [computed_columns/application_history@1.179.0] 2024-07-31T16:19:17Z ,,, <ryohani89@NH504670> # rework history to fetch application announced history
 @1.180.0 2024-08-01T18:42:47Z CCBC Service Account <ccbc@button.is> # release v1.180.0
+@1.180.1 2024-08-06T22:10:01Z CCBC Service Account <ccbc@button.is> # release v1.180.1
