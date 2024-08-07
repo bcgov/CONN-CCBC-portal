@@ -395,7 +395,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       ...allApplications.edges.map((application) => ({
         ...application.node,
         intakeNumber: application.node.ccbcNumber.includes('000074')
-          ? null
+          ? ''
           : application.node.intakeNumber,
         projectId: application.node.ccbcNumber,
         packageNumber: application.node.package,
