@@ -1132,17 +1132,18 @@
   dependencies:
     tslib "^2.3.1"
 
-"@aws-sdk/lib-storage@^3.226.0":
-  version "3.229.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/lib-storage/-/lib-storage-3.229.0.tgz#8a0073b20b56e9e68c002a745df5362f2ef9dea7"
-  integrity sha512-ym5uLcT3yvME33ad2ekdFcSVKXj+qL9hD1VHrW2Bgf09cOO9PjbAx8vtFf/Ohh8aEcBjA1xtgEoCZELTLj99bw==
+"@aws-sdk/lib-storage@^3.617.0":
+  version "3.617.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/lib-storage/-/lib-storage-3.617.0.tgz#885615f9b08c540d5c9bffc18297564de7a1cce7"
+  integrity sha512-bR+3E66Dp3CyuSGywxMSwrYQCfwuFu7gRJxOpk1i2AKV1Wh7g0y1eANXHVKnk+UbVRz4S53UCD8LEiKp2KYShA==
   dependencies:
-    "@aws-sdk/middleware-endpoint" "3.226.0"
-    "@aws-sdk/smithy-client" "3.226.0"
+    "@smithy/abort-controller" "^3.1.1"
+    "@smithy/middleware-endpoint" "^3.0.5"
+    "@smithy/smithy-client" "^3.1.8"
     buffer "5.6.0"
     events "3.3.0"
     stream-browserify "3.0.0"
-    tslib "^2.3.1"
+    tslib "^2.6.2"
 
 "@aws-sdk/middleware-apply-body-checksum@^3.374.0":
   version "3.374.0"
@@ -1609,15 +1610,6 @@
     "@aws-sdk/util-hex-encoding" "3.201.0"
     "@aws-sdk/util-middleware" "3.226.0"
     "@aws-sdk/util-uri-escape" "3.201.0"
-    tslib "^2.3.1"
-
-"@aws-sdk/smithy-client@3.226.0":
-  version "3.226.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/smithy-client/-/smithy-client-3.226.0.tgz#d6869ca3627ca33024616c0ec3f707981e080d59"
-  integrity sha512-BWr1FhWSUhkSBp0TLzliD5AQBjA2Jmo9FlOOt+cBwd9BKkSGlGj+HgATYJ83Sjjg2+J6qvEZBxB78LKVHhorBw==
-  dependencies:
-    "@aws-sdk/middleware-stack" "3.226.0"
-    "@aws-sdk/types" "3.226.0"
     tslib "^2.3.1"
 
 "@aws-sdk/smithy-client@3.234.0":
