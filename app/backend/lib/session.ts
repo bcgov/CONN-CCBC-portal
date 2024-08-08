@@ -13,6 +13,8 @@ const HALF_DAY = 12 * (60 * 60 * 1000);
 const ONE_DAY = 2 * HALF_DAY;
 
 const session = () => {
+  console.log('session');
+  console.log(pgPool);
   const store = new PgSession({
     pool: pgPool,
     schemaName: 'ccbc_private',
