@@ -30,7 +30,7 @@
     "@aws-sdk/lib-storage": "^3.617.0",
     "@aws-sdk/middleware-apply-body-checksum": "^3.374.0",
     "@aws-sdk/node-http-handler": "^3.296.0",
-    "@aws-sdk/s3-request-presigner": "^3.606.0",
+    "@aws-sdk/s3-request-presigner": "^3.627.0",
     "@bcgov-cas/sso-express": "^3.2.0",
     "@bcgov-cas/sso-react": "^2.0.0",
     "@bcgov-ccbc/ccbc-node-sp-auth": "^1.0.0",
