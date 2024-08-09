@@ -24,7 +24,8 @@ validation.post(
   limiter,
   async (req, res) => {
     const authRole = getAuthRole(req);
-    const isRoleAuthorized = authRole?.pgRole === 'cbc_admin';
+    const isRoleAuthorized =
+      authRole?.pgRole === 'cbc_admin' || authRole?.pgRole === 'super_admin';
     if (!isRoleAuthorized) {
       return res.status(404).end();
     }
