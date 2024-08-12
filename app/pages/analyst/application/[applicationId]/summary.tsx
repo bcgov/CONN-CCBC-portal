@@ -24,6 +24,14 @@ const getSummaryQuery = graphql`
       announcements {
         totalCount
       }
+      applicationAnnouncedsByApplicationId(
+        last: 1
+        condition: { archivedAt: null }
+      ) {
+        nodes {
+          announced
+        }
+      }
       applicationStatusesByApplicationId(
         filter: { status: { equalTo: "submitted" } }
       ) {

@@ -44,21 +44,35 @@ const getConditionalApprovalDate = (conditionalApprovalData) => {
     return null;
   }
   if (!provincialDate) {
-    return isedDate;
+    if (conditionalApprovalData?.isedDecisionObj?.isedDecision === 'Approved')
+      return isedDate;
   }
   if (!isedDate) {
-    return provincialDate;
+    if (conditionalApprovalData?.decision?.ministerDecision === 'Approved')
+      return provincialDate;
   }
-  return new Date(provincialDate) > new Date(isedDate)
-    ? provincialDate
-    : isedDate;
+
+  // if provincial date is greater than ised date
+  if (new Date(provincialDate) > new Date(isedDate)) {
+    // if provincial date is approved
+    if (conditionalApprovalData?.decision?.ministerDecision === 'Approved') {
+      return provincialDate;
+    }
+    // otherwise check if ised date is approved
+    if (conditionalApprovalData?.isedDecisionObj?.isedDecision === 'Approved') {
+      return isedDate;
+    }
+    // otherwise return null as none of them are approved
+    return isedDate;
+  }
+  return null;
 };
 
 const handleMilestone = (milestonePercent) => {
   if (!milestonePercent) {
     return null;
   }
-  return `${milestonePercent * 100}%`;
+  return `${Math.trunc(milestonePercent * 100)}%`;
 };
 
 const getCommunities = (communities) => {
@@ -158,7 +172,7 @@ const getSowData = (sowData, baseSowData) => {
           communitiesData?.benefitingIndigenousCommunities,
         totalHouseholdsImpacted:
           sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
-            ?.totalNumberCommunitiesImpacted,
+            ?.numberOfHouseholds,
         numberOfIndigenousHouseholds:
           sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
             ?.householdsImpactedIndigenous,
@@ -270,7 +284,6 @@ const getFormDataFromApplication = (applicationData, allIntakes) => {
           applicationData?.formData?.jsonData?.budgetDetails?.totalProjectCost,
       },
       eventsAndDates: {
-        announcedByProvince: 'No',
         dateApplicationReceived: handleApplicationDateReceived(
           applicationData,
           allIntakes
@@ -416,7 +429,13 @@ const generateFormData = (applicationData, sowData, allIntakes) => {
       },
       counts: { ...formData?.counts },
       funding: { ...formData?.funding },
-      eventsAndDates: { ...formData?.eventsAndDates },
+      eventsAndDates: {
+        ...formData?.eventsAndDates,
+        announcedByProvince: applicationData
+          ?.applicationAnnouncedsByApplicationId?.nodes[0]?.announced
+          ? 'Yes'
+          : 'No',
+      },
       // milestone is one source
       milestone: {
         percentProjectMilestoneComplete: handleMilestone(
@@ -430,6 +449,7 @@ const generateFormData = (applicationData, sowData, allIntakes) => {
       connectedCoastNetworkDependent: 'Screening',
       crtcProjectDependent: 'Screening',
       percentProjectMilestoneComplete: 'Milestone Report',
+      announcedByProvince: 'Announcements',
     },
     errors,
   };
