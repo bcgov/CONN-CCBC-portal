@@ -88,7 +88,7 @@ const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({
           {uiTitle && <StyledH4>{uiTitle}</StyledH4>}
           {showErrorHint && hasFormContextError ? (
             <ErrorWrapper errorColor={errorColor}>
-              <div style={{ width: '100%' }}>{children}</div>
+              <div>{children}</div>
               <Tooltip title={formContextErrors?.join()}>
                 <StyledHelp />
               </Tooltip>
