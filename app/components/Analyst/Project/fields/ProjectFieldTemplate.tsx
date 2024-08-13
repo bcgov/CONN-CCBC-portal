@@ -1,3 +1,6 @@
+import React from 'react';
+import { Help } from '@mui/icons-material';
+import { Tooltip } from '@mui/material';
 import { FieldTemplateProps } from '@rjsf/utils';
 import styled from 'styled-components';
 
@@ -31,21 +34,68 @@ const StyledContainer = styled.div`
   }
 `;
 
+const ErrorWrapper = styled.div<{ errorColor?: string }>`
+  position: relative;
+  background-color: ${(props) => props.errorColor};
+  padding: 8px;
+  margin-bottom: 8px;
+  max-width: calc(100% - 8px) !important;
+
+  .pg-select-wrapper,
+  .datepicker-widget,
+  .url-widget-wrapper,
+  .ccbcid-widget-wrapper {
+    background-color: white !important;
+    max-width: calc(340px - 8px) !important;
+  }
+
+  [class*='StyledMessage']:empty {
+    display: none;
+  }
+`;
+
+const StyledHelp = styled(Help)`
+  color: ${(props) => props.theme.color.primaryBlue};
+  cursor: pointer;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+`;
+
 const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
   uiSchema,
+  formContext,
+  id,
 }) => {
   const uiTitle =
     uiSchema?.['ui:label'] || uiSchema?.['ui:title']
       ? `${uiSchema?.['ui:label'] ?? uiSchema?.['ui:title']}`
       : null;
+  const fieldName = id?.split('_')?.[1];
   const hidden = uiSchema?.['ui:widget'] === 'HiddenWidget' || false;
+
+  const showErrorHint = formContext?.showErrorHint ?? false;
+  const { errorColor, __errors: formContextErrors } =
+    formContext?.errors?.[fieldName] || {};
+  const hasFormContextError = formContextErrors?.length > 0;
+
   return (
     <>
       {!hidden && (
         <StyledContainer>
           {uiTitle && <StyledH4>{uiTitle}</StyledH4>}
-          {children}
+          {showErrorHint && hasFormContextError ? (
+            <ErrorWrapper errorColor={errorColor}>
+              <div style={{ width: '100%' }}>{children}</div>
+              <Tooltip title={formContextErrors?.join()}>
+                <StyledHelp />
+              </Tooltip>
+            </ErrorWrapper>
+          ) : (
+            children
+          )}
         </StyledContainer>
       )}
     </>

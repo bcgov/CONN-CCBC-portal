@@ -46,7 +46,7 @@ const CBC_VALIDATIONS = {
       rules: [
         {
           condition: (data) =>
-            data.miscellaneous?.projectMilestoneCompleted === 1 &&
+            data.miscellaneous?.projectMilestoneCompleted === 100 &&
             !data.miscellaneous?.constructionCompletedOn,
           error: 'Missing date',
         },
