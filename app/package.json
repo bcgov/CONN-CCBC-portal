@@ -24,7 +24,7 @@
     "format": "prettier --write './**/*.tsx' --config ../.prettierrc"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.617.0",
+    "@aws-sdk/client-s3": "^3.629.0",
     "@aws-sdk/client-sns": "^3.245.0",
     "@aws-sdk/credential-providers": "^3.515.0",
     "@aws-sdk/lib-storage": "^3.617.0",
@@ -113,7 +113,7 @@
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
   },
   "devDependencies": {
-    "@aws-sdk/client-s3": "^3.617.0",
+    "@aws-sdk/client-s3": "^3.629.0",
     "@microsoft/eslint-formatter-sarif": "^3.0.0",
     "@testing-library/cypress": "^10.0.1",
     "@testing-library/jest-dom": "^6.4.5",
