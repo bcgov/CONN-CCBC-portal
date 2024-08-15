@@ -13,18 +13,6 @@ const CBC_VALIDATIONS = {
       ],
       color: CBC_WARN_COLOR,
     },
-    federalFundingSource: {
-      rules: [
-        {
-          condition: (data) =>
-            (data.funding?.federalFundingRequested > 0 ||
-              data.tombstone?.federalProjectNumber) &&
-            !data.tombstone?.federalFundingSource,
-          error: 'Missing Federal funding source',
-        },
-      ],
-      color: CBC_WARN_COLOR,
-    },
     federalProjectNumber: {
       rules: [
         {
@@ -163,6 +151,17 @@ const CBC_VALIDATIONS = {
             data.funding?.totalProjectBudget,
           error:
             'Total project budget must equal the sum of the funding sources',
+        },
+      ],
+      color: CBC_WARN_COLOR,
+    },
+    federalFundingRequested: {
+      rules: [
+        {
+          condition: (data) =>
+            data.funding?.federalFundingRequested &&
+            !data.tombstone?.federalFundingSource,
+          error: 'Missing Federal funding source',
         },
       ],
       color: CBC_WARN_COLOR,

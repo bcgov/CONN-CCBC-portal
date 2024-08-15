@@ -4,7 +4,11 @@ const cbcTombstone: RJSFSchema = {
   title: 'Tombstone',
   description: '',
   type: 'object',
-  required: ['applicantContractualName', 'currentOperatingName'],
+  required: [
+    'applicantContractualName',
+    'currentOperatingName',
+    'federalFundingSource',
+  ],
   properties: {
     originalProjectNumber: {
       type: 'string',
