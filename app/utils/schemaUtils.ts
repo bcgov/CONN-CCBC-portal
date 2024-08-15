@@ -39,6 +39,7 @@ export const createCbcSchemaData = (jsonData) => {
     return {
       tombstone: null,
       projectType: null,
+      locations: null,
       locationsAndCounts: null,
       funding: null,
       eventsAndDates: null,
@@ -73,6 +74,17 @@ export const createCbcSchemaData = (jsonData) => {
   };
   const locationsAndCounts = {
     projectLocations: jsonData.projectLocations,
+    communitiesAndLocalesCount: jsonData.communitiesAndLocalesCount,
+    indigenousCommunities: jsonData.indigenousCommunities,
+    householdCount: jsonData.householdCount,
+    transportKm: jsonData.transportKm,
+    highwayKm: jsonData.highwayKm,
+    restAreas: jsonData.restAreas,
+  };
+
+  const locations = {
+    projectLocations: jsonData.projectLocations,
+    communitySourceData: jsonData.communitySourceData,
     geographicNames: getDistinctValues(
       jsonData.cbcCommunitiesData,
       'bcGeographicName'
@@ -85,12 +97,6 @@ export const createCbcSchemaData = (jsonData) => {
       jsonData.cbcCommunitiesData,
       'economicRegion'
     ),
-    communitiesAndLocalesCount: jsonData.communitiesAndLocalesCount,
-    indigenousCommunities: jsonData.indigenousCommunities,
-    householdCount: jsonData.householdCount,
-    transportKm: jsonData.transportKm,
-    highwayKm: jsonData.highwayKm,
-    restAreas: jsonData.restAreas,
   };
 
   const funding = {
@@ -132,6 +138,7 @@ export const createCbcSchemaData = (jsonData) => {
   const dataBySection = {
     tombstone,
     projectType,
+    locations,
     locationsAndCounts,
     funding,
     eventsAndDates,

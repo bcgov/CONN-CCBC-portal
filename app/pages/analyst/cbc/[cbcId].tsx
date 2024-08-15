@@ -47,8 +47,17 @@ const getCbcQuery = graphql`
             geographicType
             regionalDistrict
             bcGeographicName
+            rowId
           }
         }
+      }
+    }
+    allCommunitiesSourceData {
+      nodes {
+        rowId
+        bcGeographicName
+        economicRegion
+        regionalDistrict
       }
     }
     session {
@@ -102,6 +111,43 @@ const Cbc = ({
   const [allowEdit, setAllowEdit] = useState(
     isCbcAdmin && editFeatureEnabled && !recordLocked
   );
+
+  const allCommunitiesSourceData = query.allCommunitiesSourceData.nodes;
+
+  const geographicNamesByRegionalDistrict = useMemo(() => {
+    const regionalDistrictGeographicNamesDict = {};
+    allCommunitiesSourceData.forEach((community) => {
+      const { regionalDistrict, bcGeographicName } = community;
+      if (!regionalDistrictGeographicNamesDict[regionalDistrict]) {
+        regionalDistrictGeographicNamesDict[regionalDistrict] = [];
+      }
+      regionalDistrictGeographicNamesDict[regionalDistrict].push(
+        bcGeographicName
+      );
+    });
+    return regionalDistrictGeographicNamesDict;
+  }, [allCommunitiesSourceData]);
+
+  const regionalDistrictsByEconomicRegion = useMemo(() => {
+    const economicRegionRegionalDistrictsDict = {};
+    allCommunitiesSourceData.forEach((community) => {
+      const { economicRegion, regionalDistrict } = community;
+      if (!economicRegionRegionalDistrictsDict[economicRegion]) {
+        economicRegionRegionalDistrictsDict[economicRegion] = [];
+      }
+      economicRegionRegionalDistrictsDict[economicRegion].push(
+        regionalDistrict
+      );
+    });
+    return economicRegionRegionalDistrictsDict;
+  }, [allCommunitiesSourceData]);
+
+  const allEconomicRegions = useMemo(() => {
+    return allCommunitiesSourceData.map(
+      (community) => community.economicRegion
+    );
+  }, [allCommunitiesSourceData]);
+
   useEffect(() => {
     const { cbcByRowId } = query;
     const { cbcDataByCbcId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
@@ -115,6 +161,7 @@ const Cbc = ({
     const {
       tombstone,
       projectType,
+      locations,
       locationsAndCounts,
       funding,
       eventsAndDates,
@@ -128,6 +175,7 @@ const Cbc = ({
     setFormData({
       tombstone,
       projectType,
+      locations,
       locationsAndCounts,
       funding,
       eventsAndDates,
@@ -312,6 +360,9 @@ const Cbc = ({
             errors: formErrors,
             showErrorHint: true,
             recordLocked,
+            geographicNamesByRegionalDistrict,
+            regionalDistrictsByEconomicRegion,
+            economicRegions: allEconomicRegions,
           }}
           formData={formData}
           handleChange={(e) => {
