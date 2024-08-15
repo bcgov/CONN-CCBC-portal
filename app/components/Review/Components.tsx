@@ -35,4 +35,7 @@ interface StyledColErrorProps {
 export const StyledColError = styled(StyledColRight)<StyledColErrorProps>`
   background-color: ${(props) =>
     props?.errorColor ? props.errorColor : props.theme.color.errorBackground};
+  .pg-select-wrapper {
+    background-color: white !important;
+  }
 `;
