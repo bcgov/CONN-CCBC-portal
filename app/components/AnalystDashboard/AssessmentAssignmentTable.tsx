@@ -81,8 +81,8 @@ export const sortStatus = (rowA, rowB, columnId) => {
     columnId === 'analystStatus'
       ? 'internalStatusOrder'
       : 'externalStatusOrder';
-  const statusA = rowA.original?.[sortColumn] as number;
-  const statusB = rowB.original?.[sortColumn] as number;
+  const statusA = (rowA.original?.[sortColumn] as number) ?? 0;
+  const statusB = (rowB.original?.[sortColumn] as number) ?? 0;
 
   return statusA - statusB;
 };
