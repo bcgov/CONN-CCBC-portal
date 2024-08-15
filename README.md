@@ -73,7 +73,7 @@ The defaults can be overridden using a `.env` file placed in the `/app` director
 
 Required dependencies:
 
-- [Node.js 18.16.0](https://nodejs.org/en/download/)
+- [Node.js 20.16.0](https://nodejs.org/en/download/)
 - [yarn classic](https://classic.yarnpkg.com/lang/en/docs/install)
 
 Run the following commands:
