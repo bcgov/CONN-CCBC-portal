@@ -7,7 +7,7 @@ const locationsAndCounts: RJSFSchema = {
   required: [
     'projectLocations',
     'communitiesAndLocalesCount',
-    'householdCount',
+    'indigenousCommunities',
   ],
   properties: {
     communitiesAndLocalesCount: {
