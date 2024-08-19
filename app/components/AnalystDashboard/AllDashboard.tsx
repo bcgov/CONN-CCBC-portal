@@ -399,9 +399,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           : application.node.intakeNumber,
         projectId: application.node.ccbcNumber,
         packageNumber: application.node.package,
-        projectTitle:
-          application.node.applicationSowDataByApplicationId?.nodes[0]?.jsonData
-            ?.projectTitle || application.node.projectName,
+        projectTitle: application.node.projectName,
         isCbcProject: false,
         showLink: true,
       })),
