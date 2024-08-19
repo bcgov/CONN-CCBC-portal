@@ -630,3 +630,5 @@ computed_columns/application_announced 2024-07-24T18:07:20Z ,,, <ryohani89@NH504
 computed_columns/application_history [computed_columns/application_history@1.179.0] 2024-07-31T16:19:17Z ,,, <ryohani89@NH504670> # rework history to fetch application announced history
 @1.180.0 2024-08-01T18:42:47Z CCBC Service Account <ccbc@button.is> # release v1.180.0
 @1.180.1 2024-08-06T22:10:01Z CCBC Service Account <ccbc@button.is> # release v1.180.1
+computed_columns/application_project_name [computed_columns/application_project_name@1.180.0] 2024-08-02T20:45:20Z ,,, <ryohani89@NH504670> # Include project name from sow data
+@1.180.2 2024-08-19T21:51:41Z CCBC Service Account <ccbc@button.is> # release v1.180.2
