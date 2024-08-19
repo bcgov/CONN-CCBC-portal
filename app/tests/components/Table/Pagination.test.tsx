@@ -137,9 +137,13 @@ describe('PaginationBar', () => {
         </tfoot>
       </table>
     );
-    fireEvent.change(screen.getByLabelText(/items per page/i), {
-      target: { value: 50 },
+    const pageSizeSelect = screen.getByRole('combobox', {
+      name: /items per page/i,
     });
+    fireEvent.mouseDown(pageSizeSelect);
+
+    const pageSizeOption = screen.getByRole('option', { name: /50/i });
+    fireEvent.click(pageSizeOption);
 
     expect(handlePageSizeChange).toHaveBeenCalledWith(50);
   });

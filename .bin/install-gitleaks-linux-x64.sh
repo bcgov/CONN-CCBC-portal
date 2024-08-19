@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -xeuo pipefail;
 
-version="8.16.0";
+version="8.18.4";
 releases_api="https://api.github.com/repositories/119190187/releases/tags/v${version}";
 releases_json="$(curl -s ${releases_api})";
 
