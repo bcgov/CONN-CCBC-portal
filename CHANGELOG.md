@@ -1,3 +1,9 @@
+## [1.180.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.3...v1.180.4) (2024-08-19)
+
+### Bug Fixes
+
+- view annoucement link for cbc_admin ([b98eb7d](https://github.com/bcgov/CONN-CCBC-portal/commit/b98eb7d19089eb21056ae94ad762728311a73a68))
+
 ## [1.180.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.2...v1.180.3) (2024-08-19)
 
 ### Bug Fixes
