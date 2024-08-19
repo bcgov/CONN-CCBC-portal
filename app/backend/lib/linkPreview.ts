@@ -37,7 +37,8 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
   const isRoleAuthorized =
     authRole?.pgRole === 'ccbc_admin' ||
     authRole?.pgRole === 'ccbc_analyst' ||
-    authRole?.pgRole === 'super_admin';
+    authRole?.pgRole === 'super_admin' ||
+    authRole?.pgRole === 'cbc_admin';
   if (!isRoleAuthorized) {
     return res.status(404).end();
   }
