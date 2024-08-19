@@ -1,3 +1,9 @@
+## [1.180.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.2...v1.180.3) (2024-08-19)
+
+### Bug Fixes
+
+- email permission issue ([1a77429](https://github.com/bcgov/CONN-CCBC-portal/commit/1a7742960ee352005a65cce6759f4aad4fcde1c5))
+
 ## [1.180.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.1...v1.180.2) (2024-08-19)
 
 ### Bug Fixes
