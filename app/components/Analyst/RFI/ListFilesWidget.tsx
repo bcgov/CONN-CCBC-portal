@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useFeature } from '@growthbook/growthbook-react';
 import { AddButton } from '../Project';
+import TemplateDescription from './TemplateDescription';
 
 const StyledContainer = styled.div`
   margin-bottom: 24px;
@@ -40,10 +41,13 @@ const ListFilesWidget: React.FC<WidgetProps> = ({
   formContext,
   label,
   value,
+  uiSchema,
 }) => {
   const showRfiUpload = useFeature('show_analyst_rfi_upload').value;
   const router = useRouter();
   const isFiles = value?.length > 0;
+  const templateNumber =
+    (uiSchema['ui:options']?.templateNumber as number) ?? null;
 
   const handleDownload = async (uuid: string, fileName: string) => {
     const url = `/api/s3/download/${uuid}/${fileName}`;
@@ -86,6 +90,7 @@ const ListFilesWidget: React.FC<WidgetProps> = ({
           }}
         />
       )}
+      <TemplateDescription templateNumber={templateNumber} />
     </StyledContainer>
   );
 };

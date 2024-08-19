@@ -13,6 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import useModal from 'lib/helpers/useModal';
+import TemplateDescription from 'components/Analyst/RFI/TemplateDescription';
 import { LoadingSpinner } from '../../../components';
 import { StyledDatePicker, getStyles } from '../widgets/DatePickerWidget';
 import GenericModal from '../widgets/GenericModal';
@@ -23,12 +24,23 @@ const StyledContainer = styled.div<{
   margin-top: 8px;
   margin-bottom: 8px;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
   border: 1px solid rgba(0, 0, 0, 0.16);
   border-radius: 4px;
   padding: 16px;
+`;
+
+const StyledInnerContainer = styled.div<{
+  wrap?: boolean;
+}>`
+  display: flex;
+  justify-content: space-between;
   flex-direction: ${({ wrap }) => (wrap ? 'column-reverse' : 'row')};
+`;
+
+const StyledFooterText = styled('div')`
+  width: 100%;
+  font-size: 14px;
+  color: #606060;
 `;
 
 const StyledInputContainer = styled.div<{ useFileDate?: boolean }>`
@@ -152,6 +164,8 @@ interface FileComponentProps {
   maxDate?: Date;
   minDate?: Date;
   allowDragAndDrop?: boolean;
+  templateNumber?: number;
+  showTemplateUploadIndication?: boolean;
 }
 
 const ErrorMessage = ({ error, fileName, fileTypes }) => {
@@ -230,6 +244,8 @@ const FileComponent: React.FC<FileComponentProps> = ({
   maxDate,
   minDate,
   allowDragAndDrop,
+  templateNumber,
+  showTemplateUploadIndication,
 }) => {
   const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
   const isFiles = value?.length > 0;
@@ -318,7 +334,6 @@ const FileComponent: React.FC<FileComponentProps> = ({
         {...fileErrorModal}
       />
       <StyledContainer
-        wrap={wrap}
         className="file-widget"
         style={
           allowDragAndDrop
@@ -327,153 +342,162 @@ const FileComponent: React.FC<FileComponentProps> = ({
         }
         {...(allowDragAndDrop && dropzoneProps)}
       >
-        <StyledDetails>
-          <StyledH4>{label}</StyledH4>
-          {isFiles &&
-            !hideIfFailed &&
-            value.map((file: File) => (
-              <>
-                <StyledFileDiv key={file.uuid}>
-                  <StyledLink
-                    data-testid="file-download-link"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (handleDownload) {
-                        handleDownload(file.uuid, file.name, onError);
-                      }
-                    }}
-                  >
-                    {file.name}
-                  </StyledLink>
-                  <StyledDeleteBtn
-                    data-testid="file-delete-btn"
-                    onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                      e.preventDefault();
-                      if (handleDelete) {
-                        setDropzoneError(null);
-                        handleDelete(file.id);
-                      }
-                    }}
-                    disabled={loading || disabled}
-                  >
-                    <FontAwesomeIcon
-                      width={10}
-                      icon={faTrash}
-                      color="rgb(189, 36, 36)"
-                    />
-                  </StyledDeleteBtn>
-                </StyledFileDiv>
-                {useFileDate && file?.fileDate && (
-                  <StyledDateDiv>
-                    {DateTime.fromISO(file.fileDate).toFormat('MMM dd, yyyy')}
-                  </StyledDateDiv>
-                )}
-              </>
-            ))}
-          <StyledError>{dropzoneError}</StyledError>
-          {errors?.map((fileError: any) => (
-            <ErrorMessage
-              key={`error-${fileError.id}`}
-              fileName={fileError.fileName}
-              error={fileError.error}
-              fileTypes={fileTypes}
-            />
-          ))}
-        </StyledDetails>
-        <StyledDetails>{statusLabel}</StyledDetails>
-        <StyledInputContainer useFileDate={useFileDate}>
-          {useFileDate && (
-            <div style={{ height: '100%' }}>
-              <h4 style={{ marginBottom: '8px' }}>{`${fileDateTitle}`}</h4>
-              <LocalizationProvider
-                localeText={
-                  enUS.components.MuiLocalizationProvider.defaultProps
-                    .localeText
-                }
-                dateAdapter={AdapterDayjs}
-              >
-                <StyledDatePicker
-                  maxDate={maxDate ? dayjs(maxDate) : undefined}
-                  minDate={minDate ? dayjs(minDate) : undefined}
-                  id={id}
-                  sx={getStyles(false)}
-                  disabled={false}
-                  readOnly={false}
-                  onChange={(d: Date | null) => {
-                    const originalDate = new Date(d);
-                    if (
-                      !Number.isNaN(originalDate) &&
-                      originalDate.valueOf() >= 0
-                    ) {
-                      const newDate = originalDate.toISOString().split('T')[0];
-                      setFileDate(newDate);
-                    } else {
-                      setFileDate(null);
-                    }
-                  }}
-                  value={fileDate ? dayjs(fileDate) : null}
-                  defaultValue={null}
-                  slotProps={{
-                    actionBar: {
-                      actions: ['clear', 'cancel'],
-                    },
-                    textField: {
-                      inputProps: {
-                        id,
-                        'data-testid': 'datepicker-widget-input',
-                      },
-                    },
-                  }}
-                  slots={{
-                    openPickerButton: fileDate
-                      ? ClearableIconButton
-                      : undefined,
-                  }}
-                  format="YYYY-MM-DD"
-                />
-              </LocalizationProvider>
-            </div>
-          )}
-          <StyledButtonContainer useFileDate={useFileDate}>
-            <StyledButton
-              addBottomMargin={wrap}
-              id={`${id}-btn`}
-              onClick={(e: React.MouseEvent<HTMLInputElement>) => {
-                e.preventDefault();
-                handleClick();
-              }}
-              variant={buttonVariant}
-              disabled={loading || disabled || (useFileDate && !fileDate)}
-            >
-              {loading ? (
-                <LoadingSpinner color={isSecondary ? '#000000' : '#fff'} />
-              ) : (
-                <StyledButtonDiv>
-                  <span>{buttonLabel()}</span>
-                  {allowDragAndDrop && (
-                    <StyledIconSpan>
-                      <FontAwesomeIcon size="xs" icon={faUpload} />
-                      Drop files (or click to upload)
-                    </StyledIconSpan>
+        <StyledInnerContainer wrap={wrap}>
+          <StyledDetails>
+            <StyledH4>{label}</StyledH4>
+            {isFiles &&
+              !hideIfFailed &&
+              value.map((file: File) => (
+                <>
+                  <StyledFileDiv key={file.uuid}>
+                    <StyledLink
+                      data-testid="file-download-link"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (handleDownload) {
+                          handleDownload(file.uuid, file.name, onError);
+                        }
+                      }}
+                    >
+                      {file.name}
+                    </StyledLink>
+                    <StyledDeleteBtn
+                      data-testid="file-delete-btn"
+                      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                        e.preventDefault();
+                        if (handleDelete) {
+                          setDropzoneError(null);
+                          handleDelete(file.id);
+                        }
+                      }}
+                      disabled={loading || disabled}
+                    >
+                      <FontAwesomeIcon
+                        width={10}
+                        icon={faTrash}
+                        color="rgb(189, 36, 36)"
+                      />
+                    </StyledDeleteBtn>
+                  </StyledFileDiv>
+                  {useFileDate && file?.fileDate && (
+                    <StyledDateDiv>
+                      {DateTime.fromISO(file.fileDate).toFormat('MMM dd, yyyy')}
+                    </StyledDateDiv>
                   )}
-                </StyledButtonDiv>
-              )}
-            </StyledButton>
-          </StyledButtonContainer>
-        </StyledInputContainer>
-        <input
-          data-testid="file-test"
-          ref={hiddenFileInput}
-          onChange={(e) => {
-            onChange(e);
-            // set target to null to allow for reupload of file with same name
-            e.currentTarget.value = null;
-          }}
-          style={{ display: 'none' }}
-          type="file"
-          required={required}
-          accept={fileTypes?.toString()}
-        />
+                </>
+              ))}
+            <StyledError>{dropzoneError}</StyledError>
+            {errors?.map((fileError: any) => (
+              <ErrorMessage
+                key={`error-${fileError.id}`}
+                fileName={fileError.fileName}
+                error={fileError.error}
+                fileTypes={fileTypes}
+              />
+            ))}
+          </StyledDetails>
+          <StyledDetails>{statusLabel}</StyledDetails>
+          <StyledInputContainer useFileDate={useFileDate}>
+            {useFileDate && (
+              <div style={{ height: '100%' }}>
+                <h4 style={{ marginBottom: '8px' }}>{`${fileDateTitle}`}</h4>
+                <LocalizationProvider
+                  localeText={
+                    enUS.components.MuiLocalizationProvider.defaultProps
+                      .localeText
+                  }
+                  dateAdapter={AdapterDayjs}
+                >
+                  <StyledDatePicker
+                    maxDate={maxDate ? dayjs(maxDate) : undefined}
+                    minDate={minDate ? dayjs(minDate) : undefined}
+                    id={id}
+                    sx={getStyles(false)}
+                    disabled={false}
+                    readOnly={false}
+                    onChange={(d: Date | null) => {
+                      const originalDate = new Date(d);
+                      if (
+                        !Number.isNaN(originalDate) &&
+                        originalDate.valueOf() >= 0
+                      ) {
+                        const newDate = originalDate
+                          .toISOString()
+                          .split('T')[0];
+                        setFileDate(newDate);
+                      } else {
+                        setFileDate(null);
+                      }
+                    }}
+                    value={fileDate ? dayjs(fileDate) : null}
+                    defaultValue={null}
+                    slotProps={{
+                      actionBar: {
+                        actions: ['clear', 'cancel'],
+                      },
+                      textField: {
+                        inputProps: {
+                          id,
+                          'data-testid': 'datepicker-widget-input',
+                        },
+                      },
+                    }}
+                    slots={{
+                      openPickerButton: fileDate
+                        ? ClearableIconButton
+                        : undefined,
+                    }}
+                    format="YYYY-MM-DD"
+                  />
+                </LocalizationProvider>
+              </div>
+            )}
+            <StyledButtonContainer useFileDate={useFileDate}>
+              <StyledButton
+                addBottomMargin={wrap}
+                id={`${id}-btn`}
+                onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+                  e.preventDefault();
+                  handleClick();
+                }}
+                variant={buttonVariant}
+                disabled={loading || disabled || (useFileDate && !fileDate)}
+              >
+                {loading ? (
+                  <LoadingSpinner color={isSecondary ? '#000000' : '#fff'} />
+                ) : (
+                  <StyledButtonDiv>
+                    <span>{buttonLabel()}</span>
+                    {allowDragAndDrop && (
+                      <StyledIconSpan>
+                        <FontAwesomeIcon size="xs" icon={faUpload} />
+                        Drop files (or click to upload)
+                      </StyledIconSpan>
+                    )}
+                  </StyledButtonDiv>
+                )}
+              </StyledButton>
+            </StyledButtonContainer>
+          </StyledInputContainer>
+          <input
+            data-testid="file-test"
+            ref={hiddenFileInput}
+            onChange={(e) => {
+              onChange(e);
+              // set target to null to allow for reupload of file with same name
+              e.currentTarget.value = null;
+            }}
+            style={{ display: 'none' }}
+            type="file"
+            required={required}
+            accept={fileTypes?.toString()}
+          />
+        </StyledInnerContainer>
+        {showTemplateUploadIndication && (
+          <StyledFooterText>
+            <TemplateDescription templateNumber={templateNumber} />
+          </StyledFooterText>
+        )}
       </StyledContainer>
     </>
   );

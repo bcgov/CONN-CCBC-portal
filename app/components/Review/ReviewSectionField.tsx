@@ -20,13 +20,14 @@ const ReviewSectionField: React.FC<FieldProps> = (props) => {
     () => Object.keys(errorSchema || {}).length > 0 || !!hasFormContextError,
     [errorSchema, hasFormContextError]
   );
+  const toggledSection = formContext?.toggledSection === pageName;
   const allowAnalystEdit =
     uiOptions?.allowAnalystEdit && (formContext.isEditable ?? true);
   return (
     <Accordion
       id={idSchema.$id}
       name={name}
-      defaultToggled={uiOptions.defaultExpanded || hasErrors}
+      defaultToggled={uiOptions.defaultExpanded || hasErrors || toggledSection}
       toggled={formContext.toggleOverride}
       cbcId={formContext.cbcId}
       isCBC={formContext.isCBC}
