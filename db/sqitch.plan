@@ -635,3 +635,4 @@ computed_columns/application_project_name [computed_columns/application_project_
 @1.180.3 2024-08-19T22:12:14Z CCBC Service Account <ccbc@button.is> # release v1.180.3
 @1.180.4 2024-08-19T22:41:47Z CCBC Service Account <ccbc@button.is> # release v1.180.4
 tables/cbc_add_fk_update_constraint 2024-07-11T20:32:11Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add a foreign key update cascade constraint
+@1.181.0 2024-08-20T20:20:29Z CCBC Service Account <ccbc@button.is> # release v1.181.0
