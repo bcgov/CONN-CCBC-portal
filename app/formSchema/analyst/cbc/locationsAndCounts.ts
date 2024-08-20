@@ -10,10 +10,6 @@ const locationsAndCounts: RJSFSchema = {
     'householdCount',
   ],
   properties: {
-    projectLocations: {
-      type: 'string',
-      title: 'Project Locations',
-    },
     communitiesAndLocalesCount: {
       type: 'number',
       title: 'Communities and locales count',

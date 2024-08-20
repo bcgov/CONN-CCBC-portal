@@ -4,13 +4,6 @@ const locationsAndCountsUiSchema = {
     dividers: true,
   },
   'ui:title': 'Locations and Counts',
-  projectLocations: {
-    'ui:widget': 'TextAreaWidget',
-    'ui:label': 'Project Locations',
-    'ui:options': {
-      maxLength: 1000,
-    },
-  },
   communitiesAndLocalesCount: {
     'ui:widget': 'NumberWidget',
     'ui:label': 'Communities and Locales Count',

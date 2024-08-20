@@ -17,6 +17,7 @@ import useModal from 'lib/helpers/useModal';
 import { ChangeModal } from 'components/Analyst';
 import { useUpdateCbcDataAndInsertChangeRequest } from 'schema/mutations/cbc/updateCbcDataAndInsertChangeReason';
 import { createCbcSchemaData } from 'utils/schemaUtils';
+import ArrayLocationFieldTemplate from 'lib/theme/fields/ArrayLocationDataField';
 import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
 
 const getCbcSectionQuery = graphql`
@@ -45,8 +46,17 @@ const getCbcSectionQuery = graphql`
             geographicType
             regionalDistrict
             bcGeographicName
+            rowId
           }
         }
+      }
+    }
+    allCommunitiesSourceData {
+      nodes {
+        rowId
+        bcGeographicName
+        economicRegion
+        regionalDistrict
       }
     }
     session {
@@ -85,6 +95,50 @@ const EditCbcSection = ({
     changeModal.open();
     setFormData({ ...dataBySection, [section]: e.formData });
   };
+
+  const allCommunitiesSourceData = query.allCommunitiesSourceData.nodes;
+
+  const geographicNamesByRegionalDistrict = useMemo(() => {
+    const regionalDistrictGeographicNamesDict = {};
+    allCommunitiesSourceData.forEach((community) => {
+      const {
+        regionalDistrict,
+        bcGeographicName,
+        rowId: communityRowId,
+      } = community;
+      if (!regionalDistrictGeographicNamesDict[regionalDistrict]) {
+        regionalDistrictGeographicNamesDict[regionalDistrict] = [];
+      }
+      regionalDistrictGeographicNamesDict[regionalDistrict].push({
+        label: bcGeographicName,
+        value: communityRowId,
+      });
+    });
+    return regionalDistrictGeographicNamesDict;
+  }, [allCommunitiesSourceData]);
+
+  const regionalDistrictsByEconomicRegion = useMemo(() => {
+    const economicRegionRegionalDistrictsDict = {};
+    allCommunitiesSourceData.forEach((community) => {
+      const { economicRegion, regionalDistrict } = community;
+      if (!economicRegionRegionalDistrictsDict[economicRegion]) {
+        economicRegionRegionalDistrictsDict[economicRegion] = [];
+      }
+      economicRegionRegionalDistrictsDict[economicRegion].push(
+        regionalDistrict
+      );
+    });
+    return economicRegionRegionalDistrictsDict;
+  }, [allCommunitiesSourceData]);
+
+  const allEconomicRegions = useMemo(() => {
+    return allCommunitiesSourceData.map(
+      (community) => community.economicRegion
+    );
+  }, [allCommunitiesSourceData]);
+
+  const theme = { ...ProjectTheme };
+  theme.templates.ArrayFieldTemplate = ArrayLocationFieldTemplate;
 
   const handleSubmit = () => {
     const {
@@ -155,13 +209,20 @@ const EditCbcSection = ({
         <FormBase
           formData={formData?.[section] || dataBySection[section]}
           schema={review.properties[section] as RJSFSchema}
-          theme={ProjectTheme}
+          theme={theme}
           uiSchema={editUiSchema[section]}
           onSubmit={handleChangeRequestModal}
           noValidate
           noHtml5Validate
           omitExtraData={false}
-          formContext={{ errors: formErrors, showErrorHint: true }}
+          formContext={{
+            allEconomicRegions,
+            regionalDistrictsByEconomicRegion,
+            geographicNamesByRegionalDistrict,
+            allCommunitiesSourceData,
+            errors: formErrors,
+            showErrorHint: true,
+          }}
           onChange={(e) => {
             setFormData({ ...dataBySection, [section]: e.formData });
           }}

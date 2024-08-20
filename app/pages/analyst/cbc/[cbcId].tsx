@@ -117,13 +117,18 @@ const Cbc = ({
   const geographicNamesByRegionalDistrict = useMemo(() => {
     const regionalDistrictGeographicNamesDict = {};
     allCommunitiesSourceData.forEach((community) => {
-      const { regionalDistrict, bcGeographicName } = community;
+      const {
+        regionalDistrict,
+        bcGeographicName,
+        rowId: communityRowId,
+      } = community;
       if (!regionalDistrictGeographicNamesDict[regionalDistrict]) {
         regionalDistrictGeographicNamesDict[regionalDistrict] = [];
       }
-      regionalDistrictGeographicNamesDict[regionalDistrict].push(
-        bcGeographicName
-      );
+      regionalDistrictGeographicNamesDict[regionalDistrict].push({
+        label: bcGeographicName,
+        value: communityRowId,
+      });
     });
     return regionalDistrictGeographicNamesDict;
   }, [allCommunitiesSourceData]);
@@ -148,13 +153,17 @@ const Cbc = ({
     );
   }, [allCommunitiesSourceData]);
 
-  useEffect(() => {
-    const { cbcByRowId } = query;
-    const { cbcDataByCbcId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
-    const { edges } = cbcDataByCbcId;
-    const cbcCommunitiesData = cbcProjectCommunitiesByCbcId.nodes?.map(
+  const cbcCommunitiesData = useMemo(() => {
+    return query.cbcByRowId.cbcProjectCommunitiesByCbcId.nodes?.map(
       (node) => node.communitiesSourceDataByCommunitiesSourceDataId
     );
+  }, [query]);
+
+  useEffect(() => {
+    const { cbcByRowId } = query;
+    const { cbcDataByCbcId } = cbcByRowId;
+
+    const { edges } = cbcDataByCbcId;
     const cbcData = edges[0].node;
     const { jsonData } = cbcData;
 
@@ -185,6 +194,7 @@ const Cbc = ({
     setBaseFormData({
       tombstone,
       projectType,
+      locations,
       locationsAndCounts,
       funding,
       eventsAndDates,
@@ -195,7 +205,7 @@ const Cbc = ({
     setAllowEdit(
       isCbcAdmin && editFeatureEnabled && !projectDataReviews?.locked
     );
-  }, [query, isCbcAdmin, editFeatureEnabled]);
+  }, [query, isCbcAdmin, editFeatureEnabled, cbcCommunitiesData]);
 
   const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
 
@@ -363,6 +373,8 @@ const Cbc = ({
             geographicNamesByRegionalDistrict,
             regionalDistrictsByEconomicRegion,
             economicRegions: allEconomicRegions,
+            cbcCommunitiesData:
+              query.cbcByRowId.cbcProjectCommunitiesByCbcId.nodes,
           }}
           formData={formData}
           handleChange={(e) => {

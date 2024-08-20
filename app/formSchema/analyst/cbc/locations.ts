@@ -24,24 +24,10 @@ const locations: RJSFSchema = {
     },
     communitySourceData: {
       type: 'array',
-      default: [{}],
+      default: [],
       items: {
-        type: 'object',
-        required: ['geographicName', 'regionalDistrict', 'economicRegion'],
-        properties: {
-          geographicName: {
-            type: 'string',
-            title: 'Geographic Name',
-          },
-          regionalDistrict: {
-            type: 'string',
-            title: 'Regional District',
-          },
-          economicRegion: {
-            type: 'string',
-            title: 'Economic Region',
-          },
-        },
+        type: 'integer',
+        enum: [],
       },
     },
   },

@@ -8,16 +8,19 @@ const locationsUiSchema = {
     'ui:label': 'Project Locations',
   },
   geographicNames: {
-    type: 'string',
-    title: 'Geographic Names',
+    'ui:widget': 'TextAreaWidget',
+    'ui:label': 'Geographic Names',
   },
   regionalDistricts: {
-    type: 'string',
-    title: 'Regional Districts',
+    'ui:widget': 'TextAreaWidget',
+    'ui:label': 'Regional Districts',
   },
   economicRegions: {
-    type: 'string',
-    title: 'Economic Regions',
+    'ui:widget': 'TextAreaWidget',
+    'ui:label': 'Economic Regions',
+  },
+  communitySourceData: {
+    'ui:hidden': true,
   },
 };
 

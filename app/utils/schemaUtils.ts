@@ -73,7 +73,6 @@ export const createCbcSchemaData = (jsonData) => {
     connectedCoastNetworkDependant: jsonData.connectedCoastNetworkDependant,
   };
   const locationsAndCounts = {
-    projectLocations: jsonData.projectLocations,
     communitiesAndLocalesCount: jsonData.communitiesAndLocalesCount,
     indigenousCommunities: jsonData.indigenousCommunities,
     householdCount: jsonData.householdCount,
@@ -84,7 +83,7 @@ export const createCbcSchemaData = (jsonData) => {
 
   const locations = {
     projectLocations: jsonData.projectLocations,
-    communitySourceData: jsonData.communitySourceData,
+    communitySourceData: [{}, ...jsonData.cbcCommunitiesData],
     geographicNames: getDistinctValues(
       jsonData.cbcCommunitiesData,
       'bcGeographicName'

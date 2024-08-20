@@ -6,7 +6,7 @@ import fundingUiSchema from './fundingUiSchema';
 import eventsAndDatesUiSchema from './eventsAndDatesUiSchema';
 import miscellaneousUiSchema from './miscellaneousUiSchema';
 import projectDataReviewsUiSchema from './projectDataReviewsUiSchema';
-import locationsUiSchema from './locationsUiSchema';
+import editLocationsUiSchema from './editLocationsUiSchema';
 
 const editUiSchema = {
   'ui:title': 'CBC Edit',
@@ -24,7 +24,7 @@ const editUiSchema = {
   },
   locations: {
     'ui:title': 'Locations',
-    ...locationsUiSchema,
+    ...editLocationsUiSchema,
   },
   funding: {
     'ui:title': 'Funding',
