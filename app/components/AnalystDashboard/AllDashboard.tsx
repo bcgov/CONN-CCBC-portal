@@ -394,7 +394,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     return [
       ...allApplications.edges.map((application) => ({
         ...application.node,
-        intakeNumber: application.node.ccbcNumber.includes('000074')
+        intakeNumber: application?.node?.ccbcNumber?.includes('000074')
           ? ''
           : application.node.intakeNumber,
         projectId: application.node.ccbcNumber,
@@ -410,7 +410,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             program: 'CBC',
             zones: [],
             intakeNumber: project.node.jsonData?.intake || 'N/A',
-            projectId: project.node.jsonData.projectNumber,
+            projectId: project.node.projectNumber,
             internalStatus: null,
             externalStatus: project.node.jsonData.projectStatus
               ? cbcProjectStatusConverter(project.node.jsonData.projectStatus)

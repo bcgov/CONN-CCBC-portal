@@ -1,3 +1,9 @@
+# [1.181.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.4...v1.181.0) (2024-08-20)
+
+### Features
+
+- edit cbc project number, use current operating name ([341b68f](https://github.com/bcgov/CONN-CCBC-portal/commit/341b68f0876a96cf1526f1985fe7884e51a55c72))
+
 ## [1.180.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.3...v1.180.4) (2024-08-19)
 
 ### Bug Fixes
