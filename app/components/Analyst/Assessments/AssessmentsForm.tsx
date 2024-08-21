@@ -9,6 +9,7 @@ import { useCreateAssessmentMutation } from 'schema/mutations/assessment/createA
 import assessmentsUiSchema from 'formSchema/uiSchema/analyst/assessmentsUiSchema';
 import { RJSFSchema } from '@rjsf/utils';
 import * as Sentry from '@sentry/nextjs';
+import { useToast } from 'components/AppProvider';
 
 interface Props {
   addedContext?: any;
@@ -34,6 +35,12 @@ const StyledFormBase = styled(FormBase)`
   }
 `;
 
+const StyledNotifyButton = styled(Button)`
+  svg {
+    height: 18px;
+  }
+`;
+
 const AssessmentsForm: React.FC<Props> = ({
   addedContext,
   formData,
@@ -52,9 +59,14 @@ const AssessmentsForm: React.FC<Props> = ({
     query.applicationByRowId
   );
 
+  const { showToast, hideToast } = useToast();
+
   const [createAssessment, isCreating] = useCreateAssessmentMutation();
   const [newFormData, setNewFormData] = useState(formData);
   const [isFormSaved, setIsFormSaved] = useState(true);
+  const [emailStatus, setEmailStatus] = useState<
+    'idle' | 'inProgress' | 'sent'
+  >('idle');
 
   const handleSubmit = async (e: IChangeEvent<any>) => {
     if (!isFormSaved) {
@@ -69,31 +81,6 @@ const AssessmentsForm: React.FC<Props> = ({
         },
         onCompleted: () => {
           setIsFormSaved(true);
-          if (
-            e.formData?.nextStep === 'Needs 2nd review' &&
-            e.formData?.nextStep !== formData?.nextStep
-          ) {
-            fetch('/api/email/notifySecondReviewRequest', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                applicationId: queryFragment.rowId,
-                host: window.location.origin,
-                ccbcNumber: addedContext?.ccbcNumber,
-                assessmentType: slug,
-              }),
-            }).then((response) => {
-              if (!response.ok) {
-                Sentry.captureException({
-                  name: 'Email sending failed',
-                  message: response,
-                });
-              }
-              return response.json();
-            });
-          }
         },
         optimisticResponse: {
           jsonData: e.formData,
@@ -106,6 +93,42 @@ const AssessmentsForm: React.FC<Props> = ({
             { _assessmentDataType: slug }
           );
         },
+      });
+    }
+  };
+
+  const notifyByEmail = async () => {
+    hideToast();
+    if (newFormData?.nextStep === 'Needs 2nd review') {
+      setEmailStatus('inProgress');
+      fetch('/api/email/notifySecondReviewRequest', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          applicationId: queryFragment.rowId,
+          host: window.location.origin,
+          ccbcNumber: addedContext?.ccbcNumber,
+          assessmentType: slug,
+        }),
+      }).then((response) => {
+        if (!response.ok) {
+          showToast(
+            'Email notification did not work, please try again',
+            'error',
+            1000
+          );
+          Sentry.captureException({
+            name: 'Email sending failed',
+            message: response,
+          });
+          setEmailStatus('idle');
+        } else {
+          showToast('Email notification sent successfully', 'success', 1000);
+          setEmailStatus('sent');
+        }
+        return response.json();
       });
     }
   };
@@ -130,6 +153,17 @@ const AssessmentsForm: React.FC<Props> = ({
       <Button variant="primary" disabled={isCreating}>
         {!isFormSaved ? 'Save' : 'Saved'}
       </Button>
+      &nbsp;
+      <StyledNotifyButton
+        variant="primary"
+        disabled={
+          newFormData?.nextStep !== 'Needs 2nd review' || emailStatus !== 'idle'
+        }
+        title="Email notification of 2nd review needed will be sent to Mike and Karina"
+        onClick={notifyByEmail}
+      >
+        {emailStatus === 'inProgress' && <LoadingSpinner />} Notify by email
+      </StyledNotifyButton>
       {isCreating && <LoadingSpinner />}
     </StyledFormBase>
   );

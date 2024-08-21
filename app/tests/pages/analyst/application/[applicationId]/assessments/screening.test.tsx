@@ -184,14 +184,22 @@ describe('The index page', () => {
     });
   });
 
-  it('Trigger email only when Next Step is Needs 2nd Review once save successful', async () => {
+  it('Trigger email when notify by email button clicked', async () => {
     global.fetch = jest.fn().mockResolvedValue({ ok: true, json: jest.fn() });
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
+    const notifyByEmailButton = screen.getByRole('button', {
+      name: 'Notify by email',
+    });
+
+    expect(notifyByEmailButton).toBeDisabled();
+
     await userEvent.click(screen.getByLabelText('Needs 2nd review'));
 
-    await userEvent.click(screen.getByRole('button', { name: 'Save' }));
+    expect(notifyByEmailButton).toBeEnabled();
+
+    await userEvent.click(notifyByEmailButton);
 
     pageTestingHelper.expectMutationToBeCalled('createAssessmentMutation', {
       input: {
@@ -225,6 +233,69 @@ describe('The index page', () => {
     });
 
     expect(global.fetch).toHaveBeenCalled();
+
+    expect(
+      screen.getByText('Email notification sent successfully')
+    ).toBeVisible();
+
+    expect(notifyByEmailButton).toBeDisabled();
+  });
+
+  it('shows a toast when email notification fails', async () => {
+    global.fetch = jest.fn().mockResolvedValue({ ok: false, json: jest.fn() });
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const notifyByEmailButton = screen.getByRole('button', {
+      name: 'Notify by email',
+    });
+
+    expect(notifyByEmailButton).toBeDisabled();
+
+    await userEvent.click(screen.getByLabelText('Needs 2nd review'));
+
+    expect(notifyByEmailButton).toBeEnabled();
+
+    await userEvent.click(notifyByEmailButton);
+
+    pageTestingHelper.expectMutationToBeCalled('createAssessmentMutation', {
+      input: {
+        _applicationId: 1,
+        _jsonData: {
+          nextStep: 'Needs 2nd review',
+          decision: 'No decision',
+          contestingMap: [],
+        },
+        _assessmentType: 'screening',
+      },
+      connections: [],
+    });
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAssessmentForm: {
+            assessmentData: {
+              id: 'WyJhc3Nlc3NtZW50X2RhdGEiLDIxXQ==',
+              rowId: 1,
+              jsonData: {
+                nextStep: 'Needs 2nd review',
+                decision: 'No decision',
+                contestingMap: [],
+              },
+            },
+          },
+        },
+      });
+    });
+
+    expect(global.fetch).toHaveBeenCalled();
+
+    expect(
+      screen.getByText('Email notification did not work, please try again')
+    ).toBeVisible();
+
+    expect(notifyByEmailButton).toBeEnabled();
   });
 
   it('Displays unavailable Assigned To value for lead', () => {
