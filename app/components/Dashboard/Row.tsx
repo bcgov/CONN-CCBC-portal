@@ -62,9 +62,6 @@ const Row = ({ application, onWithdraw, onDelete, schema }) => {
     status === 'applicant_conditionally_approved';
   const isDraft = application.status === 'draft';
   const isEditable = formData.isEditable && status !== 'withdrawn';
-  const projectTitle =
-    application.applicationSowDataByApplicationId?.nodes[0]?.jsonData
-      ?.projectTitle || projectName;
 
   const getApplicationUrl = () => {
     if (isWithdrawn) {
@@ -89,7 +86,7 @@ const Row = ({ application, onWithdraw, onDelete, schema }) => {
       <StyledTableCell width="10%">
         {intakeByIntakeId?.ccbcIntakeNumber}
       </StyledTableCell>
-      <StyledTableCell>{projectTitle}</StyledTableCell>
+      <StyledTableCell>{projectName}</StyledTableCell>
       <StyledTableCell>
         <StatusPill styles={statusStyles} status={status} />
       </StyledTableCell>

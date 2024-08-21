@@ -160,6 +160,7 @@ const mockQueryPayload = {
                 conditionalApprovalLetterSent: 'YES',
                 agreementSigned: 'YES',
               },
+              projectNumber: 5555,
             },
           },
           {
@@ -209,6 +210,7 @@ const mockQueryPayload = {
                 conditionalApprovalLetterSent: 'YES',
                 agreementSigned: 'YES',
               },
+              projectNumber: 4444,
             },
           },
           {
@@ -258,6 +260,7 @@ const mockQueryPayload = {
                 conditionalApprovalLetterSent: 'YES',
                 agreementSigned: 'YES',
               },
+              projectNumber: 3333,
             },
           },
         ],
