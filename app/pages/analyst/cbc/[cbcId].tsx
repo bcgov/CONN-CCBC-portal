@@ -104,6 +104,16 @@ const Cbc = ({
   const { rowId } = query.cbcByRowId;
   const [formData, setFormData] = useState({} as any);
   const [baseFormData, setBaseFormData] = useState({} as any);
+  const [addedCommunities, setAddedCommunities] = useState([]);
+  const [removedCommunities, setRemovedCommunities] = useState([]);
+
+  const addCommunity = (communityId) => {
+    setAddedCommunities((prevList) => [...prevList, communityId]);
+  };
+
+  const removeCommunity = (communityId) => {
+    setRemovedCommunities((prevList) => [...prevList, communityId]);
+  };
 
   const changeModal = useModal();
 
@@ -123,9 +133,9 @@ const Cbc = ({
         rowId: communityRowId,
       } = community;
       if (!regionalDistrictGeographicNamesDict[regionalDistrict]) {
-        regionalDistrictGeographicNamesDict[regionalDistrict] = [];
+        regionalDistrictGeographicNamesDict[regionalDistrict] = new Set();
       }
-      regionalDistrictGeographicNamesDict[regionalDistrict].push({
+      regionalDistrictGeographicNamesDict[regionalDistrict].add({
         label: bcGeographicName,
         value: communityRowId,
       });
@@ -138,19 +148,21 @@ const Cbc = ({
     allCommunitiesSourceData.forEach((community) => {
       const { economicRegion, regionalDistrict } = community;
       if (!economicRegionRegionalDistrictsDict[economicRegion]) {
-        economicRegionRegionalDistrictsDict[economicRegion] = [];
+        economicRegionRegionalDistrictsDict[economicRegion] = new Set();
       }
-      economicRegionRegionalDistrictsDict[economicRegion].push(
-        regionalDistrict
-      );
+      economicRegionRegionalDistrictsDict[economicRegion].add(regionalDistrict);
     });
+
     return economicRegionRegionalDistrictsDict;
   }, [allCommunitiesSourceData]);
 
   const allEconomicRegions = useMemo(() => {
-    return allCommunitiesSourceData.map(
-      (community) => community.economicRegion
-    );
+    const economicRegionsSet = new Set();
+    allCommunitiesSourceData.forEach((community) => {
+      const { economicRegion } = community;
+      economicRegionsSet.add(economicRegion);
+    });
+    return [...economicRegionsSet];
   }, [allCommunitiesSourceData]);
 
   const cbcCommunitiesData = useMemo(() => {
@@ -375,6 +387,8 @@ const Cbc = ({
             economicRegions: allEconomicRegions,
             cbcCommunitiesData:
               query.cbcByRowId.cbcProjectCommunitiesByCbcId.nodes,
+            addCommunitySource: addCommunity,
+            deleteCommunitySource: removeCommunity,
           }}
           formData={formData}
           handleChange={(e) => {

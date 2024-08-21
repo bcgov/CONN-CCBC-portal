@@ -107,9 +107,9 @@ const EditCbcSection = ({
         rowId: communityRowId,
       } = community;
       if (!regionalDistrictGeographicNamesDict[regionalDistrict]) {
-        regionalDistrictGeographicNamesDict[regionalDistrict] = [];
+        regionalDistrictGeographicNamesDict[regionalDistrict] = new Set();
       }
-      regionalDistrictGeographicNamesDict[regionalDistrict].push({
+      regionalDistrictGeographicNamesDict[regionalDistrict].add({
         label: bcGeographicName,
         value: communityRowId,
       });
@@ -118,23 +118,24 @@ const EditCbcSection = ({
   }, [allCommunitiesSourceData]);
 
   const regionalDistrictsByEconomicRegion = useMemo(() => {
-    const economicRegionRegionalDistrictsDict = {};
+    const districtByEconomicRegionDict = {};
     allCommunitiesSourceData.forEach((community) => {
       const { economicRegion, regionalDistrict } = community;
-      if (!economicRegionRegionalDistrictsDict[economicRegion]) {
-        economicRegionRegionalDistrictsDict[economicRegion] = [];
+      if (!districtByEconomicRegionDict[economicRegion]) {
+        districtByEconomicRegionDict[economicRegion] = new Set();
       }
-      economicRegionRegionalDistrictsDict[economicRegion].push(
-        regionalDistrict
-      );
+      districtByEconomicRegionDict[economicRegion].add(regionalDistrict);
     });
-    return economicRegionRegionalDistrictsDict;
+    return districtByEconomicRegionDict;
   }, [allCommunitiesSourceData]);
 
   const allEconomicRegions = useMemo(() => {
-    return allCommunitiesSourceData.map(
-      (community) => community.economicRegion
-    );
+    const economicRegionsSet = new Set();
+    allCommunitiesSourceData.forEach((community) => {
+      const { economicRegion } = community;
+      economicRegionsSet.add(economicRegion);
+    });
+    return [...economicRegionsSet];
   }, [allCommunitiesSourceData]);
 
   const theme = { ...ProjectTheme };
@@ -216,7 +217,7 @@ const EditCbcSection = ({
           noHtml5Validate
           omitExtraData={false}
           formContext={{
-            allEconomicRegions,
+            economicRegions: allEconomicRegions,
             regionalDistrictsByEconomicRegion,
             geographicNamesByRegionalDistrict,
             allCommunitiesSourceData,

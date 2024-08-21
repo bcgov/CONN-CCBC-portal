@@ -646,3 +646,4 @@ tables/cbc_add_fk_update_constraint 2024-07-11T20:32:11Z Rafael Solorzano <61289
 @1.184.1 2024-08-26T19:57:58Z CCBC Service Account <ccbc@button.is> # release v1.184.1
 @1.184.2 2024-08-26T20:34:36Z CCBC Service Account <ccbc@button.is> # release v1.184.2
 @1.185.0 2024-08-26T22:26:30Z CCBC Service Account <ccbc@button.is> # release v1.185.0
+mutations/edit_cbc_project_communities 2024-08-21T15:16:56Z Anthony Bushara <anthony@button.is> # Add and delete project communities to a cbc project

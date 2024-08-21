@@ -8,13 +8,16 @@ const locationsUiSchema = {
     'ui:label': 'Project Locations',
   },
   geographicNames: {
-    'ui:widget': 'hidden',
+    'ui:hidden': true,
+    'ui:widget': 'HiddenWidget',
   },
   regionalDistricts: {
-    'ui:widget': 'hidden',
+    'ui:hidden': true,
+    'ui:widget': 'HiddenWidget',
   },
   economicRegions: {
-    'ui:widget': 'hidden',
+    'ui:hidden': true,
+    'ui:widget': 'HiddenWidget',
   },
   communitySourceData: {
     'ui:field': 'ArrayLocationDataField',
