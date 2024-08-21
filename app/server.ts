@@ -11,6 +11,7 @@ import * as Sentry from '@sentry/nextjs';
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 import morgan from 'morgan';
 import reporting from './backend/lib/reporting/reporting';
+import validation from './backend/lib/validation';
 import email from './backend/lib/emails/email';
 import linkPreview from './backend/lib/linkPreview';
 import readinessTest from './backend/lib/readinessTests';
@@ -143,6 +144,7 @@ app.prepare().then(async () => {
   server.use('/', templateUpload);
   server.use('/', email);
   server.use('/', reporting);
+  server.use('/', validation);
 
   server.all('*', async (req, res) => handle(req, res));
 
