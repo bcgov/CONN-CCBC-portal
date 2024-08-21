@@ -1,7 +1,5 @@
 import React from 'react';
-import PaginationUnstyled from '@mui/base/TablePaginationUnstyled';
-import { Dropdown, Button } from '@button-inc/bcgov-theme';
-import styled from 'styled-components';
+import { IconButtonProps, TablePagination } from '@mui/material';
 
 interface Props {
   /**
@@ -25,48 +23,11 @@ export const DEFAULT_PAGE_SIZE = 20;
 
 const PAGE_SIZE_OPTIONS = [20, 50, 100];
 
-const paginationComponents = {
-  select: Dropdown,
-  toolbar: styled.div`
-    display: flex;
-    font-size: 0.8rem;
-    justify-content: flex-end;
-    align-items: baseline;
-    & > * {
-      margin-right: 0.5rem;
-    }
-  `,
-};
-
-const actionButtonProps = {
-  variant: 'secondary',
+const actionButtonProps: IconButtonProps = {
   size: 'small',
   style: {
     padding: '0.33rem 0.50rem',
     marginRight: '0.2rem',
-  },
-};
-
-const paginationComponentsProps = {
-  actions: {
-    components: {
-      FirstButton: Button,
-      LastButton: Button,
-      NextButton: Button,
-      BackButton: Button,
-    },
-    componentsProps: {
-      firstButton: actionButtonProps,
-      lastButton: actionButtonProps,
-      nextButton: actionButtonProps,
-      backButton: actionButtonProps,
-    },
-    showFirstButton: true,
-    showLastButton: true,
-  },
-  select: {
-    size: 'small',
-    style: { width: '3.5rem' },
   },
 };
 
@@ -96,17 +57,29 @@ const FilterableTablePagination: React.FunctionComponent<Props> = ({
       aria-disabled={disabled}
       className={disabled ? 'disabled' : ''}
     >
-      <PaginationUnstyled
-        component="div"
-        count={totalCount}
-        page={activePage}
-        rowsPerPage={pageSize}
+      <TablePagination
         rowsPerPageOptions={PAGE_SIZE_OPTIONS}
+        colSpan={3}
+        count={totalCount}
+        rowsPerPage={pageSize}
+        page={activePage}
+        labelRowsPerPage="Items per page:"
+        showFirstButton
+        showLastButton
+        slotProps={{
+          select: {
+            size: 'small',
+            style: { width: '3.5rem' },
+          },
+          actions: {
+            firstButton: actionButtonProps,
+            lastButton: actionButtonProps,
+            nextButton: actionButtonProps,
+            previousButton: actionButtonProps,
+          },
+        }}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handlePageSizeChange}
-        labelRowsPerPage="Items per page:"
-        slots={paginationComponents}
-        slotProps={paginationComponentsProps as any}
       />
     </td>
   );

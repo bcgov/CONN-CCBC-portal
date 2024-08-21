@@ -1,4 +1,4 @@
-nodejs 18.19.0
+nodejs 20.16.0
 yarn 1.22.18
 kubectl 1.21.6
 postgres 14.1
