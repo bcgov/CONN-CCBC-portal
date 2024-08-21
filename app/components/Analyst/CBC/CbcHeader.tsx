@@ -4,6 +4,7 @@ import CbcChangeStatus from './CbcChangeStatus';
 import PendingChangeRequest from '../PendingChangeRequest/PendingChangeRequest';
 import CbcEditProjectDescription from './CbcEditProjectDescription';
 import CbcAssignProjectType from './CbcAssignProjectType';
+import CbcEditProjectNumber from './CbcEditProjectNumber';
 
 const StyledCallout = styled.div`
   margin-bottom: 0.5em;
@@ -86,6 +87,7 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditable = false }) => {
           ...PendingChangeRequest_query_cbc
           ...CbcEditProjectDescription_query
           ...CbcAssignProjectType_query
+          ...CbcEditProjectNumber_query
         }
         session {
           sub
@@ -97,8 +99,8 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditable = false }) => {
   );
 
   const { cbcByRowId } = queryFragment;
-  const { projectNumber, cbcDataByCbcId } = cbcByRowId;
-
+  const { cbcDataByCbcId } = cbcByRowId;
+  const { projectNumber } = cbcByRowId;
   const { edges } = cbcDataByCbcId;
   const cbcData = edges[0].node;
   const { jsonData } = cbcData;
@@ -107,9 +109,14 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditable = false }) => {
   return (
     <StyledCallout>
       <StyledProjectInfo>
-        <StyledH2>{projectNumber}</StyledH2>
+        {/* <StyledH2>{projectNumber}</StyledH2> */}
+        <CbcEditProjectNumber
+          cbc={cbcByRowId}
+          value={projectNumber}
+          isHeaderEditable={isFormEditable}
+        />
         <StyledH1>{jsonData.projectTitle}</StyledH1>
-        <StyledH2>{jsonData.applicantContractualName}</StyledH2>
+        <StyledH2>{jsonData.currentOperatingName}</StyledH2>
         <CbcEditProjectDescription
           cbc={cbcByRowId}
           isHeaderEditable={isFormEditable}
