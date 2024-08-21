@@ -5,7 +5,7 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
   const { items, onAddClick, canAdd, formContext } = props;
 
   const deleteCommunitySource = formContext?.deleteCommunitySource as Function;
-  const addCommunitySource = formContext?.addCommunitySource as Function;
+  // const addCommunitySource = formContext?.addCommunitySource as Function;
 
   return (
     <>
