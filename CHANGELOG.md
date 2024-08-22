@@ -1,3 +1,25 @@
+## [1.182.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.1...v1.182.2) (2024-08-22)
+
+### Bug Fixes
+
+- clear reason for change on cbc quick edit ([6baba06](https://github.com/bcgov/CONN-CCBC-portal/commit/6baba06ce71ca9b605989f3f63ddb8cd6eefda20))
+
+## [1.182.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.0...v1.182.1) (2024-08-22)
+
+# [1.182.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.2...v1.182.0) (2024-08-22)
+
+### Features
+
+- add project page timeout for excel upload ([ba9e9b5](https://github.com/bcgov/CONN-CCBC-portal/commit/ba9e9b5e5f6d40095d29ef2a860b1d7678fadf40))
+
+## [1.181.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.1...v1.181.2) (2024-08-22)
+
+## [1.181.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.0...v1.181.1) (2024-08-22)
+
+### Bug Fixes
+
+- sort order for status ccbc and cbc combined ([2cef172](https://github.com/bcgov/CONN-CCBC-portal/commit/2cef172553b1fb832d28409d245167b6ddc76419))
+
 # [1.181.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.4...v1.181.0) (2024-08-20)
 
 ### Features

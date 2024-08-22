@@ -13,6 +13,7 @@ import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { Alert } from '@button-inc/bcgov-theme';
+import parse from 'html-react-parser';
 
 const StyledAlert = styled(Alert)`
   margin-bottom: 8px;
@@ -94,7 +95,6 @@ export const displayExcelUploadErrors = (err) => {
     error: errorMessage,
     filename = 'Statement of Work',
   } = err;
-
   let title = `An unknown error has occured while validating the ${filename} data`;
   if (errorType?.includes('tab')) {
     title = `There was an error importing the ${filename} data at ${errorType}`;
@@ -112,6 +112,9 @@ export const displayExcelUploadErrors = (err) => {
   }
   if (errorType === 'claimNumber') {
     title = `A Claim & Progress Report already exists with this claim number. Data were not imported.`;
+  }
+  if (errorType === 'timeout') {
+    title = `The upload of ${filename} timed out. Please try again later.`;
   }
   // for cell level errors
   if (typeof errorMessage !== 'string') {
@@ -139,7 +142,7 @@ export const displayExcelUploadErrors = (err) => {
       content={
         <>
           <div> {title}</div>
-          <div>{errorMessage}</div>
+          <div>{parse(errorMessage)}</div>
         </>
       }
     />

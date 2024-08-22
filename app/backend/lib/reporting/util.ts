@@ -126,7 +126,7 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
       if (item?.value !== item2?.value) {
         return {
           ...item,
-          color: '#3F5986',
+          color: '#2FA7DD',
         };
       }
 
