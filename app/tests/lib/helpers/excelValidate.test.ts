@@ -26,6 +26,20 @@ describe('excelValidateGenerator', () => {
     expect(mockSetExcelFile).toHaveBeenCalledWith(mockFile);
   });
 
+  test('should fail when the operation takes too long', async () => {
+    global.fetch = jest.fn().mockRejectedValue(new Error('Timeout'));
+    const mockFile = new File(['test'], 'test.txt');
+    const validate = excelValidateGenerator(
+      mockApiPath,
+      mockSetExcelFile,
+      mockSetExcelValidationErrors
+    );
+
+    await validate(mockFile);
+
+    expect(mockSetExcelFile).toHaveBeenCalledWith(mockFile);
+  });
+
   test('should call setExcelValidationErrors with an empty array', async () => {
     const mockFile = new File(['test'], 'test.txt');
     const validate = excelValidateGenerator(

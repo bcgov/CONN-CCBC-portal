@@ -1,3 +1,9 @@
+# [1.182.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.2...v1.182.0) (2024-08-22)
+
+### Features
+
+- add project page timeout for excel upload ([ba9e9b5](https://github.com/bcgov/CONN-CCBC-portal/commit/ba9e9b5e5f6d40095d29ef2a860b1d7678fadf40))
+
 ## [1.181.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.1...v1.181.2) (2024-08-22)
 
 ## [1.181.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.0...v1.181.1) (2024-08-22)
