@@ -47,6 +47,7 @@ const getCbcSectionQuery = graphql`
             geographicType
             regionalDistrict
             bcGeographicName
+            rowId
           }
         }
       }
@@ -83,11 +84,6 @@ const EditCbcSection = ({
   const { cbcDataByCbcId, rowId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
   const { jsonData, rowId: cbcDataRowId } = cbcDataByCbcId.edges[0].node;
 
-  // const dataBySection = createCbcSchemaData({
-  //   ...jsonData,
-  //   cbcCommunitiesData,
-  // });
-
   useEffect(() => {
     const cbcCommunitiesData =
       cbcProjectCommunitiesByCbcId.nodes?.map(
@@ -108,7 +104,6 @@ const EditCbcSection = ({
   };
 
   const removeCommunity = (communityId) => {
-    console.log(communityId);
     setRemovedCommunities((prevList) => [...prevList, communityId]);
     const indexOfRemovedCommunity =
       dataBySection.locations.communitySourceData.findIndex(
@@ -141,7 +136,9 @@ const EditCbcSection = ({
         ...formPayload,
         communitySourceData: [
           {},
-          ...communitySourceArray.slice(0, communitySourceArrayLength - 1),
+          // setRowId to make widget readonly
+          { ...communitySourceArray[0], rowId: true },
+          ...communitySourceArray.slice(1, communitySourceArrayLength - 1),
         ],
       };
     }

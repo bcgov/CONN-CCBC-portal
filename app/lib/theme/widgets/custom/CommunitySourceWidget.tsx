@@ -19,6 +19,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
   const { value, formContext, onChange } = props;
 
   const {
+    rowId,
     bcGeographicName,
     economicRegion,
     regionalDistrict,
@@ -57,6 +58,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
   return (
     <StyledDiv>
       <Autocomplete
+        readOnly={!!rowId}
         onChange={(e, val, reason) => {
           if (reason === 'clear') {
             clearWidget();
@@ -75,6 +77,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
       />
 
       <Autocomplete
+        readOnly={!!rowId}
         style={{ width: '300px' }}
         onChange={(e, val, reason) => {
           if (reason === 'clear') {
@@ -98,6 +101,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
       />
 
       <Autocomplete
+        readOnly={!!rowId}
         style={{ width: '300px' }}
         renderInput={(params) => (
           <TextField {...params} label="Geographic Name" />

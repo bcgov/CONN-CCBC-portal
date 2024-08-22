@@ -48,6 +48,7 @@ const getCbcQuery = graphql`
             geographicType
             regionalDistrict
             bcGeographicName
+            rowId
           }
         }
       }
@@ -161,7 +162,9 @@ const Cbc = ({
           ...formPayload.locations,
           communitySourceData: [
             {},
-            ...communitySourceArray.slice(0, communitySourceArrayLength - 1),
+            // done to ensure that the added piece is now readonly
+            { ...communitySourceArray[0], rowId: true },
+            ...communitySourceArray.slice(1, communitySourceArrayLength - 1),
           ],
         },
       };
