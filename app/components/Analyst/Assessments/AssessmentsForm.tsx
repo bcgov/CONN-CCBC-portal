@@ -117,7 +117,7 @@ const AssessmentsForm: React.FC<Props> = ({
           showToast(
             'Email notification did not work, please try again',
             'error',
-            1000
+            5000
           );
           Sentry.captureException({
             name: 'Email sending failed',
@@ -125,7 +125,7 @@ const AssessmentsForm: React.FC<Props> = ({
           });
           setEmailStatus('idle');
         } else {
-          showToast('Email notification sent successfully', 'success', 1000);
+          showToast('Email notification sent successfully', 'success', 5000);
           setEmailStatus('sent');
         }
         return response.json();
