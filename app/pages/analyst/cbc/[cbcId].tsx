@@ -152,6 +152,7 @@ const Cbc = ({
   const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
 
   const handleChangeRequestModal = () => {
+    setChangeReason(null);
     changeModal.open();
   };
 
