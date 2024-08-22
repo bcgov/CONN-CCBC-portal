@@ -205,6 +205,7 @@ jobs:
       AWS_S3_BACKUPS_BUCKET: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
       RECOVERY_OPENSHIFT_TOKEN: ${{ secrets.RECOVERY_OPENSHIFT_TOKEN }}
       RECOVERY_APP_NAMESPACE: ${{ secrets.RECOVERY_APP_NAMESPACE }}
+      RECOVERY_S3_BUCKET: ${{ secrets.RECOVERY_S3_BUCKET }}
 
   deploy-feature:
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
