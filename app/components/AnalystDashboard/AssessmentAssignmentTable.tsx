@@ -76,6 +76,17 @@ export const filterZones = (row, id, filterValue) => {
   return zones.some((zone) => parseInt(zone, 10) === parseInt(filterValue, 10));
 };
 
+export const sortStatus = (rowA, rowB, columnId) => {
+  const sortColumn =
+    columnId === 'analystStatus'
+      ? 'internalStatusOrder'
+      : 'externalStatusOrder';
+  const statusA = (rowA.original?.[sortColumn] as number) ?? 0;
+  const statusB = (rowB.original?.[sortColumn] as number) ?? 0;
+
+  return statusA - statusB;
+};
+
 export const sortZones = (rowA, rowB, columnId) => {
   const valueA = rowA.getValue(columnId) as Array<string>;
   const valueB = rowB.getValue(columnId) as Array<string>;
