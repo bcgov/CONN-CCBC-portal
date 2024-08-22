@@ -67,7 +67,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
             setSelectedEconomicRegion(val);
           }
         }}
-        style={{ width: '300px' }}
+        style={{ width: '200px' }}
         value={selectedEconomicRegion}
         options={economicRegionOptions}
         getOptionLabel={(option) => option}
@@ -78,7 +78,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
 
       <Autocomplete
         readOnly={!!rowId}
-        style={{ width: '300px' }}
+        style={{ width: '200px' }}
         onChange={(e, val, reason) => {
           if (reason === 'clear') {
             setSelectedRegionalDistrict(null);
@@ -102,7 +102,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
 
       <Autocomplete
         readOnly={!!rowId}
-        style={{ width: '300px' }}
+        style={{ width: '200px' }}
         renderInput={(params) => (
           <TextField {...params} label="Geographic Name" />
         )}

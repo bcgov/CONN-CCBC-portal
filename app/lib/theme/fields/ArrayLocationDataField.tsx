@@ -2,11 +2,13 @@ import { ArrayFieldTemplateProps } from '@rjsf/utils';
 import React from 'react';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  gap: 6px;
   align-items: center;
 `;
 
@@ -53,12 +55,18 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
                 )}
               </StyledDiv>
 
-              <hr style={{ borderTop: 'dotted 1px' }} />
+              <hr
+                style={{
+                  borderTop: 'grey dashed 1px',
+                  marginTop: '19px',
+                  backgroundColor: 'white',
+                }}
+              />
             </div>
           ) : (
             <StyledDiv>
               {element.children}
-              <StyledButton
+              <button
                 type="button"
                 onClick={() => {
                   // get the value of the community source id
@@ -71,8 +79,12 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
                   element.onDropIndexClick(element.index);
                 }}
               >
-                Remove
-              </StyledButton>
+                <FontAwesomeIcon
+                  width={10}
+                  icon={faTrash}
+                  color="rgb(189, 36, 36)"
+                />
+              </button>
             </StyledDiv>
           )}
         </div>
