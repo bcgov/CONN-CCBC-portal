@@ -1,5 +1,5 @@
 import { WidgetProps } from '@rjsf/utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import { TextField } from '@mui/material';
 import styled from 'styled-components';
@@ -16,13 +16,13 @@ const StyledDiv = styled.div`
 `;
 
 const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
-  const { value, formContext } = props;
+  const { value, formContext, onChange } = props;
 
   const {
     bcGeographicName,
     economicRegion,
     regionalDistrict,
-    rowId: comSourceId,
+    geographicNameId,
   } = value ?? {};
   const [selectedEconomicRegion, setSelectedEconomicRegion] = useState<
     string | null
@@ -31,9 +31,24 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
     string | null
   >(regionalDistrict);
   const [selectedGeographicName, setSelectedGeographicName] = useState({
-    value: comSourceId,
+    value: geographicNameId,
     label: bcGeographicName,
   });
+
+  useEffect(() => {
+    setSelectedEconomicRegion(economicRegion);
+    setSelectedRegionalDistrict(regionalDistrict);
+    setSelectedGeographicName({
+      value: geographicNameId,
+      label: bcGeographicName,
+    });
+  }, [geographicNameId, bcGeographicName, economicRegion, regionalDistrict]);
+
+  const clearWidget = () => {
+    setSelectedEconomicRegion(null);
+    setSelectedRegionalDistrict(null);
+    setSelectedGeographicName({ value: null, label: '' });
+  };
 
   const economicRegionOptions = formContext.economicRegions;
   const regionalDistrictOptions = formContext.regionalDistrictsByEconomicRegion;
@@ -42,32 +57,35 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
   return (
     <StyledDiv>
       <Autocomplete
-        onChange={(e, val) => {
+        onChange={(e, val, reason) => {
+          if (reason === 'clear') {
+            clearWidget();
+          }
           if (e) {
             setSelectedEconomicRegion(val);
           }
         }}
         style={{ width: '300px' }}
-        value={economicRegion}
+        value={selectedEconomicRegion}
         options={economicRegionOptions}
         getOptionLabel={(option) => option}
         renderInput={(params) => (
-          <TextField
-            {...params}
-            // sx={styles}
-            label="Economic Region"
-          />
+          <TextField {...params} label="Economic Region" />
         )}
       />
 
       <Autocomplete
-        value={regionalDistrict}
         style={{ width: '300px' }}
-        onChange={(e, val) => {
+        onChange={(e, val, reason) => {
+          if (reason === 'clear') {
+            setSelectedRegionalDistrict(null);
+            setSelectedGeographicName({ value: null, label: '' });
+          }
           if (e) {
             setSelectedRegionalDistrict(val);
           }
         }}
+        value={selectedRegionalDistrict}
         options={
           regionalDistrictOptions[selectedEconomicRegion]
             ? [...regionalDistrictOptions[selectedEconomicRegion]]
@@ -75,17 +93,12 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
         }
         getOptionLabel={(option) => option}
         renderInput={(params) => (
-          <TextField
-            {...params}
-            // sx={styles}
-            label="Regional District"
-          />
+          <TextField {...params} label="Regional District" />
         )}
       />
 
       <Autocomplete
         style={{ width: '300px' }}
-        value={selectedGeographicName}
         renderInput={(params) => (
           <TextField {...params} label="Geographic Name" />
         )}
@@ -95,14 +108,25 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
             : []
         }
         isOptionEqualToValue={(option, val) => {
-          return option.value === val;
+          return option.value === val.value;
         }}
         getOptionLabel={(option) => {
           return option.label;
         }}
-        onChange={(e, val) => {
+        value={selectedGeographicName}
+        onChange={(e, val, reason) => {
+          if (reason === 'clear') {
+            setSelectedGeographicName({ value: null, label: '' });
+            return;
+          }
           if (e) {
             setSelectedGeographicName(val);
+            onChange({
+              bcGeographicName: val.label,
+              economicRegion: selectedEconomicRegion,
+              regionalDistrict: selectedRegionalDistrict,
+              geographicNameId: val.value,
+            });
           }
         }}
       />

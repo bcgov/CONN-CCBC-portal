@@ -7,6 +7,10 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
   const deleteCommunitySource = formContext?.deleteCommunitySource as Function;
   // const addCommunitySource = formContext?.addCommunitySource as Function;
 
+  // const handleAddClick = () => {
+  //   const newItems = items.map()
+  // }
+
   return (
     <>
       {items.map((element, index) => (
@@ -36,7 +40,9 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
                 type="button"
                 onClick={() => {
                   // get the value of the community source id
-                  const comSourceId = element.children.props.formData.rowId;
+                  const comSourceId =
+                    element.children.props.formData.geographicNameId;
+                  console.log(element.children.props.formData);
                   if (deleteCommunitySource) {
                     // function to delete source
                     deleteCommunitySource(comSourceId);

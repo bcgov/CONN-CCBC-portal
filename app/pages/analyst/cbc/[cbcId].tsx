@@ -9,7 +9,7 @@ import CbcForm from 'components/Analyst/CBC/CbcForm';
 import { ChangeModal } from 'components/Analyst';
 import styled from 'styled-components';
 import ReviewTheme from 'components/Review/ReviewTheme';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useUpdateCbcDataAndInsertChangeRequest } from 'schema/mutations/cbc/updateCbcDataAndInsertChangeReason';
 import review from 'formSchema/analyst/cbc/review';
 import reviewUiSchema from 'formSchema/uiSchema/cbc/reviewUiSchema';
@@ -20,6 +20,7 @@ import { createCbcSchemaData } from 'utils/schemaUtils';
 import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
 import CbcRecordLock from 'components/Analyst/CBC/CbcRecordLock';
 import useModal from 'lib/helpers/useModal';
+import { useUpdateCbcCommunityDataMutationMutation } from 'schema/mutations/cbc/updateCbcCommunityData';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -39,7 +40,7 @@ const getCbcQuery = graphql`
           }
         }
       }
-      cbcProjectCommunitiesByCbcId {
+      cbcProjectCommunitiesByCbcId(filter: { archivedAt: { isNull: true } }) {
         nodes {
           communitiesSourceDataByCommunitiesSourceDataId {
             economicRegion
@@ -47,14 +48,13 @@ const getCbcQuery = graphql`
             geographicType
             regionalDistrict
             bcGeographicName
-            rowId
           }
         }
       }
     }
     allCommunitiesSourceData {
       nodes {
-        rowId
+        geographicNameId
         bcGeographicName
         economicRegion
         regionalDistrict
@@ -104,8 +104,8 @@ const Cbc = ({
   const { rowId } = query.cbcByRowId;
   const [formData, setFormData] = useState({} as any);
   const [baseFormData, setBaseFormData] = useState({} as any);
-  const [, setAddedCommunities] = useState([]);
-  const [, setRemovedCommunities] = useState([]);
+  const [addedCommunities, setAddedCommunities] = useState([]);
+  const [removedCommunities, setRemovedCommunities] = useState([]);
 
   const addCommunity = (communityId) => {
     setAddedCommunities((prevList) => [...prevList, communityId]);
@@ -113,6 +113,57 @@ const Cbc = ({
 
   const removeCommunity = (communityId) => {
     setRemovedCommunities((prevList) => [...prevList, communityId]);
+    const indexOfRemovedCommunity =
+      formData.locations.communitySourceData.findIndex(
+        (community) => community.geographicNameId === communityId
+      );
+    setFormData({
+      ...formData,
+      locations: {
+        ...formData.locations,
+        communitySourceData: [
+          ...formData.locations.communitySourceData.slice(
+            0,
+            indexOfRemovedCommunity
+          ),
+          ...formData.locations.communitySourceData.slice(
+            indexOfRemovedCommunity + 1
+          ),
+        ],
+      },
+    });
+  };
+
+  const handleAddClick = (formPayload) => {
+    const communitySourceArray = formPayload.locations
+      .communitySourceData as Array<any>;
+    const communitySourceArrayLength =
+      formPayload.locations.communitySourceData.length;
+    if (communitySourceArray[communitySourceArrayLength - 1] === undefined) {
+      console.log({
+        ...formPayload,
+        locations: {
+          ...formPayload.locations,
+          communitySourceData: [
+            {},
+            ...communitySourceArray.slice(0, communitySourceArrayLength - 1),
+          ],
+        },
+      });
+      if (communitySourceArray[0])
+        addCommunity(communitySourceArray[0].geographicNameId);
+      return {
+        ...formPayload,
+        locations: {
+          ...formPayload.locations,
+          communitySourceData: [
+            {},
+            ...communitySourceArray.slice(0, communitySourceArrayLength - 1),
+          ],
+        },
+      };
+    }
+    return formPayload;
   };
 
   const changeModal = useModal();
@@ -127,17 +178,14 @@ const Cbc = ({
   const geographicNamesByRegionalDistrict = useMemo(() => {
     const regionalDistrictGeographicNamesDict = {};
     allCommunitiesSourceData.forEach((community) => {
-      const {
-        regionalDistrict,
-        bcGeographicName,
-        rowId: communityRowId,
-      } = community;
+      const { regionalDistrict, bcGeographicName, geographicNameId } =
+        community;
       if (!regionalDistrictGeographicNamesDict[regionalDistrict]) {
         regionalDistrictGeographicNamesDict[regionalDistrict] = new Set();
       }
       regionalDistrictGeographicNamesDict[regionalDistrict].add({
         label: bcGeographicName,
-        value: communityRowId,
+        value: geographicNameId,
       });
     });
     return regionalDistrictGeographicNamesDict;
@@ -220,11 +268,36 @@ const Cbc = ({
   }, [query, isCbcAdmin, editFeatureEnabled, cbcCommunitiesData]);
 
   const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
+  const [updateCbcCommunitySourceData] =
+    useUpdateCbcCommunityDataMutationMutation();
 
   const handleChangeRequestModal = () => {
     setChangeReason(null);
     changeModal.open();
   };
+
+  const handleUpdateCommunitySource = useCallback(() => {
+    console.log(addedCommunities, removedCommunities);
+    updateCbcCommunitySourceData({
+      variables: {
+        input: {
+          _projectId: query?.cbcByRowId?.cbcDataByCbcId?.edges[0].node.rowId,
+          _communityIdsToAdd: addedCommunities,
+          _communityIdsToArchive: removedCommunities,
+        },
+      },
+      debounceKey: 'cbc_update_community_source_data',
+      onCompleted: () => {
+        setAddedCommunities([]);
+        setRemovedCommunities([]);
+      },
+    });
+  }, [
+    addedCommunities,
+    removedCommunities,
+    updateCbcCommunitySourceData,
+    query,
+  ]);
 
   const handleSubmit = () => {
     const {
@@ -261,6 +334,7 @@ const Cbc = ({
       onCompleted: () => {
         setEditMode(false);
         changeModal.close();
+        handleUpdateCommunitySource();
         setAllowEdit(isCbcAdmin && editFeatureEnabled);
       },
     });
@@ -392,7 +466,7 @@ const Cbc = ({
           }}
           formData={formData}
           handleChange={(e) => {
-            setFormData({ ...e.formData });
+            setFormData(handleAddClick(e.formData));
           }}
           hiddenSubmitRef={hiddenSubmitRef}
           isExpanded

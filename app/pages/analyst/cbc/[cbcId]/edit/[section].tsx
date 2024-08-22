@@ -46,14 +46,13 @@ const getCbcSectionQuery = graphql`
             geographicType
             regionalDistrict
             bcGeographicName
-            rowId
           }
         }
       }
     }
     allCommunitiesSourceData {
       nodes {
-        rowId
+        geographicNameId
         bcGeographicName
         economicRegion
         regionalDistrict
@@ -101,17 +100,14 @@ const EditCbcSection = ({
   const geographicNamesByRegionalDistrict = useMemo(() => {
     const regionalDistrictGeographicNamesDict = {};
     allCommunitiesSourceData.forEach((community) => {
-      const {
-        regionalDistrict,
-        bcGeographicName,
-        rowId: communityRowId,
-      } = community;
+      const { regionalDistrict, bcGeographicName, geographicNameId } =
+        community;
       if (!regionalDistrictGeographicNamesDict[regionalDistrict]) {
         regionalDistrictGeographicNamesDict[regionalDistrict] = new Set();
       }
       regionalDistrictGeographicNamesDict[regionalDistrict].add({
         label: bcGeographicName,
-        value: communityRowId,
+        value: geographicNameId,
       });
     });
     return regionalDistrictGeographicNamesDict;
