@@ -1,11 +1,19 @@
 import { ArrayFieldTemplateProps } from '@rjsf/utils';
 import React from 'react';
 import styled from 'styled-components';
+import Button from '@button-inc/bcgov-theme/Button';
 
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
+`;
+
+const StyledButton = styled(Button)`
+  height: 40px;
+  padding: 5px;
+  margin: 2px;
 `;
 
 const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
@@ -31,12 +39,16 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
                 {element.children}
                 {canAdd && (
                   <>
-                    <button type="button" onClick={onAddClick}>
+                    <StyledButton type="button" onClick={onAddClick}>
                       Add
-                    </button>
-                    <button type="button" onClick={handleClearTopCommunity}>
+                    </StyledButton>
+                    <StyledButton
+                      type="button"
+                      variant="secondary"
+                      onClick={handleClearTopCommunity}
+                    >
                       Clear
-                    </button>
+                    </StyledButton>
                   </>
                 )}
               </StyledDiv>
@@ -46,7 +58,7 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
           ) : (
             <StyledDiv>
               {element.children}
-              <button
+              <StyledButton
                 type="button"
                 onClick={() => {
                   // get the value of the community source id
@@ -60,7 +72,7 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
                 }}
               >
                 Remove
-              </button>
+              </StyledButton>
             </StyledDiv>
           )}
         </div>
