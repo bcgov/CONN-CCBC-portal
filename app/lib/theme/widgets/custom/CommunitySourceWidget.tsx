@@ -111,7 +111,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
           return option.value === val.value;
         }}
         getOptionLabel={(option) => {
-          return option.label;
+          return option.label ?? '';
         }}
         value={selectedGeographicName}
         onChange={(e, val, reason) => {

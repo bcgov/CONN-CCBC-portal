@@ -1,15 +1,25 @@
 import { ArrayFieldTemplateProps } from '@rjsf/utils';
 import React from 'react';
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
 const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
   const { items, onAddClick, canAdd, formContext } = props;
 
   const deleteCommunitySource = formContext?.deleteCommunitySource as Function;
-  // const addCommunitySource = formContext?.addCommunitySource as Function;
-
-  // const handleAddClick = () => {
-  //   const newItems = items.map()
-  // }
+  const handleClearTopCommunity = () => {
+    if (
+      formContext?.handleClearTopCommunity &&
+      formContext?.handleClearTopCommunity instanceof Function
+    ) {
+      formContext?.handleClearTopCommunity();
+    }
+  };
 
   return (
     <>
@@ -17,24 +27,24 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
         <div key={element.key}>
           {index === 0 ? (
             <div>
-              <div>
+              <StyledDiv>
                 {element.children}
                 {canAdd && (
-                  <button
-                    type="button"
-                    onClick={(event) => {
-                      onAddClick(event);
-                    }}
-                  >
-                    Add
-                  </button>
+                  <>
+                    <button type="button" onClick={onAddClick}>
+                      Add
+                    </button>
+                    <button type="button" onClick={handleClearTopCommunity}>
+                      Clear
+                    </button>
+                  </>
                 )}
-              </div>
+              </StyledDiv>
 
               <hr style={{ borderTop: 'dotted 1px' }} />
             </div>
           ) : (
-            <div>
+            <StyledDiv>
               {element.children}
               <button
                 type="button"
@@ -42,7 +52,6 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
                   // get the value of the community source id
                   const comSourceId =
                     element.children.props.formData.geographicNameId;
-                  console.log(element.children.props.formData);
                   if (deleteCommunitySource) {
                     // function to delete source
                     deleteCommunitySource(comSourceId);
@@ -52,7 +61,7 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
               >
                 Remove
               </button>
-            </div>
+            </StyledDiv>
           )}
         </div>
       ))}

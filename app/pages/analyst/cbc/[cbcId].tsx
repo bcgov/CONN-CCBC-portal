@@ -107,6 +107,19 @@ const Cbc = ({
   const [addedCommunities, setAddedCommunities] = useState([]);
   const [removedCommunities, setRemovedCommunities] = useState([]);
 
+  const handleClearTopCommunity = useCallback(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      locations: {
+        ...prevFormData.locations,
+        communitySourceData: [
+          {},
+          ...prevFormData.locations.communitySourceData.slice(1),
+        ],
+      },
+    }));
+  }, [setFormData]);
+
   const addCommunity = (communityId) => {
     setAddedCommunities((prevList) => [...prevList, communityId]);
   };
@@ -138,18 +151,8 @@ const Cbc = ({
     const communitySourceArray = formPayload.locations
       .communitySourceData as Array<any>;
     const communitySourceArrayLength =
-      formPayload.locations.communitySourceData.length;
+      formPayload.locations.communitySourceData?.length;
     if (communitySourceArray[communitySourceArrayLength - 1] === undefined) {
-      console.log({
-        ...formPayload,
-        locations: {
-          ...formPayload.locations,
-          communitySourceData: [
-            {},
-            ...communitySourceArray.slice(0, communitySourceArrayLength - 1),
-          ],
-        },
-      });
       if (communitySourceArray[0])
         addCommunity(communitySourceArray[0].geographicNameId);
       return {
@@ -277,7 +280,6 @@ const Cbc = ({
   };
 
   const handleUpdateCommunitySource = useCallback(() => {
-    console.log(addedCommunities, removedCommunities);
     updateCbcCommunitySourceData({
       variables: {
         input: {
@@ -314,6 +316,7 @@ const Cbc = ({
             jsonData: {
               ...formData.tombstone,
               ...formData.projectType,
+              ...formData.locations,
               ...updatedLocationsAndCounts,
               ...formData.funding,
               ...formData.eventsAndDates,
@@ -463,6 +466,7 @@ const Cbc = ({
               query.cbcByRowId.cbcProjectCommunitiesByCbcId.nodes,
             addCommunitySource: addCommunity,
             deleteCommunitySource: removeCommunity,
+            handleClearTopCommunity,
           }}
           formData={formData}
           handleChange={(e) => {
