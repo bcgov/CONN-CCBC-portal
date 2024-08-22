@@ -26,13 +26,6 @@ resources:
       cpu: 100m
       memory: '256Mi'
 
-db:
-  postMigrationCommand: |
-    sqitch --chdir mocks_schema deploy;
-    for file in data/dev/*.sql; do
-      psql -v "ON_ERROR_STOP=1" -f "${file}";
-    done;
-
 crunchy-postgres:
   instances:
     replicas: 1
