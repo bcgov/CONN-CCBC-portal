@@ -23,7 +23,11 @@ import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
 import { TableCellProps } from '@mui/material';
 import { useFeature } from '@growthbook/growthbook-react';
-import { filterZones, sortZones } from './AssessmentAssignmentTable';
+import {
+  filterZones,
+  sortStatus,
+  sortZones,
+} from './AssessmentAssignmentTable';
 import AdditionalFilters, {
   additionalFilterColumns,
 } from './AdditionalFilters';
@@ -49,15 +53,16 @@ export const filterNumber = (row, id, filterValue) => {
   return numericProperty === Number(filterValue);
 };
 
+// matching the status with `applicant statuses` since cbc only has external status
 const cbcProjectStatusConverter = (status) => {
   if (status === 'Conditionally Approved') {
-    return 'conditionally_approved';
+    return 'applicant_conditionally_approved';
   }
   if (status === 'Reporting Complete') {
     return 'complete';
   }
   if (status === 'Agreement Signed') {
-    return 'approved';
+    return 'applicant_approved';
   }
   if (status === 'Withdrawn') {
     return 'withdrawn';
@@ -163,6 +168,12 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     graphql`
       fragment AllDashboardTable_query on Query {
         ...AssignLead_query
+        allApplicationStatusTypes {
+          nodes {
+            name
+            statusOrder
+          }
+        }
         allApplications(
           first: 1000
           filter: { archivedAt: { isNull: true } }
@@ -228,7 +239,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     },
     [queryFragment]
   );
-  const { allApplications, allCbcData } = queryFragment;
+  const { allApplications, allCbcData, allApplicationStatusTypes } =
+    queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
   const [isFirstRender, setIsFirstRender] = useState(true);
@@ -262,6 +274,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     projectTitle: 150,
     zones: 91,
   });
+
+  const statusOrderMap = useMemo(() => {
+    return allApplicationStatusTypes?.nodes?.reduce((acc, status) => {
+      acc[status.name] = status.statusOrder;
+      return acc;
+    }, {});
+  }, [allApplicationStatusTypes?.nodes]);
 
   useEffect(() => {
     const sortingSession = cookie.get('mrt_sorting_application');
@@ -402,6 +421,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         projectTitle: application.node.projectName,
         isCbcProject: false,
         showLink: true,
+        externalStatusOrder: statusOrderMap[application.node.externalStatus],
+        internalStatusOrder: statusOrderMap[application.node.analystStatus],
       })),
       ...(showCbcProjects
         ? allCbcData.edges.map((project) => ({
@@ -415,6 +436,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             externalStatus: project.node.jsonData.projectStatus
               ? cbcProjectStatusConverter(project.node.jsonData.projectStatus)
               : null,
+            externalStatusOrder: project.node.jsonData.projectStatus
+              ? statusOrderMap[
+                  cbcProjectStatusConverter(project.node.jsonData.projectStatus)
+                ]
+              : null,
             packageNumber: null,
             organizationName:
               project.node.jsonData.currentOperatingName || null,
@@ -424,7 +450,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           })) ?? []
         : []),
     ];
-  }, [allApplications, allCbcData, showCbcProjects, showCbcProjectsLink]);
+  }, [
+    allApplications.edges,
+    allCbcData.edges,
+    showCbcProjects,
+    showCbcProjectsLink,
+    statusOrderMap,
+  ]);
 
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
     const uniqueIntakeNumbers = [
@@ -499,6 +531,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         filterVariant: 'multi-select',
         filterFn: statusFilter,
         filterSelectOptions: analystStatuses,
+        sortingFn: sortStatus,
       },
       {
         accessorKey: 'externalStatus',
@@ -507,6 +540,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         filterVariant: 'multi-select',
         filterFn: statusFilter,
         filterSelectOptions: externalStatuses,
+        sortingFn: sortStatus,
       },
       {
         accessorKey: 'projectTitle',
