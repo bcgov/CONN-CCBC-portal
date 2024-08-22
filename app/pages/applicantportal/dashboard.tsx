@@ -48,17 +48,6 @@ const getDashboardQuery = graphql`
           rfi {
             rowId
           }
-          applicationSowDataByApplicationId(
-            condition: { isAmendment: false }
-            last: 1
-          ) {
-            totalCount
-            nodes {
-              id
-              jsonData
-              rowId
-            }
-          }
         }
       }
     }
