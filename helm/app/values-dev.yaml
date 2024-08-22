@@ -41,7 +41,7 @@ crunchy-postgres:
   limits:
     cpu: 500m
   dataSource:
-    enabled: false
+    enabled: true
     secretName: s3-pgbackrest
     repo:
       name: repo2
