@@ -311,6 +311,7 @@ const Cbc = ({
       economicRegions,
       ...updatedLocationsAndCounts
     } = formData.locationsAndCounts;
+    const { projectLocations } = formData.locations;
     updateFormData({
       variables: {
         inputCbcData: {
@@ -319,7 +320,7 @@ const Cbc = ({
             jsonData: {
               ...formData.tombstone,
               ...formData.projectType,
-              ...formData.locations,
+              projectLocations,
               ...updatedLocationsAndCounts,
               ...formData.funding,
               ...formData.eventsAndDates,
@@ -495,6 +496,8 @@ const Cbc = ({
           setChangeReason(null);
           setFormData(baseFormData);
           setEditMode(false);
+          setAddedCommunities([]);
+          setRemovedCommunities([]);
           changeModal.close();
         }}
         value={changeReason}

@@ -231,6 +231,7 @@ const EditCbcSection = ({
       economicRegions,
       ...updatedLocationsAndCounts
     } = formData.locationsAndCounts;
+    const { projectLocations } = formData.locations;
     updateFormData({
       variables: {
         inputCbcData: {
@@ -239,6 +240,7 @@ const EditCbcSection = ({
             jsonData: {
               ...formData.tombstone,
               ...formData.projectType,
+              projectLocations,
               ...updatedLocationsAndCounts,
               ...formData.funding,
               ...formData.eventsAndDates,

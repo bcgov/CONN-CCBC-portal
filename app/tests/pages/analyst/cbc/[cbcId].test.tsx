@@ -91,6 +91,7 @@ const mockQueryPayload = {
                 geographicType: 'Geographic Type 1',
                 regionalDistrict: 'Regional District 1',
                 bcGeographicName: 'BC Geographic Name 1',
+                rowId: 1,
               },
             },
             {
@@ -100,6 +101,7 @@ const mockQueryPayload = {
                 geographicType: 'Geographic Type 2',
                 regionalDistrict: 'Regional District 2',
                 bcGeographicName: 'BC Geographic Name 2',
+                rowId: 2,
               },
             },
             {
@@ -109,6 +111,7 @@ const mockQueryPayload = {
                 geographicType: 'Geographic Type 2',
                 regionalDistrict: 'Regional District 1',
                 bcGeographicName: 'BC Geographic Name 3',
+                rowId: 3,
               },
             },
           ],
@@ -205,7 +208,8 @@ describe('Cbc', () => {
 
     expect(screen.getByText('Tombstone')).toBeInTheDocument();
     expect(screen.getByText('Project type')).toBeInTheDocument();
-    expect(screen.getByText('Locations and counts')).toBeInTheDocument();
+    expect(screen.getByText('Locations')).toBeInTheDocument();
+    expect(screen.getByText('Counts')).toBeInTheDocument();
     expect(screen.getByText('Funding')).toBeInTheDocument();
     expect(screen.getByText('Events and dates')).toBeInTheDocument();
     expect(screen.getByText('Miscellaneous')).toBeInTheDocument();
