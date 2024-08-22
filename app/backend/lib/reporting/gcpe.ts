@@ -11,6 +11,7 @@ import {
   findPrimaryAnnouncement,
   findPrimaryAnnouncementDate,
   findSecondaryAnnouncement,
+  getConnectedCoastDependent,
   getHouseholdCount,
   getTotalProjectBudget,
   handleProjectType,
@@ -100,6 +101,17 @@ const getCcbcQuery = `
                 jsonData
               }
               totalCount
+            }
+            applicationAnnouncedsByApplicationId(last: 1, condition: {archivedAt: null}) {
+              nodes {
+                announced
+              }
+            }
+            assessmentDataByApplicationId(condition: {archivedAt: null}) {
+              nodes {
+                assessmentDataType
+                jsonData
+              }
             }
             ccbcNumber
             externalStatus
@@ -295,10 +307,9 @@ const generateExcelData = async (
       { value: 'CCBC' },
       // announced by province
       {
-        value:
-          node?.applicationAnnouncementsByApplicationId.totalCount > 0
-            ? 'YES'
-            : 'NO',
+        value: node?.applicationAnnouncedsByApplicationId?.nodes[0]?.announced
+          ? 'YES'
+          : 'NO',
       },
       // change request pending
       {
@@ -418,7 +429,9 @@ const generateExcelData = async (
       // rest areas
       { value: null },
       // connected coast network dependent
-      { value: null },
+      {
+        value: getConnectedCoastDependent(node?.assessmentDataByApplicationId),
+      },
       // proposed start date
       { value: node?.formData?.jsonData?.projectPlan?.projectStartDate },
       // date conditionally approved

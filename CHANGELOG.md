@@ -1,3 +1,9 @@
+# [1.183.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.2...v1.183.0) (2024-08-22)
+
+### Features
+
+- add ccbc connected coast and announced to gcpe report ([86bfd62](https://github.com/bcgov/CONN-CCBC-portal/commit/86bfd62f15af5901c63d0df1b6e4af116214dbfe))
+
 ## [1.182.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.1...v1.182.2) (2024-08-22)
 
 ### Bug Fixes
