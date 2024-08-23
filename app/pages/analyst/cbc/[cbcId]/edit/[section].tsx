@@ -179,7 +179,7 @@ const EditCbcSection = ({
     addedCommunities,
     removedCommunities,
     updateCbcCommunitySourceData,
-    query,
+    rowId,
   ]);
 
   const handleChangeRequestModal = (e) => {

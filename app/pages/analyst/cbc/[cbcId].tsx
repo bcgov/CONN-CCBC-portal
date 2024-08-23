@@ -46,6 +46,7 @@ const getCbcQuery = graphql`
         }
       }
       cbcProjectCommunitiesByCbcId(filter: { archivedAt: { isNull: true } }) {
+        __id
         nodes {
           communitiesSourceDataByCommunitiesSourceDataId {
             economicRegion
@@ -112,6 +113,7 @@ const Cbc = ({
   const [baseFormData, setBaseFormData] = useState({} as any);
   const [addedCommunities, setAddedCommunities] = useState([]);
   const [removedCommunities, setRemovedCommunities] = useState([]);
+  const [responseCommunityData, setResponseCommunityData] = useState([]);
 
   const handleClearTopCommunity = useCallback(() => {
     setFormData((prevFormData) => ({
@@ -199,10 +201,11 @@ const Cbc = ({
   }, [allCommunitiesSourceData]);
 
   const cbcCommunitiesData = useMemo(() => {
+    if (responseCommunityData.length > 0) return responseCommunityData;
     return query.cbcByRowId.cbcProjectCommunitiesByCbcId.nodes?.map(
       (node) => node.communitiesSourceDataByCommunitiesSourceDataId
     );
-  }, [query]);
+  }, [query, responseCommunityData]);
 
   useEffect(() => {
     const { cbcByRowId } = query;
@@ -271,9 +274,14 @@ const Cbc = ({
         },
       },
       debounceKey: 'cbc_update_community_source_data',
-      onCompleted: () => {
+      onCompleted: (response) => {
         setAddedCommunities([]);
         setRemovedCommunities([]);
+        setResponseCommunityData(
+          response.editCbcProjectCommunities.cbcProjectCommunities.map(
+            (proj) => proj.communitiesSourceDataByCommunitiesSourceDataId
+          )
+        );
       },
     });
   }, [
@@ -281,6 +289,7 @@ const Cbc = ({
     removedCommunities,
     updateCbcCommunitySourceData,
     rowId,
+    setResponseCommunityData,
   ]);
 
   const handleSubmit = () => {
