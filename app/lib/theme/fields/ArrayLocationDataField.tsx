@@ -41,7 +41,11 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
                 {element.children}
                 {canAdd && (
                   <>
-                    <StyledButton type="button" onClick={onAddClick}>
+                    <StyledButton
+                      data-testid="add-community-button"
+                      type="button"
+                      onClick={onAddClick}
+                    >
                       Add
                     </StyledButton>
                     <StyledButton
@@ -68,6 +72,7 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
               {element.children}
               <button
                 type="button"
+                data-testid="delete-community-source-button"
                 onClick={() => {
                   // get the value of the community source id
                   const comSourceId =
