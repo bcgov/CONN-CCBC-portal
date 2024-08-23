@@ -50,6 +50,7 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
                     </StyledButton>
                     <StyledButton
                       type="button"
+                      data-testid="clear-community-button"
                       variant="secondary"
                       onClick={handleClearTopCommunity}
                     >

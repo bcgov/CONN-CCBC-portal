@@ -353,6 +353,11 @@ describe('EditCbcSection', () => {
       await userEvent.click(addButton);
     });
 
+    const clearButton = screen.getByTestId('clear-community-button');
+    await act(async () => {
+      await userEvent.click(clearButton);
+    });
+
     const saveButton = screen.getByRole('button', { name: /save/i });
 
     act(() => {
