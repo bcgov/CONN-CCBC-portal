@@ -59,6 +59,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
     <StyledDiv>
       <Autocomplete
         readOnly={!!rowId}
+        data-testid="economic-region-autocomplete"
         onChange={(e, val, reason) => {
           if (reason === 'clear') {
             clearWidget();
@@ -72,12 +73,17 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
         options={economicRegionOptions}
         getOptionLabel={(option) => option}
         renderInput={(params) => (
-          <TextField {...params} label="Economic Region" />
+          <TextField
+            {...params}
+            data-testid="economic-region-textfield"
+            label="Economic Region"
+          />
         )}
       />
 
       <Autocomplete
         readOnly={!!rowId}
+        data-testid="regional-district-autocomplete"
         style={{ width: '200px' }}
         onChange={(e, val, reason) => {
           if (reason === 'clear') {
@@ -96,15 +102,25 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
         }
         getOptionLabel={(option) => option}
         renderInput={(params) => (
-          <TextField {...params} label="Regional District" />
+          <TextField
+            {...params}
+            data-testid="regional-district-textfield"
+            label="Regional District"
+          />
         )}
       />
 
       <Autocomplete
         readOnly={!!rowId}
+        data-testid="geographic-name-autocomplete"
         style={{ width: '200px' }}
         renderInput={(params) => (
-          <TextField {...params} label="Geographic Name" />
+          <TextField
+            {...params}
+            id="geographic-name-textfield"
+            data-testid="geographic-name-textfield"
+            label="Geographic Name"
+          />
         )}
         options={
           geographicNameOptions[selectedRegionalDistrict]
