@@ -21,9 +21,9 @@ const locationsUiSchema = {
   },
   communitySourceData: {
     'ui:field': 'ArrayLocationDataField',
+    'ui:label': 'Community Location Data',
     items: {
       'ui:widget': 'CommunitySourceWidget',
-      'ui:label': 'Community Sources',
       'ui:options': {
         excludeTableFormat: true,
       },

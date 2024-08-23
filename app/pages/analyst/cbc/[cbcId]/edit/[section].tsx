@@ -164,7 +164,7 @@ const EditCbcSection = ({
     updateCbcCommunitySourceData({
       variables: {
         input: {
-          _projectId: query?.cbcByRowId?.cbcDataByCbcId?.edges[0].node.rowId,
+          _projectId: rowId,
           _communityIdsToAdd: addedCommunities,
           _communityIdsToArchive: removedCommunities,
         },
