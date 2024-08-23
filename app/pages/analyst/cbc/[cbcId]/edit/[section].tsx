@@ -16,7 +16,12 @@ import { RJSFSchema } from '@rjsf/utils';
 import useModal from 'lib/helpers/useModal';
 import { ChangeModal } from 'components/Analyst';
 import { useUpdateCbcDataAndInsertChangeRequest } from 'schema/mutations/cbc/updateCbcDataAndInsertChangeReason';
-import { createCbcSchemaData } from 'utils/schemaUtils';
+import {
+  createCbcSchemaData,
+  generateGeographicNamesByRegionalDistrict,
+  generateRegionalDistrictsByEconomicRegion,
+  getAllEconomicRegionNames,
+} from 'utils/schemaUtils';
 import ArrayLocationFieldTemplate from 'lib/theme/fields/ArrayLocationDataField';
 import { useUpdateCbcCommunityDataMutationMutation } from 'schema/mutations/cbc/updateCbcCommunityData';
 import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
@@ -185,40 +190,15 @@ const EditCbcSection = ({
   const allCommunitiesSourceData = query.allCommunitiesSourceData.nodes;
 
   const geographicNamesByRegionalDistrict = useMemo(() => {
-    const regionalDistrictGeographicNamesDict = {};
-    allCommunitiesSourceData.forEach((community) => {
-      const { regionalDistrict, bcGeographicName, geographicNameId } =
-        community;
-      if (!regionalDistrictGeographicNamesDict[regionalDistrict]) {
-        regionalDistrictGeographicNamesDict[regionalDistrict] = new Set();
-      }
-      regionalDistrictGeographicNamesDict[regionalDistrict].add({
-        label: bcGeographicName,
-        value: geographicNameId,
-      });
-    });
-    return regionalDistrictGeographicNamesDict;
+    return generateGeographicNamesByRegionalDistrict(allCommunitiesSourceData);
   }, [allCommunitiesSourceData]);
 
   const regionalDistrictsByEconomicRegion = useMemo(() => {
-    const districtByEconomicRegionDict = {};
-    allCommunitiesSourceData.forEach((community) => {
-      const { economicRegion, regionalDistrict } = community;
-      if (!districtByEconomicRegionDict[economicRegion]) {
-        districtByEconomicRegionDict[economicRegion] = new Set();
-      }
-      districtByEconomicRegionDict[economicRegion].add(regionalDistrict);
-    });
-    return districtByEconomicRegionDict;
+    return generateRegionalDistrictsByEconomicRegion(allCommunitiesSourceData);
   }, [allCommunitiesSourceData]);
 
   const allEconomicRegions = useMemo(() => {
-    const economicRegionsSet = new Set();
-    allCommunitiesSourceData.forEach((community) => {
-      const { economicRegion } = community;
-      economicRegionsSet.add(economicRegion);
-    });
-    return [...economicRegionsSet];
+    return getAllEconomicRegionNames(allCommunitiesSourceData);
   }, [allCommunitiesSourceData]);
 
   const theme = { ...ProjectTheme };

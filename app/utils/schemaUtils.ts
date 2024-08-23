@@ -147,3 +147,53 @@ export const createCbcSchemaData = (jsonData) => {
 
   return dataBySection;
 };
+
+type CommunitySourceData = {
+  readonly bcGeographicName: string;
+  readonly geographicNameId: number;
+  readonly regionalDistrict: string | null;
+  readonly economicRegion: string | null;
+};
+
+export const generateGeographicNamesByRegionalDistrict = (
+  allCommunitiesSourceData: readonly CommunitySourceData[]
+) => {
+  const regionalDistrictGeographicNamesDict = {};
+  allCommunitiesSourceData.forEach((community) => {
+    const { regionalDistrict, bcGeographicName, geographicNameId } = community;
+    if (!regionalDistrictGeographicNamesDict[regionalDistrict]) {
+      regionalDistrictGeographicNamesDict[regionalDistrict] = new Set();
+    }
+    regionalDistrictGeographicNamesDict[regionalDistrict].add({
+      label: bcGeographicName,
+      value: geographicNameId,
+    });
+  });
+  return regionalDistrictGeographicNamesDict;
+};
+
+export const generateRegionalDistrictsByEconomicRegion = (
+  allCommunitiesSourceData: readonly CommunitySourceData[]
+) => {
+  const economicRegionRegionalDistrictsDict = {};
+  allCommunitiesSourceData.forEach((community) => {
+    const { economicRegion, regionalDistrict } = community;
+    if (!economicRegionRegionalDistrictsDict[economicRegion]) {
+      economicRegionRegionalDistrictsDict[economicRegion] = new Set();
+    }
+    economicRegionRegionalDistrictsDict[economicRegion].add(regionalDistrict);
+  });
+
+  return economicRegionRegionalDistrictsDict;
+};
+
+export const getAllEconomicRegionNames = (
+  allCommunitiesSourceData: readonly CommunitySourceData[]
+) => {
+  const economicRegionsSet = new Set();
+  allCommunitiesSourceData.forEach((community) => {
+    const { economicRegion } = community;
+    economicRegionsSet.add(economicRegion);
+  });
+  return [...economicRegionsSet];
+};
