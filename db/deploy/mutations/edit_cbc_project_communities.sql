@@ -25,4 +25,6 @@ begin
 end;
 $$ language plpgsql volatile;
 
+grant execute on function ccbc_public.edit_cbc_project_communities to cbc_admin;
+
 commit;
