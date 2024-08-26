@@ -34,6 +34,8 @@ describe('generateGeographicNamesByRegionalDistrict', () => {
 
     const result = generateGeographicNamesByRegionalDistrict(communities);
     expect(result).toEqual({
+      'Economic Region 1': new Set(),
+      'Economic Region 2': new Set(),
       'Regional District 1': new Set([
         { label: 'Community 1', value: 1 },
         { label: 'Community 2', value: 2 },

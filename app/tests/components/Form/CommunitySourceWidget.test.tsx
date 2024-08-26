@@ -46,6 +46,8 @@ const renderStaticLayout = (schema: RJSFSchema, uiSchema: RJSFSchema) => {
         geographicNamesByRegionalDistrict: {
           'Regional District 1': [{ label: 'Geographic Name 1', value: 1 }],
         },
+        cbcCommunitiesData: [],
+        addedCommunities: [1],
       }}
     />
   );

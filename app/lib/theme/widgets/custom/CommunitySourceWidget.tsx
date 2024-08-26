@@ -212,6 +212,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
             e.preventDefault();
             clearWidget();
           }}
+          data-testid="clear-community-button"
         >
           Clear
         </StyledButton>
