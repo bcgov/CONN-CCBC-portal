@@ -247,109 +247,113 @@ const ProjectInformationForm: React.FC<Props> = ({
       });
     }
 
-    validateSow(sowFile, false).then((response) => {
-      const isSowErrors = sowValidationErrors.length > 0;
-      const isSowUploaded =
-        formData?.statementOfWorkUpload?.length > 0 && sowFile !== null;
+    validateSow(sowFile, false)
+      .then((response) => {
+        const isSowErrors = sowValidationErrors.length > 0;
+        const isSowUploaded =
+          formData?.statementOfWorkUpload?.length > 0 && sowFile !== null;
 
-      // If there are sow errors, persist sow error in form data if not delete
-      const newFormData = { ...formData };
-      if (isSowErrors) {
-        newFormData.isSowUploadError = true;
-      } else if (isSowUploaded) {
-        delete newFormData?.isSowUploadError;
-      }
-      if (isChangeRequest) {
-        createChangeRequest({
-          variables: {
-            connections: [connectionId],
-            input: {
-              _applicationId: rowId,
-              _amendmentNumber: changeRequestAmendmentNumber,
-              _jsonData: newFormData,
-              _oldChangeRequestId: parseInt(
-                currentChangeRequestData?.rowId,
-                10
-              ),
-            },
-          },
-          onCompleted: () => {
-            handleResetFormData();
-
-            if (isSowUploaded && response?.status === 200) {
-              setShowToast(true);
-            }
-
-            setCurrentChangeRequestData(null);
-          },
-          updater: (store) => {
-            // add new amendment number to the amendment numbers computed column
-            const applicationStore = store.get(id);
-
-            // remove amendment number if editing a change request and changing the amendment number
-            const newAmendmentNumbers = !isSameAmendmentNumber
-              ? amendmentNumbers
-                  .split(' ')
-                  .filter(
-                    (number) =>
-                      number !== oldChangeRequestAmendmentNumber?.toString()
-                  )
-                  .join(' ')
-              : amendmentNumbers;
-
-            const updatedAmendmentNumbers = `${newAmendmentNumbers} ${changeRequestAmendmentNumber}`;
-
-            applicationStore.setValue(
-              updatedAmendmentNumbers,
-              'amendmentNumbers'
-            );
-
-            // Don't need to update store if we are creating a new change request
-            if (!currentChangeRequestData?.id) return;
-            const relayConnectionId = changeRequestDataByApplicationId.__id;
-            // Get the connection from the store
-
-            const connection = store.get(relayConnectionId);
-
-            store.delete(currentChangeRequestData.id);
-            // Remove the old announcement from the connection
-            ConnectionHandler.deleteNode(
-              connection,
-              currentChangeRequestData.id
-            );
-          },
-          onError: () => {
-            setIsFormSubmitting(false);
-          },
-        });
-      } else {
-        createProjectInformation({
-          variables: {
-            input: { _applicationId: rowId, _jsonData: newFormData },
-          },
-          onCompleted: () => {
-            handleResetFormData(!formData?.hasFundingAgreementBeenSigned);
-            setHasFormSaved(true);
-            if (isSowUploaded && response?.status === 200) {
-              setShowToast(true);
-            }
-          },
-          updater: (store, data) => {
-            store
-              .get(id)
-              .setLinkedRecord(
-                store.get(
-                  data.createProjectInformation.projectInformationData.id
+        // If there are sow errors, persist sow error in form data if not delete
+        const newFormData = { ...formData };
+        if (isSowErrors) {
+          newFormData.isSowUploadError = true;
+        } else if (isSowUploaded) {
+          delete newFormData?.isSowUploadError;
+        }
+        if (isChangeRequest) {
+          createChangeRequest({
+            variables: {
+              connections: [connectionId],
+              input: {
+                _applicationId: rowId,
+                _amendmentNumber: changeRequestAmendmentNumber,
+                _jsonData: newFormData,
+                _oldChangeRequestId: parseInt(
+                  currentChangeRequestData?.rowId,
+                  10
                 ),
-                'projectInformation'
+              },
+            },
+            onCompleted: () => {
+              handleResetFormData();
+
+              if (isSowUploaded && response?.status === 200) {
+                setShowToast(true);
+              }
+
+              setCurrentChangeRequestData(null);
+            },
+            updater: (store) => {
+              // add new amendment number to the amendment numbers computed column
+              const applicationStore = store.get(id);
+
+              // remove amendment number if editing a change request and changing the amendment number
+              const newAmendmentNumbers = !isSameAmendmentNumber
+                ? amendmentNumbers
+                    .split(' ')
+                    .filter(
+                      (number) =>
+                        number !== oldChangeRequestAmendmentNumber?.toString()
+                    )
+                    .join(' ')
+                : amendmentNumbers;
+
+              const updatedAmendmentNumbers = `${newAmendmentNumbers} ${changeRequestAmendmentNumber}`;
+
+              applicationStore.setValue(
+                updatedAmendmentNumbers,
+                'amendmentNumbers'
               );
-          },
-          onError: () => {
-            setIsFormSubmitting(false);
-          },
-        });
-      }
-    });
+
+              // Don't need to update store if we are creating a new change request
+              if (!currentChangeRequestData?.id) return;
+              const relayConnectionId = changeRequestDataByApplicationId.__id;
+              // Get the connection from the store
+
+              const connection = store.get(relayConnectionId);
+
+              store.delete(currentChangeRequestData.id);
+              // Remove the old announcement from the connection
+              ConnectionHandler.deleteNode(
+                connection,
+                currentChangeRequestData.id
+              );
+            },
+            onError: () => {
+              setIsFormSubmitting(false);
+            },
+          });
+        } else {
+          createProjectInformation({
+            variables: {
+              input: { _applicationId: rowId, _jsonData: newFormData },
+            },
+            onCompleted: () => {
+              handleResetFormData(!formData?.hasFundingAgreementBeenSigned);
+              setHasFormSaved(true);
+              if (isSowUploaded && response?.status === 200) {
+                setShowToast(true);
+              }
+            },
+            updater: (store, data) => {
+              store
+                .get(id)
+                .setLinkedRecord(
+                  store.get(
+                    data.createProjectInformation.projectInformationData.id
+                  ),
+                  'projectInformation'
+                );
+            },
+            onError: () => {
+              setIsFormSubmitting(false);
+            },
+          });
+        }
+      })
+      .catch(() => {
+        setIsFormSubmitting(false);
+      });
   };
 
   const isOriginalSowUpload = projectInformation?.jsonData;

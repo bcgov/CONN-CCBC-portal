@@ -43,6 +43,30 @@ describe('Gcpe reporting functions', () => {
     expect(blob).toBeDefined();
   });
 
+  it('should generate a gcpe report with ccbc data without announced by province', async () => {
+    const modifiedCcbcDataQueryResult = {
+      ...ccbcDataQueryResult,
+      data: {
+        ...ccbcDataQueryResult.data,
+        allApplications: {
+          ...ccbcDataQueryResult.data.allApplications,
+          edges: ccbcDataQueryResult.data.allApplications.edges.map((edge) => ({
+            ...edge,
+            node: {
+              ...edge.node,
+              applicationAnnouncedsByApplicationId: null,
+            },
+          })),
+        },
+      },
+    };
+    mocked(performQuery).mockImplementation(async () => {
+      return modifiedCcbcDataQueryResult;
+    });
+    const blob = await generateGcpeReport(null);
+    expect(blob).toBeDefined();
+  });
+
   it('should compare and generate a report', async () => {
     mocked(performQuery).mockImplementation(async () => {
       return generateAndCompareQueryResult;

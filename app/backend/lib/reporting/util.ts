@@ -75,6 +75,15 @@ export const getTotalProjectBudget = (
   return applicationTotalProjectBudget;
 };
 
+export const getConnectedCoastDependent = (assessments) => {
+  const screeningAssessment = assessments?.nodes.find(
+    (assessment) => assessment?.assessmentDataType === 'screening'
+  );
+  return screeningAssessment?.jsonData?.connectedCoastNetworkDependent
+    ? 'YES'
+    : null;
+};
+
 export const convertBoolean = (value): string => {
   if (value === null || value === undefined) return null;
   return value ? 'YES' : 'NO';
@@ -117,7 +126,7 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
       if (item?.value !== item2?.value) {
         return {
           ...item,
-          color: '#3F5986',
+          color: '#2FA7DD',
         };
       }
 

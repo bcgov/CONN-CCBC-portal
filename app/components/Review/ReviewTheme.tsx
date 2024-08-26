@@ -11,6 +11,7 @@ import MoneyWidget from './widgets/MoneyWidget';
 import BooleanWidget from './widgets/BooleanWidget';
 import FileWidget from './widgets/FileWidget';
 import DateWidget from './widgets/DateWidget';
+import LinkArrayWidget from './widgets/LinkArrayWidget';
 
 const { templates } = getDefaultRegistry();
 
@@ -38,6 +39,7 @@ const ReviewTheme: ThemeProps = {
     ReadOnlyProjectAreaWidget: DefaultWidget,
     ReadOnlyProjectAreaWidgetIntakeFour: DefaultWidget,
     DateWidget,
+    LinkArrayWidget,
   },
   templates: {
     ...templates,
