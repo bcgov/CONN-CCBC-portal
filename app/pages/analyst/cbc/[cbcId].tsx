@@ -114,8 +114,6 @@ const Cbc = ({
   const [addedCommunities, setAddedCommunities] = useState([]);
   const [removedCommunities, setRemovedCommunities] = useState([]);
   const [responseCommunityData, setResponseCommunityData] = useState([]);
-  const [handleClearTopCommunity, setHandleClearTopCommunity] =
-    useState<Function | null>(null);
 
   const addCommunity = (communityId) => {
     setAddedCommunities((prevList) => [...prevList, communityId]);
@@ -445,10 +443,9 @@ const Cbc = ({
             economicRegions: allEconomicRegions,
             cbcCommunitiesData:
               query.cbcByRowId.cbcProjectCommunitiesByCbcId.nodes,
+            addedCommunities,
             addCommunitySource: addCommunity,
             deleteCommunitySource: removeCommunity,
-            handleClearTopCommunity,
-            setHandleClearTopCommunity,
           }}
           formData={formData}
           handleChange={(e) => {

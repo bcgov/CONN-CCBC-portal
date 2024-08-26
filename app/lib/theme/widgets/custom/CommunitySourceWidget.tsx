@@ -1,5 +1,5 @@
 import { WidgetProps } from '@rjsf/utils';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import { TextField } from '@mui/material';
 import styled from 'styled-components';
@@ -53,10 +53,22 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
     });
   }, [geographicNameId, bcGeographicName, economicRegion, regionalDistrict]);
 
+  const selectedGeographicNameIdList = useMemo(() => {
+    return [
+      ...formContext.cbcCommunitiesData.map(
+        (community) =>
+          community.communitiesSourceDataByCommunitiesSourceDataId
+            .geographicNameId
+      ),
+      ...formContext.addedCommunities,
+    ];
+  }, [formContext.cbcCommunitiesData, formContext.addedCommunities]);
+
   const clearWidget = useCallback(() => {
     setSelectedEconomicRegion(null);
     setSelectedRegionalDistrict(null);
     setSelectedGeographicName({ value: null, label: '' });
+    // check if the form value has been touched, and if so clear it
     if (Object.keys(value).length > 0) {
       onChange({});
     }
@@ -71,6 +83,10 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
   const economicRegionOptions = formContext.economicRegions;
   const regionalDistrictOptions = formContext.regionalDistrictsByEconomicRegion;
   const geographicNameOptions = formContext.geographicNamesByRegionalDistrict;
+
+  const isGeographicNameOptionDisabled = (option) => {
+    return selectedGeographicNameIdList.includes(option.value);
+  };
 
   const getGeographicNameOptions = (selectedRegDis, selEcoReg) => {
     if (!selectedRegDis && !selEcoReg) {
@@ -166,6 +182,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
         isOptionEqualToValue={(option, val) => {
           return option.value === val.value;
         }}
+        getOptionDisabled={isGeographicNameOptionDisabled}
         getOptionLabel={(option) => {
           return option.label ?? '';
         }}
