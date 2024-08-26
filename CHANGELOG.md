@@ -1,3 +1,58 @@
+# [1.183.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.2...v1.183.0) (2024-08-22)
+
+### Features
+
+- add ccbc connected coast and announced to gcpe report ([86bfd62](https://github.com/bcgov/CONN-CCBC-portal/commit/86bfd62f15af5901c63d0df1b6e4af116214dbfe))
+
+## [1.182.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.1...v1.182.2) (2024-08-22)
+
+### Bug Fixes
+
+- clear reason for change on cbc quick edit ([6baba06](https://github.com/bcgov/CONN-CCBC-portal/commit/6baba06ce71ca9b605989f3f63ddb8cd6eefda20))
+
+## [1.182.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.0...v1.182.1) (2024-08-22)
+
+# [1.182.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.2...v1.182.0) (2024-08-22)
+
+### Features
+
+- add project page timeout for excel upload ([ba9e9b5](https://github.com/bcgov/CONN-CCBC-portal/commit/ba9e9b5e5f6d40095d29ef2a860b1d7678fadf40))
+
+## [1.181.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.1...v1.181.2) (2024-08-22)
+
+## [1.181.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.0...v1.181.1) (2024-08-22)
+
+### Bug Fixes
+
+- sort order for status ccbc and cbc combined ([2cef172](https://github.com/bcgov/CONN-CCBC-portal/commit/2cef172553b1fb832d28409d245167b6ddc76419))
+
+# [1.181.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.4...v1.181.0) (2024-08-20)
+
+### Features
+
+- edit cbc project number, use current operating name ([341b68f](https://github.com/bcgov/CONN-CCBC-portal/commit/341b68f0876a96cf1526f1985fe7884e51a55c72))
+
+## [1.180.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.3...v1.180.4) (2024-08-19)
+
+### Bug Fixes
+
+- view annoucement link for cbc_admin ([b98eb7d](https://github.com/bcgov/CONN-CCBC-portal/commit/b98eb7d19089eb21056ae94ad762728311a73a68))
+
+## [1.180.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.2...v1.180.3) (2024-08-19)
+
+### Bug Fixes
+
+- email permission issue ([1a77429](https://github.com/bcgov/CONN-CCBC-portal/commit/1a7742960ee352005a65cce6759f4aad4fcde1c5))
+
+## [1.180.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.1...v1.180.2) (2024-08-19)
+
+### Bug Fixes
+
+- applicant dashboard to show latest name from sow ([9d2637d](https://github.com/bcgov/CONN-CCBC-portal/commit/9d2637de5d7d793a5ff5e7b43594982203604353))
+- federal funding source validation for cbc ([c5fec5e](https://github.com/bcgov/CONN-CCBC-portal/commit/c5fec5e6e7289663b01e849a5297d58b23a158a2))
+- project name computed column scripts ([7cbfe49](https://github.com/bcgov/CONN-CCBC-portal/commit/7cbfe492dfd0ceac38531ae124108c6886831bd1))
+- sow update doesnot update header for amendments ([9b8b1ef](https://github.com/bcgov/CONN-CCBC-portal/commit/9b8b1efc1193dcaba14c1044ce0c9de536761f80))
+
 ## [1.180.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.0...v1.180.1) (2024-08-06)
 
 ### Bug Fixes

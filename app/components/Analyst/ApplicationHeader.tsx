@@ -103,17 +103,6 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
           intakeNumber
           rowId
           externalStatus
-          applicationSowDataByApplicationId(
-            condition: { isAmendment: false }
-            last: 1
-          ) {
-            totalCount
-            nodes {
-              id
-              jsonData
-              rowId
-            }
-          }
           ...ChangeStatus_query
           ...AssignPackage_query
           ...EditProjectDescription_query
@@ -146,14 +135,10 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
     projectName,
     rowId,
     intakeNumber,
-    applicationSowDataByApplicationId,
   } = applicationByRowId;
 
   const showLead = useFeature('show_lead').value;
   const isInternalIntake = intakeNumber === 99;
-  const projectTitle =
-    applicationSowDataByApplicationId?.nodes[0]?.jsonData?.projectTitle ||
-    projectName;
 
   if (isInternalIntake) {
     // you could use splice to remove the element in place, but if the component refreshses it'll remove more than intended
@@ -171,7 +156,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
     <StyledCallout>
       <StyledProjectInfo>
         <StyledH2>{ccbcNumber}</StyledH2>
-        <StyledH1>{projectTitle}</StyledH1>
+        <StyledH1>{projectName}</StyledH1>
         <StyledH2>{organizationName}</StyledH2>
         <EditProjectDescription application={applicationByRowId} />
       </StyledProjectInfo>

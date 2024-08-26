@@ -257,6 +257,7 @@ describe('Cbc', () => {
       fireEvent.click(projectDescriptionField);
     });
     const projectDescriptionInput = screen.getByRole('textbox');
+
     await act(async () => {
       fireEvent.change(projectDescriptionInput, {
         target: { value: 'testing edit 2' },
@@ -266,6 +267,149 @@ describe('Cbc', () => {
     pageTestingHelper.expectMutationToBeCalled('updateCbcDataByRowIdMutation', {
       input: expect.any(Object),
     });
+
+    pageTestingHelper.environment.mock.resolveMostRecentOperation({
+      data: {
+        updateCbcDataByRowId: {
+          cbcData: {
+            jsonData: {
+              ...cbcJsonData,
+              projectDescription: 'testing edit 2',
+              projectType: 'Telecom',
+            },
+          },
+        },
+      },
+    });
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(true),
+      })
+    );
+
+    const projectNumberField = screen.getByText('5555');
+    await act(async () => {
+      fireEvent.click(projectNumberField);
+    });
+    const projectNumberInput = screen.getByRole('spinbutton');
+    await act(async () => {
+      fireEvent.change(projectNumberInput, {
+        target: { value: '5554' },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.keyDown(projectNumberInput, { key: 'Enter', code: 'Enter' });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'updateCbcProjectNumberMutation',
+      {
+        input: expect.any(Object),
+      }
+    );
+
+    pageTestingHelper.environment.mock.resolveMostRecentOperation({
+      data: {
+        updateCbcProjectNumber: {
+          projectNumber: 5554,
+        },
+      },
+    });
+  });
+
+  it('should reset the project number on escape', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const projectNumberField = screen.getByText('5555');
+    await act(async () => {
+      fireEvent.click(projectNumberField);
+    });
+    const projectNumberInput = screen.getByRole('spinbutton');
+    await act(async () => {
+      fireEvent.change(projectNumberInput, {
+        target: { value: '5554' },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.keyDown(projectNumberInput, { key: 'Escape', code: 'Escape' });
+    });
+
+    expect(screen.getByText('5555')).toBeInTheDocument();
+  });
+
+  it('should not change input on failed project number mutation', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const projectNumberField = screen.getByText('5555');
+    await act(async () => {
+      fireEvent.click(projectNumberField);
+    });
+    const projectNumberInput = screen.getByRole('spinbutton');
+    await act(async () => {
+      fireEvent.change(projectNumberInput, {
+        target: { value: '5554' },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.keyDown(projectNumberInput, { key: 'Enter', code: 'Enter' });
+    });
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'updateCbcProjectNumberMutation',
+      {
+        input: expect.any(Object),
+      }
+    );
+
+    pageTestingHelper.environment.mock.rejectMostRecentOperation(
+      new Error('test error')
+    );
+
+    expect(screen.queryByText('5554')).not.toBeInTheDocument();
+  });
+
+  it('should not change input on same project number', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const projectNumberField = screen.getByText('5555');
+    await act(async () => {
+      fireEvent.click(projectNumberField);
+    });
+    const projectNumberInput = screen.getByRole('spinbutton');
+    await act(async () => {
+      fireEvent.change(projectNumberInput, {
+        target: { value: '5555' },
+      });
+    });
+
+    await act(async () => {
+      fireEvent.keyDown(projectNumberInput, { key: 'Enter', code: 'Enter' });
+    });
+
+    expect(
+      pageTestingHelper.environment.mock.getAllOperations()
+    ).not.toContainEqual(
+      expect.objectContaining({
+        request: expect.objectContaining({
+          operation: expect.objectContaining({
+            name: 'updateCbcProjectNumberMutation',
+          }),
+        }),
+      })
+    );
   });
 
   it('header should not be editable by non cbc admin users', async () => {

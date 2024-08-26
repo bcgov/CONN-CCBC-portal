@@ -17,13 +17,13 @@ const benefits: Record<string, RJSFSchema> = {
       },
       numberOfHouseholds: {
         title:
-          'Final number of Eligible Households targeted by this proposal. This value should match cell F151 in Template 1 – Eligibility Summary.',
+          'Final number of Eligible Households targeted by this proposal is auto-filled from Template 1 cell F151 in the Eligibility Summary, including all related RFIs.',
         type: 'number',
         maximum: 100000,
       },
       householdsImpactedIndigenous: {
         title:
-          'Number of households on Indigenous lands impacted by this proposal. This value should match cell G55 in Template 1 – Eligibility Summary.',
+          'Number of households on Indigenous lands impacted by this proposal is auto-filled from Template 1 cell G55 in the Eligibility Summary, including all related RFIs.',
         type: 'number',
         maximum: 100000,
       },
