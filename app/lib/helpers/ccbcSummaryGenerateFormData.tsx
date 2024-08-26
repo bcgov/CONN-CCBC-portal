@@ -29,10 +29,11 @@ const handleOtherFundingSourcesApplication = (otherFundingSources) => {
   otherFundingSources?.otherFundingSourcesArray?.forEach((source) => {
     otherFundingSourcesTotal += source.totalRequestedFundingPartner;
   });
-  if (otherFundingSources?.totalInfrastructureBankFunding) {
-    otherFundingSourcesTotal +=
-      otherFundingSources.totalInfrastructureBankFunding;
-  }
+  // Not adding CIB funding to other funding at this time
+  // if (otherFundingSources?.totalInfrastructureBankFunding) {
+  //   otherFundingSourcesTotal +=
+  //     otherFundingSources.totalInfrastructureBankFunding;
+  // }
   return otherFundingSourcesTotal;
 };
 
@@ -63,8 +64,18 @@ const getConditionalApprovalDate = (conditionalApprovalData) => {
       return isedDate;
     }
     // otherwise return null as none of them are approved
+    return null;
+  }
+  // otherwise ised date is greater than provincial date
+  // if ised date is approved
+  if (conditionalApprovalData?.isedDecisionObj?.isedDecision === 'Approved') {
     return isedDate;
   }
+  // otherwise check if provincial date is approved
+  if (conditionalApprovalData?.decision?.ministerDecision === 'Approved') {
+    return provincialDate;
+  }
+  // otherwise return null as none of them are approved
   return null;
 };
 
