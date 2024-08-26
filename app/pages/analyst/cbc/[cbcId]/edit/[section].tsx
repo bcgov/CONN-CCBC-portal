@@ -85,6 +85,8 @@ const EditCbcSection = ({
   const [addedCommunities, setAddedCommunities] = useState([]);
   const [removedCommunities, setRemovedCommunities] = useState([]);
   const [dataBySection, setDataBySection] = useState<any>({});
+  const [handleClearTopCommunity, setHandleClearTopCommunity] =
+    useState<Function | null>(null);
 
   const { cbcDataByCbcId, rowId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
   const { jsonData, rowId: cbcDataRowId } = cbcDataByCbcId.edges[0].node;
@@ -290,9 +292,10 @@ const EditCbcSection = ({
             allCommunitiesSourceData,
             addCommunitySource: addCommunity,
             deleteCommunitySource: removeCommunity,
-            handleClearTopCommunity: () => {},
             errors: formErrors,
             showErrorHint: true,
+            handleClearTopCommunity,
+            setHandleClearTopCommunity,
           }}
         >
           <Button>Save</Button>

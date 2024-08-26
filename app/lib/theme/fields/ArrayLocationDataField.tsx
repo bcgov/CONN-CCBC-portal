@@ -22,14 +22,6 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
   const { items, onAddClick, canAdd, formContext } = props;
 
   const deleteCommunitySource = formContext?.deleteCommunitySource as Function;
-  const handleClearTopCommunity = () => {
-    if (
-      formContext?.handleClearTopCommunity &&
-      formContext?.handleClearTopCommunity instanceof Function
-    ) {
-      formContext?.handleClearTopCommunity();
-    }
-  };
 
   return (
     <>
@@ -40,23 +32,13 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
               <StyledDiv>
                 {element.children}
                 {canAdd && (
-                  <>
-                    <StyledButton
-                      data-testid="add-community-button"
-                      type="button"
-                      onClick={onAddClick}
-                    >
-                      Add
-                    </StyledButton>
-                    <StyledButton
-                      type="button"
-                      data-testid="clear-community-button"
-                      variant="secondary"
-                      onClick={handleClearTopCommunity}
-                    >
-                      Clear
-                    </StyledButton>
-                  </>
+                  <StyledButton
+                    data-testid="add-community-button"
+                    type="button"
+                    onClick={onAddClick}
+                  >
+                    Add
+                  </StyledButton>
                 )}
               </StyledDiv>
 

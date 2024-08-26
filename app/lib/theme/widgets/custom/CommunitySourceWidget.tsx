@@ -1,8 +1,9 @@
 import { WidgetProps } from '@rjsf/utils';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import { TextField } from '@mui/material';
 import styled from 'styled-components';
+import { Button } from '@button-inc/bcgov-theme';
 
 interface CommunitySourceWidgetProps extends WidgetProps {
   children: React.ReactNode;
@@ -14,6 +15,13 @@ const StyledDiv = styled.div`
   gap: 4px;
   margin-top: 8px;
   margin-bottom: 8px;
+  align-items: center;
+`;
+
+const StyledButton = styled(Button)`
+  height: 40px;
+  padding: 5px;
+  margin: 2px;
 `;
 
 const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
@@ -26,12 +34,11 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
     regionalDistrict,
     geographicNameId,
   } = value ?? {};
-  const [selectedEconomicRegion, setSelectedEconomicRegion] = useState<
-    string | null
-  >(economicRegion);
-  const [selectedRegionalDistrict, setSelectedRegionalDistrict] = useState<
-    string | null
-  >(regionalDistrict);
+  const [selectedEconomicRegion, setSelectedEconomicRegion] = useState<string>(
+    economicRegion ?? ''
+  );
+  const [selectedRegionalDistrict, setSelectedRegionalDistrict] =
+    useState<string>(regionalDistrict ?? '');
   const [selectedGeographicName, setSelectedGeographicName] = useState({
     value: geographicNameId,
     label: bcGeographicName,
@@ -41,16 +48,25 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
     setSelectedEconomicRegion(economicRegion);
     setSelectedRegionalDistrict(regionalDistrict);
     setSelectedGeographicName({
-      value: geographicNameId,
-      label: bcGeographicName,
+      value: geographicNameId ?? null,
+      label: bcGeographicName ?? '',
     });
   }, [geographicNameId, bcGeographicName, economicRegion, regionalDistrict]);
 
-  const clearWidget = () => {
+  const clearWidget = useCallback(() => {
     setSelectedEconomicRegion(null);
     setSelectedRegionalDistrict(null);
     setSelectedGeographicName({ value: null, label: '' });
-  };
+    if (Object.keys(value).length > 0) {
+      onChange({});
+    }
+  }, [
+    setSelectedEconomicRegion,
+    setSelectedRegionalDistrict,
+    setSelectedGeographicName,
+    value,
+    onChange,
+  ]);
 
   const economicRegionOptions = formContext.economicRegions;
   const regionalDistrictOptions = formContext.regionalDistrictsByEconomicRegion;
@@ -75,6 +91,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
     <StyledDiv>
       <Autocomplete
         readOnly={!!rowId}
+        key={`economic-region-${rowId}`}
         data-testid="economic-region-autocomplete"
         onChange={(e, val, reason) => {
           if (reason === 'clear') {
@@ -86,6 +103,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
         }}
         style={{ width: '200px' }}
         value={selectedEconomicRegion}
+        inputValue={selectedEconomicRegion ?? ''}
         options={economicRegionOptions}
         getOptionLabel={(option) => option}
         renderInput={(params) => (
@@ -99,11 +117,12 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
 
       <Autocomplete
         readOnly={!!rowId}
+        key={`regional-district-${rowId}`}
         data-testid="regional-district-autocomplete"
         style={{ width: '200px' }}
         onChange={(e, val, reason) => {
           if (reason === 'clear') {
-            setSelectedRegionalDistrict(null);
+            setSelectedRegionalDistrict('');
             setSelectedGeographicName({ value: null, label: '' });
           }
           if (e) {
@@ -111,6 +130,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
           }
         }}
         value={selectedRegionalDistrict}
+        inputValue={selectedRegionalDistrict ?? ''}
         options={
           regionalDistrictOptions[selectedEconomicRegion]
             ? [...regionalDistrictOptions[selectedEconomicRegion]]
@@ -128,6 +148,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
 
       <Autocomplete
         readOnly={!!rowId}
+        key={`geographic-name-${rowId}`}
         data-testid="geographic-name-autocomplete"
         style={{ width: '200px' }}
         renderInput={(params) => (
@@ -149,6 +170,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
           return option.label ?? '';
         }}
         value={selectedGeographicName}
+        inputValue={selectedGeographicName?.label ?? ''}
         onChange={(e, val, reason) => {
           if (reason === 'clear') {
             setSelectedGeographicName({ value: null, label: '' });
@@ -165,6 +187,18 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
           }
         }}
       />
+      {!rowId && (
+        <StyledButton
+          variant="secondary"
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            clearWidget();
+          }}
+        >
+          Clear
+        </StyledButton>
+      )}
     </StyledDiv>
   );
 };
