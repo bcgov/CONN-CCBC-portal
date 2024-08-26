@@ -1,3 +1,9 @@
+# [1.185.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.184.2...v1.185.0) (2024-08-26)
+
+### Features
+
+- add indication to Template upload ([d880cec](https://github.com/bcgov/CONN-CCBC-portal/commit/d880cecf266e7881f2c37de471a2afbd5816421b))
+
 ## [1.184.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.184.1...v1.184.2) (2024-08-26)
 
 ### Bug Fixes

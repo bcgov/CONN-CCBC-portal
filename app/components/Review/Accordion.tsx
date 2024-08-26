@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { BaseAccordion } from '@button-inc/bcgov-theme/Accordion';
 import styled from 'styled-components';
@@ -76,6 +76,7 @@ const Accordion = ({
   toggled,
   title,
   recordLocked,
+  focused,
   ...rest
 }: any) => {
   const [isToggled, setIsToggled] = useState(
@@ -83,6 +84,8 @@ const Accordion = ({
   );
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
+  const accordionRef = useRef(null);
+
   const handleToggle = (event) => {
     setIsToggled((toggle) => !toggle);
     if (onToggle) onToggle(event);
@@ -96,9 +99,21 @@ const Accordion = ({
     setIsToggled(getToggledState(toggled, defaultToggled));
   }, [toggled, defaultToggled]);
 
+  useEffect(() => {
+    if (focused && accordionRef.current) {
+      window.scrollTo({
+        top:
+          accordionRef.current.getBoundingClientRect().top +
+          window.scrollY -
+          100, // Adjust offset to account for header
+        behavior: 'smooth',
+      });
+    }
+  }, [focused]);
+
   return (
     <StyledBaseAccordion {...rest} onToggle={handleToggle}>
-      <header>
+      <header ref={accordionRef}>
         <h2>{title}</h2>
         <StyledToggleRight>
           {allowAnalystEdit &&

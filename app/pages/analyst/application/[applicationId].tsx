@@ -11,6 +11,7 @@ import { ApplicationIdQuery } from '__generated__/ApplicationIdQuery.graphql';
 import ReviewTheme from 'components/Review/ReviewTheme';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 
 const StyledButton = styled('button')`
   color: ${(props) => props.theme.color.links};
@@ -82,6 +83,7 @@ const Application = ({
     applicationRfiDataByApplicationId,
   } = applicationByRowId;
   const isEditable = status !== 'withdrawn';
+  const { section: toggledSection } = useRouter().query;
 
   const rfiList = applicationRfiDataByApplicationId?.edges?.map(
     (edge) => edge.node.rfiDataByRfiDataId
@@ -133,6 +135,7 @@ const Application = ({
             errors: formErrorSchema,
             rfiList,
             toggleOverride,
+            toggledSection,
             isEditable,
           }}
           formData={jsonData}
