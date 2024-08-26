@@ -1,3 +1,40 @@
+## [1.184.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.184.0...v1.184.1) (2024-08-26)
+
+# [1.184.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.183.0...v1.184.0) (2024-08-26)
+
+### Features
+
+- ccbc summary page ([15b83b8](https://github.com/bcgov/CONN-CCBC-portal/commit/15b83b80048b07052e7697011e66fc22491ba7a6))
+- summary highlight communities counts not matching in sow ([450d8b1](https://github.com/bcgov/CONN-CCBC-portal/commit/450d8b1a36d5a6c26be89f2a5f1361d1f1eda951))
+
+# [1.183.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.2...v1.183.0) (2024-08-22)
+
+### Features
+
+- add ccbc connected coast and announced to gcpe report ([86bfd62](https://github.com/bcgov/CONN-CCBC-portal/commit/86bfd62f15af5901c63d0df1b6e4af116214dbfe))
+
+## [1.182.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.1...v1.182.2) (2024-08-22)
+
+### Bug Fixes
+
+- clear reason for change on cbc quick edit ([6baba06](https://github.com/bcgov/CONN-CCBC-portal/commit/6baba06ce71ca9b605989f3f63ddb8cd6eefda20))
+
+## [1.182.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.0...v1.182.1) (2024-08-22)
+
+# [1.182.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.2...v1.182.0) (2024-08-22)
+
+### Features
+
+- add project page timeout for excel upload ([ba9e9b5](https://github.com/bcgov/CONN-CCBC-portal/commit/ba9e9b5e5f6d40095d29ef2a860b1d7678fadf40))
+
+## [1.181.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.1...v1.181.2) (2024-08-22)
+
+## [1.181.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.0...v1.181.1) (2024-08-22)
+
+### Bug Fixes
+
+- sort order for status ccbc and cbc combined ([2cef172](https://github.com/bcgov/CONN-CCBC-portal/commit/2cef172553b1fb832d28409d245167b6ddc76419))
+
 # [1.181.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.4...v1.181.0) (2024-08-20)
 
 ### Features

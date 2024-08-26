@@ -53,6 +53,7 @@ const mockQueryPayload = {
                   transportProjectType: 'Fibre',
                   indigenousCommunities: 5,
                   proposedCompletionDate: '2023-03-31T00:00:00.000Z',
+                  projectMilestoneCompleted: 0.75,
                 },
               },
             },
@@ -229,6 +230,7 @@ describe('EditCbcSection', () => {
                 'https://www.somethingmadeup.ca/en/innovation-science-economic-development/internet.html',
               lastReviewed: '2023-07-11T00:00:00.000Z',
               reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
+              projectMilestoneCompleted: 0.75,
             },
           },
         },
@@ -240,5 +242,49 @@ describe('EditCbcSection', () => {
         },
       }
     );
+  });
+
+  it('should have the correct validation errors for tombstone projectStatus', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const projectStatusElement = screen.getByTestId(
+      'root_federalProjectNumber'
+    );
+    const parentElement = projectStatusElement.closest(
+      '[class^="ProjectFieldTemplate__ErrorWrapper"]'
+    );
+
+    expect(parentElement).toHaveStyle({
+      backgroundColor: 'rgb(248, 231, 143)',
+    });
+    const helpIcon = parentElement.querySelector('[data-testid="HelpIcon"]');
+    expect(helpIcon).toBeInTheDocument();
+
+    fireEvent.mouseOver(helpIcon);
+    const tooltip = await screen.findByText(/Missing Federal project number/);
+    expect(tooltip).toBeInTheDocument();
+  });
+
+  it('should have the correct validation errors for accordion', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const projectStatusElement = screen.getByTestId(
+      'root_federalProjectNumber'
+    );
+    const parentElement = projectStatusElement.closest(
+      '[class^="ProjectFieldTemplate__ErrorWrapper"]'
+    );
+
+    expect(parentElement).toHaveStyle({
+      backgroundColor: 'rgb(248, 231, 143)',
+    });
+    const helpIcon = parentElement.querySelector('[data-testid="HelpIcon"]');
+    expect(helpIcon).toBeInTheDocument();
+
+    fireEvent.mouseOver(helpIcon);
+    const tooltip = await screen.findByText(/Missing Federal project number/);
+    expect(tooltip).toBeInTheDocument();
   });
 });
