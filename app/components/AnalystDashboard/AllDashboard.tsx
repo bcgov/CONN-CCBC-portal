@@ -121,7 +121,7 @@ const CcbcIdCell = ({ cell }) => {
     <>
       {linkCbc ? (
         <StyledLink
-          href={`/analyst/${isCbcProject ? 'cbc' : 'application'}/${applicationId}`}
+          href={`/analyst/${isCbcProject ? 'cbc' : 'application'}/${applicationId}${isCbcProject ? '' : '/summary'}`}
         >
           {cell.getValue()}
         </StyledLink>

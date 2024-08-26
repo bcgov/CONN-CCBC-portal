@@ -8,6 +8,7 @@ import {
   faClipboardList,
   faClockRotateLeft,
   faEnvelope,
+  faNoteSticky,
 } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
 
@@ -47,6 +48,12 @@ const NavigationSidebar = () => {
           />
         </StyledUpperSection>
         <section>
+          <NavItem
+            currentPath={asPath}
+            href={`/analyst/application/${applicationId}/summary`}
+            icon={faNoteSticky}
+            label="Summary"
+          />
           <NavItem
             currentPath={asPath}
             href={`/analyst/application/${applicationId}`}
