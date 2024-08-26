@@ -158,18 +158,36 @@ type CommunitySourceData = {
 export const generateGeographicNamesByRegionalDistrict = (
   allCommunitiesSourceData: readonly CommunitySourceData[]
 ) => {
-  const regionalDistrictGeographicNamesDict = {};
+  const geographicNamesDict = {};
   allCommunitiesSourceData.forEach((community) => {
-    const { regionalDistrict, bcGeographicName, geographicNameId } = community;
-    if (!regionalDistrictGeographicNamesDict[regionalDistrict]) {
-      regionalDistrictGeographicNamesDict[regionalDistrict] = new Set();
+    const {
+      regionalDistrict,
+      bcGeographicName,
+      geographicNameId,
+      economicRegion,
+    } = community;
+
+    if (geographicNamesDict[economicRegion] === undefined) {
+      geographicNamesDict[economicRegion] = new Set();
     }
-    regionalDistrictGeographicNamesDict[regionalDistrict].add({
-      label: bcGeographicName,
-      value: geographicNameId,
-    });
+
+    if (geographicNamesDict[regionalDistrict] === undefined) {
+      geographicNamesDict[regionalDistrict] = new Set();
+    }
+
+    if (regionalDistrict === null) {
+      geographicNamesDict[economicRegion].add({
+        label: bcGeographicName,
+        value: geographicNameId,
+      });
+    } else {
+      geographicNamesDict[regionalDistrict].add({
+        label: bcGeographicName,
+        value: geographicNameId,
+      });
+    }
   });
-  return regionalDistrictGeographicNamesDict;
+  return geographicNamesDict;
 };
 
 export const generateRegionalDistrictsByEconomicRegion = (

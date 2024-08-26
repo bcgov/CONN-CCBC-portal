@@ -13,6 +13,7 @@ const StyledDiv = styled.div`
   flex-direction: row;
   gap: 4px;
   margin-top: 8px;
+  margin-bottom: 8px;
 `;
 
 const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
@@ -54,6 +55,21 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
   const economicRegionOptions = formContext.economicRegions;
   const regionalDistrictOptions = formContext.regionalDistrictsByEconomicRegion;
   const geographicNameOptions = formContext.geographicNamesByRegionalDistrict;
+
+  const getGeographicNameOptions = (selectedRegDis, selEcoReg) => {
+    if (!selectedRegDis && !selEcoReg) {
+      return [];
+    }
+
+    if (!selectedRegDis && geographicNameOptions[selEcoReg]) {
+      return [...geographicNameOptions[selEcoReg]];
+    }
+
+    if (geographicNameOptions[selectedRegDis]) {
+      return [...geographicNameOptions[selectedRegDis]];
+    }
+    return [];
+  };
 
   return (
     <StyledDiv>
@@ -122,11 +138,10 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
             label="Geographic Name"
           />
         )}
-        options={
-          geographicNameOptions[selectedRegionalDistrict]
-            ? [...geographicNameOptions[selectedRegionalDistrict]]
-            : []
-        }
+        options={getGeographicNameOptions(
+          selectedRegionalDistrict,
+          selectedEconomicRegion
+        )}
         isOptionEqualToValue={(option, val) => {
           return option.value === val.value;
         }}
