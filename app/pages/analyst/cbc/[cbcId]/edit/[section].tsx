@@ -7,7 +7,7 @@ import { RelayProps, withRelay } from 'relay-nextjs';
 import { graphql } from 'relay-runtime';
 import review from 'formSchema/analyst/cbc/review';
 import { ProjectTheme } from 'components/Analyst/Project';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
 import { FormBase } from 'components/Form';
@@ -17,6 +17,7 @@ import useModal from 'lib/helpers/useModal';
 import { ChangeModal } from 'components/Analyst';
 import { useUpdateCbcDataAndInsertChangeRequest } from 'schema/mutations/cbc/updateCbcDataAndInsertChangeReason';
 import { createCbcSchemaData } from 'utils/schemaUtils';
+import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
 
 const getCbcSectionQuery = graphql`
   query SectionCbcDataQuery($rowId: Int!) {
@@ -122,11 +123,37 @@ const EditCbcSection = ({
     });
   };
 
+  const validateSection = useCallback(
+    (data, schema) => {
+      const sectionErrors: any = {};
+      if (!schema?.properties) return sectionErrors;
+
+      Object.keys(schema.properties).forEach((fieldKey) => {
+        const fieldErrorList = customValidate(data, section, fieldKey);
+        if (fieldErrorList.length > 0) {
+          sectionErrors[fieldKey] = {
+            __errors: fieldErrorList,
+            errorColor: CBC_WARN_COLOR,
+          };
+        }
+      });
+
+      return sectionErrors;
+    },
+    [section]
+  );
+
+  const formErrors = useMemo(
+    () =>
+      validateSection(formData || dataBySection, review.properties[section]),
+    [dataBySection, formData, section, validateSection]
+  );
+
   return (
     <Layout title="Edit CBC Section" session={session}>
       <CbcAnalystLayout query={query} isFormEditable>
         <FormBase
-          formData={dataBySection[section]}
+          formData={formData?.[section] || dataBySection[section]}
           schema={review.properties[section] as RJSFSchema}
           theme={ProjectTheme}
           uiSchema={editUiSchema[section]}
@@ -134,6 +161,10 @@ const EditCbcSection = ({
           noValidate
           noHtml5Validate
           omitExtraData={false}
+          formContext={{ errors: formErrors, showErrorHint: true }}
+          onChange={(e) => {
+            setFormData({ ...dataBySection, [section]: e.formData });
+          }}
         >
           <Button>Save</Button>
           <Button
