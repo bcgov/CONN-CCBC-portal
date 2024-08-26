@@ -1,3 +1,10 @@
+# [1.184.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.183.0...v1.184.0) (2024-08-26)
+
+### Features
+
+- ccbc summary page ([15b83b8](https://github.com/bcgov/CONN-CCBC-portal/commit/15b83b80048b07052e7697011e66fc22491ba7a6))
+- summary highlight communities counts not matching in sow ([450d8b1](https://github.com/bcgov/CONN-CCBC-portal/commit/450d8b1a36d5a6c26be89f2a5f1361d1f1eda951))
+
 # [1.183.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.2...v1.183.0) (2024-08-22)
 
 ### Features
