@@ -620,7 +620,7 @@ const mockQueryPayloadAgreementSigned = {
                       },
                     ],
                     communitiesNumber: 4,
-                    indigenousCommunitiesNumber: 0,
+                    indigenousCommunitiesNumber: 1,
                   },
                   sowId: 4,
                 },
@@ -738,9 +738,22 @@ describe('The Summary page', () => {
     expect(screen.getByText('Somewhere')).toBeInTheDocument();
     // benefiting indigenous communities
     expect(screen.getByText('Here')).toBeInTheDocument();
+    // indigenous communities
+    expect(
+      screen.getByTestId('root_counts_indigenousCommunities-value')
+    ).toHaveTextContent('1');
+    // communities
+    expect(
+      screen.getByTestId('root_counts_communities-value')
+    ).toHaveTextContent('4');
+    // non-indigenous communities
+    expect(
+      screen.getByTestId('root_counts_nonIndigenousCommunities-value')
+    ).toHaveTextContent('3');
+
     // milestone
     expect(screen.getByText('24%')).toBeInTheDocument();
     // application source
-    expect(screen.getAllByText('(SOW)')).toHaveLength(15);
+    expect(screen.getAllByText('(SOW)')).toHaveLength(16);
   });
 });
