@@ -1,3 +1,11 @@
+## [1.184.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.184.1...v1.184.2) (2024-08-26)
+
+### Bug Fixes
+
+- refine communities validation cbc ([33c40d5](https://github.com/bcgov/CONN-CCBC-portal/commit/33c40d575abfa58ca7bd77d7ff7fcc324a6b960b))
+
+## [1.184.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.184.0...v1.184.1) (2024-08-26)
+
 # [1.184.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.183.0...v1.184.0) (2024-08-26)
 
 ### Features
