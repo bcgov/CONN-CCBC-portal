@@ -84,7 +84,6 @@ const EditCbcSection = ({
   const [formData, setFormData] = useState<any>(null);
   const [addedCommunities, setAddedCommunities] = useState([]);
   const [removedCommunities, setRemovedCommunities] = useState([]);
-  const [dataBySection, setDataBySection] = useState<any>({});
 
   const { cbcDataByCbcId, rowId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
   const { jsonData, rowId: cbcDataRowId } = cbcDataByCbcId.edges[0].node;
@@ -94,7 +93,7 @@ const EditCbcSection = ({
       cbcProjectCommunitiesByCbcId.nodes?.map(
         (node) => node.communitiesSourceDataByCommunitiesSourceDataId
       ) || [];
-    setDataBySection(
+    setFormData(
       createCbcSchemaData({
         ...jsonData,
         cbcCommunitiesData,
@@ -111,19 +110,19 @@ const EditCbcSection = ({
   const removeCommunity = (communityId) => {
     setRemovedCommunities((prevList) => [...prevList, communityId]);
     const indexOfRemovedCommunity =
-      dataBySection.locations.communitySourceData.findIndex(
+      formData.locations?.communitySourceData?.findIndex(
         (community) => community.geographicNameId === communityId
       );
-    setDataBySection({
-      ...dataBySection,
+    setFormData({
+      ...formData,
       locations: {
-        ...dataBySection.locations,
+        ...formData.locations,
         communitySourceData: [
-          ...dataBySection.locations.communitySourceData.slice(
+          ...formData.locations.communitySourceData.slice(
             0,
             indexOfRemovedCommunity
           ),
-          ...dataBySection.locations.communitySourceData.slice(
+          ...formData.locations.communitySourceData.slice(
             indexOfRemovedCommunity + 1
           ),
         ],
@@ -134,6 +133,21 @@ const EditCbcSection = ({
   const handleAddClick = (formPayload) => {
     const communitySourceArray = formPayload.communitySourceData as Array<any>;
     const communitySourceArrayLength = formPayload.communitySourceData?.length;
+    console.log(
+      formPayload,
+      communitySourceArray,
+      communitySourceArrayLength,
+      communitySourceArray[communitySourceArrayLength - 1] === undefined,
+      {
+        ...formPayload,
+        communitySourceData: [
+          {},
+          // setRowId to make widget readonly
+          { ...communitySourceArray[0], rowId: true },
+          ...communitySourceArray.slice(1, communitySourceArrayLength - 1),
+        ],
+      }
+    );
     if (communitySourceArray[communitySourceArrayLength - 1] === undefined) {
       if (communitySourceArray[0])
         addCommunity(communitySourceArray[0].geographicNameId);
@@ -154,10 +168,12 @@ const EditCbcSection = ({
     useUpdateCbcCommunityDataMutationMutation();
 
   const handleOnChange = (e) => {
-    setFormData({
-      ...dataBySection,
-      [section]: handleAddClick(e.formData),
-    });
+    if (section === 'locations') {
+      setFormData({
+        ...formData,
+        [section]: handleAddClick(e.formData),
+      });
+    } else setFormData({ ...formData, [section]: e.formData });
   };
 
   const handleUpdateCommunitySource = useCallback(() => {
@@ -184,7 +200,7 @@ const EditCbcSection = ({
 
   const handleChangeRequestModal = (e) => {
     changeModal.open();
-    setFormData({ ...dataBySection, [section]: e.formData });
+    setFormData({ ...formData, [section]: e.formData });
   };
 
   const allCommunitiesSourceData = query.allCommunitiesSourceData.nodes;
@@ -265,16 +281,16 @@ const EditCbcSection = ({
   );
 
   const formErrors = useMemo(
-    () =>
-      validateSection(formData || dataBySection, review.properties[section]),
-    [dataBySection, formData, section, validateSection]
+    () => validateSection(formData, review.properties[section]),
+    [formData, section, validateSection]
   );
+  console.log(formData?.[section]);
 
   return (
     <Layout title="Edit CBC Section" session={session}>
       <CbcAnalystLayout query={query} isFormEditable>
         <FormBase
-          formData={formData?.[section] || dataBySection[section]}
+          formData={formData?.[section]}
           schema={review.properties[section] as RJSFSchema}
           theme={theme}
           uiSchema={editUiSchema[section]}
