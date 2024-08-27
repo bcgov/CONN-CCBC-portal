@@ -188,9 +188,15 @@ export const rfiViewUiSchema = {
     'ui:field': 'RequestedFilesField',
     eligibilityAndImpactsCalculator: {
       'ui:widget': 'ListFilesWidget',
+      'ui:options': {
+        templateNumber: 1,
+      },
     },
     detailedBudget: {
       'ui:widget': 'ListFilesWidget',
+      'ui:options': {
+        templateNumber: 2,
+      },
     },
     financialForecast: {
       'ui:widget': 'ListFilesWidget',
@@ -595,6 +601,7 @@ while (stack.length) {
         currentObj[key]['ui:options'].fileDateTitle = 'Date received';
         currentObj[key]['ui:options'].maxDate = new Date();
         currentObj[key]['ui:options'].showValidationMessage = true;
+        currentObj[key]['ui:options'].showTemplateUploadIndication = true;
       }
       stack.push(currentObj[key]);
     }

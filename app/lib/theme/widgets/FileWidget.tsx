@@ -63,6 +63,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     (uiSchema['ui:options']?.showValidationMessage as boolean) ?? false;
   const templateNumber =
     (uiSchema['ui:options']?.templateNumber as number) ?? 0;
+  const showTemplateUploadIndication =
+    (uiSchema['ui:options']?.showTemplateUploadIndication as boolean) ?? false;
   const isFiles = value?.length > 0;
   const loading = isCreatingAttachment || isDeletingAttachment;
   // 104857600 bytes = 100mb
@@ -268,6 +270,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       maxDate={maxDate}
       minDate={minDate}
       allowDragAndDrop={allowDragAndDrop}
+      templateNumber={templateNumber}
+      showTemplateUploadIndication={showTemplateUploadIndication}
     />
   );
 };
