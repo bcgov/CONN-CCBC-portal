@@ -269,7 +269,6 @@ const EditCbcSection = ({
     () => validateSection(formData ?? {}, review.properties[section]),
     [formData, section, validateSection]
   );
-  console.log(formData);
 
   return (
     <Layout title="Edit CBC Section" session={session}>
