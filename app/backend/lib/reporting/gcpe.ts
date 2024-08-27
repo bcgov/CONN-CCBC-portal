@@ -33,7 +33,7 @@ const getCbcDataQuery = `
 const getCcbcQuery = `
     query getCcbc {
       allApplications(
-        filter: {status: {in: ["conditionally_approved", "approved", "on_hold", "closed", "recommendation", "complete"]}}
+        filter: {analystStatus: {in: ["conditionally_approved", "approved", "on_hold", "closed", "recommendation", "complete"]}}
       ) {
         edges {
           node {
@@ -119,6 +119,7 @@ const getCcbcQuery = `
             package
             projectName
             status
+            analystStatus
             intakeNumber
             organizationName
           }
@@ -337,7 +338,7 @@ const generateExcelData = async (
       // federal funding source
       { value: 'ISED-UBF Core' },
       // status
-      { value: convertStatus(node?.status) },
+      { value: convertStatus(node?.analystStatus) },
       // project milestone complete percent
       {
         value:
