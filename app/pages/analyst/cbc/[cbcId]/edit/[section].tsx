@@ -133,21 +133,6 @@ const EditCbcSection = ({
   const handleAddClick = (formPayload) => {
     const communitySourceArray = formPayload.communitySourceData as Array<any>;
     const communitySourceArrayLength = formPayload.communitySourceData?.length;
-    console.log(
-      formPayload,
-      communitySourceArray,
-      communitySourceArrayLength,
-      communitySourceArray[communitySourceArrayLength - 1] === undefined,
-      {
-        ...formPayload,
-        communitySourceData: [
-          {},
-          // setRowId to make widget readonly
-          { ...communitySourceArray[0], rowId: true },
-          ...communitySourceArray.slice(1, communitySourceArrayLength - 1),
-        ],
-      }
-    );
     if (communitySourceArray[communitySourceArrayLength - 1] === undefined) {
       if (communitySourceArray[0])
         addCommunity(communitySourceArray[0].geographicNameId);
@@ -284,7 +269,6 @@ const EditCbcSection = ({
     () => validateSection(formData, review.properties[section]),
     [formData, section, validateSection]
   );
-  console.log(formData?.[section]);
 
   return (
     <Layout title="Edit CBC Section" session={session}>
