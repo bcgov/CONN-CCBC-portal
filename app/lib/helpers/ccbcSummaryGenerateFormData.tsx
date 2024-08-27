@@ -144,7 +144,10 @@ const getSowData = (sowData, baseSowData) => {
         communities,
         benefitingCommunities: communitiesData?.benefitingCommunities,
         indigenousCommunities,
-        nonIndigenousCommunities: communities - indigenousCommunities,
+        nonIndigenousCommunities:
+          communities && indigenousCommunities
+            ? communities - indigenousCommunities
+            : communities,
         benefitingIndigenousCommunities:
           communitiesData?.benefitingIndigenousCommunities,
         totalHouseholdsImpacted:
