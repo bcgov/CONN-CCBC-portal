@@ -1,3 +1,10 @@
+## [1.186.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.0...v1.186.1) (2024-08-27)
+
+### Bug Fixes
+
+- analyst status to show in report correctly ([657bf9f](https://github.com/bcgov/CONN-CCBC-portal/commit/657bf9fc1818644ec2c8d409d8283bfa86b8aa2a))
+- filtering for ccbc gcpe report ([dcd2b52](https://github.com/bcgov/CONN-CCBC-portal/commit/dcd2b52ea8f43a82a259cdbfa76cd7e87d05e03e))
+
 # [1.186.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.185.0...v1.186.0) (2024-08-27)
 
 ### Bug Fixes
