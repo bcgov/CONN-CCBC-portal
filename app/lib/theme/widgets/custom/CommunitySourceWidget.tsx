@@ -93,12 +93,12 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
       return [];
     }
 
-    if (!selectedRegDis && geographicNameOptions[selEcoReg]) {
-      return [...geographicNameOptions[selEcoReg]];
+    if (!selectedRegDis && geographicNameOptions[selEcoReg]['null']) {
+      return [...geographicNameOptions[selEcoReg]['null']];
     }
 
-    if (geographicNameOptions[selectedRegDis]) {
-      return [...geographicNameOptions[selectedRegDis]];
+    if (geographicNameOptions[selEcoReg][selectedRegDis]) {
+      return [...geographicNameOptions[selEcoReg][selectedRegDis]];
     }
     return [];
   };
@@ -114,6 +114,8 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
             clearWidget();
           }
           if (e) {
+            setSelectedRegionalDistrict(null);
+            setSelectedGeographicName({ value: null, label: '' });
             setSelectedEconomicRegion(val);
           }
         }}

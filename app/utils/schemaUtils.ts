@@ -168,20 +168,27 @@ export const generateGeographicNamesByRegionalDistrict = (
     } = community;
 
     if (geographicNamesDict[economicRegion] === undefined) {
-      geographicNamesDict[economicRegion] = new Set();
+      geographicNamesDict[economicRegion] = {};
     }
 
-    if (geographicNamesDict[regionalDistrict] === undefined) {
-      geographicNamesDict[regionalDistrict] = new Set();
+    if (
+      geographicNamesDict[economicRegion] === undefined &&
+      !regionalDistrict
+    ) {
+      geographicNamesDict[economicRegion]['null'] = new Set();
+    }
+
+    if (geographicNamesDict[economicRegion][regionalDistrict] === undefined) {
+      geographicNamesDict[economicRegion][regionalDistrict] = new Set();
     }
 
     if (regionalDistrict === null) {
-      geographicNamesDict[economicRegion].add({
+      geographicNamesDict[economicRegion]['null'].add({
         label: bcGeographicName,
         value: geographicNameId,
       });
     } else {
-      geographicNamesDict[regionalDistrict].add({
+      geographicNamesDict[economicRegion][regionalDistrict].add({
         label: bcGeographicName,
         value: geographicNameId,
       });
@@ -199,7 +206,8 @@ export const generateRegionalDistrictsByEconomicRegion = (
     if (!economicRegionRegionalDistrictsDict[economicRegion]) {
       economicRegionRegionalDistrictsDict[economicRegion] = new Set();
     }
-    economicRegionRegionalDistrictsDict[economicRegion].add(regionalDistrict);
+    if (regionalDistrict)
+      economicRegionRegionalDistrictsDict[economicRegion].add(regionalDistrict);
   });
 
   return economicRegionRegionalDistrictsDict;

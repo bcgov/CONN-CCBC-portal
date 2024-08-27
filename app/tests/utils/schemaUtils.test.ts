@@ -30,17 +30,24 @@ describe('generateGeographicNamesByRegionalDistrict', () => {
         regionalDistrict: 'Regional District 2',
         economicRegion: 'Economic Region 1',
       },
+      {
+        bcGeographicName: 'Community 4',
+        geographicNameId: 4,
+        regionalDistrict: null,
+        economicRegion: 'Economic Region 1',
+      },
     ];
 
     const result = generateGeographicNamesByRegionalDistrict(communities);
     expect(result).toEqual({
-      'Economic Region 1': new Set(),
-      'Economic Region 2': new Set(),
-      'Regional District 1': new Set([
-        { label: 'Community 1', value: 1 },
-        { label: 'Community 2', value: 2 },
-      ]),
-      'Regional District 2': new Set([{ label: 'Community 3', value: 3 }]),
+      'Economic Region 1': {
+        'Regional District 1': new Set([{ label: 'Community 1', value: 1 }]),
+        'Regional District 2': new Set([{ label: 'Community 3', value: 3 }]),
+        null: new Set([{ label: 'Community 4', value: 4 }]),
+      },
+      'Economic Region 2': {
+        'Regional District 1': new Set([{ label: 'Community 2', value: 2 }]),
+      },
     });
   });
 });
@@ -69,6 +76,12 @@ describe('generateRegionalDistrictsByEconomicRegion', () => {
         bcGeographicName: 'Community 3',
         geographicNameId: 3,
         regionalDistrict: 'Regional District 2',
+        economicRegion: 'Economic Region 1',
+      },
+      {
+        bcGeographicName: 'Community 4',
+        geographicNameId: 4,
+        regionalDistrict: null,
         economicRegion: 'Economic Region 1',
       },
     ];
