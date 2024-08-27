@@ -15,10 +15,12 @@ begin
 
   -- Insert new community ids into ccbc_public.cbc_project_communities table
   foreach _community_id in array _community_ids_to_add
-  loop
-    insert into ccbc_public.cbc_project_communities (cbc_id, communities_source_data_id)
-    values (_project_id, _community_id);
-  end loop;
+    loop
+      if _community_id is not null then
+        insert into ccbc_public.cbc_project_communities (cbc_id, communities_source_data_id)
+        values (_project_id, _community_id);
+      end if;
+    end loop;
 
   return query select * from ccbc_public.cbc_project_communities where cbc_id = _project_id and archived_at is null;
 
