@@ -266,15 +266,16 @@ const EditCbcSection = ({
   );
 
   const formErrors = useMemo(
-    () => validateSection(formData, review.properties[section]),
+    () => validateSection(formData ?? {}, review.properties[section]),
     [formData, section, validateSection]
   );
+  console.log(formData);
 
   return (
     <Layout title="Edit CBC Section" session={session}>
       <CbcAnalystLayout query={query} isFormEditable>
         <FormBase
-          formData={formData?.[section]}
+          formData={formData?.[section] ?? {}}
           schema={review.properties[section] as RJSFSchema}
           theme={theme}
           uiSchema={editUiSchema[section]}

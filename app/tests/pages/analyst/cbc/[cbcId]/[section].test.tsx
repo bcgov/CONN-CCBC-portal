@@ -64,11 +64,11 @@ const mockQueryPayload = {
           nodes: [
             {
               communitiesSourceDataByCommunitiesSourceDataId: {
-                economicRegion: 'Economic Region',
-                geographicNameId: 1,
+                economicRegion: 'Economic Region 1',
+                geographicNameId: 10,
                 geographicType: 'Geographic Type',
-                regionalDistrict: 'Regional District',
-                bcGeographicName: 'BC Geographic Name',
+                regionalDistrict: 'Regional District 1',
+                bcGeographicName: 'BC Geographic Name 10',
                 rowId: 1,
               },
             },
@@ -391,11 +391,11 @@ describe('EditCbcSection', () => {
               changeRequestPending: 'No',
               projectTitle: 'Project 1',
               projectDescription: 'Description 1',
+              applicantContractualName: 'Test project contractual name',
               currentOperatingName: 'Internet company 1',
               federalFundingSource: 'ISED-CTI',
               projectType: 'Transport',
               transportProjectType: 'Fibre',
-              applicantContractualName: 'Test project contractual name',
               projectLocations: 'Location 1',
               indigenousCommunities: 5,
               householdCount: null,
@@ -411,6 +411,7 @@ describe('EditCbcSection', () => {
               proposedStartDate: '2020-07-01T00:00:00.000Z',
               proposedCompletionDate: '2023-03-31T00:00:00.000Z',
               dateAnnounced: '2019-07-02T00:00:00.000Z',
+              projectMilestoneCompleted: 0.75,
               milestoneComments: 'Requested extension to March 31, 2024',
               primaryNewsRelease:
                 'https://www.somethingmadeup.ca/en/innovation-science-economic-development/internet.html',
