@@ -119,6 +119,7 @@ const getCcbcQuery = `
             package
             projectName
             status
+            analystStatus
             intakeNumber
             organizationName
           }
@@ -337,7 +338,7 @@ const generateExcelData = async (
       // federal funding source
       { value: 'ISED-UBF Core' },
       // status
-      { value: convertStatus(node?.status) },
+      { value: convertStatus(node?.analystStatus) },
       // project milestone complete percent
       {
         value:
