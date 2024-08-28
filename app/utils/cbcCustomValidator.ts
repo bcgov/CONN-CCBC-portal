@@ -204,6 +204,18 @@ const CBC_VALIDATIONS = {
       ],
       color: CBC_WARN_COLOR,
     },
+    householdCount: {
+      rules: [
+        {
+          condition: (data) =>
+            (data?.projectType?.projectType === 'Last-Mile' ||
+              data?.projectType?.projectType === 'Last-Mile & Cellular' ||
+              data?.projectType?.projectType === 'Last-Mile & Transport') &&
+            !data?.locationsAndCounts?.householdCount,
+          error: `You have chosen a Last-Mile project type, please enter in the number of households`,
+        },
+      ],
+    },
   },
   projectType: {
     lastMileProjectType: {

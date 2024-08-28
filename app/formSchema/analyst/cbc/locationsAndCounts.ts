@@ -1,31 +1,15 @@
 import { RJSFSchema } from '@rjsf/utils';
 
 const locationsAndCounts: RJSFSchema = {
-  title: 'Locations and counts',
+  title: 'Counts',
   description: '',
   type: 'object',
   required: [
     'projectLocations',
     'communitiesAndLocalesCount',
-    'householdCount',
+    'indigenousCommunities',
   ],
   properties: {
-    projectLocations: {
-      type: 'string',
-      title: 'Project Locations',
-    },
-    geographicNames: {
-      type: 'string',
-      title: 'Geographic Names',
-    },
-    regionalDistricts: {
-      type: 'string',
-      title: 'Regional Districts',
-    },
-    economicRegions: {
-      type: 'string',
-      title: 'Economic Regions',
-    },
     communitiesAndLocalesCount: {
       type: 'number',
       title: 'Communities and locales count',
