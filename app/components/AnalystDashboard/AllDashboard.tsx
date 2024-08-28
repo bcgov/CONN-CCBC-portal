@@ -581,10 +581,16 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     enableColumnResizing: true,
     columnResizeMode: 'onChange',
     state,
-    muiTableContainerProps: { sx: { padding: '8px' } },
+    muiTableContainerProps: {
+      sx: {
+        padding: '0 8px 8px 8px',
+        maxHeight: 'calc(100vh - 460px)',
+      },
+    },
     layoutMode: isLargeUp ? 'grid' : 'semantic',
     muiTableBodyCellProps,
     muiTableHeadCellProps,
+    enableStickyHeader: true,
     onSortingChange: handleOnSortChange,
     onColumnFiltersChange: setColumnFilters,
     autoResetAll: false,
@@ -626,7 +632,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     <>
       {renderRowCount()}
       <MaterialReactTable table={table} />
-      {renderRowCount()}
     </>
   );
 };
