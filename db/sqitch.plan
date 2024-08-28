@@ -649,3 +649,6 @@ tables/cbc_add_fk_update_constraint 2024-07-11T20:32:11Z Rafael Solorzano <61289
 mutations/edit_cbc_project_communities 2024-08-21T15:16:56Z Anthony Bushara <anthony@button.is> # Add and delete project communities to a cbc project
 @1.186.0 2024-08-27T20:55:46Z CCBC Service Account <ccbc@button.is> # release v1.186.0
 @1.186.1 2024-08-27T22:52:17Z CCBC Service Account <ccbc@button.is> # release v1.186.1
+@1.186.2 2024-08-28T15:58:56Z CCBC Service Account <ccbc@button.is> # release v1.186.2
+tables/communities_source_data_001_service_account 2024-08-28T16:32:48Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grants service account to communities source data table
+@1.186.3 2024-08-28T17:01:51Z CCBC Service Account <ccbc@button.is> # release v1.186.3
