@@ -1,3 +1,9 @@
+## [1.186.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.1...v1.186.2) (2024-08-28)
+
+### Bug Fixes
+
+- cbc household count validation ([9c203db](https://github.com/bcgov/CONN-CCBC-portal/commit/9c203db6d2a4e6f2a40d3d785137f2c62a0abc98))
+
 ## [1.186.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.0...v1.186.1) (2024-08-27)
 
 ### Bug Fixes
