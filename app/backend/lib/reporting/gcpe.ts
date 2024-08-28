@@ -11,6 +11,7 @@ import {
   findPrimaryAnnouncement,
   findPrimaryAnnouncementDate,
   findSecondaryAnnouncement,
+  getConnectedCoastDependent,
   getHouseholdCount,
   getTotalProjectBudget,
   handleProjectType,
@@ -32,7 +33,7 @@ const getCbcDataQuery = `
 const getCcbcQuery = `
     query getCcbc {
       allApplications(
-        filter: {status: {in: ["conditionally_approved", "approved", "on_hold", "closed", "recommendation", "complete"]}}
+        filter: {analystStatus: {in: ["conditionally_approved", "approved", "on_hold", "closed", "recommendation", "complete"]}}
       ) {
         edges {
           node {
@@ -101,12 +102,24 @@ const getCcbcQuery = `
               }
               totalCount
             }
+            applicationAnnouncedsByApplicationId(last: 1, condition: {archivedAt: null}) {
+              nodes {
+                announced
+              }
+            }
+            assessmentDataByApplicationId(condition: {archivedAt: null}) {
+              nodes {
+                assessmentDataType
+                jsonData
+              }
+            }
             ccbcNumber
             externalStatus
             internalDescription
             package
             projectName
             status
+            analystStatus
             intakeNumber
             organizationName
           }
@@ -295,10 +308,9 @@ const generateExcelData = async (
       { value: 'CCBC' },
       // announced by province
       {
-        value:
-          node?.applicationAnnouncementsByApplicationId.totalCount > 0
-            ? 'YES'
-            : 'NO',
+        value: node?.applicationAnnouncedsByApplicationId?.nodes[0]?.announced
+          ? 'YES'
+          : 'NO',
       },
       // change request pending
       {
@@ -326,7 +338,7 @@ const generateExcelData = async (
       // federal funding source
       { value: 'ISED-UBF Core' },
       // status
-      { value: convertStatus(node?.status) },
+      { value: convertStatus(node?.analystStatus) },
       // project milestone complete percent
       {
         value:
@@ -418,7 +430,9 @@ const generateExcelData = async (
       // rest areas
       { value: null },
       // connected coast network dependent
-      { value: null },
+      {
+        value: getConnectedCoastDependent(node?.assessmentDataByApplicationId),
+      },
       // proposed start date
       { value: node?.formData?.jsonData?.projectPlan?.projectStartDate },
       // date conditionally approved

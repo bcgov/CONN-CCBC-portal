@@ -80556,6 +80556,12 @@ type Mutation {
     """
     input: DeleteCommunityProgressReportInput!
   ): DeleteCommunityProgressReportPayload
+  editCbcProjectCommunities(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: EditCbcProjectCommunitiesInput!
+  ): EditCbcProjectCommunitiesPayload
   importApplicationAnalystLead(
     """
     The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
@@ -93705,6 +93711,33 @@ input DeleteCommunityProgressReportInput {
   cprRowId: Int!
   applicationRowId: Int!
   formData: JSON!
+}
+
+"""The output of our `editCbcProjectCommunities` mutation."""
+type EditCbcProjectCommunitiesPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+  cbcProjectCommunities: [CbcProjectCommunity]
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+}
+
+"""All input for the `editCbcProjectCommunities` mutation."""
+input EditCbcProjectCommunitiesInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  _projectId: Int!
+  _communityIdsToAdd: [Int]!
+  _communityIdsToArchive: [Int]!
 }
 
 """The output of our `importApplicationAnalystLead` mutation."""

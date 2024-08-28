@@ -5,6 +5,7 @@ import AssessmentAssignmentTable, {
   filterAnalysts,
   filterCcbcId,
   sortAnalysts,
+  sortStatus,
 } from 'components/AnalystDashboard/AssessmentAssignmentTable';
 import compiledQuery, {
   AssessmentAssignmentTableTestQuery,
@@ -671,5 +672,43 @@ describe('The sortAnalysts function', () => {
 
   it('should return -1 if both analysts are not null', () => {
     expect(sortAnalysts(mockDataA, mockDataB, 1)).toEqual(-1);
+  });
+});
+
+describe('The sortStatus function', () => {
+  it('should sort based on internalStatusOrder when columnId is "analystStatus"', () => {
+    const rowA = { original: { internalStatusOrder: 2 } };
+    const rowB = { original: { internalStatusOrder: 1 } };
+
+    const result = sortStatus(rowA, rowB, 'analystStatus');
+
+    expect(result).toBeGreaterThan(0);
+  });
+
+  it('should sort based on externalStatusOrder when columnId is not "analystStatus"', () => {
+    const rowA = { original: { externalStatusOrder: 1 } };
+    const rowB = { original: { externalStatusOrder: 2 } };
+
+    const result = sortStatus(rowA, rowB, 'someOtherStatus');
+
+    expect(result).toBeLessThan(0);
+  });
+
+  it('should return 0 when both statuses are equal', () => {
+    const rowA = { original: { externalStatusOrder: 3 } };
+    const rowB = { original: { externalStatusOrder: 3 } };
+
+    const result = sortStatus(rowA, rowB, 'someOtherStatus');
+
+    expect(result).toBe(0);
+  });
+
+  it('should handle missing status values by treating them as 0', () => {
+    const rowA = { original: { internalStatusOrder: undefined } };
+    const rowB = { original: { internalStatusOrder: 1 } };
+
+    const result = sortStatus(rowA, rowB, 'analystStatus');
+
+    expect(result).toBeLessThan(0);
   });
 });

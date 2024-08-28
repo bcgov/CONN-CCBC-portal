@@ -3,8 +3,14 @@ import { Dropdown } from '@button-inc/bcgov-theme';
 import styled from 'styled-components';
 import Label from 'components/Form/Label';
 
+interface ObjectOptionProps {
+  value: string | number;
+  label: string;
+}
+
 interface SelectWidgetProps extends WidgetProps {
   customOption?: React.ReactNode;
+  objectOptions?: ObjectOptionProps[];
 }
 
 interface SelectProps {
@@ -64,10 +70,11 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
   uiSchema,
   customOption,
   rawErrors,
+  objectOptions,
 }) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const options = schema.enum as Array<string>;
+  const options = objectOptions ?? (schema.enum as Array<string>);
   const description = uiSchema ? uiSchema['ui:description'] : null;
   const isError = rawErrors && rawErrors.length > 0 && !value;
 
@@ -91,11 +98,17 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
         <option key={`option-placeholder-${id}`} value={undefined}>
           {placeholder}
         </option>
-        {options?.map((opt) => (
-          <option key={opt} value={opt}>
-            {opt}
-          </option>
-        ))}
+        {options?.map((opt, index) => {
+          return (
+            <option
+              // eslint-disable-next-line react/no-array-index-key
+              key={`${opt?.value ?? opt}_${index}`}
+              value={opt?.value ?? opt}
+            >
+              {opt?.label ?? opt}
+            </option>
+          );
+        })}
         {customOption ?? customOption}
         {description && <Label>{description}</Label>}
       </StyledSelect>

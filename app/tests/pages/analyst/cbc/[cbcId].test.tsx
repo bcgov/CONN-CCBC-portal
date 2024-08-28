@@ -91,6 +91,7 @@ const mockQueryPayload = {
                 geographicType: 'Geographic Type 1',
                 regionalDistrict: 'Regional District 1',
                 bcGeographicName: 'BC Geographic Name 1',
+                rowId: 1,
               },
             },
             {
@@ -100,6 +101,7 @@ const mockQueryPayload = {
                 geographicType: 'Geographic Type 2',
                 regionalDistrict: 'Regional District 2',
                 bcGeographicName: 'BC Geographic Name 2',
+                rowId: 2,
               },
             },
             {
@@ -109,15 +111,37 @@ const mockQueryPayload = {
                 geographicType: 'Geographic Type 2',
                 regionalDistrict: 'Regional District 1',
                 bcGeographicName: 'BC Geographic Name 3',
+                rowId: 3,
               },
             },
           ],
         },
       },
+      allCommunitiesSourceData: {
+        nodes: [
+          {
+            geographicNameId: 10,
+            bcGeographicName: 'BC Geographic Name 10',
+            economicRegion: 'Economic Region 1',
+            regionalDistrict: 'Regional District 1',
+          },
+          {
+            geographicNameId: 11,
+            bcGeographicName: 'BC Geographic Name 11',
+            economicRegion: 'Economic Region 1',
+            regionalDistrict: 'Regional District 2',
+          },
+          {
+            geographicNameId: 12,
+            bcGeographicName: 'BC Geographic Name 12',
+            economicRegion: 'Economic Region 2',
+            regionalDistrict: 'Regional District 1',
+          },
+        ],
+      },
       session: {
         authRole: 'cbc_admin',
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-        authRole: 'cbc_admin',
       },
     };
   },
@@ -205,7 +229,8 @@ describe('Cbc', () => {
 
     expect(screen.getByText('Tombstone')).toBeInTheDocument();
     expect(screen.getByText('Project type')).toBeInTheDocument();
-    expect(screen.getByText('Locations and counts')).toBeInTheDocument();
+    expect(screen.getByText('Locations')).toBeInTheDocument();
+    expect(screen.getByText('Counts')).toBeInTheDocument();
     expect(screen.getByText('Funding')).toBeInTheDocument();
     expect(screen.getByText('Events and dates')).toBeInTheDocument();
     expect(screen.getByText('Miscellaneous')).toBeInTheDocument();
@@ -643,6 +668,129 @@ describe('Cbc', () => {
         },
       },
     });
+  });
+
+  it('should fire community mutation for community source data', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const editButton = screen.getByRole('button', {
+      name: 'Quick edit',
+    });
+    act(() => {
+      fireEvent.click(editButton);
+    });
+
+    const removeButton = screen.getAllByTestId(
+      'delete-community-source-button'
+    )[1];
+
+    act(() => {
+      fireEvent.click(removeButton);
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+    act(() => {
+      fireEvent.click(saveButton);
+    });
+
+    const changeReasonInput = screen.getByTestId('reason-for-change');
+    act(() => {
+      fireEvent.change(changeReasonInput, {
+        target: { value: 'Updated reason' },
+      });
+    });
+
+    const saveModalButton = screen.getByRole('button', { name: /save/i });
+    act(() => {
+      fireEvent.click(saveModalButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'updateCbcDataAndInsertChangeReasonMutation',
+      {
+        inputCbcData: {
+          rowId: 1,
+          cbcDataPatch: {
+            jsonData: {
+              projectNumber: 5555,
+              phase: 2,
+              intake: 1,
+              projectStatus: 'Reporting Complete',
+              changeRequestPending: 'No',
+              projectTitle: 'Project 1',
+              projectDescription: 'Description 1',
+              applicantContractualName: 'Internet company 1',
+              currentOperatingName: 'Internet company 1',
+              eightThirtyMillionFunding: 'No',
+              federalFundingSource: 'ISED-CTI',
+              projectType: 'Transport',
+              transportProjectType: 'Fibre',
+              connectedCoastNetworkDependant: 'NO',
+              projectLocations: 'Location 1',
+              communitiesAndLocalesCount: 5,
+              indigenousCommunities: 5,
+              householdCount: null,
+              transportKm: 124,
+              highwayKm: null,
+              bcFundingRequested: 5555555,
+              federalFundingRequested: 555555,
+              applicantAmount: 555555,
+              otherFundingRequested: 265000,
+              totalProjectBudget: 5555555,
+              conditionalApprovalLetterSent: 'YES',
+              agreementSigned: 'YES',
+              announcedByProvince: 'YES',
+              dateApplicationReceived: null,
+              dateConditionallyApproved: '2019-06-26T00:00:00.000Z',
+              dateAgreementSigned: '2021-02-24T00:00:00.000Z',
+              proposedStartDate: '2020-07-01T00:00:00.000Z',
+              proposedCompletionDate: '2023-03-31T00:00:00.000Z',
+              reportingCompletionDate: null,
+              dateAnnounced: '2019-07-02T00:00:00.000Z',
+              projectMilestoneCompleted: 0.5,
+              constructionCompletedOn: null,
+              milestoneComments: 'Requested extension to March 31, 2024',
+              primaryNewsRelease:
+                'https://www.canada.ca/en/innovation-science-economic-development/news/2019/07/rural-communities-in-british-columbia-will-benefit-from-faster-internet.html',
+              locked: false,
+              lastReviewed: '2023-07-11T00:00:00.000Z',
+              reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
+            },
+          },
+        },
+        inputCbcChangeReason: {
+          cbcDataChangeReason: {
+            description: 'Updated reason',
+            cbcDataId: 1,
+          },
+        },
+      }
+    );
+
+    pageTestingHelper.environment.mock.resolveMostRecentOperation({
+      data: {
+        updateCbcDataAndInsertChangeReason: {
+          cbcData: {
+            rowId: 1,
+          },
+        },
+      },
+    });
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'updateCbcCommunityDataMutation',
+      {
+        input: {
+          _projectId: 1,
+          _communityIdsToAdd: [],
+          _communityIdsToArchive: [1],
+        },
+      }
+    );
   });
 
   it('do nothing on cancel modal', async () => {

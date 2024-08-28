@@ -109,6 +109,23 @@ describe('The RFIAnalystUpload component', () => {
     ).toBeInTheDocument();
   });
 
+  it('should render upload indication for template 1 and 2', () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    expect(
+      screen.getByText(
+        /RFI upload for Template 1 automatically updates the data for Final Eligible Households and Indigenous/
+      )
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText(
+        /FI upload for Template 2 automatically updates the data for Total Eligible Costs and Total Project Costs/
+      )
+    ).toBeInTheDocument();
+  });
+
   it('should render the upload button', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
