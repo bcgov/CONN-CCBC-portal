@@ -1,3 +1,9 @@
+## [1.186.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.2...v1.186.3) (2024-08-28)
+
+### Bug Fixes
+
+- sa permission for communities source data ([cc1d2e3](https://github.com/bcgov/CONN-CCBC-portal/commit/cc1d2e3e17e82d7807d078d1895cbfdb36958f7c))
+
 ## [1.186.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.1...v1.186.2) (2024-08-28)
 
 ### Bug Fixes
