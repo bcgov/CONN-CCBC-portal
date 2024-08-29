@@ -440,7 +440,7 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     const countRows = screen.getAllByText(/Showing 8 of 8 rows/i);
-    expect(countRows).toHaveLength(2);
+    expect(countRows).toHaveLength(1);
   });
 
   it('click on table row leads to review page', async () => {
