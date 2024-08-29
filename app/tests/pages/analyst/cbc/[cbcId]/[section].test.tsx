@@ -1,5 +1,6 @@
 import cbcSection from 'pages/analyst/cbc/[cbcId]/edit/[section]';
 import { act, fireEvent, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import compiledSectionQuery, {
   SectionCbcDataQuery,
 } from '../../../../../__generated__/SectionCbcDataQuery.graphql';
@@ -53,6 +54,7 @@ const mockQueryPayload = {
                   transportProjectType: 'Fibre',
                   indigenousCommunities: 5,
                   proposedCompletionDate: '2023-03-31T00:00:00.000Z',
+                  projectMilestoneCompleted: 0.75,
                 },
               },
             },
@@ -62,15 +64,38 @@ const mockQueryPayload = {
           nodes: [
             {
               communitiesSourceDataByCommunitiesSourceDataId: {
-                economicRegion: 'Economic Region',
-                geographicNameId: 1,
+                economicRegion: 'Economic Region 1',
+                geographicNameId: 10,
                 geographicType: 'Geographic Type',
-                regionalDistrict: 'Regional District',
-                bcGeographicName: 'BC Geographic Name',
+                regionalDistrict: 'Regional District 1',
+                bcGeographicName: 'BC Geographic Name 10',
+                rowId: 1,
               },
             },
           ],
         },
+      },
+      allCommunitiesSourceData: {
+        nodes: [
+          {
+            geographicNameId: 10,
+            bcGeographicName: 'BC Geographic Name 10',
+            economicRegion: 'Economic Region 1',
+            regionalDistrict: 'Regional District 1',
+          },
+          {
+            geographicNameId: 11,
+            bcGeographicName: 'BC Geographic Name 11',
+            economicRegion: 'Economic Region 1',
+            regionalDistrict: 'Regional District 2',
+          },
+          {
+            geographicNameId: 12,
+            bcGeographicName: 'BC Geographic Name 12',
+            economicRegion: 'Economic Region 2',
+            regionalDistrict: 'Regional District 3',
+          },
+        ],
       },
     };
   },
@@ -229,6 +254,7 @@ describe('EditCbcSection', () => {
                 'https://www.somethingmadeup.ca/en/innovation-science-economic-development/internet.html',
               lastReviewed: '2023-07-11T00:00:00.000Z',
               reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
+              projectMilestoneCompleted: 0.75,
             },
           },
         },
@@ -237,6 +263,189 @@ describe('EditCbcSection', () => {
             description: 'Updated reason',
             cbcDataId: 20,
           },
+        },
+      }
+    );
+  });
+
+  it('should have the correct validation errors for tombstone projectStatus', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const projectStatusElement = screen.getByTestId(
+      'root_federalProjectNumber'
+    );
+    const parentElement = projectStatusElement.closest(
+      '[class^="ProjectFieldTemplate__ErrorWrapper"]'
+    );
+
+    expect(parentElement).toHaveStyle({
+      backgroundColor: 'rgb(248, 231, 143)',
+    });
+    const helpIcon = parentElement.querySelector('[data-testid="HelpIcon"]');
+    expect(helpIcon).toBeInTheDocument();
+
+    fireEvent.mouseOver(helpIcon);
+    const tooltip = await screen.findByText(/Missing Federal project number/);
+    expect(tooltip).toBeInTheDocument();
+  });
+
+  it('should have the correct validation errors for accordion', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const projectStatusElement = screen.getByTestId(
+      'root_federalProjectNumber'
+    );
+    const parentElement = projectStatusElement.closest(
+      '[class^="ProjectFieldTemplate__ErrorWrapper"]'
+    );
+
+    expect(parentElement).toHaveStyle({
+      backgroundColor: 'rgb(248, 231, 143)',
+    });
+    const helpIcon = parentElement.querySelector('[data-testid="HelpIcon"]');
+    expect(helpIcon).toBeInTheDocument();
+
+    fireEvent.mouseOver(helpIcon);
+    const tooltip = await screen.findByText(/Missing Federal project number/);
+    expect(tooltip).toBeInTheDocument();
+  });
+
+  it('should call update function and cbcCommunityUpdate with correct data on save', async () => {
+    pageTestingHelper.setMockRouterValues({
+      query: { cbcId: '1', section: 'locations' },
+    });
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const economicRegion = screen.getAllByTestId(
+      'economic-region-autocomplete'
+    )[0];
+    await act(async () => {
+      await userEvent.type(economicRegion, '{ArrowDown}{Enter}', {
+        skipClick: false,
+        skipHover: false,
+      });
+    });
+    const regionalDistrict = screen.getAllByTestId(
+      'regional-district-autocomplete'
+    )[0];
+    await act(async () => {
+      await userEvent.type(regionalDistrict, '{ArrowDown}{Enter}', {
+        skipClick: false,
+        skipHover: false,
+      });
+    });
+    const geographicName = screen.getAllByTestId(
+      'geographic-name-autocomplete'
+    )[0];
+
+    await act(async () => {
+      await userEvent.type(geographicName, '{ArrowDown}{Enter}', {
+        skipClick: false,
+        skipHover: false,
+      });
+    });
+
+    const addButton = screen.getByTestId('add-community-button');
+    await act(async () => {
+      await userEvent.click(addButton);
+    });
+
+    const clearButton = screen.getByTestId('clear-community-button');
+    await act(async () => {
+      await userEvent.click(clearButton);
+    });
+
+    const saveButton = screen.getByRole('button', { name: /save/i });
+
+    act(() => {
+      fireEvent.click(saveButton);
+    });
+
+    const changeReasonInput = screen.getByTestId('reason-for-change');
+    act(() => {
+      fireEvent.change(changeReasonInput, {
+        target: { value: 'Updated reason' },
+      });
+    });
+
+    const saveModalButton = screen.getByRole('button', { name: /save/i });
+    act(() => {
+      fireEvent.click(saveModalButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'updateCbcDataAndInsertChangeReasonMutation',
+      {
+        inputCbcData: {
+          rowId: 20,
+          cbcDataPatch: {
+            jsonData: {
+              projectNumber: 5555,
+              originalProjectNumber: 5555,
+              phase: 2,
+              intake: 1,
+              projectStatus: 'Reporting Complete',
+              changeRequestPending: 'No',
+              projectTitle: 'Project 1',
+              projectDescription: 'Description 1',
+              applicantContractualName: 'Test project contractual name',
+              currentOperatingName: 'Internet company 1',
+              federalFundingSource: 'ISED-CTI',
+              projectType: 'Transport',
+              transportProjectType: 'Fibre',
+              projectLocations: 'Location 1',
+              indigenousCommunities: 5,
+              householdCount: null,
+              transportKm: 124,
+              highwayKm: null,
+              bcFundingRequested: 5555555,
+              federalFundingRequested: 555555,
+              applicantAmount: 555555,
+              otherFundingRequested: 265000,
+              totalProjectBudget: 5555555,
+              announcedByProvince: 'YES',
+              dateAgreementSigned: '2021-02-24T00:00:00.000Z',
+              proposedStartDate: '2020-07-01T00:00:00.000Z',
+              proposedCompletionDate: '2023-03-31T00:00:00.000Z',
+              dateAnnounced: '2019-07-02T00:00:00.000Z',
+              projectMilestoneCompleted: 0.75,
+              milestoneComments: 'Requested extension to March 31, 2024',
+              primaryNewsRelease:
+                'https://www.somethingmadeup.ca/en/innovation-science-economic-development/internet.html',
+              lastReviewed: '2023-07-11T00:00:00.000Z',
+              reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
+            },
+          },
+        },
+        inputCbcChangeReason: {
+          cbcDataChangeReason: {
+            description: 'Updated reason',
+            cbcDataId: 20,
+          },
+        },
+      }
+    );
+
+    pageTestingHelper.environment.mock.resolveMostRecentOperation({
+      data: {
+        updateCbcDataAndInsertChangeReason: {
+          cbcData: {
+            rowId: 1,
+          },
+        },
+      },
+    });
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'updateCbcCommunityDataMutation',
+      {
+        input: {
+          _projectId: 1,
+          _communityIdsToAdd: expect.anything(),
+          _communityIdsToArchive: [],
         },
       }
     );

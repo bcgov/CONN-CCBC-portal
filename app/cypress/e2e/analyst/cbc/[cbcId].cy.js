@@ -16,7 +16,8 @@ describe('The cbc project view', () => {
     cy.contains('h1', 'Project 1');
     cy.contains('h2', 'Tombstone');
     cy.contains('h2', 'Project type');
-    cy.contains('h2', 'Locations and counts');
+    cy.contains('h2', 'Locations');
+    cy.contains('h2', 'Counts');
     cy.contains('h2', 'Funding');
     cy.contains('h2', 'Events and dates');
     cy.contains('h2', 'Miscellaneous');

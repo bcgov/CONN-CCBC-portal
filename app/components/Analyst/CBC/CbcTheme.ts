@@ -11,12 +11,13 @@ import {
   TextWidget,
   DatePickerWidget,
 } from 'lib/theme/widgets';
+import ArrayLocationFieldTemplate from 'lib/theme/fields/ArrayLocationDataField';
+import CommunitySourceWidget from 'lib/theme/widgets/custom/CommunitySourceWidget';
 import ArrayBooleanField from '../../Review/fields/ArrayBooleanField';
 import ReviewCheckboxField from '../../Review/fields/ReviewCheckboxField';
 import ReviewInlineArrayField from '../../Review/fields/ReviewInlineArrayField';
 import ReviewObjectFieldTemplate from '../../Review/ReviewObjectFieldTemplate';
 import ReviewSectionField from '../../Review/ReviewSectionField';
-import ReviewArrayFieldTemplate from '../../Review/fields/ReviewArrayFieldTemplate';
 import ReviewFieldTemplate from '../../Review/fields/ReviewFieldTemplate';
 import DefaultWidget from '../../Review/widgets/DefaultWidget';
 import BooleanWidget from '../../Review/widgets/BooleanWidget';
@@ -47,12 +48,13 @@ const CbcTheme: ThemeProps = {
     NumberWidget,
     NumericStringWidget,
     ReadOnlyWidget: DefaultWidget,
+    CommunitySourceWidget,
   },
   templates: {
     ...templates,
     ObjectFieldTemplate: ReviewObjectFieldTemplate,
     FieldTemplate: ReviewFieldTemplate,
-    ArrayFieldTemplate: ReviewArrayFieldTemplate,
+    ArrayFieldTemplate: ArrayLocationFieldTemplate,
   },
 };
 

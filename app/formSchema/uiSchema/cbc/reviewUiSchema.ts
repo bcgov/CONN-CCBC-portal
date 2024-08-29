@@ -2,10 +2,10 @@ import projectTypeUiSchema from './projectTypeUiSchema';
 import tombstoneUiSchema from './tombstoneUiSchema';
 import locationsAndCountsUiSchema from './locationsAndCountsUiSchema';
 import fundingUiSchema from './fundingUiSchema';
-
 import eventsAndDatesUiSchema from './eventsAndDatesUiSchema';
 import miscellaneousUiSchema from './miscellaneousUiSchema';
 import projectDataReviewsUiSchema from './projectDataReviewsUiSchema';
+import locationsUiSchema from './locationsUiSchema';
 
 const reviewUiSchema = {
   tombstone: {
@@ -29,6 +29,10 @@ const reviewUiSchema = {
   },
   projectType: {
     ...projectTypeUiSchema,
+    'ui:options': { allowAnalystEdit: true },
+  },
+  locations: {
+    ...locationsUiSchema,
     'ui:options': { allowAnalystEdit: true },
   },
   locationsAndCounts: {

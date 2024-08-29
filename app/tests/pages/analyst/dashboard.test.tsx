@@ -449,7 +449,7 @@ describe('The index page', () => {
 
     const row = screen.getByText('CCBC-010001');
 
-    expect(row).toHaveAttribute('href', '/analyst/application/1');
+    expect(row).toHaveAttribute('href', '/analyst/application/1/summary');
   });
 
   it('shows the assign lead dropdown when column enabled', async () => {
