@@ -278,6 +278,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const statusOrderMap = useMemo(() => {
     return allApplicationStatusTypes?.nodes?.reduce((acc, status) => {
       acc[status.name] = status.statusOrder;
+      acc[normalizeStatusName(status.name)] = status.statusOrder;
       return acc;
     }, {});
   }, [allApplicationStatusTypes?.nodes]);
@@ -464,7 +465,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         allApplications.edges.map((edge) => edge.node?.intakeNumber?.toString())
       ),
       'N/A',
-    ];
+    ].toSorted((a, b) => {
+      if (a === 'N/A') return -1;
+      if (b === 'N/A') return 1;
+      return Number(a) - Number(b);
+    });
 
     const uniqueZones = [
       ...new Set(allApplications.edges.flatMap((edge) => edge.node.zones)),
@@ -478,7 +483,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           return normalizeStatusName(edge.node.analystStatus);
         })
       ),
-    ];
+    ].toSorted((a, b) => statusOrderMap[a] - statusOrderMap[b]);
 
     const externalStatuses = [
       ...new Set([
@@ -491,7 +496,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             normalizeStatusName(cbcProjectStatusConverter(status))
           ),
       ]),
-    ];
+    ].toSorted((a, b) => statusOrderMap[a] - statusOrderMap[b]);
 
     const uniqueLeads = [
       ...new Set(allApplications.edges.map((edge) => edge.node.analystLead)),
@@ -501,7 +506,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       ...new Set(
         allApplications.edges.map((edge) => edge.node.package?.toString())
       ),
-    ].filter(filterOutNullishs);
+    ]
+      .filter(filterOutNullishs)
+      .toSorted((a, b) => Number(a) - Number(b));
 
     return [
       {
@@ -567,7 +574,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       // adding dummy columns for filter purposes
       ...additionalFilterColumns,
     ];
-  }, [AssignAnalystLead, allApplications]);
+  }, [AssignAnalystLead, allApplications, statusOrderMap]);
 
   const handleOnSortChange = (sort: MRT_SortingState) => {
     if (!isFirstRender) {
