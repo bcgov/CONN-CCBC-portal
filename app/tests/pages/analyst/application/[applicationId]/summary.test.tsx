@@ -754,6 +754,6 @@ describe('The Summary page', () => {
     // milestone
     expect(screen.getByText('24%')).toBeInTheDocument();
     // application source
-    expect(screen.getAllByText('(SOW)')).toHaveLength(16);
+    expect(screen.getAllByText('(SOW)')).toHaveLength(17);
   });
 });
