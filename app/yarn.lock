@@ -5263,10 +5263,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/cookie-parser@^1.4.3":
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/@types/cookie-parser/-/cookie-parser-1.4.3.tgz#3a01df117c5705cf89a84c876b50c5a1fd427a21"
-  integrity sha512-CqSKwFwefj4PzZ5n/iwad/bow2hTCh0FlNAeWLtQM3JA/NX/iYagIpWG2cf1bQKQ2c9gU2log5VUCrn7LDOs0w==
+"@types/cookie-parser@^1.4.7":
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/@types/cookie-parser/-/cookie-parser-1.4.7.tgz#c874471f888c72423d78d2b3c32d1e8579cf3c8f"
+  integrity sha512-Fvuyi354Z+uayxzIGCwYTayFKocfV7TuDYZClCdIP9ckhvAu/ixDtCB6qx2TT0FKjPLf1f3P/J1rgf6lPs64mw==
   dependencies:
     "@types/express" "*"
 
@@ -6147,7 +6147,7 @@ archiver-utils@^5.0.0, archiver-utils@^5.0.2:
     normalize-path "^3.0.0"
     readable-stream "^4.0.0"
 
-archiver@^5.0.2, archiver@^5.3.0:
+archiver@^5.0.2:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/archiver/-/archiver-5.3.1.tgz#21e92811d6f09ecfce649fbefefe8c79e57cbbb6"
   integrity sha512-8KyabkmbYrH+9ibcTScQ1xCJC/CGcugdVIwB+53f5sZziXgwUh3iXlAlANMxcZyDEfTHMe6+Z5FofV8nopXP7w==
@@ -6310,7 +6310,7 @@ astral-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
 
-async-retry@^1.3.1:
+async-retry@^1.3.1, async-retry@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/async-retry/-/async-retry-1.3.3.tgz#0e7f36c04d8478e7a58bdbed80cedf977785f280"
   integrity sha512-wfr/jstw9xNi/0teMHrRW7dsz3Lt5ARhYNZ2ewpadnhaIp5mbALhOAP+EAdsC7t4Z6wqsDVv9+W6gm1Dk9mEyw==
@@ -9397,18 +9397,20 @@ happo-cypress@^4.2.0:
   resolved "https://registry.yarnpkg.com/happo-cypress/-/happo-cypress-4.2.0.tgz#899c6e2e16af197e8b65a89b6f056c541df6be7f"
   integrity sha512-58OheJOeZpfXE78FkMJ4qv0LI5IjUcPyUaDrBAKkqlgAYtt6ZhCYSUH2V3AYDIIz+tWqAE4roF93/5sueggy5Q==
 
-happo-e2e@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/happo-e2e/-/happo-e2e-2.6.0.tgz#356b14b2c5281bc5c13681a8fa87778bf336be96"
-  integrity sha512-S1OLDhjQTvc0ig7EFeenxz+OH6fIz4z+pvOLT9Kq2Jc2BuXhA+EpSAq7qDwfFjZTbxbSlFirkLqhkvWAgWmqkw==
+happo-e2e@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/happo-e2e/-/happo-e2e-2.6.1.tgz#c379fff183088096ab572623b1e0fa04cf5bcfcd"
+  integrity sha512-mSWtVuYOycr/vclp574XJ6mo44+FVlmizBhczfioLt8zRm/sS7PpLXulCUJL8YF4/BDdW4KwIT1npyg6/PxQ9Q==
   dependencies:
-    archiver "^5.3.0"
+    archiver "^7.0.1"
+    async-retry "^1.3.3"
     base64-stream "^1.0.0"
     crypto-js "^4.1.1"
     https-proxy-agent "^5.0.0"
     image-size "^1.0.1"
     mkdirp "^1.0.4"
     node-fetch "^2.0.0"
+    p-all "^3.0.0"
     parse-srcset "^1.0.2"
     string.prototype.replaceall "^1.0.6"
     yargs "^17.7.2"
@@ -12009,6 +12011,13 @@ overlayscrollbars@^1.13.1:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/overlayscrollbars/-/overlayscrollbars-1.13.1.tgz#0b840a88737f43a946b9d87875a2f9e421d0338a"
   integrity sha512-gIQfzgGgu1wy80EB4/6DaJGHMEGmizq27xHIESrzXq0Y/J0Ay1P3DWk6tuVmEPIZH15zaBlxeEJOqdJKmowHCQ==
+
+p-all@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/p-all/-/p-all-3.0.0.tgz#077c023c37e75e760193badab2bad3ccd5782bfb"
+  integrity sha512-qUZbvbBFVXm6uJ7U/WDiO0fv6waBMbjlCm4E66oZdRR+egswICarIdHyVSZZHudH8T5SF8x/JG0q0duFzPnlBw==
+  dependencies:
+    p-map "^4.0.0"
 
 p-cancelable@^2.0.0:
   version "2.1.1"

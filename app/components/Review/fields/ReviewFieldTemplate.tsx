@@ -81,7 +81,9 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
             )}
           </StyledColError>
         ) : (
-          <StyledColRight id={`${id}-value`}>{children}</StyledColRight>
+          <StyledColRight data-testid={`${id}-value`}>
+            {children}
+          </StyledColRight>
         )}
       </tr>
       {after}
