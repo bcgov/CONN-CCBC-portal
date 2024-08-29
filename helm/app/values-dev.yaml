@@ -5,7 +5,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 110
 
 deploy:
-  enabled: true
+  enabled: false
 
 cronsp:
   schedule: '0 0 15 10 *' # dev run once a year on October 15
@@ -34,7 +34,7 @@ crunchy-postgres:
   limits:
     cpu: 500m
   dataSource:
-    enabled: false
+    enabled: true
     secretName: s3-pgbackrest
     repo:
       name: repo2
