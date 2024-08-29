@@ -709,7 +709,7 @@ describe('The Summary page', () => {
     // date received (intake closing)
     expect(screen.getByText('2022-12-15')).toBeInTheDocument();
     // application source
-    expect(screen.getAllByText('(Application)')).toHaveLength(7);
+    expect(screen.getAllByText('(Application)')).toHaveLength(8);
   });
 
   it('should show the correct data when application is conditional approval', async () => {
@@ -725,7 +725,7 @@ describe('The Summary page', () => {
     // date conditional approved
     expect(screen.getByText('2023-05-02')).toBeInTheDocument();
     // conditional approval
-    expect(screen.getAllByText('(Conditional Approval)')).toHaveLength(3);
+    expect(screen.getAllByText('(Conditional Approval)')).toHaveLength(4);
   });
 
   it('should show the correct data when application is agreement signed', async () => {
