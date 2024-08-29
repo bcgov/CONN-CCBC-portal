@@ -146,151 +146,206 @@ const mockQueryPayloadReceived = {
   },
 };
 
-const mockQueryPayloadConditionalApproval = {
+const payloadConditionalApproval = {
+  applicationByRowId: {
+    announcements: {
+      totalCount: 3,
+    },
+    formData: {
+      jsonData: {
+        review: {
+          acknowledgeIncomplete: true,
+        },
+        benefits: {
+          projectBenefits:
+            "Test project benefits. This is a test project's benefits.",
+          numberOfHouseholds: 31,
+          householdsImpactedIndigenous: 0,
+        },
+
+        projectPlan: {
+          operationalPlan:
+            'Test operational plan. This is a test operational plan.',
+          projectStartDate: '2023-01-01',
+          projectCompletionDate: '2024-01-01',
+        },
+        budgetDetails: {
+          totalProjectCost: 111,
+          totalEligibleCosts: 222,
+        },
+        projectFunding: {
+          fundingRequestedCCBC2324: 111,
+          fundingRequestedCCBC2425: 222,
+          totalFundingRequestedCCBC: 333,
+          totalApplicantContribution: 444,
+          applicationContribution2324: 555,
+          applicationContribution2425: 666,
+        },
+        alternateContact: {},
+        authorizedContact: {},
+        contactInformation: {},
+        projectInformation: {
+          projectTitle: 'Test project title',
+          projectDescription:
+            'Test project description. This is a test project description.',
+          geographicAreaDescription:
+            'Test geographic area description. This is a test geographic area description.',
+        },
+        organizationProfile: {},
+        otherFundingSources: {
+          otherFundingSources: true,
+          otherFundingSourcesArray: [
+            {
+              funderType: 'Provincial/territorial',
+              statusOfFunding: 'Submitted',
+              fundingPartnersName:
+                'Test funding partner name. This is a test funding partner name.',
+              nameOfFundingProgram: 'Test',
+              fundingSourceContactInfo: 'Test',
+              requestedFundingPartner2324: 777,
+              requestedFundingPartner2425: 888,
+              totalRequestedFundingPartner: 999,
+            },
+          ],
+          totalInfrastructureBankFunding: null,
+        },
+        supportingDocuments: {},
+        organizationLocation: {},
+        existingNetworkCoverage: {},
+        estimatedProjectEmployment: {
+          currentEmployment: 1,
+          estimatedFTECreation: 1.1,
+          numberOfEmployeesToWork: 1,
+          personMonthsToBeCreated: 1,
+          hoursOfEmploymentPerWeek: 10,
+          numberOfContractorsToWork: 1,
+          estimatedFTEContractorCreation: 1.4,
+          contractorPersonMonthsToBeCreated: 1,
+          hoursOfContractorEmploymentPerWeek: 11,
+        },
+      },
+    },
+    projectInformation: {},
+    applicationMilestoneExcelDataByApplicationId: {
+      nodes: [],
+    },
+    conditionalApproval: {
+      jsonData: {
+        decision: {
+          ministerDate: '2023-04-18',
+          ministerDecision: 'Approved',
+          provincialRequested: 1234,
+        },
+        response: {
+          applicantResponse: 'Accepted',
+          statusApplicantSees: 'Conditionally Approved',
+        },
+        isedDecisionObj: {
+          isedDate: '2023-05-02',
+          isedDecision: 'Approved',
+          federalRequested: 4567,
+          isedAnnouncement: 'Hold announcement',
+        },
+        letterOfApproval: {
+          letterOfApprovalDateSent: '2023-05-27',
+        },
+      },
+    },
+    changeRequestDataByApplicationId: {},
+    status: 'conditionally_approved',
+    allAssessments: {
+      nodes: [],
+    },
+    intakeNumber: 1,
+  },
+  allApplicationSowData: {
+    nodes: [],
+  },
+  allIntakes: {
+    nodes: [
+      {
+        closeTimestamp: '2022-12-15T22:30:00+00:00',
+        ccbcIntakeNumber: 1,
+      },
+      {
+        closeTimestamp: '2023-02-16T22:30:00+00:00',
+        ccbcIntakeNumber: 2,
+      },
+      {
+        closeTimestamp: '2027-04-01T06:59:59+00:00',
+        ccbcIntakeNumber: 99,
+      },
+      {
+        closeTimestamp: '2024-03-14T21:30:00+00:00',
+        ccbcIntakeNumber: 3,
+      },
+      {
+        closeTimestamp: '2024-06-20T21:30:00+00:00',
+        ccbcIntakeNumber: 4,
+      },
+    ],
+  },
+  session: {
+    sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+  },
+};
+
+const mockQueryPayloadConditionalApprovalNoFunding = {
   Query() {
     return {
+      ...payloadConditionalApproval,
       applicationByRowId: {
-        announcements: {
-          totalCount: 3,
-        },
-        formData: {
+        ...payloadConditionalApproval.applicationByRowId,
+        conditionalApproval: {
           jsonData: {
-            review: {
-              acknowledgeIncomplete: true,
+            ...payloadConditionalApproval.applicationByRowId.conditionalApproval
+              .jsonData,
+            decision: {
+              ministerDate: '2023-04-18',
+              ministerDecision: 'Approved',
             },
-            benefits: {
-              projectBenefits:
-                "Test project benefits. This is a test project's benefits.",
-              numberOfHouseholds: 31,
-              householdsImpactedIndigenous: 0,
-            },
-
-            projectPlan: {
-              operationalPlan:
-                'Test operational plan. This is a test operational plan.',
-              projectStartDate: '2023-01-01',
-              projectCompletionDate: '2024-01-01',
-            },
-            budgetDetails: {
-              totalProjectCost: 111,
-              totalEligibleCosts: 222,
-            },
-            projectFunding: {
-              fundingRequestedCCBC2324: 111,
-              fundingRequestedCCBC2425: 222,
-              totalFundingRequestedCCBC: 333,
-              totalApplicantContribution: 444,
-              applicationContribution2324: 555,
-              applicationContribution2425: 666,
-            },
-            alternateContact: {},
-            authorizedContact: {},
-            contactInformation: {},
-            projectInformation: {
-              projectTitle: 'Test project title',
-              projectDescription:
-                'Test project description. This is a test project description.',
-              geographicAreaDescription:
-                'Test geographic area description. This is a test geographic area description.',
-            },
-            organizationProfile: {},
-            otherFundingSources: {
-              otherFundingSources: true,
-              otherFundingSourcesArray: [
-                {
-                  funderType: 'Provincial/territorial',
-                  statusOfFunding: 'Submitted',
-                  fundingPartnersName:
-                    'Test funding partner name. This is a test funding partner name.',
-                  nameOfFundingProgram: 'Test',
-                  fundingSourceContactInfo: 'Test',
-                  requestedFundingPartner2324: 777,
-                  requestedFundingPartner2425: 888,
-                  totalRequestedFundingPartner: 999,
-                },
-              ],
-              totalInfrastructureBankFunding: null,
-            },
-            supportingDocuments: {},
-            organizationLocation: {},
-            existingNetworkCoverage: {},
-            estimatedProjectEmployment: {
-              currentEmployment: 1,
-              estimatedFTECreation: 1.1,
-              numberOfEmployeesToWork: 1,
-              personMonthsToBeCreated: 1,
-              hoursOfEmploymentPerWeek: 10,
-              numberOfContractorsToWork: 1,
-              estimatedFTEContractorCreation: 1.4,
-              contractorPersonMonthsToBeCreated: 1,
-              hoursOfContractorEmploymentPerWeek: 11,
+            isedDecisionObj: {
+              isedDate: '2023-05-02',
+              isedDecision: 'Approved',
+              isedAnnouncement: 'Hold announcement',
             },
           },
         },
-        projectInformation: {},
-        applicationMilestoneExcelDataByApplicationId: {
-          nodes: [],
-        },
+      },
+    };
+  },
+};
+
+const mockQueryPayloadConditionalApprovalBcFunding = {
+  Query() {
+    return {
+      ...payloadConditionalApproval,
+      applicationByRowId: {
+        ...payloadConditionalApproval.applicationByRowId,
         conditionalApproval: {
           jsonData: {
+            ...payloadConditionalApproval.applicationByRowId.conditionalApproval
+              .jsonData,
             decision: {
               ministerDate: '2023-04-18',
               ministerDecision: 'Approved',
               provincialRequested: 1234,
             },
-            response: {
-              applicantResponse: 'Accepted',
-              statusApplicantSees: 'Conditionally Approved',
-            },
             isedDecisionObj: {
               isedDate: '2023-05-02',
               isedDecision: 'Approved',
-              federalRequested: 4567,
               isedAnnouncement: 'Hold announcement',
             },
-            letterOfApproval: {
-              letterOfApprovalDateSent: '2023-05-27',
-            },
           },
         },
-        changeRequestDataByApplicationId: {},
-        status: 'conditionally_approved',
-        allAssessments: {
-          nodes: [],
-        },
-        intakeNumber: 1,
-      },
-      allApplicationSowData: {
-        nodes: [],
-      },
-      allIntakes: {
-        nodes: [
-          {
-            closeTimestamp: '2022-12-15T22:30:00+00:00',
-            ccbcIntakeNumber: 1,
-          },
-          {
-            closeTimestamp: '2023-02-16T22:30:00+00:00',
-            ccbcIntakeNumber: 2,
-          },
-          {
-            closeTimestamp: '2027-04-01T06:59:59+00:00',
-            ccbcIntakeNumber: 99,
-          },
-          {
-            closeTimestamp: '2024-03-14T21:30:00+00:00',
-            ccbcIntakeNumber: 3,
-          },
-          {
-            closeTimestamp: '2024-06-20T21:30:00+00:00',
-            ccbcIntakeNumber: 4,
-          },
-        ],
-      },
-      session: {
-        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
     };
+  },
+};
+
+const mockQueryPayloadConditionalApproval = {
+  Query() {
+    return payloadConditionalApproval;
   },
 };
 
@@ -726,6 +781,32 @@ describe('The Summary page', () => {
     expect(screen.getByText('2023-05-02')).toBeInTheDocument();
     // conditional approval
     expect(screen.getAllByText('(Conditional Approval)')).toHaveLength(4);
+  });
+
+  it('should show the correct data when application is conditional approval but no funding has been set', async () => {
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockQueryPayloadConditionalApprovalNoFunding);
+      pageTestingHelper.renderPage();
+    });
+
+    // date conditional approved
+    expect(screen.getByText('2023-05-02')).toBeInTheDocument();
+    // conditional approval
+    expect(screen.getAllByText('(Conditional Approval)')).toHaveLength(1);
+  });
+
+  it('should show the correct data when application is conditional approval when only bc funding is set', async () => {
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockQueryPayloadConditionalApprovalBcFunding);
+      pageTestingHelper.renderPage();
+    });
+
+    // bc funding requested and total requested from ccbc
+    expect(screen.getAllByText('$1,234')).toHaveLength(2);
+    // date conditional approved
+    expect(screen.getByText('2023-05-02')).toBeInTheDocument();
+    // conditional approval
+    expect(screen.getAllByText('(Conditional Approval)')).toHaveLength(3);
   });
 
   it('should show the correct data when application is agreement signed', async () => {
