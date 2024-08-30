@@ -1,3 +1,9 @@
+# [1.189.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.188.0...v1.189.0) (2024-08-30)
+
+### Features
+
+- change to announced by bc/ised in gcpe report ([cbb5871](https://github.com/bcgov/CONN-CCBC-portal/commit/cbb58714e29ab57a08ac4ceeac4d016a03155294))
+
 # [1.188.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.187.0...v1.188.0) (2024-08-30)
 
 ### Features
