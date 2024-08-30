@@ -1,3 +1,9 @@
+# [1.187.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.4...v1.187.0) (2024-08-29)
+
+### Features
+
+- add toast for second review emails ([88b51d4](https://github.com/bcgov/CONN-CCBC-portal/commit/88b51d486927507285ac311a3e4755a77fd10b59))
+
 ## [1.186.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.3...v1.186.4) (2024-08-29)
 
 ## [1.186.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.2...v1.186.3) (2024-08-28)
