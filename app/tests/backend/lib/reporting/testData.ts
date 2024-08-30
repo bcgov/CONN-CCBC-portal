@@ -34,7 +34,7 @@ export const regenerateGcpeReportQueryResult = {
           },
           {
             wrap: true,
-            value: 'Announced by Province',
+            value: 'Announced by BC/ISED',
             height: 95,
             fontWeight: 'bold',
           },
