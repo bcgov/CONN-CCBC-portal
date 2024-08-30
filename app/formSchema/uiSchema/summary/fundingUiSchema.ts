@@ -22,7 +22,7 @@ const fundingUiSchema = {
   },
   fhnaFunding: {
     'ui:widget': 'MoneyWidget',
-    'ui:label': 'FHNA Funding',
+    'ui:label': 'FNHA Funding',
   },
   otherFunding: {
     'ui:widget': 'MoneyWidget',

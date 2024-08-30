@@ -32,7 +32,7 @@ const funding: RJSFSchema = {
     },
     fhnaFunding: {
       type: 'number',
-      title: 'FHNA Funding',
+      title: 'FNHA Funding',
     },
     otherFunding: {
       type: 'number',

@@ -148,7 +148,7 @@ export const regenerateGcpeReportQueryResult = {
           },
           {
             wrap: true,
-            value: 'FHNA Funding',
+            value: 'FNHA Funding',
             height: 95,
             fontWeight: 'bold',
           },
