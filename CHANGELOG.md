@@ -1,3 +1,9 @@
+# [1.188.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.187.0...v1.188.0) (2024-08-30)
+
+### Features
+
+- colour is now a background colour ([46584e5](https://github.com/bcgov/CONN-CCBC-portal/commit/46584e5e4d9beacbbf21bf9313cb6bd88092b526))
+
 # [1.187.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.4...v1.187.0) (2024-08-29)
 
 ### Features
