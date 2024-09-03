@@ -1,0 +1,91 @@
+name: Auto Release PR
+
+on:
+  workflow_call:
+    secrets:
+      JIRA_AUTH: { required: true }
+
+jobs:
+  update-auto-release-checkbox:
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Get JIRA Issue Key
+        id: extract_jira_key
+        run: |
+          echo "JIRA_KEY=$(echo "$FEATURE_NAME" | grep -oE 'NDT-[0-9]+')" >> $GITHUB_ENV
+      - name: Get Issue Status
+        id: get_status
+        run: |
+          response=$(curl -s -X GET \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H "Content-Type: application/json" \
+            "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY")
+
+          status=$(echo "$response" | jq -r '.fields.status.name')
+          echo "Issue status: $status"
+
+          echo "::set-output name=status::$status"
+      - name: Check if PR is up-to-date with main
+        id: up_to_date
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const baseRef = context.payload.pull_request.base.ref;
+            const headRef = context.payload.pull_request.head.ref;
+
+            const mainCommits = await github.rest.repos.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 25,
+              sha: baseRef
+            }).then(response => response.data.map(commit => commit.sha));
+
+            const prCommits = await github.rest.repos.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 300,
+              sha: headRef
+            }).then(response => response.data.map(commit => commit.sha));
+
+            const containsAllCommits = mainCommits.every(commitSHA =>
+              prCommits.includes(commitSHA)
+            );
+
+            console.log(`PR contains all commits from main branch: ${containsAllCommits}`);
+            console.log(`Main Commits: ${mainCommits}`);
+            console.log(`PR Commits: ${prCommits}`);
+            console.log(`Result: ${containsAllCommits}`);
+            return containsAllCommits;
+      - name: Update auto release checkbox
+        if: steps.get_status.outputs.status == 'MERGE CONFLICT' && steps.up_to_date.outputs.result == true
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number
+            });
+
+            let body = pr.data.body;
+            const checkboxText = "[ ] Check to trigger automatic release process";
+            const checkedCheckboxText = "[x] Check to trigger automatic release process";
+
+            if (body.includes(checkboxText)) {
+                body = body.replace(checkboxText, checkedCheckboxText);
+                await github.rest.pulls.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: context.payload.pull_request.number,
+                  body: body
+                });
+                console.log("Checkbox marked as checked in the PR description.");
+            } else {
+                console.log("Checkbox already checked or not found.");
+            }

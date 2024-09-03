@@ -26,102 +26,102 @@ jobs:
             const checkboxText = "[x] Check to trigger automatic release process";
             const checkboxChecked = pr.data.body.includes(checkboxText);
             console.log(checkboxChecked);
-            return checkboxChecked;
-      - name: Check if PR is up-to-date with main
-        id: up_to_date
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
+            return false;
+      # - name: Check if PR is up-to-date with main
+      #   id: up_to_date
+      #   uses: actions/github-script@v7
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
 
-            const baseRef = context.payload.pull_request.base.ref;
-            const headRef = context.payload.pull_request.head.ref;
+      #       const baseRef = context.payload.pull_request.base.ref;
+      #       const headRef = context.payload.pull_request.head.ref;
 
-            const mainCommits = await github.rest.repos.listCommits({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              per_page: 25,
-              sha: baseRef
-            }).then(response => response.data.map(commit => commit.sha));
+      #       const mainCommits = await github.rest.repos.listCommits({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         per_page: 25,
+      #         sha: baseRef
+      #       }).then(response => response.data.map(commit => commit.sha));
 
-            const prCommits = await github.rest.repos.listCommits({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              per_page: 300,
-              sha: headRef
-            }).then(response => response.data.map(commit => commit.sha));
+      #       const prCommits = await github.rest.repos.listCommits({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         per_page: 300,
+      #         sha: headRef
+      #       }).then(response => response.data.map(commit => commit.sha));
 
-            const containsAllCommits = mainCommits.every(commitSHA =>
-              prCommits.includes(commitSHA)
-            );
+      #       const containsAllCommits = mainCommits.every(commitSHA =>
+      #         prCommits.includes(commitSHA)
+      #       );
 
-            console.log(`PR contains all commits from main branch: ${containsAllCommits}`);
-            console.log(`Main Commits: ${mainCommits}`);
-            console.log(`PR Commits: ${prCommits}`);
-            console.log(`Result: ${containsAllCommits}`);
-            return containsAllCommits;
-      - name: Check PR Approval
-        id: pr_approval
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: reviews } = await github.rest.pulls.listReviews({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number
-            });
+      #       console.log(`PR contains all commits from main branch: ${containsAllCommits}`);
+      #       console.log(`Main Commits: ${mainCommits}`);
+      #       console.log(`PR Commits: ${prCommits}`);
+      #       console.log(`Result: ${containsAllCommits}`);
+      #       return containsAllCommits;
+      # - name: Check PR Approval
+      #   id: pr_approval
+      #   uses: actions/github-script@v7
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     script: |
+      #       const { data: reviews } = await github.rest.pulls.listReviews({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         pull_number: context.payload.pull_request.number
+      #       });
 
-            const approved = reviews.some(review => review.state === 'APPROVED');
-            console.log(`PR has been ${approved ? 'approved' : 'not approved'}`);
-            return approved;
-      - name: Checkout
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
-      - name: Set up Git and import GPG key
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
-        run: |
-          echo "${GPG_PRIVATE_KEY}" | gpg --import
-          git config user.name "CCBC Service Account"
-          git config user.email "116113628+ccbc-service-account@users.noreply.github.com"
-          git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
-          git config commit.gpgsign true
-      - name: dev env setup
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
-        uses: ./.github/actions/dev-env-setup
-      - name: Setup Sqitch User
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
-        run: |
-          sqitch config --user user.name 'CCBC Service Account'
-          sqitch config --user user.email 'ccbc@button.is'
-      - name: Make Release
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
-        run: |
-          yarn
-          git checkout "${GITHUB_HEAD_REF}"
-          yarn run release-it --ci --branch="${GITHUB_HEAD_REF}" --git.commitArgs=-n
-      - name: Uncheck the checkbox
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const checkboxText = "[x] Check to trigger automatic release process";
-            const prNumber = context.payload.pull_request.number;
-            const currentPR = await github.rest.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: prNumber
-            });
-            const updatedBody = currentPR.data.body.replace(checkboxText, "[ ] Check to trigger automatic release process");
-            await github.rest.pulls.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: prNumber,
-              body: updatedBody
-            });
+      #       const approved = reviews.some(review => review.state === 'APPROVED');
+      #       console.log(`PR has been ${approved ? 'approved' : 'not approved'}`);
+      #       return approved;
+      # - name: Checkout
+      #   if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+      #   uses: actions/checkout@v4
+      #   with:
+      #     fetch-depth: 0
+      #     token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+      # - name: Set up Git and import GPG key
+      #   if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+      #   env:
+      #     GPG_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+      #   run: |
+      #     echo "${GPG_PRIVATE_KEY}" | gpg --import
+      #     git config user.name "CCBC Service Account"
+      #     git config user.email "116113628+ccbc-service-account@users.noreply.github.com"
+      #     git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
+      #     git config commit.gpgsign true
+      # - name: dev env setup
+      #   if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+      #   uses: ./.github/actions/dev-env-setup
+      # - name: Setup Sqitch User
+      #   if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+      #   run: |
+      #     sqitch config --user user.name 'CCBC Service Account'
+      #     sqitch config --user user.email 'ccbc@button.is'
+      # - name: Make Release
+      #   if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+      #   run: |
+      #     yarn
+      #     git checkout "${GITHUB_HEAD_REF}"
+      #     yarn run release-it --ci --branch="${GITHUB_HEAD_REF}" --git.commitArgs=-n
+      # - name: Uncheck the checkbox
+      # if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+      # uses: actions/github-script@v7
+      # with:
+      #   github-token: ${{ secrets.GITHUB_TOKEN }}
+      #   script: |
+      #     const checkboxText = "[x] Check to trigger automatic release process";
+      #     const prNumber = context.payload.pull_request.number;
+      #     const currentPR = await github.rest.pulls.get({
+      #       owner: context.repo.owner,
+      #       repo: context.repo.repo,
+      #       pull_number: prNumber
+      #     });
+      #     const updatedBody = currentPR.data.body.replace(checkboxText, "[ ] Check to trigger automatic release process");
+      #     await github.rest.pulls.update({
+      #       owner: context.repo.owner,
+      #       repo: context.repo.repo,
+      #       pull_number: prNumber,
+      #       body: updatedBody
+      #     });
