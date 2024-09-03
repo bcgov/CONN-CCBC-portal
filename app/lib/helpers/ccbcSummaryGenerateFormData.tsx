@@ -128,57 +128,26 @@ const getCommunities = (communities) => {
   };
 };
 
-const getSowErrors = (sowData, communitiesData) => {
-  // error on benefiting communities
-  const errors = {
-    counts: {
-      benefitingCommunities: {},
-      benefitingIndigenousCommunities: {},
-    },
-  };
-  const communitiesNumber =
-    sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData?.communitiesNumber;
-  const indigenousCommunitiesNumber =
-    sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
-      ?.indigenousCommunitiesNumber;
-  if (communitiesNumber !== communitiesData?.totalBenefitingCommunities) {
-    errors.counts.benefitingCommunities = {
-      __errors: [
-        `Communities count mismatch ${communitiesNumber} and ${communitiesData.totalBenefitingCommunities}`,
-      ],
-      errorColor: '#f8e78f',
-    };
-    // error on benefiting indigenous communities
-  }
-  if (
-    indigenousCommunitiesNumber !==
-    communitiesData?.totalBenefitingIndigenousCommunities
-  ) {
-    errors.counts.benefitingIndigenousCommunities = {
-      __errors: [
-        `Indigenous communities count mismatch ${indigenousCommunitiesNumber} and ${communitiesData.totalBenefitingIndigenousCommunities}`,
-      ],
-      errorColor: '#f8e78f',
-    };
-  }
-  return errors;
-};
-
 const getSowData = (sowData, baseSowData) => {
   const communitiesData = getCommunities(
     sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData?.geoNames
   );
-  const errors = getSowErrors(sowData, communitiesData);
+  const errors = {}; // errors may get added later
+  const communities =
+    sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData?.communitiesNumber;
+  const indigenousCommunities =
+    sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
+      ?.indigenousCommunitiesNumber;
   return {
     formData: {
       counts: {
-        communities:
-          sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
-            ?.communitiesNumber,
+        communities,
         benefitingCommunities: communitiesData?.benefitingCommunities,
-        indigenousCommunities:
-          sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
-            ?.indigenousCommunitiesNumber,
+        indigenousCommunities,
+        nonIndigenousCommunities:
+          communities && indigenousCommunities
+            ? communities - indigenousCommunities
+            : communities,
         benefitingIndigenousCommunities:
           communitiesData?.benefitingIndigenousCommunities,
         totalHouseholdsImpacted:
@@ -222,6 +191,7 @@ const getSowData = (sowData, baseSowData) => {
       communities: 'SOW',
       benefitingCommunities: 'SOW',
       indigenousCommunities: 'SOW',
+      nonIndigenousCommunities: 'SOW',
       benefitingIndigenousCommunities: 'SOW',
       totalHouseholdsImpacted: 'SOW',
       numberOfIndigenousHouseholds: 'SOW',
@@ -272,6 +242,7 @@ const getFormDataFromApplication = (applicationData, allIntakes) => {
         communities: null,
         benefitingCommunities: null,
         indigenousCommunities: null,
+        nonIndigenousCommunities: null,
         benefitingIndigenousCommunities: null,
         totalHouseholdsImpacted:
           applicationData?.formData?.jsonData?.benefits?.numberOfHouseholds,

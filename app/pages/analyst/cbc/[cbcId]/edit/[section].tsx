@@ -7,7 +7,7 @@ import { RelayProps, withRelay } from 'relay-nextjs';
 import { graphql } from 'relay-runtime';
 import review from 'formSchema/analyst/cbc/review';
 import { ProjectTheme } from 'components/Analyst/Project';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
 import { FormBase } from 'components/Form';
@@ -16,7 +16,14 @@ import { RJSFSchema } from '@rjsf/utils';
 import useModal from 'lib/helpers/useModal';
 import { ChangeModal } from 'components/Analyst';
 import { useUpdateCbcDataAndInsertChangeRequest } from 'schema/mutations/cbc/updateCbcDataAndInsertChangeReason';
-import { createCbcSchemaData } from 'utils/schemaUtils';
+import {
+  createCbcSchemaData,
+  generateGeographicNamesByRegionalDistrict,
+  generateRegionalDistrictsByEconomicRegion,
+  getAllEconomicRegionNames,
+} from 'utils/schemaUtils';
+import ArrayLocationFieldTemplate from 'lib/theme/fields/ArrayLocationDataField';
+import { useUpdateCbcCommunityDataMutationMutation } from 'schema/mutations/cbc/updateCbcCommunityData';
 import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
 
 const getCbcSectionQuery = graphql`
@@ -37,7 +44,7 @@ const getCbcSectionQuery = graphql`
           }
         }
       }
-      cbcProjectCommunitiesByCbcId {
+      cbcProjectCommunitiesByCbcId(filter: { archivedAt: { isNull: true } }) {
         nodes {
           communitiesSourceDataByCommunitiesSourceDataId {
             economicRegion
@@ -45,8 +52,17 @@ const getCbcSectionQuery = graphql`
             geographicType
             regionalDistrict
             bcGeographicName
+            rowId
           }
         }
+      }
+    }
+    allCommunitiesSourceData {
+      nodes {
+        geographicNameId
+        bcGeographicName
+        economicRegion
+        regionalDistrict
       }
     }
     session {
@@ -66,25 +82,128 @@ const EditCbcSection = ({
   const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
   const [changeReason, setChangeReason] = useState<null | string>(null);
   const [formData, setFormData] = useState<any>(null);
+  const [addedCommunities, setAddedCommunities] = useState([]);
+  const [removedCommunities, setRemovedCommunities] = useState([]);
 
   const { cbcDataByCbcId, rowId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
   const { jsonData, rowId: cbcDataRowId } = cbcDataByCbcId.edges[0].node;
-  const cbcCommunitiesData =
-    cbcProjectCommunitiesByCbcId.nodes?.map(
-      (node) => node.communitiesSourceDataByCommunitiesSourceDataId
-    ) || [];
 
-  const dataBySection = createCbcSchemaData({
-    ...jsonData,
-    cbcCommunitiesData,
-  });
+  useEffect(() => {
+    const cbcCommunitiesData =
+      cbcProjectCommunitiesByCbcId.nodes?.map(
+        (node) => node.communitiesSourceDataByCommunitiesSourceDataId
+      ) || [];
+    setFormData(
+      createCbcSchemaData({
+        ...jsonData,
+        cbcCommunitiesData,
+      })
+    );
+  }, [jsonData, cbcProjectCommunitiesByCbcId]);
 
   const changeModal = useModal();
 
+  const addCommunity = (communityId) => {
+    setAddedCommunities((prevList) => [...prevList, communityId]);
+  };
+
+  const removeCommunity = (communityId) => {
+    setRemovedCommunities((prevList) => [...prevList, communityId]);
+    const indexOfRemovedCommunity =
+      formData.locations?.communitySourceData?.findIndex(
+        (community) => community.geographicNameId === communityId
+      );
+    setFormData({
+      ...formData,
+      locations: {
+        ...formData.locations,
+        communitySourceData: [
+          ...formData.locations.communitySourceData.slice(
+            0,
+            indexOfRemovedCommunity
+          ),
+          ...formData.locations.communitySourceData.slice(
+            indexOfRemovedCommunity + 1
+          ),
+        ],
+      },
+    });
+  };
+
+  const handleAddClick = (formPayload) => {
+    const communitySourceArray = formPayload.communitySourceData as Array<any>;
+    const communitySourceArrayLength = formPayload.communitySourceData?.length;
+    if (communitySourceArray[communitySourceArrayLength - 1] === undefined) {
+      if (communitySourceArray[0])
+        addCommunity(communitySourceArray[0].geographicNameId);
+      return {
+        ...formPayload,
+        communitySourceData: [
+          {},
+          // setRowId to make widget readonly
+          { ...communitySourceArray[0], rowId: true },
+          ...communitySourceArray.slice(1, communitySourceArrayLength - 1),
+        ],
+      };
+    }
+    return formPayload;
+  };
+
+  const [updateCbcCommunitySourceData] =
+    useUpdateCbcCommunityDataMutationMutation();
+
+  const handleOnChange = (e) => {
+    if (section === 'locations') {
+      setFormData({
+        ...formData,
+        [section]: handleAddClick(e.formData),
+      });
+    } else setFormData({ ...formData, [section]: e.formData });
+  };
+
+  const handleUpdateCommunitySource = useCallback(() => {
+    updateCbcCommunitySourceData({
+      variables: {
+        input: {
+          _projectId: rowId,
+          _communityIdsToAdd: addedCommunities,
+          _communityIdsToArchive: removedCommunities,
+        },
+      },
+      debounceKey: 'cbc_update_community_source_data',
+      onCompleted: () => {
+        setAddedCommunities([]);
+        setRemovedCommunities([]);
+      },
+    });
+  }, [
+    addedCommunities,
+    removedCommunities,
+    updateCbcCommunitySourceData,
+    rowId,
+  ]);
+
   const handleChangeRequestModal = (e) => {
     changeModal.open();
-    setFormData({ ...dataBySection, [section]: e.formData });
+    setFormData({ ...formData, [section]: e.formData });
   };
+
+  const allCommunitiesSourceData = query.allCommunitiesSourceData.nodes;
+
+  const geographicNamesByRegionalDistrict = useMemo(() => {
+    return generateGeographicNamesByRegionalDistrict(allCommunitiesSourceData);
+  }, [allCommunitiesSourceData]);
+
+  const regionalDistrictsByEconomicRegion = useMemo(() => {
+    return generateRegionalDistrictsByEconomicRegion(allCommunitiesSourceData);
+  }, [allCommunitiesSourceData]);
+
+  const allEconomicRegions = useMemo(() => {
+    return getAllEconomicRegionNames(allCommunitiesSourceData);
+  }, [allCommunitiesSourceData]);
+
+  const theme = { ...ProjectTheme };
+  theme.templates.ArrayFieldTemplate = ArrayLocationFieldTemplate;
 
   const handleSubmit = () => {
     const {
@@ -93,6 +212,7 @@ const EditCbcSection = ({
       economicRegions,
       ...updatedLocationsAndCounts
     } = formData.locationsAndCounts;
+    const { projectLocations } = formData.locations;
     updateFormData({
       variables: {
         inputCbcData: {
@@ -101,6 +221,7 @@ const EditCbcSection = ({
             jsonData: {
               ...formData.tombstone,
               ...formData.projectType,
+              projectLocations,
               ...updatedLocationsAndCounts,
               ...formData.funding,
               ...formData.eventsAndDates,
@@ -118,6 +239,7 @@ const EditCbcSection = ({
       },
       debounceKey: 'cbc_update_section_data',
       onCompleted: () => {
+        handleUpdateCommunitySource();
         router.push(`/analyst/cbc/${rowId}`);
       },
     });
@@ -144,26 +266,35 @@ const EditCbcSection = ({
   );
 
   const formErrors = useMemo(
-    () =>
-      validateSection(formData || dataBySection, review.properties[section]),
-    [dataBySection, formData, section, validateSection]
+    () => validateSection(formData ?? {}, review.properties[section]),
+    [formData, section, validateSection]
   );
 
   return (
     <Layout title="Edit CBC Section" session={session}>
       <CbcAnalystLayout query={query} isFormEditable>
         <FormBase
-          formData={formData?.[section] || dataBySection[section]}
+          formData={formData?.[section] ?? {}}
           schema={review.properties[section] as RJSFSchema}
-          theme={ProjectTheme}
+          theme={theme}
           uiSchema={editUiSchema[section]}
           onSubmit={handleChangeRequestModal}
           noValidate
           noHtml5Validate
           omitExtraData={false}
-          formContext={{ errors: formErrors, showErrorHint: true }}
-          onChange={(e) => {
-            setFormData({ ...dataBySection, [section]: e.formData });
+          onChange={handleOnChange}
+          formContext={{
+            economicRegions: allEconomicRegions,
+            regionalDistrictsByEconomicRegion,
+            geographicNamesByRegionalDistrict,
+            allCommunitiesSourceData,
+            addCommunitySource: addCommunity,
+            deleteCommunitySource: removeCommunity,
+            errors: formErrors,
+            showErrorHint: true,
+            cbcCommunitiesData:
+              query.cbcByRowId.cbcProjectCommunitiesByCbcId.nodes,
+            addedCommunities,
           }}
         >
           <Button>Save</Button>

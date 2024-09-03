@@ -1,3 +1,65 @@
+# [1.189.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.188.0...v1.189.0) (2024-08-30)
+
+### Features
+
+- change to announced by bc/ised in gcpe report ([cbb5871](https://github.com/bcgov/CONN-CCBC-portal/commit/cbb58714e29ab57a08ac4ceeac4d016a03155294))
+
+# [1.188.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.187.0...v1.188.0) (2024-08-30)
+
+### Features
+
+- colour is now a background colour ([46584e5](https://github.com/bcgov/CONN-CCBC-portal/commit/46584e5e4d9beacbbf21bf9313cb6bd88092b526))
+
+# [1.187.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.4...v1.187.0) (2024-08-29)
+
+### Features
+
+- add toast for second review emails ([88b51d4](https://github.com/bcgov/CONN-CCBC-portal/commit/88b51d486927507285ac311a3e4755a77fd10b59))
+
+## [1.186.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.3...v1.186.4) (2024-08-29)
+
+## [1.186.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.2...v1.186.3) (2024-08-28)
+
+### Bug Fixes
+
+- sa permission for communities source data ([cc1d2e3](https://github.com/bcgov/CONN-CCBC-portal/commit/cc1d2e3e17e82d7807d078d1895cbfdb36958f7c))
+
+## [1.186.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.1...v1.186.2) (2024-08-28)
+
+### Bug Fixes
+
+- cbc household count validation ([9c203db](https://github.com/bcgov/CONN-CCBC-portal/commit/9c203db6d2a4e6f2a40d3d785137f2c62a0abc98))
+
+## [1.186.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.0...v1.186.1) (2024-08-27)
+
+### Bug Fixes
+
+- analyst status to show in report correctly ([657bf9f](https://github.com/bcgov/CONN-CCBC-portal/commit/657bf9fc1818644ec2c8d409d8283bfa86b8aa2a))
+- filtering for ccbc gcpe report ([dcd2b52](https://github.com/bcgov/CONN-CCBC-portal/commit/dcd2b52ea8f43a82a259cdbfa76cd7e87d05e03e))
+
+# [1.186.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.185.0...v1.186.0) (2024-08-27)
+
+### Bug Fixes
+
+- 500 error when visiting non-locations page ([b3a101c](https://github.com/bcgov/CONN-CCBC-portal/commit/b3a101c68f6ee5351f335e872b8583a8391dbce8))
+- add permissions for executing function ([6defd8f](https://github.com/bcgov/CONN-CCBC-portal/commit/6defd8f09689bdf6f9cfc320294c2953ca70e182))
+- cleanup of [section] to remove dataBySection ([35a85ee](https://github.com/bcgov/CONN-CCBC-portal/commit/35a85ee778573f92f526c8bff124c79abd40b43c))
+- clear button and inputs show correct values at all times ([abd9f20](https://github.com/bcgov/CONN-CCBC-portal/commit/abd9f20a15b2d15564a114f13f18ac4faa8b8542))
+- empty communities are not saved ([9c0c906](https://github.com/bcgov/CONN-CCBC-portal/commit/9c0c906e4b17c9e6e5105903bcfee4a74a7c0dc1))
+- geographic name options are by economic region and regional district ([a1c6927](https://github.com/bcgov/CONN-CCBC-portal/commit/a1c6927b67f89e81683716e0de8a39a4b0fd080d))
+- geographic name options are populated with only economic region ([40b9438](https://github.com/bcgov/CONN-CCBC-portal/commit/40b9438ef9793d5b83c178d9901e0eb587c8771d))
+- update on save instead of after refresh ([56b42f2](https://github.com/bcgov/CONN-CCBC-portal/commit/56b42f246d06b423ad279333199115fcccec035a))
+- user correct rowId ([378dcfc](https://github.com/bcgov/CONN-CCBC-portal/commit/378dcfcebef4b01a48e8da34ae92b03f3c2d3269))
+
+### Features
+
+- add and remove community source behaves as expected ([ce70b29](https://github.com/bcgov/CONN-CCBC-portal/commit/ce70b29e6f100032f9c92b6f8d7023d18d0e10a3))
+- added community sources are read only ([39e3834](https://github.com/bcgov/CONN-CCBC-portal/commit/39e3834d2b75707dd0cdf0ebcc1379b3ede77869))
+- community source data is now displayed properly ([b8e811e](https://github.com/bcgov/CONN-CCBC-portal/commit/b8e811e456700752e0d18c9ca18ea835915c790c))
+- disable previously selected options ([7c810e3](https://github.com/bcgov/CONN-CCBC-portal/commit/7c810e3ace1a19e3da2217f28b9dd2a5dd3c0236))
+- section community source data behaves similar to quick edit ([b9d8e7c](https://github.com/bcgov/CONN-CCBC-portal/commit/b9d8e7c96d348515f99a3b3b8644a3dad618fa6b))
+- style buttons for add, remove, and clear ([35698ff](https://github.com/bcgov/CONN-CCBC-portal/commit/35698ff6ee1164d2a9e90828ce3d1a79193ecf24))
+
 # [1.185.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.184.2...v1.185.0) (2024-08-26)
 
 ### Features

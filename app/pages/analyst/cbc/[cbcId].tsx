@@ -9,17 +9,23 @@ import CbcForm from 'components/Analyst/CBC/CbcForm';
 import { ChangeModal } from 'components/Analyst';
 import styled from 'styled-components';
 import ReviewTheme from 'components/Review/ReviewTheme';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useUpdateCbcDataAndInsertChangeRequest } from 'schema/mutations/cbc/updateCbcDataAndInsertChangeReason';
 import review from 'formSchema/analyst/cbc/review';
 import reviewUiSchema from 'formSchema/uiSchema/cbc/reviewUiSchema';
 import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
 import { useFeature } from '@growthbook/growthbook-react';
 import CbcTheme from 'components/Analyst/CBC/CbcTheme';
-import { createCbcSchemaData } from 'utils/schemaUtils';
+import {
+  createCbcSchemaData,
+  generateGeographicNamesByRegionalDistrict,
+  generateRegionalDistrictsByEconomicRegion,
+  getAllEconomicRegionNames,
+} from 'utils/schemaUtils';
 import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
 import CbcRecordLock from 'components/Analyst/CBC/CbcRecordLock';
 import useModal from 'lib/helpers/useModal';
+import { useUpdateCbcCommunityDataMutationMutation } from 'schema/mutations/cbc/updateCbcCommunityData';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -39,7 +45,8 @@ const getCbcQuery = graphql`
           }
         }
       }
-      cbcProjectCommunitiesByCbcId {
+      cbcProjectCommunitiesByCbcId(filter: { archivedAt: { isNull: true } }) {
+        __id
         nodes {
           communitiesSourceDataByCommunitiesSourceDataId {
             economicRegion
@@ -47,8 +54,17 @@ const getCbcQuery = graphql`
             geographicType
             regionalDistrict
             bcGeographicName
+            rowId
           }
         }
+      }
+    }
+    allCommunitiesSourceData {
+      nodes {
+        geographicNameId
+        bcGeographicName
+        economicRegion
+        regionalDistrict
       }
     }
     session {
@@ -95,6 +111,60 @@ const Cbc = ({
   const { rowId } = query.cbcByRowId;
   const [formData, setFormData] = useState({} as any);
   const [baseFormData, setBaseFormData] = useState({} as any);
+  const [addedCommunities, setAddedCommunities] = useState([]);
+  const [removedCommunities, setRemovedCommunities] = useState([]);
+  const [responseCommunityData, setResponseCommunityData] = useState([]);
+
+  const addCommunity = (communityId) => {
+    setAddedCommunities((prevList) => [...prevList, communityId]);
+  };
+
+  const removeCommunity = (communityId) => {
+    setRemovedCommunities((prevList) => [...prevList, communityId]);
+    const indexOfRemovedCommunity =
+      formData.locations.communitySourceData.findIndex(
+        (community) => community.geographicNameId === communityId
+      );
+    setFormData({
+      ...formData,
+      locations: {
+        ...formData.locations,
+        communitySourceData: [
+          ...formData.locations.communitySourceData.slice(
+            0,
+            indexOfRemovedCommunity
+          ),
+          ...formData.locations.communitySourceData.slice(
+            indexOfRemovedCommunity + 1
+          ),
+        ],
+      },
+    });
+  };
+
+  const handleAddClick = (formPayload) => {
+    const communitySourceArray = formPayload.locations
+      .communitySourceData as Array<any>;
+    const communitySourceArrayLength =
+      formPayload.locations.communitySourceData?.length;
+    if (communitySourceArray[communitySourceArrayLength - 1] === undefined) {
+      if (communitySourceArray[0])
+        addCommunity(communitySourceArray[0].geographicNameId);
+      return {
+        ...formPayload,
+        locations: {
+          ...formPayload.locations,
+          communitySourceData: [
+            {},
+            // done to ensure that the added piece is now readonly
+            { ...communitySourceArray[0], rowId: true },
+            ...communitySourceArray.slice(1, communitySourceArrayLength - 1),
+          ],
+        },
+      };
+    }
+    return formPayload;
+  };
 
   const changeModal = useModal();
 
@@ -102,19 +172,40 @@ const Cbc = ({
   const [allowEdit, setAllowEdit] = useState(
     isCbcAdmin && editFeatureEnabled && !recordLocked
   );
-  useEffect(() => {
-    const { cbcByRowId } = query;
-    const { cbcDataByCbcId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
-    const { edges } = cbcDataByCbcId;
-    const cbcCommunitiesData = cbcProjectCommunitiesByCbcId.nodes?.map(
+
+  const allCommunitiesSourceData = query.allCommunitiesSourceData.nodes;
+
+  const geographicNamesByRegionalDistrict = useMemo(() => {
+    return generateGeographicNamesByRegionalDistrict(allCommunitiesSourceData);
+  }, [allCommunitiesSourceData]);
+
+  const regionalDistrictsByEconomicRegion = useMemo(() => {
+    return generateRegionalDistrictsByEconomicRegion(allCommunitiesSourceData);
+  }, [allCommunitiesSourceData]);
+
+  const allEconomicRegions = useMemo(() => {
+    return getAllEconomicRegionNames(allCommunitiesSourceData);
+  }, [allCommunitiesSourceData]);
+
+  const cbcCommunitiesData = useMemo(() => {
+    if (responseCommunityData.length > 0) return responseCommunityData;
+    return query.cbcByRowId.cbcProjectCommunitiesByCbcId.nodes?.map(
       (node) => node.communitiesSourceDataByCommunitiesSourceDataId
     );
+  }, [query, responseCommunityData]);
+
+  useEffect(() => {
+    const { cbcByRowId } = query;
+    const { cbcDataByCbcId } = cbcByRowId;
+
+    const { edges } = cbcDataByCbcId;
     const cbcData = edges[0].node;
     const { jsonData } = cbcData;
 
     const {
       tombstone,
       projectType,
+      locations,
       locationsAndCounts,
       funding,
       eventsAndDates,
@@ -128,6 +219,7 @@ const Cbc = ({
     setFormData({
       tombstone,
       projectType,
+      locations,
       locationsAndCounts,
       funding,
       eventsAndDates,
@@ -137,6 +229,7 @@ const Cbc = ({
     setBaseFormData({
       tombstone,
       projectType,
+      locations,
       locationsAndCounts,
       funding,
       eventsAndDates,
@@ -147,14 +240,44 @@ const Cbc = ({
     setAllowEdit(
       isCbcAdmin && editFeatureEnabled && !projectDataReviews?.locked
     );
-  }, [query, isCbcAdmin, editFeatureEnabled]);
+  }, [query, isCbcAdmin, editFeatureEnabled, cbcCommunitiesData]);
 
   const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
+  const [updateCbcCommunitySourceData] =
+    useUpdateCbcCommunityDataMutationMutation();
 
   const handleChangeRequestModal = () => {
     setChangeReason(null);
     changeModal.open();
   };
+
+  const handleUpdateCommunitySource = useCallback(() => {
+    updateCbcCommunitySourceData({
+      variables: {
+        input: {
+          _projectId: rowId,
+          _communityIdsToAdd: addedCommunities,
+          _communityIdsToArchive: removedCommunities,
+        },
+      },
+      debounceKey: 'cbc_update_community_source_data',
+      onCompleted: (response) => {
+        setAddedCommunities([]);
+        setRemovedCommunities([]);
+        setResponseCommunityData(
+          response.editCbcProjectCommunities.cbcProjectCommunities.map(
+            (proj) => proj.communitiesSourceDataByCommunitiesSourceDataId
+          )
+        );
+      },
+    });
+  }, [
+    addedCommunities,
+    removedCommunities,
+    updateCbcCommunitySourceData,
+    rowId,
+    setResponseCommunityData,
+  ]);
 
   const handleSubmit = () => {
     const {
@@ -163,6 +286,7 @@ const Cbc = ({
       economicRegions,
       ...updatedLocationsAndCounts
     } = formData.locationsAndCounts;
+    const { projectLocations } = formData.locations;
     updateFormData({
       variables: {
         inputCbcData: {
@@ -171,6 +295,7 @@ const Cbc = ({
             jsonData: {
               ...formData.tombstone,
               ...formData.projectType,
+              projectLocations,
               ...updatedLocationsAndCounts,
               ...formData.funding,
               ...formData.eventsAndDates,
@@ -191,6 +316,7 @@ const Cbc = ({
       onCompleted: () => {
         setEditMode(false);
         changeModal.close();
+        handleUpdateCommunitySource();
         setAllowEdit(isCbcAdmin && editFeatureEnabled);
       },
     });
@@ -312,10 +438,18 @@ const Cbc = ({
             errors: formErrors,
             showErrorHint: true,
             recordLocked,
+            geographicNamesByRegionalDistrict,
+            regionalDistrictsByEconomicRegion,
+            economicRegions: allEconomicRegions,
+            cbcCommunitiesData:
+              query.cbcByRowId.cbcProjectCommunitiesByCbcId.nodes,
+            addedCommunities,
+            addCommunitySource: addCommunity,
+            deleteCommunitySource: removeCommunity,
           }}
           formData={formData}
           handleChange={(e) => {
-            setFormData({ ...e.formData });
+            setFormData(handleAddClick(e.formData));
           }}
           hiddenSubmitRef={hiddenSubmitRef}
           isExpanded
@@ -337,6 +471,8 @@ const Cbc = ({
           setChangeReason(null);
           setFormData(baseFormData);
           setEditMode(false);
+          setAddedCommunities([]);
+          setRemovedCommunities([]);
           changeModal.close();
         }}
         value={changeReason}
