@@ -34,7 +34,7 @@ export const regenerateGcpeReportQueryResult = {
           },
           {
             wrap: true,
-            value: 'Announced by Province',
+            value: 'Announced by BC/ISED',
             height: 95,
             fontWeight: 'bold',
           },
@@ -22009,6 +22009,29 @@ export const ccbcDataQueryResult = {
             status: 'conditionally_approved',
             intakeNumber: 1,
             organizationName: 'Joint Ops',
+            assessmentDataByApplicationId: {
+              nodes: [
+                {
+                  assessmentDataType: 'screening',
+                  jsonData: {
+                    decision: 'No decision',
+                    nextStep: 'Assessment complete',
+                    assignedTo: 'Test',
+                    targetDate: '2023-04-01',
+                    contestingMap: [],
+                    assessmentTemplate: [],
+                    connectedCoastNetworkDependent: true,
+                  },
+                },
+              ],
+            },
+            applicationAnnouncedsByApplicationId: {
+              nodes: [
+                {
+                  announced: true,
+                },
+              ],
+            },
             applicationPendingChangeRequestsByApplicationId: {
               edges: [],
             },

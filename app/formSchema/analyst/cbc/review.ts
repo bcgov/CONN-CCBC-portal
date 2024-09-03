@@ -6,6 +6,7 @@ import funding from './funding';
 import eventsAndDates from './eventsAndDates';
 import miscellaneous from './miscellaneous';
 import projectDataReviews from './projectDataReviews';
+import locationsUi from './locations';
 
 const review: RJSFSchema = {
   type: 'object',
@@ -22,6 +23,12 @@ const review: RJSFSchema = {
       title: projectType.title,
       properties: {
         ...projectType.properties,
+      },
+    },
+    locations: {
+      title: locationsUi.title,
+      properties: {
+        ...locationsUi.properties,
       },
     },
     locationsAndCounts: {

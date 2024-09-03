@@ -39,6 +39,7 @@ export const createCbcSchemaData = (jsonData) => {
     return {
       tombstone: null,
       projectType: null,
+      locations: null,
       locationsAndCounts: null,
       funding: null,
       eventsAndDates: null,
@@ -72,7 +73,17 @@ export const createCbcSchemaData = (jsonData) => {
     connectedCoastNetworkDependant: jsonData.connectedCoastNetworkDependant,
   };
   const locationsAndCounts = {
+    communitiesAndLocalesCount: jsonData.communitiesAndLocalesCount,
+    indigenousCommunities: jsonData.indigenousCommunities,
+    householdCount: jsonData.householdCount,
+    transportKm: jsonData.transportKm,
+    highwayKm: jsonData.highwayKm,
+    restAreas: jsonData.restAreas,
+  };
+
+  const locations = {
     projectLocations: jsonData.projectLocations,
+    communitySourceData: [{}, ...jsonData.cbcCommunitiesData],
     geographicNames: getDistinctValues(
       jsonData.cbcCommunitiesData,
       'bcGeographicName'
@@ -85,12 +96,6 @@ export const createCbcSchemaData = (jsonData) => {
       jsonData.cbcCommunitiesData,
       'economicRegion'
     ),
-    communitiesAndLocalesCount: jsonData.communitiesAndLocalesCount,
-    indigenousCommunities: jsonData.indigenousCommunities,
-    householdCount: jsonData.householdCount,
-    transportKm: jsonData.transportKm,
-    highwayKm: jsonData.highwayKm,
-    restAreas: jsonData.restAreas,
   };
 
   const funding = {
@@ -132,6 +137,7 @@ export const createCbcSchemaData = (jsonData) => {
   const dataBySection = {
     tombstone,
     projectType,
+    locations,
     locationsAndCounts,
     funding,
     eventsAndDates,
@@ -140,4 +146,80 @@ export const createCbcSchemaData = (jsonData) => {
   };
 
   return dataBySection;
+};
+
+type CommunitySourceData = {
+  readonly bcGeographicName: string;
+  readonly geographicNameId: number;
+  readonly regionalDistrict: string | null;
+  readonly economicRegion: string | null;
+};
+
+export const generateGeographicNamesByRegionalDistrict = (
+  allCommunitiesSourceData: readonly CommunitySourceData[]
+) => {
+  const geographicNamesDict = {};
+  allCommunitiesSourceData.forEach((community) => {
+    const {
+      regionalDistrict,
+      bcGeographicName,
+      geographicNameId,
+      economicRegion,
+    } = community;
+
+    if (geographicNamesDict[economicRegion] === undefined) {
+      geographicNamesDict[economicRegion] = {};
+    }
+
+    if (
+      geographicNamesDict[economicRegion] === undefined &&
+      !regionalDistrict
+    ) {
+      geographicNamesDict[economicRegion]['null'] = new Set();
+    }
+
+    if (geographicNamesDict[economicRegion][regionalDistrict] === undefined) {
+      geographicNamesDict[economicRegion][regionalDistrict] = new Set();
+    }
+
+    if (regionalDistrict === null) {
+      geographicNamesDict[economicRegion]['null'].add({
+        label: bcGeographicName,
+        value: geographicNameId,
+      });
+    } else {
+      geographicNamesDict[economicRegion][regionalDistrict].add({
+        label: bcGeographicName,
+        value: geographicNameId,
+      });
+    }
+  });
+  return geographicNamesDict;
+};
+
+export const generateRegionalDistrictsByEconomicRegion = (
+  allCommunitiesSourceData: readonly CommunitySourceData[]
+) => {
+  const economicRegionRegionalDistrictsDict = {};
+  allCommunitiesSourceData.forEach((community) => {
+    const { economicRegion, regionalDistrict } = community;
+    if (!economicRegionRegionalDistrictsDict[economicRegion]) {
+      economicRegionRegionalDistrictsDict[economicRegion] = new Set();
+    }
+    if (regionalDistrict)
+      economicRegionRegionalDistrictsDict[economicRegion].add(regionalDistrict);
+  });
+
+  return economicRegionRegionalDistrictsDict;
+};
+
+export const getAllEconomicRegionNames = (
+  allCommunitiesSourceData: readonly CommunitySourceData[]
+) => {
+  const economicRegionsSet = new Set();
+  allCommunitiesSourceData.forEach((community) => {
+    const { economicRegion } = community;
+    economicRegionsSet.add(economicRegion);
+  });
+  return [...economicRegionsSet];
 };

@@ -1,3 +1,143 @@
+## [1.189.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.189.0...v1.189.1) (2024-09-03)
+
+# [1.189.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.188.0...v1.189.0) (2024-08-30)
+
+### Features
+
+- change to announced by bc/ised in gcpe report ([cbb5871](https://github.com/bcgov/CONN-CCBC-portal/commit/cbb58714e29ab57a08ac4ceeac4d016a03155294))
+
+# [1.188.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.187.0...v1.188.0) (2024-08-30)
+
+### Features
+
+- colour is now a background colour ([46584e5](https://github.com/bcgov/CONN-CCBC-portal/commit/46584e5e4d9beacbbf21bf9313cb6bd88092b526))
+
+# [1.187.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.4...v1.187.0) (2024-08-29)
+
+### Features
+
+- add toast for second review emails ([88b51d4](https://github.com/bcgov/CONN-CCBC-portal/commit/88b51d486927507285ac311a3e4755a77fd10b59))
+
+## [1.186.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.3...v1.186.4) (2024-08-29)
+
+## [1.186.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.2...v1.186.3) (2024-08-28)
+
+### Bug Fixes
+
+- sa permission for communities source data ([cc1d2e3](https://github.com/bcgov/CONN-CCBC-portal/commit/cc1d2e3e17e82d7807d078d1895cbfdb36958f7c))
+
+## [1.186.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.1...v1.186.2) (2024-08-28)
+
+### Bug Fixes
+
+- cbc household count validation ([9c203db](https://github.com/bcgov/CONN-CCBC-portal/commit/9c203db6d2a4e6f2a40d3d785137f2c62a0abc98))
+
+## [1.186.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.186.0...v1.186.1) (2024-08-27)
+
+### Bug Fixes
+
+- analyst status to show in report correctly ([657bf9f](https://github.com/bcgov/CONN-CCBC-portal/commit/657bf9fc1818644ec2c8d409d8283bfa86b8aa2a))
+- filtering for ccbc gcpe report ([dcd2b52](https://github.com/bcgov/CONN-CCBC-portal/commit/dcd2b52ea8f43a82a259cdbfa76cd7e87d05e03e))
+
+# [1.186.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.185.0...v1.186.0) (2024-08-27)
+
+### Bug Fixes
+
+- 500 error when visiting non-locations page ([b3a101c](https://github.com/bcgov/CONN-CCBC-portal/commit/b3a101c68f6ee5351f335e872b8583a8391dbce8))
+- add permissions for executing function ([6defd8f](https://github.com/bcgov/CONN-CCBC-portal/commit/6defd8f09689bdf6f9cfc320294c2953ca70e182))
+- cleanup of [section] to remove dataBySection ([35a85ee](https://github.com/bcgov/CONN-CCBC-portal/commit/35a85ee778573f92f526c8bff124c79abd40b43c))
+- clear button and inputs show correct values at all times ([abd9f20](https://github.com/bcgov/CONN-CCBC-portal/commit/abd9f20a15b2d15564a114f13f18ac4faa8b8542))
+- empty communities are not saved ([9c0c906](https://github.com/bcgov/CONN-CCBC-portal/commit/9c0c906e4b17c9e6e5105903bcfee4a74a7c0dc1))
+- geographic name options are by economic region and regional district ([a1c6927](https://github.com/bcgov/CONN-CCBC-portal/commit/a1c6927b67f89e81683716e0de8a39a4b0fd080d))
+- geographic name options are populated with only economic region ([40b9438](https://github.com/bcgov/CONN-CCBC-portal/commit/40b9438ef9793d5b83c178d9901e0eb587c8771d))
+- update on save instead of after refresh ([56b42f2](https://github.com/bcgov/CONN-CCBC-portal/commit/56b42f246d06b423ad279333199115fcccec035a))
+- user correct rowId ([378dcfc](https://github.com/bcgov/CONN-CCBC-portal/commit/378dcfcebef4b01a48e8da34ae92b03f3c2d3269))
+
+### Features
+
+- add and remove community source behaves as expected ([ce70b29](https://github.com/bcgov/CONN-CCBC-portal/commit/ce70b29e6f100032f9c92b6f8d7023d18d0e10a3))
+- added community sources are read only ([39e3834](https://github.com/bcgov/CONN-CCBC-portal/commit/39e3834d2b75707dd0cdf0ebcc1379b3ede77869))
+- community source data is now displayed properly ([b8e811e](https://github.com/bcgov/CONN-CCBC-portal/commit/b8e811e456700752e0d18c9ca18ea835915c790c))
+- disable previously selected options ([7c810e3](https://github.com/bcgov/CONN-CCBC-portal/commit/7c810e3ace1a19e3da2217f28b9dd2a5dd3c0236))
+- section community source data behaves similar to quick edit ([b9d8e7c](https://github.com/bcgov/CONN-CCBC-portal/commit/b9d8e7c96d348515f99a3b3b8644a3dad618fa6b))
+- style buttons for add, remove, and clear ([35698ff](https://github.com/bcgov/CONN-CCBC-portal/commit/35698ff6ee1164d2a9e90828ce3d1a79193ecf24))
+
+# [1.185.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.184.2...v1.185.0) (2024-08-26)
+
+### Features
+
+- add indication to Template upload ([d880cec](https://github.com/bcgov/CONN-CCBC-portal/commit/d880cecf266e7881f2c37de471a2afbd5816421b))
+
+## [1.184.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.184.1...v1.184.2) (2024-08-26)
+
+### Bug Fixes
+
+- refine communities validation cbc ([33c40d5](https://github.com/bcgov/CONN-CCBC-portal/commit/33c40d575abfa58ca7bd77d7ff7fcc324a6b960b))
+
+## [1.184.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.184.0...v1.184.1) (2024-08-26)
+
+# [1.184.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.183.0...v1.184.0) (2024-08-26)
+
+### Features
+
+- ccbc summary page ([15b83b8](https://github.com/bcgov/CONN-CCBC-portal/commit/15b83b80048b07052e7697011e66fc22491ba7a6))
+- summary highlight communities counts not matching in sow ([450d8b1](https://github.com/bcgov/CONN-CCBC-portal/commit/450d8b1a36d5a6c26be89f2a5f1361d1f1eda951))
+
+# [1.183.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.2...v1.183.0) (2024-08-22)
+
+### Features
+
+- add ccbc connected coast and announced to gcpe report ([86bfd62](https://github.com/bcgov/CONN-CCBC-portal/commit/86bfd62f15af5901c63d0df1b6e4af116214dbfe))
+
+## [1.182.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.1...v1.182.2) (2024-08-22)
+
+### Bug Fixes
+
+- clear reason for change on cbc quick edit ([6baba06](https://github.com/bcgov/CONN-CCBC-portal/commit/6baba06ce71ca9b605989f3f63ddb8cd6eefda20))
+
+## [1.182.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.182.0...v1.182.1) (2024-08-22)
+
+# [1.182.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.2...v1.182.0) (2024-08-22)
+
+### Features
+
+- add project page timeout for excel upload ([ba9e9b5](https://github.com/bcgov/CONN-CCBC-portal/commit/ba9e9b5e5f6d40095d29ef2a860b1d7678fadf40))
+
+## [1.181.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.1...v1.181.2) (2024-08-22)
+
+## [1.181.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.181.0...v1.181.1) (2024-08-22)
+
+### Bug Fixes
+
+- sort order for status ccbc and cbc combined ([2cef172](https://github.com/bcgov/CONN-CCBC-portal/commit/2cef172553b1fb832d28409d245167b6ddc76419))
+
+# [1.181.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.4...v1.181.0) (2024-08-20)
+
+### Features
+
+- edit cbc project number, use current operating name ([341b68f](https://github.com/bcgov/CONN-CCBC-portal/commit/341b68f0876a96cf1526f1985fe7884e51a55c72))
+
+## [1.180.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.3...v1.180.4) (2024-08-19)
+
+### Bug Fixes
+
+- view annoucement link for cbc_admin ([b98eb7d](https://github.com/bcgov/CONN-CCBC-portal/commit/b98eb7d19089eb21056ae94ad762728311a73a68))
+
+## [1.180.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.2...v1.180.3) (2024-08-19)
+
+### Bug Fixes
+
+- email permission issue ([1a77429](https://github.com/bcgov/CONN-CCBC-portal/commit/1a7742960ee352005a65cce6759f4aad4fcde1c5))
+
+## [1.180.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.1...v1.180.2) (2024-08-19)
+
+### Bug Fixes
+
+- applicant dashboard to show latest name from sow ([9d2637d](https://github.com/bcgov/CONN-CCBC-portal/commit/9d2637de5d7d793a5ff5e7b43594982203604353))
+- federal funding source validation for cbc ([c5fec5e](https://github.com/bcgov/CONN-CCBC-portal/commit/c5fec5e6e7289663b01e849a5297d58b23a158a2))
+- project name computed column scripts ([7cbfe49](https://github.com/bcgov/CONN-CCBC-portal/commit/7cbfe492dfd0ceac38531ae124108c6886831bd1))
+- sow update doesnot update header for amendments ([9b8b1ef](https://github.com/bcgov/CONN-CCBC-portal/commit/9b8b1efc1193dcaba14c1044ce0c9de536761f80))
+
 ## [1.180.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.180.0...v1.180.1) (2024-08-06)
 
 ### Bug Fixes

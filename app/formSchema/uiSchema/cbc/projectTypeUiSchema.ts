@@ -17,6 +17,7 @@ const projectTypeUiSchema = {
   highwayProjectType: {
     'ui:widget': 'SelectWidget',
     'ui:placeholder': 'Highway project type',
+    'ui:label': 'Highway Project Type',
   },
   lastMileProjectType: {
     'ui:widget': 'SelectWidget',

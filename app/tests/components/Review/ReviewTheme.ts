@@ -211,7 +211,9 @@ const sharedReviewThemeTests = (renderTest) => {
     );
 
     const errorCell = section
-      .getByText('Total project cost (Template 2 - cell H28)')
+      .getByText(
+        'Total project costs is auto-filled from Template 2 - cell H28 in the Detailed Budget, including all related RFIs.'
+      )
       .closest('tr')
       .getElementsByTagName('td')[0];
 

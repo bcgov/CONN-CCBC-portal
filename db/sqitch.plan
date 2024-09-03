@@ -630,3 +630,30 @@ computed_columns/application_announced 2024-07-24T18:07:20Z ,,, <ryohani89@NH504
 computed_columns/application_history [computed_columns/application_history@1.179.0] 2024-07-31T16:19:17Z ,,, <ryohani89@NH504670> # rework history to fetch application announced history
 @1.180.0 2024-08-01T18:42:47Z CCBC Service Account <ccbc@button.is> # release v1.180.0
 @1.180.1 2024-08-06T22:10:01Z CCBC Service Account <ccbc@button.is> # release v1.180.1
+computed_columns/application_project_name [computed_columns/application_project_name@1.180.0] 2024-08-02T20:45:20Z ,,, <ryohani89@NH504670> # Include project name from sow data
+@1.180.2 2024-08-19T21:51:41Z CCBC Service Account <ccbc@button.is> # release v1.180.2
+@1.180.3 2024-08-19T22:12:14Z CCBC Service Account <ccbc@button.is> # release v1.180.3
+@1.180.4 2024-08-19T22:41:47Z CCBC Service Account <ccbc@button.is> # release v1.180.4
+tables/cbc_add_fk_update_constraint 2024-07-11T20:32:11Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add a foreign key update cascade constraint
+@1.181.0 2024-08-20T20:20:29Z CCBC Service Account <ccbc@button.is> # release v1.181.0
+@1.181.1 2024-08-22T14:38:05Z CCBC Service Account <ccbc@button.is> # release v1.181.1
+@1.181.2 2024-08-22T16:09:35Z CCBC Service Account <ccbc@button.is> # release v1.181.2
+@1.182.0 2024-08-22T16:48:01Z CCBC Service Account <ccbc@button.is> # release v1.182.0
+@1.182.1 2024-08-22T17:30:53Z CCBC Service Account <ccbc@button.is> # release v1.182.1
+@1.182.2 2024-08-22T17:54:31Z CCBC Service Account <ccbc@button.is> # release v1.182.2
+@1.183.0 2024-08-22T18:35:35Z CCBC Service Account <ccbc@button.is> # release v1.183.0
+@1.184.0 2024-08-26T16:51:24Z CCBC Service Account <ccbc@button.is> # release v1.184.0
+@1.184.1 2024-08-26T19:57:58Z CCBC Service Account <ccbc@button.is> # release v1.184.1
+@1.184.2 2024-08-26T20:34:36Z CCBC Service Account <ccbc@button.is> # release v1.184.2
+@1.185.0 2024-08-26T22:26:30Z CCBC Service Account <ccbc@button.is> # release v1.185.0
+mutations/edit_cbc_project_communities 2024-08-21T15:16:56Z Anthony Bushara <anthony@button.is> # Add and delete project communities to a cbc project
+@1.186.0 2024-08-27T20:55:46Z CCBC Service Account <ccbc@button.is> # release v1.186.0
+@1.186.1 2024-08-27T22:52:17Z CCBC Service Account <ccbc@button.is> # release v1.186.1
+@1.186.2 2024-08-28T15:58:56Z CCBC Service Account <ccbc@button.is> # release v1.186.2
+tables/communities_source_data_001_service_account 2024-08-28T16:32:48Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grants service account to communities source data table
+@1.186.3 2024-08-28T17:01:51Z CCBC Service Account <ccbc@button.is> # release v1.186.3
+@1.186.4 2024-08-29T17:49:49Z CCBC Service Account <ccbc@button.is> # release v1.186.4
+@1.187.0 2024-08-29T20:15:20Z CCBC Service Account <ccbc@button.is> # release v1.187.0
+@1.188.0 2024-08-30T17:51:56Z CCBC Service Account <ccbc@button.is> # release v1.188.0
+@1.189.0 2024-08-30T18:07:26Z CCBC Service Account <ccbc@button.is> # release v1.189.0
+@1.189.1 2024-09-03T15:49:04Z CCBC Service Account <ccbc@button.is> # release v1.189.1

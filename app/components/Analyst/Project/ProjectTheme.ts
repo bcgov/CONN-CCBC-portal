@@ -3,6 +3,7 @@ import ArrayFieldTemplate from 'lib/theme/fields/ArrayFieldTemplate';
 import * as widgets from 'lib/theme/widgets';
 import ReadOnlyWidget from 'components/Analyst/Project/ConditionalApproval/widgets/ReadOnlyWidget';
 import ExcelImportFileWidget from 'components/Analyst/Project/ProjectInformation/widgets/ExcelImportFileWidget';
+import CommunitySourceWidget from 'lib/theme/widgets/custom/CommunitySourceWidget';
 import { StatusSelectWidget } from './ConditionalApproval/widgets';
 import ProjectFieldTemplate from './fields/ProjectFieldTemplate';
 import ProjectObjectFieldTemplate from './fields/ProjectObjectFieldTemplate';
@@ -30,6 +31,7 @@ const ProjectTheme: ThemeProps = {
     CcbcIdWidget,
     HiddenWidget,
     ContextErrorWidget,
+    CommunitySourceWidget,
   },
   templates: {
     ...templates,

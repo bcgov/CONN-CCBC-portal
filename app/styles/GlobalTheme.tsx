@@ -33,6 +33,7 @@ export const theme = {
     disabledGrey: '#939393',
     placeholder: '#cccccc',
     backgroundMagenta: '#b200ff',
+    darkGrey: '#676666',
   },
   spacing: {
     small: '8px',

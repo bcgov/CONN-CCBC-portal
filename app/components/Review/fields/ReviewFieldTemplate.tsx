@@ -37,6 +37,12 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   const title =
     (uiSchema?.['ui:options']?.customTitle as JSX.Element) ?? schema.title;
 
+  const isExcludeTableFormat = uiSchema?.['ui:options']?.excludeTableFormat;
+
+  if (isExcludeTableFormat) {
+    return <>{children}</>;
+  }
+
   const before = uiSchema?.['ui:before'];
   const after = uiSchema?.['ui:after'];
   const fieldName = id?.split('_')?.[2];
@@ -75,7 +81,9 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
             )}
           </StyledColError>
         ) : (
-          <StyledColRight id={`${id}-value`}>{children}</StyledColRight>
+          <StyledColRight data-testid={`${id}-value`}>
+            {children}
+          </StyledColRight>
         )}
       </tr>
       {after}
