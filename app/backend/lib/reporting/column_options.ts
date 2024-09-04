@@ -41,7 +41,7 @@ const columnOptions: Columns = [
   { width: 20 },
   // column 20 (federal funding source)
   { width: 20 },
-  // column 21 (FHNA funding)
+  // column 21 (FNHA funding)
   { width: 20 },
   // column 22 (Applicant amount)
   { width: 20 },
