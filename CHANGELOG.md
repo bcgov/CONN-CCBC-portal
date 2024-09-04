@@ -1,3 +1,9 @@
+## [1.190.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.3...v1.190.4) (2024-09-04)
+
+### Bug Fixes
+
+- typo in RFI template 1 upload ([4ffb323](https://github.com/bcgov/CONN-CCBC-portal/commit/4ffb323ee2596983bc6762e55a048667c2419576))
+
 ## [1.190.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.2...v1.190.3) (2024-09-04)
 
 ### Bug Fixes
