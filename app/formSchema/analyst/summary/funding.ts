@@ -24,7 +24,7 @@ const funding: RJSFSchema = {
     },
     fundingRequestedCcbc: {
       type: 'number',
-      title: 'Total amount requested under CCBC',
+      title: 'Total amount requested from CCBC',
     },
     applicantAmount: {
       type: 'number',
