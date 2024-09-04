@@ -249,7 +249,7 @@ const generateExcelData = async (
         format: '$#,##0.00',
         type: Number,
       },
-      // FHNA funding
+      // FNHA funding
       { value: null },
       // applicant amount
       {
@@ -380,7 +380,7 @@ const generateExcelData = async (
         format: '$#,##0.00',
         type: Number,
       },
-      // FHNA funding
+      // FNHA funding
       { value: null },
       // applicant amount
       {
