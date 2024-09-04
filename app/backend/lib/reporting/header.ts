@@ -143,7 +143,7 @@ const HEADER_ROW: Row = [
     wrap: true,
   },
   {
-    value: 'FHNA Funding',
+    value: 'FNHA Funding',
     fontWeight: 'bold',
     type: String,
     height: 95,
