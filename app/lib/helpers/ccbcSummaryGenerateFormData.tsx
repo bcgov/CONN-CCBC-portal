@@ -164,6 +164,9 @@ const getSowData = (sowData, baseSowData) => {
         federalFunding:
           sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
             ?.amountRequestedFromFederalGovernment,
+        fundingRequestedCcbc:
+          sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
+            ?.totalFundingRequestedCCBC,
         applicantAmount:
           sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
             ?.totalApplicantContribution,
@@ -197,6 +200,7 @@ const getSowData = (sowData, baseSowData) => {
       numberOfIndigenousHouseholds: 'SOW',
       bcFundingRequested: 'SOW',
       federalFunding: 'SOW',
+      fundingRequestedCcbc: 'SOW',
       applicantAmount: 'SOW',
       cibFunding: 'SOW',
       otherFunding: 'SOW',
@@ -210,6 +214,22 @@ const getSowData = (sowData, baseSowData) => {
   };
 };
 
+const sumConditionalApprovalFunding = (
+  bcFundingRequested,
+  isedFundingRequested
+) => {
+  if (!bcFundingRequested && !isedFundingRequested) {
+    return null;
+  }
+  if (!bcFundingRequested && isedFundingRequested) {
+    return isedFundingRequested;
+  }
+  if (bcFundingRequested && !isedFundingRequested) {
+    return bcFundingRequested;
+  }
+  return bcFundingRequested + isedFundingRequested;
+};
+
 const getFormDataNonSow = (applicationData) => {
   return {
     formData: {
@@ -220,6 +240,12 @@ const getFormDataNonSow = (applicationData) => {
         federalFunding:
           applicationData?.conditionalApproval?.jsonData?.isedDecisionObj
             ?.federalRequested,
+        fundingRequestedCcbc: sumConditionalApprovalFunding(
+          applicationData?.conditionalApproval?.jsonData?.decision
+            ?.provincialRequested,
+          applicationData?.conditionalApproval?.jsonData?.isedDecisionObj
+            ?.federalRequested
+        ),
       },
       eventsAndDates: {
         dateConditionallyApproved: getConditionalApprovalDate(
@@ -230,6 +256,7 @@ const getFormDataNonSow = (applicationData) => {
     formDataSource: {
       bcFundingRequested: 'Conditional Approval',
       federalFunding: 'Conditional Approval',
+      fundingRequestedCcbc: 'Conditional Approval',
       dateConditionallyApproved: 'Conditional Approval',
     },
   };
@@ -253,6 +280,9 @@ const getFormDataFromApplication = (applicationData, allIntakes) => {
       funding: {
         bcFundingRequested: null,
         federalFunding: null,
+        fundingRequestedCcbc:
+          applicationData?.formData?.jsonData?.projectFunding
+            ?.totalFundingRequestedCCBC,
         applicantAmount:
           applicationData?.formData?.jsonData?.projectFunding
             ?.totalApplicantContribution,
@@ -288,6 +318,7 @@ const getFormDataFromApplication = (applicationData, allIntakes) => {
       cibFunding: 'Application',
       otherFunding: 'Application',
       totalProjectBudget: 'Application',
+      fundingRequestedCcbc: 'Application',
       proposedStartDate: 'Application',
       proposedCompletionDate: 'Application',
     },
