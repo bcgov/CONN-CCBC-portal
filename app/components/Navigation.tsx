@@ -58,6 +58,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   const isCbcPage = router?.pathname.includes('/cbc/');
   const useCustomLogin = useFeature('use_custom_login').value;
   const useDirectIdir = useFeature('use_direct_idir').value;
+  const useNewHeader = useFeature('use_new_header').value;
   const { value: banner } = useFeature('header-banner');
 
   let action;
@@ -89,7 +90,11 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
               <Image
                 style={{ cursor: 'pointer', marginBottom: 0 }}
                 priority
-                src="/icons/connectivity_portal.svg"
+                src={
+                  useNewHeader
+                    ? '/icons/connectivity_portal.svg'
+                    : '/icons/BCID_Logo.svg'
+                }
                 alt="Logo for Province of British Columbia Connected Communities"
                 height={100}
                 width={300}
