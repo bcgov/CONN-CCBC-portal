@@ -206,7 +206,10 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allCbcData(filter: { archivedAt: { isNull: true } }) {
+        allCbcData(
+          filter: { archivedAt: { isNull: true } }
+          orderBy: PROJECT_NUMBER_ASC
+        ) {
           edges {
             node {
               jsonData
