@@ -1,3 +1,9 @@
+## [1.190.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.5...v1.190.6) (2024-09-04)
+
+### Bug Fixes
+
+- cbc project default order asc by project number ([527480b](https://github.com/bcgov/CONN-CCBC-portal/commit/527480b1142a7557e7361d07da597d1afb18bb7f))
+
 ## [1.190.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.4...v1.190.5) (2024-09-04)
 
 ### Bug Fixes
