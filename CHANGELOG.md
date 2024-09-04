@@ -1,3 +1,9 @@
+## [1.190.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.7...v1.190.8) (2024-09-04)
+
+### Bug Fixes
+
+- status order ([ef3d679](https://github.com/bcgov/CONN-CCBC-portal/commit/ef3d67989c495d887d642d2e3c6d848aceac4dec))
+
 ## [1.190.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.6...v1.190.7) (2024-09-04)
 
 ## [1.190.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.5...v1.190.6) (2024-09-04)
