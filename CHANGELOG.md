@@ -1,3 +1,9 @@
+## [1.190.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.4...v1.190.5) (2024-09-04)
+
+### Bug Fixes
+
+- broken link to connectivity program page ([bf5ff02](https://github.com/bcgov/CONN-CCBC-portal/commit/bf5ff02f3cb2a793aa1aaf7810c1495bcb21b14d))
+
 ## [1.190.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.3...v1.190.4) (2024-09-04)
 
 ### Bug Fixes
