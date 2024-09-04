@@ -36,7 +36,7 @@
     "@bcgov-ccbc/ccbc-node-sp-auth": "^1.0.0",
     "@bcgov/bc-sans": "^1.0.1",
     "@button-inc/bcgov-theme": "^1.0.1",
-    "@emotion/react": "^11.11.3",
+    "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.11.5",
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
