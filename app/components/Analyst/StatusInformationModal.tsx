@@ -31,15 +31,18 @@ const StatusInformationModal: React.FC<Props> = ({
   isOpen,
   close,
 }) => {
+  const infoGraphicUrl = '/images/stateMachine.svg';
   return (
     <Modal id={id} onClose={close} open={isOpen} title={title}>
       <div style={{ height: '150px' }}>
-        <Image
-          src="/images/stateMachine.png"
-          alt="The happy path for a project from application to completion. The external status is what an applicant sees and the internal status is what you the analyst sees. After an intake closes, both internal and external status are Received. After eligibility screening is assigned, the internal status can be changed to Screening but the external status remains Received. After it is determined to be eligible, the internal status can be changed to Assessment but the external status remains Received. If it is in the selection package for the Minister, the internal status can be changed to Recommendation but the external status remains Received. After the Minister states Approved in Annex A of the selection package, the internal status can be changed to Conditionally Approved. The external status can only be changed to Conditionally Approved when the applicant responds to the Letter of Conditional Approval, accepting the offer. When the Funding Agreement is signed by both the Recipient and the Province, the internal and external statuses can be changed to Agreement Signed. After a final implementation report is received and the final claim is processed, both statuses can be changed to Complete."
-          width={1000}
-          height={140}
-        />
+        <a href={infoGraphicUrl} target="_blank" rel="noopener noreferrer">
+          <Image
+            src={infoGraphicUrl}
+            alt="The happy path for a project from application to completion. The external status is what an applicant sees and the internal status is what you the analyst sees. After an intake closes, both internal and external status are Received. After eligibility screening is assigned, the internal status can be changed to Screening but the external status remains Received. After it is determined to be eligible, the internal status can be changed to Assessment but the external status remains Received. If it is in the selection package for the Minister, the internal status can be changed to Recommendation but the external status remains Received. After the Minister states Approved in Annex A of the selection package, the internal status can be changed to Conditionally Approved. The external status can only be changed to Conditionally Approved when the applicant responds to the Letter of Conditional Approval, accepting the offer. When the Funding Agreement is signed by both the Recipient and the Province, the internal and external statuses can be changed to Agreement Signed. After a final implementation report is received and the final claim is processed, both statuses can be changed to Complete."
+            width={1000}
+            height={140}
+          />
+        </a>
       </div>
       <div>
         <StyledTable>
@@ -84,8 +87,8 @@ const StatusInformationModal: React.FC<Props> = ({
                 />
               </td>
               <td>
-                Application rejected, not eligible, or not longer being
-                processed.
+                Application was not selected by the BC Minister for conditional
+                approval and is no longer being considered as a CCBC project.
               </td>
             </tr>
             <tr>

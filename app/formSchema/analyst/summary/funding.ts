@@ -22,6 +22,10 @@ const funding: RJSFSchema = {
       type: 'number',
       title: 'Federal Funding',
     },
+    fundingRequestedCcbc: {
+      type: 'number',
+      title: 'Total amount requested from CCBC',
+    },
     applicantAmount: {
       type: 'number',
       title: 'Applicant Amount',
@@ -32,7 +36,7 @@ const funding: RJSFSchema = {
     },
     fhnaFunding: {
       type: 'number',
-      title: 'FHNA Funding',
+      title: 'FNHA Funding',
     },
     otherFunding: {
       type: 'number',

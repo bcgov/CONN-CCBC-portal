@@ -166,7 +166,7 @@ const Dashboard = ({
               <p>
                 Please check the{' '}
                 <Link
-                  href="https://www2.gov.bc.ca/gov/content/governments/connectivity-in-bc/20601/20601-63737"
+                  href="https://www.gov.bc.ca/connectingcommunitiesbc"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
