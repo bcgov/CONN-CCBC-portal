@@ -12,6 +12,10 @@ const fundingUiSchema = {
     'ui:widget': 'MoneyWidget',
     'ui:label': 'Federal Funding',
   },
+  fundingRequestedCcbc: {
+    'ui:widget': 'MoneyWidget',
+    'ui:label': 'Total amount requested from CCBC',
+  },
   applicantAmount: {
     'ui:widget': 'MoneyWidget',
     'ui:label': 'Applicant Amount',
