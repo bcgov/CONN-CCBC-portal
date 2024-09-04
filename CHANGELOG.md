@@ -1,3 +1,9 @@
+## [1.190.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.0...v1.190.1) (2024-09-04)
+
+### Bug Fixes
+
+- ccbc summary funding figures ([4ebd880](https://github.com/bcgov/CONN-CCBC-portal/commit/4ebd880288cddd11a9b695a7ea76dc28c457d682))
+
 # [1.190.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.189.1...v1.190.0) (2024-09-04)
 
 ### Features
