@@ -6,8 +6,9 @@ const counts: RJSFSchema = {
   type: 'object',
   required: [
     'communities',
-    'benefitingCommunities',
     'indigenousCommunities',
+    'nonIndigenousCommunities',
+    'benefitingCommunities',
     'benefitingIndigenousCommunities',
     'totalHouseholdsImpacted',
     'numberOfIndigenousHouseholds',
@@ -15,19 +16,23 @@ const counts: RJSFSchema = {
   properties: {
     communities: {
       type: 'number',
-      title: 'Communities',
-    },
-    benefitingCommunities: {
-      type: 'number',
-      title: 'Benefiting Communities',
+      title: 'Total number of communities benefitting',
     },
     indigenousCommunities: {
       type: 'number',
-      title: 'Indigenous Communities',
+      title: 'Number of Indigenous Communities benefitting',
+    },
+    nonIndigenousCommunities: {
+      type: 'number',
+      title: 'Number of Non-Indigenous Communities benefitting',
     },
     benefitingIndigenousCommunities: {
       type: 'number',
-      title: 'Benefiting Indigenous Communities',
+      title: 'List of Indigenous communities benefitting',
+    },
+    benefitingCommunities: {
+      type: 'number',
+      title: 'List of Non-Indigenous communities benefitting',
     },
     totalHouseholdsImpacted: {
       type: 'number',
