@@ -1,3 +1,9 @@
+## [1.190.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.2...v1.190.3) (2024-09-04)
+
+### Bug Fixes
+
+- dollar sign on hh count in history ([798ac4f](https://github.com/bcgov/CONN-CCBC-portal/commit/798ac4f6a7d5d86a8241e855d946e5c13f466170))
+
 ## [1.190.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.1...v1.190.2) (2024-09-04)
 
 ## [1.190.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.0...v1.190.1) (2024-09-04)
