@@ -93,7 +93,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
                 src={
                   useNewHeader
                     ? '/icons/connectivity_portal.svg'
-                    : '/icons/BCID_Logo.svg'
+                    : '/icons/BCID_CC_RGB_rev.svg'
                 }
                 alt="Logo for Province of British Columbia Connected Communities"
                 height={100}
