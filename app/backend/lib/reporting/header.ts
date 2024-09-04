@@ -10,7 +10,7 @@ const HEADER_ROW: Row = [
     wrap: true,
   },
   {
-    value: 'Announced by Province',
+    value: 'Announced by BC/ISED',
     fontWeight: 'bold',
     type: String,
     height: 95,
