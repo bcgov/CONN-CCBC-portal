@@ -287,7 +287,8 @@ const getFormDataFromApplication = (applicationData, allIntakes) => {
           applicationData?.formData?.jsonData?.projectFunding
             ?.totalApplicantContribution,
         cibFunding:
-          applicationData?.formData?.jsonData?.projectFunding?.cibFunding,
+          applicationData?.formData?.jsonData?.otherFundingSources
+            ?.totalInfrastructureBankFunding,
         fhnaFunding: null,
         otherFunding: handleOtherFundingSourcesApplication(
           applicationData?.formData?.jsonData?.otherFundingSources
@@ -340,7 +341,9 @@ const generateFormData = (applicationData, sowData, allIntakes) => {
     applicationData.status === 'recommendation' ||
     applicationData.status === 'closed' ||
     applicationData.status === 'analyst_withdrawn' ||
-    applicationData.status === 'withdrawn'
+    applicationData.status === 'withdrawn' ||
+    applicationData.status === 'applicant_received' ||
+    applicationData.status === 'applicant_closed'
   ) {
     const applicationFormData = getFormDataFromApplication(
       applicationData,
