@@ -37,7 +37,7 @@ const TemplateDescription: React.FC<Props> = ({ templateNumber }) => {
         * RFI upload for Template {templateNumber} automatically updates the
         data for{' '}
         {templateNumber === 1
-          ? 'Final Eligible Households and Indigenous'
+          ? 'Final Eligible Households and Indigenous Households'
           : 'Total Eligible Costs and Total Project Costs'}{' '}
         in the {link} section. Please verify the changes on the application
         page.*

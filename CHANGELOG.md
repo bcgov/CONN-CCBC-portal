@@ -1,3 +1,51 @@
+## [1.190.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.7...v1.190.8) (2024-09-04)
+
+### Bug Fixes
+
+- status order ([ef3d679](https://github.com/bcgov/CONN-CCBC-portal/commit/ef3d67989c495d887d642d2e3c6d848aceac4dec))
+
+## [1.190.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.6...v1.190.7) (2024-09-04)
+
+## [1.190.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.5...v1.190.6) (2024-09-04)
+
+### Bug Fixes
+
+- cbc project default order asc by project number ([527480b](https://github.com/bcgov/CONN-CCBC-portal/commit/527480b1142a7557e7361d07da597d1afb18bb7f))
+
+## [1.190.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.4...v1.190.5) (2024-09-04)
+
+### Bug Fixes
+
+- broken link to connectivity program page ([bf5ff02](https://github.com/bcgov/CONN-CCBC-portal/commit/bf5ff02f3cb2a793aa1aaf7810c1495bcb21b14d))
+
+## [1.190.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.3...v1.190.4) (2024-09-04)
+
+### Bug Fixes
+
+- typo in RFI template 1 upload ([4ffb323](https://github.com/bcgov/CONN-CCBC-portal/commit/4ffb323ee2596983bc6762e55a048667c2419576))
+
+## [1.190.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.2...v1.190.3) (2024-09-04)
+
+### Bug Fixes
+
+- dollar sign on hh count in history ([798ac4f](https://github.com/bcgov/CONN-CCBC-portal/commit/798ac4f6a7d5d86a8241e855d946e5c13f466170))
+
+## [1.190.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.1...v1.190.2) (2024-09-04)
+
+## [1.190.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.0...v1.190.1) (2024-09-04)
+
+### Bug Fixes
+
+- ccbc summary funding figures ([4ebd880](https://github.com/bcgov/CONN-CCBC-portal/commit/4ebd880288cddd11a9b695a7ea76dc28c457d682))
+
+# [1.190.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.189.1...v1.190.0) (2024-09-04)
+
+### Features
+
+- total amount requested from ccbc on summary ([7f0cbd2](https://github.com/bcgov/CONN-CCBC-portal/commit/7f0cbd2e2762d8ac811a3e322a25fe01cfb74d88))
+
+## [1.189.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.189.0...v1.189.1) (2024-09-03)
+
 # [1.189.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.188.0...v1.189.0) (2024-08-30)
 
 ### Features

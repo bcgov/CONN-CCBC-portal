@@ -271,7 +271,7 @@ describe('The index page', () => {
 
     expect(
       screen.getByText(
-        /RFI upload for Template 1 automatically updates the data for Final Eligible Households and Indigenous/
+        /RFI upload for Template 1 automatically updates the data for Final Eligible Households and Indigenous Households/
       )
     ).toBeInTheDocument();
 
