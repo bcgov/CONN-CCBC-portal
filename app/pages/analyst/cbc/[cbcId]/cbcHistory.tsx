@@ -5,6 +5,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { cbcHistoryQuery } from '__generated__/cbcHistoryQuery.graphql';
+import CbcHistoryTable from 'components/Analyst/CBC/History/CbcHistoryTable';
 
 const getCbcHistoryQuery = graphql`
   query cbcHistoryQuery($rowId: Int!) {
@@ -12,15 +13,15 @@ const getCbcHistoryQuery = graphql`
       projectNumber
       rowId
       sharepointTimestamp
-      cbcDataByCbcId(first: 500) @connection(key: "CbcData__cbcDataByCbcId") {
-        edges {
-          node {
-            jsonData
-            sharepointTimestamp
-            rowId
-            projectNumber
-            updatedAt
-            updatedBy
+      history {
+        nodes {
+          record
+          oldRecord
+          op
+          ccbcUserByCreatedBy {
+            givenName
+            familyName
+            externalAnalyst
           }
         }
       }
@@ -29,6 +30,7 @@ const getCbcHistoryQuery = graphql`
       sub
     }
     ...CbcAnalystLayout_query
+    ...CbcHistoryTable_query
   }
 `;
 
@@ -39,7 +41,7 @@ const CbcHistory = ({
   return (
     <Layout session={null} title="Connecting Communities BC">
       <CbcAnalystLayout query={query}>
-        <h2 style={{ marginTop: '55px' }}>Under construction...</h2>
+        <CbcHistoryTable query={query} />
       </CbcAnalystLayout>
     </Layout>
   );
