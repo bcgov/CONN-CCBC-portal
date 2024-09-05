@@ -38,13 +38,6 @@ if (!isDeployedToOpenShift) {
 }
 
 export const saveRemoteFile = async (stream) => {
-  const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
-  const span = transaction.startChild({
-    op: 'resolve-file-upload',
-    description: 'resolveFileUpload saveRemoteFile function',
-  });
-  span.setData('start-of-funciton-call', new Date().toISOString());
-
   try {
     console.time('saveRemoteFile');
 
@@ -79,11 +72,8 @@ export const saveRemoteFile = async (stream) => {
       const uploadProgressInMB =
         Math.round((progress.loaded / 1000000) * 10) / 10;
       console.log(`Uploaded ${uploadProgressInMB}MB`);
-      transaction.setMeasurement('memoryUsed', uploadProgressInMB, 'megabtye');
     });
-    span.setData('upload-start', new Date().toISOString());
     const data = await parallelUploads3.done();
-    span.setData('upload-finish', new Date().toISOString());
 
     const key = (data as CompleteMultipartUploadCommandOutput)?.Key;
 
@@ -91,17 +81,8 @@ export const saveRemoteFile = async (stream) => {
       throw new Error('Data does not contain a key');
     }
 
-    span.setStatus('ok');
-    span.finish();
-    transaction.finish();
-
     return key;
   } catch (err) {
-    span.setData('error-obj', err);
-    span.setStatus('unknown_error');
-    span.finish();
-    transaction.finish();
-
     console.log('Error', err);
     throw new Error(err);
   } finally {
