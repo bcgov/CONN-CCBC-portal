@@ -10,7 +10,7 @@ const mutation = graphql`
     createIntake(input: $input) {
       intakeEdge @appendEdge(connections: $connections) {
         node
-          @prependNode(connections: $connections, edgeTypeName: "IntakeEdge") {
+          @prependNode(connections: $connections, edgeTypeName: "IntakesEdge") {
           description
           ccbcIntakeNumber
           closeTimestamp
