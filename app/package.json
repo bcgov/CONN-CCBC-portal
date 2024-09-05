@@ -51,8 +51,8 @@
     "@rjsf/core": "5.18.0",
     "@rjsf/utils": "5.17.1",
     "@rjsf/validator-ajv8": "5.18.0",
-    "@sentry/nextjs": "^7.36.0",
     "@smithy/node-http-handler": "^3.2.4",
+    "@sentry/nextjs": "^8",
     "@snowplow/browser-tracker": "^3.23.0",
     "@types/eslint": "^8.44.2",
     "@types/formidable": "^3.4.5",
@@ -168,7 +168,7 @@
     "nodemon": "^3.1.9",
     "prettier": "^3.4.2",
     "react-dom": "^18.3.1",
-    "relay-compiler": "^13.2.0",
+    "relay-compiler": "17",
     "relay-test-utils": "^16.2.0",
     "supertest": "^7.0.0",
     "ts-jest": "^28.0.2",
@@ -181,22 +181,6 @@
     "json5": "2.2.3",
     "jsonwebtoken": "9.0.0",
     "underscore": "1.12.1"
-  },
-  "relay": {
-    "src": "./",
-    "schema": "./schema/schema.graphql",
-    "language": "typescript",
-    "artifactDirectory": "./__generated__",
-    "exclude": [
-      "**/.next/**",
-      "**/node_modules/**",
-      "**/__generated__/**",
-      "**/server/**",
-      "**/.persisted_operations/**"
-    ],
-    "persistConfig": {
-      "file": "./schema/queryMap.json"
-    }
   },
   "graphql": {
     "schema": "./schema/schema.graphql"
