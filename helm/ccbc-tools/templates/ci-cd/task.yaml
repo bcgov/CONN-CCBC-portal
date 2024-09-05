@@ -1,0 +1,59 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: trigger-github-merge-and-release
+spec:
+  params:
+    - default: bcgov
+      description: Repo owner argument
+      name: arg1
+      type: string
+    - default: CONN-CCBC-portal
+      description: Repo name argument
+      name: arg2
+      type: string
+    - description: Branch name prefix (JIRA Key)
+      name: arg3
+      type: string
+    - description: Received header signature key passed from EL
+      name: arg4
+      type: string
+  steps:
+    - image: alpine/git
+      name: clone-repo
+      resources: {}
+      script: >
+        git clone --single-branch -b
+        main https://github.com/bcgov/CONN-CCBC-portal /workspace/source
+      volumeMounts:
+        - mountPath: /workspace/source
+          name: workspace
+    - args:
+        - /workspace/source/lib/ci_cd/merge_process.py
+        - $(params.arg1)
+        - $(params.arg2)
+        - $(params.arg3)
+        - $(params.arg4)
+      command:
+        - python
+      env:
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              key: githubToken
+              name: trigger-deploy-secret
+        - name: HEADER_SECRET
+          valueFrom:
+            secretKeyRef:
+              key: headerSecret
+              name: trigger-deploy-secret
+      image: >-
+        image-registry.openshift-image-registry.svc:5000/ff61fb-tools/python-3-11-with-requests
+      name: run-python
+      resources: {}
+      volumeMounts:
+        - mountPath: /workspace/source
+          name: workspace
+  volumes:
+    - emptyDir: {}
+      name: workspace

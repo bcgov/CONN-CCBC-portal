@@ -1,0 +1,14 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: python-3-11-with-requests
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+    - name: latest
+      annotations: null
+      importPolicy:
+        importMode: Legacy
+      referencePolicy:
+        type: Source
