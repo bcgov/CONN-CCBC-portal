@@ -43,7 +43,6 @@ const HistoryContent = ({
   tableName,
 }) => {
   const fullName = `${givenName} ${familyName}`;
-  console.log(json);
 
   const createdAtFormatted =
     op === 'UPDATE'
@@ -57,7 +56,7 @@ const HistoryContent = ({
   if (tableName === 'cbc_data') {
     return (
       <>
-        <StyledContent>
+        <StyledContent data-testid="cbc-data-updater-and-timestamp">
           <span>
             {fullName} {op === 'UPDATE' ? 'updated' : 'created'} the CBC data on{' '}
             {createdAtFormatted}
@@ -65,6 +64,7 @@ const HistoryContent = ({
           {op === 'UPDATE' && <ChangeReason reason={changeReason} />}
         </StyledContent>
         <HistoryDetails
+          data-testid="cbc-data-history-details"
           json={json}
           prevJson={prevJson}
           excludedKeys={[
