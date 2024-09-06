@@ -254,6 +254,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
   const showCbcProjects = useFeature('show_cbc_projects').value ?? false;
   const showCbcProjectsLink = useFeature('show_cbc_view_link').value ?? false;
+  const freezeHeader = useFeature('freeze_dashboard_header').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
     { Lead: false, program: false }
   );
@@ -591,10 +592,16 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     enableColumnResizing: true,
     columnResizeMode: 'onChange',
     state,
-    muiTableContainerProps: { sx: { padding: '8px' } },
+    muiTableContainerProps: {
+      sx: {
+        padding: '0 8px 8px 8px',
+        maxHeight: freezeHeader ? 'calc(100vh - 460px)' : '100%',
+      },
+    },
     layoutMode: isLargeUp ? 'grid' : 'semantic',
     muiTableBodyCellProps,
     muiTableHeadCellProps,
+    enableStickyHeader: freezeHeader,
     onSortingChange: handleOnSortChange,
     onColumnFiltersChange: setColumnFilters,
     autoResetAll: false,
@@ -636,7 +643,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     <>
       {renderRowCount()}
       <MaterialReactTable table={table} />
-      {renderRowCount()}
+      {!freezeHeader && renderRowCount()}
     </>
   );
 };

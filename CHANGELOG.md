@@ -1,3 +1,9 @@
+## [1.190.9](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.8...v1.190.9) (2024-09-06)
+
+### Bug Fixes
+
+- include new secrets added ([0f886c4](https://github.com/bcgov/CONN-CCBC-portal/commit/0f886c4dbd753d1f89e5e9d81243cfd9b9228927))
+
 ## [1.190.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.7...v1.190.8) (2024-09-04)
 
 ### Bug Fixes
