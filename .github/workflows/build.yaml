@@ -65,13 +65,23 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Cache Docker layers
+      # Cache node_modules based on package.json and yarn.lock
+      - name: Cache dependencies (node_modules)
         uses: actions/cache@v4
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ matrix.name }}-${{ github.ref }}
+          key: ${{ runner.os }}-buildx-${{ matrix.name }}-deps-${{ hashFiles('app/package.json', 'app/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-buildx-${{ matrix.name }}
+            ${{ runner.os }}-buildx-${{ matrix.name }}-deps-
+
+      # Cache app build separately based on app code
+      - name: Cache app code build
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache-app
+          key: ${{ runner.os }}-buildx-${{ matrix.name }}-app-${{ hashFiles('app/**/*') }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-${{ matrix.name }}-app-
 
       - name: Build and push Docker image
         env:
