@@ -171,7 +171,6 @@ describe('Cbc History', () => {
   it('should have the show history', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
-    console.log(screen);
     const historyNameAndDate = screen.getByTestId(
       'cbc-data-updater-and-timestamp'
     );
