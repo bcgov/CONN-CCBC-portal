@@ -11,6 +11,8 @@ env:
 jobs:
   build:
     uses: ./.github/workflows/build.yaml
+    secrets:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
   test-code:
     uses: ./.github/workflows/test-code.yaml
@@ -69,8 +71,8 @@ jobs:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
-          openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
           openshift_metabase_prod_namespace: ${{ secrets.OPENSHIFT_METABASE_PROD_NAMESPACE }}
+          openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
           next_public_growthbook_api_key: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
@@ -97,4 +99,10 @@ jobs:
           sa_client_secret: ${{ secrets.SA_CLIENT_SECRET }}
           sa_client_id: ${{ secrets.SA_CLIENT_ID }}
           sp_list_name: ${{ secrets.SP_LIST_NAME }}
+          ches_url: ${{ secrets.CHES_API_URL }}
+          ches_client: ${{ secrets.CHES_CLIENT }}
+          ches_client_secret: ${{ secrets.CHES_CLIENT_SECRET }}
+          ches_to: ${{ secrets.CHES_TO_EMAIL }}
+          ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
+          pgbackrest_s3_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
           environment: prod
