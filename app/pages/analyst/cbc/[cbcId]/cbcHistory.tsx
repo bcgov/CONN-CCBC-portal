@@ -9,23 +9,6 @@ import CbcHistoryTable from 'components/Analyst/CBC/History/CbcHistoryTable';
 
 const getCbcHistoryQuery = graphql`
   query cbcHistoryQuery($rowId: Int!) {
-    cbcByRowId(rowId: $rowId) {
-      projectNumber
-      rowId
-      sharepointTimestamp
-      history {
-        nodes {
-          record
-          oldRecord
-          op
-          ccbcUserByCreatedBy {
-            givenName
-            familyName
-            externalAnalyst
-          }
-        }
-      }
-    }
     session {
       sub
     }
