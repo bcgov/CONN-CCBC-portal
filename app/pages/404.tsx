@@ -6,7 +6,7 @@ const Error404 = () => {
   return (
     <Layout session={{}} title="Connecting Communities BC">
       <section>
-        <h1>Sorry, requested resource cannot be found...</h1>
+        <h1>Sorry, requested resource cannot be found.</h1>
         <p>404 - Not Found</p>
         <p>
           Return back to{' '}
