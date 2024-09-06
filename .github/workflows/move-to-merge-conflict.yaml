@@ -1,0 +1,60 @@
+name: Move Ticket to Merge Conflict Column
+
+on:
+  pull_request_target:
+    types: [edited, synchronize]
+  workflow_call:
+    secrets:
+      JIRA_AUTH: { required: true }
+
+jobs:
+  move-to-merge-conflict:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Get JIRA Issue Key
+        id: extract_jira_key
+        run: |
+          echo "JIRA_KEY=$(echo "$FEATURE_NAME" | grep -oE 'NDT-[0-9]+')" >> $GITHUB_ENV
+      - name: Check Status of issue
+        id: get_status
+        run: |
+          response=$(curl -s -X GET \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H "Content-Type: application/json" \
+            "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY")
+
+          status=$(echo "$response" | jq -r '.fields.status.name')
+          echo "Issue status: $status"
+
+          echo "::set-output name=status::$status"
+      - name: Does PR have conflic
+        id: check_conflict
+        run: |
+          git config user.name "CCBC Service Account"
+          git config user.email "116113628+ccbc-service-account@users.noreply.github.com"
+          git fetch origin
+          git checkout main
+          git pull origin main
+          git checkout ${{ github.event.pull_request.head.ref }}
+          git pull origin ${{ github.event.pull_request.head.ref }}
+          set -e
+          git merge main --no-commit --no-ff
+          MERGE_STATUS=$?
+          echo $MERGE_STATUS
+          echo "MERGE_STATUS=$MERGE_STATUS" >> $GITHUB_ENV
+      - name: Move to Merge Conflict Column
+        # if: steps.check_conflict.outputs.MERGE_STATUS != 0 && steps.get_status.outputs.status == 'PO REVIEW'
+        # for testing
+        if: steps.check_conflict.outputs.MERGE_STATUS != 0 && steps.get_status.outputs.status == 'IN PROGRESS (DRAFT PR)'
+        run: |
+          curl -X POST \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+                  "transition": {
+                      "id": "9"
+                  }
+              }' \
+            "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY/transitions"
