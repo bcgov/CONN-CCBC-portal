@@ -79,6 +79,7 @@ jobs:
             const { owner, repo } = context.repo
             const listOfBranches = [];
             const prs = await github.rest.pulls.list({ owner, repo, state: 'open' });
+            const checkboxText = "[x] Check for automatic rebasing";
             for (const pr of prs.data) {
               // check if PR is rebaseable, not draft, and mergable before adding to list
               const baseBranch = pr.base.ref;
@@ -91,7 +92,8 @@ jobs:
                 head: headBranch
               });
 
-              if(comparison.data.behind_by > 0 && !pr.draft && pr.requested_reviewers.length > 0){
+              const checkboxChecked = pr.body.includes(checkboxText);
+              if(comparison.data.behind_by > 0 && !pr.draft && checkboxChecked){
                 listOfBranches.push(pr.head.ref);
               }
             }
