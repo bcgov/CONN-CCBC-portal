@@ -46,7 +46,7 @@ jobs:
           git merge main --no-commit --no-ff
           MERGE_STATUS=$?
           echo $MERGE_STATUS
-          echo "MERGE_STATUS=1" >> $GITHUB_ENV
+          echo "MERGE_STATUS=1" >> $GITHUB_OUTPUT
       - name: Move to Merge Conflict Column
         # if: steps.check_conflict.outputs.MERGE_STATUS != 0 && steps.get_status.outputs.status == 'PO REVIEW'
         # for testing
