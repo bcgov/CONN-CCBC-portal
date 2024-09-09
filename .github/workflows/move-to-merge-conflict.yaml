@@ -1,7 +1,8 @@
 name: Move Ticket to Merge Conflict Column
 
 on:
-  pull_request_target:
+  pull_request:
+    # pull_request_target:
     types: [edited, synchronize]
   workflow_call:
     secrets:
@@ -13,6 +14,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: Get JIRA Issue Key
         id: extract_jira_key
         run: |
@@ -43,7 +46,7 @@ jobs:
           git merge main --no-commit --no-ff
           MERGE_STATUS=$?
           echo $MERGE_STATUS
-          echo "MERGE_STATUS=$MERGE_STATUS" >> $GITHUB_ENV
+          echo "MERGE_STATUS=1" >> $GITHUB_ENV
       - name: Move to Merge Conflict Column
         # if: steps.check_conflict.outputs.MERGE_STATUS != 0 && steps.get_status.outputs.status == 'PO REVIEW'
         # for testing
