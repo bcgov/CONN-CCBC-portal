@@ -23,7 +23,7 @@ jobs:
               repo,
               run_id: context.payload.workflow_run.id
             })
-            const matchArtifact = allArtifacts.data.find(artifact => artifact.name === 'feature-name')[0]
+            const matchArtifact = allArtifacts.data.filter(artifact => artifact.name === 'feature-name')[0]
             const download = await github.rest.actions.downloadArtifact({
               owner,
               repo,
