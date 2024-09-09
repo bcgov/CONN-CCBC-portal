@@ -7,6 +7,8 @@ on:
   workflow_call:
     secrets:
       JIRA_AUTH: { required: true }
+env:
+  FEATURE_NAME: ${{ github.head_ref }}
 
 jobs:
   move-to-merge-conflict:
