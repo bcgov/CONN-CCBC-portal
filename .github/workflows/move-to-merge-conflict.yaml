@@ -30,7 +30,8 @@ jobs:
             -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
             -H "Content-Type: application/json" \
             "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY")
-          echo "$response"
+          echo "Jira Key: $JIRA_KEY"
+          echo "Response: $response"
           status=$(echo "$response" | jq -r '.fields.status.name')
           echo "Issue status: $status"
 
