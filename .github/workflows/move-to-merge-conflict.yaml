@@ -26,13 +26,15 @@ jobs:
         run: |
           echo "JIRA_KEY=$(echo "$FEATURE_NAME" | grep -oE 'NDT-[0-9]+')" >> $GITHUB_ENV
       - name: Check Status of issue
+        env:
+          JIRA_AUTH: ${{ secrets.JIRA_AUTH }}
         id: get_status
         run: |
           response=$(curl -s -X GET \
             -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
             -H "Content-Type: application/json" \
             "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY")
-          if [[ -z "${{ secrets.JIRA_AUTH }}" ]]; then
+          if [[ -z "$JIRA_AUTH" ]]; then
             echo "secrets.JIRA_AUTH is empty"
           fi
           echo "Jira Key: $JIRA_KEY"
