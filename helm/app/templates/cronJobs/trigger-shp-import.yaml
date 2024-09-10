@@ -1,4 +1,3 @@
-{{- if .Values.deploy.enabled }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -67,4 +66,3 @@ spec:
                 requests:
                   cpu: 100m
                   memory: 64Mi
-{{- end }}
