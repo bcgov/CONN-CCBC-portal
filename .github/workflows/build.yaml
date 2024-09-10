@@ -33,6 +33,10 @@ jobs:
             context: .
             dockerfile: cron/sp/Dockerfile
             name: cron-sp
+          - image: ghcr.io/bcgov/conn-ccbc-portal/ccbc-cron-shp
+            context: .
+            dockerfile: cron/shp/Dockerfile
+            name: cron-shp
     permissions:
       contents: read
       packages: write
