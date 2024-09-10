@@ -18,6 +18,15 @@ const cbcData = {
       ...eventsAndDates.properties,
       ...miscellaneous.properties,
       ...projectDataReviews.properties,
+      projectStatus: {
+        title: 'Project Status',
+      },
+      projectDescription: {
+        title: 'Project Description',
+      },
+      project_number: {
+        title: 'Project Number',
+      },
     },
   },
 };
