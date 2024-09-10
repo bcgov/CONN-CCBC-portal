@@ -8,7 +8,7 @@ import getConfig from 'next/config';
 import styled from 'styled-components';
 
 interface StyledHeaderBannerProps {
-  type: 'success' | 'warn' | 'error' | 'custom';
+  type?: 'success' | 'warn' | 'error' | 'custom';
 }
 
 const StyledBaseHeaderBanner = styled(BaseHeader)<StyledHeaderBannerProps>`
