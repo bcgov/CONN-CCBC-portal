@@ -58,7 +58,7 @@ describe('assessmentAssigneeChange template', () => {
       },
       {
         applicationId: 3,
-        assessmentType: 'technical',
+        assessmentType: 'financialRisk',
         assignedTo: 'Tester 2',
         assigneeEmail: 'tester2@mail.com',
         ccbcNumber: 'CCBC-000003',
@@ -93,7 +93,7 @@ describe('assessmentAssigneeChange template', () => {
           {
             ccbcNumber: 'CCBC-000001',
             applicationId: 1,
-            type: 'technical',
+            type: 'Technical assessment',
             url: 'http://mock_host.ca/analyst/application/1/assessments/technical',
           },
         ],
@@ -106,7 +106,7 @@ describe('assessmentAssigneeChange template', () => {
           {
             ccbcNumber: 'CCBC-000002',
             applicationId: 2,
-            type: 'technical',
+            type: 'Technical assessment',
             url: 'http://mock_host.ca/analyst/application/2/assessments/technical',
           },
         ],
@@ -117,8 +117,8 @@ describe('assessmentAssigneeChange template', () => {
           {
             ccbcNumber: 'CCBC-000003',
             applicationId: 3,
-            type: 'technical',
-            url: 'http://mock_host.ca/analyst/application/3/assessments/technical',
+            type: 'Financial Risk assessment',
+            url: 'http://mock_host.ca/analyst/application/3/assessments/financial-risk',
           },
         ],
         assignors: 'Assignor 3',

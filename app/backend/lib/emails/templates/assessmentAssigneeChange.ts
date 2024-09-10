@@ -1,5 +1,5 @@
 import { Context } from 'backend/lib/ches/sendEmailMerge';
-
+import ASSESSMENT_TYPES from '../../../../data/assessmentTypes';
 import {
   EmailTemplate,
   EmailTemplateProvider,
@@ -19,11 +19,6 @@ const getCCBCUsersByIds = `
     }
   }
 `;
-
-const ASSESSMENT_TYPES = {
-  technical: 'Technical Assessment',
-  financialRisk: 'Financial Risk Assessment',
-};
 
 // Return users by their row IDs
 const getUsers = async (ids: number[], req: any) => {
@@ -82,8 +77,8 @@ const assessmentAssigneeChange: EmailTemplateProvider = async (
         ([assignor, assignments]) => {
           const alerts = (assignments as Array<any>).map((assignment) => {
             return {
-              url: `${url}/analyst/application/${assignment.applicationId}/assessments/${assignment.assessmentType}`,
-              type: ASSESSMENT_TYPES[assignment.assessmentType],
+              url: `${url}/analyst/application/${assignment.applicationId}/assessments/${ASSESSMENT_TYPES[assignment.assessmentType].slug}`,
+              type: ASSESSMENT_TYPES[assignment.assessmentType].type,
               ccbcNumber: assignment.ccbcNumber,
               applicationId: assignment.applicationId,
             };
