@@ -61,7 +61,9 @@ const HistoryContent = ({
             {fullName} {op === 'UPDATE' ? 'updated' : 'created'} the CBC data on{' '}
             {createdAtFormatted}
           </span>
-          {op === 'UPDATE' && <ChangeReason reason={changeReason} />}
+          {op === 'UPDATE' && changeReason !== '' && (
+            <ChangeReason reason={changeReason} />
+          )}
         </StyledContent>
         <HistoryDetails
           data-testid="cbc-data-history-details"
