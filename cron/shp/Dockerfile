@@ -8,10 +8,10 @@ RUN mkdir -p /data/zip1 /data/zip2 /data/zip3
 WORKDIR /data
 
 # Copy entrypoint script into the build stage
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY cron/shp/entrypoint.sh /usr/local/bin/entrypoint.sh
 
 # Copy SQL folder
-COPY sql /data/sql
+COPY cron/shp/sql /data/sql
 
 # Make the entrypoint script executable
 RUN chmod +x /usr/local/bin/entrypoint.sh
