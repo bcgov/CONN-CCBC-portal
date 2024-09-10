@@ -1,0 +1,70 @@
+{{- if .Values.deploy.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ template "ccbc.fullname" . }}-cron-shp
+  labels: {{ include "ccbc.labels" . | nindent 4 }}
+spec:
+  suspend: false
+  schedule: {{ .Values.cronshp.schedule }}
+  timeZone: "America/Vancouver"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 600
+      template:
+        metadata:
+          labels: {{ include "ccbc.labels" . | nindent 14 }}
+        spec:
+          restartPolicy: Never
+          containers:
+            - env:
+              - name: PGDATABASE
+                value: {{ template "ccbc.fullname" . }}
+              - name: PGUSER
+                value: postgres
+              - name: PGPASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    key: password
+                    name: ccbc-pguser-postgres
+              - name: DATABASE_NAME
+                valueFrom:
+                  secretKeyRef:
+                    key: database-name
+                    name: {{ template "ccbc.fullname" . }}
+              - name: PGPORT
+                valueFrom:
+                  secretKeyRef:
+                    key: port
+                    name: ccbc-pguser-ccbc
+              - name: PGHOST
+                valueFrom:
+                  secretKeyRef:
+                    key: host
+                    name: ccbc-pguser-ccbc
+              - name: AWS_BUCKET_NAME
+                value: {{ .Values.objectStorage.awsS3Bucket }}
+              - name: AWS_DEFAULT_REGION
+                value: {{ .Values.objectStorage.awsS3Region }}
+              - name: AWS_ACCESS_KEY_ID
+                valueFrom:
+                  secretKeyRef:
+                    key: key
+                    name: s3-secret-shp
+              - name: AWS_SECRET_ACCESS_KEY
+                valueFrom:
+                  secretKeyRef:
+                    key: secret
+                    name: s3-secret-shp
+              name: {{ template "ccbc.fullname" . }}-cron-shp
+              image: {{ .Values.image.cronsp.repository }}:{{ .Values.image.cronsp.tag }}
+              imagePullPolicy: IfNotPresent
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+                requests:
+                  cpu: 100m
+                  memory: 64Mi
+{{- end }}
