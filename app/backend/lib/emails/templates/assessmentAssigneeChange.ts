@@ -20,6 +20,11 @@ const getCCBCUsersByIds = `
   }
 `;
 
+const ASSESSMENT_TYPES = {
+  technical: 'Technical Assessment',
+  financialRisk: 'Financial Risk Assessment',
+};
+
 // Return users by their row IDs
 const getUsers = async (ids: number[], req: any) => {
   const results = await performQuery(getCCBCUsersByIds, { _rowIds: ids }, req);
@@ -78,7 +83,7 @@ const assessmentAssigneeChange: EmailTemplateProvider = async (
           const alerts = (assignments as Array<any>).map((assignment) => {
             return {
               url: `${url}/analyst/application/${assignment.applicationId}/assessments/${assignment.assessmentType}`,
-              type: assignment.assessmentType,
+              type: ASSESSMENT_TYPES[assignment.assessmentType],
               ccbcNumber: assignment.ccbcNumber,
               applicationId: assignment.applicationId,
             };
@@ -121,7 +126,7 @@ const assessmentAssigneeChange: EmailTemplateProvider = async (
     body: `{% for action in actions %}
             {{ action.assignors }} has assigned you the following assessment(s):
             <ul>{% for alert in action.alerts %}
-              <li><a href='{{ alert.url }}'>{{ alert.type | capitalize }}</a> for {{ alert.ccbcNumber }}</li>
+              <li><a href='{{ alert.url }}'>{{ alert.type }}</a> for {{ alert.ccbcNumber }}</li>
             {% endfor %}</ul>
           {% endfor %}`,
     contexts,
