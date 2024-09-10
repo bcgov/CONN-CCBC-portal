@@ -61,7 +61,7 @@
     "@types/validator": "^13.12.1",
     "ajv": "^8.13.0",
     "archiver": "^7.0.1",
-    "body-parser": "^1.20.0",
+    "body-parser": "^1.20.3",
     "cheerio": "^1.0.0-rc.12",
     "connect-pg-simple": "^7.0.0",
     "convict": "^6.2.4",
