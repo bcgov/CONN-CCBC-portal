@@ -50,7 +50,7 @@ describe('assessmentAssigneeChange template', () => {
       },
       {
         applicationId: 2,
-        assessmentType: 'technical',
+        assessmentType: 'screening',
         assignedTo: 'Tester 2',
         assigneeEmail: 'tester2@mail.com',
         ccbcNumber: 'CCBC-000002',
@@ -106,8 +106,8 @@ describe('assessmentAssigneeChange template', () => {
           {
             ccbcNumber: 'CCBC-000002',
             applicationId: 2,
-            type: 'Technical assessment',
-            url: 'http://mock_host.ca/analyst/application/2/assessments/technical',
+            type: 'Eligibility Screening',
+            url: 'http://mock_host.ca/analyst/application/2/assessments/screening',
           },
         ],
         assignors: 'Assignor 2',

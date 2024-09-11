@@ -84,14 +84,14 @@ const assessmentAssigneeChange: EmailTemplateProvider = async (
             };
           });
           return {
-            assignors: ccbcAssignorUserList[assignor],
+            assignors: ccbcAssignorUserList?.[assignor] || 'A CCBC Analyst',
             alerts,
           };
         }
       );
       // Get the list of assignors for the email
       const assignorList = Object.keys(assignmentsByAssignor).map(
-        (key) => ccbcAssignorUserList[key]
+        (key) => ccbcAssignorUserList?.[key] || 'A CCBC Analyst'
       );
 
       return {
