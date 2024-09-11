@@ -25,3 +25,21 @@ FROM
     rd_regions rd
 JOIN
     ccbc_public.application a ON a.ccbc_number = rd.ccbc_number;
+
+-- Step 4: Grant permissions
+begin;
+do
+$grant$
+begin
+-- Grant ccbc_admin permissions
+execute ccbc_private.grant_permissions('select', 'application_rd', 'ccbc_admin');
+execute ccbc_private.grant_permissions('insert', 'application_rd', 'ccbc_admin');
+execute ccbc_private.grant_permissions('update', 'application_rd', 'ccbc_admin');
+
+-- Grant ccbc_analyst permissions
+execute ccbc_private.grant_permissions('select', 'application_rd', 'ccbc_analyst');
+execute ccbc_private.grant_permissions('insert', 'application_rd', 'ccbc_analyst');
+execute ccbc_private.grant_permissions('update', 'application_rd', 'ccbc_analyst');
+end
+$grant$;
+commit;
