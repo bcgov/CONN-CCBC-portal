@@ -67,6 +67,8 @@ spec:
                 value: {{ .Values.cronshp.rdFile }}
               - name: COVERAGES_FILE
                 value: {{ .Values.cronshp.coveragesFile }}
+              - name: SCHEMA_NAME
+                value: ccbc_public
               name: {{ template "ccbc.fullname" . }}-cron-shp
               image: {{ .Values.image.cronsp.repository }}:{{ .Values.image.cronsp.tag }}
               imagePullPolicy: IfNotPresent
