@@ -110,7 +110,7 @@ inputs:
     description: 'PGBackRest S3 Bucket'
     required: true
   er_file:
-    description: 'ER file"
+    description: 'ER file'
     required: true
   rd_file:
     description: 'RD file'
