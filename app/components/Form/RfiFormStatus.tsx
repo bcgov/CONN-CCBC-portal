@@ -33,6 +33,7 @@ const RfiFormStatus: React.FC<Props> = ({ application, isSaving, error }) => {
       status={status}
       updatedAt={updatedAt}
       error={error}
+      showProjectDetails={false}
     />
   );
 };

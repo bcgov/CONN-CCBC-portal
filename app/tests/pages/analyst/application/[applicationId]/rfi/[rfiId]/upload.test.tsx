@@ -54,7 +54,7 @@ describe('The applicantRfiId Page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getAllByText('projName')[1]).toBeInTheDocument();
+    expect(screen.getByText(/Last saved: Dec 1/)).toBeInTheDocument();
   });
 
   it('displays the due by date', () => {
