@@ -14,15 +14,15 @@ unzip /data/$COVERAGES_FILE -d /data/ccbc_applications_coverages
 # Create the dummy tables so that the shp2pgsql command can run
 psql -d $DB_NAME -c "
 CREATE TABLE IF NOT EXISTS ccbc_public.economic_regions (
-    id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS ccbc_public.regional_districts (
-    id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS ccbc_public.ccbc_applications_coverages (
-    id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY
 );
 "
 
