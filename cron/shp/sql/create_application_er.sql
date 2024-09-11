@@ -25,3 +25,21 @@ FROM
     er_regions er
 JOIN
     ccbc_public.application a ON a.ccbc_number = er.ccbc_number;
+
+-- Step 4: Grant permissions
+begin;
+do
+$grant$
+begin
+-- Grant ccbc_admin permissions
+execute ccbc_private.grant_permissions('select', 'application_er', 'ccbc_admin');
+execute ccbc_private.grant_permissions('insert', 'application_er', 'ccbc_admin');
+execute ccbc_private.grant_permissions('update', 'application_er', 'ccbc_admin');
+
+-- Grant ccbc_analyst permissions
+execute ccbc_private.grant_permissions('select', 'application_er', 'ccbc_analyst');
+execute ccbc_private.grant_permissions('insert', 'application_er', 'ccbc_analyst');
+execute ccbc_private.grant_permissions('update', 'application_er', 'ccbc_analyst');
+end
+$grant$;
+commit;
