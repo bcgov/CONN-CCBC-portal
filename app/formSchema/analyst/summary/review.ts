@@ -4,6 +4,7 @@ import dependency from './dependency';
 import eventsAndDates from './eventsAndDates';
 import funding from './funding';
 import milestone from './milestone';
+import locations from './locations';
 
 const review: RJSFSchema = {
   type: 'object',
@@ -20,6 +21,13 @@ const review: RJSFSchema = {
       title: counts.title,
       properties: {
         ...counts.properties,
+      },
+    },
+    locations: {
+      required: locations.required,
+      title: locations.title,
+      properties: {
+        ...locations.properties,
       },
     },
     funding: {

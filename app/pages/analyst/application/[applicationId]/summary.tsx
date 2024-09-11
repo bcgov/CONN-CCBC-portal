@@ -119,6 +119,24 @@ const getSummaryQuery = graphql`
         ccbcIntakeNumber
       }
     }
+    allApplicationErs(filter: { applicationId: { equalTo: $rowId } }) {
+      edges {
+        node {
+          applicationId
+          ccbcNumber
+          er
+        }
+      }
+    }
+    allApplicationRds(filter: { applicationId: { equalTo: $rowId } }) {
+      edges {
+        node {
+          applicationId
+          ccbcNumber
+          rd
+        }
+      }
+    }
     ...AnalystLayout_query
   }
 `;
@@ -148,16 +166,23 @@ const Summary = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, summaryQuery>) => {
   const query = usePreloadedQuery(getSummaryQuery, preloadedQuery);
-  const { applicationByRowId, allApplicationSowData, allIntakes, session } =
-    query;
+  const {
+    applicationByRowId,
+    allApplicationSowData,
+    allIntakes,
+    allApplicationErs,
+    allApplicationRds,
+    session,
+  } = query;
   const [toggleOverride, setToggleExpandOrCollapseAll] = useState<
     boolean | undefined
   >(true);
-
   const { formData, formDataSource, errors } = generateFormData(
     applicationByRowId,
     allApplicationSowData,
-    allIntakes
+    allIntakes,
+    allApplicationErs,
+    allApplicationRds
   );
 
   return (

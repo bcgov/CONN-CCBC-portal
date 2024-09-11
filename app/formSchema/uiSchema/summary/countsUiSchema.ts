@@ -16,14 +16,6 @@ const countsUiSchema = {
     'ui:widget': 'NumberWidget',
     'ui:label': 'Number of Non-Indigenous Communities benefitting',
   },
-  benefitingIndigenousCommunities: {
-    'ui:widget': 'LinkArrayWidget',
-    'ui:label': 'List of Indigenous communities benefitting',
-  },
-  benefitingCommunities: {
-    'ui:widget': 'LinkArrayWidget',
-    'ui:label': 'List of Non-Indigenous communities benefitting',
-  },
   totalHouseholdsImpacted: {
     'ui:widget': 'NumberWidget',
     'ui:label': 'Total Households Impacted',
