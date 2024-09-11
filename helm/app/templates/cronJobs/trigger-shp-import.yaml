@@ -56,6 +56,17 @@ spec:
                   secretKeyRef:
                     key: secret
                     name: s3-secret-shp
+              - name: DB_NAME
+                valueFrom:
+                  secretKeyRef:
+                    key: database-name
+                    name: {{ template "ccbc.fullname" . }}
+              - name: ER_FILE
+                value: {{ .Values.cronshp.erFile }}
+              - name: RD_FILE
+                value: {{ .Values.cronshp.rdFile }}
+              - name: COVERAGES_FILE
+                value: {{ .Values.cronshp.coveragesFile }}
               name: {{ template "ccbc.fullname" . }}-cron-shp
               image: {{ .Values.image.cronsp.repository }}:{{ .Values.image.cronsp.tag }}
               imagePullPolicy: IfNotPresent

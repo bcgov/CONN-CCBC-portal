@@ -109,6 +109,15 @@ inputs:
   pgbackrest_s3_bucket:
     description: 'PGBackRest S3 Bucket'
     required: true
+  er_file:
+    description: 'ER file"
+    required: true
+  rd_file:
+    description: 'RD file'
+    required: true
+  coverages_file:
+    description: 'Coverages file'
+    required: true
 
 runs:
   using: composite
@@ -148,6 +157,7 @@ runs:
           --set image.app.tag=${{ inputs.tag  }} \
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.cronsp.tag=${{ inputs.tag  }} \
+          --set image.cronshp.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
           --set secureRoute.host=${{ inputs.secure_route }} \
           --set growthbook.key=${{ inputs.next_public_growthbook_api_key }} \
@@ -178,6 +188,9 @@ runs:
           --set ches.clientSecret="${{ inputs.ches_client_secret }}" \
           --set ches.to="${{ inputs.ches_to }}" \
           --set ches.keycloakHost="${{ inputs.ches_keycloak_host }}" \
+          --set cronshp.erFile="${{ inputs.er_file }}" \
+          --set cronshp.rdFile="${{ inputs.rd_file }}" \
+          --set cronshp.coveragesFile="${{ inputs.coverages_file }}" \
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash

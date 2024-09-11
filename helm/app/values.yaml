@@ -42,6 +42,9 @@ cronsp:
 
 cronshp:
   schedule: '0 23 * * 1-5' #trigger 11pm on weekdays
+  erFile: '' # The value must be passed in via the deploy script
+  rdFile: '' # The value must be passed in via the deploy script
+  coveragesFile: '' # The value must be passed in via the deploy script
 
 app:
   port: '3000'
