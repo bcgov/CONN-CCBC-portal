@@ -35,6 +35,10 @@ const format = (value, type) => {
   if (typeof value === 'undefined' || value === null) {
     return 'N/A';
   }
+  if (typeof value === 'string' && value.includes('T00:00:00.000Z')) {
+    return value.split('T')[0];
+  }
+
   return value;
 };
 
