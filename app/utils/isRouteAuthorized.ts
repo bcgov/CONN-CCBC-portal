@@ -18,7 +18,7 @@ const pagesAuthorization = [
   {
     routePaths: ['/analyst/cbc/(.*)/edit(.*)'],
     isProtected: true,
-    allowedRoles: ['cbc_admin'],
+    allowedRoles: ['cbc_admin', 'super_admin'],
   },
   {
     routePaths: ['/analyst/cbc/(.*)'],
@@ -43,7 +43,7 @@ const pagesAuthorization = [
   {
     routePaths: ['/analyst/reporting/(.*)'],
     isProtected: true,
-    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin'],
+    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin', 'super_admin'],
   },
   {
     routePaths: ['/analyst/admin/(.*)'],
