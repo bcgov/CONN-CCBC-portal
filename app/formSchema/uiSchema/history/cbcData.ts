@@ -1,7 +1,6 @@
 import eventsAndDates from 'formSchema/analyst/cbc/eventsAndDates';
 import funding from 'formSchema/analyst/cbc/funding';
 import locations from 'formSchema/analyst/cbc/locations';
-import locationsAndCounts from 'formSchema/analyst/cbc/locationsAndCounts';
 import miscellaneous from 'formSchema/analyst/cbc/miscellaneous';
 import projectDataReviews from 'formSchema/analyst/cbc/projectDataReviews';
 import projectType from 'formSchema/analyst/cbc/projectType';
@@ -13,10 +12,39 @@ const cbcData = {
       ...cbcTombstone.properties,
       ...projectType.properties,
       ...locations.properties,
-      ...locationsAndCounts.properties,
+      communitiesAndLocalesCount: {
+        type: 'string',
+        title: 'Communities and locales count',
+      },
+      indigenousCommunities: {
+        type: 'string',
+        title: 'Indigenous Communities',
+      },
+      householdCount: {
+        type: 'string',
+        title: 'Household count',
+      },
+      transportKm: {
+        type: 'string',
+        title: 'Transport km',
+      },
+      highwayKm: {
+        type: 'string',
+        title: 'Highway km',
+      },
+      restAreas: {
+        type: 'string',
+        title: 'Rest areas',
+      },
       ...funding.properties,
       ...eventsAndDates.properties,
-      ...miscellaneous.properties,
+      ...{
+        ...miscellaneous.properties,
+        projectMilestoneCompleted: {
+          type: 'string',
+          title: '% Project Milestone Completed',
+        },
+      },
       ...projectDataReviews.properties,
       projectStatus: {
         title: 'Project Status',
