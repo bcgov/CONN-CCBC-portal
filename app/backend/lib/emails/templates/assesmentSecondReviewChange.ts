@@ -1,19 +1,8 @@
+import ASSESSMENT_TYPES from '../../../../data/assessmentTypes';
 import {
   EmailTemplate,
   EmailTemplateProvider,
 } from '../handleEmailNotification';
-
-const formats = {
-  projectManagement: {
-    type: 'Project Management assessment',
-    slug: 'project-management',
-  },
-  permitting: { type: 'Permitting assessment', slug: 'permitting' },
-  technical: { type: 'Technical assessment', slug: 'technical' },
-  gis: { type: 'GIS assessment', slug: 'gis' },
-  financialRisk: { type: 'Financial Risk assessment', slug: 'financial-risk' },
-  screening: { type: 'Eligibility Screening', slug: 'screening' },
-};
 
 const assesmentSecondReviewChange: EmailTemplateProvider = (
   applicationId: string,
@@ -22,7 +11,7 @@ const assesmentSecondReviewChange: EmailTemplateProvider = (
   params: any
 ): EmailTemplate => {
   const { ccbcNumber, assessmentType } = params;
-  const { type, slug } = formats[assessmentType];
+  const { type, slug } = ASSESSMENT_TYPES[assessmentType];
 
   return {
     emailTo: [34, 71], // Temporary IDs to handle email recipients

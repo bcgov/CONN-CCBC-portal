@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import cookie from 'js-cookie';
@@ -148,6 +148,18 @@ const findAssessment = (assessments, assessmentType) => {
   };
 };
 
+const findNotification = (notifications, notificationType) => {
+  const data = notifications.find(
+    ({ node }) => node?.notificationType === notificationType
+  );
+
+  return {
+    jsonData: data?.node?.jsonData,
+    notificationType,
+    createdAt: data?.node?.createdAt,
+  };
+};
+
 const StyledLink = styled.a`
   color: ${(props) => props.theme.color.links};
   text-decoration: none;
@@ -235,11 +247,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
                   }
                 }
               }
-              notificationsByApplicationId(
-                orderBy: CREATED_AT_DESC
-                first: 1
-                condition: { notificationType: "assignment_technical" }
-              ) {
+              assessmentNotifications {
                 __id
                 edges {
                   node {
@@ -429,9 +437,8 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
               zones,
               allAnalysts,
               assessmentConnection: application.allAssessments.__id,
-              notifications: application.notificationsByApplicationId.edges,
               notificationConnectionId:
-                application.notificationsByApplicationId.__id,
+                application.assessmentNotifications?.__id,
               pmAssessment: findAssessment(
                 application.allAssessments.edges,
                 'projectManagement'
@@ -439,6 +446,10 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
               techAssessment: findAssessment(
                 application.allAssessments.edges,
                 'technical'
+              ),
+              techNotification: findNotification(
+                application.assessmentNotifications.edges,
+                'assignment_technical'
               ),
               permittingAssessment: findAssessment(
                 application.allAssessments.edges,
@@ -456,6 +467,10 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
                 application.allAssessments.edges,
                 'financialRisk'
               ),
+              financialRiskNotification: findNotification(
+                application.assessmentNotifications.edges,
+                'assignment_financialRisk'
+              ),
               organizationName,
             };
           }
@@ -465,45 +480,61 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
     [allApplications, allAnalysts]
   );
 
-  const getUserEmailByAssignedTo = (assignedTo: string) => {
-    const analyst = allAnalysts.edges.find(
-      ({ node }) => `${node.givenName} ${node.familyName}` === assignedTo
-    );
-    return analyst ? analyst.node.email : null;
-  };
-
-  const assignments = useMemo(
-    () =>
-      tableData
-        .filter((data: any) => {
-          const lastSentAt = data.notifications[0]?.node?.createdAt
-            ? new Date(data.notifications[0]?.node?.createdAt)
-            : null;
-          return new Date(data.techAssessment.updatedAt) >= lastSentAt;
-        })
-        .filter(
-          (data: any) =>
-            data.techAssessment.jsonData.assignedTo &&
-            data.techAssessment.jsonData.assignedTo !==
-              data.notifications[0]?.node?.jsonData?.to
-        )
-        .map((data: any) => {
-          return {
-            ccbcNumber: data.ccbcNumber,
-            applicationId: data.applicationId,
-            notificationConnectionId: data.notificationConnectionId,
-            updatedBy: data.techAssessment.updatedBy,
-            updatedAt: data.techAssessment.updatedAt,
-            assignedTo: data.techAssessment.jsonData?.assignedTo,
-            assigneeEmail: getUserEmailByAssignedTo(
-              data.techAssessment.jsonData?.assignedTo
-            ),
-            assessmentType: 'technical',
-          };
-        }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [tableData]
+  const getUserEmailByAssignedTo = useCallback(
+    (assignedTo: string) => {
+      const analyst = allAnalysts.edges.find(
+        ({ node }) => `${node.givenName} ${node.familyName}` === assignedTo
+      );
+      return analyst ? analyst.node.email : null;
+    },
+    [allAnalysts]
   );
+
+  const assignments = useMemo(() => {
+    const createAssignment = (
+      application,
+      assessmentKey,
+      assessmentType = assessmentKey
+    ) => {
+      const { updatedAt, jsonData, updatedBy } =
+        application[`${assessmentKey}Assessment`];
+      const notification = application[`${assessmentKey}Notification`];
+      const lastNotificationSentAt = notification?.createdAt
+        ? new Date(notification.createdAt)
+        : null;
+
+      const assessmentChanged =
+        jsonData?.assignedTo &&
+        jsonData.assignedTo !== notification?.jsonData?.to;
+
+      if (new Date(updatedAt) >= lastNotificationSentAt && assessmentChanged) {
+        return {
+          ccbcNumber: application.ccbcNumber,
+          applicationId: application.applicationId,
+          notificationConnectionId: application.notificationConnectionId,
+          updatedBy,
+          updatedAt,
+          assignedTo: jsonData.assignedTo,
+          assigneeEmail: getUserEmailByAssignedTo(jsonData.assignedTo),
+          assessmentType,
+        };
+      }
+      return null;
+    };
+
+    return tableData.reduce((assignmentsList, application) => {
+      const techAssignment = createAssignment(application, 'tech', 'technical');
+      const financialAssignment = createAssignment(
+        application,
+        'financialRisk'
+      );
+
+      if (techAssignment) assignmentsList.push(techAssignment);
+      if (financialAssignment) assignmentsList.push(financialAssignment);
+
+      return assignmentsList;
+    }, []);
+  }, [getUserEmailByAssignedTo, tableData]);
 
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
     // Sonarcloud duplicate lines
