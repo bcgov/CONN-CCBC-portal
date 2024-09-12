@@ -1,5 +1,5 @@
 import { Context } from 'backend/lib/ches/sendEmailMerge';
-
+import ASSESSMENT_TYPES from '../../../../data/assessmentTypes';
 import {
   EmailTemplate,
   EmailTemplateProvider,
@@ -77,8 +77,8 @@ const assessmentAssigneeChange: EmailTemplateProvider = async (
         ([assignor, assignments]) => {
           const alerts = (assignments as Array<any>).map((assignment) => {
             return {
-              url: `${url}/analyst/application/${assignment.applicationId}/assessments/${assignment.assessmentType}`,
-              type: assignment.assessmentType,
+              url: `${url}/analyst/application/${assignment.applicationId}/assessments/${ASSESSMENT_TYPES[assignment.assessmentType].slug}`,
+              type: ASSESSMENT_TYPES[assignment.assessmentType].type,
               ccbcNumber: assignment.ccbcNumber,
               applicationId: assignment.applicationId,
             };
@@ -121,7 +121,7 @@ const assessmentAssigneeChange: EmailTemplateProvider = async (
     body: `{% for action in actions %}
             {{ action.assignors }} has assigned you the following assessment(s):
             <ul>{% for alert in action.alerts %}
-              <li><a href='{{ alert.url }}'>{{ alert.type | capitalize }}</a> for {{ alert.ccbcNumber }}</li>
+              <li><a href='{{ alert.url }}'>{{ alert.type }}</a> for {{ alert.ccbcNumber }}</li>
             {% endfor %}</ul>
           {% endfor %}`,
     contexts,
