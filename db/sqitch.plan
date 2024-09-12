@@ -670,3 +670,4 @@ tables/communities_source_data_001_service_account 2024-08-28T16:32:48Z Rafael S
 @1.190.10 2024-09-10T23:10:53Z CCBC Service Account <ccbc@button.is> # release v1.190.10
 computed_columns/application_assessment_notifications 2024-09-06T21:58:13Z ,,, <ryohani89@NH504670> # Add notifications by assessment type field
 @1.190.11 2024-09-12T18:13:42Z CCBC Service Account <ccbc@button.is> # release v1.190.11
+@1.190.12 2024-09-12T20:48:11Z CCBC Service Account <ccbc@button.is> # release v1.190.12

@@ -72,7 +72,7 @@ describe('The applicantRfiId Page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText('projName')).toBeInTheDocument();
+    expect(screen.getByText(/Last saved: Dec 1/)).toBeInTheDocument();
   });
 
   it('displays the due by date', () => {
