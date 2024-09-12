@@ -1,3 +1,9 @@
+## [1.190.12](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.11...v1.190.12) (2024-09-12)
+
+### Bug Fixes
+
+- remove unwanted status text from RFI ([a760e6d](https://github.com/bcgov/CONN-CCBC-portal/commit/a760e6d0a9d2510a1cbf07e5e2ac4c3b3dd8a151))
+
 ## [1.190.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.10...v1.190.11) (2024-09-12)
 
 ## [1.190.10](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.9...v1.190.10) (2024-09-10)
