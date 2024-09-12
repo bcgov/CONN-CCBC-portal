@@ -9,6 +9,7 @@ const StyledTable = styled.table`
   td {
     padding: 8px;
     width: 30%;
+    overflow-wrap: anywhere;
   }
 
   thead tr th:first-child,
