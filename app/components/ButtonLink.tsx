@@ -5,13 +5,16 @@ type Props = {
   children: JSX.Element | JSX.Element[] | string | string[];
   href: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => Promise<void>;
+  disabled?: boolean;
 };
 
-const ButtonLink = ({ children, href, onClick }: Props) => (
+const ButtonLink = ({ children, href, onClick, disabled = false }: Props) => (
   <Link href={href} passHref>
-    <Button onClick = {onClick} >{children}</Button>
+    <Button onClick={onClick} disabled={disabled}>
+      {children}
+    </Button>
   </Link>
 );
-ButtonLink.defaultProps = {onClick: () => true};
+ButtonLink.defaultProps = { onClick: () => true };
 
 export default ButtonLink;

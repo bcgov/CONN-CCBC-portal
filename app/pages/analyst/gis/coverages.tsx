@@ -6,17 +6,17 @@ import styled from 'styled-components';
 import path from 'path';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
-import { ButtonLink, Layout, MetabaseEmbed } from 'components';
-import { gisUploadedJsonQuery } from '__generated__/gisUploadedJsonQuery.graphql';
+import { ButtonLink, Layout } from 'components';
+import { coveragesQuery } from '__generated__/coveragesQuery.graphql';
 import FileComponent from 'lib/theme/components/FileComponent';
-import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import * as Sentry from '@sentry/nextjs';
 import Tabs from 'components/Analyst/GIS/Tabs';
+import config from '../../../config';
 
-const getUploadedJsonQuery = graphql`
-  query gisUploadedJsonQuery {
+const getCoveragesQuery = graphql`
+  query coveragesQuery {
     session {
       sub
       ...DashboardTabs_query
@@ -24,12 +24,19 @@ const getUploadedJsonQuery = graphql`
   }
 `;
 
+const COVERAGES_FILE_NAME = config.get('COVERAGES_FILE_NAME');
+
 const StyledContainer = styled.div`
   width: 100%;
   height: 100%;
 `;
 const StyledError = styled('div')`
   color: #e71f1f;
+  margin-top: 10px;
+`;
+
+const StyledSuccess = styled('div')`
+  color: #2e8540;
   margin-top: 10px;
 `;
 
@@ -43,12 +50,7 @@ const StyledBtnContainer = styled.div`
   justify-content: left;
 `;
 
-const StyledList = styled.div`
-  margin-left: 1.3em;
-  line-height: 1.5em;
-`;
-
-const acceptedFileTypes = ['.json'];
+const acceptedFileTypes = ['.zip'];
 
 const UploadError = ({ error }) => {
   if (error === 'uploadFailed') {
@@ -58,7 +60,16 @@ const UploadError = ({ error }) => {
   if (error === 'fileType') {
     return (
       <StyledError>
-        Please use an accepted file type. Accepted type for this field is: .json
+        Please use an accepted file type. Accepted type for this field is: .zip
+      </StyledError>
+    );
+  }
+
+  if (error === 'fileName') {
+    return (
+      <StyledError>
+        Please use an accepted file name. Accepted name for this field is:{' '}
+        {COVERAGES_FILE_NAME}
       </StyledError>
     );
   }
@@ -79,19 +90,24 @@ const validateFile = (file: globalThis.File) => {
     return { isValid: false, error: 'fileType' };
   }
 
+  if (file.name !== COVERAGES_FILE_NAME) {
+    return { isValid: false, error: 'fileName' };
+  }
+
   return { isValid: true, error: null };
 };
 
-const GisTab = () => {
-  const router = useRouter();
+const CoveragesTab = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
 
   const fileComponentValue = [
     {
       id: '',
       name: selectedFile?.name,
       size: selectedFile?.size,
-      type: '.json',
+      type: '.zip',
       uuid: '',
     },
   ];
@@ -99,6 +115,7 @@ const GisTab = () => {
   const hasUploadErrors = error?.length > 0 && Array.isArray(error);
 
   const changeHandler = (event) => {
+    setUploadSuccess(false);
     const file: File = event.target.files?.[0];
 
     const { isValid, error: newError } = validateFile(file);
@@ -111,25 +128,22 @@ const GisTab = () => {
   };
 
   const handleUpload = async () => {
+    setIsUploading(true);
     const formData = new FormData();
     formData.append('file', selectedFile);
-
     try {
-      const response = await fetch('/api/analyst/gis', {
+      const response = await fetch('/api/s3/upload', {
         method: 'POST',
         body: formData,
       });
       const result = await response.json();
-      if (result.errors) {
-        setError(result.errors);
-      } else {
-        try {
-          await router.push(`/analyst/gis/${result?.batchId}/`);
-        } catch (e) {
-          Sentry.captureException(e);
-        }
+      if (result.status === 'success') {
+        setSelectedFile(null);
+        setIsUploading(false);
+        setUploadSuccess(true);
       }
     } catch (e) {
+      setIsUploading(false);
       Sentry.captureException(e);
     }
   };
@@ -137,17 +151,22 @@ const GisTab = () => {
   return (
     <div>
       <Tabs />
-      <h2>GIS Input</h2>
+      <h2>Application Coverages Upload</h2>
       <div>
         <strong>
-          Import a JSON of the GIS analysis for one or more applications
+          Upload a ZIP file containing the shapefiles for the CCBC Application
+          Coverages. The file must be named {COVERAGES_FILE_NAME}.
         </strong>
+        <p>
+          The ZIP file should contain the .shp as well as it&apos;s accompanying
+          files and should not be inside a folder.
+        </p>
         <FileComponent
           allowMultipleFiles={false}
           buttonVariant="primary"
-          fileTypes=".json"
-          label="JSON of GIS analysis"
-          id="json-upload"
+          fileTypes=".zip"
+          label="ZIP of CCBC Application Coverages"
+          id="coverages-upload"
           onChange={changeHandler}
           handleDelete={() => setSelectedFile(null)}
           hideFailedUpload={false}
@@ -162,54 +181,46 @@ const GisTab = () => {
             <div>
               {' '}
               <FontAwesomeIcon icon={faCircleXmark} color="#D8292F" /> Error
-              uploading JSON file
+              uploading ZIP file
             </div>
-            <StyledList>
-              {error.map((err, index) => {
-                const col = err?.posiition
-                  ? `and column ${err?.posiition}`
-                  : '';
-                const erroneousCcbcNumber = err?.ccbc_number
-                  ? `for ${err?.ccbc_number}`
-                  : '';
-                const errorAt = err?.line
-                  ? `at line ${err?.line}`
-                  : erroneousCcbcNumber;
-                return (
-                  <div
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={index}
-                  >{`Parsing error: ${err?.message} ${errorAt} ${col}`}</div>
-                );
-              })}{' '}
-              Please check your file and try again.
-            </StyledList>
           </>
         )}
         <StyledBtnContainer>
-          <ButtonLink onClick={handleUpload} href="#">
-            Continue
+          <ButtonLink
+            onClick={handleUpload}
+            href="#"
+            disabled={isUploading || selectedFile === null}
+          >
+            {isUploading ? 'Uploading' : 'Upload'}
           </ButtonLink>
         </StyledBtnContainer>
+        {uploadSuccess && (
+          <StyledSuccess>
+            <p>Upload successful!</p>
+          </StyledSuccess>
+        )}
       </div>
     </div>
   );
 };
 
-const UploadJSON = ({
+const UploadCoverages = ({
   preloadedQuery,
-}: RelayProps<Record<string, unknown>, gisUploadedJsonQuery>) => {
-  const query = usePreloadedQuery(getUploadedJsonQuery, preloadedQuery);
+}: RelayProps<Record<string, unknown>, coveragesQuery>) => {
+  const query = usePreloadedQuery(getCoveragesQuery, preloadedQuery);
   const { session } = query;
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledContainer>
         <DashboardTabs session={session} />
-        <GisTab />
-        <MetabaseEmbed dashboardNumber={87} dashboardNumberTest={91} />
+        <CoveragesTab />
       </StyledContainer>
     </Layout>
   );
 };
 
-export default withRelay(UploadJSON, getUploadedJsonQuery, defaultRelayOptions);
+export default withRelay(
+  UploadCoverages,
+  getCoveragesQuery,
+  defaultRelayOptions
+);
