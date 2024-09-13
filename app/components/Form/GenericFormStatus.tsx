@@ -44,6 +44,7 @@ interface Props {
   error?: JSX.Element;
   projectName: string;
   status: string;
+  showProjectDetails?: boolean;
 }
 
 const GenericFormStatus: React.FC<Props> = ({
@@ -52,6 +53,7 @@ const GenericFormStatus: React.FC<Props> = ({
   error,
   projectName,
   status,
+  showProjectDetails = true,
 }) => {
   let savingStatusIndicator = (
     <>
@@ -76,10 +78,12 @@ const GenericFormStatus: React.FC<Props> = ({
 
   return (
     <StatusContainer>
-      <StatusNameFlex>
-        <AppStatus>{status}</AppStatus>
-        <AppName>{projectName}</AppName>
-      </StatusNameFlex>
+      {showProjectDetails && (
+        <StatusNameFlex>
+          <AppStatus>{status}</AppStatus>
+          <AppName>{projectName}</AppName>
+        </StatusNameFlex>
+      )}
       <SavingStatusContainer aria-live="off" aria-label="form saving status">
         {savingStatusIndicator}
       </SavingStatusContainer>

@@ -1,0 +1,82 @@
+name: Move Merge Conflict Tickets
+
+on:
+  workflow_run:
+    workflows: ['Detect Merge Conflict']
+    types:
+      - completed
+
+jobs:
+  get-feature-name:
+    environment:
+      name: development
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo } = context.repo
+            const allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner,
+              repo,
+              run_id: context.payload.workflow_run.id
+            })
+            const matchArtifact = allArtifacts.data.filter(artifact => artifact.name === 'feature-name')[0]
+            const download = await github.rest.actions.downloadArtifact({
+              owner,
+              repo,
+              artifact_id: matchArtifact.id,
+              archive_format: 'zip'
+            })
+            const fs = require('fs')
+            fs.writeFileSync(`${process.env.GITHUB_WORKSPACE}/pr_number.zip`, Buffer.from(download.data))
+      - run: unzip pr_number.zip
+      - name: Check PR details and get feature name
+        id: get_feature_name
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const fs = require('fs')
+            const prNumber = Number(fs.readFileSync('pr/pr_number'))
+            const pr = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber
+            })
+            if (pr.head.repo.fork){
+              return
+            }
+            const featureName = pr.head.ref
+            const regex = /NDT-\d+/g;
+            const match = featureName.match(regex)
+            return match
+      - name: Check Status of issue
+        if: startsWith(steps.get_feature_name.outputs.result, 'NDT-')
+        id: get_status
+        run: |
+          response=$(curl -s -X GET \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H "Content-Type: application/json" \
+            "https://connectivitydivision.atlassian.net/rest/api/3/issue/${{ steps.get_feature_name.outputs.result }}")
+          echo "Jira Key: $JIRA_KEY"
+          echo "Response: $response"
+          status=$(echo "$response" | jq -r '.fields.status.name')
+          echo "Issue status: $status"
+
+          echo "::set-output name=status::$status"
+      - name: Move to Merge Conflict Column
+        if: steps.get_status.outputs.status == 'PO REVIEW'
+        run: |
+          curl -X POST \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+                  "transition": {
+                      "id": "9"
+                  }
+              }' \
+            "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY/transitions"

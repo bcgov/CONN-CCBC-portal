@@ -105,7 +105,21 @@ const applicationDiffSchema = {
   acknowledgements: { ...acknowledgements.acknowledgements },
   alternateContact: { ...alternateContact.alternateContact },
   authorizedContact: { ...authorizedContact.authorizedContact },
-  benefits: { ...benefits.benefits },
+  benefits: {
+    ...benefits.benefits,
+    properties: {
+      ...benefits.benefits.properties,
+      numberOfHouseholds: {
+        ...(benefits.benefits.properties.numberOfHouseholds as Object),
+        type: 'string',
+      },
+      householdsImpactedIndigenous: {
+        ...(benefits.benefits.properties
+          .householdsImpactedIndigenous as Object),
+        type: 'string',
+      },
+    },
+  },
   budgetDetails: { ...budgetDetails.budgetDetails },
   projectInformation: { ...projectInformation.projectInformation },
   contactInformation: { ...contactInformation.contactInformation },

@@ -292,6 +292,16 @@ const mockShowCbcProjects = (
   ruleId: 'show_cbc_projects',
 });
 
+const mockFreezeHeader = (
+  value: boolean
+): moduleApi.FeatureResult<boolean> => ({
+  value,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'freeze_dashboard_header',
+});
+
 jest.mock('js-cookie', () => ({
   get: jest.fn(),
   remove: jest.fn(),
@@ -433,14 +443,31 @@ describe('The index page', () => {
   });
 
   it('renders analyst table row counts', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
+    jest.spyOn(moduleApi, 'useFeature').mockImplementation((ruleId: string) => {
+      if (ruleId === 'freeze_dashboard_header') {
+        return mockFreezeHeader(false);
+      }
+      return mockShowCbcProjects(true);
+    });
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const countRows = screen.getAllByText(/Showing 8 of 8 rows/i);
     expect(countRows).toHaveLength(2);
+  });
+
+  it('remove bottom analyst table row counts when freeze dashboard header', async () => {
+    jest.spyOn(moduleApi, 'useFeature').mockImplementation((ruleId: string) => {
+      if (ruleId === 'freeze_dashboard_header') {
+        return mockFreezeHeader(true);
+      }
+      return mockShowCbcProjects(true);
+    });
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const countRows = screen.getAllByText(/Showing 8 of 8 rows/i);
+    expect(countRows).toHaveLength(1);
   });
 
   it('click on table row leads to review page', async () => {

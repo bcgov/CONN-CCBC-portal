@@ -206,7 +206,10 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allCbcData(filter: { archivedAt: { isNull: true } }) {
+        allCbcData(
+          filter: { archivedAt: { isNull: true } }
+          orderBy: PROJECT_NUMBER_ASC
+        ) {
           edges {
             node {
               jsonData
@@ -251,6 +254,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
   const showCbcProjects = useFeature('show_cbc_projects').value ?? false;
   const showCbcProjectsLink = useFeature('show_cbc_view_link').value ?? false;
+  const freezeHeader = useFeature('freeze_dashboard_header').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
     { Lead: false, program: false }
   );
@@ -278,6 +282,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const statusOrderMap = useMemo(() => {
     return allApplicationStatusTypes?.nodes?.reduce((acc, status) => {
       acc[status.name] = status.statusOrder;
+      acc[normalizeStatusName(status.name)] = status.statusOrder;
       return acc;
     }, {});
   }, [allApplicationStatusTypes?.nodes]);
@@ -464,7 +469,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         allApplications.edges.map((edge) => edge.node?.intakeNumber?.toString())
       ),
       'N/A',
-    ];
+    ].toSorted((a, b) => {
+      if (a === 'N/A') return -1;
+      if (b === 'N/A') return 1;
+      return Number(a) - Number(b);
+    });
 
     const uniqueZones = [
       ...new Set(allApplications.edges.flatMap((edge) => edge.node.zones)),
@@ -478,7 +487,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           return normalizeStatusName(edge.node.analystStatus);
         })
       ),
-    ];
+    ].toSorted((a, b) => statusOrderMap[a] - statusOrderMap[b]);
 
     const externalStatuses = [
       ...new Set([
@@ -491,7 +500,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             normalizeStatusName(cbcProjectStatusConverter(status))
           ),
       ]),
-    ];
+    ].toSorted((a, b) => statusOrderMap[a] - statusOrderMap[b]);
 
     const uniqueLeads = [
       ...new Set(allApplications.edges.map((edge) => edge.node.analystLead)),
@@ -501,7 +510,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       ...new Set(
         allApplications.edges.map((edge) => edge.node.package?.toString())
       ),
-    ].filter(filterOutNullishs);
+    ]
+      .filter(filterOutNullishs)
+      .toSorted((a, b) => Number(a) - Number(b));
 
     return [
       {
@@ -567,7 +578,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       // adding dummy columns for filter purposes
       ...additionalFilterColumns,
     ];
-  }, [AssignAnalystLead, allApplications]);
+  }, [AssignAnalystLead, allApplications, statusOrderMap]);
 
   const handleOnSortChange = (sort: MRT_SortingState) => {
     if (!isFirstRender) {
@@ -581,10 +592,16 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     enableColumnResizing: true,
     columnResizeMode: 'onChange',
     state,
-    muiTableContainerProps: { sx: { padding: '8px' } },
+    muiTableContainerProps: {
+      sx: {
+        padding: '0 8px 8px 8px',
+        maxHeight: freezeHeader ? 'calc(100vh - 460px)' : '100%',
+      },
+    },
     layoutMode: isLargeUp ? 'grid' : 'semantic',
     muiTableBodyCellProps,
     muiTableHeadCellProps,
+    enableStickyHeader: freezeHeader,
     onSortingChange: handleOnSortChange,
     onColumnFiltersChange: setColumnFilters,
     autoResetAll: false,
@@ -626,7 +643,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     <>
       {renderRowCount()}
       <MaterialReactTable table={table} />
-      {renderRowCount()}
+      {!freezeHeader && renderRowCount()}
     </>
   );
 };
