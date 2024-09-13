@@ -103,7 +103,7 @@ const EditApplication = ({
       jsonData,
       sectionName,
       calculatedSectionData,
-      jsonSchema
+      formSchema
     );
 
     const isOtherFundingSourcesPage = sectionName === 'otherFundingSources';
