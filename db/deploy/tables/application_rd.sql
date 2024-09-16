@@ -8,6 +8,10 @@ create table ccbc_public.application_rd(
   rd varchar(255)
 );
 
+
+do
+$grant$
+begin
 -- Grant ccbc_admin permissions
 perform ccbc_private.grant_permissions('select', 'application_rd', 'ccbc_admin');
 perform ccbc_private.grant_permissions('insert', 'application_rd', 'ccbc_admin');
@@ -17,5 +21,7 @@ perform ccbc_private.grant_permissions('update', 'application_rd', 'ccbc_admin')
 perform ccbc_private.grant_permissions('select', 'application_rd', 'ccbc_analyst');
 perform ccbc_private.grant_permissions('insert', 'application_rd', 'ccbc_analyst');
 perform ccbc_private.grant_permissions('update', 'application_rd', 'ccbc_analyst');
+end
+$grant$;
 
 COMMIT;
