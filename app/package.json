@@ -164,7 +164,7 @@
     "nodemon": "^2.0.20",
     "prettier": "^3.2.5",
     "react-dom": "^18.3.1",
-    "relay-compiler": "^13.2.0",
+    "relay-compiler": "^18.0.0",
     "relay-test-utils": "^16.2.0",
     "supertest": "^7.0.0",
     "ts-jest": "^28.0.2",

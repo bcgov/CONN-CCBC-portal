@@ -12657,10 +12657,10 @@ regexpp@^3.2.0:
   resolved "https://registry.yarnpkg.com/regexpp/-/regexpp-3.2.0.tgz#0425a2768d8f23bad70ca4b90461fa2f1213e1b2"
   integrity sha512-pq2bWo9mVD43nbts2wGv17XLiNLya+GklZ8kaDLV2Z08gDCsGpnKn9BFMepvWuHCbyVvY7J5o5+BVvoQbmlJLg==
 
-relay-compiler@^13.2.0:
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/relay-compiler/-/relay-compiler-13.2.0.tgz#06dd416e19e1cd22008b89499726ea5eb342c36e"
-  integrity sha512-GGLWTJYqQ5jQLMXlq++Fl17f4gMuvmIi3+xU/TrD4UqWZLI3qhxE0NFAmOvg6xgBQ8xtCMhP066kv+3bhL+7Aw==
+relay-compiler@^18.0.0:
+  version "18.0.0"
+  resolved "https://registry.yarnpkg.com/relay-compiler/-/relay-compiler-18.0.0.tgz#3b278d906695ccefbeed965c6923496572473d21"
+  integrity sha512-sl9g6c/qMJrAc8usIeRp6L86D8kKSJGd+xTgMlZh0zXPO6kB1hGYGjjy1W0rOg+NE/yqNeREJxwvz5VxSGU92g==
 
 relay-nextjs@^0.8.0:
   version "0.8.0"
