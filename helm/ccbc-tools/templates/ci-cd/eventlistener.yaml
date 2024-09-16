@@ -1,0 +1,23 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: jira-sprint-done-event-listener
+spec:
+  triggers:
+    - bindings:
+        - kind: TriggerBinding
+          name: key
+          value: $(body.key)
+        - kind: TriggerBinding
+          name: signature
+          value: '$(header[''Ccbc-Jira-Header''])'
+      interceptors:
+        - params:
+            - name: filter
+              value: 'header[''Ccbc-Jira-Header''] != null'
+          ref:
+            kind: ClusterInterceptor
+            name: cel
+      name: trigger-github
+      template:
+        ref: trigger-github-merge-and-release

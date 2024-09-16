@@ -214,5 +214,58 @@ rules:
     - update
     - patch
     - delete
+  - apiGroups:
+      - build.openshift.io
+    resources:
+      - buildconfigs
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+      - patch
+  - apiGroups:
+      - image.openshift.io
+    resources:
+      - imagestreams
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+      - patch
+  - apiGroups:
+      - tekton.dev
+    resources:
+      - tasks
+      - taskruns
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - triggers.tekton.dev
+    resources:
+      - eventlisteners
+      - interceptors
+      - triggers
+      - triggerbindings
+      - triggertemplates
+    verbs:
+      - create
+      - delete
+      - deletecollection
+      - get
+      - list
+      - patch
+      - update
+      - watch
 
 {{ end }}
