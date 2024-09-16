@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import RateLimit from 'express-rate-limit';
 import formidable, { File } from 'formidable';
 import fs from 'fs';
 import config from '../../config';
@@ -8,9 +9,14 @@ import { commonFormidableConfig, parseForm } from './express-helper';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 2000,
+});
+
 const s3upload = Router();
 
-s3upload.post('/api/s3/upload', async (req, res) => {
+s3upload.post('/api/s3/upload', limiter, async (req, res) => {
   const authRole = getAuthRole(req);
   const isRoleAuthorized =
     authRole?.pgRole === 'ccbc_admin' ||
