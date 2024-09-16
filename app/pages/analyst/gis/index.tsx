@@ -3,7 +3,6 @@ import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
 import styled from 'styled-components';
-import path from 'path';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
 import { ButtonLink, Layout, MetabaseEmbed } from 'components';
@@ -14,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import * as Sentry from '@sentry/nextjs';
 import Tabs from 'components/Analyst/GIS/Tabs';
+import checkFileType from 'utils/checkFileType';
 
 const getUploadedJsonQuery = graphql`
   query gisUploadedJsonQuery {
@@ -64,12 +64,6 @@ const UploadError = ({ error }) => {
   }
 
   return null;
-};
-
-const checkFileType = (file: string, fileTypes: string[]) => {
-  const extension = path.extname(file)?.toLowerCase();
-
-  return fileTypes.includes(extension);
 };
 
 const validateFile = (file: globalThis.File) => {
