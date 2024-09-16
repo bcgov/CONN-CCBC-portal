@@ -443,6 +443,10 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
                 application.allAssessments.edges,
                 'projectManagement'
               ),
+              pmNotification: findNotification(
+                application.assessmentNotifications.edges,
+                'assignment_projectManagement'
+              ),
               techAssessment: findAssessment(
                 application.allAssessments.edges,
                 'technical'
@@ -528,9 +532,15 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         application,
         'financialRisk'
       );
+      const pmAssignment = createAssignment(
+        application,
+        'pm',
+        'projectManagement'
+      );
 
       if (techAssignment) assignmentsList.push(techAssignment);
       if (financialAssignment) assignmentsList.push(financialAssignment);
+      if (pmAssignment) assignmentsList.push(pmAssignment);
 
       return assignmentsList;
     }, []);
