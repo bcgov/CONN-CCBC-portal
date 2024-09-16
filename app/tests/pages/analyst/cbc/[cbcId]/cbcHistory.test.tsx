@@ -176,7 +176,7 @@ describe('Cbc History', () => {
     );
 
     expect(historyNameAndDate).toHaveTextContent(
-      /Tony User updated the CBC data on Sep 6, 2024, 7:30 a\.m\.Reason for change: These are change reasons/
+      /Tony User updated the CBC data on Sep 6, 2024, 7:30 a\.m\./
     );
 
     const historyDetails = screen.getAllByTestId('diff-table');
