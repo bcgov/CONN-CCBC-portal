@@ -1,3 +1,20 @@
+# [1.191.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.12...v1.191.0) (2024-09-13)
+
+### Bug Fixes
+
+- validation with correct schema for analyst application edit ([a47c27e](https://github.com/bcgov/CONN-CCBC-portal/commit/a47c27e3f82dc2a0e7f00bf58a593f15872b65b6))
+
+### Features
+
+- **ci:** move to merge conflict column if in PO review ([cc2f456](https://github.com/bcgov/CONN-CCBC-portal/commit/cc2f4567802a6c21e17bb60e0207e0c5eeb1d27e))
+- **ci:** sneaky change to change rebase condition ([13a32b2](https://github.com/bcgov/CONN-CCBC-portal/commit/13a32b24532a66881246482888505c40e28b53ac))
+
+## [1.190.12](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.11...v1.190.12) (2024-09-12)
+
+### Bug Fixes
+
+- remove unwanted status text from RFI ([a760e6d](https://github.com/bcgov/CONN-CCBC-portal/commit/a760e6d0a9d2510a1cbf07e5e2ac4c3b3dd8a151))
+
 ## [1.190.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.10...v1.190.11) (2024-09-12)
 
 ## [1.190.10](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.9...v1.190.10) (2024-09-10)

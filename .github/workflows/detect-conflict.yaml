@@ -1,0 +1,44 @@
+name: Detect Merge Conflict
+
+on:
+  pull_request_target:
+    types: [edited, synchronize]
+
+jobs:
+  move-to-merge-conflict:
+    environment:
+      name: development
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Does PR have conflic
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        id: check_conflict
+        run: |
+          git config user.name "CCBC Service Account"
+          git config user.email "116113628+ccbc-service-account@users.noreply.github.com"
+          git fetch origin
+          git checkout main
+          git pull origin main
+          git checkout "$HEAD_REF"
+          git pull origin "$HEAD_REF"
+          set -e
+          git merge main --no-commit --no-ff
+          MERGE_STATUS=$?
+          echo $MERGE_STATUS
+          echo "MERGE_STATUS=$MERGE_STATUS" >> $GITHUB_OUTPUT
+      - name: Save PR number
+        if: steps.check_conflict.outputs.MERGE_STATUS != 0
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          mkdir -p ./pr
+          echo $PR_NUMBER > ./pr/pr_number
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pr_number
+          path: pr/
