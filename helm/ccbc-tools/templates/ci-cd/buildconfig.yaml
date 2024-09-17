@@ -1,0 +1,28 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: python-3-11-with-requests
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'python-3-11-with-requests:latest'
+  resources:
+    limits:
+      cpu: 1
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  strategy:
+    type: Docker
+    dockerStrategy: {}
+  postCommit: {}
+  source:
+    type: Dockerfile
+    dockerfile: |-
+      FROM python:3.11
+      RUN pip install requests
+  runPolicy: Serial
