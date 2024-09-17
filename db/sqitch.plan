@@ -674,3 +674,7 @@ computed_columns/application_assessment_notifications 2024-09-06T21:58:13Z ,,, <
 @1.191.0 2024-09-13T18:55:40Z CCBC Service Account <ccbc@button.is> # release v1.191.0
 @1.192.0 2024-09-13T20:33:44Z CCBC Service Account <ccbc@button.is> # release v1.192.0
 @1.192.1 2024-09-16T16:43:26Z CCBC Service Account <ccbc@button.is> # release v1.192.1
+tables/cbc_data_002_enable_audit 2024-09-03T17:37:22Z Anthony Bushara <anthony@button.is> # Enable history tracking for cbc_data table
+tables/cbc_data_003_include_change_reason 2024-09-04T15:14:09Z Anthony Bushara <anthony@button.is> # Refactor to include change reason on cbc_data
+computed_columns/cbc_history 2024-09-03T15:16:07Z Anthony Bushara <anthony@button.is> # Computed column to get application history on cbc project
+@1.193.0 2024-09-16T23:48:28Z CCBC Service Account <ccbc@button.is> # release v1.193.0
