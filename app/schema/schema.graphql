@@ -1199,42 +1199,6 @@ type Query implements Node {
     filter: CbcProjectCommunityFilter
   ): CbcProjectCommunitiesConnection
 
-  """
-  Reads and enables pagination through a set of `CcbcApplicationsCoverage`.
-  """
-  allCcbcApplicationsCoverages(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `CcbcApplicationsCoverage`."""
-    orderBy: [CcbcApplicationsCoveragesOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: CcbcApplicationsCoverageCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: CcbcApplicationsCoverageFilter
-  ): CcbcApplicationsCoveragesConnection
-
   """Reads and enables pagination through a set of `CcbcUser`."""
   allCcbcUsers(
     """Only read the first `n` values of the set."""
@@ -1372,40 +1336,6 @@ type Query implements Node {
     """
     filter: ConditionalApprovalDataFilter
   ): ConditionalApprovalDataConnection
-
-  """Reads and enables pagination through a set of `EconomicRegion`."""
-  allEconomicRegions(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `EconomicRegion`."""
-    orderBy: [EconomicRegionsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: EconomicRegionCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: EconomicRegionFilter
-  ): EconomicRegionsConnection
 
   """Reads and enables pagination through a set of `EmailRecord`."""
   allEmailRecords(
@@ -1817,40 +1747,6 @@ type Query implements Node {
     filter: RecordVersionFilter
   ): RecordVersionsConnection
 
-  """Reads and enables pagination through a set of `RegionalDistrict`."""
-  allRegionalDistricts(
-    """Only read the first `n` values of the set."""
-    first: Int
-
-    """Only read the last `n` values of the set."""
-    last: Int
-
-    """
-    Skip the first `n` values from our `after` cursor, an alternative to cursor
-    based pagination. May not be used with `last`.
-    """
-    offset: Int
-
-    """Read all values in the set before (above) this cursor."""
-    before: Cursor
-
-    """Read all values in the set after (below) this cursor."""
-    after: Cursor
-
-    """The method to use when ordering `RegionalDistrict`."""
-    orderBy: [RegionalDistrictsOrderBy!] = [PRIMARY_KEY_ASC]
-
-    """
-    A condition to be used in determining which values should be returned by the collection.
-    """
-    condition: RegionalDistrictCondition
-
-    """
-    A filter to be used in determining which values should be returned by the collection.
-    """
-    filter: RegionalDistrictFilter
-  ): RegionalDistrictsConnection
-
   """Reads and enables pagination through a set of `ReportingGcpe`."""
   allReportingGcpes(
     """Only read the first `n` values of the set."""
@@ -2122,13 +2018,11 @@ type Query implements Node {
   cbcDataChangeReasonByRowId(rowId: Int!): CbcDataChangeReason
   cbcProjectByRowId(rowId: Int!): CbcProject
   cbcProjectCommunityByRowId(rowId: Int!): CbcProjectCommunity
-  ccbcApplicationsCoverageByGid(gid: Int!): CcbcApplicationsCoverage
   ccbcUserByRowId(rowId: Int!): CcbcUser
   changeRequestDataByRowId(rowId: Int!): ChangeRequestData
   communitiesSourceDataByRowId(rowId: Int!): CommunitiesSourceData
   communitiesSourceDataByGeographicNameId(geographicNameId: Int!): CommunitiesSourceData
   conditionalApprovalDataByRowId(rowId: Int!): ConditionalApprovalData
-  economicRegionByGid(gid: Int!): EconomicRegion
   emailRecordByRowId(rowId: Int!): EmailRecord
   formByRowId(rowId: Int!): Form
   formBySlug(slug: String!): Form
@@ -2142,7 +2036,6 @@ type Query implements Node {
   notificationByRowId(rowId: Int!): Notification
   projectInformationDataByRowId(rowId: Int!): ProjectInformationData
   recordVersionByRowId(rowId: BigInt!): RecordVersion
-  regionalDistrictByGid(gid: Int!): RegionalDistrict
   reportingGcpeByRowId(rowId: Int!): ReportingGcpe
   rfiDataByRowId(rowId: Int!): RfiData
   rfiDataStatusTypeByName(name: String!): RfiDataStatusType
@@ -2463,16 +2356,6 @@ type Query implements Node {
     id: ID!
   ): CbcProjectCommunity
 
-  """
-  Reads a single `CcbcApplicationsCoverage` using its globally unique `ID`.
-  """
-  ccbcApplicationsCoverage(
-    """
-    The globally unique `ID` to be used in selecting a single `CcbcApplicationsCoverage`.
-    """
-    id: ID!
-  ): CcbcApplicationsCoverage
-
   """Reads a single `CcbcUser` using its globally unique `ID`."""
   ccbcUser(
     """The globally unique `ID` to be used in selecting a single `CcbcUser`."""
@@ -2504,14 +2387,6 @@ type Query implements Node {
     """
     id: ID!
   ): ConditionalApprovalData
-
-  """Reads a single `EconomicRegion` using its globally unique `ID`."""
-  economicRegion(
-    """
-    The globally unique `ID` to be used in selecting a single `EconomicRegion`.
-    """
-    id: ID!
-  ): EconomicRegion
 
   """Reads a single `EmailRecord` using its globally unique `ID`."""
   emailRecord(
@@ -2592,14 +2467,6 @@ type Query implements Node {
     """
     id: ID!
   ): RecordVersion
-
-  """Reads a single `RegionalDistrict` using its globally unique `ID`."""
-  regionalDistrict(
-    """
-    The globally unique `ID` to be used in selecting a single `RegionalDistrict`.
-    """
-    id: ID!
-  ): RegionalDistrict
 
   """Reads a single `ReportingGcpe` using its globally unique `ID`."""
   reportingGcpe(
@@ -78266,293 +78133,6 @@ type AssessmentTypesEdge {
   node: AssessmentType
 }
 
-"""A connection to a list of `CcbcApplicationsCoverage` values."""
-type CcbcApplicationsCoveragesConnection {
-  """A list of `CcbcApplicationsCoverage` objects."""
-  nodes: [CcbcApplicationsCoverage]!
-
-  """
-  A list of edges which contains the `CcbcApplicationsCoverage` and cursor to aid in pagination.
-  """
-  edges: [CcbcApplicationsCoveragesEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """
-  The count of *all* `CcbcApplicationsCoverage` you could get from the connection.
-  """
-  totalCount: Int!
-}
-
-type CcbcApplicationsCoverage implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  id: ID!
-  gid: Int!
-  ccbcNumbe: String
-  ccbcAppli: Float
-  intakeId: Float
-  mapMaxDo: Float
-  mapMaxUp: Float
-  mapAccess: String
-  mapTransp: String
-  shapeLeng: BigFloat
-  shapeArea: BigFloat
-  geom: String
-}
-
-"""A `CcbcApplicationsCoverage` edge in the connection."""
-type CcbcApplicationsCoveragesEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `CcbcApplicationsCoverage` at the end of the edge."""
-  node: CcbcApplicationsCoverage
-}
-
-"""Methods to use when ordering `CcbcApplicationsCoverage`."""
-enum CcbcApplicationsCoveragesOrderBy {
-  NATURAL
-  GID_ASC
-  GID_DESC
-  CCBC_NUMBE_ASC
-  CCBC_NUMBE_DESC
-  CCBC_APPLI_ASC
-  CCBC_APPLI_DESC
-  INTAKE_ID_ASC
-  INTAKE_ID_DESC
-  MAP_MAX_DO_ASC
-  MAP_MAX_DO_DESC
-  MAP_MAX_UP_ASC
-  MAP_MAX_UP_DESC
-  MAP_ACCESS_ASC
-  MAP_ACCESS_DESC
-  MAP_TRANSP_ASC
-  MAP_TRANSP_DESC
-  SHAPE_LENG_ASC
-  SHAPE_LENG_DESC
-  SHAPE_AREA_ASC
-  SHAPE_AREA_DESC
-  GEOM_ASC
-  GEOM_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `CcbcApplicationsCoverage` object types. All
-fields are tested for equality and combined with a logical ‘and.’
-"""
-input CcbcApplicationsCoverageCondition {
-  """Checks for equality with the object’s `gid` field."""
-  gid: Int
-
-  """Checks for equality with the object’s `ccbcNumbe` field."""
-  ccbcNumbe: String
-
-  """Checks for equality with the object’s `ccbcAppli` field."""
-  ccbcAppli: Float
-
-  """Checks for equality with the object’s `intakeId` field."""
-  intakeId: Float
-
-  """Checks for equality with the object’s `mapMaxDo` field."""
-  mapMaxDo: Float
-
-  """Checks for equality with the object’s `mapMaxUp` field."""
-  mapMaxUp: Float
-
-  """Checks for equality with the object’s `mapAccess` field."""
-  mapAccess: String
-
-  """Checks for equality with the object’s `mapTransp` field."""
-  mapTransp: String
-
-  """Checks for equality with the object’s `shapeLeng` field."""
-  shapeLeng: BigFloat
-
-  """Checks for equality with the object’s `shapeArea` field."""
-  shapeArea: BigFloat
-
-  """Checks for equality with the object’s `geom` field."""
-  geom: String
-}
-
-"""
-A filter to be used against `CcbcApplicationsCoverage` object types. All fields are combined with a logical ‘and.’
-"""
-input CcbcApplicationsCoverageFilter {
-  """Filter by the object’s `gid` field."""
-  gid: IntFilter
-
-  """Filter by the object’s `ccbcNumbe` field."""
-  ccbcNumbe: StringFilter
-
-  """Filter by the object’s `ccbcAppli` field."""
-  ccbcAppli: FloatFilter
-
-  """Filter by the object’s `intakeId` field."""
-  intakeId: FloatFilter
-
-  """Filter by the object’s `mapMaxDo` field."""
-  mapMaxDo: FloatFilter
-
-  """Filter by the object’s `mapMaxUp` field."""
-  mapMaxUp: FloatFilter
-
-  """Filter by the object’s `mapAccess` field."""
-  mapAccess: StringFilter
-
-  """Filter by the object’s `mapTransp` field."""
-  mapTransp: StringFilter
-
-  """Filter by the object’s `shapeLeng` field."""
-  shapeLeng: BigFloatFilter
-
-  """Filter by the object’s `shapeArea` field."""
-  shapeArea: BigFloatFilter
-
-  """Checks for all expressions in this list."""
-  and: [CcbcApplicationsCoverageFilter!]
-
-  """Checks for any expressions in this list."""
-  or: [CcbcApplicationsCoverageFilter!]
-
-  """Negates the expression."""
-  not: CcbcApplicationsCoverageFilter
-}
-
-"""A connection to a list of `EconomicRegion` values."""
-type EconomicRegionsConnection {
-  """A list of `EconomicRegion` objects."""
-  nodes: [EconomicRegion]!
-
-  """
-  A list of edges which contains the `EconomicRegion` and cursor to aid in pagination.
-  """
-  edges: [EconomicRegionsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """The count of *all* `EconomicRegion` you could get from the connection."""
-  totalCount: Int!
-}
-
-type EconomicRegion implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  id: ID!
-  gid: Int!
-  cnssr: Float
-  cnmcrgnd: String
-  cnmcrgnnm: String
-  areaSqm: BigFloat
-  featLen: BigFloat
-  objectid: BigFloat
-  geom: String
-}
-
-"""A `EconomicRegion` edge in the connection."""
-type EconomicRegionsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `EconomicRegion` at the end of the edge."""
-  node: EconomicRegion
-}
-
-"""Methods to use when ordering `EconomicRegion`."""
-enum EconomicRegionsOrderBy {
-  NATURAL
-  GID_ASC
-  GID_DESC
-  CNSSR_ASC
-  CNSSR_DESC
-  CNMCRGND_ASC
-  CNMCRGND_DESC
-  CNMCRGNNM_ASC
-  CNMCRGNNM_DESC
-  AREA_SQM_ASC
-  AREA_SQM_DESC
-  FEAT_LEN_ASC
-  FEAT_LEN_DESC
-  OBJECTID_ASC
-  OBJECTID_DESC
-  GEOM_ASC
-  GEOM_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `EconomicRegion` object types. All fields are
-tested for equality and combined with a logical ‘and.’
-"""
-input EconomicRegionCondition {
-  """Checks for equality with the object’s `gid` field."""
-  gid: Int
-
-  """Checks for equality with the object’s `cnssr` field."""
-  cnssr: Float
-
-  """Checks for equality with the object’s `cnmcrgnd` field."""
-  cnmcrgnd: String
-
-  """Checks for equality with the object’s `cnmcrgnnm` field."""
-  cnmcrgnnm: String
-
-  """Checks for equality with the object’s `areaSqm` field."""
-  areaSqm: BigFloat
-
-  """Checks for equality with the object’s `featLen` field."""
-  featLen: BigFloat
-
-  """Checks for equality with the object’s `objectid` field."""
-  objectid: BigFloat
-
-  """Checks for equality with the object’s `geom` field."""
-  geom: String
-}
-
-"""
-A filter to be used against `EconomicRegion` object types. All fields are combined with a logical ‘and.’
-"""
-input EconomicRegionFilter {
-  """Filter by the object’s `gid` field."""
-  gid: IntFilter
-
-  """Filter by the object’s `cnssr` field."""
-  cnssr: FloatFilter
-
-  """Filter by the object’s `cnmcrgnd` field."""
-  cnmcrgnd: StringFilter
-
-  """Filter by the object’s `cnmcrgnnm` field."""
-  cnmcrgnnm: StringFilter
-
-  """Filter by the object’s `areaSqm` field."""
-  areaSqm: BigFloatFilter
-
-  """Filter by the object’s `featLen` field."""
-  featLen: BigFloatFilter
-
-  """Filter by the object’s `objectid` field."""
-  objectid: BigFloatFilter
-
-  """Checks for all expressions in this list."""
-  and: [EconomicRegionFilter!]
-
-  """Checks for any expressions in this list."""
-  or: [EconomicRegionFilter!]
-
-  """Negates the expression."""
-  not: EconomicRegionFilter
-}
-
 """A connection to a list of `FormDataStatusType` values."""
 type FormDataStatusTypesConnection {
   """A list of `FormDataStatusType` objects."""
@@ -78725,254 +78305,6 @@ input HistoryItemCondition {
 
   """Checks for equality with the object’s `externalAnalyst` field."""
   externalAnalyst: Boolean
-}
-
-"""A connection to a list of `RegionalDistrict` values."""
-type RegionalDistrictsConnection {
-  """A list of `RegionalDistrict` objects."""
-  nodes: [RegionalDistrict]!
-
-  """
-  A list of edges which contains the `RegionalDistrict` and cursor to aid in pagination.
-  """
-  edges: [RegionalDistrictsEdge!]!
-
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """
-  The count of *all* `RegionalDistrict` you could get from the connection.
-  """
-  totalCount: Int!
-}
-
-type RegionalDistrict implements Node {
-  """
-  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
-  """
-  id: ID!
-  gid: Int!
-  aaId: Float
-  aaName: String
-  abrvn: String
-  bdyType: String
-  aaParent: String
-  chngOrg: String
-  uptType: String
-  uptDate: String
-  mapStatus: String
-  ocMNmbr: String
-  ocMYr: String
-  ocMType: String
-  wbstRl: String
-  imageUrl: String
-  afctdArea: String
-  areaSqm: BigFloat
-  lengthM: BigFloat
-  shape: BigFloat
-  obejctid: BigFloat
-  geom: String
-}
-
-"""A `RegionalDistrict` edge in the connection."""
-type RegionalDistrictsEdge {
-  """A cursor for use in pagination."""
-  cursor: Cursor
-
-  """The `RegionalDistrict` at the end of the edge."""
-  node: RegionalDistrict
-}
-
-"""Methods to use when ordering `RegionalDistrict`."""
-enum RegionalDistrictsOrderBy {
-  NATURAL
-  GID_ASC
-  GID_DESC
-  AA_ID_ASC
-  AA_ID_DESC
-  AA_NAME_ASC
-  AA_NAME_DESC
-  ABRVN_ASC
-  ABRVN_DESC
-  BDY_TYPE_ASC
-  BDY_TYPE_DESC
-  AA_PARENT_ASC
-  AA_PARENT_DESC
-  CHNG_ORG_ASC
-  CHNG_ORG_DESC
-  UPT_TYPE_ASC
-  UPT_TYPE_DESC
-  UPT_DATE_ASC
-  UPT_DATE_DESC
-  MAP_STATUS_ASC
-  MAP_STATUS_DESC
-  OC_M_NMBR_ASC
-  OC_M_NMBR_DESC
-  OC_M_YR_ASC
-  OC_M_YR_DESC
-  OC_M_TYPE_ASC
-  OC_M_TYPE_DESC
-  WBST_RL_ASC
-  WBST_RL_DESC
-  IMAGE_URL_ASC
-  IMAGE_URL_DESC
-  AFCTD_AREA_ASC
-  AFCTD_AREA_DESC
-  AREA_SQM_ASC
-  AREA_SQM_DESC
-  LENGTH_M_ASC
-  LENGTH_M_DESC
-  SHAPE_ASC
-  SHAPE_DESC
-  OBEJCTID_ASC
-  OBEJCTID_DESC
-  GEOM_ASC
-  GEOM_DESC
-  PRIMARY_KEY_ASC
-  PRIMARY_KEY_DESC
-}
-
-"""
-A condition to be used against `RegionalDistrict` object types. All fields are
-tested for equality and combined with a logical ‘and.’
-"""
-input RegionalDistrictCondition {
-  """Checks for equality with the object’s `gid` field."""
-  gid: Int
-
-  """Checks for equality with the object’s `aaId` field."""
-  aaId: Float
-
-  """Checks for equality with the object’s `aaName` field."""
-  aaName: String
-
-  """Checks for equality with the object’s `abrvn` field."""
-  abrvn: String
-
-  """Checks for equality with the object’s `bdyType` field."""
-  bdyType: String
-
-  """Checks for equality with the object’s `aaParent` field."""
-  aaParent: String
-
-  """Checks for equality with the object’s `chngOrg` field."""
-  chngOrg: String
-
-  """Checks for equality with the object’s `uptType` field."""
-  uptType: String
-
-  """Checks for equality with the object’s `uptDate` field."""
-  uptDate: String
-
-  """Checks for equality with the object’s `mapStatus` field."""
-  mapStatus: String
-
-  """Checks for equality with the object’s `ocMNmbr` field."""
-  ocMNmbr: String
-
-  """Checks for equality with the object’s `ocMYr` field."""
-  ocMYr: String
-
-  """Checks for equality with the object’s `ocMType` field."""
-  ocMType: String
-
-  """Checks for equality with the object’s `wbstRl` field."""
-  wbstRl: String
-
-  """Checks for equality with the object’s `imageUrl` field."""
-  imageUrl: String
-
-  """Checks for equality with the object’s `afctdArea` field."""
-  afctdArea: String
-
-  """Checks for equality with the object’s `areaSqm` field."""
-  areaSqm: BigFloat
-
-  """Checks for equality with the object’s `lengthM` field."""
-  lengthM: BigFloat
-
-  """Checks for equality with the object’s `shape` field."""
-  shape: BigFloat
-
-  """Checks for equality with the object’s `obejctid` field."""
-  obejctid: BigFloat
-
-  """Checks for equality with the object’s `geom` field."""
-  geom: String
-}
-
-"""
-A filter to be used against `RegionalDistrict` object types. All fields are combined with a logical ‘and.’
-"""
-input RegionalDistrictFilter {
-  """Filter by the object’s `gid` field."""
-  gid: IntFilter
-
-  """Filter by the object’s `aaId` field."""
-  aaId: FloatFilter
-
-  """Filter by the object’s `aaName` field."""
-  aaName: StringFilter
-
-  """Filter by the object’s `abrvn` field."""
-  abrvn: StringFilter
-
-  """Filter by the object’s `bdyType` field."""
-  bdyType: StringFilter
-
-  """Filter by the object’s `aaParent` field."""
-  aaParent: StringFilter
-
-  """Filter by the object’s `chngOrg` field."""
-  chngOrg: StringFilter
-
-  """Filter by the object’s `uptType` field."""
-  uptType: StringFilter
-
-  """Filter by the object’s `uptDate` field."""
-  uptDate: StringFilter
-
-  """Filter by the object’s `mapStatus` field."""
-  mapStatus: StringFilter
-
-  """Filter by the object’s `ocMNmbr` field."""
-  ocMNmbr: StringFilter
-
-  """Filter by the object’s `ocMYr` field."""
-  ocMYr: StringFilter
-
-  """Filter by the object’s `ocMType` field."""
-  ocMType: StringFilter
-
-  """Filter by the object’s `wbstRl` field."""
-  wbstRl: StringFilter
-
-  """Filter by the object’s `imageUrl` field."""
-  imageUrl: StringFilter
-
-  """Filter by the object’s `afctdArea` field."""
-  afctdArea: StringFilter
-
-  """Filter by the object’s `areaSqm` field."""
-  areaSqm: BigFloatFilter
-
-  """Filter by the object’s `lengthM` field."""
-  lengthM: BigFloatFilter
-
-  """Filter by the object’s `shape` field."""
-  shape: BigFloatFilter
-
-  """Filter by the object’s `obejctid` field."""
-  obejctid: BigFloatFilter
-
-  """Checks for all expressions in this list."""
-  and: [RegionalDistrictFilter!]
-
-  """Checks for any expressions in this list."""
-  or: [RegionalDistrictFilter!]
-
-  """Negates the expression."""
-  not: RegionalDistrictFilter
 }
 
 """A connection to a list of `RfiDataStatusType` values."""
@@ -79430,14 +78762,6 @@ type Mutation {
     input: CreateCbcProjectCommunityInput!
   ): CreateCbcProjectCommunityPayload
 
-  """Creates a single `CcbcApplicationsCoverage`."""
-  createCcbcApplicationsCoverage(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateCcbcApplicationsCoverageInput!
-  ): CreateCcbcApplicationsCoveragePayload
-
   """Creates a single `CcbcUser`."""
   createCcbcUser(
     """
@@ -79469,14 +78793,6 @@ type Mutation {
     """
     input: CreateConditionalApprovalDataInput!
   ): CreateConditionalApprovalDataPayload
-
-  """Creates a single `EconomicRegion`."""
-  createEconomicRegion(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateEconomicRegionInput!
-  ): CreateEconomicRegionPayload
 
   """Creates a single `EmailRecord`."""
   createEmailRecord(
@@ -79565,14 +78881,6 @@ type Mutation {
     """
     input: CreateRecordVersionInput!
   ): CreateRecordVersionPayload
-
-  """Creates a single `RegionalDistrict`."""
-  createRegionalDistrict(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: CreateRegionalDistrictInput!
-  ): CreateRegionalDistrictPayload
 
   """Creates a single `ReportingGcpe`."""
   createReportingGcpe(
@@ -80230,26 +79538,6 @@ type Mutation {
     input: UpdateCbcProjectCommunityByRowIdInput!
   ): UpdateCbcProjectCommunityPayload
 
-  """
-  Updates a single `CcbcApplicationsCoverage` using its globally unique id and a patch.
-  """
-  updateCcbcApplicationsCoverage(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateCcbcApplicationsCoverageInput!
-  ): UpdateCcbcApplicationsCoveragePayload
-
-  """
-  Updates a single `CcbcApplicationsCoverage` using a unique key and a patch.
-  """
-  updateCcbcApplicationsCoverageByGid(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateCcbcApplicationsCoverageByGidInput!
-  ): UpdateCcbcApplicationsCoveragePayload
-
   """Updates a single `CcbcUser` using its globally unique id and a patch."""
   updateCcbcUser(
     """
@@ -80333,24 +79621,6 @@ type Mutation {
     """
     input: UpdateConditionalApprovalDataByRowIdInput!
   ): UpdateConditionalApprovalDataPayload
-
-  """
-  Updates a single `EconomicRegion` using its globally unique id and a patch.
-  """
-  updateEconomicRegion(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateEconomicRegionInput!
-  ): UpdateEconomicRegionPayload
-
-  """Updates a single `EconomicRegion` using a unique key and a patch."""
-  updateEconomicRegionByGid(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateEconomicRegionByGidInput!
-  ): UpdateEconomicRegionPayload
 
   """
   Updates a single `EmailRecord` using its globally unique id and a patch.
@@ -80533,24 +79803,6 @@ type Mutation {
     """
     input: UpdateRecordVersionByRowIdInput!
   ): UpdateRecordVersionPayload
-
-  """
-  Updates a single `RegionalDistrict` using its globally unique id and a patch.
-  """
-  updateRegionalDistrict(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateRegionalDistrictInput!
-  ): UpdateRegionalDistrictPayload
-
-  """Updates a single `RegionalDistrict` using a unique key and a patch."""
-  updateRegionalDistrictByGid(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: UpdateRegionalDistrictByGidInput!
-  ): UpdateRegionalDistrictPayload
 
   """
   Updates a single `ReportingGcpe` using its globally unique id and a patch.
@@ -81034,24 +80286,6 @@ type Mutation {
     input: DeleteCbcProjectCommunityByRowIdInput!
   ): DeleteCbcProjectCommunityPayload
 
-  """
-  Deletes a single `CcbcApplicationsCoverage` using its globally unique id.
-  """
-  deleteCcbcApplicationsCoverage(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteCcbcApplicationsCoverageInput!
-  ): DeleteCcbcApplicationsCoveragePayload
-
-  """Deletes a single `CcbcApplicationsCoverage` using a unique key."""
-  deleteCcbcApplicationsCoverageByGid(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteCcbcApplicationsCoverageByGidInput!
-  ): DeleteCcbcApplicationsCoveragePayload
-
   """Deletes a single `CcbcUser` using its globally unique id."""
   deleteCcbcUser(
     """
@@ -81125,22 +80359,6 @@ type Mutation {
     """
     input: DeleteConditionalApprovalDataByRowIdInput!
   ): DeleteConditionalApprovalDataPayload
-
-  """Deletes a single `EconomicRegion` using its globally unique id."""
-  deleteEconomicRegion(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteEconomicRegionInput!
-  ): DeleteEconomicRegionPayload
-
-  """Deletes a single `EconomicRegion` using a unique key."""
-  deleteEconomicRegionByGid(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteEconomicRegionByGidInput!
-  ): DeleteEconomicRegionPayload
 
   """Deletes a single `EmailRecord` using its globally unique id."""
   deleteEmailRecord(
@@ -81311,22 +80529,6 @@ type Mutation {
     """
     input: DeleteRecordVersionByRowIdInput!
   ): DeleteRecordVersionPayload
-
-  """Deletes a single `RegionalDistrict` using its globally unique id."""
-  deleteRegionalDistrict(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteRegionalDistrictInput!
-  ): DeleteRegionalDistrictPayload
-
-  """Deletes a single `RegionalDistrict` using a unique key."""
-  deleteRegionalDistrictByGid(
-    """
-    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
-    """
-    input: DeleteRegionalDistrictByGidInput!
-  ): DeleteRegionalDistrictPayload
 
   """Deletes a single `ReportingGcpe` using its globally unique id."""
   deleteReportingGcpe(
@@ -83577,56 +82779,6 @@ input CbcProjectCommunityInput {
   archivedAt: Datetime
 }
 
-"""The output of our create `CcbcApplicationsCoverage` mutation."""
-type CreateCcbcApplicationsCoveragePayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `CcbcApplicationsCoverage` that was created by this mutation."""
-  ccbcApplicationsCoverage: CcbcApplicationsCoverage
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `CcbcApplicationsCoverage`. May be used by Relay 1."""
-  ccbcApplicationsCoverageEdge(
-    """The method to use when ordering `CcbcApplicationsCoverage`."""
-    orderBy: [CcbcApplicationsCoveragesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): CcbcApplicationsCoveragesEdge
-}
-
-"""All input for the create `CcbcApplicationsCoverage` mutation."""
-input CreateCcbcApplicationsCoverageInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `CcbcApplicationsCoverage` to be created by this mutation."""
-  ccbcApplicationsCoverage: CcbcApplicationsCoverageInput!
-}
-
-"""An input for mutations affecting `CcbcApplicationsCoverage`"""
-input CcbcApplicationsCoverageInput {
-  gid: Int
-  ccbcNumbe: String
-  ccbcAppli: Float
-  intakeId: Float
-  mapMaxDo: Float
-  mapMaxUp: Float
-  mapAccess: String
-  mapTransp: String
-  shapeLeng: BigFloat
-  shapeArea: BigFloat
-  geom: String
-}
-
 """The output of our create `CcbcUser` mutation."""
 type CreateCcbcUserPayload {
   """
@@ -83963,53 +83115,6 @@ input ConditionalApprovalDataInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
-}
-
-"""The output of our create `EconomicRegion` mutation."""
-type CreateEconomicRegionPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `EconomicRegion` that was created by this mutation."""
-  economicRegion: EconomicRegion
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `EconomicRegion`. May be used by Relay 1."""
-  economicRegionEdge(
-    """The method to use when ordering `EconomicRegion`."""
-    orderBy: [EconomicRegionsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): EconomicRegionsEdge
-}
-
-"""All input for the create `EconomicRegion` mutation."""
-input CreateEconomicRegionInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `EconomicRegion` to be created by this mutation."""
-  economicRegion: EconomicRegionInput!
-}
-
-"""An input for mutations affecting `EconomicRegion`"""
-input EconomicRegionInput {
-  gid: Int
-  cnssr: Float
-  cnmcrgnd: String
-  cnmcrgnnm: String
-  areaSqm: BigFloat
-  featLen: BigFloat
-  objectid: BigFloat
-  geom: String
 }
 
 """The output of our create `EmailRecord` mutation."""
@@ -84759,66 +83864,6 @@ input RecordVersionInput {
 
   """The previous version of the record in JSON format"""
   oldRecord: JSON
-}
-
-"""The output of our create `RegionalDistrict` mutation."""
-type CreateRegionalDistrictPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `RegionalDistrict` that was created by this mutation."""
-  regionalDistrict: RegionalDistrict
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `RegionalDistrict`. May be used by Relay 1."""
-  regionalDistrictEdge(
-    """The method to use when ordering `RegionalDistrict`."""
-    orderBy: [RegionalDistrictsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RegionalDistrictsEdge
-}
-
-"""All input for the create `RegionalDistrict` mutation."""
-input CreateRegionalDistrictInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """The `RegionalDistrict` to be created by this mutation."""
-  regionalDistrict: RegionalDistrictInput!
-}
-
-"""An input for mutations affecting `RegionalDistrict`"""
-input RegionalDistrictInput {
-  gid: Int
-  aaId: Float
-  aaName: String
-  abrvn: String
-  bdyType: String
-  aaParent: String
-  chngOrg: String
-  uptType: String
-  uptDate: String
-  mapStatus: String
-  ocMNmbr: String
-  ocMYr: String
-  ocMType: String
-  wbstRl: String
-  imageUrl: String
-  afctdArea: String
-  areaSqm: BigFloat
-  lengthM: BigFloat
-  shape: BigFloat
-  obejctid: BigFloat
-  geom: String
 }
 
 """The output of our create `ReportingGcpe` mutation."""
@@ -88694,80 +87739,6 @@ input UpdateCbcProjectCommunityByRowIdInput {
   rowId: Int!
 }
 
-"""The output of our update `CcbcApplicationsCoverage` mutation."""
-type UpdateCcbcApplicationsCoveragePayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `CcbcApplicationsCoverage` that was updated by this mutation."""
-  ccbcApplicationsCoverage: CcbcApplicationsCoverage
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `CcbcApplicationsCoverage`. May be used by Relay 1."""
-  ccbcApplicationsCoverageEdge(
-    """The method to use when ordering `CcbcApplicationsCoverage`."""
-    orderBy: [CcbcApplicationsCoveragesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): CcbcApplicationsCoveragesEdge
-}
-
-"""All input for the `updateCcbcApplicationsCoverage` mutation."""
-input UpdateCcbcApplicationsCoverageInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `CcbcApplicationsCoverage` to be updated.
-  """
-  id: ID!
-
-  """
-  An object where the defined keys will be set on the `CcbcApplicationsCoverage` being updated.
-  """
-  ccbcApplicationsCoveragePatch: CcbcApplicationsCoveragePatch!
-}
-
-"""
-Represents an update to a `CcbcApplicationsCoverage`. Fields that are set will be updated.
-"""
-input CcbcApplicationsCoveragePatch {
-  gid: Int
-  ccbcNumbe: String
-  ccbcAppli: Float
-  intakeId: Float
-  mapMaxDo: Float
-  mapMaxUp: Float
-  mapAccess: String
-  mapTransp: String
-  shapeLeng: BigFloat
-  shapeArea: BigFloat
-  geom: String
-}
-
-"""All input for the `updateCcbcApplicationsCoverageByGid` mutation."""
-input UpdateCcbcApplicationsCoverageByGidInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `CcbcApplicationsCoverage` being updated.
-  """
-  ccbcApplicationsCoveragePatch: CcbcApplicationsCoveragePatch!
-  gid: Int!
-}
-
 """The output of our update `CcbcUser` mutation."""
 type UpdateCcbcUserPayload {
   """
@@ -89227,77 +88198,6 @@ input UpdateConditionalApprovalDataByRowIdInput {
 
   """Unique id for the row"""
   rowId: Int!
-}
-
-"""The output of our update `EconomicRegion` mutation."""
-type UpdateEconomicRegionPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `EconomicRegion` that was updated by this mutation."""
-  economicRegion: EconomicRegion
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `EconomicRegion`. May be used by Relay 1."""
-  economicRegionEdge(
-    """The method to use when ordering `EconomicRegion`."""
-    orderBy: [EconomicRegionsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): EconomicRegionsEdge
-}
-
-"""All input for the `updateEconomicRegion` mutation."""
-input UpdateEconomicRegionInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `EconomicRegion` to be updated.
-  """
-  id: ID!
-
-  """
-  An object where the defined keys will be set on the `EconomicRegion` being updated.
-  """
-  economicRegionPatch: EconomicRegionPatch!
-}
-
-"""
-Represents an update to a `EconomicRegion`. Fields that are set will be updated.
-"""
-input EconomicRegionPatch {
-  gid: Int
-  cnssr: Float
-  cnmcrgnd: String
-  cnmcrgnnm: String
-  areaSqm: BigFloat
-  featLen: BigFloat
-  objectid: BigFloat
-  geom: String
-}
-
-"""All input for the `updateEconomicRegionByGid` mutation."""
-input UpdateEconomicRegionByGidInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `EconomicRegion` being updated.
-  """
-  economicRegionPatch: EconomicRegionPatch!
-  gid: Int!
 }
 
 """The output of our update `EmailRecord` mutation."""
@@ -90244,90 +89144,6 @@ input UpdateRecordVersionByRowIdInput {
 
   """Primary key and unique identifier"""
   rowId: BigInt!
-}
-
-"""The output of our update `RegionalDistrict` mutation."""
-type UpdateRegionalDistrictPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `RegionalDistrict` that was updated by this mutation."""
-  regionalDistrict: RegionalDistrict
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `RegionalDistrict`. May be used by Relay 1."""
-  regionalDistrictEdge(
-    """The method to use when ordering `RegionalDistrict`."""
-    orderBy: [RegionalDistrictsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RegionalDistrictsEdge
-}
-
-"""All input for the `updateRegionalDistrict` mutation."""
-input UpdateRegionalDistrictInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `RegionalDistrict` to be updated.
-  """
-  id: ID!
-
-  """
-  An object where the defined keys will be set on the `RegionalDistrict` being updated.
-  """
-  regionalDistrictPatch: RegionalDistrictPatch!
-}
-
-"""
-Represents an update to a `RegionalDistrict`. Fields that are set will be updated.
-"""
-input RegionalDistrictPatch {
-  gid: Int
-  aaId: Float
-  aaName: String
-  abrvn: String
-  bdyType: String
-  aaParent: String
-  chngOrg: String
-  uptType: String
-  uptDate: String
-  mapStatus: String
-  ocMNmbr: String
-  ocMYr: String
-  ocMType: String
-  wbstRl: String
-  imageUrl: String
-  afctdArea: String
-  areaSqm: BigFloat
-  lengthM: BigFloat
-  shape: BigFloat
-  obejctid: BigFloat
-  geom: String
-}
-
-"""All input for the `updateRegionalDistrictByGid` mutation."""
-input UpdateRegionalDistrictByGidInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  An object where the defined keys will be set on the `RegionalDistrict` being updated.
-  """
-  regionalDistrictPatch: RegionalDistrictPatch!
-  gid: Int!
 }
 
 """The output of our update `ReportingGcpe` mutation."""
@@ -92442,54 +91258,6 @@ input DeleteCbcProjectCommunityByRowIdInput {
   rowId: Int!
 }
 
-"""The output of our delete `CcbcApplicationsCoverage` mutation."""
-type DeleteCcbcApplicationsCoveragePayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `CcbcApplicationsCoverage` that was deleted by this mutation."""
-  ccbcApplicationsCoverage: CcbcApplicationsCoverage
-  deletedCcbcApplicationsCoverageId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `CcbcApplicationsCoverage`. May be used by Relay 1."""
-  ccbcApplicationsCoverageEdge(
-    """The method to use when ordering `CcbcApplicationsCoverage`."""
-    orderBy: [CcbcApplicationsCoveragesOrderBy!] = [PRIMARY_KEY_ASC]
-  ): CcbcApplicationsCoveragesEdge
-}
-
-"""All input for the `deleteCcbcApplicationsCoverage` mutation."""
-input DeleteCcbcApplicationsCoverageInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `CcbcApplicationsCoverage` to be deleted.
-  """
-  id: ID!
-}
-
-"""All input for the `deleteCcbcApplicationsCoverageByGid` mutation."""
-input DeleteCcbcApplicationsCoverageByGidInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  gid: Int!
-}
-
 """The output of our delete `CcbcUser` mutation."""
 type DeleteCcbcUserPayload {
   """
@@ -92760,54 +91528,6 @@ input DeleteConditionalApprovalDataByRowIdInput {
 
   """Unique id for the row"""
   rowId: Int!
-}
-
-"""The output of our delete `EconomicRegion` mutation."""
-type DeleteEconomicRegionPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `EconomicRegion` that was deleted by this mutation."""
-  economicRegion: EconomicRegion
-  deletedEconomicRegionId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `EconomicRegion`. May be used by Relay 1."""
-  economicRegionEdge(
-    """The method to use when ordering `EconomicRegion`."""
-    orderBy: [EconomicRegionsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): EconomicRegionsEdge
-}
-
-"""All input for the `deleteEconomicRegion` mutation."""
-input DeleteEconomicRegionInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `EconomicRegion` to be deleted.
-  """
-  id: ID!
-}
-
-"""All input for the `deleteEconomicRegionByGid` mutation."""
-input DeleteEconomicRegionByGidInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  gid: Int!
 }
 
 """The output of our delete `EmailRecord` mutation."""
@@ -93396,54 +92116,6 @@ input DeleteRecordVersionByRowIdInput {
 
   """Primary key and unique identifier"""
   rowId: BigInt!
-}
-
-"""The output of our delete `RegionalDistrict` mutation."""
-type DeleteRegionalDistrictPayload {
-  """
-  The exact same `clientMutationId` that was provided in the mutation input,
-  unchanged and unused. May be used by a client to track mutations.
-  """
-  clientMutationId: String
-
-  """The `RegionalDistrict` that was deleted by this mutation."""
-  regionalDistrict: RegionalDistrict
-  deletedRegionalDistrictId: ID
-
-  """
-  Our root query field type. Allows us to run any query from our mutation payload.
-  """
-  query: Query
-
-  """An edge for our `RegionalDistrict`. May be used by Relay 1."""
-  regionalDistrictEdge(
-    """The method to use when ordering `RegionalDistrict`."""
-    orderBy: [RegionalDistrictsOrderBy!] = [PRIMARY_KEY_ASC]
-  ): RegionalDistrictsEdge
-}
-
-"""All input for the `deleteRegionalDistrict` mutation."""
-input DeleteRegionalDistrictInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-
-  """
-  The globally unique `ID` which will identify a single `RegionalDistrict` to be deleted.
-  """
-  id: ID!
-}
-
-"""All input for the `deleteRegionalDistrictByGid` mutation."""
-input DeleteRegionalDistrictByGidInput {
-  """
-  An arbitrary string value with no semantic meaning. Will be included in the
-  payload verbatim. May be used to track mutations by the client.
-  """
-  clientMutationId: String
-  gid: Int!
 }
 
 """The output of our delete `ReportingGcpe` mutation."""
