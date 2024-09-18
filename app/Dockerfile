@@ -54,7 +54,7 @@ COPY --from=builder ${APP_HOME}/public ./public
 #COPY --from=builder --chown=nextjs:nodejs ${APP_HOME}/.next/ ./
 #COPY --from=builder --chown=nextjs:nodejs ${APP_HOME}/.next/static ./.next/static
 #COPY --from=builder --chown=nextjs:nodejs ${APP_HOME}/dist ./dist
-COPY --from=builder --chown=${USER_ID}:0 --chmod=g+rwX ${APP_HOME} ./
+COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME} ./
 
 USER ${USER_ID}
 
