@@ -1,0 +1,12 @@
+{
+  "presets": ["@babel/preset-env"],
+  "plugins": [
+    ["relay", { "artifactDirectory": "./__generated__" }],
+    [
+      "module-resolver",
+      { "root": [".", ".."], "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+    ],
+    ["babel-plugin-styled-components", { "ssr": true }],
+    "macros"
+  ]
+}

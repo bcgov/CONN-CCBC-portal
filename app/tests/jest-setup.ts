@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import '@testing-library/jest-dom';
 import { Settings } from 'luxon';
 
 // Some rjsf features require window.crypto, which isn't provided by jsdom

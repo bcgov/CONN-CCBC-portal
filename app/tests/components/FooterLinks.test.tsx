@@ -1,5 +1,6 @@
-import FooterLinks from '../../components/FooterLinks';
+/* eslint-disable jest/valid-expect */
 import { render, screen } from '@testing-library/react';
+import FooterLinks from '../../components/FooterLinks';
 
 const renderStaticLayout = () => {
   return render(<FooterLinks />);
