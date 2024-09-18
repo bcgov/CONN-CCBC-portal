@@ -14,7 +14,7 @@ import getAuthRole from '../../../utils/getAuthRole';
 jest.mock('../../../backend/lib/graphql');
 jest.mock('../../../utils/getAuthRole');
 
-jest.setTimeout(10000000);
+jest.setTimeout(1000);
 
 const mockStream = new PassThrough();
 

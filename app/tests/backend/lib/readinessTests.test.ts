@@ -43,7 +43,7 @@ jest.mock('lightship', () => {
   };
 });
 
-// jest.setTimeout(10000000);
+// jest.setTimeout(1000);
 
 describe('Readiness Tests', () => {
   beforeEach(() => {
