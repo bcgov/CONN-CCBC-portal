@@ -302,6 +302,7 @@ const Cbc = ({
               ...formData.miscellaneous,
               ...formData.projectDataReviews,
             },
+            changeReason,
           },
         },
         inputCbcChangeReason: {

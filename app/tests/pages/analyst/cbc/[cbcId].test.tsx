@@ -648,6 +648,7 @@ describe('Cbc', () => {
               lastReviewed: '2023-07-11T00:00:00.000Z',
               reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
             },
+            changeReason: 'Updated reason',
           },
         },
         inputCbcChangeReason: {
@@ -760,6 +761,7 @@ describe('Cbc', () => {
               lastReviewed: '2023-07-11T00:00:00.000Z',
               reviewNotes: 'Qtrly Report: Progress 0.39 -> 0.38',
             },
+            changeReason: 'Updated reason',
           },
         },
         inputCbcChangeReason: {

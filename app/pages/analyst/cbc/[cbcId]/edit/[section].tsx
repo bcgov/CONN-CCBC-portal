@@ -228,6 +228,7 @@ const EditCbcSection = ({
               ...formData.miscellaneous,
               ...formData.projectDataReviews,
             },
+            changeReason,
           },
         },
         inputCbcChangeReason: {

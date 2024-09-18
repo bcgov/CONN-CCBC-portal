@@ -1,3 +1,29 @@
+## [1.193.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.0...v1.193.1) (2024-09-18)
+
+### Bug Fixes
+
+- table height when time machine is not shown ([8fa63d9](https://github.com/bcgov/CONN-CCBC-portal/commit/8fa63d9d5e9c7ddbc8f83c1529858c46f004b39f))
+
+# [1.193.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.192.1...v1.193.0) (2024-09-16)
+
+### Bug Fixes
+
+- numbers to not heave leading dollar sign ([b063d36](https://github.com/bcgov/CONN-CCBC-portal/commit/b063d36fc2de4a72d196db8fc3f3cd4579ff1a16))
+- overflow wrap strictly enforced ([92407e0](https://github.com/bcgov/CONN-CCBC-portal/commit/92407e052c1e3ccebabd325a86fcc2b724e5c592))
+
+### Features
+
+- history for cbc data changes ([018c2db](https://github.com/bcgov/CONN-CCBC-portal/commit/018c2dbf2216d918a732d399805ea4d3f8270a42))
+- new computed column for cbc history ([16707fc](https://github.com/bcgov/CONN-CCBC-portal/commit/16707fc65036d80281aab4fe127e2aae02c74510))
+
+## [1.192.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.192.0...v1.192.1) (2024-09-16)
+
+# [1.192.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.191.0...v1.192.0) (2024-09-13)
+
+### Features
+
+- pm assessments notify from table ([3d07ca0](https://github.com/bcgov/CONN-CCBC-portal/commit/3d07ca0562335a215a2d06fb3dee62608d429cfc))
+
 # [1.191.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.190.12...v1.191.0) (2024-09-13)
 
 ### Bug Fixes

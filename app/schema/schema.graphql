@@ -27473,6 +27473,9 @@ input CbcDataFilter {
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
 
+  """Filter by the object’s `changeReason` field."""
+  changeReason: StringFilter
+
   """Filter by the object’s `cbcDataChangeReasonsByCbcDataId` relation."""
   cbcDataChangeReasonsByCbcDataId: CbcDataToManyCbcDataChangeReasonFilter
 
@@ -48899,6 +48902,32 @@ type Cbc implements Node {
     filter: CbcProjectCommunityFilter
   ): CbcProjectCommunitiesConnection!
 
+  """Get the history of a cbc record"""
+  history(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: RecordVersionFilter
+  ): RecordVersionsConnection!
+
   """Reads and enables pagination through a set of `Cbc`."""
   cbcsByCbcDataCbcIdAndProjectNumber(
     """Only read the first `n` values of the set."""
@@ -49462,6 +49491,7 @@ type CbcData implements Node {
 
   """archived at timestamp"""
   archivedAt: Datetime
+  changeReason: String
 
   """Reads a single `Cbc` that is related to this `CbcData`."""
   cbcByCbcId: Cbc
@@ -49982,6 +50012,8 @@ enum CbcDataOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
+  CHANGE_REASON_ASC
+  CHANGE_REASON_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -50022,6 +50054,9 @@ input CbcDataCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+
+  """Checks for equality with the object’s `changeReason` field."""
+  changeReason: String
 }
 
 """A connection to a list of `CbcApplicationPendingChangeRequest` values."""
@@ -82241,6 +82276,7 @@ input CbcDataInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+  changeReason: String
 }
 
 """The output of our create `CbcDataChangeReason` mutation."""
@@ -87034,6 +87070,7 @@ input CbcDataPatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+  changeReason: String
 }
 
 """All input for the `updateCbcDataByRowId` mutation."""
