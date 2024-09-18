@@ -23,6 +23,7 @@ import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
 import { TableCellProps } from '@mui/material';
 import { useFeature } from '@growthbook/growthbook-react';
+import getConfig from 'next/config';
 import {
   filterZones,
   sortStatus,
@@ -249,6 +250,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const [isFirstRender, setIsFirstRender] = useState(true);
 
   const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];
+  const enableTimeMachine =
+    getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
@@ -585,6 +588,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       setSorting(sort);
     }
   };
+  const tableHeightOffset = enableTimeMachine ? '460px' : '360px';
 
   const table = useMaterialReactTable({
     columns,
@@ -595,7 +599,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     muiTableContainerProps: {
       sx: {
         padding: '0 8px 8px 8px',
-        maxHeight: freezeHeader ? 'calc(100vh - 460px)' : '100%',
+        maxHeight: freezeHeader ? `calc(100vh - ${tableHeightOffset})` : '100%',
       },
     },
     layoutMode: isLargeUp ? 'grid' : 'semantic',
