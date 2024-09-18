@@ -1,3 +1,9 @@
+## [1.193.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.0...v1.193.1) (2024-09-18)
+
+### Bug Fixes
+
+- table height when time machine is not shown ([8fa63d9](https://github.com/bcgov/CONN-CCBC-portal/commit/8fa63d9d5e9c7ddbc8f83c1529858c46f004b39f))
+
 # [1.193.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.192.1...v1.193.0) (2024-09-16)
 
 ### Bug Fixes
