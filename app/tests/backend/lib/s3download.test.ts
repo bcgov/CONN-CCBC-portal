@@ -33,7 +33,7 @@ jest.mock('../../../backend/lib/s3client', () => {
   };
 });
 
-jest.setTimeout(10000000);
+jest.setTimeout(1000);
 
 describe('The s3 download', () => {
   let app;
