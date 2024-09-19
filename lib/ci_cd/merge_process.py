@@ -63,53 +63,6 @@ def update_pr_description(pr_url, token):
         else:
             print(f"Failed to update PR description: {response.status_code}")
 
-def get_pull_request_id(pr_url, token):
-    # Extract pull request number from the URL
-    pr_number = pr_url.split("/")[-1]
-
-    # GraphQL query to get pull request ID
-    query = """
-    query GetPullRequestID {
-        repository(owner: "%s", name: "%s") {
-            pullRequest(number: %s) {
-                id
-            }
-        }
-    }
-    """ % (repo_owner, repo_name, pr_number)
-
-    # Send GraphQL request
-    headers = {"Authorization": f"Bearer {token}"}
-    response = requests.post("https://api.github.com/graphql", json={"query": query}, headers=headers)
-
-    if response.status_code != 200:
-        print(f"Failed to retrieve pull request ID: {response.status_code}")
-        return None
-
-    data = response.json()
-    pull_request_id = data.get("data", {}).get("repository", {}).get("pullRequest", {}).get("id")
-    return pull_request_id
-
-def enable_auto_merge(pull_request_id, token):
-    # GraphQL mutation to enable auto merge
-    mutation = """
-    mutation EnableAutoMerge {
-        enablePullRequestAutoMerge(input: {pullRequestId: "%s", mergeMethod: MERGE}) {
-            clientMutationId
-        }
-    }
-    """ % pull_request_id
-
-    # Send GraphQL request
-    headers = {"Authorization": f"Bearer {token}"}
-    response = requests.post("https://api.github.com/graphql", json={"query": mutation}, headers=headers)
-
-    if response.status_code != 200:
-        print(f"Failed to enable auto merge: {response.status_code}")
-        return
-
-    print("Auto merge enabled successfully!")
-
 def check_header_secret(passed_value):
     # Get the value of the environment variable named HEADER_SECRET
     header_secret = os.environ.get('HEADER_SECRET')
@@ -144,7 +97,3 @@ if __name__ == "__main__":
     parts = pr_url.split("/")
     repo_owner = parts[4]
     repo_name = parts[5]
-
-    pull_request_id = get_pull_request_id(pr_url, token)
-    if pull_request_id:
-        enable_auto_merge(pull_request_id, token)
