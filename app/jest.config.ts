@@ -11,7 +11,7 @@ const createJestConfig = nextJest({
   dir: './',
 });
 
-const config: Config = {
+const customJestConfig: Config = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -83,9 +83,7 @@ const config: Config = {
   modulePaths: ['<rootDir>'],
   // An array of directory names to be searched recursively up from the requiring module's location
 
-  // moduleDirectories: [
-  //   "node_modules"
-  // ],
+  // moduleDirectories: ['<rootDir>'],
 
   // An array of file extensions your modules use
   // moduleFileExtensions: [
@@ -202,7 +200,7 @@ const config: Config = {
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  transformIgnorePatterns: ['node_modules/(?!nanoid/.*)'],
+  transformIgnorePatterns: ['/node_modules/'],
   // transformIgnorePatterns: [
   //   "/node_modules/",
   //   "\\.pnp\\.[^\\/]+$"
@@ -221,4 +219,14 @@ const config: Config = {
   // watchman: true,
 };
 
-export default createJestConfig(config);
+const asyncConfig = createJestConfig(customJestConfig);
+
+const defaultExport = async () => {
+  const config = await asyncConfig();
+
+  config.transformIgnorePatterns = ['node_modules/(?!nanoid/.*)'];
+
+  return config;
+};
+
+export default defaultExport;
