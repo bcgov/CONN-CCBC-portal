@@ -560,7 +560,7 @@ const ApplicationForm: React.FC<Props> = ({
     }
 
     if (templateData) {
-      if (templateData.templateNumber === 1) {
+      if (templateData.templateNumber === 1 && !templateData.error) {
         newFormData = {
           ...newFormData,
           benefits: {
@@ -571,7 +571,7 @@ const ApplicationForm: React.FC<Props> = ({
               templateData.data.result.finalEligibleHouseholds,
           },
         };
-      } else if (templateData.templateNumber === 2) {
+      } else if (templateData.templateNumber === 2 && !templateData.error) {
         newFormData = {
           ...newFormData,
           budgetDetails: {
@@ -580,6 +580,33 @@ const ApplicationForm: React.FC<Props> = ({
             totalProjectCost: templateData.data.result.totalProjectCosts,
           },
         };
+      } else if (templateData.error && templateData.templateNumber === 1) {
+        fetch(`/api/email/notifyFailedReadOfTemplateData`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            applicationId: rowId,
+            host: window.location.origin,
+            params: {
+              uuid: newFormData.templateUploads
+                ?.eligibilityAndImpactsCalculator?.[0]?.uuid,
+              templateNumber: templateData.templateNumber,
+            },
+          }),
+        });
+      } else if (templateData.error && templateData.templateNumber === 2) {
+        fetch(`/api/email/notifyFailedReadOfTemplateData`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            applicationId: rowId,
+            host: window.location.origin,
+            params: {
+              uuid: newFormData.templateUploads?.detailedBudget?.[0]?.uuid,
+              templateNumber: templateData.templateNumber,
+            },
+          }),
+        });
       }
     }
 

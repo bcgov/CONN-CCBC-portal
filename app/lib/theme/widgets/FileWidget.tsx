@@ -102,6 +102,10 @@ const FileWidget: React.FC<FileWidgetProps> = ({
               });
             } else {
               isTemplateValid = false;
+              setTemplateData({
+                templateNumber,
+                error: true,
+              });
             }
           });
         }
