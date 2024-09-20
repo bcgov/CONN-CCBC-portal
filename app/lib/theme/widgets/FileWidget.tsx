@@ -86,19 +86,19 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       if (file) {
         fileFormData.append('file', file);
         if (setTemplateData) {
-          await fetch(
-            `/api/applicant/template?templateNumber=${templateNumber}`,
-            {
-              method: 'POST',
-              body: fileFormData,
-            }
-          ).then((response) => {
+          try {
+            const response = await fetch(
+              `/api/applicant/template?templateNumber=${templateNumber}`,
+              {
+                method: 'POST',
+                body: fileFormData,
+              }
+            );
             if (response.ok) {
-              response.json().then((data) => {
-                setTemplateData({
-                  templateNumber,
-                  data,
-                });
+              const data = response.json();
+              setTemplateData({
+                templateNumber,
+                data,
               });
             } else {
               isTemplateValid = false;
@@ -107,7 +107,13 @@ const FileWidget: React.FC<FileWidgetProps> = ({
                 error: true,
               });
             }
-          });
+          } catch (error) {
+            isTemplateValid = false;
+            setTemplateData({
+              templateNumber,
+              error: true,
+            });
+          }
         }
       }
     }
