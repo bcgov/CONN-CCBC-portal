@@ -63,7 +63,7 @@
     "archiver": "^7.0.1",
     "body-parser": "1.20.3",
     "cheerio": "^1.0.0-rc.12",
-    "connect-pg-simple": "^7.0.0",
+    "connect-pg-simple": "^10.0.0",
     "convict": "^6.2.4",
     "cookie-parser": "^1.4.6",
     "dayjs": "^1.11.11",
