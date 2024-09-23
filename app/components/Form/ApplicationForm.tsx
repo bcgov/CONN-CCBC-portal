@@ -598,7 +598,6 @@ const ApplicationForm: React.FC<Props> = ({
           }),
         });
       } else if (templateData.error && templateData.templateNumber === 2) {
-        console.log(newFormData.templateUploads?.detailedBudget?.[0]);
         fetch(`/api/email/notifyFailedReadOfTemplateData`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
