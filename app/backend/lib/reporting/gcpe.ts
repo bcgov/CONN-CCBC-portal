@@ -15,19 +15,33 @@ import {
   getHouseholdCount,
   getTotalProjectBudget,
   handleProjectType,
+  handleCbcEconomicRegions,
 } from './util';
 
 const getCbcDataQuery = `
-    query getCbcData {
-        allCbcData {
-            edges {
-                node {
-                    projectNumber
-                    jsonData
+  query getCbcData {
+    allCbcData {
+      edges {
+        node {
+          projectNumber
+          jsonData
+          cbcByCbcId {
+            communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId {
+              edges {
+                cbcProjectCommunitiesByCommunitiesSourceDataId {
+                  nodes {
+                    communitiesSourceDataByCommunitiesSourceDataId {
+                      economicRegion
+                    }
+                  }
                 }
+              }
             }
+          }
         }
+      }
     }
+  }
 `;
 
 const getCcbcQuery = `
@@ -210,7 +224,13 @@ const generateExcelData = async (
       // project title
       { value: node?.jsonData?.projectTitle },
       // economic region
-      { value: 'TBD' },
+      {
+        value: handleCbcEconomicRegions(
+          node?.cbcByCbcId
+            ?.communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId
+            ?.edges
+        ),
+      },
       // federal funding source
       { value: node?.jsonData?.federalFundingSource },
       // status
