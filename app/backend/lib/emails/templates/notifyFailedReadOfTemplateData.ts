@@ -9,6 +9,7 @@ interface EmailTemplateParams {
   uuid: string;
   organizationName: string | undefined;
   projectTitle: string | undefined;
+  uploadedAt: string | undefined;
 }
 
 const notifyFailedReadOfTemplateData: EmailTemplateProvider = (
@@ -32,7 +33,7 @@ const notifyFailedReadOfTemplateData: EmailTemplateProvider = (
     subject: `Template ${params.templateNumber} - Failed Response`,
     body: `
     <p>
-    The following template upload by an applicant had a a failed response at:
+    The following template upload by an applicant had a failed response at ${params.uploadedAt}:
     </p>
     <ul>
       <li>Environment: ${env}</li>

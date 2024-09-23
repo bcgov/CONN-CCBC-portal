@@ -100,6 +100,8 @@ const ApplicantRfiPage = ({
       };
       setNewFormData(newFormDataWithTemplateTwo);
     } else if (templateData?.error && templateData?.templateNumber === 1) {
+      const fileArrayLength =
+        newFormData.templateUploads?.eligibilityAndImpactsCalculator?.length;
       fetch(`/api/email/notifyFailedReadOfTemplateData`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -109,14 +111,17 @@ const ApplicantRfiPage = ({
           params: {
             templateNumber: templateData.templateNumber,
             uuid: newFormData.templateUploads
-              ?.eligibilityAndImpactsCalculator?.[0]?.uuid,
+              ?.eligibilityAndImpactsCalculator?.[fileArrayLength - 1]?.uuid,
             uploadedAt:
-              newFormData.templateUploads?.eligibilityAndImpactsCalculator?.[0]
-                ?.uploadedAt,
+              newFormData.templateUploads?.eligibilityAndImpactsCalculator?.[
+                fileArrayLength - 1
+              ]?.uploadedAt,
           },
         }),
       });
     } else if (templateData?.error && templateData?.templateNumber === 2) {
+      const fileArrayLength =
+        newFormData.templateUploads?.detailedBudget?.length;
       fetch(`/api/email/notifyFailedReadOfTemplateData`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -125,9 +130,12 @@ const ApplicantRfiPage = ({
           host: window.location.origin,
           params: {
             templateNumber: templateData.templateNumber,
-            uuid: newFormData.templateUploads?.detailedBudget?.[0]?.uuid,
+            uuid: newFormData.templateUploads?.detailedBudget?.[
+              fileArrayLength - 1
+            ]?.uuid,
             uploadedAt:
-              newFormData.templateUploads?.detailedBudget?.[0]?.uploadedAt,
+              newFormData.templateUploads?.detailedBudget?.[fileArrayLength - 1]
+                ?.uploadedAt,
           },
         }),
       });

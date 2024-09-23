@@ -590,11 +590,15 @@ const ApplicationForm: React.FC<Props> = ({
             params: {
               uuid: newFormData.templateUploads
                 ?.eligibilityAndImpactsCalculator?.[0]?.uuid,
+              uploadedAt:
+                newFormData.templateUploads
+                  ?.eligibilityAndImpactsCalculator?.[0]?.uploadedAt,
               templateNumber: templateData.templateNumber,
             },
           }),
         });
       } else if (templateData.error && templateData.templateNumber === 2) {
+        console.log(newFormData.templateUploads?.detailedBudget?.[0]);
         fetch(`/api/email/notifyFailedReadOfTemplateData`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -603,6 +607,8 @@ const ApplicationForm: React.FC<Props> = ({
             host: window.location.origin,
             params: {
               uuid: newFormData.templateUploads?.detailedBudget?.[0]?.uuid,
+              uploadedAt:
+                newFormData.templateUploads?.detailedBudget?.[0]?.uploadedAt,
               templateNumber: templateData.templateNumber,
             },
           }),
