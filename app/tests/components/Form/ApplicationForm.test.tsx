@@ -717,7 +717,6 @@ describe('The application form', () => {
           host: 'http://localhost',
           params: {
             templateNumber: 2,
-            uploadedAt: expect.anything(),
           },
         }),
         headers: {
