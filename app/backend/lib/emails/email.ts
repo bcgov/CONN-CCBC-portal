@@ -81,7 +81,6 @@ email.post('/api/email/notifyApplicationSubmission', limiter, (req, res) => {
 
 email.post('/api/email/notifyFailedReadOfTemplateData', limiter, (req, res) => {
   const { params } = req.body;
-  console.log(params, req.body);
   return handleEmailNotification(
     req,
     res,

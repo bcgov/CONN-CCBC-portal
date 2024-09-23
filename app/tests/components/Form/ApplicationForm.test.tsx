@@ -677,7 +677,6 @@ describe('The application form', () => {
     });
 
     global.fetch = jest.fn((url) => {
-      console.log(url, url.includes('templateNumber'));
       if (url.includes('templateNumber')) {
         return Promise.resolve({
           status: 300,

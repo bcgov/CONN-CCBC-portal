@@ -151,7 +151,6 @@ const handleEmailNotification = async (
     return res.status(404).end();
   }
   const eventInitiator = getAuthUser(req);
-  console.log(params);
   const { applicationId, host } = req.body;
   const {
     emailTo,
