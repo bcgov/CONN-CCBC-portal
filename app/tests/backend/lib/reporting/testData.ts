@@ -21599,6 +21599,57 @@ export const cbcDataQueryResult = {
               nditConditionalApprovalLetterSent: true,
               bindingAgreementSignedNditRecipient: true,
             },
+            cbcByCbcId: {
+              communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId:
+                {
+                  edges: [
+                    {
+                      cbcProjectCommunitiesByCommunitiesSourceDataId: {
+                        nodes: [
+                          {
+                            communitiesSourceDataByCommunitiesSourceDataId: {
+                              economicRegion: 'Northeast / Nord-est',
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      cbcProjectCommunitiesByCommunitiesSourceDataId: {
+                        nodes: [
+                          {
+                            communitiesSourceDataByCommunitiesSourceDataId: {
+                              economicRegion: 'Northeast / Nord-est',
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      cbcProjectCommunitiesByCommunitiesSourceDataId: {
+                        nodes: [
+                          {
+                            communitiesSourceDataByCommunitiesSourceDataId: {
+                              economicRegion: 'Thompson--Okanagan',
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      cbcProjectCommunitiesByCommunitiesSourceDataId: {
+                        nodes: [
+                          {
+                            communitiesSourceDataByCommunitiesSourceDataId: {
+                              economicRegion: 'Northeast / Nord-est',
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+            },
           },
         },
       ],
