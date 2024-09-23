@@ -271,4 +271,152 @@ describe('The applicantRfiId Page', () => {
       }
     );
   });
+  it('uses template 1 and 2 data to notify if failed template read', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const mockSuccessResponseTemplateOne = {
+      totalNumberHouseholdsImpacted: 60,
+      finalEligibleHouseholds: 4,
+    };
+    const mockFetchPromiseTemplateOne = Promise.resolve({
+      ok: false,
+      status: 200,
+      json: () => Promise.resolve({ result: mockSuccessResponseTemplateOne }),
+    });
+
+    const mockSuccessResponseTemplateTwo = {
+      totalEligibleCosts: 92455,
+      totalProjectCosts: 101230,
+    };
+    const mockFetchPromiseTemplateTwo = Promise.resolve({
+      ok: false,
+      status: 200,
+      json: () => Promise.resolve({ result: mockSuccessResponseTemplateTwo }),
+    });
+    global.fetch = jest.fn((url) => {
+      if (url.includes('templateNumber=1')) return mockFetchPromiseTemplateOne;
+      return mockFetchPromiseTemplateTwo;
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file.xlsx', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    act(() => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+    const formData = new FormData();
+    formData.append('file', file);
+
+    expect(global.fetch).toHaveBeenCalledTimes(2);
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/applicant/template?templateNumber=1',
+      { body: formData, method: 'POST' }
+    );
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/email/notifyFailedReadOfTemplateData',
+      {
+        body: '{"applicationId":"1","host":"http://localhost","params":{"templateNumber":1}}',
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+      }
+    );
+
+    const inputFile2 = screen.getAllByTestId('file-test')[1];
+    await act(async () => {
+      fireEvent.change(inputFile2, { target: { files: [file] } });
+    });
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 2,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(global.fetch).toHaveBeenCalledTimes(4);
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/applicant/template?templateNumber=2',
+      { body: formData, method: 'POST' }
+    );
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+    });
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'updateWithTrackingRfiMutation',
+      {
+        input: {
+          jsonData: {
+            rfiType: [],
+            rfiAdditionalFiles: {
+              eligibilityAndImpactsCalculatorRfi: true,
+              detailedBudgetRfi: true,
+              eligibilityAndImpactsCalculator: [
+                {
+                  id: 1,
+                  uuid: 'string',
+                  name: 'file.xlsx',
+                  size: 1,
+                  type: 'application/vnd.ms-excel',
+                  uploadedAt: expect.anything(),
+                },
+              ],
+              detailedBudget: [
+                {
+                  id: 2,
+                  uuid: 'string',
+                  name: 'file.xlsx',
+                  size: 1,
+                  type: 'application/vnd.ms-excel',
+                  uploadedAt: expect.anything(),
+                },
+              ],
+              geographicCoverageMapRfi: true,
+              geographicCoverageMap: [
+                {
+                  uuid: 1,
+                  name: '1.kmz',
+                  size: 0,
+                  type: '',
+                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
+                },
+                {
+                  uuid: 2,
+                  name: '2.kmz',
+                  size: 0,
+                  type: '',
+                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
+                },
+              ],
+            },
+            rfiDueBy: '2022-12-22',
+          },
+          rfiRowId: 1,
+        },
+      }
+    );
+  });
 });
