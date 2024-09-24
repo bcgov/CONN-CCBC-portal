@@ -277,7 +277,7 @@ describe('EditCbcSection', () => {
       'root_federalProjectNumber'
     );
     const parentElement = projectStatusElement.closest(
-      '[class^="ProjectFieldTemplate__ErrorWrapper"]'
+      '[class^="ProjectFieldTemplate__StyledInputWrapper"]'
     );
 
     expect(parentElement).toHaveStyle({
@@ -299,7 +299,7 @@ describe('EditCbcSection', () => {
       'root_federalProjectNumber'
     );
     const parentElement = projectStatusElement.closest(
-      '[class^="ProjectFieldTemplate__ErrorWrapper"]'
+      '[class^="ProjectFieldTemplate__StyledInputWrapper"]'
     );
 
     expect(parentElement).toHaveStyle({

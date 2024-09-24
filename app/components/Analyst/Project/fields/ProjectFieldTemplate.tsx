@@ -34,24 +34,33 @@ const StyledContainer = styled.div`
   }
 `;
 
-const ErrorWrapper = styled.div<{ errorColor?: string }>`
-  position: relative;
-  background-color: ${(props) => props.errorColor};
-  padding: 8px;
-  margin-bottom: 8px;
-  max-width: calc(100% - 8px) !important;
+interface StyledInputWrapperProps {
+  errorColor?: string;
+  hasError?: boolean;
+}
 
-  .pg-select-wrapper,
-  .datepicker-widget,
-  .url-widget-wrapper,
-  .ccbcid-widget-wrapper {
-    background-color: white !important;
-    max-width: calc(340px - 8px) !important;
-  }
+const StyledInputWrapper = styled.div<StyledInputWrapperProps>`
+  ${(props) =>
+    props.hasError &&
+    `
+      position: relative;
+      background-color: ${props.errorColor};
+      padding: 8px;
+      margin-bottom: 8px;
+      max-width: calc(100% - 8px) !important;
 
-  [class*='StyledMessage']:empty {
-    display: none;
-  }
+      .pg-select-wrapper,
+      .datepicker-widget,
+      .url-widget-wrapper,
+      .ccbcid-widget-wrapper {
+        background-color: white !important;
+        max-width: calc(340px - 8px) !important;
+      }
+
+      [class*='StyledMessage']:empty {
+        display: none;
+      }
+    `}
 `;
 
 const StyledHelp = styled(Help)`
@@ -80,22 +89,21 @@ const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({
   const { errorColor, __errors: formContextErrors } =
     formContext?.errors?.[fieldName] || {};
   const hasFormContextError = formContextErrors?.length > 0;
+  const showError = hasFormContextError && showErrorHint;
 
   return (
     <>
       {!hidden && (
         <StyledContainer>
           {uiTitle && <StyledH4>{uiTitle}</StyledH4>}
-          {showErrorHint && hasFormContextError ? (
-            <ErrorWrapper errorColor={errorColor}>
-              <div>{children}</div>
+          <StyledInputWrapper errorColor={errorColor} hasError={showError}>
+            <div>{children}</div>
+            {showError && (
               <Tooltip title={formContextErrors?.join()}>
                 <StyledHelp />
               </Tooltip>
-            </ErrorWrapper>
-          ) : (
-            children
-          )}
+            )}
+          </StyledInputWrapper>
         </StyledContainer>
       )}
     </>
