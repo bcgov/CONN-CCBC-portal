@@ -5,7 +5,7 @@ metadata:
   name: {{ template "ccbc.fullname" . }}-cron-sp
   labels: {{ include "ccbc.labels" . | nindent 4 }}
 spec:
-  suspend: false
+  suspend: true
   schedule: {{ .Values.cronsp.schedule }}
   timeZone: "America/Vancouver"
   jobTemplate:
