@@ -1,10 +1,6 @@
 import { FieldProps } from '@rjsf/utils';
 import React from 'react';
-import {
-  StyledColLeft,
-  StyledColRight,
-  StyledColError,
-} from 'components/Review/Components';
+import { StyledColLeft, StyledColRight } from 'components/Review/Components';
 
 const ReviewInlineArrayField: React.FC<FieldProps> = ({
   idSchema,
@@ -16,27 +12,29 @@ const ReviewInlineArrayField: React.FC<FieldProps> = ({
   const fieldName = id?.split('_')?.[2];
   const pageName = id?.split('_')?.[1];
   const formErrorSchema = formContext?.errors ?? formContext.formErrorSchema;
-  const errors = formErrorSchema?.[pageName]?.[fieldName]?.__errors;
+  const hasError =
+    formErrorSchema?.[pageName]?.[fieldName]?.__errors?.length > 0;
   return (
     <tr>
       <StyledColLeft id={id}>{schema.title}</StyledColLeft>
-      {errors ? (
-        <StyledColError id={`${id}-error`} />
-      ) : (
-        <StyledColRight id={`${id}-value`}>
-          {formData?.map((el, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <React.Fragment key={`${id}_${index}`}>
-              {el.toString()}
-              {index < formData.length - 1 && (
-                <>
-                  ,<br />
-                </>
-              )}
-            </React.Fragment>
-          ))}
-        </StyledColRight>
-      )}
+      <StyledColRight
+        id={hasError ? `${id}-error` : `${id}-value`}
+        hasError={hasError}
+      >
+        {hasError
+          ? null
+          : formData?.map((el, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <React.Fragment key={`${id}_${index}`}>
+                {el.toString()}
+                {index < formData.length - 1 && (
+                  <>
+                    ,<br />
+                  </>
+                )}
+              </React.Fragment>
+            ))}
+      </StyledColRight>
     </tr>
   );
 };
