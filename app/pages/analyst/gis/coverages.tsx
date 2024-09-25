@@ -95,7 +95,6 @@ const CoveragesTab = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-
   const fileComponentValue = [
     {
       id: '',
@@ -183,7 +182,7 @@ const CoveragesTab = () => {
           <ButtonLink
             onClick={handleUpload}
             href="#"
-            disabled={isUploading || selectedFile === null}
+            disabled={isUploading || !selectedFile}
           >
             {isUploading ? 'Uploading' : 'Upload'}
           </ButtonLink>
