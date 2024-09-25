@@ -29,7 +29,6 @@ s3upload.post('/api/s3/upload', limiter, async (req, res) => {
     return res.status(404).end();
   }
   const form = formidable(commonFormidableConfig);
-
   const files = await parseForm(form, req).catch((err) => {
     return res.status(400).json({ error: err }).end();
   });
@@ -42,7 +41,7 @@ s3upload.post('/api/s3/upload', limiter, async (req, res) => {
   if (!uploaded) {
     return res.status(200).end();
   }
-  const file = fs.readFileSync(uploaded.filepath, 'utf8');
+  const file = fs.readFileSync(uploaded.filepath);
 
   const params = {
     Bucket: AWS_S3_BUCKET,
@@ -51,7 +50,6 @@ s3upload.post('/api/s3/upload', limiter, async (req, res) => {
   };
 
   const uploadResult = await uploadFileToS3(params);
-
   if (uploadResult) {
     return res.json({ status: 'success' });
   }
