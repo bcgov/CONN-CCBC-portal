@@ -1,3 +1,9 @@
+## [1.193.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.5...v1.193.6) (2024-09-26)
+
+### Bug Fixes
+
+- cbc edit input focus issue ([df5a5eb](https://github.com/bcgov/CONN-CCBC-portal/commit/df5a5ebb8677cf167036632e0dcec93ef0c88db2))
+
 ## [1.193.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.4...v1.193.5) (2024-09-26)
 
 ## [1.193.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.3...v1.193.4) (2024-09-26)

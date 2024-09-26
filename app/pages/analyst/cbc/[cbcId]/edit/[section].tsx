@@ -202,8 +202,16 @@ const EditCbcSection = ({
     return getAllEconomicRegionNames(allCommunitiesSourceData);
   }, [allCommunitiesSourceData]);
 
-  const theme = { ...ProjectTheme };
-  theme.templates.ArrayFieldTemplate = ArrayLocationFieldTemplate;
+  const theme = useMemo(
+    () => ({
+      ...ProjectTheme,
+      templates: {
+        ...ProjectTheme.templates,
+        ArrayFieldTemplate: ArrayLocationFieldTemplate,
+      },
+    }),
+    []
+  );
 
   const handleSubmit = () => {
     const {

@@ -1,6 +1,6 @@
 import { FieldProps, RJSFSchema } from '@rjsf/utils';
 import React from 'react';
-import { StyledColLeft, StyledColRight, StyledColError } from '../Components';
+import { StyledColLeft, StyledColRight } from '../Components';
 
 /**
   Field to display a list of yes/no values instead of the enum for array type fields
@@ -23,7 +23,7 @@ const ArrayBooleanField: React.FC<FieldProps> = ({
           <tr key={item}>
             <StyledColLeft id={id}>{item}</StyledColLeft>
             {isError ? (
-              <StyledColError id={`${id}-error`} />
+              <StyledColRight id={`${id}-error`} hasError />
             ) : (
               <StyledColRight id={`${id}-value`}>
                 {isValueTrue ? 'Yes' : 'No'}
