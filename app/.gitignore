@@ -49,3 +49,6 @@ yalc.lock
 # Persisted queries
 .persisted_operations
 /schema/queryMap.json
+
+# Sentry Config File
+.env.sentry-build-plugin

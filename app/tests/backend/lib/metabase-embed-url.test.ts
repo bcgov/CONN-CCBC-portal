@@ -16,7 +16,7 @@ jest.mock('../../../utils/getAuthRole');
 const sign = jest.spyOn(jwt, 'sign');
 sign.mockImplementation(() => 'signedUrl');
 
-jest.setTimeout(10000000);
+jest.setTimeout(1000);
 
 describe('The metabase embed url', () => {
   let app;
