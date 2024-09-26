@@ -27,6 +27,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
       fundingFromAllOtherSources: '',
       amountRequestedFromProvince: '',
       totalInfrastructureBankFunding: '',
+      totalFNHAFunding: '',
       totalFundingRequestedCCBC: '',
     },
     detailedBudget: {
@@ -120,6 +121,13 @@ const readBudget = async (sow_id, wb, sheet_name) => {
         total: '',
       },
       infrastructureBankFunding: {
+        2324: '',
+        2425: '',
+        2526: '',
+        2627: '',
+        total: '',
+      },
+      fnhaFunding: {
         2324: '',
         2425: '',
         2526: '',
@@ -472,6 +480,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
         budget[row]['K'];
       row++;
       // next 7 are possible other
+      let fnhaFundingRow = {};
       for (let otherRow = row; otherRow < row + 7; otherRow++) {
         const otherSuspect = budget[otherRow]['B'];
         let otherValue;
@@ -483,8 +492,14 @@ const readBudget = async (sow_id, wb, sheet_name) => {
         }
         // if we don't have the predefined phrase, we have a custom other
         if (
-          otherValue.indexOf('Identify other source of funding by name') === -1
+          otherValue.indexOf('Identify other source of funding by name') > -1
         ) {
+          continue;
+        } else if (
+          otherValue.indexOf('First Nations Health Authority (FNHA)') > -1
+        ) {
+          fnhaFundingRow = budget[otherRow];
+        } else {
           detailedBudget.summaryOfEstimatedProjectFunding.otherFundingPartners.push(
             {
               fundingPartnersName: budget[otherRow]['B'],
@@ -497,6 +512,19 @@ const readBudget = async (sow_id, wb, sheet_name) => {
           );
         }
       }
+
+      // FNHA Funding
+      detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding[2324] =
+        fnhaFundingRow['G'] ?? 0;
+      detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding[2425] =
+        fnhaFundingRow['H'] ?? 0;
+      detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding[2526] =
+        fnhaFundingRow['I'] ?? 0;
+      detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding[2627] =
+        fnhaFundingRow['J'] ?? 0;
+      detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding.total =
+        fnhaFundingRow['K'] ?? 0;
+      detailedBudget.summaryTable.totalFNHAFunding = fnhaFundingRow['K'] ?? 0;
     }
     // get totals
     if (value.indexOf('Total Financial Contributions') > -1) {
@@ -630,6 +658,12 @@ const ValidateData = (data) => {
     errors.push({
       level: 'cell',
       error: 'Invalid data: Amount CIB will contribute',
+    });
+  }
+  if (typeof data.totalFNHAFunding !== 'number') {
+    errors.push({
+      level: 'cell',
+      error: 'Invalid data: First Nations Health Authority (FNHA)',
     });
   }
   if (typeof data.fundingFromAllOtherSources !== 'number') {
