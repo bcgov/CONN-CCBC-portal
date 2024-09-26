@@ -173,7 +173,9 @@ const getSowData = (sowData, baseSowData) => {
         cibFunding:
           sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
             ?.totalInfrastructureBankFunding,
-        fhnaFunding: null,
+        fhnaFunding:
+          sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
+            ?.totalFNHAFunding,
         otherFunding:
           sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
             ?.fundingFromAllOtherSources,
@@ -203,6 +205,7 @@ const getSowData = (sowData, baseSowData) => {
       fundingRequestedCcbc: 'SOW',
       applicantAmount: 'SOW',
       cibFunding: 'SOW',
+      fhnaFunding: 'SOW',
       otherFunding: 'SOW',
       totalProjectBudget: 'SOW',
       effectiveStartDate: 'SOW',
