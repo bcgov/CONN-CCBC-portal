@@ -9010,10 +9010,10 @@ happo-cypress@^4.2.0:
   resolved "https://registry.yarnpkg.com/happo-cypress/-/happo-cypress-4.2.0.tgz#899c6e2e16af197e8b65a89b6f056c541df6be7f"
   integrity sha512-58OheJOeZpfXE78FkMJ4qv0LI5IjUcPyUaDrBAKkqlgAYtt6ZhCYSUH2V3AYDIIz+tWqAE4roF93/5sueggy5Q==
 
-happo-e2e@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/happo-e2e/-/happo-e2e-2.6.1.tgz#c379fff183088096ab572623b1e0fa04cf5bcfcd"
-  integrity sha512-mSWtVuYOycr/vclp574XJ6mo44+FVlmizBhczfioLt8zRm/sS7PpLXulCUJL8YF4/BDdW4KwIT1npyg6/PxQ9Q==
+happo-e2e@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/happo-e2e/-/happo-e2e-3.0.0.tgz#279e6cb6a74708eb78728c23d5c7d072522a1cad"
+  integrity sha512-RxTf6qiqfGKWoFy3geMj46FpYgbBbXSpFfWE9Vct60gAS40Qy6yJoZfyxx7yJOgaM9p0cF1s7BJevrBVjDtnrQ==
   dependencies:
     archiver "^7.0.1"
     async-retry "^1.3.3"
