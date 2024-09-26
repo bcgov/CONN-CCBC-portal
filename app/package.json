@@ -99,7 +99,7 @@
     "postgraphile-plugin-connection-filter": "^2.3.0",
     "postinstall-postinstall": "^2.1.0",
     "react": "^18.3.1",
-    "react-currency-input-field": "^3.6.4",
+    "react-currency-input-field": "^3.8.0",
     "react-relay": "^13.2.0",
     "react-relay-network-modern": "^6.2.1",
     "react-typography": "^0.16.23",

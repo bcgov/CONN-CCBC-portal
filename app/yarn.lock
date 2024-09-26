@@ -12378,10 +12378,10 @@ react-colorful@^5.1.2:
   resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-5.5.1.tgz#29d9c4e496f2ca784dd2bb5053a3a4340cfaf784"
   integrity sha512-M1TJH2X3RXEt12sWkpa6hLc/bbYS0H6F4rIqjQZ+RxNBstpY67d9TrFXtqdZwhpmBXcCwEi7stKqFue3ZRkiOg==
 
-react-currency-input-field@^3.6.4:
-  version "3.6.4"
-  resolved "https://registry.yarnpkg.com/react-currency-input-field/-/react-currency-input-field-3.6.4.tgz#8063f9a445ba246063f0254ced4015210c90593a"
-  integrity sha512-0SifhqMirGt5+inzHslfbf71ZYoBt420pkMM6oBSGS40CsuPcLIOV19B1LPSCz7dWPGYi/kw5TOFQ0qALrn6Wg==
+react-currency-input-field@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/react-currency-input-field/-/react-currency-input-field-3.8.0.tgz#8b58d8e37ae00c86f43722bdb4a296d84703b19c"
+  integrity sha512-DKSIjacrvgUDOpuB16b+OVDvp5pbCt+s+RHJgpRZCHNhzg1yBpRUoy4fbnXpeOj0kdbwf5BaXCr2mAtxEujfhg==
 
 react-dom@^18.3.1:
   version "18.3.1"
