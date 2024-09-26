@@ -296,7 +296,7 @@ describe('The ProjectInformation form', () => {
     ).toBeInTheDocument();
   });
 
-  it('calls the mutation on Change Request save', async () => {
+  it('calls the mutation on Change Request save and send email notification for SOW upload', async () => {
     componentTestingHelper.loadQuery(mockDataQueryPayload);
     componentTestingHelper.renderComponent();
 
@@ -406,6 +406,14 @@ describe('The ProjectInformation form', () => {
     expect(
       screen.getByText('Statement of work successfully imported')
     ).toBeInTheDocument();
+
+    expect(global.fetch).toHaveBeenCalledWith('/api/email/notifySowUpload', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: expect.anything(),
+    });
   });
 
   it('should show a spinner when the sow is being imported', async () => {

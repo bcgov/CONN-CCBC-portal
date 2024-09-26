@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
@@ -21,6 +21,7 @@ import {
   isMilestonesOpen,
   isConditionalApprovalComplete,
 } from 'utils/projectAccordionValidators';
+import { useRouter } from 'next/router';
 
 const getProjectQuery = graphql`
   query projectQuery($rowId: Int!) {
@@ -75,6 +76,23 @@ const Project = ({
   const [isCommunityProgressExpanded, setIsCommunityProgressExpanded] =
     useState(false);
 
+  const { section: toggledSection } = useRouter().query;
+  const projectInformationRef = useRef(null);
+
+  useEffect(() => {
+    const sectionRefs = {
+      projectInformation: projectInformationRef,
+    };
+    const anchorRef = sectionRefs[toggledSection as string];
+    if (toggledSection && anchorRef?.current) {
+      window.scrollTo({
+        top:
+          anchorRef.current.getBoundingClientRect().top + window.scrollY + 100,
+        behavior: 'smooth',
+      });
+    }
+  }, [toggledSection]);
+
   useEffect(() => {
     const isFundingAgreementSigned =
       projectInformation?.jsonData?.hasFundingAgreementBeenSigned;
@@ -118,10 +136,12 @@ const Project = ({
         )}
         {showAnnouncement && <AnnouncementsForm query={query} />}
         {showProjectInformation && (
-          <ProjectInformationForm
-            application={applicationByRowId}
-            isExpanded={isProjectInformationExpanded}
-          />
+          <div ref={projectInformationRef}>
+            <ProjectInformationForm
+              application={applicationByRowId}
+              isExpanded={isProjectInformationExpanded}
+            />
+          </div>
         )}
         {showCommunityProgressReport && (
           <CommunityProgressReportForm
