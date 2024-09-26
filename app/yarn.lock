@@ -2782,10 +2782,10 @@
   dependencies:
     "@fortawesome/fontawesome-common-types" "6.2.0"
 
-"@fortawesome/react-fontawesome@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@fortawesome/react-fontawesome/-/react-fontawesome-0.2.0.tgz#d90dd8a9211830b4e3c08e94b63a0ba7291ddcf4"
-  integrity sha512-uHg75Rb/XORTtVt7OS9WoK8uM276Ufi7gCzshVWkUJbHhh3svsUUeqXerrM96Wm7fRiDzfKRwSoahhMIkGAYHw==
+"@fortawesome/react-fontawesome@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@fortawesome/react-fontawesome/-/react-fontawesome-0.2.2.tgz#68b058f9132b46c8599875f6a636dad231af78d4"
+  integrity sha512-EnkrprPNqI6SXJl//m29hpaNzOp1bruISWaOiRtkMi/xSvHJlzc2j2JAYS7egxt/EbjSNV/k6Xy0AQI6vB2+1g==
   dependencies:
     prop-types "^15.8.1"
 
@@ -8455,9 +8455,9 @@ find-babel-config@^2.1.1:
     path-exists "^4.0.0"
 
 find-my-way@^8.0.0:
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/find-my-way/-/find-my-way-8.2.0.tgz#ef1b83d008114a300118c9c707d8dc65947d9960"
-  integrity sha512-HdWXgFYc6b1BJcOBDBwjqWuHJj1WYiqrxSh25qtU4DabpMFdj/gSunNBQb83t+8Zt67D7CXEzJWTkxaShMTMOA==
+  version "8.2.2"
+  resolved "https://registry.yarnpkg.com/find-my-way/-/find-my-way-8.2.2.tgz#f3e78bc6ead2da4fdaa201335da3228600ed0285"
+  integrity sha512-Dobi7gcTEq8yszimcfp/R7+owiT4WncAJ7VTTgFH1jYJ5GaG1FbhjwDG820hptN0QDFvzVY3RfCzdInvGPGzjA==
   dependencies:
     fast-deep-equal "^3.1.3"
     fast-querystring "^1.0.0"
@@ -9010,10 +9010,10 @@ happo-cypress@^4.2.0:
   resolved "https://registry.yarnpkg.com/happo-cypress/-/happo-cypress-4.2.0.tgz#899c6e2e16af197e8b65a89b6f056c541df6be7f"
   integrity sha512-58OheJOeZpfXE78FkMJ4qv0LI5IjUcPyUaDrBAKkqlgAYtt6ZhCYSUH2V3AYDIIz+tWqAE4roF93/5sueggy5Q==
 
-happo-e2e@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/happo-e2e/-/happo-e2e-2.6.1.tgz#c379fff183088096ab572623b1e0fa04cf5bcfcd"
-  integrity sha512-mSWtVuYOycr/vclp574XJ6mo44+FVlmizBhczfioLt8zRm/sS7PpLXulCUJL8YF4/BDdW4KwIT1npyg6/PxQ9Q==
+happo-e2e@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/happo-e2e/-/happo-e2e-3.0.0.tgz#279e6cb6a74708eb78728c23d5c7d072522a1cad"
+  integrity sha512-RxTf6qiqfGKWoFy3geMj46FpYgbBbXSpFfWE9Vct60gAS40Qy6yJoZfyxx7yJOgaM9p0cF1s7BJevrBVjDtnrQ==
   dependencies:
     archiver "^7.0.1"
     async-retry "^1.3.3"
@@ -12378,10 +12378,10 @@ react-colorful@^5.1.2:
   resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-5.5.1.tgz#29d9c4e496f2ca784dd2bb5053a3a4340cfaf784"
   integrity sha512-M1TJH2X3RXEt12sWkpa6hLc/bbYS0H6F4rIqjQZ+RxNBstpY67d9TrFXtqdZwhpmBXcCwEi7stKqFue3ZRkiOg==
 
-react-currency-input-field@^3.6.4:
-  version "3.6.4"
-  resolved "https://registry.yarnpkg.com/react-currency-input-field/-/react-currency-input-field-3.6.4.tgz#8063f9a445ba246063f0254ced4015210c90593a"
-  integrity sha512-0SifhqMirGt5+inzHslfbf71ZYoBt420pkMM6oBSGS40CsuPcLIOV19B1LPSCz7dWPGYi/kw5TOFQ0qALrn6Wg==
+react-currency-input-field@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/react-currency-input-field/-/react-currency-input-field-3.8.0.tgz#8b58d8e37ae00c86f43722bdb4a296d84703b19c"
+  integrity sha512-DKSIjacrvgUDOpuB16b+OVDvp5pbCt+s+RHJgpRZCHNhzg1yBpRUoy4fbnXpeOj0kdbwf5BaXCr2mAtxEujfhg==
 
 react-dom@^18.3.1:
   version "18.3.1"

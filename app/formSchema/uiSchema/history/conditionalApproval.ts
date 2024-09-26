@@ -24,6 +24,7 @@ const conditionalApprovalSchema = {
         title: 'ISED announcement',
       },
       federalRequested: {
+        type: 'number',
         title: 'Federal requested',
       },
       letterOfApprovalUpload: {
