@@ -43,6 +43,9 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
     value: geographicNameId,
     label: bcGeographicName,
   });
+  const [economicRegionInputValue, setEconomicRegionInputValue] = useState('');
+  const [regionalDistrictInputValue, setRegionalDistrictValue] = useState('');
+  const [geographicNameInputValue, setGeographicNameInputValue] = useState('');
 
   useEffect(() => {
     setSelectedEconomicRegion(economicRegion);
@@ -119,9 +122,12 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
             setSelectedEconomicRegion(val);
           }
         }}
+        onInputChange={(e, val) => {
+          setEconomicRegionInputValue(val);
+        }}
         style={{ width: '200px' }}
         value={selectedEconomicRegion}
-        inputValue={selectedEconomicRegion ?? ''}
+        inputValue={economicRegionInputValue}
         options={economicRegionOptions}
         getOptionLabel={(option) => option}
         renderInput={(params) => (
@@ -147,8 +153,11 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
             setSelectedRegionalDistrict(val);
           }
         }}
+        onInputChange={(e, val) => {
+          setRegionalDistrictValue(val);
+        }}
         value={selectedRegionalDistrict}
-        inputValue={selectedRegionalDistrict ?? ''}
+        inputValue={regionalDistrictInputValue}
         options={
           regionalDistrictOptions[selectedEconomicRegion]
             ? [...regionalDistrictOptions[selectedEconomicRegion]]
@@ -189,7 +198,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
           return option.label ?? '';
         }}
         value={selectedGeographicName}
-        inputValue={selectedGeographicName?.label ?? ''}
+        inputValue={geographicNameInputValue}
         onChange={(e, val, reason) => {
           if (reason === 'clear') {
             setSelectedGeographicName({ value: null, label: '' });
@@ -204,6 +213,9 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
               geographicNameId: val.value,
             });
           }
+        }}
+        onInputChange={(e, val) => {
+          setGeographicNameInputValue(val);
         }}
       />
       {!rowId && (
