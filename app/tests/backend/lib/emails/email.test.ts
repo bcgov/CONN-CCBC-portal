@@ -16,6 +16,7 @@ import rfiCoverageMapKmzUploaded from 'backend/lib/emails/templates/rfiCoverageM
 import notifyConditionallyApproved from 'backend/lib/emails/templates/notifyConditionallyApproved';
 import notifyApplicationSubmission from 'backend/lib/emails/templates/notifyApplicationSubmission';
 import notifyFailedReadOfTemplateData from 'backend/lib/emails/templates/notifyFailedReadOfTemplateData';
+import notifySowUpload from 'backend/lib/emails/templates/notifySowUpload';
 
 jest.mock('backend/lib/emails/handleEmailNotification');
 
@@ -225,6 +226,21 @@ describe('Email API Endpoints', () => {
       expect.anything(),
       notifyFailedReadOfTemplateData,
       {}
+    );
+  });
+
+  it('calls notifySowUpload with correct parameters once notifySowUpload called', async () => {
+    const reqBody = {
+      applicationId: '',
+      ccbcNumber: 'CCBC-00001',
+      params: { amendmentNumber: 1 },
+    };
+    await request(app).post('/api/email/notifySowUpload').send(reqBody);
+    expect(handleEmailNotification).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      notifySowUpload,
+      { ccbcNumber: 'CCBC-00001', amendmentNumber: 1 }
     );
   });
 });
