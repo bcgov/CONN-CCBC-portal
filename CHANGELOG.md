@@ -1,3 +1,12 @@
+## [1.193.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.2...v1.193.3) (2024-09-26)
+
+### Bug Fixes
+
+- format for Federal requested for history ([5ec38ba](https://github.com/bcgov/CONN-CCBC-portal/commit/5ec38ba9b7c308b22fbf1a24e6c26561e0c64902))
+- update PR to enable automerge after realease setup ([f16a726](https://github.com/bcgov/CONN-CCBC-portal/commit/f16a726bc967a192e13394ac227afee9f4304ea5))
+
+## [1.193.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.1...v1.193.2) (2024-09-26)
+
 ## [1.193.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.0...v1.193.1) (2024-09-18)
 
 ### Bug Fixes

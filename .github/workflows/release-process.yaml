@@ -105,6 +105,13 @@ jobs:
           yarn
           git checkout "${GITHUB_HEAD_REF}"
           yarn run release-it --ci --branch="${GITHUB_HEAD_REF}" --git.commitArgs=-n
+      - name: Enable Auto-Merge
+        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+        run: |
+          PR_URL="${{ github.event.pull_request.html_url }}"
+          gh pr merge --auto --merge "$PR_URL"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Uncheck the checkbox
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
         uses: actions/github-script@v7
