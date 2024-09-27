@@ -1,10 +1,6 @@
 import { FieldTemplateProps } from '@rjsf/utils';
 import React from 'react';
-import {
-  StyledColLeft,
-  StyledColRight,
-  StyledColError,
-} from 'components/Review/Components';
+import { StyledColLeft, StyledColRight } from 'components/Review/Components';
 import { Help } from '@mui/icons-material';
 import styled from 'styled-components';
 import { Tooltip } from '@mui/material';
@@ -58,33 +54,32 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   const isFieldInRfi = formContext?.rfiList?.some((rfi) =>
     Object.keys(rfi?.jsonData?.rfiAdditionalFiles || []).includes(fieldName)
   );
+  const hasError = isErrors && !isFieldInRfi;
 
   return (
     <>
       {before}
       <tr>
         <StyledColLeft id={`${id}_title`}>{title}</StyledColLeft>
-        {isErrors && !isFieldInRfi ? (
-          <StyledColError data-testid={`${id}-value`} errorColor={errorColor}>
-            {children}
-            {showErrorHint && hasFormContextError && (
-              <Tooltip
-                title={
-                  <span style={{ whiteSpace: 'pre-line' }}>
-                    {formContextErrors.join('\n')}
-                  </span>
-                }
-                placement="top"
-              >
-                <StyledHelp />
-              </Tooltip>
-            )}
-          </StyledColError>
-        ) : (
-          <StyledColRight data-testid={`${id}-value`}>
-            {children}
-          </StyledColRight>
-        )}
+        <StyledColRight
+          data-testid={`${id}-value`}
+          hasError={hasError}
+          errorColor={errorColor}
+        >
+          {children}
+          {hasError && showErrorHint && hasFormContextError && (
+            <Tooltip
+              title={
+                <span style={{ whiteSpace: 'pre-line' }}>
+                  {formContextErrors.join('\n')}
+                </span>
+              }
+              placement="top"
+            >
+              <StyledHelp />
+            </Tooltip>
+          )}
+        </StyledColRight>
       </tr>
       {after}
     </>

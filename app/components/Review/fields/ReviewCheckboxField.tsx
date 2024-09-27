@@ -1,10 +1,6 @@
 import React from 'react';
 import { FieldProps } from '@rjsf/utils';
-import {
-  StyledColLeft,
-  StyledColRight,
-  StyledColError,
-} from 'components/Review/Components';
+import { StyledColLeft, StyledColRight } from 'components/Review/Components';
 
 const ReviewCheckboxField: React.FC<FieldProps> = ({
   id,
@@ -22,7 +18,7 @@ const ReviewCheckboxField: React.FC<FieldProps> = ({
           {isChecked ? (
             <StyledColRight id={`${id}-value`}>Yes</StyledColRight>
           ) : (
-            <StyledColError id={`${id}-error`} />
+            <StyledColRight id={`${id}-error`} hasError />
           )}
         </>
       ) : (
