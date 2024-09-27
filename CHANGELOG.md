@@ -1,3 +1,10 @@
+## [1.193.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.5...v1.193.7) (2024-09-27)
+
+### Bug Fixes
+
+- add a margin to left side nav ([d504b23](https://github.com/bcgov/CONN-CCBC-portal/commit/d504b23b3722e2d793dc47055eee3bd2fe4ef112))
+- cbc edit input focus issue ([ce13c6c](https://github.com/bcgov/CONN-CCBC-portal/commit/ce13c6c0085e7021dfe2ecb2d6b7ceff4567ab4a))
+
 ## [1.193.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.5...v1.193.6) (2024-09-26)
 
 ### Bug Fixes
