@@ -26,6 +26,10 @@ const StyledUpperSection = styled.section`
   color: ${(props) => props.theme.color.navigationBlue};
 `;
 
+const StyledLowerSection = styled.section`
+  margin-top: 1em;
+`;
+
 const NavigationSidebar = () => {
   const router = useRouter();
   const { asPath } = router;
@@ -47,7 +51,7 @@ const NavigationSidebar = () => {
             label="Dashboard"
           />
         </StyledUpperSection>
-        <section>
+        <StyledLowerSection>
           <NavItem
             currentPath={asPath}
             href={`/analyst/application/${applicationId}/summary`}
@@ -84,7 +88,7 @@ const NavigationSidebar = () => {
             icon={faClockRotateLeft}
             label="History"
           />
-        </section>
+        </StyledLowerSection>
       </StyledNav>
     </StyledAside>
   );
