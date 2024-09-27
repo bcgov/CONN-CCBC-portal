@@ -1,5 +1,5 @@
 # Use the official PostgreSQL 14 image as the base image
-FROM postgres:14
+FROM postgres:17
 
 # Set environment variables for PostgreSQL
 ENV POSTGRES_PASSWORD mysecretpassword
