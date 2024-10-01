@@ -19,22 +19,22 @@ export const StyledColLeft = styled('th')`
   vertical-align: top;
 `;
 
-export const StyledColRight = styled('td')`
+interface StyledColRightProps {
+  errorColor?: string;
+  hasError?: boolean;
+}
+
+export const StyledColRight = styled('td')<StyledColRightProps>`
   width: 50%;
   padding: 16px !important;
   border: 1px solid rgba(0, 0, 0, 0.16);
   border-right: 0;
   font-weight: 400;
   white-space: pre-line;
-`;
-
-interface StyledColErrorProps {
-  errorColor?: string;
-}
-
-export const StyledColError = styled(StyledColRight)<StyledColErrorProps>`
   background-color: ${(props) =>
-    props?.errorColor ? props.errorColor : props.theme.color.errorBackground};
+    props.hasError &&
+    (props?.errorColor ? props.errorColor : props.theme.color.errorBackground)};
+
   .pg-select-wrapper {
     background-color: white !important;
   }

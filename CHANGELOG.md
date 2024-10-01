@@ -1,3 +1,51 @@
+## [1.194.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.194.1...v1.194.2) (2024-10-01)
+
+## [1.194.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.194.0...v1.194.1) (2024-10-01)
+
+### Bug Fixes
+
+- user config in auto merge ([d65c1d0](https://github.com/bcgov/CONN-CCBC-portal/commit/d65c1d0c393805eed7e830a2725269488de904d4))
+
+# [1.194.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.9...v1.194.0) (2024-10-01)
+
+### Features
+
+- cutover work for cbc spreadsheet ([c62db66](https://github.com/bcgov/CONN-CCBC-portal/commit/c62db6656128de79316eb50ecca1cd7f9659b8e5))
+
+## [1.193.9](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.8...v1.193.9) (2024-10-01)
+
+## [1.193.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.7...v1.193.8) (2024-10-01)
+
+### Bug Fixes
+
+- correct line number for GIS import ([f6cee13](https://github.com/bcgov/CONN-CCBC-portal/commit/f6cee1374d9b2f48fa554152de92aa16a554e1a1))
+
+## [1.193.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.5...v1.193.7) (2024-09-27)
+
+### Bug Fixes
+
+- add a margin to left side nav ([d504b23](https://github.com/bcgov/CONN-CCBC-portal/commit/d504b23b3722e2d793dc47055eee3bd2fe4ef112))
+- cbc edit input focus issue ([ce13c6c](https://github.com/bcgov/CONN-CCBC-portal/commit/ce13c6c0085e7021dfe2ecb2d6b7ceff4567ab4a))
+
+## [1.193.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.5...v1.193.6) (2024-09-26)
+
+### Bug Fixes
+
+- cbc edit input focus issue ([df5a5eb](https://github.com/bcgov/CONN-CCBC-portal/commit/df5a5ebb8677cf167036632e0dcec93ef0c88db2))
+
+## [1.193.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.4...v1.193.5) (2024-09-26)
+
+## [1.193.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.3...v1.193.4) (2024-09-26)
+
+## [1.193.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.2...v1.193.3) (2024-09-26)
+
+### Bug Fixes
+
+- format for Federal requested for history ([5ec38ba](https://github.com/bcgov/CONN-CCBC-portal/commit/5ec38ba9b7c308b22fbf1a24e6c26561e0c64902))
+- update PR to enable automerge after realease setup ([f16a726](https://github.com/bcgov/CONN-CCBC-portal/commit/f16a726bc967a192e13394ac227afee9f4304ea5))
+
+## [1.193.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.1...v1.193.2) (2024-09-26)
+
 ## [1.193.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.0...v1.193.1) (2024-09-18)
 
 ### Bug Fixes
