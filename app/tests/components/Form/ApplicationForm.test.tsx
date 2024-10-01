@@ -663,4 +663,67 @@ describe('The application form', () => {
 
     expect(removeButton).toBeInTheDocument();
   });
+
+  it('upload of template file', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent((data) => ({
+      application: data.application,
+      pageNumber: 11,
+      query: data.query,
+    }));
+
+    const file = new File([new ArrayBuffer(1)], 'file.xls', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    global.fetch = jest.fn((url) => {
+      if (url.includes('templateNumber')) {
+        return Promise.resolve({
+          status: 300,
+          ok: false,
+          json: () => Promise.resolve({}),
+        });
+      }
+      return Promise.resolve({
+        status: 200,
+        ok: true,
+        json: () => Promise.resolve({}),
+      });
+    });
+
+    const addTemplateOneFileInput = screen.getAllByTestId('file-test')[0];
+
+    const addTemplateTwoFileInput = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(addTemplateOneFileInput, { target: { files: [file] } });
+    });
+
+    await act(async () => {
+      fireEvent.change(addTemplateTwoFileInput, { target: { files: [file] } });
+    });
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Save and continue' })
+      );
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/email/notifyFailedReadOfTemplateData',
+      {
+        body: JSON.stringify({
+          applicationId: 42,
+          host: 'http://localhost',
+          params: {
+            templateNumber: 2,
+          },
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      }
+    );
+  });
 });

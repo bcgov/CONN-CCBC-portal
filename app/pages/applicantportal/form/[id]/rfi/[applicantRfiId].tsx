@@ -78,7 +78,7 @@ const ApplicantRfiPage = ({
     useRfiCoverageMapKmzUploadedEmail();
 
   useEffect(() => {
-    if (templateData?.templateNumber === 1) {
+    if (templateData?.templateNumber === 1 && !templateData.error) {
       const newFormDataWithTemplateOne = {
         ...newFormData,
         benefits: {
@@ -89,7 +89,7 @@ const ApplicantRfiPage = ({
         },
       };
       setNewFormData(newFormDataWithTemplateOne);
-    } else if (templateData?.templateNumber === 2) {
+    } else if (templateData?.templateNumber === 2 && !templateData.error) {
       const newFormDataWithTemplateTwo = {
         ...newFormData,
         budgetDetails: {
@@ -99,6 +99,46 @@ const ApplicantRfiPage = ({
         },
       };
       setNewFormData(newFormDataWithTemplateTwo);
+    } else if (templateData?.error && templateData?.templateNumber === 1) {
+      const fileArrayLength =
+        newFormData.templateUploads?.eligibilityAndImpactsCalculator?.length;
+      fetch(`/api/email/notifyFailedReadOfTemplateData`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          applicationId,
+          host: window.location.origin,
+          params: {
+            templateNumber: templateData.templateNumber,
+            uuid: newFormData.templateUploads
+              ?.eligibilityAndImpactsCalculator?.[fileArrayLength - 1]?.uuid,
+            uploadedAt:
+              newFormData.templateUploads?.eligibilityAndImpactsCalculator?.[
+                fileArrayLength - 1
+              ]?.uploadedAt,
+          },
+        }),
+      });
+    } else if (templateData?.error && templateData?.templateNumber === 2) {
+      const fileArrayLength =
+        newFormData.templateUploads?.detailedBudget?.length;
+      fetch(`/api/email/notifyFailedReadOfTemplateData`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          applicationId,
+          host: window.location.origin,
+          params: {
+            templateNumber: templateData.templateNumber,
+            uuid: newFormData.templateUploads?.detailedBudget?.[
+              fileArrayLength - 1
+            ]?.uuid,
+            uploadedAt:
+              newFormData.templateUploads?.detailedBudget?.[fileArrayLength - 1]
+                ?.uploadedAt,
+          },
+        }),
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templateData]);

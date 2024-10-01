@@ -9,6 +9,7 @@ import householdCountUpdate from './templates/householdCountUpdate';
 import rfiCoverageMapKmzUploaded from './templates/rfiCoverageMapKmzUploaded';
 import notifyConditionallyApproved from './templates/notifyConditionallyApproved';
 import notifyApplicationSubmission from './templates/notifyApplicationSubmission';
+import notifyFailedReadOfTemplateData from './templates/notifyFailedReadOfTemplateData';
 
 const email = Router();
 
@@ -76,6 +77,16 @@ email.post('/api/email/notifyApplicationSubmission', limiter, (req, res) => {
   return handleEmailNotification(req, res, notifyApplicationSubmission, {
     ...params,
   });
+});
+
+email.post('/api/email/notifyFailedReadOfTemplateData', limiter, (req, res) => {
+  const { params } = req.body;
+  return handleEmailNotification(
+    req,
+    res,
+    notifyFailedReadOfTemplateData,
+    params
+  );
 });
 
 export default email;

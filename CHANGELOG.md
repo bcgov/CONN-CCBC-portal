@@ -1,3 +1,9 @@
+# [1.195.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.194.2...v1.195.0) (2024-10-01)
+
+### Features
+
+- email notification when failed template scrape ([2b3757d](https://github.com/bcgov/CONN-CCBC-portal/commit/2b3757dcc84f48f36368c87560b3223aa37670ef))
+
 ## [1.194.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.194.1...v1.194.2) (2024-10-01)
 
 ## [1.194.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.194.0...v1.194.1) (2024-10-01)

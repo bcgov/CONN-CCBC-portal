@@ -74,7 +74,7 @@ const RfiAnalystUpload = ({ query }) => {
     useRfiCoverageMapKmzUploadedEmail();
 
   useEffect(() => {
-    if (templateData?.templateNumber === 1) {
+    if (templateData?.templateNumber === 1 && !templateData?.error) {
       setExcelImportFields([...excelImportFields, 'Template 1']);
       const newFormDataWithTemplateOne = {
         ...newFormData,
@@ -86,7 +86,7 @@ const RfiAnalystUpload = ({ query }) => {
         },
       };
       setNewFormData(newFormDataWithTemplateOne);
-    } else if (templateData?.templateNumber === 2) {
+    } else if (templateData?.templateNumber === 2 && !templateData?.error) {
       setExcelImportFields([...excelImportFields, 'Template 2']);
       const newFormDataWithTemplateTwo = {
         ...newFormData,

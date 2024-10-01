@@ -15,6 +15,7 @@ import householdCountUpdate from 'backend/lib/emails/templates/householdCountUpd
 import rfiCoverageMapKmzUploaded from 'backend/lib/emails/templates/rfiCoverageMapKmzUploaded';
 import notifyConditionallyApproved from 'backend/lib/emails/templates/notifyConditionallyApproved';
 import notifyApplicationSubmission from 'backend/lib/emails/templates/notifyApplicationSubmission';
+import notifyFailedReadOfTemplateData from 'backend/lib/emails/templates/notifyFailedReadOfTemplateData';
 
 jest.mock('backend/lib/emails/handleEmailNotification');
 
@@ -207,6 +208,22 @@ describe('Email API Endpoints', () => {
       expect.anything(),
       expect.anything(),
       notifyApplicationSubmission,
+      {}
+    );
+  });
+
+  it('calls notifyFailedReadOfTemplateData with correct parameters once notifyFailedReadOfTemplateData called', async () => {
+    const reqBody = {
+      applicationId: '',
+      params: {},
+    };
+    await request(app)
+      .post('/api/email/notifyFailedReadOfTemplateData')
+      .send(reqBody);
+    expect(handleEmailNotification).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      notifyFailedReadOfTemplateData,
       {}
     );
   });
