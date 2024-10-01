@@ -1,3 +1,9 @@
+## [1.193.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.7...v1.193.8) (2024-10-01)
+
+### Bug Fixes
+
+- correct line number for GIS import ([f6cee13](https://github.com/bcgov/CONN-CCBC-portal/commit/f6cee1374d9b2f48fa554152de92aa16a554e1a1))
+
 ## [1.193.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.5...v1.193.7) (2024-09-27)
 
 ### Bug Fixes
