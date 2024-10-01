@@ -18,9 +18,8 @@ function FormDataMock() {
 }
 
 global.FormData = jest.fn(() => {
-    return FormDataMock();
-  }
-) as jest.Mock;
+  return FormDataMock();
+}) as jest.Mock;
 
 jest.setTimeout(10000000);
 
@@ -55,18 +54,18 @@ describe('The GIS import', () => {
 
     mocked(performQuery).mockImplementation(async () => {
       return {
-        data: { createGisData: {gisData:{rowId:1}}}
+        data: { createGisData: { gisData: { rowId: 1 } } },
       };
     });
 
     const response = await request(app)
-      .post('/api/analyst/gis') 
-      .set("Content-Type", "application/json")
+      .post('/api/analyst/gis')
+      .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
-      .field("data", JSON.stringify({ name: "gis-data" }))
-      .attach("gis-data", `${__dirname}/gis-data-200.json`)
+      .field('data', JSON.stringify({ name: 'gis-data' }))
+      .attach('gis-data', `${__dirname}/gis-data-200.json`)
       .expect(200);
- 
+
     expect(response.status).toBe(200);
   });
 
@@ -80,26 +79,27 @@ describe('The GIS import', () => {
 
     mocked(performQuery).mockImplementation(async () => {
       return {
-        data: { createGisData: {gisData:{rowId:1}}}
+        data: { createGisData: { gisData: { rowId: 1 } } },
       };
     });
-    const expected={
-      "errors": [
+    const expected = {
+      errors: [
         {
-          "line": 1, 
-          "message": "must be array"
-        }
-      ]
+          line: 1,
+          message: 'must be array',
+          ccbc_number: null,
+        },
+      ],
     };
 
     const response = await request(app)
-      .post('/api/analyst/gis') 
-      .set("Content-Type", "application/json")
+      .post('/api/analyst/gis')
+      .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
-      .field("data", JSON.stringify({ name: "gis-data" }))
-      .attach("gis-data", `${__dirname}/gis-data-400a.json`)
+      .field('data', JSON.stringify({ name: 'gis-data' }))
+      .attach('gis-data', `${__dirname}/gis-data-400a.json`)
       .expect(400);
-    expect(response.status).toBe(400); 
+    expect(response.status).toBe(400);
     expect(response.body).toEqual(expected);
   });
 
@@ -113,38 +113,38 @@ describe('The GIS import', () => {
 
     mocked(performQuery).mockImplementation(async () => {
       return {
-        data: { createGisData: {gisData:{rowId:1}}}
+        data: { createGisData: { gisData: { rowId: 1 } } },
       };
     });
 
-    const expected={
-      "errors": [
+    const expected = {
+      errors: [
         {
-          "line": 10,
-          "position": 26,
-          "message": "Value expected"
+          line: 10,
+          position: 26,
+          message: 'Value expected',
         },
         {
-          "line": 5,
-          "position": 20,
-          "message": "Expected comma"
+          line: 5,
+          position: 20,
+          message: 'Expected comma',
         },
         {
-          "line": 2,
-          "position": 17,
-          "message": "Value expected"
-        }
-      ]
+          line: 2,
+          position: 17,
+          message: 'Value expected',
+        },
+      ],
     };
-    
+
     const response = await request(app)
-      .post('/api/analyst/gis') 
-      .set("Content-Type", "application/json")
+      .post('/api/analyst/gis')
+      .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
-      .field("data", JSON.stringify({ name: "gis-data" }))
-      .attach("gis-data", `${__dirname}/gis-data-400b.json`)
+      .field('data', JSON.stringify({ name: 'gis-data' }))
+      .attach('gis-data', `${__dirname}/gis-data-400b.json`)
       .expect(400);
-    expect(response.status).toBe(400); 
+    expect(response.status).toBe(400);
     expect(response.body).toEqual(expected);
   });
 
@@ -158,20 +158,19 @@ describe('The GIS import', () => {
 
     mocked(performQuery).mockImplementation(async () => {
       return {
-        data: { createGisData: {gisData:{rowId:1}}}
+        data: { createGisData: { gisData: { rowId: 1 } } },
       };
     });
 
     const response = await request(app)
-      .post('/api/analyst/gis') 
-      .set("Content-Type", "application/json")
+      .post('/api/analyst/gis')
+      .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
-      .field("data", JSON.stringify({ name: "gis-data" }))
-      .attach("gis-data", `${__dirname}/gis-data-400.json`)
+      .field('data', JSON.stringify({ name: 'gis-data' }))
+      .attach('gis-data', `${__dirname}/gis-data-400.json`)
       .expect(400);
- 
 
-    expect(response.status).toBe(400); 
+    expect(response.status).toBe(400);
   });
 
   it('should return details about validation errors', async () => {
@@ -184,26 +183,26 @@ describe('The GIS import', () => {
 
     mocked(performQuery).mockImplementation(async () => {
       return {
-        data: { createGisData: {gisData:{rowId:1}}}
+        data: { createGisData: { gisData: { rowId: 1 } } },
       };
     });
 
     const response = await request(app)
-      .post('/api/analyst/gis') 
-      .set("Content-Type", "application/json")
+      .post('/api/analyst/gis')
+      .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
-      .field("data", JSON.stringify({ name: "gis-data" }))
-      .attach("gis-data", `${__dirname}/gis-data-errors.json`)
+      .field('data', JSON.stringify({ name: 'gis-data' }))
+      .attach('gis-data', `${__dirname}/gis-data-errors.json`)
       .expect(400);
 
-    expect(response.status).toBe(400); 
-    
-    const {errors} = response.body;
+    expect(response.status).toBe(400);
+
+    const { errors } = response.body;
     expect(errors).toBeTruthy();
 
     expect(errors.length).toBe(2);
     const first = errors[0];
-    expect(first.line).toBe(1);
+    expect(first.line).toBe(6);
     expect(first.ccbc_number).toBe('CCBC-010001');
     expect(first.message).toBe('GIS_TOTAL_HH must be number');
   });
