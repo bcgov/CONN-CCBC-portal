@@ -467,6 +467,10 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
                 application.allAssessments.edges,
                 'screening'
               ),
+              screeningNotification: findNotification(
+                application.assessmentNotifications.edges,
+                'assignment_screening'
+              ),
               financialRiskAssessment: findAssessment(
                 application.allAssessments.edges,
                 'financialRisk'
@@ -509,6 +513,7 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
 
       const assessmentChanged =
         jsonData?.assignedTo &&
+        jsonData.assignedTo !== 'Unassigned' &&
         jsonData.assignedTo !== notification?.jsonData?.to;
 
       if (new Date(updatedAt) >= lastNotificationSentAt && assessmentChanged) {
@@ -537,10 +542,12 @@ const AssessmentAssignmentTable: React.FC<Props> = ({ query }) => {
         'pm',
         'projectManagement'
       );
+      const screeningAssignment = createAssignment(application, 'screening');
 
       if (techAssignment) assignmentsList.push(techAssignment);
       if (financialAssignment) assignmentsList.push(financialAssignment);
       if (pmAssignment) assignmentsList.push(pmAssignment);
+      if (screeningAssignment) assignmentsList.push(screeningAssignment);
 
       return assignmentsList;
     }, []);
