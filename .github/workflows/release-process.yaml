@@ -112,6 +112,7 @@ jobs:
           gh pr merge --auto --merge "$PR_URL"
         env:
           GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+        continue-on-error: true
       - name: Uncheck the checkbox
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
         uses: actions/github-script@v7
