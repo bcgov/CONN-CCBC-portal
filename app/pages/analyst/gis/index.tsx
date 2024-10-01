@@ -166,11 +166,17 @@ const GisTab = () => {
                 const col = err?.posiition
                   ? `and column ${err?.posiition}`
                   : '';
+                const erroneousCcbcNumber = err?.ccbc_number
+                  ? `for ${err?.ccbc_number}`
+                  : '';
+                const errorAt = err?.line
+                  ? `at line ${err?.line}`
+                  : erroneousCcbcNumber;
                 return (
                   <div
                     // eslint-disable-next-line react/no-array-index-key
                     key={index}
-                  >{`Parsing error: ${err?.message} at line ${err?.line} ${col}`}</div>
+                  >{`Parsing error: ${err?.message} ${errorAt} ${col}`}</div>
                 );
               })}{' '}
               Please check your file and try again.

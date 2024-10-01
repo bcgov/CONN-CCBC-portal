@@ -3,6 +3,7 @@ import formidable, { File } from 'formidable';
 import Ajv, { ErrorObject } from 'ajv';
 import fs from 'fs';
 import RateLimit from 'express-rate-limit';
+import jsonSourceMap from 'json-source-map';
 import schema from './gis-schema.json';
 import { performQuery } from './graphql';
 import getAuthRole from '../../utils/getAuthRole';
@@ -35,19 +36,23 @@ const FIELD_NAME_POSITION = 2;
 
 const formatAjv = (data: Record<string, any>, errors: ErrorObject[]) => {
   const reply = [];
+  const sourceMap = jsonSourceMap.stringify(data, null, 2);
   errors.forEach((e) => {
     const parts = e.instancePath.split('/');
+    const ccbcNumber = data?.[parts[LINE_NUMBER_POSITION]]?.ccbc_number ?? null;
+    const errorPointer = sourceMap.pointers[e.instancePath];
     if (parts.length > MIN_PATH_DEPTH) {
       const item = {
-        line: parseInt(parts[LINE_NUMBER_POSITION], 10) + 1,
-        ccbc_number: data[parts[LINE_NUMBER_POSITION]].ccbc_number,
+        line: (errorPointer?.key?.line || 0) + 1,
+        ccbc_number: ccbcNumber,
         message: `${parts[FIELD_NAME_POSITION]} ${e.message}`,
       };
       reply.push(item);
     } else {
       // errors on root level
       const item = {
-        line: 1,
+        line: e.keyword === 'required' ? null : 1,
+        ccbc_number: ccbcNumber,
         message: e.message,
       };
       reply.push(item);

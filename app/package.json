@@ -82,6 +82,7 @@
     "js-cookie": "^3.0.5",
     "json-diff": "^1.0.6",
     "json-schema": "^0.4.0",
+    "json-source-map": "^0.6.1",
     "jsonlint": "^1.6.3",
     "jsonwebtoken": "^9.0.2",
     "lightship": "7.2.0",
