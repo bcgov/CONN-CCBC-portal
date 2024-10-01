@@ -1,3 +1,11 @@
+## [1.194.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.194.1...v1.194.2) (2024-10-01)
+
+## [1.194.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.194.0...v1.194.1) (2024-10-01)
+
+### Bug Fixes
+
+- user config in auto merge ([d65c1d0](https://github.com/bcgov/CONN-CCBC-portal/commit/d65c1d0c393805eed7e830a2725269488de904d4))
+
 # [1.194.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.9...v1.194.0) (2024-10-01)
 
 ### Features
