@@ -1,3 +1,9 @@
+# [1.194.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.9...v1.194.0) (2024-10-01)
+
+### Features
+
+- cutover work for cbc spreadsheet ([c62db66](https://github.com/bcgov/CONN-CCBC-portal/commit/c62db6656128de79316eb50ecca1cd7f9659b8e5))
+
 ## [1.193.9](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.8...v1.193.9) (2024-10-01)
 
 ## [1.193.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.193.7...v1.193.8) (2024-10-01)
