@@ -124,15 +124,6 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
           </StyledRightSideLinks>
         </StyledDiv>
       </StyledBaseHeader>
-      {isCbcPage && (
-        <HeaderBanner
-          type="custom"
-          message="Beta version - changes made here will not be saved nor reflected elsewhere."
-          environmentIndicator={false}
-          customBannerColor="#F9F1C7"
-          customFontColor="#635231"
-        />
-      )}
       {isApplicantPortal && <SubHeader />}
     </StyledBaseNavigation>
   );
