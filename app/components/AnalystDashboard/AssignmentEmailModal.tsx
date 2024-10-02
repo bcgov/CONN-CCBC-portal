@@ -1,6 +1,8 @@
 import Modal from 'components/Modal';
 import * as Sentry from '@sentry/nextjs';
 import { useCreateEmailNotificationsMutation } from 'schema/mutations/application/createEmailNotifications';
+import { useToast } from 'components/AppProvider';
+import { useState } from 'react';
 
 interface Props {
   isOpen: boolean;
@@ -24,6 +26,8 @@ const AssignmentEmailModal: React.FC<Props> = ({
   assignments = [],
 }) => {
   const [createEmailNotifications] = useCreateEmailNotificationsMutation();
+  const [isLoading, setIsLoading] = useState(false);
+  const { showToast, hideToast } = useToast();
 
   const analystsToNotify = Array.from(
     new Set(assignments.map((assignment) => assignment.assignedTo))
@@ -63,6 +67,8 @@ const AssignmentEmailModal: React.FC<Props> = ({
   };
 
   const notifyAnalysts = async () => {
+    setIsLoading(true);
+    hideToast();
     try {
       const response = await fetch('/api/email/assessmentAssigneeChange', {
         method: 'POST',
@@ -80,11 +86,20 @@ const AssignmentEmailModal: React.FC<Props> = ({
         emailRecordResults,
         Object.values(details.assessmentsGrouped)
       );
+      showToast('Email notification sent successfully', 'success', 5000);
     } catch (error) {
       Sentry.captureException({
         name: 'Notify Analysts Error',
         message: error.message,
       });
+      showToast(
+        'Email notification did not work, please try again',
+        'error',
+        5000
+      );
+    } finally {
+      setIsLoading(false);
+      onSave();
     }
   };
 
@@ -97,16 +112,17 @@ const AssignmentEmailModal: React.FC<Props> = ({
       actions={[
         {
           id: 'email-confirm-btn',
+          isLoading,
           label: saveLabel,
           onClick: async () => {
             notifyAnalysts();
-            onSave();
           },
         },
         {
           id: 'email-cancel-btn',
           label: cancelLabel,
           onClick: () => onCancel(),
+          disabled: isLoading,
           variant: 'secondary',
         },
       ]}

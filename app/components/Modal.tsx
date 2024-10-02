@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Breakpoint, DialogActions, DialogTitle } from '@mui/material';
 import { Button } from '@button-inc/bcgov-theme';
+import LoadingSpinner from './LoadingSpinner';
 
 interface Props {
   children: React.ReactNode;
@@ -21,6 +22,7 @@ interface ActionProps {
   onClick: Function;
   variant?: 'primary' | 'secondary';
   disabled?: boolean;
+  isLoading?: boolean;
 }
 
 const Modal: React.FC<Props> = ({
@@ -67,9 +69,10 @@ const Modal: React.FC<Props> = ({
             key={action.label}
             onClick={action.onClick}
             variant={action.variant || 'primary'}
-            disabled={action.disabled}
+            disabled={action.disabled || action.isLoading}
           >
-            {action.label}
+            {action.label}{' '}
+            {action.isLoading && <LoadingSpinner width="20" height="20" />}
           </Button>
         ))}
       </DialogActions>

@@ -1,7 +1,7 @@
-const LoadingSpinner = ({ color = '#fff' }) => (
+const LoadingSpinner = ({ color = '#fff', width = '24', height = '24' }) => (
   <svg
-    width="24"
-    height="24"
+    width={width}
+    height={height}
     viewBox="0 0 38 38"
     xmlns="http://www.w3.org/2000/svg"
     aria-label="loading"

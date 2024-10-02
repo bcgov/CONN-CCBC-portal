@@ -1,4 +1,4 @@
-import { act, fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { graphql } from 'react-relay';
 import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
 import AssessmentAssignmentTable, {
@@ -552,10 +552,38 @@ describe('The AssessmentAssignmentTable component', () => {
     expect(notifyButton).toBeDisabled();
   });
 
-  it('should call correct endpoint when send email notifications confirmed', async () => {
+  it('should call the correct endpoint when email notifications are confirmed', async () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
-        json: () => Promise.resolve({}),
+        json: () =>
+          Promise.resolve({
+            success: true,
+            emailRecordResults: [
+              {
+                messageId: '123',
+                to: ['tester@gov.bc.ca'],
+                cc: ['tester@gov.bc.ca'],
+                contexts: {},
+                body: 'Test Analyst GIS has assigned you one or more assessment(s)',
+                subject: 'Assessment Assignee Change Notification',
+              },
+            ],
+            details: {
+              assessmentsGrouped: {
+                'analyst@gov.bc.ca': [
+                  {
+                    ccbcNumber: 'CCBC-00001',
+                    applicationId: 123,
+                    notificationConnectionId: 'connectionID',
+                    updatedBy: 1,
+                    assignedTo: 'Analyst GIS',
+                    assessmentType: 'technical',
+                  },
+                ],
+              },
+            },
+          }),
+        status: 200,
       })
     ) as jest.Mock;
 
@@ -580,10 +608,56 @@ describe('The AssessmentAssignmentTable component', () => {
       fireEvent.click(confirmBtn);
     });
 
-    expect(fetch).toHaveBeenCalledWith(
+    expect(global.fetch).toHaveBeenCalledWith(
       '/api/email/assessmentAssigneeChange',
       expect.objectContaining({ method: 'POST' })
     );
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Email notification sent successfully/)
+      ).toBeInTheDocument();
+    });
+  });
+
+  it('should show the error toast when email notification to CHES failed', async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.reject(new Error('oops')),
+      })
+    ) as jest.Mock;
+
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const notifyButton = screen.getByRole('button', {
+      name: 'Notify by email',
+    });
+
+    await act(async () => {
+      fireEvent.click(notifyButton);
+    });
+
+    const confirmBtn = screen.getByRole('button', {
+      name: 'Yes',
+    });
+
+    expect(confirmBtn).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(confirmBtn);
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/email/assessmentAssigneeChange',
+      expect.objectContaining({ method: 'POST' })
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Email notification did not work, please try again/)
+      ).toBeInTheDocument();
+    });
   });
 });
 
