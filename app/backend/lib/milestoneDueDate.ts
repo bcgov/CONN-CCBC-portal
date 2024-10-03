@@ -4,6 +4,7 @@ import { performQuery } from './graphql';
 import handleEmailNotification from './emails/handleEmailNotification';
 import notifyMilestoneReportDue from './emails/templates/notifyMilestoneReportDue';
 import validateKeycloakToken from './keycloakValidate';
+import limiter from './excel_import/excel-limiter';
 
 const milestonesRouter = Router();
 
@@ -112,7 +113,7 @@ const processMilestones = async (req, res) => {
     .end();
 };
 
-milestonesRouter.get('/api/analyst/milestone/upcoming', (req, res) => {
+milestonesRouter.get('/api/analyst/milestone/upcoming', limiter, (req, res) => {
   const authRole = getAuthRole(req);
   const isRoleAuthorized =
     authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'super_admin';
