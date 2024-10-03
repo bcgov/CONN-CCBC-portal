@@ -9,6 +9,10 @@ on:
     branches: [main]
 
 jobs:
+  has-merge-conflict:
+    uses: ./.github/workflows/move-on-merge-conflict.yaml
+    secrets: inherit
+
   build:
     uses: ./.github/workflows/build.yaml
     secrets:

@@ -1,0 +1,102 @@
+# File: .github/workflows/check-merge-conflicts.yml
+name: Check Merge Conflicts and Update Jira
+
+on:
+  workflow_call:
+    secrets:
+      JIRA_AUTH: { required: true }
+
+jobs:
+  check_merge_conflicts:
+    environment:
+      name: development
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get branches to process
+        id: get_branches
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const {owner, repo } = context.repo;
+            const { data: pullRequests } = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+            });
+            const branches = []
+            const filteredPrs = pullRequests.filter(pr => !pr.head.repo.fork && pr.head.ref.startsWith('NDT-') && !pr.draft);
+            for (const pr of filteredPrs) {
+              const prReviews = await github.rest.pulls.listReviews({
+                owner,
+                repo,
+                pull_number: pr.number,
+              });
+              const approved = prReviews.data.some(review => review.state === 'APPROVED');
+              if(approved) {
+                branches.push(pr.head.ref);
+              }
+            }
+
+            return branches;
+      - name: Process branches
+        env:
+          BRANCHES: ${{ steps.get_branches.outputs.result }}
+          JIRA_AUTH: ${{ secrets.JIRA_AUTH }}
+        run: |
+          set -e
+          branches=$(echo $BRANCHES | jq -r '.[]')
+          if [ -z "$branches" ]; then
+            echo "No branches to process."
+            exit 0
+          fi
+          git config user.name "CCBC Service Account"
+          git config user.email "116113628+ccbc-service-account@users.noreply.github.com"
+          for BRANCH in $branches; do
+            echo "Processing branch: $BRANCH"
+            git fetch origin $BRANCH
+            git checkout $BRANCH
+            git merge origin/main --no-commit --no-ff || MERGE_CONFLICT=1
+            if [ "$MERGE_CONFLICT" -eq 1 ]; then
+              echo "Merge conflict detected in branch $BRANCH"
+              # Extract Jira issue key from branch name
+              JIRA_KEY=$(echo $BRANCH | grep -o 'NDT-[0-9]\+')
+              if [ -z "$JIRA_KEY" ]; then
+                echo "No Jira key found in branch name $BRANCH"
+                continue
+              fi
+              echo "Jira Key: $JIRA_KEY"
+              # Check issue status in Jira
+              response=$(curl -s -X GET \
+                -H "Authorization: Basic $JIRA_AUTH" \
+                -H "Content-Type: application/json" \
+                "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY")
+              status=$(echo "$response" | jq -r '.fields.status.name')
+              echo "Issue status: $status"
+              if [ "$status" == "PO REVIEW" ]; then
+                echo "Moving issue $JIRA_KEY to Merge Conflict column"
+                curl -X POST \
+                  -H "Authorization: Basic $JIRA_AUTH" \
+                  -H "Content-Type: application/json" \
+                  -d '{
+                        "transition": {
+                            "id": "9"
+                        }
+                    }' \
+                  "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY/transitions"
+              else
+                echo "Issue $JIRA_KEY is not in PO REVIEW status"
+              fi
+            else
+              echo "No merge conflict in branch $BRANCH"
+            fi
+            # Clean up for next iteration
+            git reset --hard
+            git checkout main
+            MERGE_CONFLICT=0
+          done
