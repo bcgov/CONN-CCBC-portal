@@ -1,3 +1,9 @@
+## [1.195.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.195.3...v1.195.4) (2024-10-03)
+
+### Bug Fixes
+
+- file download with special characters ([7f81fcb](https://github.com/bcgov/CONN-CCBC-portal/commit/7f81fcbe63c9c2549bbc35325338b1ee9f36adce))
+
 ## [1.195.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.195.2...v1.195.3) (2024-10-03)
 
 ## [1.195.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.195.1...v1.195.2) (2024-10-03)
