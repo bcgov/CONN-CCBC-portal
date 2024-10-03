@@ -16,6 +16,7 @@ const ReviewSectionField: React.FC<FieldProps> = (props) => {
   const pageName = idSchema.$id?.split('_')?.[1];
   const formErrorSchema = formContext?.formErrorSchema ?? formContext.errors;
   const hasFormContextError = formErrorSchema?.[pageName];
+  const sectionErrors = hasFormContextError?.__errors;
   const hasErrors = useMemo(
     () => Object.keys(errorSchema || {}).length > 0 || !!hasFormContextError,
     [errorSchema, hasFormContextError]
@@ -33,6 +34,7 @@ const ReviewSectionField: React.FC<FieldProps> = (props) => {
       cbcId={formContext.cbcId}
       isCBC={formContext.isCBC}
       error={hasErrors}
+      sectionErrors={sectionErrors}
       title={schema.title}
       allowAnalystEdit={allowAnalystEdit}
       recordLocked={formContext.recordLocked}
