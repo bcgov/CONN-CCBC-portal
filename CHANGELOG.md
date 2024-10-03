@@ -1,3 +1,11 @@
+## [1.195.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.195.2...v1.195.3) (2024-10-03)
+
+## [1.195.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.195.1...v1.195.2) (2024-10-03)
+
+### Bug Fixes
+
+- errorneous cases of auto enable ([46d17a5](https://github.com/bcgov/CONN-CCBC-portal/commit/46d17a544813428a0e9ac1d8737e66ff9d989a8d))
+
 ## [1.195.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.195.0...v1.195.1) (2024-10-01)
 
 # [1.195.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.194.2...v1.195.0) (2024-10-01)
