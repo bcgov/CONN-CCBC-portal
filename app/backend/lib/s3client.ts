@@ -20,11 +20,12 @@ export const getSignedUrlPromise = async (params) => {
 };
 
 export const getFileFromS3 = async (uuid, filename, res) => {
+  const encodedFilename = encodeURIComponent(filename);
   const params = {
     Bucket: AWS_S3_BUCKET,
     Key: uuid,
     Expires: 60,
-    ResponseContentDisposition: `attachment; filename="${filename}"`,
+    ResponseContentDisposition: `attachment; filename="${encodedFilename}"`,
   };
   const command = new GetObjectCommand(params);
   const signedUrl = getSignedUrl(s3ClientV3sdk, command, { expiresIn: 3600 });
