@@ -37,7 +37,7 @@ spec:
                     secretKeyRef:
                       key: client-secret
                       name: ccbc-cron-sp-sso
-              name: {{ template "ccbc.fullname" . }}-cron-sp
+              name: {{ template "ccbc.fullname" . }}-cron-milestone
               image: {{ .Values.image.cronsp.repository }}:{{ .Values.image.cronsp.tag }}
               imagePullPolicy: IfNotPresent
               resources:
