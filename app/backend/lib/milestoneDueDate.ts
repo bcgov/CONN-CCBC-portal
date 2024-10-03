@@ -112,10 +112,10 @@ const processMilestones = async (req, res) => {
     .end();
 };
 
-milestonesRouter.get('/api/analyst/milestones/upcoming', (req, res) => {
+milestonesRouter.get('/api/analyst/milestone/upcoming', (req, res) => {
   const authRole = getAuthRole(req);
   const isRoleAuthorized =
-    authRole?.pgRole === 'cbc_admin' || authRole?.pgRole === 'super_admin';
+    authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'super_admin';
 
   if (!isRoleAuthorized) {
     return res.status(404).end();
