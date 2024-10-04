@@ -52,4 +52,6 @@ assessment_data
 attachment
 cbc_project_communities
 notification
+application_er
+application_rd
 history_item

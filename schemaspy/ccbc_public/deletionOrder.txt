@@ -1,4 +1,6 @@
 history_item
+application_rd
+application_er
 notification
 cbc_project_communities
 attachment
