@@ -186,6 +186,11 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
             label="Geographic Name"
           />
         )}
+        renderOption={(renderProps, option) => (
+          <li {...renderProps} key={option.value}>
+            {option.label}
+          </li>
+        )}
         options={getGeographicNameOptions(
           selectedRegionalDistrict,
           selectedEconomicRegion
