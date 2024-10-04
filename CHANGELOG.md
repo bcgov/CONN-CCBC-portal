@@ -1,3 +1,10 @@
+## [1.195.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.195.4...v1.195.5) (2024-10-04)
+
+### Bug Fixes
+
+- autocomplete community source widget ([57c3c00](https://github.com/bcgov/CONN-CCBC-portal/commit/57c3c00a3576b5b199a2b6f77a047e29d30097a9))
+- duplicates on geoname dropdown ([f764b30](https://github.com/bcgov/CONN-CCBC-portal/commit/f764b30765bf334667bb69c95c29c614c277fae9))
+
 ## [1.195.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.195.3...v1.195.4) (2024-10-03)
 
 ### Bug Fixes
