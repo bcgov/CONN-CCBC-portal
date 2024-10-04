@@ -110,7 +110,7 @@
     "typography": "^0.16.21",
     "url": "^0.11.3",
     "validator": "^13.12.0",
-    "vscode-json-languageservice": "^5.3.6",
+    "vscode-json-languageservice": "^5.4.1",
     "write-excel-file": "^2.0.2",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
   },
