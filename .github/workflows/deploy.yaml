@@ -44,6 +44,9 @@ on:
       CHES_TO_EMAIL: { required: true }
       CHES_KEYCLOAK_HOST: { required: true }
       AWS_S3_BACKUPS_BUCKET: { required: true }
+      ER_FILE: { required: true }
+      RD_FILE: { required: true }
+      COVERAGES_FILE: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -114,6 +117,9 @@ jobs:
           pgbackrest_s3_key: ${{ secrets.AWS_CCBC_IAM_USER_KEY }}
           pgbackrest_s3_key_secret: ${{ secrets.AWS_CCBC_IAM_USER_KEY_SECRET }}
           pgbackrest_s3_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
+          er_file: ${{ secrets.ER_FILE }}
+          rd_file: ${{ secrets.RD_FILE }}
+          coverages_file: ${{ secrets.COVERAGES_FILE }}
           environment: dev
 
   ensure-sqitch-plan-ends-with-tag:
@@ -179,6 +185,9 @@ jobs:
           ches_to: ${{ secrets.CHES_TO_EMAIL }}
           ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           pgbackrest_s3_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
+          er_file: ${{ secrets.ER_FILE }}
+          rd_file: ${{ secrets.RD_FILE }}
+          coverages_file: ${{ secrets.COVERAGES_FILE }}
           environment: test
 
   deploy-to-openshift-production:
@@ -235,6 +244,9 @@ jobs:
           ches_to: ${{ secrets.CHES_TO_EMAIL }}
           ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           pgbackrest_s3_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
+          er_file: ${{ secrets.ER_FILE }}
+          rd_file: ${{ secrets.RD_FILE }}
+          coverages_file: ${{ secrets.COVERAGES_FILE }}
           environment: prod
 
   backup-secrets-dev:

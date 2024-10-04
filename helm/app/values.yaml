@@ -24,6 +24,10 @@ image:
     repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-cron-sp
     pullPolicy: IfNotPresent
     tag: 'sha-65212713aa9902ec41a0ee00df51ded83c971a0d' # The tag value must be passed in via the deploy script
+  cronshp:
+    repository: ghcr.io/bcgov/conn-ccbc-portal/ccbc-cron-shp
+    pullPolicy: IfNotPresent
+    tag: 'sha-3373572fcd485773d21e32f3b16d50b44456e368' # The tag value must be passed in via the deploy script
 
 sentry:
   release: '' # The release value must be passed in via the deploy script
@@ -35,6 +39,12 @@ cronsp:
   schedule: '0 12,16 * * 1-5' #trigger noon and 4pm on weekdays
   port: '3000'
   keycloakHost: '' # keycloakHost must be passed in via deploy script
+
+cronshp:
+  schedule: '0 23 * * 1-5' #trigger 11pm on weekdays
+  erFile: '' # The value must be passed in via the deploy script
+  rdFile: '' # The value must be passed in via the deploy script
+  coveragesFile: '' # The value must be passed in via the deploy script
 
 app:
   port: '3000'

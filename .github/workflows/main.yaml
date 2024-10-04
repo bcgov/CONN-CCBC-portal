@@ -209,6 +209,9 @@ jobs:
       CHES_TO_EMAIL: ${{ secrets.CHES_TO_EMAIL }}
       CHES_KEYCLOAK_HOST: ${{ secrets.CHES_KEYCLOAK_HOST }}
       AWS_S3_BACKUPS_BUCKET: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
+      ER_FILE: ${{ secrets.ER_FILE }}
+      RD_FILE: ${{ secrets.RD_FILE }}
+      COVERAGES_FILE: ${{ secrets.COVERAGES_FILE }}
 
   deploy-feature:
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == false

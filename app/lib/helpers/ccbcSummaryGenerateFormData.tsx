@@ -1,3 +1,25 @@
+const getEconomicRegions = (economicRegions) => {
+  if (!economicRegions) {
+    return null;
+  }
+  const ers = [];
+  economicRegions?.edges?.forEach((edge) => {
+    ers.push(edge?.node?.er);
+  });
+  return ers;
+};
+
+const getRegionalDistricts = (regionalDistricts) => {
+  if (!regionalDistricts) {
+    return null;
+  }
+  const rds = [];
+  regionalDistricts?.edges?.forEach((edge) => {
+    rds.push(edge?.node?.rd);
+  });
+  return rds;
+};
+
 const findScreeningAssessment = (assessments) => {
   return assessments.nodes.find(
     (assessment) => assessment.assessmentDataType === 'screening'
@@ -142,20 +164,22 @@ const getSowData = (sowData, baseSowData) => {
     formData: {
       counts: {
         communities,
-        benefitingCommunities: communitiesData?.benefitingCommunities,
         indigenousCommunities,
         nonIndigenousCommunities:
           communities && indigenousCommunities
             ? communities - indigenousCommunities
             : communities,
-        benefitingIndigenousCommunities:
-          communitiesData?.benefitingIndigenousCommunities,
         totalHouseholdsImpacted:
           sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
             ?.numberOfHouseholds,
         numberOfIndigenousHouseholds:
           sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
             ?.householdsImpactedIndigenous,
+      },
+      locations: {
+        benefitingCommunities: communitiesData?.benefitingCommunities,
+        benefitingIndigenousCommunities:
+          communitiesData?.benefitingIndigenousCommunities,
       },
       funding: {
         bcFundingRequested:
@@ -265,7 +289,12 @@ const getFormDataNonSow = (applicationData) => {
   };
 };
 
-const getFormDataFromApplication = (applicationData, allIntakes) => {
+const getFormDataFromApplication = (
+  applicationData,
+  allIntakes,
+  economicRegions,
+  regionalDistricts
+) => {
   return {
     formData: {
       counts: {
@@ -279,6 +308,10 @@ const getFormDataFromApplication = (applicationData, allIntakes) => {
         numberOfIndigenousHouseholds:
           applicationData?.formData?.jsonData?.benefits
             ?.householdsImpactedIndigenous,
+      },
+      locations: {
+        economicRegions: getEconomicRegions(economicRegions),
+        regionalDistricts: getRegionalDistricts(regionalDistricts),
       },
       funding: {
         bcFundingRequested: null,
@@ -328,7 +361,13 @@ const getFormDataFromApplication = (applicationData, allIntakes) => {
   };
 };
 
-const generateFormData = (applicationData, sowData, allIntakes) => {
+const generateFormData = (
+  applicationData,
+  sowData,
+  allIntakes,
+  economicRegions,
+  regionalDistricts
+) => {
   const screeningAssessment = findScreeningAssessment(
     applicationData.allAssessments
   );
@@ -350,7 +389,9 @@ const generateFormData = (applicationData, sowData, allIntakes) => {
   ) {
     const applicationFormData = getFormDataFromApplication(
       applicationData,
-      allIntakes
+      allIntakes,
+      economicRegions,
+      regionalDistricts
     );
     formData = applicationFormData.formData;
     formDataSource = applicationFormData.formDataSource;
@@ -366,7 +407,9 @@ const generateFormData = (applicationData, sowData, allIntakes) => {
   ) {
     const applicationFormData = getFormDataFromApplication(
       applicationData,
-      allIntakes
+      allIntakes,
+      economicRegions,
+      regionalDistricts
     );
     formData = applicationFormData.formData;
     formDataSource = applicationFormData.formDataSource;
@@ -394,7 +437,9 @@ const generateFormData = (applicationData, sowData, allIntakes) => {
     // first get form data from application
     const applicationFormData = getFormDataFromApplication(
       applicationData,
-      allIntakes
+      allIntakes,
+      economicRegions,
+      regionalDistricts
     );
     formData = applicationFormData.formData;
     formDataSource = applicationFormData.formDataSource;
@@ -416,6 +461,12 @@ const generateFormData = (applicationData, sowData, allIntakes) => {
     formData = {
       ...formData,
       ...sowFormData,
+      locations: {
+        ...formData.locations,
+        benefitingCommunities: sowFormData.locations.benefitingCommunities,
+        benefitingIndigenousCommunities:
+          sowFormData.locations.benefitingIndigenousCommunities,
+      },
       eventsAndDates: {
         ...formData.eventsAndDates,
         effectiveStartDate: sowFormData.eventsAndDates.effectiveStartDate,
@@ -447,6 +498,7 @@ const generateFormData = (applicationData, sowData, allIntakes) => {
           : null,
       },
       counts: { ...formData?.counts },
+      locations: { ...formData?.locations },
       funding: { ...formData?.funding },
       eventsAndDates: {
         ...formData?.eventsAndDates,

@@ -369,6 +369,40 @@ type Query implements Node {
     filter: ApplicationCommunityReportExcelDataFilter
   ): ApplicationCommunityReportExcelDataConnection
 
+  """Reads and enables pagination through a set of `ApplicationEr`."""
+  allApplicationErs(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationEr`."""
+    orderBy: [ApplicationErsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationErCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationErFilter
+  ): ApplicationErsConnection
+
   """Reads and enables pagination through a set of `ApplicationFormData`."""
   allApplicationFormData(
     """Only read the first `n` values of the set."""
@@ -686,6 +720,40 @@ type Query implements Node {
     """
     filter: ApplicationProjectTypeFilter
   ): ApplicationProjectTypesConnection
+
+  """Reads and enables pagination through a set of `ApplicationRd`."""
+  allApplicationRds(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationRd`."""
+    orderBy: [ApplicationRdsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationRdCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationRdFilter
+  ): ApplicationRdsConnection
 
   """Reads and enables pagination through a set of `ApplicationRfiData`."""
   allApplicationRfiData(
@@ -77849,6 +77917,168 @@ type AnalystsEdge {
   node: Analyst
 }
 
+"""A connection to a list of `ApplicationEr` values."""
+type ApplicationErsConnection {
+  """A list of `ApplicationEr` objects."""
+  nodes: [ApplicationEr]!
+
+  """
+  A list of edges which contains the `ApplicationEr` and cursor to aid in pagination.
+  """
+  edges: [ApplicationErsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `ApplicationEr` you could get from the connection."""
+  totalCount: Int!
+}
+
+type ApplicationEr {
+  applicationId: Int
+  ccbcNumber: String
+  er: String
+}
+
+"""A `ApplicationEr` edge in the connection."""
+type ApplicationErsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationEr` at the end of the edge."""
+  node: ApplicationEr
+}
+
+"""Methods to use when ordering `ApplicationEr`."""
+enum ApplicationErsOrderBy {
+  NATURAL
+  APPLICATION_ID_ASC
+  APPLICATION_ID_DESC
+  CCBC_NUMBER_ASC
+  CCBC_NUMBER_DESC
+  ER_ASC
+  ER_DESC
+}
+
+"""
+A condition to be used against `ApplicationEr` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input ApplicationErCondition {
+  """Checks for equality with the object’s `applicationId` field."""
+  applicationId: Int
+
+  """Checks for equality with the object’s `ccbcNumber` field."""
+  ccbcNumber: String
+
+  """Checks for equality with the object’s `er` field."""
+  er: String
+}
+
+"""
+A filter to be used against `ApplicationEr` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationErFilter {
+  """Filter by the object’s `applicationId` field."""
+  applicationId: IntFilter
+
+  """Filter by the object’s `ccbcNumber` field."""
+  ccbcNumber: StringFilter
+
+  """Filter by the object’s `er` field."""
+  er: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [ApplicationErFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ApplicationErFilter!]
+
+  """Negates the expression."""
+  not: ApplicationErFilter
+}
+
+"""A connection to a list of `ApplicationRd` values."""
+type ApplicationRdsConnection {
+  """A list of `ApplicationRd` objects."""
+  nodes: [ApplicationRd]!
+
+  """
+  A list of edges which contains the `ApplicationRd` and cursor to aid in pagination.
+  """
+  edges: [ApplicationRdsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `ApplicationRd` you could get from the connection."""
+  totalCount: Int!
+}
+
+type ApplicationRd {
+  applicationId: Int
+  ccbcNumber: String
+  rd: String
+}
+
+"""A `ApplicationRd` edge in the connection."""
+type ApplicationRdsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationRd` at the end of the edge."""
+  node: ApplicationRd
+}
+
+"""Methods to use when ordering `ApplicationRd`."""
+enum ApplicationRdsOrderBy {
+  NATURAL
+  APPLICATION_ID_ASC
+  APPLICATION_ID_DESC
+  CCBC_NUMBER_ASC
+  CCBC_NUMBER_DESC
+  RD_ASC
+  RD_DESC
+}
+
+"""
+A condition to be used against `ApplicationRd` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input ApplicationRdCondition {
+  """Checks for equality with the object’s `applicationId` field."""
+  applicationId: Int
+
+  """Checks for equality with the object’s `ccbcNumber` field."""
+  ccbcNumber: String
+
+  """Checks for equality with the object’s `rd` field."""
+  rd: String
+}
+
+"""
+A filter to be used against `ApplicationRd` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationRdFilter {
+  """Filter by the object’s `applicationId` field."""
+  applicationId: IntFilter
+
+  """Filter by the object’s `ccbcNumber` field."""
+  ccbcNumber: StringFilter
+
+  """Filter by the object’s `rd` field."""
+  rd: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [ApplicationRdFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ApplicationRdFilter!]
+
+  """Negates the expression."""
+  not: ApplicationRdFilter
+}
+
 """A connection to a list of `ApplicationStatusType` values."""
 type ApplicationStatusTypesConnection {
   """A list of `ApplicationStatusType` objects."""
@@ -78380,6 +78610,14 @@ type Mutation {
     input: CreateApplicationAnnouncementInput!
   ): CreateApplicationAnnouncementPayload
 
+  """Creates a single `ApplicationEr`."""
+  createApplicationEr(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateApplicationErInput!
+  ): CreateApplicationErPayload
+
   """Creates a single `ApplicationFormData`."""
   createApplicationFormData(
     """
@@ -78427,6 +78665,14 @@ type Mutation {
     """
     input: CreateApplicationProjectTypeInput!
   ): CreateApplicationProjectTypePayload
+
+  """Creates a single `ApplicationRd`."""
+  createApplicationRd(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateApplicationRdInput!
+  ): CreateApplicationRdPayload
 
   """Creates a single `ApplicationRfiData`."""
   createApplicationRfiData(
@@ -81128,6 +81374,48 @@ input ApplicationAnnouncementInput {
   historyOperation: String
 }
 
+"""The output of our create `ApplicationEr` mutation."""
+type CreateApplicationErPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationEr` that was created by this mutation."""
+  applicationEr: ApplicationEr
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `ApplicationEr`. May be used by Relay 1."""
+  applicationErEdge(
+    """The method to use when ordering `ApplicationEr`."""
+    orderBy: [ApplicationErsOrderBy!] = [NATURAL]
+  ): ApplicationErsEdge
+}
+
+"""All input for the create `ApplicationEr` mutation."""
+input CreateApplicationErInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ApplicationEr` to be created by this mutation."""
+  applicationEr: ApplicationErInput!
+}
+
+"""An input for mutations affecting `ApplicationEr`"""
+input ApplicationErInput {
+  applicationId: Int
+  ccbcNumber: String
+  er: String
+}
+
 """The output of our create `ApplicationFormData` mutation."""
 type CreateApplicationFormDataPayload {
   """
@@ -81609,6 +81897,48 @@ input ApplicationProjectTypeInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+}
+
+"""The output of our create `ApplicationRd` mutation."""
+type CreateApplicationRdPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationRd` that was created by this mutation."""
+  applicationRd: ApplicationRd
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `ApplicationRd`. May be used by Relay 1."""
+  applicationRdEdge(
+    """The method to use when ordering `ApplicationRd`."""
+    orderBy: [ApplicationRdsOrderBy!] = [NATURAL]
+  ): ApplicationRdsEdge
+}
+
+"""All input for the create `ApplicationRd` mutation."""
+input CreateApplicationRdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ApplicationRd` to be created by this mutation."""
+  applicationRd: ApplicationRdInput!
+}
+
+"""An input for mutations affecting `ApplicationRd`"""
+input ApplicationRdInput {
+  applicationId: Int
+  ccbcNumber: String
+  rd: String
 }
 
 """The output of our create `ApplicationRfiData` mutation."""

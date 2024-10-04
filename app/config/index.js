@@ -308,6 +308,12 @@ const config = convict({
     default: '',
     env: 'CHES_KEYCLOAK_HOST',
   },
+  COVERAGES_FILE_NAME: {
+    doc: 'Coverages file name',
+    format: String,
+    default: 'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip',
+    env: 'COVERAGES_FILE_NAME',
+  },
 });
 
 // Load environment dependent configuration

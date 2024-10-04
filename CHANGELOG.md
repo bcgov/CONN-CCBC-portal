@@ -1,3 +1,11 @@
+# [1.196.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.195.4...v1.196.0) (2024-10-04)
+
+### Features
+
+- add application coverages upload ([a8d961c](https://github.com/bcgov/CONN-CCBC-portal/commit/a8d961c39e0cf72240d07c0dc90f9cadc0bbc1cf))
+- add er and rd to ccbc summary page ([6d3d07d](https://github.com/bcgov/CONN-CCBC-portal/commit/6d3d07d72c5166ced067adc3a0cf005b22b3f338))
+- ccbc er rd job ([5bd21ec](https://github.com/bcgov/CONN-CCBC-portal/commit/5bd21ecbeb2e31702c506e4967d67e0523dd1a2b))
+
 ## [1.195.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.195.4...v1.195.5) (2024-10-04)
 
 ### Bug Fixes
