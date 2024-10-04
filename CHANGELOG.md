@@ -1,3 +1,17 @@
+# [1.197.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.195.4...v1.197.0) (2024-10-04)
+
+### Bug Fixes
+
+- autocomplete community source widget ([a2ec9bf](https://github.com/bcgov/CONN-CCBC-portal/commit/a2ec9bfc9b4c9bed4297a72e19e8ebef9572c9e4))
+- duplicates on geoname dropdown ([6846d0d](https://github.com/bcgov/CONN-CCBC-portal/commit/6846d0dc8ad9f6b847ba8ec1ac29054d074df561))
+
+### Features
+
+- add application coverages upload ([c64d643](https://github.com/bcgov/CONN-CCBC-portal/commit/c64d6439dd36700146d22eb78916c40f79380283))
+- add er and rd to ccbc summary page ([af28ffb](https://github.com/bcgov/CONN-CCBC-portal/commit/af28ffb152d61c0e30a364ca7fc3057dfd7f5056))
+- add success and failure toasts ([dcf1bd2](https://github.com/bcgov/CONN-CCBC-portal/commit/dcf1bd2f480e64b29073656661317049e6d80910))
+- ccbc er rd job ([af09e2f](https://github.com/bcgov/CONN-CCBC-portal/commit/af09e2ff471c46d85003f7ff3df5ab52f60a3b97))
+
 # [1.196.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.195.4...v1.196.0) (2024-10-04)
 
 ### Features
