@@ -1,10 +1,15 @@
 import { Router } from 'express';
+import RateLimit from 'express-rate-limit';
 import getAuthRole from '../../utils/getAuthRole';
 import { performQuery } from './graphql';
 import handleEmailNotification from './emails/handleEmailNotification';
 import notifyMilestoneReportDue from './emails/templates/notifyMilestoneReportDue';
 import validateKeycloakToken from './keycloakValidate';
-import limiter from './excel_import/excel-limiter';
+
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 30,
+});
 
 const milestonesRouter = Router();
 
@@ -17,7 +22,6 @@ const processMilestones = async (req, res) => {
         filter: {archivedAt: {isNull: true}}
       ) {
         nodes {
-          amendmentNumber
           applicationId
           applicationByApplicationId {
             ccbcNumber
