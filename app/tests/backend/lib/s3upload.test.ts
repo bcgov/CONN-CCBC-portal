@@ -25,7 +25,7 @@ jest.mock('../../../backend/lib/s3client', () => {
 
 jest.setTimeout(10000000);
 
-describe('The s3 download', () => {
+describe('The s3 upload', () => {
   let app;
 
   beforeEach(async () => {
@@ -42,7 +42,7 @@ describe('The s3 download', () => {
       };
     });
 
-    const response = await request(app).get('/api/s3/download/test/test');
+    const response = await request(app).post('/api/s3/upload');
     expect(response.status).toBe(404);
   });
 
@@ -55,6 +55,25 @@ describe('The s3 download', () => {
     });
 
     const response = await request(app).post('/api/s3/upload');
+    expect(response.status).toBe(200);
+  });
+
+  it('should upload any file for authorized user', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/s3/upload')
+      .set('Content-Type', 'application/json')
+      .set('Connection', 'keep-alive')
+      .field('data', JSON.stringify({ name: 'gis-data' }))
+      .attach('gis-data', `${__dirname}/gis-data-200.json`)
+      .expect(200);
+
     expect(response.status).toBe(200);
   });
 

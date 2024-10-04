@@ -698,3 +698,4 @@ computed_columns/cbc_history 2024-09-03T15:16:07Z Anthony Bushara <anthony@butto
 @1.195.5 2024-10-04T20:22:04Z CCBC Service Account <ccbc@button.is> # release v1.195.5
 tables/application_er 2024-09-11T18:20:37Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create application economic regions table
 tables/application_rd 2024-09-11T18:21:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create application regional district table
+@1.196.0 2024-10-04T16:31:01Z CCBC Service Account <ccbc@button.is> # release v1.196.0

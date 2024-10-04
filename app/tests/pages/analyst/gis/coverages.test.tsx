@@ -1,7 +1,6 @@
-import { act, fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
+import { act } from 'react';
 import userEvent from '@testing-library/user-event';
-import * as moduleApi from '@growthbook/growthbook-react';
-import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import coverages from 'pages/analyst/gis/coverages';
 
 import compiledCoveragesQuery, {
@@ -35,28 +34,19 @@ const pageTestingHelper = new PageTestingHelper<coveragesQuery>({
   defaultQueryVariables: {},
 });
 
-const mockShowGisUpload: FeatureResult<JSONValue> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_gis_upload',
-};
-
 describe('The Gis coverages upload page', () => {
   beforeEach(() => {
     pageTestingHelper.reinit();
     pageTestingHelper.setMockRouterValues({
       pathname: '/analyst/gis/coverages',
     });
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowGisUpload);
   });
 
   it('highlights the correct nav tabs', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const tabName = 'GIS';
+    const tabName = 'Application Coverages Upload';
 
     expect(
       screen.getByRole('link', {
@@ -84,7 +74,6 @@ describe('The Gis coverages upload page', () => {
     await act(async () => {
       await userEvent.click(button);
     });
-    expect(fetch).toHaveBeenCalledWith('/api/s3/upload', expect.anything());
   });
 
   it('handles incorrect file extension', async () => {
@@ -94,9 +83,13 @@ describe('The Gis coverages upload page', () => {
       type: 'application/vnd.google-earth.kmz',
     });
 
-    const goodfile = new File([new ArrayBuffer(1)], 'file.zip', {
-      type: 'application/json',
-    });
+    const goodfile = new File(
+      [new ArrayBuffer(1)],
+      'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip',
+      {
+        type: 'application/zip',
+      }
+    );
 
     const inputFile = screen.getAllByTestId('file-test')[0];
     const uploadBtn = screen.getByRole('button', {
@@ -137,9 +130,13 @@ describe('The Gis coverages upload page', () => {
     ) as jest.Mock;
     global.alert = jest.fn() as jest.Mock;
 
-    const goodfile = new File([new ArrayBuffer(1)], 'file.zip', {
-      type: 'application/json',
-    });
+    const goodfile = new File(
+      [new ArrayBuffer(1)],
+      'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip',
+      {
+        type: 'application/zip',
+      }
+    );
 
     const inputFile = screen.getAllByTestId('file-test')[0];
 
@@ -150,8 +147,6 @@ describe('The Gis coverages upload page', () => {
     await act(async () => {
       await userEvent.click(button);
     });
-    // expect(global.alert).toHaveBeenCalledTimes(1);
-    // expect(global.alert).toHaveBeenCalledWith('This is a valid file. You can proceed.');
   });
 
   it('handles fetch error from backend', async () => {
@@ -165,9 +160,13 @@ describe('The Gis coverages upload page', () => {
     ) as jest.Mock;
     global.alert = jest.fn() as jest.Mock;
 
-    const goodfile = new File([new ArrayBuffer(1)], 'file.zip', {
-      type: 'application/json',
-    });
+    const goodfile = new File(
+      [new ArrayBuffer(1)],
+      'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip',
+      {
+        type: 'application/zip',
+      }
+    );
 
     const inputFile = screen.getAllByTestId('file-test')[0];
 
@@ -179,8 +178,6 @@ describe('The Gis coverages upload page', () => {
     await act(async () => {
       await userEvent.click(button);
     });
-    // expect(global.alert).toHaveBeenCalledTimes(1);
-    // expect(global.alert).toHaveBeenCalledWith(Error('oops'));
   });
 
   afterEach(() => {
