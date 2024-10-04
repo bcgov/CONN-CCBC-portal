@@ -13,6 +13,14 @@ const createTemplateNineDataMutation = `
   }
   `;
 
+const updateTemplateNineDataMutation = `
+  mutation updateTemplateNineData($input: UpdateApplicationFormTemplate9DataByRowIdInput!) {
+    updateApplicationFormTemplate9DataByRowId(input: $input) {
+      clientMutationId
+    }
+  }
+`;
+
 const getTemplateNineQuery = `
   query getTemplateNine {
     allApplications(filter: {ccbcNumber: {isNull: false}}) {
@@ -276,7 +284,7 @@ templateNine.get('/api/template-nine/all', async (req, res) => {
                   applicationFormTemplate9Data: {
                     jsonData: templateNineData,
                     errors: templateNineData.errors || null,
-                    source: { source: 'application' },
+                    source: { source: 'application', uuid },
                     applicationId,
                   },
                 },
@@ -339,23 +347,59 @@ templateNine.get('/api/template-nine/rfi/all', async (req, res) => {
             true
           );
           if (templateNineData) {
-            await performQuery(
-              createTemplateNineDataMutation,
-              {
-                input: {
-                  applicationFormTemplate9Data: {
-                    jsonData: templateNineData,
-                    errors: templateNineData.errors || null,
-                    source: {
-                      source: 'rfi',
-                      rfiNumber: application?.rfiDataByRfiDataId?.rfiNumber,
-                    },
-                    applicationId,
-                  },
-                },
-              },
+            const findTemplateNineData = await performQuery(
+              findTemplateNineDataQuery,
+              { applicationId },
               req
             );
+            if (
+              findTemplateNineData.data.allApplicationFormTemplate9Data
+                .totalCount > 0
+            ) {
+              // update
+              await performQuery(
+                updateTemplateNineDataMutation,
+                {
+                  input: {
+                    rowId:
+                      findTemplateNineData.data.allApplicationFormTemplate9Data
+                        .nodes[0].rowId,
+                    applicationFormTemplate9DataPatch: {
+                      jsonData: templateNineData,
+                      errors: templateNineData.errors || null,
+                      source: {
+                        source: 'rfi',
+                        rfiNumber:
+                          application?.rfiDataByRfiDataId?.rfiNumber || null,
+                        uuid,
+                      },
+                      applicationId,
+                    },
+                  },
+                },
+                req
+              );
+              // else create new one
+            } else {
+              await performQuery(
+                createTemplateNineDataMutation,
+                {
+                  input: {
+                    applicationFormTemplate9Data: {
+                      jsonData: templateNineData,
+                      errors: templateNineData.errors || null,
+                      source: {
+                        source: 'rfi',
+                        rfiNumber: application?.rfiDataByRfiDataId?.rfiNumber,
+                        uuid,
+                      },
+                      applicationId,
+                    },
+                  },
+                },
+                req
+              );
+            }
           }
         }
       }
@@ -367,27 +411,87 @@ templateNine.get('/api/template-nine/rfi/all', async (req, res) => {
   }
 });
 
-templateNine.get('/api/template-nine/:id/:uuid', async (req, res) => {
-  const { id, uuid } = req.params;
-  const applicationId = parseInt(id, 10);
-  const templateNineData = await handleTemplateNine(uuid, applicationId, req);
-  if (templateNineData) {
-    await performQuery(
-      createTemplateNineDataMutation,
-      {
-        input: {
-          applicationFormTemplate9Data: {
-            jsonData: templateNineData,
-            errors: templateNineData.errors || null,
-            source: { source: 'application' },
-            applicationId,
+templateNine.get(
+  '/api/template-nine/:id/:uuid/:source/:rfiNumber?',
+  async (req, res) => {
+    const authRole = getAuthRole(req);
+    const pgRole = authRole?.pgRole;
+    const isRoleAuthorized =
+      pgRole === 'ccbc_admin' || pgRole === 'super_admin';
+
+    if (!isRoleAuthorized) {
+      return res.status(404).end();
+    }
+
+    const { id, uuid, source } = req.params;
+    let rfiNumber = null;
+    if (
+      !source ||
+      !id ||
+      !uuid ||
+      (source !== 'application' && source !== 'rfi')
+    ) {
+      return res.status(400).json({ error: 'Invalid parameters' });
+    }
+    if (source === 'rfi') {
+      if (!req.params.rfiNumber) {
+        return res.status(400).json({ error: 'Invalid parameters' });
+      }
+      rfiNumber = req.params.rfiNumber || null;
+    }
+    const applicationId = parseInt(id, 10);
+    const templateNineData = await handleTemplateNine(uuid, applicationId, req);
+    if (templateNineData) {
+      const findTemplateNineData = await performQuery(
+        findTemplateNineDataQuery,
+        { applicationId },
+        req
+      );
+      if (
+        findTemplateNineData.data.allApplicationFormTemplate9Data.totalCount > 0
+      ) {
+        // update
+        await performQuery(
+          updateTemplateNineDataMutation,
+          {
+            input: {
+              rowId:
+                findTemplateNineData.data.allApplicationFormTemplate9Data
+                  .nodes[0].rowId,
+              applicationFormTemplate9DataPatch: {
+                jsonData: templateNineData,
+                errors: templateNineData.errors || null,
+                source: {
+                  source,
+                  rfiNumber: rfiNumber || null,
+                  uuid,
+                },
+                applicationId,
+              },
+            },
           },
-        },
-      },
-      req
-    );
+          req
+        );
+        // else create new one
+      } else {
+        await performQuery(
+          createTemplateNineDataMutation,
+          {
+            input: {
+              applicationFormTemplate9Data: {
+                jsonData: templateNineData,
+                errors: templateNineData.errors || null,
+                source: { source: 'application' },
+                applicationId,
+              },
+            },
+          },
+          req
+        );
+      }
+    }
+    return res.status(200).json({ result: 'success' });
   }
-  return res.status(200).json({ result: 'success' });
-});
+);
 
 export default templateNine;
