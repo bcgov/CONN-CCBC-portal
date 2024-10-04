@@ -48,7 +48,7 @@ cronshp:
 
 cronmilestone:
   path: '/api/analyst/cron-milestones'
-  schedule: '0 7 * * 1-5' # Trigger 7AM on weekdays
+  schedule: '0 7 * * *' # Trigger 7AM every day
 
 app:
   port: '3000'
