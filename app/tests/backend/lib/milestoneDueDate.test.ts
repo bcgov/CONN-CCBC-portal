@@ -110,6 +110,7 @@ describe('The Milestone excel import api route', () => {
       }
       return new OriginalDate(dateString);
     }) as unknown as DateConstructor;
+    global.Date.now = OriginalDate.now;
 
     mocked(handleEmailNotification).mockImplementation(async (req, res) => {
       return res.status(200).json({ emails: 'sent' }).end();
@@ -146,9 +147,7 @@ describe('The Milestone excel import api route', () => {
       };
     });
 
-    const response = await request(app)
-      .get('/api/analyst/milestone/upcoming')
-      .expect(200);
+    const response = await request(app).get('/api/analyst/milestone/upcoming');
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({ emails: 'sent' });
