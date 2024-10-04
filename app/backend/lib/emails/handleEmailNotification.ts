@@ -46,6 +46,7 @@ const isAuthorized = (authRole: any) => {
     'ccbc_auth_user',
     'super_admin',
     'cbc_admin',
+    'ccbc_service_account',
   ];
   return authRole && authorizedRoles.includes(authRole.pgRole);
 };
