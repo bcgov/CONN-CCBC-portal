@@ -20,10 +20,12 @@ begin
 -- Grant ccbc_admin permissions
 perform ccbc_private.grant_permissions('select', 'application_form_template_9_data', 'ccbc_admin');
 perform ccbc_private.grant_permissions('insert', 'application_form_template_9_data', 'ccbc_admin');
+perform ccbc_private.grant_permissions('update', 'application_form_template_9_data', 'ccbc_admin');
 
 -- Grant ccbc service account permissions
 perform ccbc_private.grant_permissions('select', 'application_form_template_9_data', 'ccbc_service_account');
 perform ccbc_private.grant_permissions('insert', 'application_form_template_9_data', 'ccbc_service_account');
+perform ccbc_private.grant_permissions('update', 'application_form_template_9_data', 'ccbc_service_account');
 
 end
 $grant$;

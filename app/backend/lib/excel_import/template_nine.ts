@@ -58,6 +58,9 @@ const findTemplateNineDataQuery = `
   query findTemplateNineDataQuery($applicationId: Int!){
     allApplicationFormTemplate9Data(filter: {applicationId: {equalTo: $applicationId}}) {
       totalCount
+      nodes {
+        rowId
+      }
     }
   }
 `;
