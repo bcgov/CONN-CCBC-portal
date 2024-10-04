@@ -130,6 +130,7 @@ milestonesRouter.get('/api/analyst/milestone/upcoming', limiter, (req, res) => {
 
 milestonesRouter.get(
   '/api/analyst/cron-milestones',
+  limiter,
   validateKeycloakToken,
   (req, res) => {
     req.claims.identity_provider = 'serviceaccount';
