@@ -124,6 +124,7 @@ app.prepare().then(async () => {
         'api/analyst/claims',
         'api/analyst/milestone',
         '/api/applicant/template',
+        '/api/template-nine/rfi',
       ],
       graphqlUploadExpress()
     )

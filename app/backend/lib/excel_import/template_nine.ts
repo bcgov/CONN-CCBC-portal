@@ -1,9 +1,12 @@
 import { Router } from 'express';
 import fs from 'fs';
 import XLSX, { WorkBook } from 'xlsx';
+import formidable, { File } from 'formidable';
+import { DateTime } from 'luxon';
 import { performQuery } from '../graphql';
 import getAuthRole from '../../../utils/getAuthRole';
 import { getByteArrayFromS3 } from '../s3client';
+import { commonFormidableConfig, parseForm } from '../express-helper';
 
 const createTemplateNineDataMutation = `
   mutation createTemplateNineData($input: CreateApplicationFormTemplate9DataInput!) {
@@ -165,6 +168,8 @@ const readTemplateNineData = (
       const mapLink = sheet[row]['M'];
       const isIndigenous = sheet[row]['N'];
       const geoNameId = sheet[row]['G'];
+      const regionalDistrict = sheet[row]['H'];
+      const economicRegion = sheet[row]['I'];
       const pointOfPresenceId = sheet[row]['O'];
       const proposedSolution = sheet[row]['P'];
       const households = sheet[row]['Q'];
@@ -181,6 +186,8 @@ const readTemplateNineData = (
           mapLink,
           isIndigenous,
           geoNameId,
+          regionalDistrict,
+          economicRegion,
           pointOfPresenceId,
           proposedSolution,
           households,
@@ -496,5 +503,101 @@ templateNine.get(
     return res.status(200).json({ result: 'success' });
   }
 );
+
+templateNine.post('/api/template-nine/rfi/:id/:rfiNumber', async (req, res) => {
+  const authRole = getAuthRole(req);
+  const pgRole = authRole?.pgRole;
+  const isRoleAuthorized = pgRole === 'ccbc_admin' || pgRole === 'super_admin';
+
+  if (!isRoleAuthorized) {
+    return res.status(404).end();
+  }
+
+  const { id, rfiNumber } = req.params;
+
+  const applicationId = parseInt(id, 10);
+
+  if (!id || !rfiNumber || Number.isNaN(applicationId)) {
+    return res.status(400).json({ error: 'Invalid parameters' });
+  }
+
+  const errorList = [];
+  const form = formidable(commonFormidableConfig);
+
+  const files = await parseForm(form, req).catch((err) => {
+    errorList.push({ level: 'file', error: err });
+    return res.status(400).json(errorList).end();
+  });
+
+  const filename = Object.keys(files)[0];
+  const uploadedFilesArray = files[filename] as Array<File>;
+
+  const uploaded = uploadedFilesArray?.[0];
+  console.log('uploaded', uploaded);
+  if (!uploaded) {
+    return res.status(400).end();
+  }
+  const buf = fs.readFileSync(uploaded.filepath);
+  const wb = XLSX.read(buf);
+
+  const templateNineData = await loadTemplateNineData(wb);
+
+  if (templateNineData) {
+    const findTemplateNineData = await performQuery(
+      findTemplateNineDataQuery,
+      { applicationId },
+      req
+    );
+    if (
+      findTemplateNineData.data.allApplicationFormTemplate9Data.totalCount > 0
+    ) {
+      // update
+      await performQuery(
+        updateTemplateNineDataMutation,
+        {
+          input: {
+            rowId:
+              findTemplateNineData.data.allApplicationFormTemplate9Data.nodes[0]
+                .rowId,
+            applicationFormTemplate9DataPatch: {
+              jsonData: templateNineData,
+              errors: templateNineData.errors || null,
+              source: {
+                source: 'rfi',
+                rfiNumber: rfiNumber || null,
+                fileName: uploaded.originalFilename,
+                date: DateTime.now().toISO(),
+              },
+              applicationId,
+            },
+          },
+        },
+        req
+      );
+      // else create new one
+    } else {
+      await performQuery(
+        createTemplateNineDataMutation,
+        {
+          input: {
+            applicationFormTemplate9Data: {
+              jsonData: templateNineData,
+              errors: templateNineData.errors || null,
+              source: {
+                source: 'rfi',
+                rfiNumber: rfiNumber || null,
+                fileName: uploaded.originalFilename,
+                date: DateTime.now().toISO(),
+              },
+              applicationId,
+            },
+          },
+        },
+        req
+      );
+    }
+  }
+  return res.status(200).json({ result: 'success' });
+});
 
 export default templateNine;
