@@ -278,9 +278,6 @@ templateNine.get('/api/template-nine/all', async (req, res) => {
         const uuid = applicationData?.uuid || null;
         // if a uuid is found, handle the template
         if (uuid) {
-          // console.log(
-          //   `Handling template nine for application ${applicationId}`
-          // );
           const templateNineData = await handleTemplateNine(
             uuid,
             applicationId,
@@ -533,7 +530,6 @@ templateNine.post('/api/template-nine/rfi/:id/:rfiNumber', async (req, res) => {
   const uploadedFilesArray = files[filename] as Array<File>;
 
   const uploaded = uploadedFilesArray?.[0];
-  console.log('uploaded', uploaded);
   if (!uploaded) {
     return res.status(400).end();
   }
