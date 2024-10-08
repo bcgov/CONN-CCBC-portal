@@ -21599,6 +21599,57 @@ export const cbcDataQueryResult = {
               nditConditionalApprovalLetterSent: true,
               bindingAgreementSignedNditRecipient: true,
             },
+            cbcByCbcId: {
+              communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId:
+                {
+                  edges: [
+                    {
+                      cbcProjectCommunitiesByCommunitiesSourceDataId: {
+                        nodes: [
+                          {
+                            communitiesSourceDataByCommunitiesSourceDataId: {
+                              economicRegion: 'Northeast / Nord-est',
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      cbcProjectCommunitiesByCommunitiesSourceDataId: {
+                        nodes: [
+                          {
+                            communitiesSourceDataByCommunitiesSourceDataId: {
+                              economicRegion: 'Northeast / Nord-est',
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      cbcProjectCommunitiesByCommunitiesSourceDataId: {
+                        nodes: [
+                          {
+                            communitiesSourceDataByCommunitiesSourceDataId: {
+                              economicRegion: 'Thompson--Okanagan',
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      cbcProjectCommunitiesByCommunitiesSourceDataId: {
+                        nodes: [
+                          {
+                            communitiesSourceDataByCommunitiesSourceDataId: {
+                              economicRegion: 'Northeast / Nord-est',
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+            },
           },
         },
       ],
@@ -21613,6 +21664,7 @@ export const ccbcDataQueryResult = {
         {
           node: {
             id: 'WyJhcHBsaWNhdGlvbnMiLDIxXQ==',
+            rowId: 1,
             formData: {
               jsonData: {
                 review: {
@@ -22066,6 +22118,15 @@ export const ccbcDataQueryResult = {
               totalCount: 0,
             },
           },
+        },
+      ],
+    },
+    allApplicationErs: {
+      nodes: [
+        {
+          applicationId: 1,
+          ccbcNumber: 'CCBC-010001',
+          er: 'Vancouver Island and Coast / Île de Vancouver et la côte',
         },
       ],
     },

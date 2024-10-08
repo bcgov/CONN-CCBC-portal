@@ -134,3 +134,45 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
     });
   });
 };
+
+export const handleCcbcEconomicRegions = (
+  applicationId: Number,
+  economicRegionNodes: {
+    applicationId: Number;
+    er: string;
+    ccbcNumber: string;
+  }[]
+): string | null => {
+  const match = economicRegionNodes?.find(
+    (node) => node.applicationId === applicationId
+  );
+  return match?.er || null;
+};
+
+export const handleCbcEconomicRegions = (
+  economicRegionEdges: any[]
+): string => {
+  const regions = [];
+  economicRegionEdges?.forEach((edge) => {
+    if (
+      edge?.cbcProjectCommunitiesByCommunitiesSourceDataId?.nodes?.[0]
+        ?.communitiesSourceDataByCommunitiesSourceDataId?.economicRegion
+    ) {
+      if (
+        !regions.includes(
+          edge?.cbcProjectCommunitiesByCommunitiesSourceDataId?.nodes?.[0]
+            ?.communitiesSourceDataByCommunitiesSourceDataId?.economicRegion
+        )
+      ) {
+        regions.push(
+          edge?.cbcProjectCommunitiesByCommunitiesSourceDataId?.nodes?.[0]
+            ?.communitiesSourceDataByCommunitiesSourceDataId?.economicRegion
+        );
+      }
+    }
+  });
+  if (regions.length === 0) {
+    return null;
+  }
+  return regions.join(', ');
+};
