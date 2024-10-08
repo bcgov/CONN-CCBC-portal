@@ -135,6 +135,20 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
   });
 };
 
+export const handleCcbcEconomicRegions = (
+  applicationId: Number,
+  economicRegionNodes: {
+    applicationId: Number;
+    er: string;
+    ccbcNumber: string;
+  }[]
+): string | null => {
+  const match = economicRegionNodes?.find(
+    (node) => node.applicationId === applicationId
+  );
+  return match?.er || null;
+};
+
 export const handleCbcEconomicRegions = (
   economicRegionEdges: any[]
 ): string => {
