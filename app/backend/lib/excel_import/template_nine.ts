@@ -231,7 +231,7 @@ const handleTemplateNine = async (
     // if it exists, and update is false do nothing
     // update should only be true for RFIs as form data is immutable
     if (
-      findResult.data.allApplicationFormTemplate9Data.totalCount > 0 &&
+      findResult?.data?.allApplicationFormTemplate9Data.totalCount > 0 &&
       !update
     ) {
       return null;
@@ -455,7 +455,8 @@ templateNine.get(
         req
       );
       if (
-        findTemplateNineData.data.allApplicationFormTemplate9Data.totalCount > 0
+        findTemplateNineData?.data?.allApplicationFormTemplate9Data
+          ?.totalCount > 0
       ) {
         // update
         await performQuery(
@@ -504,7 +505,10 @@ templateNine.get(
 templateNine.post('/api/template-nine/rfi/:id/:rfiNumber', async (req, res) => {
   const authRole = getAuthRole(req);
   const pgRole = authRole?.pgRole;
-  const isRoleAuthorized = pgRole === 'ccbc_admin' || pgRole === 'super_admin';
+  const isRoleAuthorized =
+    pgRole === 'ccbc_admin' ||
+    pgRole === 'super_admin' ||
+    pgRole === 'ccbc_analyst';
 
   if (!isRoleAuthorized) {
     return res.status(404).end();
