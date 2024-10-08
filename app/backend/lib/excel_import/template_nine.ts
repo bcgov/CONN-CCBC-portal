@@ -5,6 +5,7 @@ import formidable, { File } from 'formidable';
 import { DateTime } from 'luxon';
 import { performQuery } from '../graphql';
 import getAuthRole from '../../../utils/getAuthRole';
+import limiter from './excel-limiter';
 import { getByteArrayFromS3 } from '../s3client';
 import { commonFormidableConfig, parseForm } from '../express-helper';
 
@@ -253,7 +254,7 @@ const templateNine = Router();
 // Must pass the uuid of the file to be imported
 // into the database, it must be a valid uuid
 // and a template 9 Excel file
-templateNine.get('/api/template-nine/all', async (req, res) => {
+templateNine.get('/api/template-nine/all', limiter, async (req, res) => {
   const authRole = getAuthRole(req);
   const pgRole = authRole?.pgRole;
   const isRoleAuthorized = pgRole === 'ccbc_admin' || pgRole === 'super_admin';
@@ -323,7 +324,7 @@ templateNine.get('/api/template-nine/all', async (req, res) => {
   }
 });
 
-templateNine.get('/api/template-nine/rfi/all', async (req, res) => {
+templateNine.get('/api/template-nine/rfi/all', limiter, async (req, res) => {
   const authRole = getAuthRole(req);
   const pgRole = authRole?.pgRole;
   const isRoleAuthorized = pgRole === 'ccbc_admin' || pgRole === 'super_admin';
@@ -420,6 +421,7 @@ templateNine.get('/api/template-nine/rfi/all', async (req, res) => {
 
 templateNine.get(
   '/api/template-nine/:id/:uuid/:source/:rfiNumber?',
+  limiter,
   async (req, res) => {
     const authRole = getAuthRole(req);
     const pgRole = authRole?.pgRole;
@@ -502,102 +504,106 @@ templateNine.get(
   }
 );
 
-templateNine.post('/api/template-nine/rfi/:id/:rfiNumber', async (req, res) => {
-  const authRole = getAuthRole(req);
-  const pgRole = authRole?.pgRole;
-  const isRoleAuthorized =
-    pgRole === 'ccbc_admin' ||
-    pgRole === 'super_admin' ||
-    pgRole === 'ccbc_analyst';
+templateNine.post(
+  '/api/template-nine/rfi/:id/:rfiNumber',
+  limiter,
+  async (req, res) => {
+    const authRole = getAuthRole(req);
+    const pgRole = authRole?.pgRole;
+    const isRoleAuthorized =
+      pgRole === 'ccbc_admin' ||
+      pgRole === 'super_admin' ||
+      pgRole === 'ccbc_analyst';
 
-  if (!isRoleAuthorized) {
-    return res.status(404).end();
-  }
-
-  const { id, rfiNumber } = req.params;
-
-  const applicationId = parseInt(id, 10);
-
-  if (!id || !rfiNumber || Number.isNaN(applicationId)) {
-    return res.status(400).json({ error: 'Invalid parameters' });
-  }
-
-  const errorList = [];
-  const form = formidable(commonFormidableConfig);
-
-  const files = await parseForm(form, req).catch((err) => {
-    errorList.push({ level: 'file', error: err });
-    return res.status(400).json(errorList).end();
-  });
-
-  const filename = Object.keys(files)[0];
-  const uploadedFilesArray = files[filename] as Array<File>;
-
-  const uploaded = uploadedFilesArray?.[0];
-  if (!uploaded) {
-    return res.status(400).end();
-  }
-  const buf = fs.readFileSync(uploaded.filepath);
-  const wb = XLSX.read(buf);
-
-  const templateNineData = await loadTemplateNineData(wb);
-
-  if (templateNineData) {
-    const findTemplateNineData = await performQuery(
-      findTemplateNineDataQuery,
-      { applicationId },
-      req
-    );
-    if (
-      findTemplateNineData.data.allApplicationFormTemplate9Data.totalCount > 0
-    ) {
-      // update
-      await performQuery(
-        updateTemplateNineDataMutation,
-        {
-          input: {
-            rowId:
-              findTemplateNineData.data.allApplicationFormTemplate9Data.nodes[0]
-                .rowId,
-            applicationFormTemplate9DataPatch: {
-              jsonData: templateNineData,
-              errors: templateNineData.errors || null,
-              source: {
-                source: 'rfi',
-                rfiNumber: rfiNumber || null,
-                fileName: uploaded.originalFilename,
-                date: DateTime.now().toISO(),
-              },
-              applicationId,
-            },
-          },
-        },
-        req
-      );
-      // else create new one
-    } else {
-      await performQuery(
-        createTemplateNineDataMutation,
-        {
-          input: {
-            applicationFormTemplate9Data: {
-              jsonData: templateNineData,
-              errors: templateNineData.errors || null,
-              source: {
-                source: 'rfi',
-                rfiNumber: rfiNumber || null,
-                fileName: uploaded.originalFilename,
-                date: DateTime.now().toISO(),
-              },
-              applicationId,
-            },
-          },
-        },
-        req
-      );
+    if (!isRoleAuthorized) {
+      return res.status(404).end();
     }
+
+    const { id, rfiNumber } = req.params;
+
+    const applicationId = parseInt(id, 10);
+
+    if (!id || !rfiNumber || Number.isNaN(applicationId)) {
+      return res.status(400).json({ error: 'Invalid parameters' });
+    }
+
+    const errorList = [];
+    const form = formidable(commonFormidableConfig);
+
+    const files = await parseForm(form, req).catch((err) => {
+      errorList.push({ level: 'file', error: err });
+      return res.status(400).json(errorList).end();
+    });
+
+    const filename = Object.keys(files)[0];
+    const uploadedFilesArray = files[filename] as Array<File>;
+
+    const uploaded = uploadedFilesArray?.[0];
+    if (!uploaded) {
+      return res.status(400).end();
+    }
+    const buf = fs.readFileSync(uploaded.filepath);
+    const wb = XLSX.read(buf);
+
+    const templateNineData = await loadTemplateNineData(wb);
+
+    if (templateNineData) {
+      const findTemplateNineData = await performQuery(
+        findTemplateNineDataQuery,
+        { applicationId },
+        req
+      );
+      if (
+        findTemplateNineData.data.allApplicationFormTemplate9Data.totalCount > 0
+      ) {
+        // update
+        await performQuery(
+          updateTemplateNineDataMutation,
+          {
+            input: {
+              rowId:
+                findTemplateNineData.data.allApplicationFormTemplate9Data
+                  .nodes[0].rowId,
+              applicationFormTemplate9DataPatch: {
+                jsonData: templateNineData,
+                errors: templateNineData.errors || null,
+                source: {
+                  source: 'rfi',
+                  rfiNumber: rfiNumber || null,
+                  fileName: uploaded.originalFilename,
+                  date: DateTime.now().toISO(),
+                },
+                applicationId,
+              },
+            },
+          },
+          req
+        );
+        // else create new one
+      } else {
+        await performQuery(
+          createTemplateNineDataMutation,
+          {
+            input: {
+              applicationFormTemplate9Data: {
+                jsonData: templateNineData,
+                errors: templateNineData.errors || null,
+                source: {
+                  source: 'rfi',
+                  rfiNumber: rfiNumber || null,
+                  fileName: uploaded.originalFilename,
+                  date: DateTime.now().toISO(),
+                },
+                applicationId,
+              },
+            },
+          },
+          req
+        );
+      }
+    }
+    return res.status(200).json({ result: 'success' });
   }
-  return res.status(200).json({ result: 'success' });
-});
+);
 
 export default templateNine;
