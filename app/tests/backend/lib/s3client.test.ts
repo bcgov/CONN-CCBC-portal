@@ -10,6 +10,7 @@ import {
   checkFileExists,
   getFileTagging,
   getSignedUrlPromise,
+  getByteArrayFromS3,
 } from '../../../backend/lib/s3client';
 
 const mockRequestedAt = '2021-09-01T00:00:00.000Z';
@@ -44,6 +45,7 @@ jest.mock('@aws-sdk/s3-request-presigner', () => {
 });
 
 jest.mock('@aws-sdk/client-s3', () => {
+  const mockByteArray = new Uint8Array([65, 66, 67]);
   return {
     S3Client: jest.fn().mockImplementation(() => {
       return {
@@ -58,6 +60,11 @@ jest.mock('@aws-sdk/client-s3', () => {
               TagSet: [{ Key: 'av-status', Value: 'clean' }],
               Metadata: {
                 'requested-at': mockRequestedAt,
+              },
+              Body: {
+                transformToByteArray: jest
+                  .fn()
+                  .mockResolvedValue(mockByteArray),
               },
             });
           });
@@ -105,6 +112,12 @@ describe('S3 client', () => {
     expect(mockJson).toHaveBeenCalled();
   });
 
+  it('should receive the correct response for file byte array download', async () => {
+    const response = await getByteArrayFromS3('uuid');
+
+    expect(response).toEqual(new Uint8Array([65, 66, 67]));
+  });
+
   it('should receive the correct response to user checking if file exists', async () => {
     const params = {
       Bucket: 'bucket',
@@ -126,6 +139,7 @@ describe('S3 client', () => {
       $metadata: { httpStatusCode: 200 },
       TagSet: [{ Key: 'av-status', Value: 'clean' }],
       Metadata: { 'requested-at': '2021-09-01T00:00:00.000Z' },
+      Body: expect.anything(),
     };
     const response = await getFileTagging(params);
     expect(response).toEqual(expected);
