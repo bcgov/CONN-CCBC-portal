@@ -46,6 +46,10 @@ cronshp:
   rdFile: '' # The value must be passed in via the deploy script
   coveragesFile: '' # The value must be passed in via the deploy script
 
+cronmilestone:
+  path: '/api/analyst/cron-milestones'
+  schedule: '0 7 * * *' # Trigger 7AM every day
+
 app:
   port: '3000'
   probesPort: '9000'
