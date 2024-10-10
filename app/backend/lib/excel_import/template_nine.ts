@@ -449,7 +449,12 @@ templateNine.get(
       rfiNumber = req.params.rfiNumber || null;
     }
     const applicationId = parseInt(id, 10);
-    const templateNineData = await handleTemplateNine(uuid, applicationId, req);
+    const templateNineData = await handleTemplateNine(
+      uuid,
+      applicationId,
+      req,
+      true
+    );
     if (templateNineData) {
       const findTemplateNineData = await performQuery(
         findTemplateNineDataQuery,
