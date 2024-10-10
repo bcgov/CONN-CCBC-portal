@@ -252,7 +252,7 @@ const ProjectInformationForm: React.FC<Props> = ({
       hasFormErrors &&
       formData.hasFundingAgreementBeenSigned;
 
-    const latestAmendment = changeRequestData?.[0].node?.amendmentNumber;
+    const latestAmendment = changeRequestData?.[0]?.node?.amendmentNumber;
 
     const isChangeRequestFormInvalid =
       isChangeRequest && (hasFormErrors || !isAmendmentValid);

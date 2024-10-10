@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
@@ -79,19 +79,29 @@ const Project = ({
   const { section: toggledSection } = useRouter().query;
   const projectInformationRef = useRef(null);
 
-  useEffect(() => {
-    const sectionRefs = {
+  const sectionRefs = useMemo(
+    () => ({
       projectInformation: projectInformationRef,
-    };
+    }),
+    []
+  );
+
+  useEffect(() => {
     const anchorRef = sectionRefs[toggledSection as string];
     if (toggledSection && anchorRef?.current) {
-      window.scrollTo({
-        top:
-          anchorRef.current.getBoundingClientRect().top + window.scrollY + 100,
-        behavior: 'smooth',
-      });
+      const scrollTimeout = setTimeout(() => {
+        window.scrollTo({
+          top:
+            anchorRef.current.getBoundingClientRect().top +
+            window.scrollY -
+            100,
+          behavior: 'smooth',
+        });
+      }, 500);
+      return () => clearTimeout(scrollTimeout);
     }
-  }, [toggledSection]);
+    return undefined;
+  }, [sectionRefs, toggledSection]);
 
   useEffect(() => {
     const isFundingAgreementSigned =
@@ -139,7 +149,10 @@ const Project = ({
           <div ref={projectInformationRef}>
             <ProjectInformationForm
               application={applicationByRowId}
-              isExpanded={isProjectInformationExpanded}
+              isExpanded={
+                isProjectInformationExpanded ||
+                toggledSection === 'projectInformation'
+              }
             />
           </div>
         )}
