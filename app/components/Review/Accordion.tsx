@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
 import CbcRecordLock from 'components/Analyst/CBC/CbcRecordLock';
+import { Tooltip } from '@mui/material';
 import AlertIcon from './AlertIcon';
 
 export function getToggledState(
@@ -64,6 +65,10 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
+const StyledTooltip = styled(Tooltip)`
+  cursor: pointer;
+`;
+
 const Accordion = ({
   allowAnalystEdit,
   children,
@@ -71,6 +76,7 @@ const Accordion = ({
   isCBC,
   cbcId,
   error,
+  sectionErrors,
   name,
   onToggle,
   toggled,
@@ -131,9 +137,11 @@ const Accordion = ({
             ))}
 
           {error && (
-            <StyledAlert>
-              <AlertIcon />
-            </StyledAlert>
+            <StyledTooltip title={sectionErrors?.join('\n')} placement="top">
+              <StyledAlert data-testid="styled-alert">
+                <AlertIcon />
+              </StyledAlert>
+            </StyledTooltip>
           )}
           <button type="button" onClick={handleToggle}>
             {isToggled ? (
