@@ -181,6 +181,67 @@ describe('The Community Progress Report import', () => {
     expect(all.status).toBe(200);
   });
 
+  it('should process all the rfis that have template 9 when they exist', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          allApplicationRfiData: {
+            nodes: [
+              {
+                rfiDataByRfiDataId: {
+                  jsonData: {
+                    rfiType: ['Missing files or information'],
+                    rfiDueBy: '2023-02-24',
+                    rfiAdditionalFiles: {
+                      geographicNames: [
+                        {
+                          id: 1000,
+                          name: 'template_9-backbone_and_geographic_names-rfi.xlsx',
+                          size: 9999,
+                          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                          uuid: '93f09138-9e69-1238-abc-123456789',
+                        },
+                      ],
+                      geographicNamesRfi: true,
+                    },
+                  },
+                  rfiNumber: 'CCBC-00001-1',
+                },
+                applicationId: 1,
+              },
+            ],
+          },
+          allApplicationFormTemplate9Data: {
+            totalCount: 1,
+            nodes: [
+              {
+                rowId: 1,
+              },
+            ],
+          },
+        },
+      };
+    });
+
+    mocked(getByteArrayFromS3).mockImplementation(async () => {
+      const filePath = path.resolve(__dirname, 'template9-complete.xlsx'); // Adjust path if needed
+      const fileContent = fs.readFileSync(filePath);
+
+      // Mock the function to return the file content
+      return fileContent;
+    });
+
+    const all = await request(app).get('/api/template-nine/rfi/all');
+    expect(all.status).toBe(200);
+  });
+
   it('should return correct responses for different combinations of applicationId and rfiNumber', async () => {
     mocked(getAuthRole).mockImplementation(() => {
       return {
@@ -211,15 +272,39 @@ describe('The Community Progress Report import', () => {
 
     expect(application.status).toBe(200);
 
+    mocked(getByteArrayFromS3).mockImplementation(async () => {
+      const filePath = path.resolve(__dirname, 'template9-complete.xlsx'); // Adjust path if needed
+      const fileContent = fs.readFileSync(filePath);
+
+      // Mock the function to return the file content
+      return fileContent;
+    });
+
+    const nonExistingApplication = await request(app).get(
+      '/api/template-nine/1/1234-abcde/application'
+    );
+    expect(nonExistingApplication.status).toBe(200);
+
     mocked(performQuery).mockImplementation(async () => {
       return {
         data: {
           allApplicationFormTemplate9Data: {
-            totalCount: 0,
+            totalCount: 1,
+            nodes: [
+              {
+                rowId: 1,
+              },
+            ],
           },
         },
       };
     });
+
+    const existingApplication = await request(app).get(
+      '/api/template-nine/1/1234-abcde/application'
+    );
+
+    expect(existingApplication.status).toBe(200);
   });
 
   it('should process the rfi for authorized user', async () => {
