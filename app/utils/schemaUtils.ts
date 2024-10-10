@@ -153,6 +153,7 @@ type CommunitySourceData = {
   readonly geographicNameId: number;
   readonly regionalDistrict: string | null;
   readonly economicRegion: string | null;
+  readonly geographicType: string | null;
 };
 
 export const generateGeographicNamesByRegionalDistrict = (
@@ -165,6 +166,7 @@ export const generateGeographicNamesByRegionalDistrict = (
       bcGeographicName,
       geographicNameId,
       economicRegion,
+      geographicType,
     } = community;
 
     if (geographicNamesDict[economicRegion] === undefined) {
@@ -185,11 +187,13 @@ export const generateGeographicNamesByRegionalDistrict = (
     if (regionalDistrict === null) {
       geographicNamesDict[economicRegion]['null'].add({
         label: bcGeographicName,
+        type: geographicType,
         value: geographicNameId,
       });
     } else {
       geographicNamesDict[economicRegion][regionalDistrict].add({
         label: bcGeographicName,
+        type: geographicType,
         value: geographicNameId,
       });
     }
