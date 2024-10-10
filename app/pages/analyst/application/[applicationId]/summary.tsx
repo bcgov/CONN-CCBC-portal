@@ -61,6 +61,12 @@ const getSummaryQuery = graphql`
           jsonData
         }
       }
+      applicationFormTemplate9DataByApplicationId {
+        nodes {
+          jsonData
+          source
+        }
+      }
       conditionalApproval {
         jsonData
       }
