@@ -139,7 +139,10 @@ const Project = ({
           <div ref={projectInformationRef}>
             <ProjectInformationForm
               application={applicationByRowId}
-              isExpanded={isProjectInformationExpanded}
+              isExpanded={
+                isProjectInformationExpanded ||
+                toggledSection === 'projectInformation'
+              }
             />
           </div>
         )}
