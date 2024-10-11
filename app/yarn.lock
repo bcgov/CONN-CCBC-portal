@@ -2221,10 +2221,10 @@
     "@babel/plugin-transform-react-jsx-development" "^7.16.7"
     "@babel/plugin-transform-react-pure-annotations" "^7.16.7"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.6", "@babel/runtime@^7.17.8", "@babel/runtime@^7.17.9", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.7", "@babel/runtime@^7.23.1", "@babel/runtime@^7.23.9", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.2", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.7":
-  version "7.25.0"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.25.0.tgz#3af9a91c1b739c569d5d80cc917280919c544ecb"
-  integrity sha512-7dRy4DwXwtzBrPbZflqxnvfxLF8kdZXPkhymtDeFoFqE6ldzjQFgYTtYIFARcLEYDrqfBfYcZt1WqFxRoyC9Rw==
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.6", "@babel/runtime@^7.17.8", "@babel/runtime@^7.17.9", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.7", "@babel/runtime@^7.23.1", "@babel/runtime@^7.23.9", "@babel/runtime@^7.25.0", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.2", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.7":
+  version "7.25.7"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.25.7.tgz#7ffb53c37a8f247c8c4d335e89cdf16a2e0d0fb6"
+  integrity sha512-FjoyLe754PMiYsFaN5C94ttGiOmBNYTf6pLr4xXHAT5uctHb092PBszndLDR5XA/jghQvn4n7JMHl7dmTgbm9w==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -12484,16 +12484,16 @@ react-relay-network-modern@^6.2.1:
     core-js "^3.0.0"
     extract-files "^9.0.0"
 
-react-relay@^13.2.0:
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-13.2.0.tgz#3f8cf7bb4058d293b079d107b204fb5c27d7a4e7"
-  integrity sha512-ldUMWZ5nIMhz1VpRylFhMGc8lEaufR0ZwwfW6YqTMU/Rsy5c5nHGN7hvktPvdUV+biy6pzdRzfFiny469gok4A==
+react-relay@^18.1.0:
+  version "18.1.0"
+  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-18.1.0.tgz#fd19a6b786c251f4005423403d67cc3d5cc42c42"
+  integrity sha512-kqRbWid1A+B5HyvS05zwQacBhgWbIAlclTOO4CEWTwq0Sz00rZP1S9Bfcrl0ViImNKZHNa8+2I27409v9Sw1bQ==
   dependencies:
-    "@babel/runtime" "^7.0.0"
+    "@babel/runtime" "^7.25.0"
     fbjs "^3.0.2"
     invariant "^2.2.4"
     nullthrows "^1.1.1"
-    relay-runtime "13.2.0"
+    relay-runtime "18.1.0"
 
 react-router-dom@^6.0.0:
   version "6.3.0"
@@ -12700,19 +12700,28 @@ relay-nextjs@^0.8.0:
   dependencies:
     serialize-javascript "^5.0.1"
 
-relay-runtime@13.2.0, relay-runtime@^13.2.0:
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-13.2.0.tgz#e587e8c5cc9decdacb11227425bfe9cd5d9fa36f"
-  integrity sha512-iDS/fy5iWg9EhySaPpeo4Fwy1cYwNJqLHdhdGncpJBtSogFFd3fI+K0SafUoxX7+Moj6a+aMQt/JKN78HdeLhA==
+relay-runtime@16.2.0:
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-16.2.0.tgz#1126b67749b89f6d4855ebd7e5749033fab5b97f"
+  integrity sha512-SrIyYItH1EZUj37NI8nZALasuq7mNyFrrSNgMefhgxNZxTVnr1KCp43LaxUfZqhsWbw4Y00JSGDRQXlcv4STHQ==
   dependencies:
     "@babel/runtime" "^7.0.0"
     fbjs "^3.0.2"
     invariant "^2.2.4"
 
-relay-runtime@16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-16.2.0.tgz#1126b67749b89f6d4855ebd7e5749033fab5b97f"
-  integrity sha512-SrIyYItH1EZUj37NI8nZALasuq7mNyFrrSNgMefhgxNZxTVnr1KCp43LaxUfZqhsWbw4Y00JSGDRQXlcv4STHQ==
+relay-runtime@18.1.0:
+  version "18.1.0"
+  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-18.1.0.tgz#62f03669e70d499b6b7d688fa61780b312843bf9"
+  integrity sha512-C3Ct6mty9ZD93KnzHLP4mFw9T3zqPL5VwFaNPRvVgdJYSwQT2dfzWz1336fWwMgAXIQGZIqIjedeamjy6P4ZkA==
+  dependencies:
+    "@babel/runtime" "^7.25.0"
+    fbjs "^3.0.2"
+    invariant "^2.2.4"
+
+relay-runtime@^13.2.0:
+  version "13.2.0"
+  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-13.2.0.tgz#e587e8c5cc9decdacb11227425bfe9cd5d9fa36f"
+  integrity sha512-iDS/fy5iWg9EhySaPpeo4Fwy1cYwNJqLHdhdGncpJBtSogFFd3fI+K0SafUoxX7+Moj6a+aMQt/JKN78HdeLhA==
   dependencies:
     "@babel/runtime" "^7.0.0"
     fbjs "^3.0.2"
