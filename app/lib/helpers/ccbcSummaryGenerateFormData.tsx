@@ -1,3 +1,5 @@
+import review from 'formSchema/analyst/summary/review';
+
 const getEconomicRegions = (economicRegions) => {
   if (!economicRegions) {
     return null;
@@ -150,93 +152,118 @@ const getCommunities = (communities) => {
   };
 };
 
+const getSowErrors = (sowData, schema, formDataSource) => {
+  if (sowData?.length) return null;
+  const errors = {};
+  Object.entries(schema?.properties || {}).forEach(([parentKey, value]) => {
+    const sectionSchema = value['properties'];
+    Object.keys(sectionSchema || {}).forEach((key) => {
+      if (formDataSource[key] === 'SOW') {
+        errors[parentKey] = errors[parentKey] || {
+          __errors: [
+            'Highlighted cells are null because SOW Excel table has not been uploaded in the portal',
+          ],
+        };
+        errors[parentKey][key] = {
+          __errors: ['SOW excel table has not been uploaded in the portal'],
+        };
+      }
+    });
+  });
+
+  return errors;
+};
+
 const getSowData = (sowData, baseSowData) => {
   const communitiesData = getCommunities(
     sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData?.geoNames
   );
-  const errors = {}; // errors may get added later
   const communities =
     sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData?.communitiesNumber;
   const indigenousCommunities =
     sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
       ?.indigenousCommunitiesNumber;
+  const formData = {
+    counts: {
+      communities,
+      indigenousCommunities,
+      nonIndigenousCommunities:
+        communities && indigenousCommunities
+          ? communities - indigenousCommunities
+          : communities,
+      totalHouseholdsImpacted:
+        sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
+          ?.numberOfHouseholds,
+      numberOfIndigenousHouseholds:
+        sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
+          ?.householdsImpactedIndigenous,
+    },
+    locations: {
+      benefitingCommunities: communitiesData?.benefitingCommunities,
+      benefitingIndigenousCommunities:
+        communitiesData?.benefitingIndigenousCommunities,
+    },
+    funding: {
+      bcFundingRequested:
+        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
+          ?.amountRequestedFromProvince,
+      federalFunding:
+        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
+          ?.amountRequestedFromFederalGovernment,
+      fundingRequestedCcbc:
+        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
+          ?.totalFundingRequestedCCBC,
+      applicantAmount:
+        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
+          ?.totalApplicantContribution,
+      cibFunding:
+        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
+          ?.totalInfrastructureBankFunding,
+      fhnaFunding:
+        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
+          ?.totalFNHAFunding,
+      otherFunding:
+        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
+          ?.fundingFromAllOtherSources,
+      totalProjectBudget:
+        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
+          ?.totalProjectCost,
+    },
+    eventsAndDates: {
+      effectiveStartDate: sowData?.nodes[0]?.jsonData?.effectiveStartDate,
+      proposedStartDate: sowData?.nodes[0]?.jsonData?.projectStartDate,
+      proposedCompletionDate:
+        sowData?.nodes[0]?.jsonData?.projectCompletionDate,
+      dateAgreementSigned:
+        baseSowData?.nodes[0]?.jsonData?.dateFundingAgreementSigned,
+    },
+  };
+  const formDataSource = {
+    communities: 'SOW',
+    benefitingCommunities: 'SOW',
+    indigenousCommunities: 'SOW',
+    nonIndigenousCommunities: 'SOW',
+    benefitingIndigenousCommunities: 'SOW',
+    totalHouseholdsImpacted: 'SOW',
+    numberOfIndigenousHouseholds: 'SOW',
+    bcFundingRequested: 'SOW',
+    federalFunding: 'SOW',
+    fundingRequestedCcbc: 'SOW',
+    applicantAmount: 'SOW',
+    cibFunding: 'SOW',
+    fhnaFunding: 'SOW',
+    otherFunding: 'SOW',
+    totalProjectBudget: 'SOW',
+    effectiveStartDate: 'SOW',
+    proposedStartDate: 'SOW',
+    proposedCompletionDate: 'SOW',
+    dateAgreementSigned: 'SOW',
+  };
+  const errors = getSowErrors(sowData?.nodes, review, formDataSource);
+
   return {
-    formData: {
-      counts: {
-        communities,
-        indigenousCommunities,
-        nonIndigenousCommunities:
-          communities && indigenousCommunities
-            ? communities - indigenousCommunities
-            : communities,
-        totalHouseholdsImpacted:
-          sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
-            ?.numberOfHouseholds,
-        numberOfIndigenousHouseholds:
-          sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
-            ?.householdsImpactedIndigenous,
-      },
-      locations: {
-        benefitingCommunities: communitiesData?.benefitingCommunities,
-        benefitingIndigenousCommunities:
-          communitiesData?.benefitingIndigenousCommunities,
-      },
-      funding: {
-        bcFundingRequested:
-          sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-            ?.amountRequestedFromProvince,
-        federalFunding:
-          sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-            ?.amountRequestedFromFederalGovernment,
-        fundingRequestedCcbc:
-          sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-            ?.totalFundingRequestedCCBC,
-        applicantAmount:
-          sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-            ?.totalApplicantContribution,
-        cibFunding:
-          sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-            ?.totalInfrastructureBankFunding,
-        fhnaFunding:
-          sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-            ?.totalFNHAFunding,
-        otherFunding:
-          sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-            ?.fundingFromAllOtherSources,
-        totalProjectBudget:
-          sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-            ?.totalProjectCost,
-      },
-      eventsAndDates: {
-        effectiveStartDate: sowData?.nodes[0]?.jsonData?.effectiveStartDate,
-        proposedStartDate: sowData?.nodes[0]?.jsonData?.projectStartDate,
-        proposedCompletionDate:
-          sowData?.nodes[0]?.jsonData?.projectCompletionDate,
-        dateAgreementSigned:
-          baseSowData?.nodes[0]?.jsonData?.dateFundingAgreementSigned,
-      },
-    },
-    formDataSource: {
-      communities: 'SOW',
-      benefitingCommunities: 'SOW',
-      indigenousCommunities: 'SOW',
-      nonIndigenousCommunities: 'SOW',
-      benefitingIndigenousCommunities: 'SOW',
-      totalHouseholdsImpacted: 'SOW',
-      numberOfIndigenousHouseholds: 'SOW',
-      bcFundingRequested: 'SOW',
-      federalFunding: 'SOW',
-      fundingRequestedCcbc: 'SOW',
-      applicantAmount: 'SOW',
-      cibFunding: 'SOW',
-      fhnaFunding: 'SOW',
-      otherFunding: 'SOW',
-      totalProjectBudget: 'SOW',
-      effectiveStartDate: 'SOW',
-      proposedStartDate: 'SOW',
-      proposedCompletionDate: 'SOW',
-      dateAgreementSigned: 'SOW',
-    },
+    formData,
+    formDataSource,
     errors,
   };
 };

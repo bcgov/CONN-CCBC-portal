@@ -1,4 +1,4 @@
-import { act, screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import Summary from 'pages/analyst/application/[applicationId]/summary';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledSummaryQuery, {
@@ -715,6 +715,214 @@ const mockQueryPayloadAgreementSigned = {
   },
 };
 
+const mockQueryPayloadAgreementSignedMissingSow = {
+  Query() {
+    return {
+      applicationByRowId: {
+        announcements: {
+          totalCount: 3,
+        },
+        formData: {
+          jsonData: {
+            review: {
+              acknowledgeIncomplete: true,
+            },
+            benefits: {
+              projectBenefits:
+                "Test project benefits. This is a test project's benefits.",
+              numberOfHouseholds: 31,
+              householdsImpactedIndigenous: 0,
+            },
+
+            projectPlan: {
+              operationalPlan:
+                'Test operational plan. This is a test operational plan.',
+              projectStartDate: '2023-01-01',
+              projectCompletionDate: '2024-01-01',
+            },
+            budgetDetails: {
+              totalProjectCost: 111,
+              totalEligibleCosts: 222,
+            },
+            projectFunding: {
+              fundingRequestedCCBC2324: 111,
+              fundingRequestedCCBC2425: 222,
+              totalFundingRequestedCCBC: 333,
+              totalApplicantContribution: 444,
+              applicationContribution2324: 555,
+              applicationContribution2425: 666,
+            },
+            alternateContact: {},
+            authorizedContact: {},
+            contactInformation: {},
+            projectInformation: {
+              projectTitle: 'Test project title',
+              projectDescription:
+                'Test project description. This is a test project description.',
+              geographicAreaDescription:
+                'Test geographic area description. This is a test geographic area description.',
+            },
+            organizationProfile: {},
+            otherFundingSources: {
+              otherFundingSources: true,
+              otherFundingSourcesArray: [
+                {
+                  funderType: 'Provincial/territorial',
+                  statusOfFunding: 'Submitted',
+                  fundingPartnersName:
+                    'Test funding partner name. This is a test funding partner name.',
+                  nameOfFundingProgram: 'Test',
+                  fundingSourceContactInfo: 'Test',
+                  requestedFundingPartner2324: 777,
+                  requestedFundingPartner2425: 888,
+                  totalRequestedFundingPartner: 999,
+                },
+              ],
+              totalInfrastructureBankFunding: null,
+            },
+            supportingDocuments: {},
+            organizationLocation: {},
+            existingNetworkCoverage: {},
+            estimatedProjectEmployment: {
+              currentEmployment: 1,
+              estimatedFTECreation: 1.1,
+              numberOfEmployeesToWork: 1,
+              personMonthsToBeCreated: 1,
+              hoursOfEmploymentPerWeek: 10,
+              numberOfContractorsToWork: 1,
+              estimatedFTEContractorCreation: 1.4,
+              contractorPersonMonthsToBeCreated: 1,
+              hoursOfContractorEmploymentPerWeek: 11,
+            },
+          },
+        },
+        projectInformation: {
+          jsonData: {
+            dateFundingAgreementSigned: '2023-12-02',
+            hasFundingAgreementBeenSigned: true,
+          },
+        },
+        applicationMilestoneExcelDataByApplicationId: {
+          nodes: [
+            {
+              jsonData: {
+                projectNumber: 'CCBC-010001',
+                milestone1Progress: 0.6666666666666666,
+                milestone2Progress: 0,
+                milestone3Progress: 0,
+                milestone1ProjectSites: [
+                  {
+                    isPOP: '',
+                    siteId: '',
+                    projectSite: '',
+                    milestoneOneDueDate: '',
+                  },
+                ],
+                milestone2ProjectSites: [
+                  {
+                    isPOP: '',
+                    siteId: '',
+                    projectSite: '',
+                    detailedProgress: {
+                      landAccessPermitEvidence: {
+                        progress: 0,
+                      },
+                      radioAndSpectrumLicenses: {
+                        progress: 0,
+                      },
+                      photographsOfProjectSites: {
+                        progress: 0,
+                      },
+                      pointOfPresenceConfirmation: {
+                        progress: 0,
+                      },
+                    },
+                    milestoneTwoDueDate: '',
+                  },
+                ],
+                overallMilestoneProgress: 0.24,
+                milestone1DateOfReception: '2024-04-10T00:00:00.000Z',
+                milestone2DateOfReception: '',
+              },
+            },
+          ],
+        },
+        conditionalApproval: {
+          jsonData: {
+            decision: {
+              ministerDate: '2023-04-18',
+              ministerDecision: 'Approved',
+              provincialRequested: 555,
+            },
+            response: {
+              applicantResponse: 'Accepted',
+              statusApplicantSees: 'Conditionally Approved',
+            },
+            isedDecisionObj: {
+              isedDate: '2023-05-02',
+              isedDecision: 'Approved',
+              federalRequested: 555,
+              isedAnnouncement: 'Hold announcement',
+            },
+            letterOfApproval: {
+              letterOfApprovalDateSent: '2023-05-27',
+            },
+          },
+        },
+        changeRequestDataByApplicationId: {},
+        status: 'applicant_approved',
+        allAssessments: {
+          nodes: [
+            {
+              assessmentDataType: 'screening',
+              jsonData: {
+                decision: 'Eligible',
+                nextStep: 'Assessment complete',
+                assignedTo: 'Someone',
+                targetDate: '2023-01-09',
+                contestingMap: ['Applicant is contesting the area map'],
+                crtcProjectDependent: true,
+                connectedCoastNetworkDependent: true,
+              },
+            },
+          ],
+        },
+        intakeNumber: 1,
+      },
+      allApplicationSowData: {
+        nodes: [],
+      },
+      allIntakes: {
+        nodes: [
+          {
+            closeTimestamp: '2022-12-15T22:30:00+00:00',
+            ccbcIntakeNumber: 1,
+          },
+          {
+            closeTimestamp: '2023-02-16T22:30:00+00:00',
+            ccbcIntakeNumber: 2,
+          },
+          {
+            closeTimestamp: '2027-04-01T06:59:59+00:00',
+            ccbcIntakeNumber: 99,
+          },
+          {
+            closeTimestamp: '2024-03-14T21:30:00+00:00',
+            ccbcIntakeNumber: 3,
+          },
+          {
+            closeTimestamp: '2024-06-20T21:30:00+00:00',
+            ccbcIntakeNumber: 4,
+          },
+        ],
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+    };
+  },
+};
+
 const pageTestingHelper = new PageTestingHelper<summaryQuery>({
   pageComponent: Summary,
   compiledQuery: compiledSummaryQuery,
@@ -836,5 +1044,23 @@ describe('The Summary page', () => {
     expect(screen.getByText('24%')).toBeInTheDocument();
     // application source
     expect(screen.getAllByText('(SOW)')).toHaveLength(17);
+  });
+
+  it('should show the alert when SOW has not been uploaded and application is agreement signed', async () => {
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockQueryPayloadAgreementSignedMissingSow);
+      pageTestingHelper.renderPage();
+    });
+
+    expect(screen.queryAllByText('(SOW)')).toHaveLength(0);
+    const alerts = screen.getAllByTestId('styled-alert');
+    expect(alerts).toHaveLength(4);
+
+    fireEvent.mouseOver(alerts[0]);
+    expect(
+      await screen.findByText(
+        'Highlighted cells are null because SOW Excel table has not been uploaded in the portal'
+      )
+    ).toBeInTheDocument();
   });
 });
