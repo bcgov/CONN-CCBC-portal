@@ -121,7 +121,7 @@
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^14.1.2",
     "@testing-library/react-hooks": "^8.0.1",
-    "@testing-library/user-event": "^14.4.3",
+    "@testing-library/user-event": "^14.5.2",
     "@types/archiver": "^5.3.1",
     "@types/connect-pg-simple": "^7.0.0",
     "@types/convict": "^6.1.6",
