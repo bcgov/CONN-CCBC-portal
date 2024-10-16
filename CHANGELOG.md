@@ -1,3 +1,9 @@
+## [1.197.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.197.2...v1.197.3) (2024-10-16)
+
+### Bug Fixes
+
+- indigenous communities valid when null ([4a5c336](https://github.com/bcgov/CONN-CCBC-portal/commit/4a5c336ade18424943b63bdf7e1ffc601a492e3b))
+
 ## [1.197.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.197.1...v1.197.2) (2024-10-10)
 
 ## [1.197.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.197.0...v1.197.1) (2024-10-10)
