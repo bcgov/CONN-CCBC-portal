@@ -216,9 +216,19 @@ const Summary = ({
             >
               Application
             </StyledLink>
-            , <StyledLink href="#">Conditional Approval</StyledLink> accordion,
-            or <StyledLink href="#">SOW</StyledLink> as it progresses through
-            each stage.
+            ,{' '}
+            <StyledLink
+              href={`/analyst/application/${applicationId}/project?section=conditionalApproval`}
+            >
+              Conditional Approval
+            </StyledLink>{' '}
+            accordion, or{' '}
+            <StyledLink
+              href={`/analyst/application/${applicationId}/project?section=projectInformation`}
+            >
+              SOW
+            </StyledLink>{' '}
+            as it progresses through each stage.
           </p>{' '}
           <br />
         </>
