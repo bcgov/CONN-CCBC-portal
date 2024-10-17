@@ -1,5 +1,5 @@
 
-FROM node:22-alpine
+FROM node:23-alpine
 
 ENV SUMMARY="An image for the CCBC SP Cronjob" \
     DESCRIPTION="This image contains the script to run on an OpenShift Cronjob"
