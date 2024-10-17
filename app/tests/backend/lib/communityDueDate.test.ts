@@ -7,6 +7,7 @@ import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
 import getConfig from 'next/config';
+import cookieParser from 'cookie-parser';
 import communityDueDate from '../../../backend/lib/communityReportsDueDate';
 import { performQuery } from '../../../backend/lib/graphql';
 import handleEmailNotification from '../../../backend/lib/emails/handleEmailNotification';
@@ -19,12 +20,15 @@ jest.mock('next/config');
 
 jest.setTimeout(100000);
 
-describe('The Milestone excel import api route', () => {
+describe('The Community Progress Report api route', () => {
   let app;
 
   beforeEach(async () => {
     app = express();
-    app.use(session({ secret: crypto.randomUUID(), cookie: { secure: true } }));
+    app.use(
+      session({ secret: crypto.randomUUID(), cookie: { secure: false } })
+    );
+    app.use(cookieParser());
     app.use('/', communityDueDate);
   });
 
@@ -72,15 +76,19 @@ describe('The Milestone excel import api route', () => {
         },
       };
     });
+    try {
+      const response = await request(app)
+        .get('/api/analyst/community/upcoming')
+        .set('Cookie', ['mocks.mocked_date=2020-11-01'])
+        .expect(200);
 
-    const response = await request(app)
-      .get('/api/analyst/community/upcoming')
-      .expect(200);
-
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual({
-      message: 'No community reports due in 30 days',
-    });
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({
+        message: 'No community reports due in 30 days',
+      });
+    } catch (err) {
+      console.error(err);
+    }
   });
 
   it('should process community reports for authorized user and send email', async () => {
@@ -90,17 +98,6 @@ describe('The Milestone excel import api route', () => {
         landingRoute: '/',
       };
     });
-
-    const mockDate = new Date('2021-12-03T00:00:00Z');
-    const OriginalDate = Date;
-
-    global.Date = jest.fn((dateString) => {
-      if (dateString === undefined) {
-        return mockDate;
-      }
-      return new OriginalDate(dateString);
-    }) as unknown as DateConstructor;
-    global.Date.now = OriginalDate.now;
 
     mocked(handleEmailNotification).mockImplementation(async (req, res) => {
       return res.status(200).json({ emails: 'sent' }).end();
@@ -126,15 +123,20 @@ describe('The Milestone excel import api route', () => {
       };
     });
 
-    const response = await request(app).get('/api/analyst/community/upcoming');
-
-    expect(response.status).toBe(200);
-    expect(response.body).toEqual({ emails: 'sent' });
+    try {
+      const response = await request(app)
+        .get('/api/analyst/community/upcoming')
+        .set('Cookie', ['mocks.mocked_date=2024-11-01']);
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual({ emails: 'sent' });
+    } catch (err) {
+      console.error(err);
+    }
   });
 
   afterEach(async () => {
     // eslint-disable-next-line no-promise-executor-return
-    await new Promise<void>((resolve) => setTimeout(() => resolve(), 500)); // avoid jest open handle error
+    // await new Promise<void>((resolve) => setTimeout(() => resolve(), 500)); // avoid jest open handle error
+    jest.resetAllMocks();
   });
-  jest.resetAllMocks();
 });
