@@ -1,4 +1,5 @@
-import { act, fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
+import { act } from 'react';
 import * as moduleApi from '@growthbook/growthbook-react';
 import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import Project from 'pages/analyst/application/[applicationId]/project';
@@ -444,6 +445,34 @@ describe('The Project page', () => {
         },
       },
     });
+  });
+
+  it('should expand conditional approval sections if query is set', async () => {
+    pageTestingHelper.setMockRouterValues({
+      query: { applicationId: '1', section: 'conditionalApproval' },
+    });
+
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+      pageTestingHelper.renderPage();
+    });
+
+    expect(screen.getByText('Conditional approval')).toBeInTheDocument();
+  });
+
+  it('should expand project information (sow) sections if query is set', async () => {
+    pageTestingHelper.setMockRouterValues({
+      query: { applicationId: '1', section: 'projectInformation' },
+    });
+
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+      pageTestingHelper.renderPage();
+    });
+
+    expect(
+      screen.getByText('Funding agreement, statement of work, & map')
+    ).toBeInTheDocument();
   });
 
   afterEach(() => {

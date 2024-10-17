@@ -69,10 +69,12 @@ const getApplicationQuery = graphql`
 const Application = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, ApplicationIdQuery>) => {
+  const router = useRouter();
+  const expandAll = router.query.expandAll === 'true';
   const query = usePreloadedQuery(getApplicationQuery, preloadedQuery);
   const [toggleOverride, setToggleExpandOrCollapseAll] = useState<
     boolean | undefined
-  >(undefined);
+  >(expandAll ? true : undefined);
   const { applicationByRowId, session } = query;
   const {
     status,
