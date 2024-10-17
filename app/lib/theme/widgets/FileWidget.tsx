@@ -206,13 +206,20 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     }
 
     const files = allowMultipleFiles ? e.target.files : [e.target.files?.[0]];
-    const resp = await Promise.all(
-      Array.from(files).map(async (file) => getValidatedFile(file, formId))
-    );
-    const validatedFiles = resp.filter((file) => file.input);
-    setErrors(resp.filter((file) => file.error));
+    let resp;
+    try {
+      resp = await Promise.all(
+        Array.from(files).map(async (file) => getValidatedFile(file, formId))
+      );
+    } catch (err) {
+      if (err) {
+        console.error(err);
+      }
+    }
+    const validatedFiles = resp?.filter((file) => file?.input);
+    setErrors(resp?.filter((file) => file?.error));
 
-    const validationErrors = resp.filter((file) => !file.isTemplateValid);
+    const validationErrors = resp?.filter((file) => !file.isTemplateValid);
 
     const uploadResponse = await Promise.all(
       validatedFiles.map(async (payload) => handleUpload(payload))
@@ -229,7 +236,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     }
 
     if (templateValidate && showValidationToast) {
-      if (validationErrors.length > 0) {
+      if (validationErrors?.length > 0) {
         showToastMessage(
           validationErrors.map(
             (error) => error.fileName || error.input?.attachment?.fileName
