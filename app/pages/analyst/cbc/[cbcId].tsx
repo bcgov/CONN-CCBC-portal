@@ -65,6 +65,7 @@ const getCbcQuery = graphql`
         bcGeographicName
         economicRegion
         regionalDistrict
+        geographicType
       }
     }
     session {
