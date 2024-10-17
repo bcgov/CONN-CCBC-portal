@@ -90,6 +90,7 @@ const handleEmailBatch = async (
   try {
     const token = await getAccessToken();
     const emailResult = await sendEmailMerge(token, body, subject, contexts);
+    console.log(emailResult, contexts, details);
     if (emailResult) {
       const emailRecordResults = emailResult.messages.map(
         (message: any, i: number) => {
