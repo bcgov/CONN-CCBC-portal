@@ -438,6 +438,42 @@ type Query implements Node {
   ): ApplicationFormDataConnection
 
   """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  allApplicationFormTemplate9Data(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection
+
+  """
   Reads and enables pagination through a set of `ApplicationGisAssessmentHh`.
   """
   allApplicationGisAssessmentHhs(
@@ -1995,6 +2031,7 @@ type Query implements Node {
   applicationCommunityProgressReportDataByRowId(rowId: Int!): ApplicationCommunityProgressReportData
   applicationCommunityReportExcelDataByRowId(rowId: Int!): ApplicationCommunityReportExcelData
   applicationFormDataByFormDataIdAndApplicationId(formDataId: Int!, applicationId: Int!): ApplicationFormData
+  applicationFormTemplate9DataByRowId(rowId: Int!): ApplicationFormTemplate9Data
   applicationGisAssessmentHhByRowId(rowId: Int!): ApplicationGisAssessmentHh
   applicationGisDataByRowId(rowId: Int!): ApplicationGisData
   applicationInternalDescriptionByRowId(rowId: Int!): ApplicationInternalDescription
@@ -2177,6 +2214,16 @@ type Query implements Node {
     """
     id: ID!
   ): ApplicationFormData
+
+  """
+  Reads a single `ApplicationFormTemplate9Data` using its globally unique `ID`.
+  """
+  applicationFormTemplate9Data(
+    """
+    The globally unique `ID` to be used in selecting a single `ApplicationFormTemplate9Data`.
+    """
+    id: ID!
+  ): ApplicationFormTemplate9Data
 
   """
   Reads a single `ApplicationGisAssessmentHh` using its globally unique `ID`.
@@ -7435,6 +7482,114 @@ type CcbcUser implements Node {
     """
     filter: ApplicationAnnouncedFilter
   ): ApplicationAnnouncedsConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByCcbcUserCreatedByAndUpdatedBy(
@@ -21001,6 +21156,312 @@ type CcbcUser implements Node {
     """
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersByApplicationAnnouncedArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationFormTemplate9DataCreatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationFormTemplate9DataCreatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationFormTemplate9DataCreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationFormTemplate9DataCreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationFormTemplate9DataCreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationFormTemplate9DataCreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationFormTemplate9DataUpdatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationFormTemplate9DataUpdatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationFormTemplate9DataUpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationFormTemplate9DataUpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationFormTemplate9DataUpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationFormTemplate9DataUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationFormTemplate9DataArchivedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationFormTemplate9DataArchivedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationFormTemplate9DataArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationFormTemplate9DataArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationFormTemplate9DataArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationFormTemplate9DataArchivedByAndUpdatedByManyToManyConnection!
 }
 
 """A connection to a list of `CcbcUser` values."""
@@ -22016,6 +22477,30 @@ input CcbcUserFilter {
   """Some related `applicationAnnouncedsByArchivedBy` exist."""
   applicationAnnouncedsByArchivedByExist: Boolean
 
+  """
+  Filter by the object’s `applicationFormTemplate9DataByCreatedBy` relation.
+  """
+  applicationFormTemplate9DataByCreatedBy: CcbcUserToManyApplicationFormTemplate9DataFilter
+
+  """Some related `applicationFormTemplate9DataByCreatedBy` exist."""
+  applicationFormTemplate9DataByCreatedByExist: Boolean
+
+  """
+  Filter by the object’s `applicationFormTemplate9DataByUpdatedBy` relation.
+  """
+  applicationFormTemplate9DataByUpdatedBy: CcbcUserToManyApplicationFormTemplate9DataFilter
+
+  """Some related `applicationFormTemplate9DataByUpdatedBy` exist."""
+  applicationFormTemplate9DataByUpdatedByExist: Boolean
+
+  """
+  Filter by the object’s `applicationFormTemplate9DataByArchivedBy` relation.
+  """
+  applicationFormTemplate9DataByArchivedBy: CcbcUserToManyApplicationFormTemplate9DataFilter
+
+  """Some related `applicationFormTemplate9DataByArchivedBy` exist."""
+  applicationFormTemplate9DataByArchivedByExist: Boolean
+
   """Filter by the object’s `keycloakJwtsBySub` relation."""
   keycloakJwtsBySub: CcbcUserToManyKeycloakJwtFilter
 
@@ -22775,6 +23260,14 @@ input ApplicationFilter {
 
   """Some related `applicationAnnouncedsByApplicationId` exist."""
   applicationAnnouncedsByApplicationIdExist: Boolean
+
+  """
+  Filter by the object’s `applicationFormTemplate9DataByApplicationId` relation.
+  """
+  applicationFormTemplate9DataByApplicationId: ApplicationToManyApplicationFormTemplate9DataFilter
+
+  """Some related `applicationFormTemplate9DataByApplicationId` exist."""
+  applicationFormTemplate9DataByApplicationIdExist: Boolean
 
   """Filter by the object’s `intakeByIntakeId` relation."""
   intakeByIntakeId: IntakeFilter
@@ -26374,6 +26867,97 @@ input ApplicationAnnouncedFilter {
 }
 
 """
+A filter to be used against many `ApplicationFormTemplate9Data` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationToManyApplicationFormTemplate9DataFilter {
+  """
+  Every related `ApplicationFormTemplate9Data` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ApplicationFormTemplate9DataFilter
+
+  """
+  Some related `ApplicationFormTemplate9Data` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ApplicationFormTemplate9DataFilter
+
+  """
+  No related `ApplicationFormTemplate9Data` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ApplicationFormTemplate9DataFilter
+}
+
+"""
+A filter to be used against `ApplicationFormTemplate9Data` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationFormTemplate9DataFilter {
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
+
+  """Filter by the object’s `applicationId` field."""
+  applicationId: IntFilter
+
+  """Filter by the object’s `jsonData` field."""
+  jsonData: JSONFilter
+
+  """Filter by the object’s `errors` field."""
+  errors: JSONFilter
+
+  """Filter by the object’s `source` field."""
+  source: JSONFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
+  """Filter by the object’s `applicationByApplicationId` relation."""
+  applicationByApplicationId: ApplicationFilter
+
+  """A related `applicationByApplicationId` exists."""
+  applicationByApplicationIdExists: Boolean
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
+
+  """Checks for all expressions in this list."""
+  and: [ApplicationFormTemplate9DataFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ApplicationFormTemplate9DataFilter!]
+
+  """Negates the expression."""
+  not: ApplicationFormTemplate9DataFilter
+}
+
+"""
 A filter to be used against `GaplessCounter` object types. All fields are combined with a logical ‘and.’
 """
 input GaplessCounterFilter {
@@ -28155,6 +28739,26 @@ input CcbcUserToManyApplicationAnnouncedFilter {
 }
 
 """
+A filter to be used against many `ApplicationFormTemplate9Data` object types. All fields are combined with a logical ‘and.’
+"""
+input CcbcUserToManyApplicationFormTemplate9DataFilter {
+  """
+  Every related `ApplicationFormTemplate9Data` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ApplicationFormTemplate9DataFilter
+
+  """
+  Some related `ApplicationFormTemplate9Data` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ApplicationFormTemplate9DataFilter
+
+  """
+  No related `ApplicationFormTemplate9Data` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ApplicationFormTemplate9DataFilter
+}
+
+"""
 A filter to be used against many `KeycloakJwt` object types. All fields are combined with a logical ‘and.’
 """
 input CcbcUserToManyKeycloakJwtFilter {
@@ -29927,6 +30531,42 @@ type Application implements Node {
     """
     filter: ApplicationAnnouncedFilter
   ): ApplicationAnnouncedsConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
 
   """Reads and enables pagination through a set of `AssessmentData`."""
   allAssessments(
@@ -32752,6 +33392,108 @@ type Application implements Node {
     """
     filter: CcbcUserFilter
   ): ApplicationCcbcUsersByApplicationAnnouncedApplicationIdAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationFormTemplate9DataApplicationIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationFormTemplate9DataApplicationIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationFormTemplate9DataApplicationIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndArchivedByManyToManyConnection!
 }
 
 """A connection to a list of `ApplicationStatus` values."""
@@ -42787,6 +43529,163 @@ input ApplicationAnnouncedCondition {
   archivedAt: Datetime
 }
 
+"""A connection to a list of `ApplicationFormTemplate9Data` values."""
+type ApplicationFormTemplate9DataConnection {
+  """A list of `ApplicationFormTemplate9Data` objects."""
+  nodes: [ApplicationFormTemplate9Data]!
+
+  """
+  A list of edges which contains the `ApplicationFormTemplate9Data` and cursor to aid in pagination.
+  """
+  edges: [ApplicationFormTemplate9DataEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ApplicationFormTemplate9Data` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""Table containing the Template 9 Data as submitted by the applicant"""
+type ApplicationFormTemplate9Data implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """Unique ID for the Template 9 Data"""
+  rowId: Int!
+
+  """ID of the application this Template 9 Data belongs to"""
+  applicationId: Int
+
+  """The data imported from the Excel filled by the applicant"""
+  jsonData: JSON
+
+  """Errors related to Template 9 for that application id"""
+  errors: JSON
+
+  """The source of the template 9 data, application or RFI and the date"""
+  source: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """
+  Reads a single `Application` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+}
+
+"""A `ApplicationFormTemplate9Data` edge in the connection."""
+type ApplicationFormTemplate9DataEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationFormTemplate9Data` at the end of the edge."""
+  node: ApplicationFormTemplate9Data
+}
+
+"""Methods to use when ordering `ApplicationFormTemplate9Data`."""
+enum ApplicationFormTemplate9DataOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  APPLICATION_ID_ASC
+  APPLICATION_ID_DESC
+  JSON_DATA_ASC
+  JSON_DATA_DESC
+  ERRORS_ASC
+  ERRORS_DESC
+  SOURCE_ASC
+  SOURCE_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `ApplicationFormTemplate9Data` object types. All
+fields are tested for equality and combined with a logical ‘and.’
+"""
+input ApplicationFormTemplate9DataCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `applicationId` field."""
+  applicationId: Int
+
+  """Checks for equality with the object’s `jsonData` field."""
+  jsonData: JSON
+
+  """Checks for equality with the object’s `errors` field."""
+  errors: JSON
+
+  """Checks for equality with the object’s `source` field."""
+  source: JSON
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
 """A connection to a list of `Announcement` values."""
 type AnnouncementsConnection {
   """A list of `Announcement` objects."""
@@ -48234,6 +49133,204 @@ type ApplicationCcbcUsersByApplicationAnnouncedApplicationIdAndArchivedByManyToM
     """
     filter: ApplicationAnnouncedFilter
   ): ApplicationAnnouncedsConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationFormTemplate9Data`.
+"""
+type ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationFormTemplate9Data`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationFormTemplate9Data`.
+"""
+type ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationFormTemplate9Data`.
+"""
+type ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationFormTemplate9Data`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationFormTemplate9Data`.
+"""
+type ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationFormTemplate9Data`.
+"""
+type ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationFormTemplate9Data`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationFormTemplate9Data`.
+"""
+type ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
 }
 
 """A `Application` edge in the connection."""
@@ -77645,6 +78742,600 @@ type CcbcUserCcbcUsersByApplicationAnnouncedArchivedByAndUpdatedByManyToManyEdge
 }
 
 """
+A connection to a list of `Application` values, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserApplicationsByApplicationFormTemplate9DataCreatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationFormTemplate9Data`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationFormTemplate9DataCreatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserApplicationsByApplicationFormTemplate9DataCreatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserCcbcUsersByApplicationFormTemplate9DataCreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationFormTemplate9Data`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationFormTemplate9DataCreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserCcbcUsersByApplicationFormTemplate9DataCreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserCcbcUsersByApplicationFormTemplate9DataCreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationFormTemplate9Data`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationFormTemplate9DataCreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserCcbcUsersByApplicationFormTemplate9DataCreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserApplicationsByApplicationFormTemplate9DataUpdatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationFormTemplate9Data`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationFormTemplate9DataUpdatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserApplicationsByApplicationFormTemplate9DataUpdatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserCcbcUsersByApplicationFormTemplate9DataUpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationFormTemplate9Data`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationFormTemplate9DataUpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserCcbcUsersByApplicationFormTemplate9DataUpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserCcbcUsersByApplicationFormTemplate9DataUpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationFormTemplate9Data`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationFormTemplate9DataUpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserCcbcUsersByApplicationFormTemplate9DataUpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserApplicationsByApplicationFormTemplate9DataArchivedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationFormTemplate9Data`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationFormTemplate9DataArchivedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserApplicationsByApplicationFormTemplate9DataArchivedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserCcbcUsersByApplicationFormTemplate9DataArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationFormTemplate9Data`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationFormTemplate9DataArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserCcbcUsersByApplicationFormTemplate9DataArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserCcbcUsersByApplicationFormTemplate9DataArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationFormTemplate9Data`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationFormTemplate9DataArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationFormTemplate9Data`.
+"""
+type CcbcUserCcbcUsersByApplicationFormTemplate9DataArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationFormTemplate9Data`.
+  """
+  applicationFormTemplate9DataByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationFormTemplate9DataCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFormTemplate9DataFilter
+  ): ApplicationFormTemplate9DataConnection!
+}
+
+"""
 A connection to a list of `Application` values, with data from `ApplicationAnalystLead`.
 """
 type AnalystApplicationsByApplicationAnalystLeadAnalystIdAndApplicationIdManyToManyConnection {
@@ -78626,6 +80317,14 @@ type Mutation {
     input: CreateApplicationFormDataInput!
   ): CreateApplicationFormDataPayload
 
+  """Creates a single `ApplicationFormTemplate9Data`."""
+  createApplicationFormTemplate9Data(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateApplicationFormTemplate9DataInput!
+  ): CreateApplicationFormTemplate9DataPayload
+
   """Creates a single `ApplicationGisAssessmentHh`."""
   createApplicationGisAssessmentHh(
     """
@@ -79129,6 +80828,26 @@ type Mutation {
     """
     input: UpdateApplicationFormDataByFormDataIdAndApplicationIdInput!
   ): UpdateApplicationFormDataPayload
+
+  """
+  Updates a single `ApplicationFormTemplate9Data` using its globally unique id and a patch.
+  """
+  updateApplicationFormTemplate9Data(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationFormTemplate9DataInput!
+  ): UpdateApplicationFormTemplate9DataPayload
+
+  """
+  Updates a single `ApplicationFormTemplate9Data` using a unique key and a patch.
+  """
+  updateApplicationFormTemplate9DataByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationFormTemplate9DataByRowIdInput!
+  ): UpdateApplicationFormTemplate9DataPayload
 
   """
   Updates a single `ApplicationGisAssessmentHh` using its globally unique id and a patch.
@@ -80003,6 +81722,24 @@ type Mutation {
     """
     input: DeleteApplicationFormDataByFormDataIdAndApplicationIdInput!
   ): DeleteApplicationFormDataPayload
+
+  """
+  Deletes a single `ApplicationFormTemplate9Data` using its globally unique id.
+  """
+  deleteApplicationFormTemplate9Data(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationFormTemplate9DataInput!
+  ): DeleteApplicationFormTemplate9DataPayload
+
+  """Deletes a single `ApplicationFormTemplate9Data` using a unique key."""
+  deleteApplicationFormTemplate9DataByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationFormTemplate9DataByRowIdInput!
+  ): DeleteApplicationFormTemplate9DataPayload
 
   """
   Deletes a single `ApplicationGisAssessmentHh` using its globally unique id.
@@ -81468,6 +83205,96 @@ input ApplicationFormDataInput {
 
   """The foreign key of an application"""
   applicationId: Int!
+}
+
+"""The output of our create `ApplicationFormTemplate9Data` mutation."""
+type CreateApplicationFormTemplate9DataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationFormTemplate9Data` that was created by this mutation."""
+  applicationFormTemplate9Data: ApplicationFormTemplate9Data
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """
+  An edge for our `ApplicationFormTemplate9Data`. May be used by Relay 1.
+  """
+  applicationFormTemplate9DataEdge(
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationFormTemplate9DataEdge
+}
+
+"""All input for the create `ApplicationFormTemplate9Data` mutation."""
+input CreateApplicationFormTemplate9DataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ApplicationFormTemplate9Data` to be created by this mutation."""
+  applicationFormTemplate9Data: ApplicationFormTemplate9DataInput!
+}
+
+"""An input for mutations affecting `ApplicationFormTemplate9Data`"""
+input ApplicationFormTemplate9DataInput {
+  """ID of the application this Template 9 Data belongs to"""
+  applicationId: Int
+
+  """The data imported from the Excel filled by the applicant"""
+  jsonData: JSON
+
+  """Errors related to Template 9 for that application id"""
+  errors: JSON
+
+  """The source of the template 9 data, application or RFI and the date"""
+  source: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """The output of our create `ApplicationGisAssessmentHh` mutation."""
@@ -85468,6 +87295,124 @@ input UpdateApplicationFormDataByFormDataIdAndApplicationIdInput {
 
   """The foreign key of an application"""
   applicationId: Int!
+}
+
+"""The output of our update `ApplicationFormTemplate9Data` mutation."""
+type UpdateApplicationFormTemplate9DataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationFormTemplate9Data` that was updated by this mutation."""
+  applicationFormTemplate9Data: ApplicationFormTemplate9Data
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """
+  An edge for our `ApplicationFormTemplate9Data`. May be used by Relay 1.
+  """
+  applicationFormTemplate9DataEdge(
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationFormTemplate9DataEdge
+}
+
+"""All input for the `updateApplicationFormTemplate9Data` mutation."""
+input UpdateApplicationFormTemplate9DataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationFormTemplate9Data` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `ApplicationFormTemplate9Data` being updated.
+  """
+  applicationFormTemplate9DataPatch: ApplicationFormTemplate9DataPatch!
+}
+
+"""
+Represents an update to a `ApplicationFormTemplate9Data`. Fields that are set will be updated.
+"""
+input ApplicationFormTemplate9DataPatch {
+  """ID of the application this Template 9 Data belongs to"""
+  applicationId: Int
+
+  """The data imported from the Excel filled by the applicant"""
+  jsonData: JSON
+
+  """Errors related to Template 9 for that application id"""
+  errors: JSON
+
+  """The source of the template 9 data, application or RFI and the date"""
+  source: JSON
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""
+All input for the `updateApplicationFormTemplate9DataByRowId` mutation.
+"""
+input UpdateApplicationFormTemplate9DataByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ApplicationFormTemplate9Data` being updated.
+  """
+  applicationFormTemplate9DataPatch: ApplicationFormTemplate9DataPatch!
+
+  """Unique ID for the Template 9 Data"""
+  rowId: Int!
 }
 
 """The output of our update `ApplicationGisAssessmentHh` mutation."""
@@ -90166,6 +92111,80 @@ input DeleteApplicationFormDataByFormDataIdAndApplicationIdInput {
 
   """The foreign key of an application"""
   applicationId: Int!
+}
+
+"""The output of our delete `ApplicationFormTemplate9Data` mutation."""
+type DeleteApplicationFormTemplate9DataPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationFormTemplate9Data` that was deleted by this mutation."""
+  applicationFormTemplate9Data: ApplicationFormTemplate9Data
+  deletedApplicationFormTemplate9DataId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationFormTemplate9Data`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """
+  An edge for our `ApplicationFormTemplate9Data`. May be used by Relay 1.
+  """
+  applicationFormTemplate9DataEdge(
+    """The method to use when ordering `ApplicationFormTemplate9Data`."""
+    orderBy: [ApplicationFormTemplate9DataOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationFormTemplate9DataEdge
+}
+
+"""All input for the `deleteApplicationFormTemplate9Data` mutation."""
+input DeleteApplicationFormTemplate9DataInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationFormTemplate9Data` to be deleted.
+  """
+  id: ID!
+}
+
+"""
+All input for the `deleteApplicationFormTemplate9DataByRowId` mutation.
+"""
+input DeleteApplicationFormTemplate9DataByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """Unique ID for the Template 9 Data"""
+  rowId: Int!
 }
 
 """The output of our delete `ApplicationGisAssessmentHh` mutation."""
