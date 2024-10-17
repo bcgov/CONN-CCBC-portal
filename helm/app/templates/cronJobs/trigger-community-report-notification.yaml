@@ -1,0 +1,50 @@
+{{- if .Values.deploy.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ template "ccbc.fullname" . }}-cron-community-report
+  labels: {{ include "ccbc.labels" . | nindent 4 }}
+spec:
+  suspend: true
+  schedule: {{ .Values.croncummunity.schedule }}
+  timeZone: "America/Vancouver"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 600
+      template:
+        metadata:
+          labels: {{ include "ccbc.labels" . | nindent 14 }}
+        spec:
+          restartPolicy: Never
+          containers:
+            - env:
+                - name: KEYCLOAK_HOST
+                  value: {{ .Values.cronsp.keycloakHost | quote }}
+                - name: CCBC_SERVER_PATH
+                  value: {{ .Values.croncommunity.path | quote }}
+                - name: CCBC_SERVER_HOST
+                  value: {{ template "ccbc.fullname" . }}
+                - name: CCBC_SERVER_PORT
+                  value: {{ .Values.cronsp.port | quote }}
+                - name: SA_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-id
+                      name: ccbc-cron-sp-sso
+                - name: SA_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-secret
+                      name: ccbc-cron-sp-sso
+              name: {{ template "ccbc.fullname" . }}-cron-community-report
+              image: {{ .Values.image.cronsp.repository }}:{{ .Values.image.cronsp.tag }}
+              imagePullPolicy: IfNotPresent
+              resources:
+                limits:
+                  cpu: 200m
+                  memory: 128Mi
+                requests:
+                  cpu: 100m
+                  memory: 64Mi
+{{- end }}
