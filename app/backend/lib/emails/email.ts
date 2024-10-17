@@ -10,6 +10,7 @@ import rfiCoverageMapKmzUploaded from './templates/rfiCoverageMapKmzUploaded';
 import notifyConditionallyApproved from './templates/notifyConditionallyApproved';
 import notifyApplicationSubmission from './templates/notifyApplicationSubmission';
 import notifyFailedReadOfTemplateData from './templates/notifyFailedReadOfTemplateData';
+import notifySowUpload from './templates/notifySowUpload';
 
 const email = Router();
 
@@ -87,6 +88,14 @@ email.post('/api/email/notifyFailedReadOfTemplateData', limiter, (req, res) => {
     notifyFailedReadOfTemplateData,
     params
   );
+});
+
+email.post('/api/email/notifySowUpload', limiter, (req, res) => {
+  const { params, ccbcNumber } = req.body;
+  return handleEmailNotification(req, res, notifySowUpload, {
+    ...params,
+    ccbcNumber,
+  });
 });
 
 export default email;
