@@ -364,7 +364,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   }
 
   // last pass - column B project costs
-  for (let row = 1075; row < 1080; row++) {
+  for (let row = 1076; row < 1090; row++) {
     const suspect = budget[row]['B'];
     let value;
     if (suspect === undefined) continue;
