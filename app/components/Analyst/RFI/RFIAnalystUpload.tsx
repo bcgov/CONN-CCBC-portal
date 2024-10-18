@@ -202,7 +202,7 @@ const RfiAnalystUpload = ({ query }) => {
       </Flex>
       <FormDiv>
         <FormBase
-          formContext={{ setTemplateData }}
+          formContext={{ setTemplateData, rfiNumber }}
           theme={RfiTheme}
           schema={rfiSchema}
           uiSchema={rfiAnalystUiSchema}

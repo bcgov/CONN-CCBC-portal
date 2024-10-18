@@ -110,6 +110,46 @@ const handleMilestone = (milestonePercent) => {
   return `${Math.trunc(milestonePercent * 100)}%`;
 };
 
+const getCommunitiesTemplateNine = (communities) => {
+  if (!communities) {
+    return null;
+  }
+  const benefitingCommunities = [];
+  const benefitingIndigenousCommunities = [];
+  communities.forEach((community) => {
+    if (community?.isIndigenous?.toUpperCase() === 'N') {
+      if (community?.geoName) {
+        benefitingCommunities.push({
+          name: community?.geoName,
+          link: community?.mapLink,
+        });
+      }
+    }
+    if (community?.isIndigenous?.toUpperCase() === 'Y') {
+      if (community?.geoName) {
+        benefitingIndigenousCommunities.push({
+          name: community?.geoName,
+          link: community?.mapLink,
+        });
+      }
+    }
+  });
+  return {
+    benefitingCommunities,
+    benefitingIndigenousCommunities,
+  };
+};
+
+const handleTemplateNineSource = (source) => {
+  if (source?.source === 'application') {
+    return 'Application - Template 9';
+  }
+  if (source?.source === 'rfi') {
+    return `RFI ${source.rfiNumber}`;
+  }
+  return 'Application - Template 9';
+};
+
 const getCommunities = (communities) => {
   if (!communities) {
     return null;
@@ -339,13 +379,28 @@ const getFormDataFromApplication = (
     applicationData?.formData?.jsonData?.projectFunding
       ?.totalFundingRequestedCCBC
   );
+  const communities = getCommunitiesTemplateNine(
+    applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]
+      ?.jsonData?.geoNames
+  );
+  const templateNineSource = handleTemplateNineSource(
+    applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]
+      ?.source
+  );
   return {
     formData: {
       counts: {
-        communities: null,
-        benefitingCommunities: null,
-        indigenousCommunities: null,
-        nonIndigenousCommunities: null,
+        communities:
+          (applicationData?.applicationFormTemplate9DataByApplicationId
+            ?.nodes[0]?.jsonData?.communitiesToBeServed || 0) +
+          (applicationData?.applicationFormTemplate9DataByApplicationId
+            ?.nodes[0]?.jsonData?.indigenousCommunitiesToBeServed || 0),
+        nonIndigenousCommunities:
+          applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]
+            ?.jsonData?.communitiesToBeServed,
+        indigenousCommunities:
+          applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]
+            ?.jsonData?.indigenousCommunitiesToBeServed,
         benefitingIndigenousCommunities: null,
         totalHouseholdsImpacted:
           applicationData?.formData?.jsonData?.benefits?.numberOfHouseholds,
@@ -354,6 +409,9 @@ const getFormDataFromApplication = (
             ?.householdsImpactedIndigenous,
       },
       locations: {
+        benefitingCommunities: communities?.benefitingCommunities,
+        benefitingIndigenousCommunities:
+          communities?.benefitingIndigenousCommunities,
         economicRegions: getEconomicRegions(economicRegions),
         regionalDistricts: getRegionalDistricts(regionalDistricts),
       },
@@ -397,6 +455,11 @@ const getFormDataFromApplication = (
       federalFunding:
         splitFunding?.federal &&
         'Calculated from Application, assuming 50:50 split',
+      benefitingCommunities: templateNineSource,
+      benefitingIndigenousCommunities: templateNineSource,
+      nonIndigenousCommunities: templateNineSource,
+      indigenousCommunities: templateNineSource,
+      communities: templateNineSource,
       totalHouseholdsImpacted: 'Application',
       numberOfIndigenousHouseholds: 'Application',
       applicantAmount: 'Application',
