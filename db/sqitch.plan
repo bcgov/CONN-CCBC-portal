@@ -706,3 +706,4 @@ tables/application_rd 2024-09-11T18:21:13Z Rafael Solorzano <61289255+rafasdc@us
 clean_pre_cut_over_cbc_history 2024-10-15T23:26:47Z ,,, <ryohani89@NH504670> # Remove pre-cut-over cbc changes history
 @1.197.4 2024-10-17T17:46:23Z CCBC Service Account <ccbc@button.is> # release v1.197.4
 @1.197.5 2024-10-17T18:43:02Z CCBC Service Account <ccbc@button.is> # release v1.197.5
+@1.198.0 2024-10-18T16:12:02Z CCBC Service Account <ccbc@button.is> # release v1.198.0
