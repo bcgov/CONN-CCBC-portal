@@ -1,3 +1,10 @@
+# [1.199.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.198.0...v1.199.0) (2024-10-18)
+
+### Features
+
+- add cbc er to gcpe report ([1d7672b](https://github.com/bcgov/CONN-CCBC-portal/commit/1d7672bc57d83b51175dbe3a603fc5051214583c))
+- add ccbc er to gcpe report ([93513b8](https://github.com/bcgov/CONN-CCBC-portal/commit/93513b85a2e58bd86a48f73f0cb6cdb4f4dbce99))
+
 # [1.198.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.197.5...v1.198.0) (2024-10-18)
 
 ### Features
