@@ -80,6 +80,7 @@
             <child column="application_id" foreignKey="application_community_progress_report_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_community_progress_report_data"/>
             <child column="application_id" foreignKey="application_community_report_excel_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_community_report_excel_data"/>
             <child column="application_id" foreignKey="application_form_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_data"/>
+            <child column="application_id" foreignKey="application_form_template_9_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_template_9_data"/>
             <child column="application_id" foreignKey="application_gis_assessment_hh_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_gis_assessment_hh"/>
             <child column="application_id" foreignKey="application_gis_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_gis_data"/>
             <child column="application_id" foreignKey="application_internal_description_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_internal_description"/>
@@ -412,6 +413,43 @@
          </index>
          <index name="application_form_data_form_data_id_idx" unique="false">
             <column ascending="true" name="form_data_id"/>
+         </index>
+      </table>
+      <table name="application_form_template_9_data" remarks="Table containing the Template 9 Data as submitted by the applicant" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the Template 9 Data" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="ID of the application this Template 9 Data belongs to" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_form_template_9_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="json_data" nullable="true" remarks="The data imported from the Excel filled by the applicant" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="errors" nullable="true" remarks="Errors related to Template 9 for that application id" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="source" nullable="true" remarks="The source of the template 9 data, application or RFI and the date" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_form_template_9_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_form_template_9_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="8" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_form_template_9_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="10" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="application_form_template_9_data_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="application_form_template_9_data_application_id_index" unique="false">
+            <column ascending="true" name="application_id"/>
+         </index>
+         <index name="ccbc_public_application_form_template_9_data_archived_by_foreig" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_application_form_template_9_data_created_by_foreign" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_application_form_template_9_data_updated_by_foreign" unique="false">
+            <column ascending="true" name="updated_by"/>
          </index>
       </table>
       <table name="application_gis_assessment_hh" remarks="Table containing data for the gis assessment hh numbers" schema="ccbc_public" type="TABLE">
@@ -1135,6 +1173,9 @@
             <child column="archived_by" foreignKey="application_community_report_excel_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_community_report_excel_data"/>
             <child column="created_by" foreignKey="application_community_report_excel_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_community_report_excel_data"/>
             <child column="updated_by" foreignKey="application_community_report_excel_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_community_report_excel_data"/>
+            <child column="archived_by" foreignKey="application_form_template_9_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_template_9_data"/>
+            <child column="created_by" foreignKey="application_form_template_9_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_template_9_data"/>
+            <child column="updated_by" foreignKey="application_form_template_9_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_template_9_data"/>
             <child column="archived_by" foreignKey="application_gis_assessment_hh_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_gis_assessment_hh"/>
             <child column="created_by" foreignKey="application_gis_assessment_hh_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_gis_assessment_hh"/>
             <child column="updated_by" foreignKey="application_gis_assessment_hh_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_gis_assessment_hh"/>
