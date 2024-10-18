@@ -1,3 +1,9 @@
+# [1.200.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.199.0...v1.200.0) (2024-10-18)
+
+### Features
+
+- add status infographic on all dashboard ([2da4a38](https://github.com/bcgov/CONN-CCBC-portal/commit/2da4a3818a166562a115025ee57febc721c77199))
+
 # [1.199.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.198.0...v1.199.0) (2024-10-18)
 
 ### Features
