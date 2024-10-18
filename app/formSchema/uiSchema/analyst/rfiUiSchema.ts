@@ -422,6 +422,9 @@ export const rfiApplicantUiSchema = {
       'ui:options': {
         hideOptional: true,
         allowMultipleFiles: true,
+        fileTypes: EXCEL_FILE_EXTENSIONS,
+        templateNumber: 9,
+        templateValidate: true,
       },
     },
     geographicNamesRfi: {

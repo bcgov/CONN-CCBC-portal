@@ -104,6 +104,52 @@ const mockQueryPayloadReceived = {
         applicationMilestoneExcelDataByApplicationId: {
           nodes: [],
         },
+        applicationFormTemplate9DataByApplicationId: {
+          nodes: [
+            {
+              jsonData: {
+                geoNames: [
+                  {
+                    type: 'Locality',
+                    geoName: 'Echo Bay',
+                    mapLink:
+                      'https://apps.gov.bc.ca/pub/bcgnws/names/26059.html',
+                    geoNameId: 26,
+                    households: 96,
+                    projectZone: 6,
+                    isIndigenous: 'N',
+                    economicRegion: 'Vancouver Island and Coast',
+                    proposedSolution: 'Fibre-Optic',
+                    regionalDistrict: 'Regional District of Mount Waddington',
+                    pointOfPresenceId: 'Connected Coast Echo Bay',
+                  },
+                  {
+                    type: 'Indian Reserve',
+                    geoName: 'Gwayasdums 1',
+                    mapLink:
+                      'https://apps.gov.bc.ca/pub/bcgnws/names/65365.html',
+                    geoNameId: 65,
+                    households: 55,
+                    projectZone: 6,
+                    isIndigenous: 'Y',
+                    economicRegion: 'Vancouver Island and Coast',
+                    proposedSolution: 'Fibre-Optic',
+                    regionalDistrict: 'Regional District of Mount Waddington',
+                    pointOfPresenceId: 'Connected Coast Health Bay',
+                  },
+                ],
+                communitiesToBeServed: 2,
+                totalNumberOfHouseholds: 151,
+                indigenousCommunitiesToBeServed: 1,
+                totalNumberOfIndigenousHouseholds: 55,
+              },
+              source: {
+                uuid: '5ac1187a-f5ea-44fb-9999-ffffffff',
+                source: 'application',
+              },
+            },
+          ],
+        },
         conditionalApproval: {},
         changeRequestDataByApplicationId: {},
         status: 'received',
@@ -228,6 +274,51 @@ const payloadConditionalApproval = {
     projectInformation: {},
     applicationMilestoneExcelDataByApplicationId: {
       nodes: [],
+    },
+    applicationFormTemplate9DataByApplicationId: {
+      nodes: [
+        {
+          jsonData: {
+            geoNames: [
+              {
+                type: 'Locality',
+                geoName: 'Echo Bay',
+                mapLink: 'https://apps.gov.bc.ca/pub/bcgnws/names/26059.html',
+                geoNameId: 26,
+                households: 96,
+                projectZone: 6,
+                isIndigenous: 'N',
+                economicRegion: 'Vancouver Island and Coast',
+                proposedSolution: 'Fibre-Optic',
+                regionalDistrict: 'Regional District of Mount Waddington',
+                pointOfPresenceId: 'Connected Coast Echo Bay',
+              },
+              {
+                type: 'Indian Reserve',
+                geoName: 'Gwayasdums 1',
+                mapLink: 'https://apps.gov.bc.ca/pub/bcgnws/names/65365.html',
+                geoNameId: 65,
+                households: 55,
+                projectZone: 6,
+                isIndigenous: 'Y',
+                economicRegion: 'Vancouver Island and Coast',
+                proposedSolution: 'Fibre-Optic',
+                regionalDistrict: 'Regional District of Mount Waddington',
+                pointOfPresenceId: 'Connected Coast Health Bay',
+              },
+            ],
+            communitiesToBeServed: 2,
+            totalNumberOfHouseholds: 151,
+            indigenousCommunitiesToBeServed: 1,
+            totalNumberOfIndigenousHouseholds: 55,
+          },
+          source: {
+            uuid: '5ac1187a-f5ea-44fb-9999-ffffffff',
+            source: 'rfi',
+            rfiNumber: 'CCBC-0001-1',
+          },
+        },
+      ],
     },
     conditionalApproval: {
       jsonData: {
