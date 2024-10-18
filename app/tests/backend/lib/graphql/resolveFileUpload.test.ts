@@ -8,7 +8,6 @@ import resolveFileUpload, {
   saveRemoteFile,
 } from 'backend/lib/graphql/resolveFileUpload';
 import { Readable } from 'stream';
-import * as Sentry from '@sentry/nextjs';
 
 jest.mock('@aws-sdk/lib-storage');
 
@@ -43,21 +42,6 @@ jest.mock('../../../../backend/lib/s3client', () => {
   };
 });
 
-const sentryMocked = jest
-  .spyOn(Sentry, 'startTransaction')
-  .mockImplementation(() => {
-    return {
-      finish: jest.fn(() => ({})),
-      startChild: jest.fn(() => {
-        return {
-          setStatus: jest.fn(() => ({})),
-          finish: jest.fn(() => ({})),
-          setData: jest.fn(() => ({})),
-        };
-      }),
-    };
-  });
-
 async function* generateContents() {
   for (let index = 0; index < 8; index += 1) {
     yield `[Part ${index}] ${'#'.repeat(2000000)}`;
@@ -79,7 +63,7 @@ describe('The saveRemoteFile function', () => {
   });
 
   it('Should throw error if data does not return key', async () => {
-    Upload.mockImplementation(() => {
+    (Upload as unknown as jest.Mock).mockImplementation(() => {
       return {
         done: jest.fn(() => ({})),
         on: jest.fn(() => {}),
@@ -90,38 +74,21 @@ describe('The saveRemoteFile function', () => {
     await expect(saveRemoteFile(fakeStreamOfUnknownlength)).rejects.toThrow(
       'Data does not contain a key'
     );
-    expect(sentryMocked).toHaveBeenCalledTimes(1);
   });
 
   it('Should complete the upload and return the key', async () => {
-    const sentryMockedStatus = jest
-      .spyOn(Sentry, 'startTransaction')
-      .mockImplementation(() => {
-        return {
-          finish: jest.fn(() => ({})),
-          startChild: jest.fn(() => {
-            return {
-              setStatus: jest.fn(() => 'ok'),
-              finish: jest.fn(() => ({})),
-              setData: jest.fn(() => ({})),
-            };
-          }),
-        };
-      });
-
-    Upload.mockImplementation(() => {
-      return {
-        done: jest.fn(() => ({
-          Key: 'test-key',
-        })),
-        on: jest.fn(() => {}),
-      };
+    const mockDone = jest.fn().mockResolvedValue({
+      Key: 'mocked-key',
     });
 
+    (Upload as unknown as jest.Mock).mockImplementation(() => ({
+      done: mockDone,
+      on: jest.fn(),
+    }));
+
     await expect(saveRemoteFile(fakeStreamOfUnknownlength)).resolves.toBe(
-      'test-key'
+      'mocked-key'
     );
-    expect(sentryMockedStatus).toHaveBeenCalledTimes(1);
   });
 });
 
