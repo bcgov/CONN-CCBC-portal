@@ -13,6 +13,7 @@
 - [SchemaSpy Database documentation](https://bcgov.github.io/CONN-CCBC-portal/schemaspy/)
 - [Growthbook](#growthbook)
 - [Metabase](#metabase)
+- [Intake Updates Guide](docs/Necessary_changes_For_Intake_Update.md)
 
 #### Local development
 

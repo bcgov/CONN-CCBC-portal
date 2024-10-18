@@ -144,6 +144,52 @@ const mockDataQueryPayload = {
   },
 };
 
+const mockAmendmentQueryPayload = {
+  node: {
+    id: 'WyJjaGFuD2VfcmVxdWVzdF9kYXRhIiwyXQ==',
+    amendmentNumber: 10,
+    createdAt: '2023-06-18T14:52:19.490349-07:00',
+    jsonData: {
+      dateApproved: '2023-06-01',
+      dateRequested: '2023-06-02',
+      amendmentNumber: 10,
+      levelOfAmendment: 'Major Amendment',
+      updatedMapUpload: [
+        {
+          id: 6,
+          name: 'test2.xls',
+          size: 0,
+          type: 'application/vnd.ms-excel',
+          uuid: '360ecddf-de10-44b2-b0b9-22dcbe837a9a',
+        },
+      ],
+      additionalComments: 'additional comments test',
+      descriptionOfChanges: 'description of changes test',
+      statementOfWorkUpload: [
+        {
+          id: 7,
+          name: 'CCBC-010001 - Statement of Work Tables.xlsx',
+          size: 4230870,
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          uuid: '1236e5c2-7e02-44e1-b972-3bb7d0478c00',
+        },
+      ],
+      changeRequestFormUpload: [
+        {
+          id: 5,
+          name: 'change request form file.xls',
+          size: 0,
+          type: 'application/vnd.ms-excel',
+          uuid: '1a9b862c-744b-4663-b5c9-6f46f4568608',
+        },
+      ],
+    },
+    updatedAt: '2023-06-18T14:52:19.490349-07:00',
+    __typename: 'ChangeRequestData',
+  },
+  cursor: 'WyJhbWVuZD1lbnRfbnVtYmVyX2Rlc2MiLFsxMSwyXV0=',
+};
+
 const mockSowErrorQueryPayload = {
   Application() {
     return {
@@ -296,7 +342,7 @@ describe('The ProjectInformation form', () => {
     ).toBeInTheDocument();
   });
 
-  it('calls the mutation on Change Request save', async () => {
+  it('calls the mutation on Change Request save and send email notification for SOW upload', async () => {
     componentTestingHelper.loadQuery(mockDataQueryPayload);
     componentTestingHelper.renderComponent();
 
@@ -406,6 +452,233 @@ describe('The ProjectInformation form', () => {
     expect(
       screen.getByText('Statement of work successfully imported')
     ).toBeInTheDocument();
+
+    expect(global.fetch).toHaveBeenCalledWith('/api/email/notifySowUpload', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: expect.anything(),
+    });
+  });
+
+  it('does not send email notification for SOW upload if not latest amendment', async () => {
+    const mockPayload = {
+      Application() {
+        return {
+          ...mockDataQueryPayload.Application(),
+          changeRequestDataByApplicationId: {
+            ...mockDataQueryPayload.Application()
+              .changeRequestDataByApplicationId,
+            edges: [
+              ...mockDataQueryPayload.Application()
+                .changeRequestDataByApplicationId.edges,
+              mockAmendmentQueryPayload,
+            ],
+          },
+        };
+      },
+    };
+    componentTestingHelper.loadQuery(mockPayload);
+    componentTestingHelper.renderComponent();
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+
+    const editButton = screen.getAllByTestId('project-form-edit-button')[2];
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file-edited.xls', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAttachmentMutation',
+      {
+        input: {
+          attachment: {
+            file,
+            fileName: 'file-edited.xls',
+            fileSize: '1 Bytes',
+            fileType: 'application/vnd.ms-excel',
+            applicationId: 1,
+          },
+        },
+      }
+    );
+
+    expect(screen.getByLabelText('loading')).toBeInTheDocument();
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 2,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save & Import Data',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createChangeRequestMutation',
+      {
+        connections: [expect.anything()],
+        input: {
+          _applicationId: 1,
+          _amendmentNumber: 10,
+          _jsonData: {
+            dateApproved: '2023-06-01',
+            dateRequested: '2023-06-02',
+            amendmentNumber: 10,
+            levelOfAmendment: 'Major Amendment',
+            updatedMapUpload: [expect.anything()],
+            additionalComments: 'additional comments test',
+            descriptionOfChanges: 'description of changes test',
+            statementOfWorkUpload: [
+              {
+                id: 2,
+                uuid: 'string',
+                name: 'file-edited.xls',
+                size: 1,
+                type: 'application/vnd.ms-excel',
+              },
+            ],
+            changeRequestFormUpload: [expect.anything()],
+          },
+          _oldChangeRequestId: expect.anything(),
+        },
+      }
+    );
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createChangeRequest: {
+            changeRequest: {
+              rowId: 1,
+            },
+          },
+        },
+      });
+    });
+
+    expect(
+      screen.getByText('Statement of work successfully imported')
+    ).toBeInTheDocument();
+
+    expect(global.fetch).not.toHaveBeenCalledWith('/api/email/notifySowUpload');
+  });
+
+  it('does not send email notification for SOW upload for original if an amendment is present', async () => {
+    componentTestingHelper.loadQuery(mockDataQueryPayload);
+    componentTestingHelper.renderComponent();
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+
+    const editButton = screen.getAllByTestId('project-form-edit-button')[2];
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'file-edited.xls', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAttachmentMutation',
+      {
+        input: {
+          attachment: {
+            file,
+            fileName: 'file-edited.xls',
+            fileSize: '1 Bytes',
+            fileType: 'application/vnd.ms-excel',
+            applicationId: 1,
+          },
+        },
+      }
+    );
+
+    expect(screen.getByLabelText('loading')).toBeInTheDocument();
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 2,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save & Import Data',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createProjectInformationMutation',
+      {
+        input: {
+          _applicationId: 1,
+          _jsonData: expect.anything(),
+        },
+      }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createProjectInformation: {
+            projectInformationData: { id: '1', jsonData: {}, rowId: 1 },
+          },
+        },
+      });
+    });
+
+    expect(
+      screen.getByText('Statement of work successfully imported')
+    ).toBeInTheDocument();
+
+    expect(global.fetch).not.toHaveBeenCalledWith('/api/email/notifySowUpload');
   });
 
   it('should show a spinner when the sow is being imported', async () => {

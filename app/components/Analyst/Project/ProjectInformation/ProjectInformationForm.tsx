@@ -15,6 +15,7 @@ import Toast from 'components/Toast';
 import Ajv8Validator from '@rjsf/validator-ajv8';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import ReadOnlyView from 'components/Analyst/Project/ProjectInformation/ReadOnlyView';
+import * as Sentry from '@sentry/nextjs';
 import ChangeRequestTheme from '../ChangeRequestTheme';
 
 const StyledProjectForm = styled(ProjectForm)`
@@ -201,6 +202,27 @@ const ProjectInformationForm: React.FC<Props> = ({
     setIsSubmitAttempted(false);
   };
 
+  const notifySowUpload = (params = {}) => {
+    fetch('/api/email/notifySowUpload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        applicationId: rowId,
+        host: window.location.origin,
+        ccbcNumber,
+        params,
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        Sentry.captureException({
+          name: 'Error sending email to notify SOW upload',
+          message: response,
+        });
+      }
+      return response.json();
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitAttempted(true);
@@ -229,6 +251,8 @@ const ProjectInformationForm: React.FC<Props> = ({
       !isChangeRequest &&
       hasFormErrors &&
       formData.hasFundingAgreementBeenSigned;
+
+    const latestAmendment = changeRequestData?.[0]?.node?.amendmentNumber;
 
     const isChangeRequestFormInvalid =
       isChangeRequest && (hasFormErrors || !isAmendmentValid);
@@ -278,6 +302,13 @@ const ProjectInformationForm: React.FC<Props> = ({
               handleResetFormData();
 
               if (isSowUploaded && response?.status === 200) {
+                // send email notification to notify the analyst that the sow has been uploaded
+                // if this is the latest SOW
+                if (latestAmendment <= changeRequestAmendmentNumber) {
+                  notifySowUpload({
+                    amendmentNumber: changeRequestAmendmentNumber,
+                  });
+                }
                 setShowToast(true);
               }
 
@@ -332,6 +363,7 @@ const ProjectInformationForm: React.FC<Props> = ({
               handleResetFormData(!formData?.hasFundingAgreementBeenSigned);
               setHasFormSaved(true);
               if (isSowUploaded && response?.status === 200) {
+                if (!latestAmendment) notifySowUpload();
                 setShowToast(true);
               }
             },
