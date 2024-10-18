@@ -268,6 +268,19 @@ const getSowData = (sowData, baseSowData) => {
   };
 };
 
+const handleSplitFunding = (requestedFunding) => {
+  if (!requestedFunding) {
+    return { bc: null, federal: null };
+  }
+  const halfAmount = requestedFunding / 2;
+
+  // Rounding up for bc and down for federal
+  const bc = Math.ceil(halfAmount);
+  const federal = Math.floor(halfAmount);
+
+  return { bc, federal };
+};
+
 const sumConditionalApprovalFunding = (
   bcFundingRequested,
   isedFundingRequested
@@ -322,6 +335,10 @@ const getFormDataFromApplication = (
   economicRegions,
   regionalDistricts
 ) => {
+  const splitFunding = handleSplitFunding(
+    applicationData?.formData?.jsonData?.projectFunding
+      ?.totalFundingRequestedCCBC
+  );
   return {
     formData: {
       counts: {
@@ -341,8 +358,8 @@ const getFormDataFromApplication = (
         regionalDistricts: getRegionalDistricts(regionalDistricts),
       },
       funding: {
-        bcFundingRequested: null,
-        federalFunding: null,
+        bcFundingRequested: splitFunding?.bc,
+        federalFunding: splitFunding?.federal,
         fundingRequestedCcbc:
           applicationData?.formData?.jsonData?.projectFunding
             ?.totalFundingRequestedCCBC,
@@ -375,6 +392,11 @@ const getFormDataFromApplication = (
       },
     },
     formDataSource: {
+      bcFundingRequested:
+        splitFunding?.bc && 'Calculated from Application, assuming 50:50 split',
+      federalFunding:
+        splitFunding?.federal &&
+        'Calculated from Application, assuming 50:50 split',
       totalHouseholdsImpacted: 'Application',
       numberOfIndigenousHouseholds: 'Application',
       applicantAmount: 'Application',
