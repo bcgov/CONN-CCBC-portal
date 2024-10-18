@@ -1787,7 +1787,7 @@ describe('sow tab 7 tests', () => {
               eligibleMobile: 0,
               totalEligibleCosts: 500000,
               totalIneligibleCosts: 250000,
-              totalProjectCost: '',
+              totalProjectCost: 750000,
             },
             totalCostsPerCostCategory: {
               directLabour: { cost: 80000, percentOfTotalEligibleCosts: 0.16 },
@@ -2015,7 +2015,7 @@ describe('sow tab 7 tests', () => {
               eligibleMobile: 0,
               totalEligibleCosts: 500000,
               totalIneligibleCosts: 250000,
-              totalProjectCost: '',
+              totalProjectCost: 750000,
             },
             totalCostsPerCostCategory: {
               directLabour: { cost: 80000, percentOfTotalEligibleCosts: 0.16 },
