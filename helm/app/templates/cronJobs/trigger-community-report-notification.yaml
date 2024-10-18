@@ -6,7 +6,7 @@ metadata:
   labels: {{ include "ccbc.labels" . | nindent 4 }}
 spec:
   suspend: true
-  schedule: {{ .Values.croncummunity.schedule }}
+  schedule: {{ .Values.croncommunity.schedule }}
   timeZone: "America/Vancouver"
   jobTemplate:
     spec:

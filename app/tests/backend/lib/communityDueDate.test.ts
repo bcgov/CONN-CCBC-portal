@@ -117,6 +117,15 @@ describe('The Community Progress Report api route', () => {
                 },
                 jsonData: { projectStartDate: '2024-11-02' },
               },
+              {
+                applicationId: 1,
+                applicationByApplicationId: {
+                  ccbcNumber: 'CCBC-010002',
+                  organizationName: 'Organization Name',
+                  projectName: 'Project Name',
+                },
+                jsonData: { projectStartDate: '2050-12-02' },
+              },
             ],
           },
         },
