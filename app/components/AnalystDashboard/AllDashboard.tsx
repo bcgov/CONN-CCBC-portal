@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable react/jsx-pascal-case */
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
@@ -12,6 +14,10 @@ import {
   type MRT_SortingState,
   type MRT_VisibilityState,
   type MRT_ColumnSizingState,
+  MRT_ToggleFiltersButton,
+  MRT_ToggleDensePaddingButton,
+  MRT_ToggleFullScreenButton,
+  MRT_ShowHideColumnsButton,
 } from 'material-react-table';
 
 import RowCount from 'components/Table/RowCount';
@@ -19,9 +25,10 @@ import AssignLead from 'components/Analyst/AssignLead';
 import StatusPill from 'components/StatusPill';
 import statusStyles from 'data/statusStyles';
 import Link from 'next/link';
+import StatusInformationIcon from 'components/Analyst/StatusInformationIcon';
 import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
-import { TableCellProps } from '@mui/material';
+import { Box, IconButton, TableCellProps } from '@mui/material';
 import { useFeature } from '@growthbook/growthbook-react';
 import getConfig from 'next/config';
 import {
@@ -620,6 +627,17 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       filterNumber,
       statusFilter,
     },
+    renderToolbarInternalActions: ({ table }) => (
+      <Box>
+        <IconButton size="small">
+          <StatusInformationIcon />
+        </IconButton>
+        <MRT_ToggleFiltersButton table={table} />
+        <MRT_ShowHideColumnsButton table={table} />
+        <MRT_ToggleDensePaddingButton table={table} />
+        <MRT_ToggleFullScreenButton table={table} />
+      </Box>
+    ),
     renderTopToolbarCustomActions: () => (
       <StyledTableHeader>
         <ClearFilters
