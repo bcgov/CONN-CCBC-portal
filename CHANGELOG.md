@@ -1,3 +1,9 @@
+# [1.198.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.197.5...v1.198.0) (2024-10-18)
+
+### Features
+
+- split funding for ccbc summary (application) ([42b37fa](https://github.com/bcgov/CONN-CCBC-portal/commit/42b37fabf682b4c36d63f2de2de1186a4c9dabe8))
+
 ## [1.197.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.197.4...v1.197.5) (2024-10-17)
 
 ## [1.197.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.197.3...v1.197.4) (2024-10-17)
