@@ -133,7 +133,7 @@ describe('EditCbcSection', () => {
 
     const saveButton = screen.getByRole('button', { name: /save/i });
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(saveButton);
     });
 
@@ -147,7 +147,7 @@ describe('EditCbcSection', () => {
 
     const cancelButton = screen.getByRole('button', { name: /cancel/i });
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(cancelButton);
     });
 
@@ -163,7 +163,7 @@ describe('EditCbcSection', () => {
 
     const saveButton = screen.getByRole('button', { name: /save/i });
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(saveButton);
     });
 
@@ -178,12 +178,12 @@ describe('EditCbcSection', () => {
 
     const saveButton = screen.getByRole('button', { name: /save/i });
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(saveButton);
     });
 
     const changeReasonInput = screen.getByTestId('reason-for-change');
-    act(() => {
+    await act(async () => {
       fireEvent.change(changeReasonInput, {
         target: { value: 'Updated reason' },
       });
@@ -198,19 +198,19 @@ describe('EditCbcSection', () => {
 
     const saveButton = screen.getByRole('button', { name: /save/i });
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(saveButton);
     });
 
     const changeReasonInput = screen.getByTestId('reason-for-change');
-    act(() => {
+    await act(async () => {
       fireEvent.change(changeReasonInput, {
         target: { value: 'Updated reason' },
       });
     });
 
     const saveModalButton = screen.getByRole('button', { name: /save/i });
-    act(() => {
+    await act(async () => {
       fireEvent.click(saveModalButton);
     });
 
@@ -281,9 +281,8 @@ describe('EditCbcSection', () => {
     const projectStatusElement = screen.getByTestId(
       'root_federalProjectNumber'
     );
-    const parentElement = projectStatusElement.closest(
-      '[class^="ProjectFieldTemplate__StyledInputWrapper"]'
-    );
+    const { parentElement } =
+      projectStatusElement.parentElement.parentElement.parentElement;
 
     expect(parentElement).toHaveStyle({
       backgroundColor: 'rgb(248, 231, 143)',
@@ -303,9 +302,8 @@ describe('EditCbcSection', () => {
     const projectStatusElement = screen.getByTestId(
       'root_federalProjectNumber'
     );
-    const parentElement = projectStatusElement.closest(
-      '[class^="ProjectFieldTemplate__StyledInputWrapper"]'
-    );
+    const { parentElement } =
+      projectStatusElement.parentElement.parentElement.parentElement;
 
     expect(parentElement).toHaveStyle({
       backgroundColor: 'rgb(248, 231, 143)',
@@ -366,19 +364,19 @@ describe('EditCbcSection', () => {
 
     const saveButton = screen.getByRole('button', { name: /save/i });
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(saveButton);
     });
 
     const changeReasonInput = screen.getByTestId('reason-for-change');
-    act(() => {
+    await act(async () => {
       fireEvent.change(changeReasonInput, {
         target: { value: 'Updated reason' },
       });
     });
 
     const saveModalButton = screen.getByRole('button', { name: /save/i });
-    act(() => {
+    await act(async () => {
       fireEvent.click(saveModalButton);
     });
 
