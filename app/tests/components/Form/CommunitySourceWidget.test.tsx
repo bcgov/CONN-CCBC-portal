@@ -24,17 +24,35 @@ const mockUiSchema = {
   },
 };
 
-const renderStaticLayout = (schema: RJSFSchema, uiSchema: RJSFSchema) => {
+const mockFormData = {
+  communitySourceData: {
+    economicRegion: 'Economic Region 1',
+    regionalDistrict: 'Regional District 1',
+    bcGeographicName: 'Geographic Name 1',
+    geographicType: 'Community',
+    geographicNameId: 1,
+  },
+};
+
+const mockFormDataDisplayField = {
+  communitySourceData: {
+    economicRegion: 'Economic Region 2',
+    regionalDistrict: 'Regional District 2',
+    bcGeographicName: 'Geographic Name 2',
+    geographicType: 'City',
+    geographicNameId: 2,
+    rowId: 2,
+  },
+};
+
+const renderStaticLayout = (
+  schema: RJSFSchema,
+  uiSchema: RJSFSchema,
+  formData?: any
+) => {
   return render(
     <FormTestRenderer
-      formData={{
-        communitySourceData: {
-          economicRegion: 'Economic Region 1',
-          regionalDistrict: 'Regional District 1',
-          bcGeographicName: 'Geographic Name 1',
-          geographicNameId: 1,
-        },
-      }}
+      formData={formData ?? mockFormData}
       onSubmit={jest.fn}
       schema={schema as RJSFSchema}
       uiSchema={uiSchema}
@@ -45,7 +63,9 @@ const renderStaticLayout = (schema: RJSFSchema, uiSchema: RJSFSchema) => {
         },
         geographicNamesByRegionalDistrict: {
           'Economic Region 1': {
-            'Regional District 1': [{ label: 'Geographic Name 1', value: 1 }],
+            'Regional District 1': [
+              { label: 'Geographic Name 1', value: 1, type: 'Community' },
+            ],
             null: [],
           },
         },
@@ -70,7 +90,9 @@ describe('The Community Source Widget', () => {
   });
 
   it('should render the geographic name input field', () => {
-    expect(screen.getByLabelText('Geographic Name')).toBeInTheDocument();
+    expect(
+      screen.getByLabelText('Geographic Name, Type & ID')
+    ).toBeInTheDocument();
   });
 
   it('should contain the correct economic region value', async () => {
@@ -86,7 +108,9 @@ describe('The Community Source Widget', () => {
   });
 
   it('should contain the correct geographic name value', () => {
-    expect(screen.getByDisplayValue('Geographic Name 1')).toBeInTheDocument();
+    expect(
+      screen.getByDisplayValue('Geographic Name 1 | Community | 1')
+    ).toBeInTheDocument();
   });
 
   it('should clear the economic region, regional district, and geographic name value when clear button is clicked', () => {
@@ -101,7 +125,7 @@ describe('The Community Source Widget', () => {
     ).not.toBeInTheDocument();
 
     expect(
-      screen.queryByDisplayValue('Geographic Name 1')
+      screen.queryByDisplayValue('Geographic Name 1 | Community | 1')
     ).not.toBeInTheDocument();
   });
 
@@ -118,12 +142,44 @@ describe('The Community Source Widget', () => {
   });
 
   it('should clear the geographic name value when clear button is clicked', () => {
-    expect(screen.getByDisplayValue('Geographic Name 1')).toBeInTheDocument();
+    expect(
+      screen.getByDisplayValue('Geographic Name 1 | Community | 1')
+    ).toBeInTheDocument();
     fireEvent.click(screen.getAllByTitle('Clear')[2]);
     expect(
       screen.queryByDisplayValue('Geographic Name 1')
     ).not.toBeInTheDocument();
     expect(screen.getByDisplayValue('Economic Region 1')).toBeInTheDocument();
     expect(screen.getByDisplayValue('Regional District 1')).toBeInTheDocument();
+  });
+
+  it('geographic name autocomplete should contain the correct options with geographic name, type and id', async () => {
+    const geoNameAutoCompleteOpenButton = screen.getAllByTitle('Open')[2];
+    fireEvent.click(geoNameAutoCompleteOpenButton);
+    const option = screen.getByRole('option', {
+      name: /Geographic Name 1/,
+    });
+    expect(option).toBeInTheDocument();
+    expect(option).toHaveTextContent('Geographic Name 1');
+    expect(option).toHaveTextContent('Community');
+    expect(option).toHaveTextContent('1');
+  });
+});
+
+describe('The Community Source Widget Display Fields', () => {
+  beforeEach(() => {
+    renderStaticLayout(
+      mockSchema as RJSFSchema,
+      mockUiSchema as RJSFSchema,
+      mockFormDataDisplayField
+    );
+  });
+
+  it('should render display fields correctly', async () => {
+    expect(screen.getByText('Economic Region 2')).toBeInTheDocument();
+    expect(screen.getByText('Regional District 2')).toBeInTheDocument();
+    expect(screen.getByText('Geographic Name 2')).toBeInTheDocument();
+    expect(screen.getByText('City')).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
   });
 });
