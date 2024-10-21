@@ -67,14 +67,16 @@ describe('The attachments archive', () => {
       };
     });
 
-    jest
-      // eslint-disable-next-line global-require
-      .spyOn(require('../../../backend/lib/intakeId'), 'default')
-      .mockImplementation(async () => '1');
-
     mocked(performQuery).mockImplementation(async () => {
       return {
         data: {
+          allIntakes: {
+            nodes: [
+              {
+                rowId: 1,
+              },
+            ],
+          },
           allApplications: {
             nodes: [
               {
@@ -112,6 +114,13 @@ describe('The attachments archive', () => {
     mocked(performQuery).mockImplementation(async () => {
       return {
         data: {
+          allIntakes: {
+            nodes: [
+              {
+                rowId: 1,
+              },
+            ],
+          },
           allApplications: {
             nodes: [
               {
@@ -145,6 +154,13 @@ describe('The attachments archive', () => {
     mocked(performQuery).mockImplementation(async () => {
       return {
         data: {
+          allIntakes: {
+            nodes: [
+              {
+                rowId: 1,
+              },
+            ],
+          },
           allApplications: {
             nodes: [
               {
@@ -190,6 +206,13 @@ describe('The attachments archive', () => {
     mocked(performQuery).mockImplementation(async () => {
       return {
         data: {
+          allIntakes: {
+            nodes: [
+              {
+                rowId: 1,
+              },
+            ],
+          },
           allApplications: {
             nodes: [
               {
