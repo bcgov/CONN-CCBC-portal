@@ -1,3 +1,9 @@
+# [1.202.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.201.1...v1.202.0) (2024-10-21)
+
+### Features
+
+- add heading and explanation at top of ccbc summary ([2038303](https://github.com/bcgov/CONN-CCBC-portal/commit/20383036a08fd0de29189bd975e05a7155fc3066))
+
 ## [1.201.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.201.0...v1.201.1) (2024-10-18)
 
 # [1.201.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.200.0...v1.201.0) (2024-10-18)
