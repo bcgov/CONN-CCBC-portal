@@ -20,6 +20,7 @@ ENV USER_ID=1001
 ENV APP_HOME=/application
 ENV GIT_HASH=${GIT_HASH}
 ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
+ENV UPLOAD_DIR=${APP_HOME}/uploads
 
 WORKDIR ${APP_HOME}
 
@@ -94,7 +95,6 @@ COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/.next ./.next
 COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/.persisted_operations ./.persisted_operations
 COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/config ./config
 COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/schema ./schema
-COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/uploads ./uploads
 COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/*.json5 .
 COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/*.ts .
 COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/*.js .
@@ -104,6 +104,11 @@ COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/dist ./dist
 
 # Copy production dependencies
 COPY --from=prod-deps --chown=${USER_ID}:0 ${APP_HOME}/node_modules ./node_modules
+
+# Create uploads directory
+RUN mkdir -p ${UPLOAD_DIR} && \
+  chown -R ${USER_ID}:0 ${UPLOAD_DIR} && \
+  chmod -R g+rw ${UPLOAD_DIR}
 
 # Run as the non-root user
 USER ${USER_ID}
