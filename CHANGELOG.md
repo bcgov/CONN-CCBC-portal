@@ -1,3 +1,9 @@
+# [1.203.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.202.1...v1.203.0) (2024-10-23)
+
+### Features
+
+- change title display for announcedByProvince in summary ([dfaefe9](https://github.com/bcgov/CONN-CCBC-portal/commit/dfaefe9333e62a93e2d71c67ad28c1c713e84a1f))
+
 ## [1.202.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.202.0...v1.202.1) (2024-10-23)
 
 ### Bug Fixes
