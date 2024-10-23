@@ -73,6 +73,7 @@ describe('The Milestone excel import api route', () => {
                         {
                           milestone1: '2022-01-02',
                           milestone2: '2022-01-01',
+                          milestone3: '2022-01-03',
                         },
                       ],
                     },
@@ -133,8 +134,9 @@ describe('The Milestone excel import api route', () => {
                     {
                       jsonData: [
                         {
-                          milestone1: '2022-01-01',
+                          milestone1: '2022-01-02',
                           milestone2: '2022-01-02',
+                          milestone3: '2022-01-02',
                         },
                       ],
                     },

@@ -72,12 +72,16 @@ const processMilestones = async (req, res) => {
         applicationByApplicationId;
       const milestoneData: Array<any> = sowTab2SBySowId.nodes[0]
         ?.jsonData as Array<any>;
-      const milestoneDue = milestoneData.find(
-        (milestone) =>
-          isWithin30To31Days(milestone.milestone1) ||
-          isWithin30To31Days(milestone.milestone2)
+      const milestoneOneDue = milestoneData.find((milestone) =>
+        isWithin30To31Days(milestone.milestone1)
       );
-      if (milestoneDue) {
+      const milestoneTwoDue = milestoneData.find((milestone) =>
+        isWithin30To31Days(milestone.milestone2)
+      );
+      const milestoneThreeDue = milestoneData.find((milestone) =>
+        isWithin30To31Days(milestone.milestone3)
+      );
+      if (milestoneOneDue) {
         const applicationRowId = applicationId;
         if (!applicationRowIdsVisited.has(applicationRowId)) {
           acc.push({
@@ -85,12 +89,42 @@ const processMilestones = async (req, res) => {
             ccbcNumber,
             organizationName,
             projectName,
-            milestoneNumber: isWithin30To31Days(milestoneDue.milestone1)
-              ? '1'
-              : '2',
-            milestoneDate: isWithin30To31Days(milestoneDue.milestone1)
-              ? new Date(milestoneDue.milestone1).toLocaleDateString()
-              : new Date(milestoneDue.milestone2).toLocaleDateString(),
+            milestoneNumber: '1',
+            milestoneDate: new Date(
+              milestoneOneDue.milestone1
+            ).toLocaleDateString(),
+          });
+          applicationRowIdsVisited.add(applicationRowId);
+        }
+      }
+      if (milestoneTwoDue) {
+        const applicationRowId = applicationId;
+        if (!applicationRowIdsVisited.has(applicationRowId)) {
+          acc.push({
+            applicationRowId,
+            ccbcNumber,
+            organizationName,
+            projectName,
+            milestoneNumber: '2',
+            milestoneDate: new Date(
+              milestoneTwoDue.milestone2
+            ).toLocaleDateString(),
+          });
+          applicationRowIdsVisited.add(applicationRowId);
+        }
+      }
+      if (milestoneThreeDue) {
+        const applicationRowId = applicationId;
+        if (!applicationRowIdsVisited.has(applicationRowId)) {
+          acc.push({
+            applicationRowId,
+            ccbcNumber,
+            organizationName,
+            projectName,
+            milestoneNumber: '3',
+            milestoneDate: new Date(
+              milestoneThreeDue.milestone3
+            ).toLocaleDateString(),
           });
           applicationRowIdsVisited.add(applicationRowId);
         }
