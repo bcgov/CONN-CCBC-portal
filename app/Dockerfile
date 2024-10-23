@@ -17,7 +17,7 @@ LABEL summary="$SUMMARY" \
 ARG GIT_HASH
 ARG SENTRY_AUTH_TOKEN
 ENV USER_ID=1001
-ENV APP_HOME=/application
+ENV APP_HOME=/root
 ENV GIT_HASH=${GIT_HASH}
 ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 
@@ -80,7 +80,7 @@ RUN yarn install --frozen-lockfile --production=true --prefer-offline
 FROM node:20-alpine AS runner
 
 # Env variables for the final image
-ENV APP_HOME=/application
+ENV APP_HOME=/root
 ENV USER_ID=1001
 ENV NODE_ENV=production
 
