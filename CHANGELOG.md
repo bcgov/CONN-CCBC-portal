@@ -1,3 +1,9 @@
+## [1.202.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.202.0...v1.202.1) (2024-10-23)
+
+### Bug Fixes
+
+- project costs tab 7 conflicts with estimated costs ([99204e9](https://github.com/bcgov/CONN-CCBC-portal/commit/99204e97699c396de94cfbd49054b10043d2fa4e))
+
 # [1.202.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.201.1...v1.202.0) (2024-10-21)
 
 ### Features
