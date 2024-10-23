@@ -19,7 +19,7 @@ ARG GIT_HASH
 ENV GIT_HASH=${GIT_HASH}
 ARG SENTRY_AUTH_TOKEN
 ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
-ENV UPLOAD_DIR=${APP_HOME}/uploads
+# ENV UPLOAD_DIR=${APP_HOME}/uploads
 
 WORKDIR ${APP_HOME}
 
@@ -27,36 +27,43 @@ WORKDIR ${APP_HOME}
 RUN apk add --no-cache libc6-compat
 
 # 1. Install dependencies only when needed
-FROM base AS deps
+# FROM base AS deps
 
-COPY app/package.json app/yarn.lock ./
-RUN yarn --frozen-lockfile
+# COPY app/package.json app/yarn.lock ./
+# RUN yarn --frozen-lockfile
 
-# 2. Rebuild the source code only when needed
-FROM base AS builder
-COPY --from=deps ${APP_HOME}/node_modules ./node_modules
-COPY app/ .
+# # 2. Rebuild the source code only when needed
+# FROM base AS builder
+# COPY --from=deps ${APP_HOME}/node_modules ./node_modules
+# COPY app/ .
 # This will do the trick, use the corresponding env file for each environment.
-RUN yarn build:relay && yarn build:server && yarn build:next
+# RUN yarn build:relay && yarn build:server && yarn build:next
 
 # 3. Production image, copy all the files and run next
-FROM base AS runner
+
+
+
+# RUN addgroup -g 1001 -S nodejs
+# RUN adduser -S nextjs -u 1001
+
+COPY app/ .
+RUN yarn --frozen-lockfile
 
 ENV NODE_ENV=production
+RUN yarn build:relay
+RUN yarn build:server
+RUN yarn build:next
 
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nextjs -u 1001
-
-COPY --from=builder ${APP_HOME}/public ./public
+# COPY --from=builder ${APP_HOME}/public ./public
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 #COPY --from=builder --chown=nextjs:nodejs ${APP_HOME}/.next/ ./
 #COPY --from=builder --chown=nextjs:nodejs ${APP_HOME}/.next/static ./.next/static
 #COPY --from=builder --chown=nextjs:nodejs ${APP_HOME}/dist ./dist
-COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME} ./
+# COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME} ./
 
-USER ${USER_ID}
+# USER ${USER_ID}
 
 EXPOSE 3000 9000
 
