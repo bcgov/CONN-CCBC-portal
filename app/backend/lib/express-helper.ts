@@ -48,7 +48,7 @@ export const isDeployedToOpenShift =
 export const commonFormidableConfig: formidable.Options = {
   maxFileSize: 8000000,
   keepExtensions: false,
-  uploadDir: isDeployedToOpenShift ? '/root/uploads' : undefined,
+  uploadDir: isDeployedToOpenShift ? '/application/uploads' : undefined,
   allowEmptyFiles: true,
   minFileSize: 0,
 };
