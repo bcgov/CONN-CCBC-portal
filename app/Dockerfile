@@ -17,7 +17,7 @@ LABEL summary="$SUMMARY" \
 ARG GIT_HASH
 ARG SENTRY_AUTH_TOKEN
 ENV USER_ID=1001
-ENV APP_HOME=/root
+ENV APP_HOME=/application
 ENV GIT_HASH=${GIT_HASH}
 ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 
@@ -80,7 +80,7 @@ RUN yarn install --frozen-lockfile --production=true --prefer-offline
 FROM node:20-alpine AS runner
 
 # Env variables for the final image
-ENV APP_HOME=/root
+ENV APP_HOME=/application
 ENV USER_ID=1001
 ENV NODE_ENV=production
 
@@ -88,11 +88,6 @@ WORKDIR ${APP_HOME}
 
 # Create a non-root user for OCP
 RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
-
-# Copy necessary files from the builder stage
-# COPY --from=builder --chown=nextjs:nodejs ${APP_HOME}/public ./public
-# COPY --from=builder --chown=nextjs:nodejs ${APP_HOME}/.next/ ./.next
-# COPY --from=builder --chown=nextjs:nodejs ${APP_HOME}/dist ./dist
 
 COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/public ./public
 COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/.next ./.next
@@ -106,7 +101,6 @@ COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/*.js .
 COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/*.properties .
 COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/*.json .
 COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/dist ./dist
-# COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME} ./
 
 # Copy production dependencies
 COPY --from=prod-deps --chown=${USER_ID}:0 ${APP_HOME}/node_modules ./node_modules
