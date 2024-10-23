@@ -23,7 +23,7 @@ const eventsAndDates: RJSFSchema = {
     },
     announcedByProvince: {
       type: 'boolean',
-      title: 'Announced by Province',
+      title: 'Announced by BC/ISED',
       oneOf: [
         { const: true, title: 'Yes' },
         { const: false, title: 'No' },

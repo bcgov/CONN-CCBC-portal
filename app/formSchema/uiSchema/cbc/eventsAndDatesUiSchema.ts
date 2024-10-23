@@ -14,7 +14,7 @@ const eventsAndDatesUiSchema = {
   },
   announcedByProvince: {
     'ui:widget': 'RadioWidget',
-    'ui:label': 'Announced By Province',
+    'ui:label': 'Announced By BC/ISED',
   },
   dateApplicationReceived: {
     'ui:widget': 'DatePickerWidget',
