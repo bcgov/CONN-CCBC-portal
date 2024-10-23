@@ -1,3 +1,9 @@
+## [1.202.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.202.1...v1.202.2) (2024-10-23)
+
+### Bug Fixes
+
+- sow tab 7 total estimated project cost not importing ([1eb0e5e](https://github.com/bcgov/CONN-CCBC-portal/commit/1eb0e5e6a50294a1fdc85d42b0072acd99a7650c))
+
 ## [1.202.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.202.0...v1.202.1) (2024-10-23)
 
 ### Bug Fixes
