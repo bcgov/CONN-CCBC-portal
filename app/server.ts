@@ -35,6 +35,7 @@ import metabaseEmbedUrl from './backend/lib/metabase-embed-url';
 import sharepoint from './backend/lib/sharepoint';
 import templateUpload from './backend/lib/template-upload';
 import s3upload from './backend/lib/s3upload';
+import templateNine from './backend/lib/excel_import/template_nine';
 
 // Function to exclude middleware from certain routes
 // The paths argument takes an array of strings containing routes to exclude from the middleware
@@ -123,6 +124,7 @@ app.prepare().then(async () => {
         'api/analyst/claims',
         'api/analyst/milestone',
         '/api/applicant/template',
+        '/api/template-nine/rfi',
       ],
       graphqlUploadExpress()
     )
@@ -147,6 +149,7 @@ app.prepare().then(async () => {
   server.use('/', templateUpload);
   server.use('/', email);
   server.use('/', reporting);
+  server.use('/', templateNine);
   server.use('/', validation);
 
   server.all('*', async (req, res) => handle(req, res));

@@ -39,6 +39,24 @@ export const getFileFromS3 = async (uuid, filename, res) => {
     });
 };
 
+export const getByteArrayFromS3 = async (uuid) => {
+  const params = {
+    Bucket: AWS_S3_BUCKET,
+    Key: uuid,
+  };
+
+  try {
+    const command = new GetObjectCommand(params);
+    const file = await s3ClientV3sdk.send(command);
+    const { Body } = file;
+
+    const byteArray = await Body.transformToByteArray();
+    return byteArray;
+  } catch (error) {
+    throw new Error(`Error fetching file from S3: ${error}`);
+  }
+};
+
 export const checkFileExists = async (params) => {
   try {
     const command = new HeadObjectCommand(params);

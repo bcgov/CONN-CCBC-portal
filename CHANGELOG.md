@@ -1,3 +1,24 @@
+# [1.202.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.201.1...v1.202.0) (2024-10-21)
+
+### Features
+
+- add heading and explanation at top of ccbc summary ([2038303](https://github.com/bcgov/CONN-CCBC-portal/commit/20383036a08fd0de29189bd975e05a7155fc3066))
+
+## [1.201.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.201.0...v1.201.1) (2024-10-18)
+
+# [1.201.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.200.0...v1.201.0) (2024-10-18)
+
+### Features
+
+- show template 9 data in summary page ([d9e4580](https://github.com/bcgov/CONN-CCBC-portal/commit/d9e4580a7a17f7cc11ced8fbe3804d19bb0f2629))
+- template 9 data from application and rfi ([ba78a11](https://github.com/bcgov/CONN-CCBC-portal/commit/ba78a11ca6f7c762333ff86f4a6f997960269563))
+
+# [1.200.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.199.0...v1.200.0) (2024-10-18)
+
+### Features
+
+- add status infographic on all dashboard ([2da4a38](https://github.com/bcgov/CONN-CCBC-portal/commit/2da4a3818a166562a115025ee57febc721c77199))
+
 # [1.199.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.198.0...v1.199.0) (2024-10-18)
 
 ### Features

@@ -133,6 +133,15 @@ const Project = ({
         setIsCommunityProgressExpanded(true);
       }
     }
+    // overwrite logic on expanded for when user
+    // is navigating with a query on the path
+    // from summary page
+    if (toggledSection === 'projectInformation') {
+      setIsProjectInformationExpanded(true);
+    }
+    if (toggledSection === 'conditionalApproval') {
+      setIsConditionalApprovalExpanded(true);
+    }
   }, [conditionalApproval, date, projectInformation]);
 
   return (

@@ -70,7 +70,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   // 104857600 bytes = 100mb
   const maxFileSizeInBytes = 104857600;
   const fileId = isFiles && value[0].id;
-  const { setTemplateData } = formContext;
+  const { setTemplateData, rfiNumber } = formContext;
   const { showToast, hideToast } = useToast();
 
   useEffect(() => {
@@ -87,25 +87,44 @@ const FileWidget: React.FC<FileWidgetProps> = ({
         fileFormData.append('file', file);
         if (setTemplateData) {
           try {
-            const response = await fetch(
-              `/api/applicant/template?templateNumber=${templateNumber}`,
-              {
-                method: 'POST',
-                body: fileFormData,
+            if (templateNumber !== 9) {
+              const response = await fetch(
+                `/api/applicant/template?templateNumber=${templateNumber}`,
+                {
+                  method: 'POST',
+                  body: fileFormData,
+                }
+              );
+              if (response.ok) {
+                const data = await response.json();
+                setTemplateData({
+                  templateNumber,
+                  data,
+                });
+              } else {
+                isTemplateValid = false;
+                setTemplateData({
+                  templateNumber,
+                  error: true,
+                });
               }
-            );
-            if (response.ok) {
-              const data = await response.json();
-              setTemplateData({
-                templateNumber,
-                data,
-              });
-            } else {
-              isTemplateValid = false;
-              setTemplateData({
-                templateNumber,
-                error: true,
-              });
+            } else if (templateNumber === 9) {
+              const response = await fetch(
+                `/api/template-nine/rfi/${formId}/${rfiNumber}`,
+                {
+                  method: 'POST',
+                  body: fileFormData,
+                }
+              );
+              if (response.ok) {
+                await response.json();
+              } else {
+                isTemplateValid = false;
+                setTemplateData({
+                  templateNumber,
+                  error: true,
+                });
+              }
             }
           } catch (error) {
             isTemplateValid = false;
@@ -175,15 +194,21 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   };
 
   const showToastMessage = (files, type: ToastType = 'success') => {
-    const fields =
-      templateNumber === 1
-        ? 'Total Households and Indigenous Households data'
-        : 'Total eligible costs and Total project costs data';
-    const message =
-      type === 'success'
-        ? `Template ${templateNumber} validation successful, new values for ${fields} in the application will update upon 'Save'`
-        : `Template ${templateNumber} validation failed: ${files.join(', ')} did not validate due to formatting issues. ${fields} in the application will not update.`;
-
+    let fields: string;
+    if (templateNumber === 1) {
+      fields = 'Total Households and Indigenous Households data';
+    } else if (templateNumber === 2) {
+      fields = 'Total eligible costs and Total project costs data';
+    }
+    let message: string;
+    if (templateNumber === 9) {
+      message = `Template ${templateNumber} processing successful, geographic names have been automatically updated or created for this application.`;
+    } else {
+      message =
+        type === 'success'
+          ? `Template ${templateNumber} validation successful, new values for ${fields} in the application will update upon 'Save'`
+          : `Template ${templateNumber} validation failed: ${files.join(', ')} did not validate due to formatting issues. ${fields} in the application will not update.`;
+    }
     showToast(message, type, 100000000);
   };
 

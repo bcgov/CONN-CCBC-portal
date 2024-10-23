@@ -14,6 +14,8 @@ import { Tooltip } from '@mui/material';
 import { Info } from '@mui/icons-material';
 import { useState } from 'react';
 import generateFormData from 'lib/helpers/ccbcSummaryGenerateFormData';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const getSummaryQuery = graphql`
   query summaryQuery($rowId: Int!) {
@@ -59,6 +61,12 @@ const getSummaryQuery = graphql`
       ) {
         nodes {
           jsonData
+        }
+      }
+      applicationFormTemplate9DataByApplicationId {
+        nodes {
+          jsonData
+          source
         }
       }
       conditionalApproval {
@@ -162,9 +170,19 @@ const RightAlignText = styled('div')`
   padding-bottom: 4px;
 `;
 
+const StyledLink = styled(Link)`
+  color: ${(props) => props.theme.color.links};
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const Summary = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, summaryQuery>) => {
+  const router = useRouter();
+  const applicationId = router.query.applicationId as string;
   const query = usePreloadedQuery(getSummaryQuery, preloadedQuery);
   const {
     applicationByRowId,
@@ -188,6 +206,32 @@ const Summary = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
+        <>
+          <h2>Summary</h2>
+          <p>
+            This section provides up-to-date information on the project&apos;s
+            status by pulling from the{' '}
+            <StyledLink
+              href={`/analyst/application/${applicationId}?expandAll=true`}
+            >
+              Application
+            </StyledLink>
+            ,{' '}
+            <StyledLink
+              href={`/analyst/application/${applicationId}/project?section=conditionalApproval`}
+            >
+              Conditional Approval
+            </StyledLink>{' '}
+            accordion, or{' '}
+            <StyledLink
+              href={`/analyst/application/${applicationId}/project?section=projectInformation`}
+            >
+              SOW
+            </StyledLink>{' '}
+            as it progresses through each stage.
+          </p>{' '}
+          <br />
+        </>
         <RightAlignText>
           <>
             <StyledButton
