@@ -14,6 +14,7 @@ const clientSecret = process.env.SA_CLIENT_SECRET || '';
 function fetchAccessToken() {
   const data = stringify({
     grant_type: 'client_credentials',
+    scope: 'openid',
   });
 
   const authHeader = `Basic ${Buffer.from(
@@ -26,21 +27,22 @@ function fetchAccessToken() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Length': Buffer.byteLength(data),
       Authorization: authHeader,
     },
   };
 
   return new Promise((resolve, reject) => {
     const req = https.request(options, (res) => {
-      let data = '';
+      let responseData = '';
 
       res.on('data', (chunk) => {
-        data += chunk;
+        responseData += chunk;
       });
 
       res.on('end', () => {
         try {
-          const tokenData = JSON.parse(data);
+          const tokenData = JSON.parse(responseData);
           const accessToken = tokenData.access_token;
           resolve(accessToken);
         } catch (error) {
