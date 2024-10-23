@@ -82,6 +82,7 @@ FROM node:20-alpine AS runner
 
 # Env variables for the final image
 ENV APP_HOME=/application
+ENV UPLOAD_DIR=${APP_HOME}/uploads
 ENV USER_ID=1001
 ENV NODE_ENV=production
 
@@ -105,10 +106,10 @@ COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/dist ./dist
 # Copy production dependencies
 COPY --from=prod-deps --chown=${USER_ID}:0 ${APP_HOME}/node_modules ./node_modules
 
-# Create uploads directory
-RUN mkdir -p ${UPLOAD_DIR} && \
-  chown -R ${USER_ID}:0 ${UPLOAD_DIR} && \
-  chmod -R g+rw ${UPLOAD_DIR}
+# Make sure uploads directory has proper permission
+RUN mkdir -p ${UPLOAD_DIR}
+RUN chown -PR ${USER_ID}:0 ${UPLOAD_DIR}
+RUN chmod -R g+rw ${UPLOAD_DIR}
 
 # Run as the non-root user
 USER ${USER_ID}
