@@ -21,6 +21,7 @@ describe('The admin Application intakes page', () => {
     cy.contains('button', /Add intake/).click();
     cy.contains('button', /Save/).scrollIntoView();
     cy.contains('button', /Save/).click();
+    cy.wait('@graphql');
     cy.contains('Start date & time must be entered');
     cy.contains('End date & time must be entered');
   });
@@ -47,7 +48,7 @@ describe('The admin Application intakes page', () => {
     cy.contains('button', /^Save$/)
       .should('be.visible')
       .click();
-    cy.wait(500);
+    cy.wait('@graphql');
     cy.contains('Intake 4').should('be.visible');
   });
 
@@ -78,6 +79,7 @@ describe('The admin Application intakes page', () => {
     cy.get('[data-testid="edit-intake"]').first().click();
     cy.get('input[id="root_description"]').type(' Edited');
     cy.contains('button', /^Save$/).click();
+    cy.wait('@graphql');
     cy.contains(/Test Intake Edited/);
   });
 
@@ -85,6 +87,7 @@ describe('The admin Application intakes page', () => {
     cy.visit('/analyst/admin/application-intakes');
     cy.contains('Intake 4');
     cy.contains('button', /^Delete$/).click();
+    cy.wait('@graphql');
     cy.contains('Intake 4').should('not.exist');
   });
 });
