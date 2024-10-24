@@ -317,6 +317,7 @@ describe('The ProjectInformation form', () => {
       {
         input: {
           _amendmentNumber: 0,
+          _applicationId: 1,
         },
       }
     );
