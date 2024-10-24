@@ -121,7 +121,7 @@ const mockShowLeadColumn: moduleApi.FeatureResult<boolean> = {
 
 const componentTestingHelper =
   new ComponentTestingHelper<ApplicationHeaderTestQuery>({
-    component: ApplicationHeader,
+    component: ApplicationHeader as any,
     testQuery,
     compiledQuery,
     defaultQueryResolver: mockQueryPayload,

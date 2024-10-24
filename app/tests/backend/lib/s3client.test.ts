@@ -82,7 +82,7 @@ jest.mock('@aws-sdk/client-s3', () => {
 jest.mock('../../../backend/lib/graphql');
 jest.mock('../../../utils/getAuthRole');
 
-jest.setTimeout(10000000);
+jest.setTimeout(1000);
 
 describe('S3 client', () => {
   let app;

@@ -21,7 +21,7 @@ global.FormData = jest.fn(() => {
   return FormDataMock();
 }) as jest.Mock;
 
-jest.setTimeout(10000000);
+jest.setTimeout(1000);
 
 describe('The GIS import', () => {
   let app;
