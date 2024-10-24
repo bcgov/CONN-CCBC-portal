@@ -46,6 +46,7 @@ const isAuthorized = (authRole: any) => {
     'ccbc_auth_user',
     'super_admin',
     'cbc_admin',
+    'ccbc_service_account',
   ];
   return authRole && authorizedRoles.includes(authRole.pgRole);
 };
@@ -89,6 +90,7 @@ const handleEmailBatch = async (
   try {
     const token = await getAccessToken();
     const emailResult = await sendEmailMerge(token, body, subject, contexts);
+    console.log(emailResult, contexts, details);
     if (emailResult) {
       const emailRecordResults = emailResult.messages.map(
         (message: any, i: number) => {
