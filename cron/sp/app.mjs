@@ -101,6 +101,7 @@ async function main() {
     console.log('Response', response);
   } catch (error) {
     console.error('Error:', error);
+    process.exitCode = 1;
   }
 }
 
