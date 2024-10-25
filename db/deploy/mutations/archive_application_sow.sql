@@ -21,6 +21,7 @@ begin
     update ccbc_public.application_sow_data
     set archived_at = now()
     where amendment_number = _amendment_number
+    and application_id = _application_id
     and archived_at is null;
 
     -- Loop through the selected IDs
