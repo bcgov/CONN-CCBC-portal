@@ -6,7 +6,7 @@ const eventsAndDatesUiSchema = {
   'ui:title': 'Events and Dates',
   announcedByProvince: {
     'ui:widget': 'TextWidget',
-    'ui:label': 'Announced by Province',
+    'ui:label': 'Announced by BC/ISED',
   },
   dateApplicationReceived: {
     'ui:widget': 'DateWidget',
