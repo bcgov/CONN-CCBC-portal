@@ -72,15 +72,15 @@ const processMilestones = async (req, res) => {
         applicationByApplicationId;
       const milestoneData: Array<any> = sowTab2SBySowId.nodes[0]
         ?.jsonData as Array<any>;
-      const milestoneOneDue = milestoneData.find((milestone) =>
-        isWithin30To31Days(milestone.milestone1)
-      );
-      const milestoneTwoDue = milestoneData.find((milestone) =>
-        isWithin30To31Days(milestone.milestone2)
-      );
-      const milestoneThreeDue = milestoneData.find((milestone) =>
-        isWithin30To31Days(milestone.milestone3)
-      );
+      const milestoneOneDue = milestoneData.find((milestone) => {
+        return isWithin30To31Days(milestone.milestone1);
+      });
+      const milestoneTwoDue = milestoneData.find((milestone) => {
+        return isWithin30To31Days(milestone.milestone2);
+      });
+      const milestoneThreeDue = milestoneData.find((milestone) => {
+        return isWithin30To31Days(milestone.milestone3);
+      });
       if (milestoneOneDue) {
         const applicationRowId = applicationId;
         if (!applicationRowIdsVisited.has(applicationRowId)) {
@@ -94,7 +94,6 @@ const processMilestones = async (req, res) => {
               milestoneOneDue.milestone1
             ).toLocaleDateString(),
           });
-          applicationRowIdsVisited.add(applicationRowId);
         }
       }
       if (milestoneTwoDue) {
@@ -110,7 +109,6 @@ const processMilestones = async (req, res) => {
               milestoneTwoDue.milestone2
             ).toLocaleDateString(),
           });
-          applicationRowIdsVisited.add(applicationRowId);
         }
       }
       if (milestoneThreeDue) {
@@ -126,8 +124,10 @@ const processMilestones = async (req, res) => {
               milestoneThreeDue.milestone3
             ).toLocaleDateString(),
           });
-          applicationRowIdsVisited.add(applicationRowId);
         }
+      }
+      if (milestoneThreeDue || milestoneOneDue || milestoneTwoDue) {
+        applicationRowIdsVisited.add(applicationId);
       }
       return acc;
     },
