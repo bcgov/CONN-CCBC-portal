@@ -16,7 +16,7 @@ const eventsAndDates: RJSFSchema = {
   properties: {
     announcedByProvince: {
       type: 'string',
-      title: 'Announced by Province',
+      title: 'Announced by BC/ISED',
     },
     dateApplicationReceived: {
       type: 'string',

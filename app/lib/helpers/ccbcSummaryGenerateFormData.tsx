@@ -391,13 +391,18 @@ const getFormDataFromApplication = (
     formData: {
       counts: {
         communities:
-          (applicationData?.applicationFormTemplate9DataByApplicationId
-            ?.nodes[0]?.jsonData?.communitiesToBeServed || 0) +
-          (applicationData?.applicationFormTemplate9DataByApplicationId
-            ?.nodes[0]?.jsonData?.indigenousCommunitiesToBeServed || 0),
-        nonIndigenousCommunities:
           applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]
             ?.jsonData?.communitiesToBeServed,
+        nonIndigenousCommunities:
+          applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]
+            ?.jsonData?.communitiesToBeServed &&
+          applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]
+            ?.jsonData?.indigenousCommunitiesToBeServed
+            ? (applicationData?.applicationFormTemplate9DataByApplicationId
+                ?.nodes[0]?.jsonData?.communitiesToBeServed || 0) -
+              (applicationData?.applicationFormTemplate9DataByApplicationId
+                ?.nodes[0]?.jsonData?.indigenousCommunitiesToBeServed || 0)
+            : null,
         indigenousCommunities:
           applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]
             ?.jsonData?.indigenousCommunitiesToBeServed,
