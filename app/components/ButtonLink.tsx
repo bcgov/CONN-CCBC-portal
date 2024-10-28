@@ -8,8 +8,14 @@ type Props = {
   disabled?: boolean;
 };
 
-const ButtonLink = ({ children, href, onClick, disabled = false }: Props) => (
-  <Link href={href} passHref>
+const ButtonLink = ({
+  children,
+  href,
+  onClick,
+  disabled = false,
+  ...rest
+}: Props) => (
+  <Link href={href} passHref {...rest}>
     <Button onClick={onClick} disabled={disabled}>
       {children}
     </Button>

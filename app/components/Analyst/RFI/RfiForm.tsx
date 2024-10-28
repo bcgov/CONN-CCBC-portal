@@ -11,6 +11,7 @@ import { graphql, useFragment } from 'react-relay';
 import { RfiForm_RfiData$key } from '__generated__/RfiForm_RfiData.graphql';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import removeFalseyValuesFromObject from 'utils/removeFalseValuesFromObject';
+import { useState } from 'react';
 import RfiTheme from './RfiTheme';
 
 const StyledCancel = styled(Button)`
@@ -44,9 +45,10 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
   const rfiUrl = `/analyst/application/${applicationId}/rfi`;
   const [createRfi] = useCreateRfiMutation();
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
+  const [formData, setFormData] = useState(rfiFormData?.jsonData ?? {});
 
   const handleSubmit = (e: IChangeEvent<any>) => {
-    const formData = {
+    const newFormData = {
       ...e.formData,
       rfiAdditionalFiles: {
         // Remove fields with false values from object to prevent unintended bugs when
@@ -60,7 +62,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
         variables: {
           input: {
             applicationRowId: parseInt(applicationId as string, 10),
-            jsonData: formData,
+            jsonData: newFormData,
           },
         },
         onCompleted: () => {
@@ -75,7 +77,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
       updateRfi({
         variables: {
           input: {
-            jsonData: formData,
+            jsonData: newFormData,
             rfiRowId: parseInt(rfiId as string, 10),
           },
         },
@@ -98,12 +100,13 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
         schema={rfiSchema}
         uiSchema={rfiUiSchema}
         omitExtraData={false}
-        formData={rfiFormData?.jsonData ?? {}}
+        formData={formData}
+        onChange={(e) => setFormData(e.formData)}
         onSubmit={handleSubmit}
         noValidate
       >
         <Button>Save</Button>
-        <Link href={rfiUrl} passHref>
+        <Link href={rfiUrl} passHref data-skip-unsaved-warning>
           <StyledCancel variant="secondary">Cancel</StyledCancel>
         </Link>
       </FormBase>

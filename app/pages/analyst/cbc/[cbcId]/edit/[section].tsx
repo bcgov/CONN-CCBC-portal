@@ -82,7 +82,9 @@ const EditCbcSection = ({
   const section = router.query.section as string;
   const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
   const [changeReason, setChangeReason] = useState<null | string>(null);
-  const [formData, setFormData] = useState<any>(null);
+  const [formData, setFormData] = useState<any>(
+    section === 'locations' ? { locations: { communitySourceData: [] } } : null
+  );
   const [addedCommunities, setAddedCommunities] = useState([]);
   const [removedCommunities, setRemovedCommunities] = useState([]);
 

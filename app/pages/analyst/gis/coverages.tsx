@@ -13,6 +13,7 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import * as Sentry from '@sentry/nextjs';
 import Tabs from 'components/Analyst/GIS/Tabs';
 import checkFileType from 'utils/checkFileType';
+import { useUnsavedChanges } from 'components/UnsavedChangesProvider';
 import config from '../../../config';
 
 const getCoveragesQuery = graphql`
@@ -95,6 +96,7 @@ const CoveragesTab = () => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const { updateDirtyState } = useUnsavedChanges();
   const fileComponentValue = [
     {
       id: '',
@@ -118,6 +120,7 @@ const CoveragesTab = () => {
     }
     setError('');
     setSelectedFile(file);
+    updateDirtyState(true);
   };
 
   const handleUpload = async () => {
@@ -134,6 +137,7 @@ const CoveragesTab = () => {
         setSelectedFile(null);
         setIsUploading(false);
         setUploadSuccess(true);
+        updateDirtyState(false);
       }
     } catch (e) {
       setIsUploading(false);
@@ -161,7 +165,10 @@ const CoveragesTab = () => {
           label="ZIP of CCBC Application Coverages"
           id="coverages-upload"
           onChange={changeHandler}
-          handleDelete={() => setSelectedFile(null)}
+          handleDelete={() => {
+            setSelectedFile(null);
+            updateDirtyState(false);
+          }}
           hideFailedUpload={false}
           value={selectedFile ? fileComponentValue : []}
           allowDragAndDrop
@@ -183,6 +190,7 @@ const CoveragesTab = () => {
             onClick={handleUpload}
             href="#"
             disabled={isUploading || !selectedFile}
+            data-skip-unsaved-warning
           >
             {isUploading ? 'Uploading' : 'Upload'}
           </ButtonLink>

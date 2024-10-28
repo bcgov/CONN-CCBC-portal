@@ -236,7 +236,7 @@ const ApplicantRfiPage = ({
             onChange={handleChange}
             onSubmit={handleSubmit}
             noValidate
-            formContext={{ setTemplateData }}
+            formContext={{ setTemplateData, skipUnsavedWarning: true }}
           >
             <Button>Save</Button>
           </FormBase>

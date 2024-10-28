@@ -7,6 +7,7 @@ import React, {
   ReactNode,
 } from 'react';
 import Toast, { ToastType } from 'components/Toast';
+import UnsavedChangesProvider from 'components/UnsavedChangesProvider';
 
 type AppContextType = {
   showToast?: (message: ReactNode, type?: ToastType, timeout?: number) => void;
@@ -52,12 +53,14 @@ export const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider value={contextValue}>
-      {children}
-      {toast?.visible && (
-        <Toast type={toast?.type} onClose={hideToast} timeout={toast.timeout}>
-          {toast.message}
-        </Toast>
-      )}
+      <UnsavedChangesProvider>
+        {children}
+        {toast?.visible && (
+          <Toast type={toast?.type} onClose={hideToast} timeout={toast.timeout}>
+            {toast.message}
+          </Toast>
+        )}
+      </UnsavedChangesProvider>
     </AppContext.Provider>
   );
 };

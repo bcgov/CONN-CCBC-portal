@@ -14,6 +14,7 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import * as Sentry from '@sentry/nextjs';
 import Tabs from 'components/Analyst/GIS/Tabs';
 import checkFileType from 'utils/checkFileType';
+import { useUnsavedChanges } from 'components/UnsavedChangesProvider';
 
 const getUploadedJsonQuery = graphql`
   query gisUploadedJsonQuery {
@@ -79,6 +80,7 @@ const validateFile = (file: globalThis.File) => {
 const GisTab = () => {
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<File>();
+  const { updateDirtyState } = useUnsavedChanges();
 
   const fileComponentValue = [
     {
@@ -94,7 +96,7 @@ const GisTab = () => {
 
   const changeHandler = (event) => {
     const file: File = event.target.files?.[0];
-
+    updateDirtyState(true);
     const { isValid, error: newError } = validateFile(file);
     if (!isValid) {
       setError(newError);
@@ -143,7 +145,10 @@ const GisTab = () => {
           label="JSON of GIS analysis"
           id="json-upload"
           onChange={changeHandler}
-          handleDelete={() => setSelectedFile(null)}
+          handleDelete={() => {
+            setSelectedFile(null);
+            updateDirtyState(false);
+          }}
           hideFailedUpload={false}
           value={selectedFile ? fileComponentValue : []}
           allowDragAndDrop
@@ -181,7 +186,7 @@ const GisTab = () => {
           </>
         )}
         <StyledBtnContainer>
-          <ButtonLink onClick={handleUpload} href="#">
+          <ButtonLink onClick={handleUpload} href="#" data-skip-unsaved-warning>
             Continue
           </ButtonLink>
         </StyledBtnContainer>
