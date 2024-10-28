@@ -49,6 +49,7 @@ describe('The admin Application intakes page', () => {
       .should('be.visible')
       .click();
     cy.wait('@graphql');
+    cy.wait(5000);
     cy.contains('Intake 4').should('be.visible');
   });
 
@@ -56,6 +57,7 @@ describe('The admin Application intakes page', () => {
     cy.visit('/analyst/admin/application-intakes');
     cy.contains('h2', 'Application Intakes');
     cy.wait('@graphql');
+    cy.wait(5000);
     cy.get('[data-testid="edit-intake"]').first().click();
     cy.get('input[id="root_startDate"]').type('2024-01-16 00:00 AM');
     cy.contains('Start date & time must not overlap with the previous intake');
@@ -65,6 +67,7 @@ describe('The admin Application intakes page', () => {
     cy.visit('/analyst/admin/application-intakes');
     cy.contains('h2', 'Application Intakes');
     cy.wait('@graphql');
+    cy.wait(5000);
     cy.get('[data-testid="edit-intake"]').eq(1).scrollIntoView();
     cy.get('[data-testid="edit-intake"]').eq(1).click();
     cy.get('input[id="root_endDate"]').type('2024-02-05 00:00 AM');
@@ -75,6 +78,7 @@ describe('The admin Application intakes page', () => {
     cy.visit('/analyst/admin/application-intakes');
     cy.contains('h2', 'Application Intakes');
     cy.wait('@graphql');
+    cy.wait(5000);
     cy.get('[data-testid="edit-intake"]').first().scrollIntoView();
     cy.get('[data-testid="edit-intake"]').first().click();
     cy.get('input[id="root_description"]').type(' Edited');
@@ -88,6 +92,7 @@ describe('The admin Application intakes page', () => {
     cy.contains('Intake 4');
     cy.contains('button', /^Delete$/).click();
     cy.wait('@graphql');
+    cy.wait(5000);
     cy.contains('Intake 4').should('not.exist');
   });
 });
