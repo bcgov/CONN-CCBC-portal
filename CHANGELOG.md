@@ -1,3 +1,9 @@
+## [1.203.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.203.0...v1.203.1) (2024-10-28)
+
+### Bug Fixes
+
+- calculate non indigenous and communities from template 9 ([cbc1f91](https://github.com/bcgov/CONN-CCBC-portal/commit/cbc1f91f349abec27f1e459336b6c822c5add728))
+
 # [1.203.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.202.2...v1.203.0) (2024-10-25)
 
 ### Features
