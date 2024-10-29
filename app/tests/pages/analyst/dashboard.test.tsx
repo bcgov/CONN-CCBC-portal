@@ -747,4 +747,28 @@ describe('The index page', () => {
     expect(cbcFilterCheckbox).toBeChecked();
     expect(screen.queryByText('5555')).toBeInTheDocument();
   });
+
+  it('shows global filter and filters results based on input', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
+    expect(screen.getByText('CCBC-010003')).toBeInTheDocument();
+
+    const globalSearch = screen.getByPlaceholderText('Search');
+    expect(globalSearch).toBeInTheDocument();
+
+    fireEvent.change(globalSearch, {
+      target: { value: 'Test Proj Name 3' },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('CCBC-010002')).not.toBeInTheDocument();
+      expect(screen.getByText('CCBC-010003')).toBeInTheDocument();
+    });
+  });
 });

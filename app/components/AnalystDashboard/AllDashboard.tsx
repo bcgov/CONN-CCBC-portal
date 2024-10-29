@@ -416,6 +416,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   }, [visibilityPreference]);
 
   const state = {
+    showGlobalFilter: true,
     columnFilters,
     columnVisibility,
     density,
@@ -621,7 +622,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     onShowColumnFiltersChange: setShowColumnFilters,
     onColumnSizingChange: setColumnSizing,
     enablePagination: false,
-    enableGlobalFilter: false,
+    enableGlobalFilter: true,
     enableBottomToolbar: false,
     filterFns: {
       filterNumber,
