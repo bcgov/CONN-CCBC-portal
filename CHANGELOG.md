@@ -1,3 +1,9 @@
+## [1.203.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.203.1...v1.203.2) (2024-10-29)
+
+### Bug Fixes
+
+- return communities served for communities calc in template 9 data for summary ([2f854e0](https://github.com/bcgov/CONN-CCBC-portal/commit/2f854e0b4c2665c7e21a09bd188c80d675526ded))
+
 ## [1.203.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.203.0...v1.203.1) (2024-10-28)
 
 ### Bug Fixes
