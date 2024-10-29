@@ -402,7 +402,8 @@ const getFormDataFromApplication = (
                 ?.nodes[0]?.jsonData?.communitiesToBeServed || 0) -
               (applicationData?.applicationFormTemplate9DataByApplicationId
                 ?.nodes[0]?.jsonData?.indigenousCommunitiesToBeServed || 0)
-            : null,
+            : applicationData?.applicationFormTemplate9DataByApplicationId
+                ?.nodes[0]?.jsonData?.communitiesToBeServed,
         indigenousCommunities:
           applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]
             ?.jsonData?.indigenousCommunitiesToBeServed,
