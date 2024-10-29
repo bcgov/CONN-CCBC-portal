@@ -94693,6 +94693,7 @@ input ArchiveApplicationSowInput {
   """
   clientMutationId: String
   _amendmentNumber: Int!
+  _applicationId: Int!
 }
 
 """The output of our `archiveIntake` mutation."""
