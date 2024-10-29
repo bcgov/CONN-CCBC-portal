@@ -44,7 +44,7 @@
     "@graphile-contrib/pg-many-to-many": "^1.0.1",
     "@graphile/persisted-operations": "^0.1.1",
     "@growthbook/growthbook-react": "^0.9.0",
-    "@mui/base": "^5.0.0-alpha.115",
+    "@mui/base": "^5.0.0-beta.60",
     "@mui/icons-material": "^5.14.13",
     "@mui/material": "^5.16.5",
     "@mui/x-date-pickers": "^6.16.2",
