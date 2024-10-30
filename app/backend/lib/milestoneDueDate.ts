@@ -54,9 +54,10 @@ const processMilestones = async (req, res) => {
   // Function to check if a given due date string is within 30 to 31 days from today.
   const isWithin30To31Days = (dueDateStr) => {
     const dueDate = new Date(dueDateStr);
+    today.setHours(0, 0, 0, 0);
     const timeDiff = dueDate.getTime() - today.getTime();
-    const daysDiff = timeDiff / (1000 * 3600 * 24);
-    return daysDiff >= 30 && daysDiff <= 31;
+    const daysDiff = Math.round(timeDiff / (1000 * 3600 * 24));
+    return daysDiff === 30;
   };
 
   // Traverse the result, if there is a milestone due date within 30 to 31 days from today,
