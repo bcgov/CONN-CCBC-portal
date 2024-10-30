@@ -266,7 +266,7 @@ const ProjectInformationForm: React.FC<Props> = ({
       // archive by application id
       archiveApplicationSow({
         variables: {
-          input: { _amendmentNumber: 0 },
+          input: { _amendmentNumber: 0, _applicationId: rowId },
         },
       });
     }
