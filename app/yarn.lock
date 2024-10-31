@@ -5315,10 +5315,10 @@
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.30.tgz#44cb52f32a809734ca562e685c6473b5754a7818"
   integrity sha512-sqm9g7mHlPY/43fcSNrCYfOeX9zkTTK+euO5E6+CVijSMm5tTjkVdwdqRkY3ljjIAf8679vps5jKUoJBCLsMDA==
 
-"@types/jsonlint@^1.6.0":
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/@types/jsonlint/-/jsonlint-1.6.0.tgz#16f4ca86795c3d9607745b7998853326a0f66595"
-  integrity sha512-/YlvegyObX0fbyD1PVdesfgxnS3Aof2SosrUA9D3kj1HkNuu24avzlOP+rTcf0xhI+X2fStOY9/A/Ij5ft9UAw==
+"@types/jsonlint@^1.6.3":
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/@types/jsonlint/-/jsonlint-1.6.3.tgz#fc5654778dd5d22290f2a9901f6c4ae175054e6f"
+  integrity sha512-9BlMijV0OxhBaVQADQnQB5yJQtH65T+OikLI9Bz6vdCSxkA6WNPsec4r3NNI4lhbRP1hNYeLQrYN6gpAZmJ6+A==
 
 "@types/jsonwebtoken@8.5.0":
   version "8.5.0"
