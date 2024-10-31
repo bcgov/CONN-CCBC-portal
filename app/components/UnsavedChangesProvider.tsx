@@ -9,6 +9,7 @@ import React, {
   type PropsWithChildren,
 } from 'react';
 import { useRouter } from 'next/router';
+import { useFeature } from '@growthbook/growthbook-react';
 import UnsavedChangesWarningModal from './Modal/UnsavedChangesWarningModal';
 
 type IUnsavedChangesContext = {
@@ -24,6 +25,9 @@ const UnsavedChangesProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [leavingPage, setLeavingPage] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
   const confirmLeavePage = useRef<() => void>(() => {});
+  const enableUnsavedChangesWarning = useFeature(
+    'enable_unsaved_changes_warning'
+  ).value;
 
   const updateDirtyState = useCallback((dirty: boolean) => {
     setIsDirty(dirty);
@@ -54,7 +58,7 @@ const UnsavedChangesProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     const handleClick = (event: MouseEvent | SubmitEvent) => {
-      if (!isDirty) return;
+      if (!isDirty || !enableUnsavedChangesWarning) return;
 
       let target: HTMLElement | null = null;
       if (event instanceof MouseEvent) {
@@ -95,7 +99,13 @@ const UnsavedChangesProvider: React.FC<PropsWithChildren> = ({ children }) => {
         element.removeEventListener('submit', handleClick);
       });
     };
-  }, [handleLinkNavigation, handleLogoutAction, isDirty, router]);
+  }, [
+    enableUnsavedChangesWarning,
+    handleLinkNavigation,
+    handleLogoutAction,
+    isDirty,
+    router,
+  ]);
 
   const handleModalCallback = () => {
     setLeavingPage(false);
