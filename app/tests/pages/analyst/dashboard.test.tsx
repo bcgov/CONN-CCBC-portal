@@ -771,4 +771,62 @@ describe('The index page', () => {
       expect(screen.getByText('CCBC-010003')).toBeInTheDocument();
     });
   });
+
+  it('cbc statuses are duplicated for both analyst and external statuses', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getAllByText('Reporting complete')).toHaveLength(6);
+  });
+
+  it('internal status filter works correctly on cbc projects', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getAllByText('Reporting complete')).toHaveLength(6);
+  });
+
+  it('should correctly filter the cbc projects by analyst status filter', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('4444')).toBeVisible();
+    expect(screen.getByText('5555')).toBeVisible();
+
+    const columnActions = document.querySelectorAll(
+      '[aria-label="Show/Hide filters"]'
+    )[0];
+
+    await act(async () => {
+      fireEvent.click(columnActions);
+    });
+
+    const internalStatusFilter = screen.getAllByText(
+      'Filter by Internal Status'
+    )[0];
+
+    await act(async () => {
+      fireEvent.keyDown(internalStatusFilter, { key: 'Enter', code: 'Enter' });
+    });
+
+    const option = screen.getByRole('option', { name: 'Agreement signed' });
+    fireEvent.click(option);
+
+    waitFor(() => {
+      expect(screen.getByText('4444')).toBeInTheDocument();
+      expect(screen.queryByText('5555')).not.toBeInTheDocument();
+    });
+  });
 });
