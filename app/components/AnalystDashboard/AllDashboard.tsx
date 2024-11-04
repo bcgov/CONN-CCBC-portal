@@ -265,6 +265,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const showCbcProjects = useFeature('show_cbc_projects').value ?? false;
   const showCbcProjectsLink = useFeature('show_cbc_view_link').value ?? false;
   const freezeHeader = useFeature('freeze_dashboard_header').value ?? false;
+  const enableGlobalFilter = useFeature('show_global_filter').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
     { Lead: false, program: false }
   );
@@ -434,7 +435,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           : application.node.intakeNumber,
         projectId: application.node.ccbcNumber,
         packageNumber: application.node.package,
-        projectTitle: application.node.projectName,
+        projectTitle: application.node.projectName ?? '',
+        organizationName: application.node.organizationName ?? '',
         isCbcProject: false,
         showLink: true,
         externalStatusOrder: statusOrderMap[application.node.externalStatus],
@@ -458,8 +460,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
                 ]
               : null,
             packageNumber: null,
-            organizationName:
-              project.node.jsonData.currentOperatingName || null,
+            organizationName: project.node.jsonData.currentOperatingName || '',
             lead: null,
             isCbcProject: true,
             showLink: showCbcProjectsLink,
@@ -622,7 +623,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     onShowColumnFiltersChange: setShowColumnFilters,
     onColumnSizingChange: setColumnSizing,
     enablePagination: false,
-    enableGlobalFilter: true,
+    enableGlobalFilter,
     enableBottomToolbar: false,
     filterFns: {
       filterNumber,
