@@ -1,3 +1,9 @@
+# [1.205.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.204.0...v1.205.0) (2024-11-05)
+
+### Features
+
+- enable global filter to all dashboard ([c05984d](https://github.com/bcgov/CONN-CCBC-portal/commit/c05984d56bcf7d26251cf9b79d3be10627aba43c))
+
 # [1.204.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.203.4...v1.204.0) (2024-11-05)
 
 ### Features
