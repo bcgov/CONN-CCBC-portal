@@ -1,3 +1,11 @@
+# [1.204.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.203.4...v1.204.0) (2024-11-05)
+
+### Features
+
+- milestone cron ([5e1b65f](https://github.com/bcgov/CONN-CCBC-portal/commit/5e1b65fcd21b469c3a231f01c3cbc398cec5391f))
+- send emails for milestone when due in 30 days ([793372e](https://github.com/bcgov/CONN-CCBC-portal/commit/793372e7860fa730535c81f0a8843527d3abf5b5))
+- service account permissions and get scope in request ([41d84c5](https://github.com/bcgov/CONN-CCBC-portal/commit/41d84c5ec98dea4bc066b6c6bd75fdbb286b8b78))
+
 ## [1.203.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.203.3...v1.203.4) (2024-11-01)
 
 ## [1.203.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.203.2...v1.203.3) (2024-10-29)
