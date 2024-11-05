@@ -134,9 +134,72 @@ describe('The Milestone excel import api route', () => {
                     {
                       jsonData: [
                         {
-                          milestone1: '2022-01-02',
+                          milestone1: '2022-01-03',
                           milestone2: '2022-01-02',
+                          milestone3: '2022-01-01',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+              {
+                applicationId: 2,
+                applicationByApplicationId: {
+                  ccbcNumber: 'CCBC-010001',
+                  organizationName: 'Organization Name',
+                  projectName: 'Project Name',
+                },
+                sowTab2SBySowId: {
+                  nodes: [
+                    {
+                      jsonData: [
+                        {
+                          milestone1: '2022-01-01',
+                          milestone2: '2022-01-02',
+                          milestone3: '2022-01-03',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+              {
+                applicationId: 3,
+                applicationByApplicationId: {
+                  ccbcNumber: 'CCBC-010001',
+                  organizationName: 'Organization Name',
+                  projectName: 'Project Name',
+                },
+                sowTab2SBySowId: {
+                  nodes: [
+                    {
+                      jsonData: [
+                        {
+                          milestone1: '2022-01-03',
+                          milestone2: '2022-01-01',
                           milestone3: '2022-01-02',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+              {
+                applicationId: 1,
+                applicationByApplicationId: {
+                  ccbcNumber: 'CCBC-010001',
+                  organizationName: 'Organization Name',
+                  projectName: 'Project Name',
+                },
+                sowTab2SBySowId: {
+                  nodes: [
+                    {
+                      jsonData: [
+                        {
+                          milestone1: '2022-01-03',
+                          milestone2: '2022-01-02',
+                          milestone3: '2022-01-01',
                         },
                       ],
                     },
