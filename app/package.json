@@ -138,7 +138,7 @@
     "@types/relay-test-utils": "^6.0.5",
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
-    "adm-zip": "^0.5.10",
+    "adm-zip": "^0.5.16",
     "aws-sdk-client-mock": "^4.0.1",
     "babel-plugin-module-resolver": "^5.0.2",
     "babel-plugin-relay": "^16.2.0",
