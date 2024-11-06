@@ -16,20 +16,21 @@ const communityReportDueDate = Router();
 
 function getNextQuarterStartDate(): Date {
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const currentYear = today.getFullYear();
   // Define quarter start months: March, June, September, December
   const quarterStartMonths = [2, 5, 8, 11]; // 0-based: 2=March, 5=June, 8=September, 11=December
 
   const currentQuarterStartMonth = quarterStartMonths.find((month) => {
-    const quarterStartDate = new Date(currentYear, month, 1);
+    const quarterStartDate = new Date(currentYear, month, 1, 0, 0, 0, 0);
     return quarterStartDate > today;
   });
 
   if (currentQuarterStartMonth !== undefined) {
-    return new Date(currentYear, currentQuarterStartMonth, 1);
+    return new Date(currentYear, currentQuarterStartMonth, 1, 0, 0, 0, 0);
   }
   // If no quarter start date is after today in the current year, return March 1 of next year
-  return new Date(currentYear + 1, 2, 1); // 2=March
+  return new Date(currentYear + 1, 2, 1, 0, 0, 0, 0); // 2=March
 }
 
 const processCommunityReportsDueDates = async (req, res) => {
@@ -74,8 +75,8 @@ const processCommunityReportsDueDates = async (req, res) => {
   // Function to check if a given due date string is within 30 to 31 days from today.
   const isWithin30To31Days = (dueDate: Date) => {
     const timeDiff = dueDate.getTime() - today.getTime();
-    const daysDiff = timeDiff / (1000 * 3600 * 24);
-    return daysDiff >= 30 && daysDiff <= 31;
+    const daysDiff = Math.round(timeDiff / (1000 * 3600 * 24));
+    return daysDiff === 30;
   };
 
   // Traverse the result, if there is a milestone due date within 30 to 31 days from today,
