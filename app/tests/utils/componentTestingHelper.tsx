@@ -11,6 +11,7 @@ import GlobalTheme from 'styles/GlobalTheme';
 import GlobalStyle from 'styles/GobalStyles';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { AppProvider } from 'components/AppProvider';
+import UnsavedChangesProvider from 'components/UnsavedChangesProvider';
 import TestingHelper from './TestingHelper';
 
 interface ComponentTestingHelperOptions<TQuery extends OperationType> {
@@ -87,10 +88,12 @@ class ComponentTestingHelper<
         <RouterContext.Provider value={this.router}>
           <RelayEnvironmentProvider environment={this.environment}>
             <AppProvider>
-              <this.TestRenderer
-                getPropsFromTestQuery={getPropsFromTestQuery}
-                extraProps={extraProps}
-              />
+              <UnsavedChangesProvider>
+                <this.TestRenderer
+                  getPropsFromTestQuery={getPropsFromTestQuery}
+                  extraProps={extraProps}
+                />
+              </UnsavedChangesProvider>
             </AppProvider>
           </RelayEnvironmentProvider>
         </RouterContext.Provider>

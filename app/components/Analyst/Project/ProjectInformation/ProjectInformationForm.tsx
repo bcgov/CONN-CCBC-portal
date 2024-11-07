@@ -425,9 +425,7 @@ const ProjectInformationForm: React.FC<Props> = ({
       handleChange={(e) => {
         setHasFormSaved(false);
         if (!isChangeRequest && !e.formData.hasFundingAgreementBeenSigned) {
-          setFormData({
-            hasFundingAgreementBeenSigned: false,
-          });
+          setFormData({});
         } else {
           setFormData({ ...e.formData });
         }

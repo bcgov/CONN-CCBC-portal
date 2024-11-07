@@ -6,6 +6,8 @@ import Accordion from 'components/Accordion';
 import { FormBase } from 'components/Form';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Collapse } from '@mui/material';
+import { FormBaseRef } from 'components/Form/FormBase';
+import { useRef } from 'react';
 import ProjectTheme from './ProjectTheme';
 import { ProjectFormProps } from './ProjectFormProps';
 
@@ -89,6 +91,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   ...rest
 }) => {
   const stopPropagation = (e) => e.stopPropagation();
+  const formRef = useRef<FormBaseRef>(null);
 
   return (
     <Accordion
@@ -102,7 +105,10 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                 id={`${title.toLowerCase().split(' ').join('-')}-save-button`}
                 size="small"
                 disabled={saveBtnDisabled}
-                onClick={onSubmit}
+                onClick={(e) => {
+                  onSubmit(e);
+                  formRef.current?.resetFormState(e.formData);
+                }}
               >
                 {saveBtnText || 'Save'}
               </StyledBtn>
@@ -111,8 +117,9 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                 variant="secondary"
                 disabled={cancelBtnDisabled}
                 onClick={() => {
-                  setFormData();
+                  setFormData({});
                   setIsFormEditMode(false);
+                  formRef.current?.resetFormState({});
                 }}
               >
                 Cancel
@@ -158,6 +165,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
         {formHeader}
         <FormBase
           // setting a key here will reset the form
+          ref={formRef}
           key={isFormEditMode ? 'edit' : 'view'}
           schema={schema}
           uiSchema={uiSchema}

@@ -10,5 +10,16 @@ if (global.self) {
   });
 }
 
+if (typeof SubmitEvent === 'undefined') {
+  global.SubmitEvent = class SubmitEvent extends Event {
+    submitter: HTMLElement | null;
+
+    constructor() {
+      super('submit');
+      this.submitter = null;
+    }
+  };
+}
+
 Settings.defaultLocale = 'en-CA';
 Settings.defaultZone = 'America/Vancouver';
