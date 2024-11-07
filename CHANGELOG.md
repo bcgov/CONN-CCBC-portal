@@ -1,3 +1,9 @@
+## [1.206.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.206.0...v1.206.1) (2024-11-07)
+
+### Bug Fixes
+
+- add missing access to app template 9 table ([a2f56b6](https://github.com/bcgov/CONN-CCBC-portal/commit/a2f56b65aee1e3dc0ddb15c52cdb2745da68cd31))
+
 # [1.206.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.205.0...v1.206.0) (2024-11-07)
 
 ### Features
