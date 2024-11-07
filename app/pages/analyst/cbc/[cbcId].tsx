@@ -110,7 +110,11 @@ const Cbc = ({
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 
   const { rowId } = query.cbcByRowId;
-  const [formData, setFormData] = useState({} as any);
+  const [formData, setFormData] = useState({
+    locations: {
+      communitySourceData: [],
+    },
+  } as any);
   const [baseFormData, setBaseFormData] = useState({} as any);
   const [addedCommunities, setAddedCommunities] = useState([]);
   const [removedCommunities, setRemovedCommunities] = useState([]);

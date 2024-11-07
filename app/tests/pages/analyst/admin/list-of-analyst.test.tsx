@@ -94,9 +94,9 @@ describe('The Download attachments admin page', () => {
       fireEvent.click(addAnalyst);
     });
 
-    const givenName = screen.getByRole('textbox', { name: 'givenName' });
-    const familyName = screen.getByRole('textbox', { name: 'familyName' });
-    const email = screen.getByRole('textbox', { name: 'email' });
+    const givenName = screen.getByTestId('root_givenName');
+    const familyName = screen.getByTestId('root_familyName');
+    const email = screen.getByTestId('root_email');
 
     expect(givenName).toBeInTheDocument();
     expect(familyName).toBeInTheDocument();

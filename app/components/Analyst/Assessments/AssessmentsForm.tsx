@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FormBase } from 'components/Form';
 import Button from '@button-inc/bcgov-theme/Button';
@@ -10,6 +10,7 @@ import assessmentsUiSchema from 'formSchema/uiSchema/analyst/assessmentsUiSchema
 import { RJSFSchema } from '@rjsf/utils';
 import * as Sentry from '@sentry/nextjs';
 import { useToast } from 'components/AppProvider';
+import { FormBaseRef } from 'components/Form/FormBase';
 
 interface Props {
   addedContext?: any;
@@ -67,6 +68,7 @@ const AssessmentsForm: React.FC<Props> = ({
   const [emailStatus, setEmailStatus] = useState<
     'idle' | 'inProgress' | 'sent'
   >('idle');
+  const formRef = useRef<FormBaseRef>(null);
 
   const handleSubmit = async (e: IChangeEvent<any>) => {
     if (!isFormSaved) {
@@ -81,6 +83,7 @@ const AssessmentsForm: React.FC<Props> = ({
         },
         onCompleted: () => {
           setIsFormSaved(true);
+          formRef.current?.resetFormState(e.formData);
         },
         optimisticResponse: {
           jsonData: e.formData,
@@ -135,6 +138,7 @@ const AssessmentsForm: React.FC<Props> = ({
 
   return (
     <StyledFormBase
+      ref={formRef}
       schema={schema}
       uiSchema={uiSchema || assessmentsUiSchema}
       noValidate

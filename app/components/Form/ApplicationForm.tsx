@@ -328,6 +328,7 @@ const ApplicationForm: React.FC<Props> = ({
       isProjectAreaSelected,
       intakeNumber,
       isRollingIntake,
+      skipUnsavedWarning: true,
     };
   }, [
     openIntake,

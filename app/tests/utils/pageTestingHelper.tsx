@@ -11,6 +11,7 @@ import { MockResolvers } from 'relay-test-utils/lib/RelayMockPayloadGenerator';
 import GlobalTheme from 'styles/GlobalTheme';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { AppProvider } from 'components/AppProvider';
+import UnsavedChangesProvider from 'components/UnsavedChangesProvider';
 import TestingHelper from './TestingHelper';
 
 interface PageTestingHelperOptions<TQuery extends OperationType> {
@@ -68,10 +69,12 @@ class PageTestingHelper<TQuery extends OperationType> extends TestingHelper {
         <RouterContext.Provider value={this.router}>
           <RelayEnvironmentProvider environment={this.environment}>
             <AppProvider>
-              <this.options.pageComponent
-                CSN
-                preloadedQuery={this.initialQueryRef}
-              />
+              <UnsavedChangesProvider>
+                <this.options.pageComponent
+                  CSN
+                  preloadedQuery={this.initialQueryRef}
+                />
+              </UnsavedChangesProvider>
             </AppProvider>
           </RelayEnvironmentProvider>
         </RouterContext.Provider>
