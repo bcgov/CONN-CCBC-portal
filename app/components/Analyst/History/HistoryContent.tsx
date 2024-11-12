@@ -91,7 +91,14 @@ const HistoryContent = ({
   const showHistoryDetails = useFeature('show_history_details').value;
   const isAnalyst = sessionSub.includes('idir') || externalAnalyst;
   const fullName = `${givenName} ${familyName}`;
-  const displayName = isAnalyst ? fullName : 'The applicant';
+  let displayName;
+  if (isAnalyst) {
+    displayName = fullName;
+  } else if (record?.archived_by === null) {
+    displayName = 'The system';
+  } else {
+    displayName = 'The applicant';
+  }
   const reasonForChange = record.reason_for_change || record.change_reason;
   const createdAtFormatted =
     op === 'UPDATE'
@@ -389,6 +396,37 @@ const HistoryContent = ({
           {createdAtFormatted}
         </span>
       </StyledContent>
+    );
+  }
+
+  if (tableName === 'application_dependencies') {
+    return (
+      <>
+        <StyledContent data-testid="history-content-dependencies">
+          <span>
+            {displayName} updated the <b>Application dependencies</b> on{' '}
+            {createdAtFormatted}
+          </span>
+        </StyledContent>
+        <HistoryDetails
+          json={record.json_data}
+          prevJson={prevHistoryItem?.record?.json_data || {}}
+          excludedKeys={['id', 'createdAt', 'updatedAt', 'applicationId']}
+          diffSchema={{
+            applicationDependencies: {
+              properties: {
+                crtcProjectDependent: { title: 'CRTC Project Dependent' },
+                connectedCoastNetworkDependent: {
+                  title: 'Connected Coast Network Dependent',
+                },
+              },
+            },
+          }}
+          overrideParent="applicationDependencies"
+        />
+
+        {reasonForChange && <ChangeReason reason={reasonForChange} />}
+      </>
     );
   }
 

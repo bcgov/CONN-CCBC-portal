@@ -742,3 +742,7 @@ computed_columns/cbc_history [computed_columns/cbc_history@1.203.3] 2024-11-13T2
 @1.212.0 2024-11-25T17:29:01Z CCBC Service Account <ccbc@button.is> # release v1.212.0
 @1.212.1 2024-11-26T16:42:04Z CCBC Service Account <ccbc@button.is> # release v1.212.1
 @1.212.2 2024-11-26T22:55:20Z CCBC Service Account <ccbc@button.is> # release v1.212.2
+tables/application_dependencies 2024-11-05T23:51:58Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create application dependencies to hold crtc and connected coast
+util_functions/migrate_dependencies 2024-11-06T23:05:23Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create one time script to migrate crtc and connected coast dependencies
+computed_columns/application_history [computed_columns/application_history@1.204.0] 2024-11-07T00:23:15Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add history for application dependencies
+mutations/create_assessment_form [mutations/create_assessment_form@1.204.0] 2024-11-12T23:02:06Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add case for application dependencies
