@@ -599,16 +599,9 @@ const generateFormData = (
     // dependency is one source
     formData: {
       dependency: {
-        // TEMP: do not show TBD
         connectedCoastNetworkDependent:
-          dependencyData?.connectedCoastNetworkDependent === 'TBD'
-            ? null
-            : dependencyData?.connectedCoastNetworkDependent,
-        // TEMP: do not show TBD
-        crtcProjectDependent:
-          dependencyData?.crtcProjectDependent === 'TBD'
-            ? null
-            : dependencyData?.crtcProjectDependent,
+          dependencyData?.connectedCoastNetworkDependent,
+        crtcProjectDependent: dependencyData?.crtcProjectDependent,
       },
       counts: { ...formData?.counts },
       locations: { ...formData?.locations },
