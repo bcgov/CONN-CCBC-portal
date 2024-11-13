@@ -31,6 +31,7 @@ import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTabl
 import { Box, IconButton, TableCellProps } from '@mui/material';
 import { useFeature } from '@growthbook/growthbook-react';
 import getConfig from 'next/config';
+import StatusInformationModal from 'components/Analyst/StatusInformationModal';
 import {
   filterZones,
   sortStatus,
@@ -632,7 +633,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     renderToolbarInternalActions: ({ table }) => (
       <Box>
         <IconButton size="small">
-          <StatusInformationIcon />
+          <StatusInformationIcon ModalComponent={StatusInformationModal} />
         </IconButton>
         <MRT_ToggleFiltersButton table={table} />
         <MRT_ShowHideColumnsButton table={table} />

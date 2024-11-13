@@ -5,6 +5,8 @@ import PendingChangeRequest from '../PendingChangeRequest/PendingChangeRequest';
 import CbcEditProjectDescription from './CbcEditProjectDescription';
 import CbcAssignProjectType from './CbcAssignProjectType';
 import CbcEditProjectNumber from './CbcEditProjectNumber';
+import StatusInformationIcon from '../StatusInformationIcon';
+import CbcStatusInformationModal from './CbcStatusInformationModal';
 
 const StyledCallout = styled.div`
   margin-bottom: 0.5em;
@@ -140,6 +142,7 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditable = false }) => {
             ]}
             isFormEditable={isFormEditable}
           />
+          <StatusInformationIcon ModalComponent={CbcStatusInformationModal} />
         </StyledItem>
         <StyledProjectType>
           <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>

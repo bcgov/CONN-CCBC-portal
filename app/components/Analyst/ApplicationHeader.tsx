@@ -6,6 +6,7 @@ import ChangeStatus from 'components/Analyst/ChangeStatus';
 import { useFeature } from '@growthbook/growthbook-react';
 import EditProjectDescription from './EditProjectDescription';
 import StatusInformationIcon from './StatusInformationIcon';
+import StatusInformationModal from './StatusInformationModal';
 import AssignProjectType from './AssignProjectType';
 import PendingChangeRequest from './PendingChangeRequest/PendingChangeRequest';
 
@@ -174,7 +175,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
             }
             statusList={allApplicationStatusTypes?.nodes}
           />
-          <StatusInformationIcon />
+          <StatusInformationIcon ModalComponent={StatusInformationModal} />
         </StyledItem>
         <StyledItem>
           <StyledLabel htmlFor="change-status">External Status</StyledLabel>
