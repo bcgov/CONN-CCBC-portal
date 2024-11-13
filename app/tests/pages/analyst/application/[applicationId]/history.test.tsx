@@ -3023,7 +3023,7 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-assessment')[0]
     ).toHaveTextContent(
-      'Foo Bar saved the Screening Assessment on Mar 3, 2023, 9:50 a.m.'
+      'Foo Bar updated the Screening Assessment on Mar 3, 2023, 9:50 a.m.'
     );
 
     expect(screen.getByText('TestNameHopefullyUnique')).toBeInTheDocument();
@@ -3035,13 +3035,13 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-assessment')[5]
     ).toHaveTextContent(
-      'Foo Bar saved the technical Assessment on Mar 3, 2023, 8:03 a.m.'
+      'Foo Bar updated the technical Assessment on Mar 3, 2023, 8:03 a.m.'
     );
 
     expect(
       screen.getAllByTestId('history-content-assessment')[4]
     ).toHaveTextContent(
-      'Foo Bar saved the Project Management Assessment on Mar 3, 2023, 8:03 a.m.'
+      'Foo Bar updated the Project Management Assessment on Mar 3, 2023, 8:03 a.m.'
     );
   });
 

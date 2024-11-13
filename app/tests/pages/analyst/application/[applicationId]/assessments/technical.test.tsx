@@ -18,6 +18,16 @@ const mockQueryPayload = {
         rowId: 1,
         assessmentForm: null,
         status: 'received',
+        applicationDependenciesByApplicationId: {
+          nodes: [
+            {
+              jsonData: {
+                connectedCoastNetworkDependent: 'TBD',
+                crtcProjectDependent: 'TBD',
+              },
+            },
+          ],
+        },
       },
       allApplicationStatusTypes: {
         ...allApplicationStatusTypes,
@@ -103,6 +113,8 @@ describe('The index page', () => {
         _jsonData: {
           nextStep: 'Not started',
           decision: 'Pass',
+          connectedCoastNetworkDependent: 'TBD',
+          crtcProjectDependent: 'TBD',
         },
         _assessmentType: 'technical',
       },
