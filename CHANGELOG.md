@@ -1,3 +1,9 @@
+# [1.207.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.206.1...v1.207.0) (2024-11-13)
+
+### Features
+
+- add status header for cbc ([0ce2417](https://github.com/bcgov/CONN-CCBC-portal/commit/0ce2417268c930edfbf15c3419a209f86ab77905))
+
 ## [1.206.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.206.0...v1.206.1) (2024-11-07)
 
 ### Bug Fixes
