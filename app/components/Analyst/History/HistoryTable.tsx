@@ -38,6 +38,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
             nodes {
               applicationId
               createdAt
+              createdBy
               externalAnalyst
               familyName
               item

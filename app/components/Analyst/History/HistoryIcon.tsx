@@ -42,6 +42,7 @@ const iconMap = {
   rfi_data: faEnvelope,
   attachment: faPaperclip,
   assessment_data: faCheckDouble,
+  application_dependencies: faCheckDouble,
   application_analyst_lead: faUser,
   application_package: faBox,
   conditional_approval_data: faStamp,

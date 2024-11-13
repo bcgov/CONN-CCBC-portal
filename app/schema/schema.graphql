@@ -44944,6 +44944,9 @@ type HistoryItem {
 
   """User is an external analyst"""
   externalAnalyst: Boolean
+
+  """User id that triggered this operation"""
+  createdBy: Int
 }
 
 """A `HistoryItem` edge in the connection."""
@@ -44994,6 +44997,9 @@ input HistoryItemFilter {
 
   """Filter by the object’s `externalAnalyst` field."""
   externalAnalyst: BooleanFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
 
   """Checks for all expressions in this list."""
   and: [HistoryItemFilter!]
@@ -82012,6 +82018,8 @@ enum HistoryItemsOrderBy {
   SESSION_SUB_DESC
   EXTERNAL_ANALYST_ASC
   EXTERNAL_ANALYST_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
 }
 
 """
@@ -82054,6 +82062,9 @@ input HistoryItemCondition {
 
   """Checks for equality with the object’s `externalAnalyst` field."""
   externalAnalyst: Boolean
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
 }
 
 """A connection to a list of `RegionalDistrict` values."""
@@ -88107,6 +88118,9 @@ input HistoryItemInput {
 
   """User is an external analyst"""
   externalAnalyst: Boolean
+
+  """User id that triggered this operation"""
+  createdBy: Int
 }
 
 """The output of our create `Notification` mutation."""

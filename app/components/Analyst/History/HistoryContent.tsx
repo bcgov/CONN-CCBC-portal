@@ -81,24 +81,17 @@ const HistoryContent = ({
     familyName,
     tableName,
     createdAt,
+    createdBy,
     item,
     record,
     sessionSub,
     externalAnalyst,
     op,
   } = historyItem;
-
   const showHistoryDetails = useFeature('show_history_details').value;
   const isAnalyst = sessionSub.includes('idir') || externalAnalyst;
   const fullName = `${givenName} ${familyName}`;
-  let displayName;
-  if (isAnalyst) {
-    displayName = fullName;
-  } else if (record?.archived_by === null) {
-    displayName = 'The system';
-  } else {
-    displayName = 'The applicant';
-  }
+  const displayName = isAnalyst ? fullName : 'The applicant';
   const reasonForChange = record.reason_for_change || record.change_reason;
   const createdAtFormatted =
     op === 'UPDATE'
@@ -400,11 +393,12 @@ const HistoryContent = ({
   }
 
   if (tableName === 'application_dependencies') {
+    const user = createdBy === 1 ? 'The system' : displayName;
     return (
       <>
         <StyledContent data-testid="history-content-dependencies">
           <span>
-            {displayName} updated the <b>Application dependencies</b> on{' '}
+            {user} updated the <b>Technical Assessment</b> on{' '}
             {createdAtFormatted}
           </span>
         </StyledContent>
@@ -424,7 +418,6 @@ const HistoryContent = ({
           }}
           overrideParent="applicationDependencies"
         />
-
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
       </>
     );
@@ -432,7 +425,7 @@ const HistoryContent = ({
 
   if (tableName === 'assessment_data') {
     const assessmentType = historyItem.item;
-
+    const user = createdBy === 1 ? 'The system' : displayName;
     const formatAssessment = (assessmentName) => {
       if (assessmentType === 'projectManagement') return 'Project Management';
       if (assessmentType === 'gis') return 'GIS';
@@ -478,7 +471,7 @@ const HistoryContent = ({
     return (
       <div>
         <StyledContent data-testid="history-content-assessment">
-          <span>{displayName} saved the </span>
+          <span>{user} updated the </span>
           <b>{formatAssessment(assessmentType)} Assessment</b>
           <span> on {createdAtFormatted}</span>
         </StyledContent>
