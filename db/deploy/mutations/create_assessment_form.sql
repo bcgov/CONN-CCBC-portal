@@ -39,7 +39,8 @@ begin
       -- Update the existing json_data with new fields
       update ccbc_public.application_dependencies
       set json_data = existing_json_data || crtc_project_dependent || connected_coast_network_dependent,
-          updated_at = now()
+          updated_at = now(),
+          reason_for_change = ''
       where application_id = _application_id;
     else
       -- Insert new json_data with the extracted fields

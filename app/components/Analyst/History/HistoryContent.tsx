@@ -393,12 +393,13 @@ const HistoryContent = ({
   }
 
   if (tableName === 'application_dependencies') {
-    const user = createdBy === 1 ? 'The system' : displayName;
+    const user =
+      createdBy === 1 && op === 'INSERT' ? 'The system' : displayName;
     return (
       <>
         <StyledContent data-testid="history-content-dependencies">
           <span>
-            {user} updated the <b>Technical Assessment</b> on{' '}
+            {user} updated the <b>Technical Assessment :</b> on{' '}
             {createdAtFormatted}
           </span>
         </StyledContent>
@@ -425,7 +426,8 @@ const HistoryContent = ({
 
   if (tableName === 'assessment_data') {
     const assessmentType = historyItem.item;
-    const user = createdBy === 1 ? 'The system' : displayName;
+    const user =
+      createdBy === 1 && op === 'INSERT' ? 'The system' : displayName;
     const formatAssessment = (assessmentName) => {
       if (assessmentType === 'projectManagement') return 'Project Management';
       if (assessmentType === 'gis') return 'GIS';
