@@ -3,6 +3,9 @@ name: nightly
 on:
   schedule:
     - cron: '0 5 * * *'
+  pull_request:
+    branches:
+      - main
 jobs:
   clear-cache:
     uses: ./.github/workflows/cache.yaml
