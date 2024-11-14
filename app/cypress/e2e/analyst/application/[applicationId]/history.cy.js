@@ -49,22 +49,22 @@ describe('The analyst history page', () => {
     cy.contains('Template 6 - Community Benefits requested');
 
     // Assessments
-    cy.contains(/Annie Analyst saved the Permitting assessment/, {
+    cy.contains(/Annie Analyst updated the Permitting assessment/, {
       matchCase: false,
     });
-    cy.contains(/Annie Analyst saved the Project Management assessment/, {
+    cy.contains(/Annie Analyst updated the Project Management assessment/, {
       matchCase: false,
     });
-    cy.contains(/Annie Analyst saved the Financial Risk assessment/, {
+    cy.contains(/Annie Analyst updated the Financial Risk assessment/, {
       matchCase: false,
     });
-    cy.contains(/Annie Analyst saved the GIS assessment/, {
+    cy.contains(/Annie Analyst updated the GIS assessment/, {
       matchCase: false,
     });
-    cy.contains(/Annie Analyst saved the Technical assessment/, {
+    cy.contains(/Annie Analyst updated the Technical assessment/, {
       matchCase: false,
     });
-    cy.contains(/Annie Analyst saved the Screening assessment/, {
+    cy.contains(/Annie Analyst updated the Screening assessment/, {
       matchCase: false,
     });
 
