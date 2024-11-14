@@ -22,6 +22,17 @@ import {
   isConditionalApprovalComplete,
 } from 'utils/projectAccordionValidators';
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
+
+const StyledButton = styled('button')`
+  color: ${(props) => props.theme.color.links};
+`;
+
+const RightAlignText = styled('div')`
+  padding-top: 20px;
+  text-align: right;
+  padding-bottom: 4px;
+`;
 
 const getProjectQuery = graphql`
   query projectQuery($rowId: Int!) {
@@ -70,6 +81,8 @@ const Project = ({
     useState(false);
   const [isProjectInformationExpanded, setIsProjectInformationExpanded] =
     useState(false);
+
+  const [isAnnouncementsExpanded, setIsAnnouncementsExpanded] = useState(false);
 
   const [isClaimsExpanded, setIsClaimsExpanded] = useState(false);
   const [isMilestonesExpanded, setIsMilestonesExpanded] = useState(false);
@@ -144,16 +157,60 @@ const Project = ({
     }
   }, [conditionalApproval, date, projectInformation]);
 
+  const toggleExpandAll = () => {
+    setIsConditionalApprovalExpanded(true);
+    setIsProjectInformationExpanded(true);
+    setIsClaimsExpanded(true);
+    setIsMilestonesExpanded(true);
+    setIsCommunityProgressExpanded(true);
+    setIsAnnouncementsExpanded(true);
+  };
+
+  const toggleCollapseAll = () => {
+    setIsConditionalApprovalExpanded(false);
+    setIsProjectInformationExpanded(false);
+    setIsClaimsExpanded(false);
+    setIsMilestonesExpanded(false);
+    setIsCommunityProgressExpanded(false);
+    setIsAnnouncementsExpanded(false);
+  };
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
+        <RightAlignText>
+          <>
+            <StyledButton
+              onClick={() => {
+                toggleExpandAll();
+              }}
+              type="button"
+            >
+              Expand all
+            </StyledButton>
+            {' | '}
+            <StyledButton
+              onClick={() => {
+                toggleCollapseAll();
+              }}
+              type="button"
+            >
+              Collapse all
+            </StyledButton>
+          </>
+        </RightAlignText>
         {showConditionalApproval && (
           <ConditionalApprovalForm
             application={applicationByRowId}
             isExpanded={isConditionalApprovalExpanded}
           />
         )}
-        {showAnnouncement && <AnnouncementsForm query={query} />}
+        {showAnnouncement && (
+          <AnnouncementsForm
+            query={query}
+            isExpanded={isAnnouncementsExpanded}
+          />
+        )}
         {showProjectInformation && (
           <div ref={projectInformationRef}>
             <ProjectInformationForm
