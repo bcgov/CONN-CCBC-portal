@@ -10,7 +10,9 @@ import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtim
 import { useRef, useState } from 'react';
 import { IChangeEvent } from '@rjsf/core';
 import { FormBaseRef } from 'components/Form/FormBase';
+import { GrowthBookProvider } from '@growthbook/growthbook-react';
 import createMockRouter from './mockNextRouter';
+import mockGrowthBook from './mockGrowthBook';
 
 type Props = {
   formData: any;
@@ -44,27 +46,29 @@ const FormTestRenderer: React.FC<Props> = ({
 
   return (
     <RelayEnvironmentProvider environment={env}>
-      <GlobalTheme>
-        <RouterContext.Provider value={createMockRouter()}>
-          <UnsavedChangesProvider>
-            <FormBase
-              ref={formRef}
-              theme={defaultTheme}
-              formData={formState}
-              onSubmit={handleSubmit}
-              schema={schema as RJSFSchema}
-              uiSchema={uiSchema}
-              formContext={formContext}
-              onChange={(e: IChangeEvent) => setFormState(e.formData)}
-            >
-              <button type="submit">Submit</button>
-              <button type="button" onClick={() => setFormState({})}>
-                Cancel
-              </button>
-            </FormBase>
-          </UnsavedChangesProvider>
-        </RouterContext.Provider>
-      </GlobalTheme>
+      <GrowthBookProvider growthbook={mockGrowthBook as any}>
+        <GlobalTheme>
+          <RouterContext.Provider value={createMockRouter()}>
+            <UnsavedChangesProvider>
+              <FormBase
+                ref={formRef}
+                theme={defaultTheme}
+                formData={formState}
+                onSubmit={handleSubmit}
+                schema={schema as RJSFSchema}
+                uiSchema={uiSchema}
+                formContext={formContext}
+                onChange={(e: IChangeEvent) => setFormState(e.formData)}
+              >
+                <button type="submit">Submit</button>
+                <button type="button" onClick={() => setFormState({})}>
+                  Cancel
+                </button>
+              </FormBase>
+            </UnsavedChangesProvider>
+          </RouterContext.Provider>
+        </GlobalTheme>
+      </GrowthBookProvider>
     </RelayEnvironmentProvider>
   );
 };
