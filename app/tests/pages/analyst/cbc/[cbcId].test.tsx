@@ -657,6 +657,11 @@ describe('Cbc', () => {
             cbcDataId: 1,
           },
         },
+        inputCbcProjectCommunities: {
+          _projectId: 1,
+          _communityIdsToAdd: [],
+          _communityIdsToArchive: [],
+        },
       }
     );
 
@@ -770,23 +775,7 @@ describe('Cbc', () => {
             cbcDataId: 1,
           },
         },
-      }
-    );
-
-    pageTestingHelper.environment.mock.resolveMostRecentOperation({
-      data: {
-        updateCbcDataAndInsertChangeReason: {
-          cbcData: {
-            rowId: 1,
-          },
-        },
-      },
-    });
-
-    pageTestingHelper.expectMutationToBeCalled(
-      'updateCbcCommunityDataMutation',
-      {
-        input: {
+        inputCbcProjectCommunities: {
           _projectId: 1,
           _communityIdsToAdd: [],
           _communityIdsToArchive: [1],

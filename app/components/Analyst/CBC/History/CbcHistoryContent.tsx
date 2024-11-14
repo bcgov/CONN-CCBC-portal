@@ -2,6 +2,7 @@ import HistoryDetails from 'components/Analyst/History/HistoryDetails';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
 import { DateTime } from 'luxon';
 import styled from 'styled-components';
+import CbcHistoryCommunitiesTable from './CbcHistoryCommunitiesTable';
 
 const StyledContent = styled.span`
   display: flex;
@@ -72,10 +73,23 @@ const HistoryContent = ({
             'updated_at',
             'change_reason',
             'cbc_data_id',
+            'locations',
           ]}
           diffSchema={cbcData}
           overrideParent="cbcData"
         />
+        {json?.locations?.added?.length > 0 && (
+          <CbcHistoryCommunitiesTable
+            action="Added"
+            communities={json?.locations?.added}
+          />
+        )}
+        {json?.locations?.removed?.length > 0 && (
+          <CbcHistoryCommunitiesTable
+            action="Deleted"
+            communities={json?.locations?.removed}
+          />
+        )}
         {op === 'UPDATE' && changeReason !== '' && (
           <ChangeReason reason={changeReason} />
         )}

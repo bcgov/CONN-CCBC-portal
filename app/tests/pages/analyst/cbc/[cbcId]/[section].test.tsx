@@ -265,6 +265,11 @@ describe('EditCbcSection', () => {
             cbcDataId: 20,
           },
         },
+        inputCbcProjectCommunities: {
+          _projectId: 1,
+          _communityIdsToAdd: expect.anything(),
+          _communityIdsToArchive: expect.anything(),
+        },
       }
     );
   });
@@ -428,6 +433,11 @@ describe('EditCbcSection', () => {
             cbcDataId: 20,
           },
         },
+        inputCbcProjectCommunities: {
+          _projectId: 1,
+          _communityIdsToAdd: expect.anything(),
+          _communityIdsToArchive: [],
+        },
       }
     );
 
@@ -440,16 +450,5 @@ describe('EditCbcSection', () => {
         },
       },
     });
-
-    pageTestingHelper.expectMutationToBeCalled(
-      'updateCbcCommunityDataMutation',
-      {
-        input: {
-          _projectId: 1,
-          _communityIdsToAdd: expect.anything(),
-          _communityIdsToArchive: [],
-        },
-      }
-    );
   });
 });

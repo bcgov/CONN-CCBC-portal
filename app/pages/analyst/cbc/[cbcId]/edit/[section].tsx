@@ -23,7 +23,6 @@ import {
   getAllEconomicRegionNames,
 } from 'utils/schemaUtils';
 import ArrayLocationFieldTemplate from 'lib/theme/fields/ArrayLocationDataField';
-import { useUpdateCbcCommunityDataMutationMutation } from 'schema/mutations/cbc/updateCbcCommunityData';
 import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
 
 const getCbcSectionQuery = graphql`
@@ -152,9 +151,6 @@ const EditCbcSection = ({
     return formPayload;
   };
 
-  const [updateCbcCommunitySourceData] =
-    useUpdateCbcCommunityDataMutationMutation();
-
   const handleOnChange = (e) => {
     if (section === 'locations') {
       setFormData({
@@ -163,28 +159,6 @@ const EditCbcSection = ({
       });
     } else setFormData({ ...formData, [section]: e.formData });
   };
-
-  const handleUpdateCommunitySource = useCallback(() => {
-    updateCbcCommunitySourceData({
-      variables: {
-        input: {
-          _projectId: rowId,
-          _communityIdsToAdd: addedCommunities,
-          _communityIdsToArchive: removedCommunities,
-        },
-      },
-      debounceKey: 'cbc_update_community_source_data',
-      onCompleted: () => {
-        setAddedCommunities([]);
-        setRemovedCommunities([]);
-      },
-    });
-  }, [
-    addedCommunities,
-    removedCommunities,
-    updateCbcCommunitySourceData,
-    rowId,
-  ]);
 
   const handleChangeRequestModal = (e) => {
     changeModal.open();
@@ -248,10 +222,16 @@ const EditCbcSection = ({
             cbcDataId: cbcDataRowId,
           },
         },
+        inputCbcProjectCommunities: {
+          _projectId: rowId,
+          _communityIdsToAdd: addedCommunities,
+          _communityIdsToArchive: removedCommunities,
+        },
       },
       debounceKey: 'cbc_update_section_data',
       onCompleted: () => {
-        handleUpdateCommunitySource();
+        setAddedCommunities([]);
+        setRemovedCommunities([]);
         router.push(`/analyst/cbc/${rowId}`);
       },
     });
