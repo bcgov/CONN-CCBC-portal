@@ -14,9 +14,7 @@ const limiter = RateLimit({
 
 const communityReportDueDate = Router();
 
-function getNextQuarterStartDate(): Date {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+function getNextQuarterStartDate(today: Date): Date {
   const currentYear = today.getFullYear();
   // Define quarter start months: March, June, September, December
   const quarterStartMonths = [2, 5, 8, 11]; // 0-based: 2=March, 5=June, 8=September, 11=December
@@ -67,10 +65,12 @@ const processCommunityReportsDueDates = async (req, res) => {
   if (isEnabledTimeMachine) {
     const mockedDate = req.cookies['mocks.mocked_date'];
     today = mockedDate ? new Date(mockedDate) : new Date();
+    today.setUTCHours(0, 0, 0, 0);
   } else {
     today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
   }
-  const nextQuarterDate = getNextQuarterStartDate();
+  const nextQuarterDate = getNextQuarterStartDate(today);
 
   // Function to check if a given due date string is within 30 to 31 days from today.
   const isWithin30To31Days = (dueDate: Date) => {
