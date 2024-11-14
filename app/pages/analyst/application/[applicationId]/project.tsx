@@ -185,6 +185,7 @@ const Project = ({
                 toggleExpandAll();
               }}
               type="button"
+              data-testid="expand-all"
             >
               Expand all
             </StyledButton>
@@ -194,6 +195,7 @@ const Project = ({
                 toggleCollapseAll();
               }}
               type="button"
+              data-testid="collapse-all"
             >
               Collapse all
             </StyledButton>
