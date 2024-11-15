@@ -15448,10 +15448,10 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
 
-write-excel-file@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/write-excel-file/-/write-excel-file-2.0.2.tgz#93f0c621b1aadf37d41542655db984db84b86e6b"
-  integrity sha512-JooVzNxQpHev4bIAYUCys2GAGe5MrvGaj3gDSkoHLa8fPYXJkaR2ZP1lTy01y7sfch5b8PI3y/KzQSPCT5Tz0Q==
+write-excel-file@^2.0.10:
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/write-excel-file/-/write-excel-file-2.0.10.tgz#99812abb89250de4234f82a3a3270da3c3c68958"
+  integrity sha512-uXlxzkTICrOUZvk0clurfOnwjaGWWO9ZUPkQcpd7IRap9WITJdGbsgMWO0YHPUPd4W3KGzaq8bCX/XG3Ck3daQ==
   dependencies:
     "@babel/runtime" "^7.17.9"
     archiver "^7.0.1"
