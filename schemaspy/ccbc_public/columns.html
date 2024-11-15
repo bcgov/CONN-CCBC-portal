@@ -494,7 +494,7 @@
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "ccbc_number",
+        "name": "rd",
         "type": "varchar",
         "length": 255,
         "nullable": "√",
@@ -2715,18 +2715,18 @@
         "comments": "<p>archived at timestamp<\/p>"
     },
     {
-        "tableName": "application_rd",
-        "tableFileName": "application_rd",
+        "tableName": "application_rfi_data",
+        "tableFileName": "application_rfi_data",
         "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "rd",
-        "type": "varchar",
-        "length": 255,
-        "nullable": "√",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>application_id",
+        "type": "int4",
+        "length": 10,
+        "nullable": "",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>The foreign key of an application<\/p>"
     },
     {
         "tableName": "cbc_application_pending_change_request",
@@ -3289,18 +3289,18 @@
         "comments": "<p>created at timestamp<\/p>"
     },
     {
-        "tableName": "application_rfi_data",
-        "tableFileName": "application_rfi_data",
+        "tableName": "application_rd",
+        "tableFileName": "application_rd",
         "tableType": "Table",
-        "keyClass": "primaryKey",
-        "keyTitle": "Primary Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>application_id",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "application_id",
         "type": "int4",
         "length": 10,
-        "nullable": "",
+        "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>The foreign key of an application<\/p>"
+        "comments": ""
     },
     {
         "tableName": "form_data",
@@ -5198,9 +5198,9 @@
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "application_id",
-        "type": "int4",
-        "length": 10,
+        "name": "ccbc_number",
+        "type": "varchar",
+        "length": 255,
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
@@ -5541,20 +5541,6 @@
         "autoUpdated": "",
         "defaultValue": "null",
         "comments": "<p>archived by user id<\/p>"
-    },
-    {
-        "tableName": "application_rfi_data",
-        "tableFileName": "application_rfi_data",
-        "tableType": "Table",
-        "keyClass": "primaryKey",
-        "keyTitle": "Primary Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>rfi_data_id",
-        "type": "int4",
-        "length": 10,
-        "nullable": "",
-        "autoUpdated": "",
-        "defaultValue": "null",
-        "comments": "<p>The foreign key of a form<\/p>"
     },
     {
         "tableName": "application_gis_assessment_hh",
@@ -7095,6 +7081,20 @@
         "autoUpdated": "",
         "defaultValue": "null",
         "comments": "<p>archived at timestamp<\/p>"
+    },
+    {
+        "tableName": "application_rfi_data",
+        "tableFileName": "application_rfi_data",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>rfi_data_id",
+        "type": "int4",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>The foreign key of a form<\/p>"
     },
     {
         "tableName": "analyst",
