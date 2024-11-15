@@ -40,6 +40,7 @@ import {
 import AdditionalFilters, {
   additionalFilterColumns,
 } from './AdditionalFilters';
+import AllDashboardDetailPanel from './AllDashboardDetailPanel';
 
 type Application = {
   ccbcNumber: string;
@@ -51,6 +52,7 @@ type Application = {
   externalStatus: string;
   analystLead?: string;
   zones: readonly number[];
+  communities: any[];
 };
 
 export const filterNumber = (row, id, filterValue) => {
@@ -95,11 +97,12 @@ const StyledTableHeader = styled.div`
 `;
 
 const muiTableBodyCellProps = (props): TableCellProps => {
-  const centeredCols = ['Package', 'zones'];
+  const centeredCols = ['Package', 'zones', 'intakeNumber'];
+  const isExpandColumn = props.column.id === 'mrt-row-expand';
   return {
     align: centeredCols.includes(props.column.id) ? 'center' : 'left',
     sx: {
-      padding: '8px 0px',
+      padding: isExpandColumn ? '0 8px' : '8px 0px',
     },
   };
 };
@@ -201,6 +204,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
               intakeNumber
               program
               zones
+              status
               applicationSowDataByApplicationId(
                 condition: { isAmendment: false }
                 last: 1
@@ -210,6 +214,18 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
                   id
                   jsonData
                   rowId
+                  sowTab8SBySowId {
+                    nodes {
+                      rowId
+                      jsonData
+                      sowId
+                    }
+                  }
+                }
+              }
+              applicationFormTemplate9DataByApplicationId {
+                nodes {
+                  jsonData
                 }
               }
             }
@@ -224,6 +240,14 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
               jsonData
               projectNumber
               cbcId
+              cbcByCbcId {
+                communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId {
+                  nodes {
+                    bcGeographicName
+                    mapLink
+                  }
+                }
+              }
             }
           }
         }
@@ -280,12 +304,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
 
   const [columnSizing, setColumnSizing] = useState<MRT_ColumnSizingState>({
+    'mrt-row-expand': 40,
     Lead: 114,
     Package: 104,
     analystStatus: 152,
-    ccbcNumber: 108,
+    projectId: 108,
     externalStatus: 150,
-    intakeNumber: 85,
+    intakeNumber: 90,
     organizationName: 141,
     projectTitle: 150,
     zones: 91,
@@ -427,6 +452,29 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     columnSizing,
   };
 
+  const getCommunities = (application) => {
+    const communityDataSource =
+      application.status === 'applicant_approved' ||
+      application.status === 'approved'
+        ? application.applicationSowDataByApplicationId.nodes[0]
+            ?.sowTab8SBySowId
+        : application.applicationFormTemplate9DataByApplicationId;
+    return communityDataSource.nodes[0]?.jsonData?.geoNames?.map((item) => ({
+      geoName: item.bcGeoName || item.geoName,
+      mapLink: item.mapLink,
+    }));
+  };
+
+  const getCbcCommunities = (project) => {
+    const communityDataSource =
+      project.node.cbcByCbcId
+        ?.communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId;
+    return communityDataSource?.nodes?.map((item) => ({
+      geoName: item.bcGeographicName,
+      mapLink: item.mapLink,
+    }));
+  };
+
   const tableData = useMemo(() => {
     const allCcbcApplications = allApplications.edges.map((application) => ({
       ...application.node,
@@ -440,6 +488,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       showLink: true,
       externalStatusOrder: statusOrderMap[application.node.externalStatus],
       internalStatusOrder: statusOrderMap[application.node.analystStatus],
+      communities: getCommunities(application.node),
     }));
 
     const allCbcApplications = showCbcProjects
@@ -467,6 +516,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             lead: null,
             isCbcProject: true,
             showLink: showCbcProjectsLink,
+            communities: getCbcCommunities(project),
           };
         }) ?? []
       : [];
@@ -617,6 +667,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         maxHeight: freezeHeader ? `calc(100vh - ${tableHeightOffset})` : '100%',
       },
     },
+    muiTableBodyRowProps: {
+      sx: {
+        boxShadow: '0 3px 3px -2px #c4c4c4',
+      },
+    },
     layoutMode: isLargeUp ? 'grid' : 'semantic',
     muiTableBodyCellProps,
     muiTableHeadCellProps,
@@ -635,6 +690,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       filterNumber,
       statusFilter,
     },
+    renderDetailPanel: ({ row }) => <AllDashboardDetailPanel row={row} />,
     renderToolbarInternalActions: ({ table }) => (
       <Box>
         <IconButton size="small">
