@@ -727,18 +727,18 @@
         "comments": "<p>updated at timestamp<\/p>"
     },
     {
-        "tableName": "application_rfi_data",
-        "tableFileName": "application_rfi_data",
+        "tableName": "application_rd",
+        "tableFileName": "application_rd",
         "tableType": "Table",
-        "keyClass": "primaryKey",
-        "keyTitle": "Primary Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>application_id",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "application_id",
         "type": "int4",
         "length": 10,
-        "nullable": "",
+        "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>The foreign key of an application<\/p>"
+        "comments": ""
     },
     {
         "tableName": "application_milestone_excel_data",
@@ -3303,6 +3303,20 @@
         "comments": "<p>Unique ID for the SoW detailed budget record<\/p>"
     },
     {
+        "tableName": "application_rfi_data",
+        "tableFileName": "application_rfi_data",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>rfi_data_id",
+        "type": "int4",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>The foreign key of a form<\/p>"
+    },
+    {
         "tableName": "project_information_data",
         "tableFileName": "project_information_data",
         "tableType": "Table",
@@ -3392,9 +3406,9 @@
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "application_id",
-        "type": "int4",
-        "length": 10,
+        "name": "ccbc_number",
+        "type": "varchar",
+        "length": 255,
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
@@ -4029,20 +4043,6 @@
         "autoUpdated": "√",
         "defaultValue": "null",
         "comments": "<p>Unique id for the row<\/p>"
-    },
-    {
-        "tableName": "application_rfi_data",
-        "tableFileName": "application_rfi_data",
-        "tableType": "Table",
-        "keyClass": "primaryKey",
-        "keyTitle": "Primary Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>rfi_data_id",
-        "type": "int4",
-        "length": 10,
-        "nullable": "",
-        "autoUpdated": "",
-        "defaultValue": "null",
-        "comments": "<p>The foreign key of a form<\/p>"
     },
     {
         "tableName": "conditional_approval_data",
@@ -4689,18 +4689,18 @@
         "comments": "<p>created at timestamp<\/p>"
     },
     {
-        "tableName": "application_rd",
-        "tableFileName": "application_rd",
+        "tableName": "application_rfi_data",
+        "tableFileName": "application_rfi_data",
         "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "rd",
-        "type": "varchar",
-        "length": 255,
-        "nullable": "√",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>application_id",
+        "type": "int4",
+        "length": 10,
+        "nullable": "",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>The foreign key of an application<\/p>"
     },
     {
         "tableName": "rfi_data",
@@ -5534,7 +5534,7 @@
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "ccbc_number",
+        "name": "rd",
         "type": "varchar",
         "length": 255,
         "nullable": "√",
