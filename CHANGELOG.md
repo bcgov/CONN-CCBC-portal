@@ -1,3 +1,9 @@
+# [1.209.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.208.0...v1.209.0) (2024-11-18)
+
+### Features
+
+- show added and removed communities in history ([a79809e](https://github.com/bcgov/CONN-CCBC-portal/commit/a79809e0f6385ec801b2793daec2627540981a2f))
+
 # [1.208.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.207.2...v1.208.0) (2024-11-18)
 
 ### Features
