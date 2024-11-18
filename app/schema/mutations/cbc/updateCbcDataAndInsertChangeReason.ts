@@ -6,6 +6,7 @@ const mutation = graphql`
   mutation updateCbcDataAndInsertChangeReasonMutation(
     $inputCbcData: UpdateCbcDataByRowIdInput!
     $inputCbcChangeReason: CreateCbcDataChangeReasonInput!
+    $inputCbcProjectCommunities: EditCbcProjectCommunitiesInput!
   ) {
     updateCbcDataByRowId(input: $inputCbcData) {
       cbcData {
@@ -22,6 +23,20 @@ const mutation = graphql`
         description
         createdBy
         createdAt
+      }
+    }
+    editCbcProjectCommunities(input: $inputCbcProjectCommunities) {
+      cbcProjectCommunities {
+        communitiesSourceDataId
+        cbcId
+        communitiesSourceDataByCommunitiesSourceDataId {
+          geographicNameId
+          economicRegion
+          regionalDistrict
+          bcGeographicName
+          geographicType
+          rowId
+        }
       }
     }
   }

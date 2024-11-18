@@ -1,3 +1,19 @@
+# [1.210.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.209.0...v1.210.0) (2024-11-18)
+
+### Bug Fixes
+
+- failing e2e test ([fc87025](https://github.com/bcgov/CONN-CCBC-portal/commit/fc8702531f7757efc46b7b471d8fd99fc8e9930b))
+
+### Features
+
+- enable detail panel with communities in all dashboard ([f666011](https://github.com/bcgov/CONN-CCBC-portal/commit/f666011e0ba179a3f1ecc759c37bc7ca535a80fe))
+
+# [1.209.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.208.0...v1.209.0) (2024-11-18)
+
+### Features
+
+- show added and removed communities in history ([a79809e](https://github.com/bcgov/CONN-CCBC-portal/commit/a79809e0f6385ec801b2793daec2627540981a2f))
+
 # [1.208.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.207.2...v1.208.0) (2024-11-18)
 
 ### Features

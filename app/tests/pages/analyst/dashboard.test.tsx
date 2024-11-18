@@ -33,6 +33,21 @@ const mockQueryPayload = {
               zone: 1,
               zones: [1, 2],
               program: 'CCBC',
+              status: 'received',
+              applicationFormTemplate9DataByApplicationId: {
+                nodes: [
+                  {
+                    jsonData: {
+                      geoNames: [
+                        {
+                          mapLink: 'https://www.google.com/maps',
+                          geoName: 'Test Geo Name',
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
             },
           },
           {
@@ -48,6 +63,41 @@ const mockQueryPayload = {
               zone: null,
               zones: [],
               program: 'CCBC',
+              status: 'approved',
+              applicationFormTemplate9DataByApplicationId: {
+                nodes: [
+                  {
+                    jsonData: {
+                      geoNames: [
+                        {
+                          mapLink: 'https://www.google.com/maps',
+                          geoName: 'Old Fort',
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+              applicationSowDataByApplicationId: {
+                nodes: [
+                  {
+                    sowTab8SBySowId: {
+                      nodes: [
+                        {
+                          jsonData: {
+                            geoNames: [
+                              {
+                                bcGeoName: 'Bear Lake',
+                                mapLink: 'https://www.google.com/maps',
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
             },
           },
           {
@@ -261,6 +311,18 @@ const mockQueryPayload = {
                 agreementSigned: 'YES',
               },
               projectNumber: 3333,
+              cbcByCbcId: {
+                communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId:
+                  {
+                    nodes: [
+                      {
+                        bcGeographicName: 'Old Silver Valley',
+                        mapLink:
+                          'https://apps.gov.bc.ca/pub/bcgnws/names/24757.html',
+                      },
+                    ],
+                  },
+              },
             },
           },
         ],
@@ -401,6 +463,25 @@ describe('The index page', () => {
     expect(screen.getByText('Organization')).toBeInTheDocument();
     expect(screen.queryByText('Lead')).not.toBeInTheDocument();
     expect(screen.getByText('Package')).toBeInTheDocument();
+  });
+
+  it('renders expand all and expand buttons and opens detail panel with communities data', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const expandAllButton = document.querySelector('[aria-label="Expand all"]');
+    expect(expandAllButton).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId('KeyboardDoubleArrowDownIcon'));
+
+    expect(screen.getByText(/Test Geo Name/)).toBeInTheDocument();
+    expect(screen.getByText(/Bear Lake/)).toBeInTheDocument();
+    expect(screen.queryByText(/Old Fort/)).not.toBeInTheDocument();
+    expect(screen.getByText(/Old Silver Valley/)).toBeInTheDocument();
   });
 
   it('analyst table lead only visible when feature enabled', async () => {
