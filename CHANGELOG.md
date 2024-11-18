@@ -1,3 +1,15 @@
+# [1.209.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.208.0...v1.209.0) (2024-11-18)
+
+### Features
+
+- show added and removed communities in history ([a79809e](https://github.com/bcgov/CONN-CCBC-portal/commit/a79809e0f6385ec801b2793daec2627540981a2f))
+
+# [1.208.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.207.2...v1.208.0) (2024-11-18)
+
+### Features
+
+- notification to analysts when community progress report due ([a072eb6](https://github.com/bcgov/CONN-CCBC-portal/commit/a072eb6d1ff36913f4d4875c8bca53a57291ad76))
+
 ## [1.207.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.207.1...v1.207.2) (2024-11-15)
 
 ## [1.207.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.207.0...v1.207.1) (2024-11-15)

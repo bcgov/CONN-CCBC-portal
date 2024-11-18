@@ -37,6 +37,7 @@ import templateUpload from './backend/lib/template-upload';
 import s3upload from './backend/lib/s3upload';
 import templateNine from './backend/lib/excel_import/template_nine';
 import milestoneDue from './backend/lib/milestoneDueDate';
+import communityReport from './backend/lib/communityReportsDueDate';
 
 // Function to exclude middleware from certain routes
 // The paths argument takes an array of strings containing routes to exclude from the middleware
@@ -153,6 +154,7 @@ app.prepare().then(async () => {
   server.use('/', templateNine);
   server.use('/', validation);
   server.use('/', milestoneDue);
+  server.use('/', communityReport);
 
   server.all('*', async (req, res) => handle(req, res));
 

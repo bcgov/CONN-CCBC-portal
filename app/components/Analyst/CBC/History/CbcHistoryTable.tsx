@@ -65,6 +65,10 @@ const CbcHistoryTable: React.FC<Props> = ({ query }) => {
             json={{
               ...historyItem.record?.json_data,
               project_number: historyItem.record?.project_number,
+              locations: {
+                added: historyItem.record?.added_communities,
+                removed: historyItem.record?.deleted_communities,
+              },
             }}
             prevJson={{
               ...historyItem.oldRecord?.json_data,
