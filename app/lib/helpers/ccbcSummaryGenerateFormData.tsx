@@ -623,8 +623,8 @@ const generateFormData = (
     },
     formDataSource: {
       ...formDataSource,
-      connectedCoastNetworkDependent: 'Technical',
-      crtcProjectDependent: 'Technical',
+      connectedCoastNetworkDependent: 'Technical Assessment',
+      crtcProjectDependent: 'Technical Assessment',
       percentProjectMilestoneComplete: 'Milestone Report',
       announcedByProvince: 'Announcements',
     },
