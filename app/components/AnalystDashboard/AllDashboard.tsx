@@ -214,7 +214,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
                   id
                   jsonData
                   rowId
-                  sowTab8SBySowId {
+                  sowTab8SBySowId(condition: { archivedAt: null }) {
                     nodes {
                       rowId
                       jsonData
@@ -459,7 +459,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         ? application.applicationSowDataByApplicationId.nodes[0]
             ?.sowTab8SBySowId
         : application.applicationFormTemplate9DataByApplicationId;
-    return communityDataSource.nodes[0]?.jsonData?.geoNames?.map((item) => ({
+    return communityDataSource?.nodes[0]?.jsonData?.geoNames?.map((item) => ({
       geoName: item.bcGeoName || item.geoName,
       mapLink: item.mapLink,
     }));

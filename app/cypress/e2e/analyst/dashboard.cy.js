@@ -29,7 +29,7 @@ describe('The analyst dashboard', () => {
   it('sort dashboard', () => {
     cy.visit('/analyst/dashboard');
     cy.wait(2000);
-    cy.get('tr > th').first().click();
+    cy.get('tr > th').eq(1).click();
     cy.getCookie('mrt_sorting_application').should(
       'have.property',
       'value',
