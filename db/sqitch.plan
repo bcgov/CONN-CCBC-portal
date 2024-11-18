@@ -728,3 +728,5 @@ grant_read_access_to_service_account 2024-10-04T18:45:20Z Anthony Bushara <antho
 tables/application_form_template_9_data_001_add_missing_roles 2024-10-21T17:22:37Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant missing roles access to application template 9 table
 @1.206.1 2024-11-07T22:41:03Z CCBC Service Account <ccbc@button.is> # release v1.206.1
 @1.207.0 2024-11-13T17:34:42Z CCBC Service Account <ccbc@button.is> # release v1.207.0
+@1.207.1 2024-11-15T19:50:22Z CCBC Service Account <ccbc@button.is> # release v1.207.1
+@1.207.2 2024-11-15T23:27:08Z CCBC Service Account <ccbc@button.is> # release v1.207.2

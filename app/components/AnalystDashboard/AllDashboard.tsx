@@ -428,23 +428,29 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   };
 
   const tableData = useMemo(() => {
-    return [
-      ...allApplications.edges.map((application) => ({
-        ...application.node,
-        intakeNumber: application?.node?.ccbcNumber?.includes('000074')
-          ? ''
-          : application.node.intakeNumber,
-        projectId: application.node.ccbcNumber,
-        packageNumber: application.node.package,
-        projectTitle: application.node.projectName ?? '',
-        organizationName: application.node.organizationName ?? '',
-        isCbcProject: false,
-        showLink: true,
-        externalStatusOrder: statusOrderMap[application.node.externalStatus],
-        internalStatusOrder: statusOrderMap[application.node.analystStatus],
-      })),
-      ...(showCbcProjects
-        ? allCbcData.edges.map((project) => ({
+    const allCcbcApplications = allApplications.edges.map((application) => ({
+      ...application.node,
+      intakeNumber: application?.node?.ccbcNumber?.includes('000074')
+        ? ''
+        : application.node.intakeNumber,
+      projectId: application.node.ccbcNumber,
+      packageNumber: application.node.package,
+      projectTitle: application.node.projectName,
+      isCbcProject: false,
+      showLink: true,
+      externalStatusOrder: statusOrderMap[application.node.externalStatus],
+      internalStatusOrder: statusOrderMap[application.node.analystStatus],
+    }));
+
+    const allCbcApplications = showCbcProjects
+      ? allCbcData.edges.map((project) => {
+          const cbcStatus = project.node.jsonData.projectStatus
+            ? cbcProjectStatusConverter(project.node.jsonData.projectStatus)
+            : null;
+          const cbcStatusOrder = cbcStatus
+            ? statusOrderMap[cbcProjectStatusConverter(cbcStatus)]
+            : null;
+          return {
             rowId: project.node.cbcId,
             ...project.node.jsonData,
             program: 'CBC',
@@ -452,22 +458,20 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             intakeNumber: project.node.jsonData?.intake || 'N/A',
             projectId: project.node.projectNumber,
             internalStatus: null,
-            externalStatus: project.node.jsonData.projectStatus
-              ? cbcProjectStatusConverter(project.node.jsonData.projectStatus)
-              : null,
-            externalStatusOrder: project.node.jsonData.projectStatus
-              ? statusOrderMap[
-                  cbcProjectStatusConverter(project.node.jsonData.projectStatus)
-                ]
-              : null,
+            externalStatus: cbcStatus,
+            analystStatus: cbcStatus,
+            externalStatusOrder: cbcStatusOrder,
+            internalStatusOrder: cbcStatusOrder,
             packageNumber: null,
             organizationName: project.node.jsonData.currentOperatingName || '',
             lead: null,
             isCbcProject: true,
             showLink: showCbcProjectsLink,
-          })) ?? []
-        : []),
-    ];
+          };
+        }) ?? []
+      : [];
+
+    return [...allCcbcApplications, ...allCbcApplications];
   }, [
     allApplications.edges,
     allCbcData.edges,
@@ -494,12 +498,17 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       .map((zone) => zone.toString())
       .sort((a, b) => Number(a) - Number(b));
 
+    const allCbcStatuses = allCbcData.edges
+      .map((edge) => edge.node?.jsonData?.projectStatus)
+      .map((status) => normalizeStatusName(cbcProjectStatusConverter(status)));
+
     const analystStatuses = [
-      ...new Set(
-        allApplications.edges.map((edge) => {
-          return normalizeStatusName(edge.node.analystStatus);
-        })
-      ),
+      ...new Set([
+        ...allApplications.edges.map((edge) =>
+          normalizeStatusName(edge.node.analystStatus)
+        ),
+        ...allCbcStatuses,
+      ]),
     ].toSorted((a, b) => statusOrderMap[a] - statusOrderMap[b]);
 
     const externalStatuses = [
@@ -507,11 +516,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         ...allApplications.edges.map((edge) =>
           normalizeStatusName(edge.node.externalStatus)
         ),
-        ...allCbcData.edges
-          .map((edge) => edge.node?.jsonData?.projectStatus)
-          .map((status) =>
-            normalizeStatusName(cbcProjectStatusConverter(status))
-          ),
+        ...allCbcStatuses,
       ]),
     ].toSorted((a, b) => statusOrderMap[a] - statusOrderMap[b]);
 
