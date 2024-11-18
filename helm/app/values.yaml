@@ -50,6 +50,10 @@ cronmilestone:
   path: '/api/analyst/cron-milestones'
   schedule: '0 7 * * *' # Trigger 7AM every day
 
+croncommunity:
+  path: '/api/analyst/cron-community'
+  schedule: '0 7 * * *' # Trigger 7AM every day
+
 app:
   port: '3000'
   probesPort: '9000'
