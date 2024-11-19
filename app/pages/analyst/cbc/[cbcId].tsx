@@ -9,7 +9,7 @@ import CbcForm from 'components/Analyst/CBC/CbcForm';
 import { ChangeModal } from 'components/Analyst';
 import styled from 'styled-components';
 import ReviewTheme from 'components/Review/ReviewTheme';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useUpdateCbcDataAndInsertChangeRequest } from 'schema/mutations/cbc/updateCbcDataAndInsertChangeReason';
 import review from 'formSchema/analyst/cbc/review';
 import reviewUiSchema from 'formSchema/uiSchema/cbc/reviewUiSchema';
@@ -25,7 +25,6 @@ import {
 import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
 import CbcRecordLock from 'components/Analyst/CBC/CbcRecordLock';
 import useModal from 'lib/helpers/useModal';
-import { useUpdateCbcCommunityDataMutationMutation } from 'schema/mutations/cbc/updateCbcCommunityData';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -248,41 +247,11 @@ const Cbc = ({
   }, [query, isCbcAdmin, editFeatureEnabled, cbcCommunitiesData]);
 
   const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
-  const [updateCbcCommunitySourceData] =
-    useUpdateCbcCommunityDataMutationMutation();
 
   const handleChangeRequestModal = () => {
     setChangeReason(null);
     changeModal.open();
   };
-
-  const handleUpdateCommunitySource = useCallback(() => {
-    updateCbcCommunitySourceData({
-      variables: {
-        input: {
-          _projectId: rowId,
-          _communityIdsToAdd: addedCommunities,
-          _communityIdsToArchive: removedCommunities,
-        },
-      },
-      debounceKey: 'cbc_update_community_source_data',
-      onCompleted: (response) => {
-        setAddedCommunities([]);
-        setRemovedCommunities([]);
-        setResponseCommunityData(
-          response.editCbcProjectCommunities.cbcProjectCommunities.map(
-            (proj) => proj.communitiesSourceDataByCommunitiesSourceDataId
-          )
-        );
-      },
-    });
-  }, [
-    addedCommunities,
-    removedCommunities,
-    updateCbcCommunitySourceData,
-    rowId,
-    setResponseCommunityData,
-  ]);
 
   const handleSubmit = () => {
     const {
@@ -317,12 +286,23 @@ const Cbc = ({
               query?.cbcByRowId?.cbcDataByCbcId?.edges[0].node.rowId || null,
           },
         },
+        inputCbcProjectCommunities: {
+          _projectId: rowId,
+          _communityIdsToAdd: addedCommunities,
+          _communityIdsToArchive: removedCommunities,
+        },
       },
       debounceKey: 'cbc_update_form_data',
-      onCompleted: () => {
+      onCompleted: (response) => {
         setEditMode(false);
         changeModal.close();
-        handleUpdateCommunitySource();
+        setAddedCommunities([]);
+        setRemovedCommunities([]);
+        setResponseCommunityData(
+          response.editCbcProjectCommunities.cbcProjectCommunities.map(
+            (proj) => proj.communitiesSourceDataByCommunitiesSourceDataId
+          )
+        );
         setAllowEdit(isCbcAdmin && editFeatureEnabled);
       },
     });
