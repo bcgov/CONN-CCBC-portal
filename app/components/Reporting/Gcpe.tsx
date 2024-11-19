@@ -52,13 +52,13 @@ const Gcpe = ({ reportList }) => {
     window.URL.revokeObjectURL(url); // Clean up and release object URL
     if (addToReportList) {
       setGcpeReports([
-        ...gcpeReports,
         {
           node: {
             rowId,
             createdAt: DateTime.now().setZone('America/Los_Angeles').toISO(),
           },
         },
+        ...gcpeReports,
       ]);
     }
     showToast(toastMessage, 'success', 15000);
