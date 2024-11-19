@@ -475,6 +475,32 @@ describe('The Project page', () => {
     ).toBeInTheDocument();
   });
 
+  it('should expand and collapse all sections', async () => {
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockJsonDataQueryPayload);
+      pageTestingHelper.renderPage();
+    });
+
+    const expandAllButton = screen.getByTestId('expand-all');
+    const collapseAllButton = screen.getByTestId('collapse-all');
+
+    await act(async () => {
+      fireEvent.click(expandAllButton);
+    });
+
+    expect(
+      screen.getByText('Add community progress report')
+    ).toBeInTheDocument();
+    expect(screen.getByText('Add claim')).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(collapseAllButton);
+    });
+
+    expect(screen.getByText('Add community progress report')).not.toBeVisible();
+    expect(screen.queryByText('Add claim')).not.toBeVisible();
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
