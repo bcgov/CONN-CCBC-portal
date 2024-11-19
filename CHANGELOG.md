@@ -1,3 +1,9 @@
+# [1.211.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.210.0...v1.211.0) (2024-11-19)
+
+### Features
+
+- add expand and collapse all to project page ([921395f](https://github.com/bcgov/CONN-CCBC-portal/commit/921395f3f9690a6677f446d7f13324ed1512b0d4))
+
 # [1.210.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.209.0...v1.210.0) (2024-11-18)
 
 ### Bug Fixes
