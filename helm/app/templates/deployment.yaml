@@ -260,9 +260,6 @@ spec:
           ports:
             - containerPort: {{ .Values.app.port }}
               protocol: TCP
-          volumeMounts:
-            - name: cache-volume
-              mountPath: /root/.next
           readinessProbe:
             httpGet:
               path: /ready
@@ -286,8 +283,4 @@ spec:
             failureThreshold: 3
             successThreshold: 1
             timeoutSeconds: 35
-      volumes:
-        - name: cache-volume
-          persistentVolumeClaim:
-            claimName: cache-pvc
 {{- end }}
