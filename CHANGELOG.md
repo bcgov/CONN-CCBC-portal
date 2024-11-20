@@ -1,3 +1,9 @@
+## [1.211.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.211.1...v1.211.2) (2024-11-20)
+
+### Bug Fixes
+
+- remove deployment cache ([d370698](https://github.com/bcgov/CONN-CCBC-portal/commit/d370698fe13be299c60e7d00987b32aca8112d12))
+
 ## [1.211.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.211.0...v1.211.1) (2024-11-19)
 
 # [1.211.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.210.0...v1.211.0) (2024-11-19)
