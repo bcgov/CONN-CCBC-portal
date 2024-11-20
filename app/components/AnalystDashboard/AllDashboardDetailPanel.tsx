@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 interface Props {
   row: any;
+  filterValue: string;
 }
 
 const StyledMapLink = styled.a`
@@ -17,7 +18,36 @@ const StyledSpan = styled.span`
   display: block;
 `;
 
-const AllDashboardDetailPanel: React.FC<Props> = ({ row }) => {
+const StyledHighlightSpan = styled.span`
+  background-color: ${(props) => props.theme.color.primaryYellow};
+`;
+
+const HighlightFilterMatch = ({ text, filterValue }) => {
+  if (!filterValue) return text;
+
+  const normalizedFilterValue = filterValue.replace(/\s+/g, '').toLowerCase();
+  const normalizedText = text.replace(/\s+/g, '').toLowerCase();
+
+  const matchIndex = normalizedText.indexOf(normalizedFilterValue);
+
+  if (matchIndex === -1) {
+    return text;
+  }
+
+  const beforeMatch = text.slice(0, matchIndex);
+  const match = text.slice(matchIndex, matchIndex + filterValue.length);
+  const afterMatch = text.slice(matchIndex + filterValue.length);
+
+  return (
+    <>
+      {beforeMatch}
+      <StyledHighlightSpan>{match}</StyledHighlightSpan>
+      {afterMatch}
+    </>
+  );
+};
+
+const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
   const communities = (row.original.communities as any[]) || [];
   return (
     <>
@@ -30,7 +60,10 @@ const AllDashboardDetailPanel: React.FC<Props> = ({ row }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {item.geoName}
+              <HighlightFilterMatch
+                text={item.geoName}
+                filterValue={filterValue}
+              />
             </StyledMapLink>
             {index < communities.length - 1 && ', '}
           </>

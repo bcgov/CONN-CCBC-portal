@@ -853,6 +853,62 @@ describe('The index page', () => {
     });
   });
 
+  it('global filter correctly filters communities and expand the row with match highlighting', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
+    expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
+
+    const globalSearch = screen.getByPlaceholderText('Search');
+    expect(globalSearch).toBeInTheDocument();
+
+    fireEvent.change(globalSearch, {
+      target: { value: 'Bear Lake' },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('CCBC-010001')).not.toBeInTheDocument();
+      expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
+
+      expect(screen.getByText('Bear Lake')).toHaveStyle(
+        'background-color: #FCBA19'
+      );
+    });
+  });
+
+  it('clear filters correctly clears global filter and restore data', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('5555')).toBeInTheDocument();
+    const globalSearch = screen.getByPlaceholderText('Search');
+    expect(globalSearch).toBeInTheDocument();
+
+    fireEvent.change(globalSearch, {
+      target: { value: 'Bear Lake' },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('CCBC-010001')).not.toBeInTheDocument();
+    });
+
+    const clearFiltersBtn = screen.getByText('Clear Filtering');
+    await act(async () => {
+      fireEvent.click(clearFiltersBtn);
+    });
+
+    expect(screen.queryByText('CCBC-010001')).toBeInTheDocument();
+  });
+
   it('cbc statuses are duplicated for both analyst and external statuses', async () => {
     jest
       .spyOn(moduleApi, 'useFeature')

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-pascal-case */
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import cookie from 'js-cookie';
@@ -18,6 +18,7 @@ import {
   MRT_ToggleDensePaddingButton,
   MRT_ToggleFullScreenButton,
   MRT_ShowHideColumnsButton,
+  MRT_FilterFns,
 } from 'material-react-table';
 
 import RowCount from 'components/Table/RowCount';
@@ -302,6 +303,10 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const [showColumnFilters, setShowColumnFilters] = useState(false);
 
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
+  const [expanded, setExpanded] = useState({});
+  const [globalFilter, setGlobalFilter] = useState(null);
+
+  const expandedRowsRef = useRef({});
 
   const [columnSizing, setColumnSizing] = useState<MRT_ColumnSizingState>({
     'mrt-row-expand': 40,
@@ -442,6 +447,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     }
   }, [visibilityPreference]);
 
+  useEffect(() => {
+    setExpanded(globalFilter ? expandedRowsRef.current : {});
+    expandedRowsRef.current = {};
+  }, [globalFilter]);
+
   const state = {
     showGlobalFilter: true,
     columnFilters,
@@ -450,6 +460,20 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     showColumnFilters,
     sorting,
     columnSizing,
+    expanded,
+    globalFilter,
+  };
+
+  const customGlobalFilter = (row, id, filterValue, filterMeta) => {
+    const defaultMatch = MRT_FilterFns.fuzzy(row, id, filterValue, filterMeta);
+    const communitiesString = row.original.communities
+      ?.map((item) => item.geoName)
+      .join(',')
+      ?.toLowerCase();
+    const detailsMatch = communitiesString?.includes(filterValue.toLowerCase());
+    expandedRowsRef.current[row.id] = detailsMatch;
+
+    return defaultMatch || detailsMatch;
   };
 
   const getCommunities = (application) => {
@@ -689,8 +713,16 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     filterFns: {
       filterNumber,
       statusFilter,
+      customGlobalFilter,
     },
-    renderDetailPanel: ({ row }) => <AllDashboardDetailPanel row={row} />,
+    renderDetailPanel: ({ row }) => (
+      <AllDashboardDetailPanel row={row} filterValue={globalFilter} />
+    ),
+    globalFilterFn: 'customGlobalFilter',
+    onGlobalFilterChange: setGlobalFilter,
+    onExpandedChange: (expanded) => {
+      setExpanded(expanded);
+    },
     renderToolbarInternalActions: ({ table }) => (
       <Box>
         <IconButton size="small">
