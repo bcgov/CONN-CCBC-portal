@@ -5971,10 +5971,10 @@ babel-plugin-module-resolver@^5.0.2:
     reselect "^4.1.7"
     resolve "^1.22.8"
 
-babel-plugin-relay@^16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-relay/-/babel-plugin-relay-16.2.0.tgz#2fd0e7bdb8318b1ee5a06403d70d0f851ea51731"
-  integrity sha512-+3n7kSFH5MelySnO5MLXl2S+Bq4nAGcdWylXeqNXZODbzgYtqak194Z4u5KElLAHGhsyKIMTW7qazBPvMbxhFQ==
+babel-plugin-relay@^18.1.0:
+  version "18.1.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-relay/-/babel-plugin-relay-18.1.0.tgz#59c5cc2eb8f0afa2589f01c627c4aa552d40f356"
+  integrity sha512-k3ehQO5CEOgKLJmHAswkV+qatPdfH2fAkibo/ejUsSyadE+iA+Uzb2uBcVdgvLRSH+n1euuqtV2BBUEKeJRmrg==
   dependencies:
     babel-plugin-macros "^2.0.0"
     cosmiconfig "^5.0.5"
