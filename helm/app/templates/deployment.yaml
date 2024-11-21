@@ -131,28 +131,6 @@ spec:
             - |
               set -euox pipefail;
               sqitch deploy;
-        - name: init-cache-sync
-          image: {{ .Values.image.app.repository }}:{{ .Values.image.app.tag }}
-          resources:
-            requests:
-              cpu: 10m
-          command: ["/bin/sh", "-c"]
-          args:
-            - |
-              BUILD_ID_NEXT=$(cat /root/.next/BUILD_ID)
-              if [ -d "/root/shared/${BUILD_ID_NEXT}" ]; then
-                  echo "Already exist cache ${BUILD_ID_NEXT}"
-                  exit 0
-              else
-                echo "Create cache for ${BUILD_ID_NEXT}"
-                rm -rf /root/shared/*
-                mkdir -p /root/shared/${BUILD_ID_NEXT}
-                cp -r /root/.next/* /root/shared/
-                exit 0
-              fi
-          volumeMounts:
-            - name: cache-volume
-              mountPath: /root/shared
 {{- if .Values.db.postMigrationCommand }}
         - env: {{ include "ccbc.postgresPgEnv" . | nindent 8 }}
           - name: SQITCH_TARGET
@@ -282,9 +260,6 @@ spec:
           ports:
             - containerPort: {{ .Values.app.port }}
               protocol: TCP
-          volumeMounts:
-            - name: cache-volume
-              mountPath: /root/.next
           readinessProbe:
             httpGet:
               path: /ready
@@ -308,8 +283,4 @@ spec:
             failureThreshold: 3
             successThreshold: 1
             timeoutSeconds: 35
-      volumes:
-        - name: cache-volume
-          persistentVolumeClaim:
-            claimName: cache-pvc
 {{- end }}
