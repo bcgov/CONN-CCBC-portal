@@ -536,7 +536,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         allApplications.edges.map((edge) => edge.node?.intakeNumber?.toString())
       ),
       'N/A',
-    ].toSorted((a, b) => {
+    ].sort((a, b) => {
       if (a === 'N/A') return -1;
       if (b === 'N/A') return 1;
       return Number(a) - Number(b);
@@ -559,7 +559,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         ),
         ...allCbcStatuses,
       ]),
-    ].toSorted((a, b) => statusOrderMap[a] - statusOrderMap[b]);
+    ].sort((a, b) => statusOrderMap[a] - statusOrderMap[b]);
 
     const externalStatuses = [
       ...new Set([
@@ -568,7 +568,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         ),
         ...allCbcStatuses,
       ]),
-    ].toSorted((a, b) => statusOrderMap[a] - statusOrderMap[b]);
+    ].sort((a, b) => statusOrderMap[a] - statusOrderMap[b]);
 
     const uniqueLeads = [
       ...new Set(allApplications.edges.map((edge) => edge.node.analystLead)),
@@ -580,7 +580,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       ),
     ]
       .filter(filterOutNullishs)
-      .toSorted((a, b) => Number(a) - Number(b));
+      .sort((a, b) => Number(a) - Number(b));
 
     return [
       {
