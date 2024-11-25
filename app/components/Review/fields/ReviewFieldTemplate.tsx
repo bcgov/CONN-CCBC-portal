@@ -46,8 +46,11 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   const showErrorHint = formContext?.showErrorHint ?? false;
 
   const formErrorSchema = formContext?.formErrorSchema ?? formContext.errors;
-  const { errorColor, __errors: formContextErrors } =
-    formErrorSchema?.[pageName]?.[fieldName] || {};
+  const {
+    errorColor,
+    errorTextColor,
+    __errors: formContextErrors,
+  } = formErrorSchema?.[pageName]?.[fieldName] || {};
   const hasFormContextError = formContextErrors?.length > 0;
   const isErrors = (rawErrors && rawErrors.length > 0) || !!hasFormContextError;
   // check if the field is in the rfi list so we can display rfi files for required fields that have an error
@@ -65,6 +68,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
           data-testid={`${id}-value`}
           hasError={hasError}
           errorColor={errorColor}
+          errorTextColor={errorTextColor}
         >
           {children}
           {hasError && showErrorHint && hasFormContextError && (
