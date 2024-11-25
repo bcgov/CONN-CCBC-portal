@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { BaseClient, generators, TokenSet } from 'openid-client';
-import { URL } from 'url';
+import { URL } from 'whatwg-url';
 import * as Sentry from '@sentry/nextjs';
 import { getSessionRemainingTime, isAuthenticated } from './helpers';
 import { SSOExpressOptions } from './types';
