@@ -11,7 +11,7 @@ import Gcpe from 'components/Reporting/Gcpe';
 
 const getGcpeReportingQuery = graphql`
   query gcpeReportingQuery {
-    allReportingGcpes {
+    allReportingGcpes(orderBy: ID_DESC) {
       edges {
         node {
           rowId
