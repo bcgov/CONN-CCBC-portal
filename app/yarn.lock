@@ -2590,17 +2590,19 @@
   resolved "https://registry.yarnpkg.com/@graphile/persisted-operations/-/persisted-operations-0.1.1.tgz#9a753a5fc46f7935d97620e3bf5a703202304ffb"
   integrity sha512-9GDVvGXCmg7Vo8Zbbpx083nHTgM8nPXV13K+IoS9qX5d1HyDcWDXvI+fj2Bb122dFOyhfCeGyhiYpWvMrABBgA==
 
-"@growthbook/growthbook-react@^0.9.0":
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/@growthbook/growthbook-react/-/growthbook-react-0.9.0.tgz#c0f3b71349addb04225fa5524a8a2fce3059bfb1"
-  integrity sha512-8WJ6ckj5Wzg+pDos3/DNF2BJNL7S8NeFu+LLTtv/p+hGW1Epkl2et0N1goMQRfnyIhtLerOgTBR9eZoy9AxK2Q==
+"@growthbook/growthbook-react@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@growthbook/growthbook-react/-/growthbook-react-1.3.0.tgz#a9d67dfc1003cbf1870b820ab44ca813b7272230"
+  integrity sha512-kpafw0KJ8JyXzI8wdLYNbYUZoMyokQK1ksV//X26bxU3OF3umSDziFzk7TKUK9+2Cr29afpUoq5yMl3ms5Ll7w==
   dependencies:
-    "@growthbook/growthbook" "^0.18.0"
+    "@growthbook/growthbook" "^1.3.0"
 
-"@growthbook/growthbook@^0.18.0":
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/@growthbook/growthbook/-/growthbook-0.18.0.tgz#7ce599a6d9eaacaef1fdc5340aeeb8730345b25c"
-  integrity sha512-Z7ydUgVdYN9Qcu3KIfmkcL2CnnIMyscd4EuFaDJ7oi/TJ+v3VrJer0pZzZ9MZlUaQU+j4Z7MDOCB2NBKENXLkQ==
+"@growthbook/growthbook@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@growthbook/growthbook/-/growthbook-1.3.0.tgz#c7457b8d45bf51b657751565e9f86bbf8fece117"
+  integrity sha512-N5LKgpJPLBcyqpc5sRtIXVttdwCiJnBpbyxh0fTOrqEZZc53EWz6KbAVM986jsncLHPK3h14uf3l2TW6txr4Zw==
+  dependencies:
+    dom-mutator "^0.6.0"
 
 "@hapi/hoek@^9.0.0", "@hapi/hoek@^9.3.0":
   version "9.3.0"
@@ -7332,6 +7334,11 @@ dom-helpers@^5.0.1:
   dependencies:
     "@babel/runtime" "^7.8.7"
     csstype "^3.0.2"
+
+dom-mutator@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/dom-mutator/-/dom-mutator-0.6.0.tgz#079d7a4b3e8981a562cd777548b99baab51d65c5"
+  integrity sha512-iCt9o0aYfXMUkz/43ZOAUFQYotjGB+GNbYJiJdz4TgXkyToXbbRy5S6FbTp72lRBtfpUMwEc1KmpFEU4CZeoNg==
 
 dom-serializer@^1.0.1:
   version "1.4.1"
