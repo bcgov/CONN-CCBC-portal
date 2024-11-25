@@ -156,6 +156,9 @@ const ApplicantStatusCell = ({ cell }) => {
 
 const filterOutNullishs = (val) => val !== undefined && val !== null;
 
+const toLabelValuePair = (value) =>
+  value ? { label: value, value } : { label: 'Unassigned', value: ' ' };
+
 const accessorFunctionGeneratorInjectsEmptyString = (accessorKey) => {
   return (row) => row[accessorKey] ?? '';
 };
@@ -579,8 +582,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         allApplications.edges.map((edge) => edge.node.package?.toString())
       ),
     ]
-      .filter(filterOutNullishs)
-      .toSorted((a, b) => Number(a) - Number(b));
+      .map(toLabelValuePair)
+      .toSorted((a, b) => Number(a.value) - Number(b.value));
 
     return [
       {
