@@ -4099,13 +4099,6 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.13.tgz#ee1128e881b874c371374c1f72201893616417c9"
   integrity sha512-rouEWBImiRaSJsVA+ITTFM6ZxibuAlTuNOCyxVbwreu6k6+ujs7DfnU9o+PShFhET78pMBl3eH+AGSI5eOTkPA==
 
-"@types/node@^18.14.6":
-  version "18.19.65"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.65.tgz#e6aaac55fab80c6a3ff61ab27bc25105a7bea479"
-  integrity sha512-Ay5BZuO1UkTmVHzZJNvZKw/E+iB3GQABb6kijEz89w2JrfhNA+M/ebp18pfz9Gqe9ywhMC8AA8yC01lZq48J+Q==
-  dependencies:
-    undici-types "~5.26.4"
-
 "@types/object-path@^0.11.1":
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/@types/object-path/-/object-path-0.11.1.tgz#eea5b357518597fc9c0a067ea3147f599fc1514f"
@@ -5970,7 +5963,7 @@ cookiejar@^2.1.4:
   resolved "https://registry.yarnpkg.com/cookiejar/-/cookiejar-2.1.4.tgz#ee669c1fea2cf42dc31585469d193fef0d65771b"
   integrity sha512-LDx6oHrK+PhzLKJU9j5S7/Y3jM/mUHvD/DeI1WQmJn652iPC5Y4TBzC9l+5OMOXlyTTA+SmVUPm0HQUwpD5Jqw==
 
-core-js@^3.0.0, core-js@^3.29.0, core-js@^3.6.5, core-js@^3.8.2:
+core-js@^3.0.0, core-js@^3.6.5, core-js@^3.8.2:
   version "3.39.0"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.39.0.tgz#57f7647f4d2d030c32a72ea23a0555b2eaa30f83"
   integrity sha512-raM0ew0/jJUqkJ0E6e8UDtl+y/7ktFivgWvqw8dNSQeNWoSDLvQ1H/RN3aPXB9tBd4/FhyR4RDPGhsNIMsAn7g==
@@ -11855,13 +11848,12 @@ react-property@2.0.2:
   resolved "https://registry.yarnpkg.com/react-property/-/react-property-2.0.2.tgz#d5ac9e244cef564880a610bc8d868bd6f60fdda6"
   integrity sha512-+PbtI3VuDV0l6CleQMsx2gtK0JZbZKbpdu5ynr+lbsuvtmgbNcS3VM0tuY2QjFNOcWxvXeHjDpy42RO+4U2rug==
 
-react-relay-network-modern@^6.2.2:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/react-relay-network-modern/-/react-relay-network-modern-6.2.2.tgz#8f1ddf2ad3ad07d41d215df642d3fc659ff99180"
-  integrity sha512-069KzBi7X6+mYtQgiNMblKr8n9ftme6N7neG+ZwAgV5w9SmQRg1020X7OE3RWWeMHKL+nTyx+JTc17yAtfNSQw==
+react-relay-network-modern@6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/react-relay-network-modern/-/react-relay-network-modern-6.2.1.tgz#34e93110cf1bb0e666bffb00b513335c37950bc9"
+  integrity sha512-O1kP9GkNrm4d+ibfuTY9yNbkXV6vAByJ4jYTZIXn8nh7jLWoe6PneF1VcBYvYvzWYsebpCLDQHDPoXI05S+rhQ==
   dependencies:
-    "@types/node" "^18.14.6"
-    core-js "^3.29.0"
+    core-js "^3.0.0"
     extract-files "^9.0.0"
 
 react-relay@^13.2.0:
