@@ -93,7 +93,7 @@ const ReviewPageField: React.FC<FieldProps> = (props) => {
           required
           schema={schema.properties.acknowledgeIncomplete as RJSFSchema}
           uiSchema={uiSchema}
-          idSchema={idSchema.acknowledgeIncomplete}
+          idSchema={idSchema.acknowledgeIncomplete as any}
           formData={formData?.acknowledgeIncomplete}
           autofocus={false}
           disabled={!formContext.isEditable}
