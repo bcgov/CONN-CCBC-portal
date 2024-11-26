@@ -6,19 +6,31 @@
 version: 2
 updates:
   # Maintain dependencies for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     commit-message:
       # Prefix all commit messages with "chore: "
-      prefix: "chore"
+      prefix: 'chore'
+    rebase-strategy: 'auto'
+    groups:
+      minor-and-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
 
   # Maintain dependencies for npm
-  - package-ecosystem: "npm"
-    directory: "/app"
+  - package-ecosystem: 'npm'
+    directory: '/app'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
     commit-message:
       # Prefix all commit messages with "chore: "
-      prefix: "chore"
+      prefix: 'chore'
+    rebase-strategy: 'auto'
+    groups:
+      minor-and-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
