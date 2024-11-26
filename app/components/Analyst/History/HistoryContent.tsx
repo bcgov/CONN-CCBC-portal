@@ -361,7 +361,7 @@ const HistoryContent = ({
 
   if (tableName === 'application_status') {
     const isReceived = item === 'received';
-    const isExternal = item.includes('applicant_');
+    const isExternal = item.includes('applicant_') || item === 'withdrawn';
     return (
       <div>
         <StyledContent data-testid="history-content-status">
