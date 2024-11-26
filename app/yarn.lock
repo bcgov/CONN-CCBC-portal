@@ -2541,10 +2541,10 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.5.tgz#db5a11bf66bdab39569719555b0f76e138d7bd64"
   integrity sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw==
 
-"@rjsf/core@^5.23.1":
-  version "5.23.1"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.23.1.tgz#97b22b552e0e38f1a2d16e87d0053d77b697c44e"
-  integrity sha512-yO0vlseZiomYNqpy/Jkd2gaP9BGqa+f3q1VIc17SGkQidHBqBNURAvOvqWFgvvALRZRNYoqnDuolWxT0AaoAog==
+"@rjsf/core@5.18.0":
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.18.0.tgz#85149397f653772bf806643b60283322d8d5572a"
+  integrity sha512-4j0KwmcD3SAzCvsSFBK1RTNni7ZJlk6TgWPhYP6BrBlWJKgi+I49DNndu4SSJ0kNPV2QbNa3n4sWRVV0i06mGw==
   dependencies:
     lodash "^4.17.21"
     lodash-es "^4.17.21"
@@ -2563,10 +2563,10 @@
     lodash-es "^4.17.21"
     react-is "^18.2.0"
 
-"@rjsf/validator-ajv8@5.23.1":
-  version "5.23.1"
-  resolved "https://registry.yarnpkg.com/@rjsf/validator-ajv8/-/validator-ajv8-5.23.1.tgz#d9a743be481bd7753a935cbcff1a305d341487a7"
-  integrity sha512-h2iD4ymt4yD6V/V0jJBUZeBR5NvQyy2J0p7B+roNRpBXnmbCH/O3y4TBqnSPzQiO0mI9qDNQ9XgkQp7z9zo9uw==
+"@rjsf/validator-ajv8@5.18.0":
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/validator-ajv8/-/validator-ajv8-5.18.0.tgz#a953afc0d5e7c82de2c23b5a898c905ce28ac267"
+  integrity sha512-55sgnjt56LDmUsLWl1yRG1cFnrbqufP+Q5QfficVIojc3aQDHSRxTT7r5oFJY69rXEhOtliZ0AmvpTLjrOrJow==
   dependencies:
     ajv "^8.12.0"
     ajv-formats "^2.1.1"
