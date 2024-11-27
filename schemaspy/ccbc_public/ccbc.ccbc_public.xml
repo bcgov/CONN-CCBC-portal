@@ -79,6 +79,7 @@
             <child column="application_id" foreignKey="application_claims_excel_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_claims_excel_data"/>
             <child column="application_id" foreignKey="application_community_progress_report_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_community_progress_report_data"/>
             <child column="application_id" foreignKey="application_community_report_excel_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_community_report_excel_data"/>
+            <child column="application_id" foreignKey="application_dependencies_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_dependencies"/>
             <child column="application_id" foreignKey="application_form_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_data"/>
             <child column="application_id" foreignKey="application_form_template_9_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_template_9_data"/>
             <child column="application_id" foreignKey="application_gis_assessment_hh_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_gis_assessment_hh"/>
@@ -387,6 +388,39 @@
             <column ascending="true" name="created_by"/>
          </index>
          <index name="ccbc_public_application_community_report_excel_data_updated_by_" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="application_dependencies" remarks="Table containing the data about the project dependencies" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the row" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="The ID of the application" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_dependencies_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="2" name="json_data" nullable="false" remarks="The data about the dependencies CRTC and/or Connected Coast dependent" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="reason_for_change" nullable="true" remarks="The reason for the change" size="100" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_dependencies_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="5" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_dependencies_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="7" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_dependencies_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="9" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="application_dependencies_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_application_dependencies_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_application_dependencies_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_application_dependencies_updated_by_foreign_key" unique="false">
             <column ascending="true" name="updated_by"/>
          </index>
       </table>
@@ -1173,6 +1207,9 @@
             <child column="archived_by" foreignKey="application_community_report_excel_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_community_report_excel_data"/>
             <child column="created_by" foreignKey="application_community_report_excel_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_community_report_excel_data"/>
             <child column="updated_by" foreignKey="application_community_report_excel_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_community_report_excel_data"/>
+            <child column="archived_by" foreignKey="application_dependencies_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_dependencies"/>
+            <child column="created_by" foreignKey="application_dependencies_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_dependencies"/>
+            <child column="updated_by" foreignKey="application_dependencies_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_dependencies"/>
             <child column="archived_by" foreignKey="application_form_template_9_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_template_9_data"/>
             <child column="created_by" foreignKey="application_form_template_9_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_template_9_data"/>
             <child column="updated_by" foreignKey="application_form_template_9_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_form_template_9_data"/>
@@ -1587,6 +1624,7 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="given_name" nullable="true" remarks="Last Name of the user who performed the operation." size="2147483647" type="varchar" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="session_sub" nullable="true" remarks="Session sub of the user who performed the operation." size="2147483647" type="varchar" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="external_analyst" nullable="true" remarks="User is an external analyst" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="created_by" nullable="true" remarks="User id that triggered this operation" size="10" type="int4" typeCode="4"/>
          <index name="history_item_index" unique="false">
             <column ascending="true" name="application_id"/>
          </index>
