@@ -492,7 +492,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     }));
 
     const allCbcApplications = showCbcProjects
-      ? allCbcData.edges.map((project) => {
+      ? (allCbcData.edges.map((project) => {
           const cbcStatus = project.node.jsonData.projectStatus
             ? cbcProjectStatusConverter(project.node.jsonData.projectStatus)
             : null;
@@ -518,7 +518,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             showLink: showCbcProjectsLink,
             communities: getCbcCommunities(project),
           };
-        }) ?? []
+        }) ?? [])
       : [];
 
     return [...allCcbcApplications, ...allCbcApplications];
@@ -604,7 +604,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         sortingFn: sortZones,
       },
       {
-        accessorKey: 'analystStatus',
+        accessorFn: (row) => normalizeStatusName(row.analystStatus),
+        id: 'analystStatus',
         header: 'Internal Status',
         Cell: AnalystStatusCell,
         filterVariant: 'multi-select',
@@ -613,7 +614,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         sortingFn: sortStatus,
       },
       {
-        accessorKey: 'externalStatus',
+        accessorFn: (row) => normalizeStatusName(row.externalStatus),
+        id: 'externalStatus',
         header: 'External Status',
         Cell: ApplicantStatusCell,
         filterVariant: 'multi-select',
