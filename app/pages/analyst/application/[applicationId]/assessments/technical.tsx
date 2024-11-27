@@ -37,6 +37,11 @@ const getTechnicalAssessmentQuery = graphql`
       assessmentForm(_assessmentDataType: "technical") {
         jsonData
       }
+      applicationDependenciesByApplicationId(first: 1) {
+        nodes {
+          jsonData
+        }
+      }
       ccbcNumber
     }
     session {
@@ -54,6 +59,12 @@ const TechnicalAssessment = ({
 
   const { applicationByRowId, session } = query;
 
+  const formData = {
+    ...applicationByRowId.assessmentForm?.jsonData,
+    ...applicationByRowId.applicationDependenciesByApplicationId.nodes[0]
+      ?.jsonData,
+  };
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
@@ -67,7 +78,7 @@ const TechnicalAssessment = ({
         </StyledInfoBarDiv>
         <AssessmentsForm
           addedContext={{ ccbcNumber: applicationByRowId.ccbcNumber }}
-          formData={applicationByRowId.assessmentForm?.jsonData}
+          formData={formData}
           schema={technical}
           slug="technical"
           query={query}

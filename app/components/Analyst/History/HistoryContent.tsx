@@ -81,13 +81,13 @@ const HistoryContent = ({
     familyName,
     tableName,
     createdAt,
+    createdBy,
     item,
     record,
     sessionSub,
     externalAnalyst,
     op,
   } = historyItem;
-
   const showHistoryDetails = useFeature('show_history_details').value;
   const isAnalyst = sessionSub.includes('idir') || externalAnalyst;
   const fullName = `${givenName} ${familyName}`;
@@ -392,9 +392,42 @@ const HistoryContent = ({
     );
   }
 
+  if (tableName === 'application_dependencies') {
+    const user =
+      createdBy === 1 && op === 'INSERT' ? 'The system' : displayName;
+    return (
+      <>
+        <StyledContent data-testid="history-content-dependencies">
+          <span>
+            {user} updated the <b>Technical Assessment :</b> on{' '}
+            {createdAtFormatted}
+          </span>
+        </StyledContent>
+        <HistoryDetails
+          json={record.json_data}
+          prevJson={prevHistoryItem?.record?.json_data || {}}
+          excludedKeys={['id', 'createdAt', 'updatedAt', 'applicationId']}
+          diffSchema={{
+            applicationDependencies: {
+              properties: {
+                crtcProjectDependent: { title: 'CRTC Project Dependent' },
+                connectedCoastNetworkDependent: {
+                  title: 'Connected Coast Network Dependent',
+                },
+              },
+            },
+          }}
+          overrideParent="applicationDependencies"
+        />
+        {reasonForChange && <ChangeReason reason={reasonForChange} />}
+      </>
+    );
+  }
+
   if (tableName === 'assessment_data') {
     const assessmentType = historyItem.item;
-
+    const user =
+      createdBy === 1 && op === 'INSERT' ? 'The system' : displayName;
     const formatAssessment = (assessmentName) => {
       if (assessmentType === 'projectManagement') return 'Project Management';
       if (assessmentType === 'gis') return 'GIS';
@@ -440,7 +473,7 @@ const HistoryContent = ({
     return (
       <div>
         <StyledContent data-testid="history-content-assessment">
-          <span>{displayName} saved the </span>
+          <span>{user} updated the </span>
           <b>{formatAssessment(assessmentType)} Assessment</b>
           <span> on {createdAtFormatted}</span>
         </StyledContent>
