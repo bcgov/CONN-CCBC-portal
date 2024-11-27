@@ -118,6 +118,9 @@ inputs:
   coverages_file:
     description: 'Coverages file'
     required: true
+  session_secret:
+    description: 'Session secret'
+    required: true
 
 runs:
   using: composite
@@ -191,6 +194,7 @@ runs:
           --set cronshp.erFile="${{ inputs.er_file }}" \
           --set cronshp.rdFile="${{ inputs.rd_file }}" \
           --set cronshp.coveragesFile="${{ inputs.coverages_file }}" \
+          --set app.sessionSecret="${ inputs.session_secret }}" \
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash
