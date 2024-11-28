@@ -369,6 +369,40 @@ type Query implements Node {
     filter: ApplicationCommunityReportExcelDataFilter
   ): ApplicationCommunityReportExcelDataConnection
 
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  allApplicationDependencies(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection
+
   """Reads and enables pagination through a set of `ApplicationEr`."""
   allApplicationErs(
     """Only read the first `n` values of the set."""
@@ -2030,6 +2064,7 @@ type Query implements Node {
   applicationClaimsExcelDataByRowId(rowId: Int!): ApplicationClaimsExcelData
   applicationCommunityProgressReportDataByRowId(rowId: Int!): ApplicationCommunityProgressReportData
   applicationCommunityReportExcelDataByRowId(rowId: Int!): ApplicationCommunityReportExcelData
+  applicationDependencyByRowId(rowId: Int!): ApplicationDependency
   applicationFormDataByFormDataIdAndApplicationId(formDataId: Int!, applicationId: Int!): ApplicationFormData
   applicationFormTemplate9DataByRowId(rowId: Int!): ApplicationFormTemplate9Data
   applicationGisAssessmentHhByRowId(rowId: Int!): ApplicationGisAssessmentHh
@@ -2206,6 +2241,14 @@ type Query implements Node {
     """
     id: ID!
   ): ApplicationCommunityReportExcelData
+
+  """Reads a single `ApplicationDependency` using its globally unique `ID`."""
+  applicationDependency(
+    """
+    The globally unique `ID` to be used in selecting a single `ApplicationDependency`.
+    """
+    id: ID!
+  ): ApplicationDependency
 
   """Reads a single `ApplicationFormData` using its globally unique `ID`."""
   applicationFormData(
@@ -7590,6 +7633,108 @@ type CcbcUser implements Node {
     """
     filter: ApplicationFormTemplate9DataFilter
   ): ApplicationFormTemplate9DataConnection!
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByCcbcUserCreatedByAndUpdatedBy(
@@ -21462,6 +21607,312 @@ type CcbcUser implements Node {
     """
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersByApplicationFormTemplate9DataArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationDependencyCreatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationDependencyCreatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationDependencyCreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationDependencyCreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationDependencyCreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationDependencyCreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationDependencyUpdatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationDependencyUpdatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationDependencyUpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationDependencyUpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationDependencyUpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationDependencyUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationDependencyArchivedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationDependencyArchivedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationDependencyArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationDependencyArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationDependencyArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationDependencyArchivedByAndUpdatedByManyToManyConnection!
 }
 
 """A connection to a list of `CcbcUser` values."""
@@ -22501,6 +22952,24 @@ input CcbcUserFilter {
   """Some related `applicationFormTemplate9DataByArchivedBy` exist."""
   applicationFormTemplate9DataByArchivedByExist: Boolean
 
+  """Filter by the object’s `applicationDependenciesByCreatedBy` relation."""
+  applicationDependenciesByCreatedBy: CcbcUserToManyApplicationDependencyFilter
+
+  """Some related `applicationDependenciesByCreatedBy` exist."""
+  applicationDependenciesByCreatedByExist: Boolean
+
+  """Filter by the object’s `applicationDependenciesByUpdatedBy` relation."""
+  applicationDependenciesByUpdatedBy: CcbcUserToManyApplicationDependencyFilter
+
+  """Some related `applicationDependenciesByUpdatedBy` exist."""
+  applicationDependenciesByUpdatedByExist: Boolean
+
+  """Filter by the object’s `applicationDependenciesByArchivedBy` relation."""
+  applicationDependenciesByArchivedBy: CcbcUserToManyApplicationDependencyFilter
+
+  """Some related `applicationDependenciesByArchivedBy` exist."""
+  applicationDependenciesByArchivedByExist: Boolean
+
   """Filter by the object’s `keycloakJwtsBySub` relation."""
   keycloakJwtsBySub: CcbcUserToManyKeycloakJwtFilter
 
@@ -23268,6 +23737,14 @@ input ApplicationFilter {
 
   """Some related `applicationFormTemplate9DataByApplicationId` exist."""
   applicationFormTemplate9DataByApplicationIdExist: Boolean
+
+  """
+  Filter by the object’s `applicationDependenciesByApplicationId` relation.
+  """
+  applicationDependenciesByApplicationId: ApplicationToManyApplicationDependencyFilter
+
+  """Some related `applicationDependenciesByApplicationId` exist."""
+  applicationDependenciesByApplicationIdExist: Boolean
 
   """Filter by the object’s `intakeByIntakeId` relation."""
   intakeByIntakeId: IntakeFilter
@@ -26958,6 +27435,94 @@ input ApplicationFormTemplate9DataFilter {
 }
 
 """
+A filter to be used against many `ApplicationDependency` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationToManyApplicationDependencyFilter {
+  """
+  Every related `ApplicationDependency` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ApplicationDependencyFilter
+
+  """
+  Some related `ApplicationDependency` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ApplicationDependencyFilter
+
+  """
+  No related `ApplicationDependency` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ApplicationDependencyFilter
+}
+
+"""
+A filter to be used against `ApplicationDependency` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationDependencyFilter {
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
+
+  """Filter by the object’s `applicationId` field."""
+  applicationId: IntFilter
+
+  """Filter by the object’s `jsonData` field."""
+  jsonData: JSONFilter
+
+  """Filter by the object’s `reasonForChange` field."""
+  reasonForChange: StringFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
+  """Filter by the object’s `applicationByApplicationId` relation."""
+  applicationByApplicationId: ApplicationFilter
+
+  """A related `applicationByApplicationId` exists."""
+  applicationByApplicationIdExists: Boolean
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
+
+  """Checks for all expressions in this list."""
+  and: [ApplicationDependencyFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ApplicationDependencyFilter!]
+
+  """Negates the expression."""
+  not: ApplicationDependencyFilter
+}
+
+"""
 A filter to be used against `GaplessCounter` object types. All fields are combined with a logical ‘and.’
 """
 input GaplessCounterFilter {
@@ -28756,6 +29321,26 @@ input CcbcUserToManyApplicationFormTemplate9DataFilter {
   No related `ApplicationFormTemplate9Data` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
   none: ApplicationFormTemplate9DataFilter
+}
+
+"""
+A filter to be used against many `ApplicationDependency` object types. All fields are combined with a logical ‘and.’
+"""
+input CcbcUserToManyApplicationDependencyFilter {
+  """
+  Every related `ApplicationDependency` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ApplicationDependencyFilter
+
+  """
+  Some related `ApplicationDependency` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ApplicationDependencyFilter
+
+  """
+  No related `ApplicationDependency` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ApplicationDependencyFilter
 }
 
 """
@@ -30567,6 +31152,40 @@ type Application implements Node {
     """
     filter: ApplicationFormTemplate9DataFilter
   ): ApplicationFormTemplate9DataConnection!
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
 
   """Reads and enables pagination through a set of `AssessmentData`."""
   allAssessments(
@@ -33494,6 +34113,108 @@ type Application implements Node {
     """
     filter: CcbcUserFilter
   ): ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationDependencyApplicationIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationDependencyApplicationIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationDependencyApplicationIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationDependencyApplicationIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationDependencyApplicationIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationDependencyApplicationIdAndArchivedByManyToManyConnection!
 }
 
 """A connection to a list of `ApplicationStatus` values."""
@@ -43686,6 +44407,155 @@ input ApplicationFormTemplate9DataCondition {
   archivedAt: Datetime
 }
 
+"""A connection to a list of `ApplicationDependency` values."""
+type ApplicationDependenciesConnection {
+  """A list of `ApplicationDependency` objects."""
+  nodes: [ApplicationDependency]!
+
+  """
+  A list of edges which contains the `ApplicationDependency` and cursor to aid in pagination.
+  """
+  edges: [ApplicationDependenciesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ApplicationDependency` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""Table containing the data about the project dependencies"""
+type ApplicationDependency implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """Unique ID for the row"""
+  rowId: Int!
+
+  """The ID of the application"""
+  applicationId: Int
+
+  """The data about the dependencies CRTC and/or Connected Coast dependent"""
+  jsonData: JSON!
+
+  """The reason for the change"""
+  reasonForChange: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """
+  Reads a single `Application` that is related to this `ApplicationDependency`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationDependency`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationDependency`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationDependency`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+}
+
+"""A `ApplicationDependency` edge in the connection."""
+type ApplicationDependenciesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationDependency` at the end of the edge."""
+  node: ApplicationDependency
+}
+
+"""Methods to use when ordering `ApplicationDependency`."""
+enum ApplicationDependenciesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  APPLICATION_ID_ASC
+  APPLICATION_ID_DESC
+  JSON_DATA_ASC
+  JSON_DATA_DESC
+  REASON_FOR_CHANGE_ASC
+  REASON_FOR_CHANGE_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `ApplicationDependency` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input ApplicationDependencyCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `applicationId` field."""
+  applicationId: Int
+
+  """Checks for equality with the object’s `jsonData` field."""
+  jsonData: JSON
+
+  """Checks for equality with the object’s `reasonForChange` field."""
+  reasonForChange: String
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
+}
+
 """A connection to a list of `Announcement` values."""
 type AnnouncementsConnection {
   """A list of `Announcement` objects."""
@@ -43772,6 +44642,9 @@ type HistoryItem {
 
   """User is an external analyst"""
   externalAnalyst: Boolean
+
+  """User id that triggered this operation"""
+  createdBy: Int
 }
 
 """A `HistoryItem` edge in the connection."""
@@ -43822,6 +44695,9 @@ input HistoryItemFilter {
 
   """Filter by the object’s `externalAnalyst` field."""
   externalAnalyst: BooleanFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
 
   """Checks for all expressions in this list."""
   and: [HistoryItemFilter!]
@@ -49331,6 +50207,198 @@ type ApplicationCcbcUsersByApplicationFormTemplate9DataApplicationIdAndArchivedB
     """
     filter: ApplicationFormTemplate9DataFilter
   ): ApplicationFormTemplate9DataConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationDependency`.
+"""
+type ApplicationCcbcUsersByApplicationDependencyApplicationIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationDependency`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationDependencyApplicationIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationDependency`.
+"""
+type ApplicationCcbcUsersByApplicationDependencyApplicationIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationDependency`.
+"""
+type ApplicationCcbcUsersByApplicationDependencyApplicationIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationDependency`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationDependencyApplicationIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationDependency`.
+"""
+type ApplicationCcbcUsersByApplicationDependencyApplicationIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationDependency`.
+"""
+type ApplicationCcbcUsersByApplicationDependencyApplicationIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationDependency`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationDependencyApplicationIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationDependency`.
+"""
+type ApplicationCcbcUsersByApplicationDependencyApplicationIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
 }
 
 """A `Application` edge in the connection."""
@@ -79336,6 +80404,582 @@ type CcbcUserCcbcUsersByApplicationFormTemplate9DataArchivedByAndUpdatedByManyTo
 }
 
 """
+A connection to a list of `Application` values, with data from `ApplicationDependency`.
+"""
+type CcbcUserApplicationsByApplicationDependencyCreatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationDependency`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationDependencyCreatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationDependency`.
+"""
+type CcbcUserApplicationsByApplicationDependencyCreatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationDependency`.
+"""
+type CcbcUserCcbcUsersByApplicationDependencyCreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationDependency`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationDependencyCreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationDependency`.
+"""
+type CcbcUserCcbcUsersByApplicationDependencyCreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationDependency`.
+"""
+type CcbcUserCcbcUsersByApplicationDependencyCreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationDependency`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationDependencyCreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationDependency`.
+"""
+type CcbcUserCcbcUsersByApplicationDependencyCreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationDependency`.
+"""
+type CcbcUserApplicationsByApplicationDependencyUpdatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationDependency`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationDependencyUpdatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationDependency`.
+"""
+type CcbcUserApplicationsByApplicationDependencyUpdatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationDependency`.
+"""
+type CcbcUserCcbcUsersByApplicationDependencyUpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationDependency`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationDependencyUpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationDependency`.
+"""
+type CcbcUserCcbcUsersByApplicationDependencyUpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationDependency`.
+"""
+type CcbcUserCcbcUsersByApplicationDependencyUpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationDependency`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationDependencyUpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationDependency`.
+"""
+type CcbcUserCcbcUsersByApplicationDependencyUpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationDependency`.
+"""
+type CcbcUserApplicationsByApplicationDependencyArchivedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationDependency`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationDependencyArchivedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationDependency`.
+"""
+type CcbcUserApplicationsByApplicationDependencyArchivedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationDependency`.
+"""
+type CcbcUserCcbcUsersByApplicationDependencyArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationDependency`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationDependencyArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationDependency`.
+"""
+type CcbcUserCcbcUsersByApplicationDependencyArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationDependency`.
+"""
+type CcbcUserCcbcUsersByApplicationDependencyArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationDependency`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationDependencyArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationDependency`.
+"""
+type CcbcUserCcbcUsersByApplicationDependencyArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """Reads and enables pagination through a set of `ApplicationDependency`."""
+  applicationDependenciesByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationDependencyCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationDependencyFilter
+  ): ApplicationDependenciesConnection!
+}
+
+"""
 A connection to a list of `Application` values, with data from `ApplicationAnalystLead`.
 """
 type AnalystApplicationsByApplicationAnalystLeadAnalystIdAndApplicationIdManyToManyConnection {
@@ -79954,6 +81598,8 @@ enum HistoryItemsOrderBy {
   SESSION_SUB_DESC
   EXTERNAL_ANALYST_ASC
   EXTERNAL_ANALYST_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
 }
 
 """
@@ -79996,6 +81642,9 @@ input HistoryItemCondition {
 
   """Checks for equality with the object’s `externalAnalyst` field."""
   externalAnalyst: Boolean
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
 }
 
 """A connection to a list of `RfiDataStatusType` values."""
@@ -80300,6 +81949,14 @@ type Mutation {
     """
     input: CreateApplicationAnnouncementInput!
   ): CreateApplicationAnnouncementPayload
+
+  """Creates a single `ApplicationDependency`."""
+  createApplicationDependency(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateApplicationDependencyInput!
+  ): CreateApplicationDependencyPayload
 
   """Creates a single `ApplicationEr`."""
   createApplicationEr(
@@ -80810,6 +82467,26 @@ type Mutation {
     """
     input: UpdateApplicationCommunityReportExcelDataByRowIdInput!
   ): UpdateApplicationCommunityReportExcelDataPayload
+
+  """
+  Updates a single `ApplicationDependency` using its globally unique id and a patch.
+  """
+  updateApplicationDependency(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationDependencyInput!
+  ): UpdateApplicationDependencyPayload
+
+  """
+  Updates a single `ApplicationDependency` using a unique key and a patch.
+  """
+  updateApplicationDependencyByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationDependencyByRowIdInput!
+  ): UpdateApplicationDependencyPayload
 
   """
   Updates a single `ApplicationFormData` using its globally unique id and a patch.
@@ -81706,6 +83383,22 @@ type Mutation {
     """
     input: DeleteApplicationAnnouncementByAnnouncementIdAndApplicationIdInput!
   ): DeleteApplicationAnnouncementPayload
+
+  """Deletes a single `ApplicationDependency` using its globally unique id."""
+  deleteApplicationDependency(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationDependencyInput!
+  ): DeleteApplicationDependencyPayload
+
+  """Deletes a single `ApplicationDependency` using a unique key."""
+  deleteApplicationDependencyByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationDependencyByRowIdInput!
+  ): DeleteApplicationDependencyPayload
 
   """Deletes a single `ApplicationFormData` using its globally unique id."""
   deleteApplicationFormData(
@@ -83109,6 +84802,91 @@ input ApplicationAnnouncementInput {
   Column describing the operation (created, updated, deleted) for context on the history page
   """
   historyOperation: String
+}
+
+"""The output of our create `ApplicationDependency` mutation."""
+type CreateApplicationDependencyPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationDependency` that was created by this mutation."""
+  applicationDependency: ApplicationDependency
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ApplicationDependency`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationDependency`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationDependency`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationDependency`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationDependency`. May be used by Relay 1."""
+  applicationDependencyEdge(
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationDependenciesEdge
+}
+
+"""All input for the create `ApplicationDependency` mutation."""
+input CreateApplicationDependencyInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ApplicationDependency` to be created by this mutation."""
+  applicationDependency: ApplicationDependencyInput!
+}
+
+"""An input for mutations affecting `ApplicationDependency`"""
+input ApplicationDependencyInput {
+  """The ID of the application"""
+  applicationId: Int
+
+  """The data about the dependencies CRTC and/or Connected Coast dependent"""
+  jsonData: JSON
+
+  """The reason for the change"""
+  reasonForChange: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
 }
 
 """The output of our create `ApplicationEr` mutation."""
@@ -85445,6 +87223,9 @@ input HistoryItemInput {
 
   """User is an external analyst"""
   externalAnalyst: Boolean
+
+  """User id that triggered this operation"""
+  createdBy: Int
 }
 
 """The output of our create `Notification` mutation."""
@@ -87209,6 +88990,117 @@ input UpdateApplicationCommunityReportExcelDataByRowIdInput {
   applicationCommunityReportExcelDataPatch: ApplicationCommunityReportExcelDataPatch!
 
   """Unique ID for the Community Report excel data"""
+  rowId: Int!
+}
+
+"""The output of our update `ApplicationDependency` mutation."""
+type UpdateApplicationDependencyPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationDependency` that was updated by this mutation."""
+  applicationDependency: ApplicationDependency
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ApplicationDependency`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationDependency`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationDependency`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationDependency`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationDependency`. May be used by Relay 1."""
+  applicationDependencyEdge(
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationDependenciesEdge
+}
+
+"""All input for the `updateApplicationDependency` mutation."""
+input UpdateApplicationDependencyInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationDependency` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `ApplicationDependency` being updated.
+  """
+  applicationDependencyPatch: ApplicationDependencyPatch!
+}
+
+"""
+Represents an update to a `ApplicationDependency`. Fields that are set will be updated.
+"""
+input ApplicationDependencyPatch {
+  """The ID of the application"""
+  applicationId: Int
+
+  """The data about the dependencies CRTC and/or Connected Coast dependent"""
+  jsonData: JSON
+
+  """The reason for the change"""
+  reasonForChange: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""All input for the `updateApplicationDependencyByRowId` mutation."""
+input UpdateApplicationDependencyByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ApplicationDependency` being updated.
+  """
+  applicationDependencyPatch: ApplicationDependencyPatch!
+
+  """Unique ID for the row"""
   rowId: Int!
 }
 
@@ -92046,6 +93938,76 @@ input DeleteApplicationAnnouncementByAnnouncementIdAndApplicationIdInput {
 
   """The foreign key of an application"""
   applicationId: Int!
+}
+
+"""The output of our delete `ApplicationDependency` mutation."""
+type DeleteApplicationDependencyPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationDependency` that was deleted by this mutation."""
+  applicationDependency: ApplicationDependency
+  deletedApplicationDependencyId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ApplicationDependency`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationDependency`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationDependency`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationDependency`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationDependency`. May be used by Relay 1."""
+  applicationDependencyEdge(
+    """The method to use when ordering `ApplicationDependency`."""
+    orderBy: [ApplicationDependenciesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationDependenciesEdge
+}
+
+"""All input for the `deleteApplicationDependency` mutation."""
+input DeleteApplicationDependencyInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationDependency` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteApplicationDependencyByRowId` mutation."""
+input DeleteApplicationDependencyByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """Unique ID for the row"""
+  rowId: Int!
 }
 
 """The output of our delete `ApplicationFormData` mutation."""

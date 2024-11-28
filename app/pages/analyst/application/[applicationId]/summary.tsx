@@ -34,6 +34,11 @@ const getSummaryQuery = graphql`
           announced
         }
       }
+      applicationDependenciesByApplicationId(first: 1) {
+        nodes {
+          jsonData
+        }
+      }
       applicationStatusesByApplicationId(
         filter: { status: { equalTo: "submitted" } }
       ) {

@@ -150,10 +150,6 @@ describe('The index page', () => {
     expect(
       screen.getByText('Applicant is contesting the area map')
     ).toBeInTheDocument();
-    expect(
-      screen.getByText('Connected Coast Network Dependent')
-    ).toBeInTheDocument();
-    expect(screen.getByText('CRTC Project Dependent')).toBeInTheDocument();
   });
 
   it('Form saves when submit button is pressed', async () => {
@@ -161,10 +157,6 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     await userEvent.click(screen.getByLabelText('Eligible'));
-    await userEvent.click(
-      screen.getByLabelText('Connected Coast Network Dependent')
-    );
-    await userEvent.click(screen.getByLabelText('CRTC Project Dependent'));
 
     await userEvent.click(screen.getByRole('button', { name: 'Save' }));
 
@@ -175,8 +167,6 @@ describe('The index page', () => {
           nextStep: 'Not started',
           decision: 'Eligible',
           contestingMap: [],
-          connectedCoastNetworkDependent: true,
-          crtcProjectDependent: true,
         },
         _assessmentType: 'screening',
       },

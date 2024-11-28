@@ -2936,6 +2936,80 @@ const mockQueryPayload = {
               sessionSub: 'test-session-sub@idir',
               tableName: 'application_announced',
             },
+            {
+              createdBy: 1,
+              applicationId: 1,
+              createdAt: '2024-11-13T22:51:43.851664+00:00',
+              externalAnalyst: null,
+              familyName: null,
+              givenName: null,
+              item: null,
+              oldRecord: null,
+              op: 'INSERT',
+              record: {
+                id: 1,
+                json_data: {
+                  crtcProjectDependent: 'TBD',
+                  connectedCoastNetworkDependent: 'Yes',
+                },
+                created_at: '2024-11-13T22:51:43.851664+00:00',
+                created_by: null,
+                updated_at: '2024-11-13T22:51:43.851664+00:00',
+                updated_by: null,
+                archived_at: null,
+                archived_by: null,
+                application_id: 1,
+                reason_for_change:
+                  'Dependency fields moved from Screening Assessment to Technical Assessment',
+              },
+              recordId: 'b01aa98e-a7c1-5430-931d-130a53a16c61',
+              sessionSub: '54f0aa1ad196497fff9321c20a1ef@bceidbasic',
+              tableName: 'application_dependencies',
+            },
+            {
+              createdBy: 1,
+              applicationId: 1,
+              createdAt: '2024-11-13T22:51:43.851664+00:00',
+              externalAnalyst: null,
+              familyName: 'IDIR',
+              givenName: 'User',
+              item: null,
+              oldRecord: {
+                id: 1,
+                json_data: {
+                  crtcProjectDependent: 'TBD',
+                  connectedCoastNetworkDependent: 'Yes',
+                },
+                created_at: '2024-11-13T22:51:43.851664+00:00',
+                created_by: null,
+                updated_at: '2024-11-13T22:51:43.851664+00:00',
+                updated_by: null,
+                archived_at: null,
+                archived_by: null,
+                application_id: 1,
+                reason_for_change:
+                  'Dependency fields moved from Screening Assessment to Technical Assessment',
+              },
+              op: 'UPDATE',
+              record: {
+                id: 1,
+                json_data: {
+                  crtcProjectDependent: 'Yes',
+                  connectedCoastNetworkDependent: 'Yes',
+                },
+                created_at: '2024-11-13T22:51:43.851664+00:00',
+                created_by: null,
+                updated_at: '2024-11-13T22:56:18.94991+00:00',
+                updated_by: 185,
+                archived_at: null,
+                archived_by: null,
+                application_id: 1,
+                reason_for_change: '',
+              },
+              recordId: 'b01aa98e-a7c1-5430-931d-130a53a16c61',
+              sessionSub: '7af64dcdkl39e8830b297e4b51df6@idir',
+              tableName: 'application_dependencies',
+            },
           ],
         },
         formData: {
@@ -3023,7 +3097,7 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-assessment')[0]
     ).toHaveTextContent(
-      'Foo Bar saved the Screening Assessment on Mar 3, 2023, 9:50 a.m.'
+      'Foo Bar updated the Screening Assessment on Mar 3, 2023, 9:50 a.m.'
     );
 
     expect(screen.getByText('TestNameHopefullyUnique')).toBeInTheDocument();
@@ -3035,13 +3109,13 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-assessment')[5]
     ).toHaveTextContent(
-      'Foo Bar saved the technical Assessment on Mar 3, 2023, 8:03 a.m.'
+      'Foo Bar updated the technical Assessment on Mar 3, 2023, 8:03 a.m.'
     );
 
     expect(
       screen.getAllByTestId('history-content-assessment')[4]
     ).toHaveTextContent(
-      'Foo Bar saved the Project Management Assessment on Mar 3, 2023, 8:03 a.m.'
+      'Foo Bar updated the Project Management Assessment on Mar 3, 2023, 8:03 a.m.'
     );
   });
 
@@ -3153,13 +3227,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 25 diff tables', async () => {
+  it('shows all 31 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(29);
+    expect(diffTables.length).toBe(31);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();

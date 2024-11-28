@@ -12,6 +12,8 @@ const technical: RJSFSchema = {
     'decision',
     'completedAssessment',
     'otherFiles',
+    'connectedCoastNetworkDependent',
+    'crtcProjectDependent',
   ],
   properties: {
     ...sharedAssessmentFields.properties,
@@ -37,6 +39,18 @@ const technical: RJSFSchema = {
     completedAssessment: {
       title: 'Completed assessment',
       type: 'string',
+    },
+    connectedCoastNetworkDependent: {
+      title: 'Connected Coast Network Dependent',
+      type: 'string',
+      default: 'TBD',
+      enum: ['TBD', 'Yes', 'No'],
+    },
+    crtcProjectDependent: {
+      title: 'CRTC Project Dependent',
+      type: 'string',
+      default: 'TBD',
+      enum: ['TBD', 'Yes', 'No'],
     },
   },
 };

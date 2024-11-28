@@ -1,3 +1,17 @@
+# [1.213.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.212.2...v1.213.0) (2024-11-27)
+
+### Features
+
+- move application dependencies to technical assessments ([63674d5](https://github.com/bcgov/CONN-CCBC-portal/commit/63674d5a5528524caf4247c595df991d9863a0c9))
+
+## [1.212.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.212.1...v1.212.2) (2024-11-26)
+
+### Bug Fixes
+
+- add withdrawn to status external check on history ([53ba0e3](https://github.com/bcgov/CONN-CCBC-portal/commit/53ba0e3dcb4b3035098275643ba5c067f76e98b9))
+
+## [1.212.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.212.0...v1.212.1) (2024-11-26)
+
 # [1.212.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.211.3...v1.212.0) (2024-11-25)
 
 ### Features

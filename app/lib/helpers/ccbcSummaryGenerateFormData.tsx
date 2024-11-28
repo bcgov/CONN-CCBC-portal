@@ -22,12 +22,6 @@ const getRegionalDistricts = (regionalDistricts) => {
   return rds;
 };
 
-const findScreeningAssessment = (assessments) => {
-  return assessments.nodes.find(
-    (assessment) => assessment.assessmentDataType === 'screening'
-  );
-};
-
 const handleApplicationDateReceived = (applicationData, allIntakes) => {
   // keep blank for hidden intakes
   if (applicationData.intakeNumber === 99) {
@@ -486,9 +480,8 @@ const generateFormData = (
   economicRegions,
   regionalDistricts
 ) => {
-  const screeningAssessment = findScreeningAssessment(
-    applicationData.allAssessments
-  );
+  const dependencyData =
+    applicationData?.applicationDependenciesByApplicationId?.nodes[0]?.jsonData;
   let formData;
   let formDataSource;
   let errors = null;
@@ -606,14 +599,9 @@ const generateFormData = (
     // dependency is one source
     formData: {
       dependency: {
-        connectedCoastNetworkDependent: screeningAssessment?.jsonData
-          ?.connectedCoastNetworkDependent
-          ? 'Yes'
-          : null,
-        crtcProjectDependent: screeningAssessment?.jsonData
-          ?.crtcProjectDependent
-          ? 'Yes'
-          : null,
+        connectedCoastNetworkDependent:
+          dependencyData?.connectedCoastNetworkDependent,
+        crtcProjectDependent: dependencyData?.crtcProjectDependent,
       },
       counts: { ...formData?.counts },
       locations: { ...formData?.locations },
@@ -635,8 +623,8 @@ const generateFormData = (
     },
     formDataSource: {
       ...formDataSource,
-      connectedCoastNetworkDependent: 'Screening',
-      crtcProjectDependent: 'Screening',
+      connectedCoastNetworkDependent: 'Technical Assessment',
+      crtcProjectDependent: 'Technical Assessment',
       percentProjectMilestoneComplete: 'Milestone Report',
       announcedByProvince: 'Announcements',
     },
