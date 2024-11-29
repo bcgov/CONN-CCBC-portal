@@ -1,3 +1,9 @@
+## [1.213.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.0...v1.213.1) (2024-11-29)
+
+### Bug Fixes
+
+- browser compatibility on toSorted ([b1f6e37](https://github.com/bcgov/CONN-CCBC-portal/commit/b1f6e37a76672d9a07ecc39b0dbb7dfd6c9f01cc))
+
 # [1.213.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.212.2...v1.213.0) (2024-11-27)
 
 ### Features
