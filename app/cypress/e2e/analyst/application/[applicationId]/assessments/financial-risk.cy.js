@@ -1,12 +1,22 @@
 /* eslint-disable import/extensions */
-import assessmentsSetup from './setup.cy.js';
+import assessmentsSetup, {
+  assessmentsSetupLoginAdmin,
+  assessmentsSetupLoginCbcAdmin,
+  assessmentsSetupLoginSuperAdmin,
+} from './setup.cy.js';
+
+const testLoad = (screenShotTitle, setupFunction) => {
+  setupFunction();
+  cy.visit('/analyst/application/1/assessments/financial-risk');
+  cy.contains('a', 'Financial Risk');
+  cy.get('body').happoScreenshot({
+    component: screenShotTitle,
+  });
+};
 
 describe('The analyst financial risk assessment page', () => {
-  beforeEach(() => {
+  it('loads with analyst', () => {
     assessmentsSetup();
-  });
-
-  it('loads', () => {
     cy.visit('/analyst/application/1/assessments/financial-risk');
     cy.contains('a', 'Financial Risk');
     cy.get('body').happoScreenshot({
@@ -14,7 +24,29 @@ describe('The analyst financial risk assessment page', () => {
     });
   });
 
+  it('loads with cbcAdmin', () => {
+    testLoad(
+      'Analyst financial risk assessment page with CBC Admin',
+      assessmentsSetupLoginCbcAdmin
+    );
+  });
+
+  it('loads with admin', () => {
+    testLoad(
+      'Analyst financial risk assessment page with ccbc admin',
+      assessmentsSetupLoginAdmin
+    );
+  });
+
+  it('loads with super admin', () => {
+    testLoad(
+      'Analyst financial risk assessment page with super admin',
+      assessmentsSetupLoginSuperAdmin
+    );
+  });
+
   it('Filled page and saved', () => {
+    assessmentsSetup();
     cy.visit('/analyst/application/1/assessments/financial-risk');
     cy.contains('a', 'Financial Risk');
     cy.wait('@graphql');
