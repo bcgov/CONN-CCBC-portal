@@ -104,6 +104,16 @@ const mockQueryPayloadReceived = {
         applicationMilestoneExcelDataByApplicationId: {
           nodes: [],
         },
+        applicationDependenciesByApplicationId: {
+          nodes: [
+            {
+              jsonData: {
+                connectedCoastNetworkDependent: 'Yes',
+                connectedCoastNetworkDependentDetails: 'TBD',
+              },
+            },
+          ],
+        },
         applicationFormTemplate9DataByApplicationId: {
           nodes: [
             {
@@ -599,15 +609,12 @@ const mockQueryPayloadAgreementSigned = {
         allAssessments: {
           nodes: [
             {
-              assessmentDataType: 'screening',
+              assessmentDataType: 'technical',
               jsonData: {
                 decision: 'Eligible',
                 nextStep: 'Assessment complete',
                 assignedTo: 'Someone',
                 targetDate: '2023-01-09',
-                contestingMap: ['Applicant is contesting the area map'],
-                crtcProjectDependent: true,
-                connectedCoastNetworkDependent: true,
               },
             },
           ],
@@ -887,6 +894,16 @@ const mockQueryPayloadAgreementSignedMissingSow = {
             },
           },
         },
+        applicationDependenciesByApplicationId: {
+          nodes: [
+            {
+              jsonData: {
+                connectedCoastNetworkDependent: 'Yes',
+                connectedCoastNetworkDependentDetails: 'TBD',
+              },
+            },
+          ],
+        },
         projectInformation: {
           jsonData: {
             dateFundingAgreementSigned: '2023-12-02',
@@ -965,15 +982,12 @@ const mockQueryPayloadAgreementSignedMissingSow = {
         allAssessments: {
           nodes: [
             {
-              assessmentDataType: 'screening',
+              assessmentDataType: 'technical',
               jsonData: {
                 decision: 'Eligible',
                 nextStep: 'Assessment complete',
                 assignedTo: 'Someone',
                 targetDate: '2023-01-09',
-                contestingMap: ['Applicant is contesting the area map'],
-                crtcProjectDependent: true,
-                connectedCoastNetworkDependent: true,
               },
             },
           ],
@@ -1145,9 +1159,9 @@ describe('The Summary page', () => {
 
     expect(screen.queryAllByText('(SOW)')).toHaveLength(0);
     const alerts = screen.getAllByTestId('styled-alert');
-    expect(alerts).toHaveLength(4);
+    expect(alerts).toHaveLength(5);
 
-    fireEvent.mouseOver(alerts[0]);
+    fireEvent.mouseOver(alerts[1]);
     expect(
       await screen.findByText(
         'Highlighted cells are null because SOW Excel table has not been uploaded in the portal'
