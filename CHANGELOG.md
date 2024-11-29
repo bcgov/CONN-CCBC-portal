@@ -1,3 +1,9 @@
+## [1.213.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.2...v1.213.3) (2024-11-29)
+
+### Bug Fixes
+
+- deterministic session secret ([d7d29a0](https://github.com/bcgov/CONN-CCBC-portal/commit/d7d29a0c72331dc2ebcea90528a3ebb55af733a6))
+
 ## [1.213.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.1...v1.213.2) (2024-11-29)
 
 ## [1.213.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.0...v1.213.1) (2024-11-29)
