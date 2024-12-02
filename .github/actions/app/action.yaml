@@ -195,7 +195,7 @@ runs:
           --set cronshp.erFile="${{ inputs.er_file }}" \
           --set cronshp.rdFile="${{ inputs.rd_file }}" \
           --set cronshp.coveragesFile="${{ inputs.coverages_file }}" \
-          --set app.sessionSecret="${ inputs.session_secret }}" \
+          --set app.sessionSecret="${{ inputs.session_secret }}" \
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash
