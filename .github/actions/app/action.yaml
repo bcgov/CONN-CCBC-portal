@@ -146,6 +146,7 @@ runs:
         cert_key: ${{ inputs.cert_key }}
         cert_ca: ${{ inputs.cert_ca }}
         pgbackrest_s3_bucket: ${{ inputs.pgbackrest_s3_bucket }}
+        session_secret: ${{ inputs.session_secret }}
         insecure_skip_tls_verify: true
     - run: |
         SHA_ONLY=$(echo ${{ inputs.tag }} | cut -c 5-)
@@ -194,7 +195,7 @@ runs:
           --set cronshp.erFile="${{ inputs.er_file }}" \
           --set cronshp.rdFile="${{ inputs.rd_file }}" \
           --set cronshp.coveragesFile="${{ inputs.coverages_file }}" \
-          --set app.sessionSecret="${ inputs.session_secret }}" \
+          --set app.sessionSecret="${{ inputs.session_secret }}" \
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash
