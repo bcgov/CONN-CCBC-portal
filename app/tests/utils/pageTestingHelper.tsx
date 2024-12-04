@@ -12,7 +12,9 @@ import GlobalTheme from 'styles/GlobalTheme';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { AppProvider } from 'components/AppProvider';
 import UnsavedChangesProvider from 'components/UnsavedChangesProvider';
+import { GrowthBookProvider } from '@growthbook/growthbook-react';
 import TestingHelper from './TestingHelper';
+import mockGrowthBook from './mockGrowthBook';
 
 interface PageTestingHelperOptions<TQuery extends OperationType> {
   pageComponent: (props: RelayProps<{}, TQuery>) => JSX.Element;
@@ -65,20 +67,22 @@ class PageTestingHelper<TQuery extends OperationType> extends TestingHelper {
 
   public renderPage() {
     return render(
-      <GlobalTheme>
-        <RouterContext.Provider value={this.router}>
-          <RelayEnvironmentProvider environment={this.environment}>
-            <AppProvider>
-              <UnsavedChangesProvider>
-                <this.options.pageComponent
-                  CSN
-                  preloadedQuery={this.initialQueryRef}
-                />
-              </UnsavedChangesProvider>
-            </AppProvider>
-          </RelayEnvironmentProvider>
-        </RouterContext.Provider>
-      </GlobalTheme>
+      <GrowthBookProvider growthbook={mockGrowthBook as any}>
+        <GlobalTheme>
+          <RouterContext.Provider value={this.router}>
+            <RelayEnvironmentProvider environment={this.environment}>
+              <AppProvider>
+                <UnsavedChangesProvider>
+                  <this.options.pageComponent
+                    CSN
+                    preloadedQuery={this.initialQueryRef}
+                  />
+                </UnsavedChangesProvider>
+              </AppProvider>
+            </RelayEnvironmentProvider>
+          </RouterContext.Provider>
+        </GlobalTheme>
+      </GrowthBookProvider>
     );
   }
 }

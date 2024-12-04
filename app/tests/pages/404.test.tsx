@@ -1,6 +1,8 @@
+import { GrowthBookProvider } from '@growthbook/growthbook-react';
 import { render, screen, within } from '@testing-library/react';
 import Error404 from 'pages/404';
 import GlobalTheme from 'styles/GlobalTheme';
+import mockGrowthBook from 'tests/utils/mockGrowthBook';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
@@ -8,9 +10,11 @@ jest.mock('next/router', () => ({
 
 const renderStaticLayout = () => {
   return render(
-    <GlobalTheme>
-      <Error404 />
-    </GlobalTheme>
+    <GrowthBookProvider growthbook={mockGrowthBook as any}>
+      <GlobalTheme>
+        <Error404 />
+      </GlobalTheme>
+    </GrowthBookProvider>
   );
 };
 
