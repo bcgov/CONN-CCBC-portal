@@ -1,3 +1,10 @@
+## [1.214.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.214.1...v1.214.2) (2024-12-04)
+
+### Bug Fixes
+
+- browser compatibility on toSorted ([a4d2384](https://github.com/bcgov/CONN-CCBC-portal/commit/a4d2384a33f39c7097042ae4da8cb2165ada8b12))
+- remove unwanted unsaved changes modal from RFI ([db5ae03](https://github.com/bcgov/CONN-CCBC-portal/commit/db5ae03e00167fb1aad4d2fa7d2fa6b1e44bb0b2))
+
 ## [1.214.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.214.0...v1.214.1) (2024-12-04)
 
 ### Bug Fixes
