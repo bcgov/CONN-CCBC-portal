@@ -320,6 +320,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     projectTitle: 150,
     zones: 91,
   });
+  const tableContainerRef = useRef(null);
 
   const statusOrderMap = useMemo(() => {
     return allApplicationStatusTypes?.nodes?.reduce((acc, status) => {
@@ -366,6 +367,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     }
 
     setIsFirstRender(false);
+
+    const savedScrollTop = sessionStorage.getItem('dashboard_scroll_position');
+    if (savedScrollTop && tableContainerRef.current) {
+      tableContainerRef.current.scrollTop = parseInt(savedScrollTop, 10);
+    }
   }, []);
 
   useEffect(() => {
@@ -677,6 +683,14 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       setSorting(sort);
     }
   };
+
+  const handleTableScroll = () => {
+    sessionStorage.setItem(
+      'dashboard_scroll_position',
+      tableContainerRef?.current?.scrollTop
+    );
+  };
+
   const tableHeightOffset = enableTimeMachine ? '460px' : '360px';
 
   const table = useMaterialReactTable({
@@ -686,6 +700,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     columnResizeMode: 'onChange',
     state,
     muiTableContainerProps: {
+      ref: tableContainerRef,
+      onScroll: handleTableScroll,
       sx: {
         padding: '0 8px 8px 8px',
         maxHeight: freezeHeader ? `calc(100vh - ${tableHeightOffset})` : '100%',
