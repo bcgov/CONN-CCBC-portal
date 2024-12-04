@@ -34,6 +34,7 @@ const mockQueryPayload = {
               zones: [1, 2],
               program: 'CCBC',
               status: 'received',
+              package: '1',
               applicationFormTemplate9DataByApplicationId: {
                 nodes: [
                   {
@@ -64,6 +65,7 @@ const mockQueryPayload = {
               zones: [],
               program: 'CCBC',
               status: 'approved',
+              package: null,
               applicationFormTemplate9DataByApplicationId: {
                 nodes: [
                   {
@@ -929,6 +931,44 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getAllByText('Reporting complete')).toHaveLength(6);
+  });
+
+  it('should correctly filter by package filter', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('CCBC-010001')).toBeVisible();
+    expect(screen.getByText('CCBC-010002')).toBeVisible();
+
+    const columnActions = document.querySelectorAll(
+      '[aria-label="Show/Hide filters"]'
+    )[0];
+
+    await act(async () => {
+      fireEvent.click(columnActions);
+    });
+
+    const packageFilter = screen.getAllByText('Filter by Package')[0];
+
+    expect(packageFilter).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.keyDown(packageFilter, { key: 'Enter', code: 'Enter' });
+    });
+
+    const option = screen.getByRole('option', { name: 'Unassigned' });
+    await act(async () => {
+      fireEvent.click(option);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
+      expect(screen.queryByText('CCBC-010001')).not.toBeInTheDocument();
+    });
   });
 
   it('should correctly filter the cbc projects by analyst status filter', async () => {
