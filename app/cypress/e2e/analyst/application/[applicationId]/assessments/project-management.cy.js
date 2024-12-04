@@ -1,12 +1,23 @@
 /* eslint-disable import/extensions */
-import assessmentsSetup from './setup.cy.js';
+import assessmentsSetup, {
+  assessmentsSetupLoginAdmin,
+  assessmentsSetupLoginCbcAdmin,
+  assessmentsSetupLoginSuperAdmin,
+} from './setup.cy.js';
+
+const testLoad = (screenShotTitle, setupFunction) => {
+  setupFunction();
+  cy.visit('/analyst/application/1/assessments/project-management');
+  cy.contains('a', 'Project Management');
+  cy.get('body').happoScreenshot({
+    component: screenShotTitle,
+  });
+};
 
 describe('The analyst project management assessment page', () => {
-  beforeEach(() => {
+  // Test loading for Analyst role
+  it('loads with analyst', () => {
     assessmentsSetup();
-  });
-
-  it('loads', () => {
     cy.visit('/analyst/application/1/assessments/project-management');
     cy.contains('a', 'Project Management');
     cy.get('body').happoScreenshot({
@@ -14,7 +25,33 @@ describe('The analyst project management assessment page', () => {
     });
   });
 
-  it('Filled Project Management Page', () => {
+  // Test loading for CBC Admin role
+  it('loads with CBC Admin', () => {
+    testLoad(
+      'Project Management assessment page with CBC Admin',
+      assessmentsSetupLoginCbcAdmin
+    );
+  });
+
+  // Test loading for Admin role
+  it('loads with Admin', () => {
+    testLoad(
+      'Project Management assessment page with Admin',
+      assessmentsSetupLoginAdmin
+    );
+  });
+
+  // Test loading for Super Admin role
+  it('loads with Super Admin', () => {
+    testLoad(
+      'Project Management assessment page with Super Admin',
+      assessmentsSetupLoginSuperAdmin
+    );
+  });
+
+  // Test for filling and saving the project management assessment form (Analyst role)
+  it('fills and saves the project management assessment page', () => {
+    assessmentsSetup();
     cy.visit('/analyst/application/1/assessments/project-management');
     cy.contains('a', 'Project Management');
     cy.wait('@graphql');
