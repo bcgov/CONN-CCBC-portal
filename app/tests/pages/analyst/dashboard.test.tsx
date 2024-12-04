@@ -336,6 +336,17 @@ const mockQueryPayload = {
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
 window.scrollTo = jest.fn();
 
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    blob: () =>
+      Promise.resolve(
+        new Blob(['test content'], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        })
+      ),
+  })
+) as jest.Mock;
+
 const mockShowLeadColumn = (
   value: boolean
 ): moduleApi.FeatureResult<boolean> => ({
@@ -1005,5 +1016,17 @@ describe('The index page', () => {
       expect(screen.getByText('4444')).toBeInTheDocument();
       expect(screen.queryByText('5555')).not.toBeInTheDocument();
     });
+  });
+
+  it('should trigger export when download button clicked', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const downloadButton = screen.getByTestId('download-dashboard-icon');
+    await act(async () => {
+      fireEvent.click(downloadButton);
+    });
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
   });
 });
