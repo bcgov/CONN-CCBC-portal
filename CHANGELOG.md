@@ -1,3 +1,40 @@
+## [1.214.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.214.2...v1.214.3) (2024-12-04)
+
+## [1.214.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.214.1...v1.214.2) (2024-12-04)
+
+### Bug Fixes
+
+- browser compatibility on toSorted ([a4d2384](https://github.com/bcgov/CONN-CCBC-portal/commit/a4d2384a33f39c7097042ae4da8cb2165ada8b12))
+- remove unwanted unsaved changes modal from RFI ([db5ae03](https://github.com/bcgov/CONN-CCBC-portal/commit/db5ae03e00167fb1aad4d2fa7d2fa6b1e44bb0b2))
+
+## [1.214.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.214.0...v1.214.1) (2024-12-04)
+
+### Bug Fixes
+
+- scroll preservation when sticky header on in all dashboard ([ee4e6b9](https://github.com/bcgov/CONN-CCBC-portal/commit/ee4e6b92ae0f8d045bea69a9b824eca5bec00849))
+
+# [1.214.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.4...v1.214.0) (2024-12-04)
+
+### Features
+
+- enable global filter to filter communities ([ef8f11d](https://github.com/bcgov/CONN-CCBC-portal/commit/ef8f11ddb95b1c74ca396bff181577d30732b93e))
+
+## [1.213.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.3...v1.213.4) (2024-12-03)
+
+## [1.213.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.2...v1.213.3) (2024-11-29)
+
+### Bug Fixes
+
+- deterministic session secret ([d7d29a0](https://github.com/bcgov/CONN-CCBC-portal/commit/d7d29a0c72331dc2ebcea90528a3ebb55af733a6))
+
+## [1.213.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.1...v1.213.2) (2024-11-29)
+
+## [1.213.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.0...v1.213.1) (2024-11-29)
+
+### Bug Fixes
+
+- browser compatibility on toSorted ([b1f6e37](https://github.com/bcgov/CONN-CCBC-portal/commit/b1f6e37a76672d9a07ecc39b0dbb7dfd6c9f01cc))
+
 # [1.213.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.212.2...v1.213.0) (2024-11-27)
 
 ### Features

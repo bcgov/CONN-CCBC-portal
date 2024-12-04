@@ -47,6 +47,7 @@ on:
       ER_FILE: { required: true }
       RD_FILE: { required: true }
       COVERAGES_FILE: { required: true }
+      SESSION_SECRET: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -120,6 +121,7 @@ jobs:
           er_file: ${{ secrets.ER_FILE }}
           rd_file: ${{ secrets.RD_FILE }}
           coverages_file: ${{ secrets.COVERAGES_FILE }}
+          session_secret: ${{ secrets.SESSION_SECRET }}
           environment: dev
 
   ensure-sqitch-plan-ends-with-tag:
@@ -188,6 +190,7 @@ jobs:
           er_file: ${{ secrets.ER_FILE }}
           rd_file: ${{ secrets.RD_FILE }}
           coverages_file: ${{ secrets.COVERAGES_FILE }}
+          session_secret: ${{ secrets.SESSION_SECRET }}
           environment: test
 
   deploy-to-openshift-production:
@@ -247,6 +250,7 @@ jobs:
           er_file: ${{ secrets.ER_FILE }}
           rd_file: ${{ secrets.RD_FILE }}
           coverages_file: ${{ secrets.COVERAGES_FILE }}
+          session_secret: ${{ secrets.SESSION_SECRET }}
           environment: prod
 
   backup-secrets-dev:

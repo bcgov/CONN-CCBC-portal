@@ -59,6 +59,7 @@ app:
   probesPort: '9000'
   namespace: ''
   enableAnalytics: true
+  sessionSecret: '' # sessionSecret must be passed in via deploy script
 secureRoute:
   host: '' # The host value must be passed in via the deploy script
   wwwRoute:
