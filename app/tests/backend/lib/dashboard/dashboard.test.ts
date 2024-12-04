@@ -29,6 +29,13 @@ describe('Dashboard export functions', () => {
     expect(data).toBeDefined();
   });
 
+  it('should return empty array when no id provided', async () => {
+    const data = await generateApplicationData(null, null);
+    expect(data).toEqual([]);
+    const cbcData = await generateCbcData(null, null);
+    expect(cbcData).toEqual([]);
+  });
+
   it('should generate dashboard export', async () => {
     const blob = await generateDashboardExport(
       [testApplicationData],
