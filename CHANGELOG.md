@@ -1,3 +1,9 @@
+# [1.214.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.4...v1.214.0) (2024-12-04)
+
+### Features
+
+- enable global filter to filter communities ([ef8f11d](https://github.com/bcgov/CONN-CCBC-portal/commit/ef8f11ddb95b1c74ca396bff181577d30732b93e))
+
 ## [1.213.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.3...v1.213.4) (2024-12-03)
 
 ## [1.213.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.2...v1.213.3) (2024-11-29)

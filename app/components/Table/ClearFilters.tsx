@@ -19,6 +19,7 @@ const ClearFilters: React.FC<Props> = ({
   const clearFilters = () => {
     table.resetColumnFilters();
     table.setColumnFilters(defaultFilters);
+    table.setGlobalFilter('');
   };
 
   const isTableFiltersPresent =
@@ -29,9 +30,15 @@ const ClearFilters: React.FC<Props> = ({
     filters.filter((f) => f.id === 'program' && (f.value as any[]).length < 3)
       .length > 0;
 
+  const isGlobalFilterPresent = table.getState().globalFilter !== '';
+
   return (
     <Button
-      disabled={!isTableFiltersPresent && !isExternalFiltersPresent}
+      disabled={
+        !isTableFiltersPresent &&
+        !isExternalFiltersPresent &&
+        !isGlobalFilterPresent
+      }
       variant="text"
       onClick={clearFilters}
       data-testid="clear-filter-button"
