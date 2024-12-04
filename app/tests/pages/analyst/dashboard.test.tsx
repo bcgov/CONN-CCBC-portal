@@ -1029,4 +1029,16 @@ describe('The index page', () => {
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
   });
+
+  it('should trigger export when enter key pressed on download button', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const downloadButton = screen.getByTestId('download-dashboard-icon');
+    await act(async () => {
+      fireEvent.keyDown(downloadButton, { key: 'Enter', code: 'Enter' });
+    });
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
 });
