@@ -1,3 +1,9 @@
+## [1.214.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.214.0...v1.214.1) (2024-12-04)
+
+### Bug Fixes
+
+- scroll preservation when sticky header on in all dashboard ([ee4e6b9](https://github.com/bcgov/CONN-CCBC-portal/commit/ee4e6b92ae0f8d045bea69a9b824eca5bec00849))
+
 # [1.214.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.213.4...v1.214.0) (2024-12-04)
 
 ### Features
