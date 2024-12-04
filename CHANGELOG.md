@@ -1,3 +1,9 @@
+# [1.215.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.214.3...v1.215.0) (2024-12-04)
+
+### Features
+
+- filter status on global search ([3ff9226](https://github.com/bcgov/CONN-CCBC-portal/commit/3ff922688c63598096b974284c80c14a4ed2eb5c))
+
 ## [1.214.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.214.2...v1.214.3) (2024-12-04)
 
 ## [1.214.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.214.1...v1.214.2) (2024-12-04)
