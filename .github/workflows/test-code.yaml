@@ -26,7 +26,7 @@ jobs:
       - name: run jest tests with coverage
         shell: bash
         working-directory: ./app
-        run: nvm use 20 && yarn test --coverage
+        run: node -v  && yarn test --coverage
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
