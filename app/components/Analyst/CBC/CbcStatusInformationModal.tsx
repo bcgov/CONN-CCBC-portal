@@ -2,6 +2,8 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import Chip from '@mui/material/Chip';
 import Modal from 'components/Modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLightbulb } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   id?: string;
@@ -9,6 +11,10 @@ interface Props {
   close: () => void;
   isOpen: boolean;
 }
+
+const StyledIcon = styled(FontAwesomeIcon)`
+  color: ${(props) => props.theme.color.primaryYellow};
+`;
 
 // Styled div whose children are split to two columns
 const TwoColumnDiv = styled.div`
@@ -37,6 +43,14 @@ const CbcStatusInformationModal: React.FC<Props> = ({
             height={140}
           />
         </a>
+      </div>
+      <div style={{ paddingBottom: '16px' }}>
+        <StyledIcon data-testid="light-bulb-icon" icon={faLightbulb} />{' '}
+        <span>
+          The internal status for CBC projects mirrors the external status and
+          changes in sync with external status. It was introduced to enhance
+          dashboard filtering and usability.
+        </span>
       </div>
       <div style={{ paddingBottom: '8px' }}>
         <span style={{ fontWeight: 800 }}>Other Statuses</span>
