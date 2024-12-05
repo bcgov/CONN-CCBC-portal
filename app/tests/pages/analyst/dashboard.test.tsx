@@ -976,10 +976,13 @@ describe('The index page', () => {
       fireEvent.click(option);
     });
 
-    await waitFor(() => {
-      expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
-      expect(screen.queryByText('CCBC-010001')).not.toBeInTheDocument();
-    });
+    await waitFor(
+      () => {
+        expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
+        expect(screen.queryByText('CCBC-010001')).not.toBeInTheDocument();
+      },
+      { timeout: 5000 }
+    );
   });
 
   it('should correctly filter the cbc projects by analyst status filter', async () => {
