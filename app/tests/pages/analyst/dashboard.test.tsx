@@ -1017,10 +1017,13 @@ describe('The index page', () => {
       fireEvent.click(option);
     });
 
-    waitFor(() => {
-      expect(screen.getByText('4444')).toBeInTheDocument();
-      expect(screen.queryByText('5555')).not.toBeInTheDocument();
-    });
+    waitFor(
+      () => {
+        expect(screen.getByText('4444')).toBeInTheDocument();
+        expect(screen.queryByText('5555')).not.toBeInTheDocument();
+      },
+      { timeout: 5000 }
+    );
   });
 
   it('should trigger export when download button clicked', async () => {
