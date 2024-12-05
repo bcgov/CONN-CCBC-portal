@@ -31,8 +31,7 @@ interface Props {
   tableName: string;
   updatedAt: string;
   createdAt: string;
-  givenName: string;
-  familyName: string;
+  user: string;
   op: string;
 }
 
@@ -42,8 +41,7 @@ const CbcHistoryRow: React.FC<Props> = ({
   changeReason,
   tableName,
   createdAt,
-  givenName,
-  familyName,
+  user,
   updatedAt,
   op,
 }) => {
@@ -58,8 +56,7 @@ const CbcHistoryRow: React.FC<Props> = ({
           prevJson={prevJson}
           createdAt={createdAt}
           updatedAt={updatedAt}
-          familyName={familyName}
-          givenName={givenName}
+          user={user}
           tableName={tableName}
           changeReason={changeReason}
           op={op}

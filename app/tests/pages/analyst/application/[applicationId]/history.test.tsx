@@ -1,4 +1,4 @@
-import { act, fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, within } from '@testing-library/react';
 import * as moduleApi from '@growthbook/growthbook-react';
 import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import History from 'pages/analyst/application/[applicationId]/history';
@@ -3468,5 +3468,131 @@ describe('The index page', () => {
     expect(sowHistory).toHaveTextContent(
       'Bar Foo updated Announcement info on Jul 31, 2024, 8:25 a.m.'
     );
+  });
+});
+
+describe('The filter', () => {
+  beforeEach(() => {
+    pageTestingHelper.reinit();
+    pageTestingHelper.setMockRouterValues({
+      query: { applicationId: '1' },
+    });
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowHistory);
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowHistoryDetails);
+  });
+
+  it('render type filter and options correctly', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const typesFilter = screen.getByLabelText('Type');
+
+    expect(typesFilter).toBeVisible();
+
+    fireEvent.mouseDown(typesFilter);
+
+    const dropdown = document.querySelector('[role="listbox"]') as HTMLElement;
+    const options = within(dropdown!).getAllByRole('option');
+    const optionNames = options.map((option) => option.textContent?.trim());
+
+    expect(options.length).toEqual(19);
+
+    const expectedOptionNames = [
+      'Application Dependencies',
+      'Application Announced',
+      'Application Sow Data',
+      'Application Gis Assessment Hh',
+      'Application Project Type',
+      'Conditional Approval Data',
+      'Application Milestone Data',
+      'Application Claims Data',
+      'Application Community Progress Report Data',
+      'Change Request Data',
+      'Project Information Data',
+      'Application Package',
+      'Application Analyst Lead',
+      'Assessment Data',
+      'Application Status',
+      'Application Gis Data',
+      'Form Data',
+      'Rfi Data',
+      'Attachment',
+    ];
+
+    expect(optionNames).toEqual(expect.arrayContaining(expectedOptionNames));
+  });
+
+  it('render user filter and options correctly', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const userFilter = screen.getByLabelText('User');
+
+    expect(userFilter).toBeVisible();
+
+    fireEvent.mouseDown(userFilter);
+
+    const dropdown = document.querySelector('[role="listbox"]') as HTMLElement;
+    const options = within(dropdown!).getAllByRole('option');
+    const optionNames = options.map((option) => option.textContent?.trim());
+
+    expect(options.length).toEqual(8);
+
+    const expectedOptionNames = [
+      'The system',
+      'Bar Foo',
+      'Foo Bar',
+      'The applicant',
+      'Jimbo Bob',
+      'Jimbo Brown',
+      'External Analyst',
+      'User IDIR',
+    ];
+
+    expect(optionNames).toEqual(expect.arrayContaining(expectedOptionNames));
+  });
+
+  it('filters the history correctly by types', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.queryAllByTestId('history-content-status')).toHaveLength(7);
+    expect(screen.queryAllByTestId('history-content-package')).toHaveLength(1);
+
+    const typeFilter = screen.getByLabelText('Type');
+
+    fireEvent.mouseDown(typeFilter);
+
+    const applicationOption = await screen.findByRole('option', {
+      name: /Application Status/i,
+    });
+
+    fireEvent.click(applicationOption);
+
+    expect(screen.getByText(/Application Status/)).toBeInTheDocument();
+
+    expect(screen.queryAllByTestId('history-content-status')).toHaveLength(7);
+    expect(screen.queryAllByTestId('history-content-package')).toHaveLength(0);
+  });
+
+  it('filters the history correctly by users', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.queryAllByTestId('history-content-status')).toHaveLength(7);
+    expect(screen.queryAllByTestId('history-content-package')).toHaveLength(1);
+
+    const userFilter = screen.getByLabelText(/User/);
+
+    fireEvent.mouseDown(userFilter);
+
+    const userOption = await screen.findByRole('option', {
+      name: /Foo Bar/i,
+    });
+
+    fireEvent.click(userOption);
+
+    expect(screen.queryAllByTestId('history-content-status')).toHaveLength(6);
+    expect(screen.queryAllByTestId('history-content-package')).toHaveLength(1);
   });
 });

@@ -37,14 +37,11 @@ const HistoryContent = ({
   updatedAt,
   prevJson,
   json,
-  givenName,
+  user,
   changeReason,
-  familyName,
   op,
   tableName,
 }) => {
-  const fullName = `${givenName} ${familyName}`;
-
   const createdAtFormatted =
     op === 'UPDATE'
       ? DateTime.fromJSDate(new Date(updatedAt)).toLocaleString(
@@ -59,7 +56,7 @@ const HistoryContent = ({
       <>
         <StyledContent data-testid="cbc-data-updater-and-timestamp">
           <span>
-            {fullName} {op === 'UPDATE' ? 'updated' : 'created'} the CBC data on{' '}
+            {user} {op === 'UPDATE' ? 'updated' : 'created'} the CBC data on{' '}
             {createdAtFormatted}
           </span>
         </StyledContent>
