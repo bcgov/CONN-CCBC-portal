@@ -1,3 +1,5 @@
+import formatMoney from '../../../utils/formatMoney';
+
 export const handleCbcCommunities = (cbcCommunities) => {
   const economicRegions = new Set<string>();
   const regionalDistricts = new Set<string>();
@@ -83,5 +85,5 @@ export const formatCurrency = (value: number | null | undefined): string => {
     return '';
   }
 
-  return `$${numberValue.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
+  return formatMoney(numberValue);
 };
