@@ -1,5 +1,5 @@
 import { mocked } from 'jest-mock';
-import { fireEvent, screen, waitFor, act } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import * as moduleApi from '@growthbook/growthbook-react';
 import cookie from 'js-cookie';
@@ -1010,7 +1010,9 @@ describe('The index page', () => {
     });
 
     const option = screen.getByRole('option', { name: 'Agreement signed' });
-    fireEvent.click(option);
+    await act(async () => {
+      fireEvent.click(option);
+    });
 
     waitFor(() => {
       expect(screen.getByText('4444')).toBeInTheDocument();
