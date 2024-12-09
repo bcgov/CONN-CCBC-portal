@@ -109,7 +109,6 @@ const readSummary = async (wb, sheet_name, applicationId, reportId) => {
     row++
   ) {
     const cellValue = sheet[row]['C'];
-    console.log('row', row, 'cellValue', cellValue);
     if (cellValue === COMMUNITIES_IN_PLANNING_TEXT) {
       COMMUNITIES_IN_PLANNING_ROW = row;
       COMMUNITIES_IN_CONSTRUCTION_ROW = row + 1;
@@ -292,7 +291,7 @@ const LoadCommunityReportData = async (wb, sheet_name, req) => {
   const validate = req.query?.validate === 'true';
 
   const data = await readSummary(wb, sheet_name, applicationId, reportId);
-  console.log('data', data);
+
   const errorList = await ValidateData(data._jsonData, applicationId, req);
 
   if (errorList.length > 0) {
