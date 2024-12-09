@@ -1,6 +1,7 @@
 -- Deploy ccbc:mutations/submit_application to pg
 
 begin;
+drop function if exists ccbc_public.submit_application(application_row_id int);
 create or replace function ccbc_public.submit_application(application_row_id int, _form_schema_id int)
 returns ccbc_public.application as $$
 declare
@@ -14,7 +15,6 @@ declare
   _form_data_schema_id integer;
   _form_data jsonb;
   form_data_id int;
-  is_rolling_intake boolean;
 begin
 
   select ccbc_public.application_status(
@@ -56,8 +56,8 @@ begin
     raise 'The application cannot be submitted as there are unchecked acknowledgements';
   end if;
 
-  select id, ccbc_intake_number, counter_id, rolling_intake from ccbc_public.open_intake()
-  into current_intake_id, current_intake_number, _counter_id, is_rolling_intake;
+  select id, ccbc_intake_number, counter_id from ccbc_public.open_intake()
+  into current_intake_id, current_intake_number, _counter_id;
   select intake_id from ccbc_public.application where id = application_row_id into associated_intake_id;
   -- Don't have to worry about the application being re-submitted as it will exit earlier with the status check
   if current_intake_id is null or current_intake_id != associated_intake_id then
@@ -70,11 +70,6 @@ begin
 
   insert into ccbc_public.application_status
     (application_id, status) values (application_row_id, 'submitted');
-
-  if is_rolling_intake then
-    insert into ccbc_public.application_status
-      (application_id, status) values (application_row_id, 'received');
-  end if;
 
   if current_intake_number = 99 then
     update ccbc_public.application set

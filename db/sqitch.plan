@@ -760,3 +760,5 @@ mutations/create_assessment_form [mutations/create_assessment_form@1.204.0] 2024
 @1.216.0 2024-12-09T21:27:31Z CCBC Service Account <ccbc@button.is> # release v1.216.0
 @1.216.1 2024-12-09T22:11:47Z CCBC Service Account <ccbc@button.is> # release v1.216.1
 @1.216.2 2024-12-09T23:35:46Z CCBC Service Account <ccbc@button.is> # release v1.216.2
+mutations/submit_application [mutations/submit_application@1.213.0] 2024-12-09T22:24:03Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # insert TBD for dependencies on application submission
+tables/application_dependencies_001_add_applicant_insert 2024-12-09T22:35:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant insert to application dependencies to applicant for submission
