@@ -1,12 +1,28 @@
 /* eslint-disable import/extensions */
-import assessmentsSetup from './setup.cy.js';
+import assessmentsSetup, {
+  assessmentsSetupLoginAdmin,
+  assessmentsSetupLoginCbcAdmin,
+  assessmentsSetupLoginSuperAdmin,
+} from './setup.cy.js';
+
+/**
+ * Reusable function to test loading of the technical assessment page
+ * @param {string} screenShotTitle - Title for the screenshot
+ * @param {Function} setupFunction - Setup function for the specific user role
+ */
+const testLoad = (screenShotTitle, setupFunction) => {
+  setupFunction();
+  cy.visit('/analyst/application/1/assessments/technical');
+  cy.contains('a', 'Technical');
+  cy.get('body').happoScreenshot({
+    component: screenShotTitle,
+  });
+};
 
 describe('The analyst technical assessment page', () => {
-  beforeEach(() => {
+  // Test loading for Analyst role
+  it('loads with analyst', () => {
     assessmentsSetup();
-  });
-
-  it('loads', () => {
     cy.visit('/analyst/application/1/assessments/technical');
     cy.contains('a', 'Technical');
     cy.get('body').happoScreenshot({
@@ -14,7 +30,33 @@ describe('The analyst technical assessment page', () => {
     });
   });
 
-  it('Filled Technical Assessment Page', () => {
+  // Test loading for CBC Admin role
+  it('loads with CBC Admin', () => {
+    testLoad(
+      'Technical assessment page with CBC Admin',
+      assessmentsSetupLoginCbcAdmin
+    );
+  });
+
+  // Test loading for Admin role
+  it('loads with Admin', () => {
+    testLoad(
+      'Technical assessment page with Admin',
+      assessmentsSetupLoginAdmin
+    );
+  });
+
+  // Test loading for Super Admin role
+  it('loads with Super Admin', () => {
+    testLoad(
+      'Technical assessment page with Super Admin',
+      assessmentsSetupLoginSuperAdmin
+    );
+  });
+
+  // Test for filling and saving the technical assessment form (Analyst role)
+  it('fills and saves the technical assessment page', () => {
+    assessmentsSetup();
     cy.visit('/analyst/application/1/assessments/technical');
     cy.contains('a', 'Technical');
     cy.wait('@graphql');
@@ -23,7 +65,7 @@ describe('The analyst technical assessment page', () => {
     cy.get('input[id="root_nextStep-1"]').parent().click();
     cy.get('input[id="root_decision-1"]').parent().click();
     cy.contains('button', /^Save$/).click();
-    cy.contains('button', 'Saved');
+    cy.contains('button', 'Saved').should('exist');
     cy.visit('/analyst/application/1/assessments/technical');
     cy.get('body').happoScreenshot({
       component: 'Filled Analyst Technical Assessment Page',

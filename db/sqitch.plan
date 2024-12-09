@@ -748,3 +748,12 @@ tables/history_item_002_add_created_by 2024-11-13T19:45:04Z Rafael Solorzano <61
 computed_columns/application_history [computed_columns/application_history@1.204.0] 2024-11-07T00:23:15Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add history for application dependencies
 mutations/create_assessment_form [mutations/create_assessment_form@1.204.0] 2024-11-12T23:02:06Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add case for application dependencies
 @1.213.0 2024-11-27T00:06:15Z CCBC Service Account <ccbc@button.is> # release v1.213.0
+@1.213.1 2024-11-29T17:06:22Z CCBC Service Account <ccbc@button.is> # release v1.213.1
+@1.213.2 2024-11-29T19:45:41Z CCBC Service Account <ccbc@button.is> # release v1.213.2
+@1.213.3 2024-11-29T22:33:02Z CCBC Service Account <ccbc@button.is> # release v1.213.3
+@1.213.4 2024-12-03T16:39:29Z CCBC Service Account <ccbc@button.is> # release v1.213.4
+@1.214.0 2024-12-04T01:18:22Z CCBC Service Account <ccbc@button.is> # release v1.214.0
+@1.214.1 2024-12-04T03:24:26Z CCBC Service Account <ccbc@button.is> # release v1.214.1
+@1.214.2 2024-12-04T18:39:28Z CCBC Service Account <ccbc@button.is> # release v1.214.2
+@1.214.3 2024-12-04T21:21:10Z CCBC Service Account <ccbc@button.is> # release v1.214.3
+@1.215.0 2024-12-04T23:00:00Z CCBC Service Account <ccbc@button.is> # release v1.215.0
