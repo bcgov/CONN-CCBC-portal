@@ -278,6 +278,7 @@ const Summary = ({
             isEditable: false,
             errors,
             formDataSource,
+            showErrorHint: true,
           }}
           formData={formData}
           handleChange={() => {}}

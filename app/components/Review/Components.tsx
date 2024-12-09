@@ -21,6 +21,7 @@ export const StyledColLeft = styled('th')`
 
 interface StyledColRightProps {
   errorColor?: string;
+  errorTextColor?: string;
   hasError?: boolean;
 }
 
@@ -34,6 +35,7 @@ export const StyledColRight = styled('td')<StyledColRightProps>`
   background-color: ${(props) =>
     props.hasError &&
     (props?.errorColor ? props.errorColor : props.theme.color.errorBackground)};
+  color: ${(props) => props?.errorTextColor || 'inherit'};
 
   .pg-select-wrapper {
     background-color: white !important;

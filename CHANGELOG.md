@@ -1,3 +1,10 @@
+# [1.216.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.215.0...v1.216.0) (2024-12-09)
+
+### Features
+
+- move application dependencies to technical assessments ([1ec087e](https://github.com/bcgov/CONN-CCBC-portal/commit/1ec087eadcf89968a214874bd7641f70dcb6fc67))
+- summary page enhancement for dependency ([a44bf27](https://github.com/bcgov/CONN-CCBC-portal/commit/a44bf270e3cb6db8786ca986fb21a6c1dfc2f2be))
+
 # [1.215.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.214.3...v1.215.0) (2024-12-04)
 
 ### Features
