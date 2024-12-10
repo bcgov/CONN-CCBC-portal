@@ -84,7 +84,7 @@ describe('The Community Progress Report form', () => {
     ).toBeInTheDocument();
   });
 
-  it('Uploads a Community Progress Report', async () => {
+  it('Uploads a Community Progress Report and sends a notification', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -192,6 +192,12 @@ describe('The Community Progress Report form', () => {
           },
         },
       });
+    });
+
+    expect(fetch).toHaveBeenCalledWith('/api/email/notifyDocumentUpload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: expect.anything(),
     });
   });
 
