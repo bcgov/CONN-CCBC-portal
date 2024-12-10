@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
 import * as Sentry from '@sentry/nextjs';
 
 jest.mock('@sentry/nextjs');
@@ -9,13 +9,13 @@ const mockResponse = {
 };
 global.fetch = jest.fn().mockResolvedValue(mockResponse);
 
-describe('useHHCountUpdateEmail', () => {
+describe('notifyHHCountUpdate', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('should not call fetch if no fields changed', async () => {
-    const { result } = renderHook(() => useHHCountUpdateEmail());
+    const { result } = renderHook(() => useEmailNotification());
 
     await result.current.notifyHHCountUpdate(
       { numberOfHouseholds: 10, householdsImpactedIndigenous: 5 },
@@ -28,7 +28,7 @@ describe('useHHCountUpdateEmail', () => {
   });
 
   it('should call email notification if fields have changed', async () => {
-    const { result } = renderHook(() => useHHCountUpdateEmail());
+    const { result } = renderHook(() => useEmailNotification());
 
     await result.current.notifyHHCountUpdate(
       { numberOfHouseholds: 10, householdsImpactedIndigenous: 5 },
@@ -60,7 +60,7 @@ describe('useHHCountUpdateEmail', () => {
     };
     global.fetch = jest.fn().mockResolvedValueOnce(mockResponseFail);
 
-    const { result } = renderHook(() => useHHCountUpdateEmail());
+    const { result } = renderHook(() => useEmailNotification());
 
     await result.current.notifyHHCountUpdate(
       { numberOfHouseholds: 10, householdsImpactedIndigenous: 5 },
@@ -72,6 +72,57 @@ describe('useHHCountUpdateEmail', () => {
     expect(Sentry.captureException).toHaveBeenCalledWith(
       expect.objectContaining({
         name: 'Email sending failed',
+        message: expect.anything(),
+      })
+    );
+  });
+});
+
+describe('notifyDocumentUpload', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should call email notification when called', async () => {
+    const mockResponseSuccess = {
+      ok: true,
+      json: async () => ({}),
+    };
+    global.fetch = jest.fn().mockResolvedValueOnce(mockResponseSuccess);
+
+    const { result } = renderHook(() => useEmailNotification());
+
+    await result.current.notifyDocumentUpload('12345', {
+      ccbcNumber: 'CCBC-10001',
+      documentType: 'Claim & Progress Report',
+      documentNames: ['sow.xls'],
+    });
+
+    expect(fetch).toHaveBeenCalledWith('/api/email/notifyDocumentUpload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: expect.anything(),
+    });
+  });
+
+  it('should call Sentry.captureException if fetch fails', async () => {
+    const mockResponseFail = {
+      ok: false,
+      json: jest.fn().mockResolvedValue({}),
+    };
+    global.fetch = jest.fn().mockResolvedValueOnce(mockResponseFail);
+
+    const { result } = renderHook(() => useEmailNotification());
+
+    await result.current.notifyDocumentUpload('12345', {
+      ccbcNumber: 'CCBC-10001',
+      documentType: 'Claim & Progress Report',
+      documentNames: ['sow.xls'],
+    });
+
+    expect(Sentry.captureException).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: 'Error sending email to notify Claim & Progress Report upload',
         message: expect.anything(),
       })
     );

@@ -100,6 +100,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
                 setTemplateData({
                   templateNumber,
                   data,
+                  templateName: file.name,
                 });
               } else {
                 isTemplateValid = false;
@@ -118,6 +119,10 @@ const FileWidget: React.FC<FileWidgetProps> = ({
               );
               if (response.ok) {
                 await response.json();
+                setTemplateData({
+                  templateNumber,
+                  templateName: file.name,
+                });
               } else {
                 isTemplateValid = false;
                 setTemplateData({

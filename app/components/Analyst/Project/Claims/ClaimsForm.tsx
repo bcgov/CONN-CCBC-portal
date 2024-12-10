@@ -8,6 +8,7 @@ import { useArchiveApplicationClaimsDataMutation as useArchiveClaims } from 'sch
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
 import useModal from 'lib/helpers/useModal';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
 import ClaimsView from './ClaimsView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
@@ -105,6 +106,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
   const [isFormEditMode, setIsFormEditMode] = useState(false);
   const [createClaims] = useCreateClaimsMutation();
   const [archiveClaims] = useArchiveClaims();
+  const { notifyDocumentUpload } = useEmailNotification();
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   // use this to live validate the form after the first submit attempt
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
@@ -195,6 +197,11 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
 
           if (res?.status === 200) {
             setShowToast(true);
+            notifyDocumentUpload(applicationRowId, {
+              documentType: 'Claim & Progress Report',
+              ccbcNumber,
+              documentNames: [excelFile.name],
+            });
           }
         },
         onError: () => {
