@@ -99,7 +99,7 @@ describe('The Claims form', () => {
     expect(screen.getByText('Add claim')).toBeInTheDocument();
   });
 
-  it('Uploads a Claim', async () => {
+  it('Uploads a Claim and sends notification', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -194,6 +194,12 @@ describe('The Claims form', () => {
           },
         },
       });
+    });
+
+    expect(fetch).toHaveBeenCalledWith('/api/email/notifyDocumentUpload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: expect.anything(),
     });
   });
 
