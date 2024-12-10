@@ -1,3 +1,9 @@
+# [1.218.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.217.0...v1.218.0) (2024-12-10)
+
+### Features
+
+- add filters to history page ([13d5dea](https://github.com/bcgov/CONN-CCBC-portal/commit/13d5deae2cd2d46d24bdff8719456696608791ed))
+
 # [1.217.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.216.2...v1.217.0) (2024-12-10)
 
 ### Features
