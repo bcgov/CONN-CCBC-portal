@@ -24,11 +24,12 @@ query getCcbcNumber($_rowId: Int!) {
 
 // For the summary table
 const TOTALS_COLUMN = 'G';
-const COMMUNITIES_IN_PLANNING_ROW = 27;
-const COMMUNITIES_IN_CONSTRUCTION_ROW = 28;
-const COMMUNITIES_OPERATIONAL_ROW = 29;
-const OVERAL_PROJECT_STAGE_ROW = 30;
-const TOTAL_NUMBER_OF_COMMUNITIES_ROW = 31;
+let COMMUNITIES_IN_PLANNING_ROW = 25;
+let COMMUNITIES_IN_CONSTRUCTION_ROW = 27;
+let COMMUNITIES_OPERATIONAL_ROW = 28;
+let OVERALL_PROJECT_STAGE_ROW = 29;
+let TOTAL_NUMBER_OF_COMMUNITIES_ROW = 30;
+const COMMUNITIES_IN_PLANNING_TEXT = 'Number of Communities in Planning';
 
 // For the community detail table
 const COMMUNITY_NAME_COLUMN = 'B';
@@ -101,6 +102,23 @@ const readSummary = async (wb, sheet_name, applicationId, reportId) => {
     }
   }
 
+  // find number of communities in planning
+  for (
+    let row = COMMUNITIES_IN_PLANNING_ROW - 5;
+    row <= COMMUNITIES_IN_PLANNING_ROW + 5;
+    row++
+  ) {
+    const cellValue = sheet[row]['C'];
+    if (cellValue === COMMUNITIES_IN_PLANNING_TEXT) {
+      COMMUNITIES_IN_PLANNING_ROW = row;
+      COMMUNITIES_IN_CONSTRUCTION_ROW = row + 1;
+      COMMUNITIES_OPERATIONAL_ROW = row + 2;
+      OVERALL_PROJECT_STAGE_ROW = row + 3;
+      TOTAL_NUMBER_OF_COMMUNITIES_ROW = row + 4;
+      break;
+    }
+  }
+
   const jsonData = {
     numberOfCommunitiesInPlanning:
       sheet[COMMUNITIES_IN_PLANNING_ROW][TOTALS_COLUMN],
@@ -108,7 +126,7 @@ const readSummary = async (wb, sheet_name, applicationId, reportId) => {
       sheet[COMMUNITIES_IN_CONSTRUCTION_ROW][TOTALS_COLUMN],
     numberOfCommunitiesOperational:
       sheet[COMMUNITIES_OPERATIONAL_ROW][TOTALS_COLUMN],
-    overallProjectStage: sheet[OVERAL_PROJECT_STAGE_ROW][TOTALS_COLUMN],
+    overallProjectStage: sheet[OVERALL_PROJECT_STAGE_ROW][TOTALS_COLUMN],
     totalNumberOfCommunities:
       sheet[TOTAL_NUMBER_OF_COMMUNITIES_ROW][TOTALS_COLUMN],
     communityData: result,
