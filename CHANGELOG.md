@@ -1,3 +1,9 @@
+# [1.217.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.216.2...v1.217.0) (2024-12-10)
+
+### Features
+
+- create dependencies on submission ([87f0eb0](https://github.com/bcgov/CONN-CCBC-portal/commit/87f0eb0fef25023a2daed765c53e6d85a2dcaab6))
+
 ## [1.216.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.216.1...v1.216.2) (2024-12-09)
 
 ## [1.216.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.216.0...v1.216.1) (2024-12-09)
