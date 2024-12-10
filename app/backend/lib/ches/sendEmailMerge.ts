@@ -1,7 +1,9 @@
 import * as Sentry from '@sentry/nextjs';
+import getConfig from 'next/config';
 import config from '../../../config';
 
 const CHES_API_URL = config.get('CHES_API_URL');
+const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
 
 export interface Context {
   to: string[];
@@ -19,13 +21,15 @@ const sendEmailMerge = async (
   subject: string,
   contexts: Contexts
 ) => {
+  const environment =
+    namespace?.split('-')[1]?.charAt(0)?.toUpperCase() || 'Dev';
   try {
     const request = {
       bodyType: 'html',
       body,
       contexts,
       encoding: 'utf-8',
-      from: 'CCBC Portal <noreply-ccbc-portal@gov.bc.ca>',
+      from: `CCBC Portal ${environment !== 'Prod' && environment} <noreply-ccbc-portal@gov.bc.ca>`,
       priority: 'normal',
       subject,
       attachments: [],
