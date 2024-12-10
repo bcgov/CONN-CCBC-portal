@@ -8,6 +8,7 @@ import { useArchiveApplicationMilestoneDataMutation as useArchiveMilestone } fro
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import Toast from 'components/Toast';
 import useModal from 'lib/helpers/useModal';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
 import MilestonesView from './MilestonesView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
@@ -125,6 +126,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
     ccbcNumber,
   } = queryFragment;
 
+  const { notifyDocumentUpload } = useEmailNotification();
   const [formData, setFormData] = useState({} as FormData);
   const deleteConfirmationModal = useModal();
   // store the current community progress data node for edit mode so we have access to row id and relay connection
@@ -226,6 +228,11 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
 
           if (res?.status === 200) {
             setShowToast(true);
+            notifyDocumentUpload(applicationRowId, {
+              documentType: 'Milestone Report',
+              documentNames: [excelFile.name],
+              ccbcNumber,
+            });
           }
         },
         onError: () => {

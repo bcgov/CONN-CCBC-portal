@@ -16,6 +16,7 @@ import Ajv8Validator from '@rjsf/validator-ajv8';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import ReadOnlyView from 'components/Analyst/Project/ProjectInformation/ReadOnlyView';
 import * as Sentry from '@sentry/nextjs';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
 import ChangeRequestTheme from '../ChangeRequestTheme';
 
 const StyledProjectForm = styled(ProjectForm)`
@@ -96,6 +97,7 @@ const ProjectInformationForm: React.FC<Props> = ({
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [archiveApplicationSow] = useArchiveApplicationSowMutation();
   const [createChangeRequest] = useCreateChangeRequestMutation();
+  const { notifyDocumentUpload } = useEmailNotification();
   const [hasFormSaved, setHasFormSaved] = useState<boolean>(false);
   const [formData, setFormData] = useState(projectInformation?.jsonData);
   const [showToast, setShowToast] = useState(false);
@@ -220,6 +222,12 @@ const ProjectInformationForm: React.FC<Props> = ({
         });
       }
       return response.json();
+    });
+
+    notifyDocumentUpload(rowId, {
+      ccbcNumber,
+      documentType: 'Statement of Work',
+      documentNames: [sowFile.name],
     });
   };
 
