@@ -7,3 +7,4 @@ export { default as rfiSchema } from './rfiSchema';
 export { default as screening } from './screening';
 export { default as sharedAssessmentFields } from './sharedAssessmentFields';
 export { default as technical } from './technical';
+export { default as historyFilter } from './historyFilter';
