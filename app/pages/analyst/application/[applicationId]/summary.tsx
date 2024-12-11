@@ -94,10 +94,11 @@ const getSummaryQuery = graphql`
     # Cannot run it inside the above due to conflict of filter with header
     allApplicationSowData(
       filter: { applicationId: { equalTo: $rowId } }
+      orderBy: AMENDMENT_NUMBER_DESC
       condition: { archivedAt: null }
-      last: 1
     ) {
       nodes {
+        amendmentNumber
         rowId
         jsonData
         sowTab1SBySowId {
