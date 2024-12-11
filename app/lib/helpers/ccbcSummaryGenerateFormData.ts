@@ -251,6 +251,49 @@ const getSowFallBackFields = (sowData, formData, communitiesData) => {
     ...MissingSowFallBackData,
   };
 };
+const getCommunitiesNumberWithAmendmentNumber = (sowNodes: Array<any>) => {
+  if (!sowNodes) {
+    return null;
+  }
+  let communitiesNumber = null;
+
+  sowNodes.forEach((node) => {
+    if (communitiesNumber !== null && node) {
+      communitiesNumber = {
+        communitiesNumber:
+          node?.sowTab8SBySowId?.nodes[0]?.jsonData?.communitiesNumber,
+        indigenousCommunitiesNumber:
+          node?.sowTab8SBySowId?.nodes[0]?.jsonData
+            ?.indigenousCommunitiesNumber,
+        amendmentNumber: node?.amendmentNumber,
+      };
+    }
+  });
+  return communitiesNumber;
+};
+
+const getHouseholdsImpactedCountWithAmendmentNumber = (
+  sowNodes: Array<any>
+) => {
+  if (!sowNodes) {
+    return null;
+  }
+  let totalIndigenousHouseholds = null;
+
+  sowNodes.forEach((node) => {
+    if (totalIndigenousHouseholds !== null && node) {
+      totalIndigenousHouseholds = {
+        totalIndigenousHouseholds:
+          node?.sowTab1SBySowId?.nodes[0]?.jsonData
+            ?.householdsImpactedIndigenous,
+        totalHouseholdsImpacted:
+          node?.sowTab1SBySowId?.nodes[0]?.jsonData?.numberOfHouseholds,
+        amendmentNumber: node?.amendmentNumber,
+      };
+    }
+  });
+  return totalIndigenousHouseholds;
+};
 
 const getSowErrors = (sowData, schema, formDataSource) => {
   if (sowData?.length) return null;
@@ -320,25 +363,37 @@ const getApplicationErrors = (
 
 const getSowData = (sowData, baseSowData) => {
   const communitiesData = getCommunitiesWithAmendmentNumber(sowData?.nodes);
-  const communities =
-    sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData?.communitiesNumber;
-  const indigenousCommunities =
-    sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
-      ?.indigenousCommunitiesNumber;
+  const communities = getCommunitiesNumberWithAmendmentNumber(sowData?.nodes);
+  const communitiesNumber = communities?.communitiesNumber;
+  const indigenousCommunities = communities?.indigenousCommunitiesNumber;
+
+  const communityNumbersAmendmentNumber = communities.amendmentNumber;
+
+  const sowTextCommunityNumber =
+    communityNumbersAmendmentNumber === 0
+      ? 'SOW'
+      : `SOW amendment ${communityNumbersAmendmentNumber}`;
+
+  const householdsImpacted = getHouseholdsImpactedCountWithAmendmentNumber(
+    sowData?.nodes
+  );
+
+  const sowTextHouseholdsImpacted =
+    householdsImpacted?.amendmentNumber === 0
+      ? 'SOW'
+      : `SOW amendment ${householdsImpacted?.amendmentNumber}`;
+
   const formData = {
     counts: {
-      communities,
+      communities: communitiesNumber,
       indigenousCommunities,
       nonIndigenousCommunities:
-        communities && indigenousCommunities
-          ? communities - indigenousCommunities
-          : communities,
-      totalHouseholdsImpacted:
-        sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
-          ?.numberOfHouseholds,
+        communitiesNumber && indigenousCommunities
+          ? communitiesNumber - indigenousCommunities
+          : communitiesNumber,
+      totalHouseholdsImpacted: householdsImpacted?.totalHouseholdsImpacted,
       numberOfIndigenousHouseholds:
-        sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
-          ?.householdsImpactedIndigenous,
+        householdsImpacted?.householdsImpactedIndigenous,
     },
     locations: {
       benefitingCommunities: communitiesData?.benefitingCommunities,
@@ -381,13 +436,13 @@ const getSowData = (sowData, baseSowData) => {
     },
   };
   const formDataSource = {
-    communities: 'SOW',
     benefitingCommunities: `SOW${communitiesData?.amendmentNumber ? ` amendment ${communitiesData.amendmentNumber}` : ''}`,
-    indigenousCommunities: 'SOW',
-    nonIndigenousCommunities: 'SOW',
     benefitingIndigenousCommunities: `SOW${communitiesData?.amendmentNumber ? ` amendment ${communitiesData.amendmentNumber}` : ''}`,
-    totalHouseholdsImpacted: 'SOW',
-    numberOfIndigenousHouseholds: 'SOW',
+    communities: sowTextCommunityNumber,
+    indigenousCommunities: sowTextCommunityNumber,
+    nonIndigenousCommunities: sowTextCommunityNumber,
+    totalHouseholdsImpacted: sowTextHouseholdsImpacted,
+    numberOfIndigenousHouseholds: sowTextHouseholdsImpacted,
     bcFundingRequested: 'SOW',
     federalFunding: 'SOW',
     fundingRequestedCcbc: 'SOW',
