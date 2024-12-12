@@ -367,7 +367,7 @@ const getSowData = (sowData, baseSowData) => {
   const communitiesNumber = communities?.communitiesNumber;
   const indigenousCommunities = communities?.indigenousCommunitiesNumber;
 
-  const communityNumbersAmendmentNumber = communities.amendmentNumber;
+  const communityNumbersAmendmentNumber = communities?.amendmentNumber;
 
   const sowTextCommunityNumber =
     communityNumbersAmendmentNumber === 0
