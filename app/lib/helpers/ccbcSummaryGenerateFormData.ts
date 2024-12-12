@@ -272,13 +272,48 @@ const getSowErrors = (sowData, schema, formDataSource) => {
   return errors;
 };
 
+const getApplicationErrors = (applicationData) => {
+  if (!applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]) {
+    return {
+      counts: {
+        communities: {
+          __errors: [
+            'This value is informed from Template 9 which has not been received from the applicant',
+          ],
+        },
+        indigenousCommunities: {
+          __errors: [
+            'This value is informed from Template 9 which has not been received from the applicant',
+          ],
+        },
+        nonIndigenousCommunities: {
+          __errors: [
+            'This value is informed from Template 9 which has not been received from the applicant',
+          ],
+        },
+        totalHouseholdsImpacted: {
+          __errors: [
+            'This value is informed from Template 9 which has not been received from the applicant',
+          ],
+        },
+        numberOfIndigenousHouseholds: {
+          __errors: [
+            'This value is informed from Template 9 which has not been received from the applicant',
+          ],
+        },
+      },
+    };
+  }
+  return {};
+};
+
 const getSowData = (sowData, baseSowData) => {
   const communitiesData = getCommunitiesWithAmendmentNumber(sowData?.nodes);
   const communities = getCommunitiesNumberWithAmendmentNumber(sowData?.nodes);
   const communitiesNumber = communities?.communitiesNumber;
   const indigenousCommunities = communities?.indigenousCommunitiesNumber;
 
-  const communityNumbersAmendmentNumber = communities.amendmentNumber;
+  const communityNumbersAmendmentNumber = communities?.amendmentNumber;
 
   const sowTextCommunityNumber =
     communityNumbersAmendmentNumber === 0
@@ -455,7 +490,8 @@ const getFormDataFromApplication = (
     applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]
       ?.source
   );
-  return {
+
+  const formData = {
     formData: {
       counts: {
         communities:
@@ -544,7 +580,20 @@ const getFormDataFromApplication = (
       proposedStartDate: 'Application',
       proposedCompletionDate: 'Application',
     },
+    errors: getApplicationErrors(applicationData),
   };
+  if (!applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]) {
+    formData.formData.counts = {
+      communities: 'N/A',
+      nonIndigenousCommunities: 'N/A',
+      indigenousCommunities: 'N/A',
+      benefitingIndigenousCommunities: 'N/A',
+      totalHouseholdsImpacted: 'N/A',
+      numberOfIndigenousHouseholds: 'N/A',
+    };
+  }
+
+  return formData;
 };
 
 const generateFormData = (
@@ -585,6 +634,7 @@ const generateFormData = (
     // even if conditionally approved page has null values, show null
     // applies to BC funding requested and federal funding requested
     // rest is from application as above
+    errors = applicationFormData.errors;
   } else if (
     applicationData.status === 'conditionally_approved' ||
     applicationData.status === 'applicant_conditionally_approved' ||
