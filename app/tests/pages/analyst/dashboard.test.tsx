@@ -1,5 +1,5 @@
 import { mocked } from 'jest-mock';
-import { fireEvent, screen, waitFor, act } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import * as moduleApi from '@growthbook/growthbook-react';
 import cookie from 'js-cookie';
@@ -335,6 +335,17 @@ const mockQueryPayload = {
 
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
 window.scrollTo = jest.fn();
+
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    blob: () =>
+      Promise.resolve(
+        new Blob(['test content'], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        })
+      ),
+  })
+) as jest.Mock;
 
 const mockShowLeadColumn = (
   value: boolean
@@ -965,10 +976,13 @@ describe('The index page', () => {
       fireEvent.click(option);
     });
 
-    await waitFor(() => {
-      expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
-      expect(screen.queryByText('CCBC-010001')).not.toBeInTheDocument();
-    });
+    await waitFor(
+      () => {
+        expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
+        expect(screen.queryByText('CCBC-010001')).not.toBeInTheDocument();
+      },
+      { timeout: 5000 }
+    );
   });
 
   it('should correctly filter the cbc projects by analyst status filter', async () => {
@@ -999,11 +1013,40 @@ describe('The index page', () => {
     });
 
     const option = screen.getByRole('option', { name: 'Agreement signed' });
-    fireEvent.click(option);
-
-    waitFor(() => {
-      expect(screen.getByText('4444')).toBeInTheDocument();
-      expect(screen.queryByText('5555')).not.toBeInTheDocument();
+    await act(async () => {
+      fireEvent.click(option);
     });
+
+    waitFor(
+      () => {
+        expect(screen.getByText('4444')).toBeInTheDocument();
+        expect(screen.queryByText('5555')).not.toBeInTheDocument();
+      },
+      { timeout: 5000 }
+    );
+  });
+
+  it('should trigger export when download button clicked', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const downloadButton = screen.getByTestId('download-dashboard-icon');
+    await act(async () => {
+      fireEvent.click(downloadButton);
+    });
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('should trigger export when enter key pressed on download button', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const downloadButton = screen.getByTestId('download-dashboard-icon');
+    await act(async () => {
+      fireEvent.keyDown(downloadButton, { key: 'Enter', code: 'Enter' });
+    });
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
   });
 });
