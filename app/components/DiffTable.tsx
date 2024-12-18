@@ -27,6 +27,9 @@ const StyledTd = styled.td`
 `;
 
 const format = (value, type) => {
+  if (type === 'number' && value === 0) {
+    return '$0';
+  }
   if (typeof value === 'number' && type === 'number') {
     return formatMoney(value);
   }
