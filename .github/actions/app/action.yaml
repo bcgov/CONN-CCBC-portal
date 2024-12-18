@@ -125,6 +125,10 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Install OpenShift CLI (oc)
+      uses: redhat-actions/openshift-tools-installer@v1
+      with:
+        oc: latest
     - name: Authenticate, set context and run deploy script
       uses: redhat-actions/oc-login@v1
       with:
