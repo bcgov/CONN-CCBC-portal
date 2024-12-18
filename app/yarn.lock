@@ -1447,6 +1447,11 @@
   resolved "https://registry.yarnpkg.com/@bcgov/bc-sans/-/bc-sans-1.0.1.tgz#8b622032465463934319771ea92fa3df74e6c9d3"
   integrity sha512-4suRUBFeHcuFkwXXJu9pKJNB5Z2G3bpuLEHIq203KVCKC8KrsnqvsyUOf645TypgLwqOTOYCETiXYzfxF4gLAw==
 
+"@bcgov/bc-sans@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@bcgov/bc-sans/-/bc-sans-2.1.0.tgz#881f626901c0bf3324c56563fa0c5045fded420a"
+  integrity sha512-1MesF4NAVpM5dywoJ68wNcBylHbPqg1dDV/FNuQm0BbspETGlPmfX8LG8rtrCjCAPhWuL2qRT/lBYDUMvFTUnw==
+
 "@bcoe/v8-coverage@^0.2.3":
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
