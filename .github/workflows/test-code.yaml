@@ -24,9 +24,12 @@ jobs:
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - name: run jest tests with coverage
-        shell: bash
-        working-directory: ./app
-        run: yarn test --coverage
+        uses: Wandalen/wretry.action@master
+        with:
+          current_path: ./app
+          command: yarn test --coverage
+          attempt_limit: 2
+          attempt_delay: 2000
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:

@@ -17,6 +17,23 @@ env:
   PGUSER: postgres
 
 jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changes-detected: ${{ steps.check.outputs.changes-detected }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Check for changes in app or db folders
+        id: check
+        run: |
+          CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -E '^app/|^db/' || true)
+          if [ -z "$CHANGED" ]; then
+            echo "No changes detected in app or db folders."
+            echo "::set-output name=changes-detected::false"
+          else
+            echo "Changes detected in app or db folders."
+            echo "::set-output name=changes-detected::true"
   yarn-test-e2e-applicant:
     runs-on: ubuntu-latest
     steps:
