@@ -1,3 +1,10 @@
+## [1.218.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.218.0...v1.218.1) (2024-12-18)
+
+### Bug Fixes
+
+- ubuntu latest breaks ([ef2cf1d](https://github.com/bcgov/CONN-CCBC-portal/commit/ef2cf1d924caa1ebad17ef8401c14d3455eb8e59))
+- wrong user on announcement delete history ([f15a94d](https://github.com/bcgov/CONN-CCBC-portal/commit/f15a94d2f21859ad7208e01cac3f720654a75142))
+
 # [1.218.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.217.0...v1.218.0) (2024-12-10)
 
 ### Features
