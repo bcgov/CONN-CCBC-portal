@@ -48,6 +48,10 @@ runs:
         echo "ACCESS_KEY_ID=$access_key_id" >> $GITHUB_ENV
         echo "SECRET_ACCESS_KEY=$secret_access_key" >> $GITHUB_ENV
       shell: bash
+    - name: Install OpenShift CLI (oc)
+      uses: redhat-actions/openshift-tools-installer@v1
+      with:
+        oc: latest
     - name: deploy-secret
       uses: redhat-actions/oc-login@v1
       with:
