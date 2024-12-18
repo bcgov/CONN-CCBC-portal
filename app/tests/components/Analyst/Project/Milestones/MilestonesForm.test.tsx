@@ -236,6 +236,12 @@ describe('The Milestone form', () => {
     expect(screen.getByText('Edit')).toBeInTheDocument();
     expect(screen.getByText('Delete')).toBeInTheDocument();
     expect(screen.getByText('Milestone Report')).toBeInTheDocument();
+
+    expect(fetch).toHaveBeenCalledWith('/api/email/notifyDocumentUpload', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: expect.anything(),
+    });
   });
 
   it('can edit a saved Milestone', async () => {
