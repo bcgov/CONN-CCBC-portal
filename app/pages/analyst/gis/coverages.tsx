@@ -128,7 +128,7 @@ const CoveragesTab = () => {
     const formData = new FormData();
     formData.append('file', selectedFile);
     try {
-      const response = await fetch('/api/s3/upload', {
+      const response = await fetch('/api/coverages/upload', {
         method: 'POST',
         body: formData,
       });
