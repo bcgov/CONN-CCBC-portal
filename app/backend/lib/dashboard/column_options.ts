@@ -1,65 +1,65 @@
 import { Columns } from 'write-excel-file';
 
 const columnOptions: Columns = [
-  // column 1
+  // column 1 (program)
   {},
-  // column 2
+  // column 2 (project id)
   { width: 12 },
-  // column 3
+  // column 3 (phase)
   {},
-  // column 4
+  // column 4 (zone)
   {},
-  // column 5
+  // column 5 (intake number)
   {},
   // column 6 (internal status)
   { width: 20 },
   // column 7 (external status)
   { width: 20 },
-  // column 8
+  // column 8 (change request pending)
   {},
   // column 9 (title)
   { width: 20 },
-  // column 10
+  // column 10 (project description)
   {},
-  // column 11
+  // column 11 (current operating name)
   {},
-  // column 12
+  // column 12 (830 million funding)
   {},
   // column 13 (Federal Funding Source)
   { width: 20 },
-  // column 14
+  // column 14 (Federal Project Number)
   {},
-  // column 15
+  // column 15 (Project type)
   {},
-  // column 16
+  // column 16 (transport project type)
   {},
-  // column 17
+  // column 17 (highway project type)
   {},
-  // column 18
+  // column 18 (last mile technology)
   {},
-  // column 19
+  // column 19 (last mile minimum speed)
   {},
-  // column 20
+  // column 20 (Connected Coast Network Dependent)
   {},
-  // column 21
+  // column 21 (Project location)
   {},
-  // column 22
+  // column 22 (Economic Region)
   {},
-  // column 23
+  // column 23 (Regional District)
   {},
-  // column 24
+  // column 24 (Geographic Names)
   {},
-  // column 25
+  // column 25 (Total communities and locales)
   {},
-  // column 26
+  // column 26 (Indigenous communities)
   {},
-  // column 27
+  // column 27 (Household count)
   {},
-  // column 28
+  // column 28 (Transport KM)
   {},
-  // column 29
+  // column 29 (Highway KM)
   {},
-  // column 30
+  // column 30 (Rest Areas)
   {},
   // column 31 (bc funding)
   { width: 24 },
@@ -71,19 +71,19 @@ const columnOptions: Columns = [
   { width: 24 },
   // column 35 (total budget)
   { width: 24 },
-  // column 36
+  // column 36 (announced by bc/ised)
   {},
-  // column 37
+  // column 37 (Date application received)
   {},
-  // column 38
+  // column 38 (Date conditionally approved)
   {},
-  // column 39
+  // column 39 (date agreement signed)
   {},
-  // column 40
+  // column 40 (Proposed start date)
   {},
-  // column 41
+  // column 41 (% Project milestone completion)
   {},
-  // column 42
+  // column 42 (Construction completed on)
   {},
 ];
 
