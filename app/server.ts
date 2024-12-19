@@ -34,7 +34,7 @@ import importJsonSchemasToDb from './backend/lib/importJsonSchemasToDb';
 import metabaseEmbedUrl from './backend/lib/metabase-embed-url';
 import sharepoint from './backend/lib/sharepoint';
 import templateUpload from './backend/lib/template-upload';
-import s3upload from './backend/lib/s3upload';
+import coveragesUpload from './backend/lib/coverages-upload';
 import templateNine from './backend/lib/excel_import/template_nine';
 import milestoneDue from './backend/lib/milestoneDueDate';
 import communityReport from './backend/lib/communityReportsDueDate';
@@ -121,7 +121,7 @@ app.prepare().then(async () => {
       [
         '/api/analyst/sow',
         '/api/analyst/gis',
-        '/api/s3/upload',
+        '/api/coverages/upload',
         'api/analyst/community-report',
         'api/analyst/claims',
         'api/analyst/milestone',
@@ -137,7 +137,7 @@ app.prepare().then(async () => {
 
   server.use('/', s3adminArchive);
   server.use('/', s3download);
-  server.use('/', s3upload);
+  server.use('/', coveragesUpload);
   server.use('/', claimsUpload);
   server.use('/', communityReportUpload);
   server.use('/', gisUpload);
