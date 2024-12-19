@@ -6,7 +6,7 @@ import request from 'supertest';
 import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
-import s3upload from 'backend/lib/s3upload';
+import coveragesUpload from 'backend/lib/coverages-upload';
 import getAuthRole from '../../../utils/getAuthRole';
 
 jest.mock('../../../backend/lib/graphql');
@@ -25,13 +25,13 @@ jest.mock('../../../backend/lib/s3client', () => {
 
 jest.setTimeout(10000000);
 
-describe('The s3 upload', () => {
+describe('The coverages upload', () => {
   let app;
 
   beforeEach(async () => {
     app = express();
     app.use(session({ secret: crypto.randomUUID(), cookie: { secure: true } }));
-    app.use('/', s3upload);
+    app.use('/', coveragesUpload);
   });
 
   it('should receive the correct response for unauthorized user', async () => {
@@ -42,7 +42,7 @@ describe('The s3 upload', () => {
       };
     });
 
-    const response = await request(app).post('/api/s3/upload');
+    const response = await request(app).post('/api/coverages/upload');
     expect(response.status).toBe(404);
   });
 
@@ -54,7 +54,7 @@ describe('The s3 upload', () => {
       };
     });
 
-    const response = await request(app).post('/api/s3/upload');
+    const response = await request(app).post('/api/coverages/upload');
     expect(response.status).toBe(200);
   });
 
@@ -67,7 +67,7 @@ describe('The s3 upload', () => {
     });
 
     const response = await request(app)
-      .post('/api/s3/upload')
+      .post('/api/coverages/upload')
       .set('Content-Type', 'application/json')
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'gis-data' }))
