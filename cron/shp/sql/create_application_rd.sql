@@ -1,7 +1,23 @@
 -- Step 1: Drop the table if it exists
 DROP TABLE IF EXISTS ccbc_public.application_rd;
 
--- Step 2: Create table for Regional Districts (RD)
+-- Step 2: Create the table explicitly with an auto-incrementing primary key and audit columns
+CREATE TABLE ccbc_public.application_rd (
+    id SERIAL PRIMARY KEY, -- Auto-incrementing primary key
+    application_id INTEGER,
+    ccbc_number TEXT,
+    rd TEXT,
+    created_by INTEGER DEFAULT NULL, -- User ID who created the record
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(), -- Timestamp when the record was created
+    updated_by INTEGER DEFAULT NULL, -- User ID who last updated the record
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NULL, -- Timestamp when the record was last updated
+    archived_by INTEGER DEFAULT NULL, -- User ID who archived the record
+    archived_at TIMESTAMP WITH TIME ZONE DEFAULT NULL -- Timestamp when the record was archived
+);
+
+SELECT audit.enable_tracking('ccbc_public.application_rd'::regclass);
+
+-- Step 3: Populate the table with data
 WITH rd_regions AS (
     SELECT
         s.ccbc_numbe AS ccbc_number,
@@ -13,14 +29,11 @@ WITH rd_regions AS (
     ORDER BY
         s.ccbc_numbe
 )
-
--- Step 3: Join with the application table to get the application_id and insert into new table
+INSERT INTO ccbc_public.application_rd (application_id, ccbc_number, rd)
 SELECT
     a.id as application_id,
     rd.ccbc_number,
     rd.rd
-INTO
-    ccbc_public.application_rd
 FROM
     rd_regions rd
 JOIN

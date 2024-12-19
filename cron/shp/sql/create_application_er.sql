@@ -1,7 +1,23 @@
 -- Step 1: Drop the table if exists
 DROP TABLE IF EXISTS ccbc_public.application_er;
 
--- Step 2: Create table for Economic Regions (ER)
+-- Step 2: Create the table explicitly with application_id as the primary key and enable audit
+CREATE TABLE ccbc_public.application_er (
+    id SERIAL PRIMARY KEY, -- Auto-incrementing primary key
+    application_id INTEGER,
+    ccbc_number TEXT,
+    er TEXT,
+    created_by INTEGER DEFAULT NULL, -- User ID who created the record
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(), -- Timestamp when the record was created
+    updated_by INTEGER DEFAULT NULL, -- User ID who last updated the record
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NULL, -- Timestamp when the record was last updated
+    archived_by INTEGER DEFAULT NULL, -- User ID who archived the record
+    archived_at TIMESTAMP WITH TIME ZONE DEFAULT NULL -- Timestamp when the record was archived
+);
+
+SELECT audit.enable_tracking('ccbc_public.application_er'::regclass);
+
+-- Step 3: Populate the table with data
 WITH er_regions AS (
     SELECT
         s.ccbc_numbe AS ccbc_number,
@@ -13,14 +29,11 @@ WITH er_regions AS (
     ORDER BY
         s.ccbc_numbe
 )
-
--- Step 3: Join with the application table to get the application_id and insert into new table
+INSERT INTO ccbc_public.application_er (application_id, ccbc_number, er)
 SELECT
     a.id as application_id,
     er.ccbc_number,
     er.er
-INTO
-    ccbc_public.application_er
 FROM
     er_regions er
 JOIN
