@@ -22,6 +22,12 @@ const getRegionalDistricts = (regionalDistricts) => {
   return rds;
 };
 
+const findTechnicalAssessment = (assessments) => {
+  return assessments.nodes.find(
+    (assessment) => assessment.assessmentDataType === 'technical'
+  );
+};
+
 const handleApplicationDateReceived = (applicationData, allIntakes) => {
   // keep blank for hidden intakes
   if (applicationData.intakeNumber === 99) {
@@ -595,6 +601,10 @@ const generateFormData = (
     errors = sowSummaryData.errors;
   }
 
+  const technicalAssessment = findTechnicalAssessment(
+    applicationData.allAssessments
+  );
+  const techAssessmentProgress = technicalAssessment?.jsonData?.nextStep;
   return {
     // dependency is one source
     formData: {
@@ -628,7 +638,34 @@ const generateFormData = (
       percentProjectMilestoneComplete: 'Milestone Report',
       announcedByProvince: 'Announcements',
     },
-    errors,
+    errors: {
+      ...errors,
+      ...formData?.errors,
+      dependency: {
+        connectedCoastNetworkDependent: {
+          __errors: [
+            techAssessmentProgress
+              ? `Assessment progress is "${techAssessmentProgress}"`
+              : null,
+          ],
+          errorColor: '#FFF',
+          errorTextColor:
+            dependencyData?.connectedCoastNetworkDependent === 'TBD'
+              ? '#676666'
+              : null,
+        },
+        crtcProjectDependent: {
+          __errors: [
+            techAssessmentProgress
+              ? `Assessment progress is "${techAssessmentProgress}"`
+              : null,
+          ],
+          errorColor: '#FFF',
+          errorTextColor:
+            dependencyData?.crtcProjectDependent === 'TBD' ? '#676666' : null,
+        },
+      },
+    },
   };
 };
 

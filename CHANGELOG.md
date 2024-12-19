@@ -1,3 +1,40 @@
+## [1.218.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.218.1...v1.218.2) (2024-12-19)
+
+### Bug Fixes
+
+- community progress report row buffer ([39cde7a](https://github.com/bcgov/CONN-CCBC-portal/commit/39cde7a39eabce52f8fcaa4340c21f2a8d92c903))
+- correct summary rows ([e0c3ed1](https://github.com/bcgov/CONN-CCBC-portal/commit/e0c3ed11d1708580f9328b873a1ab2ec06202851))
+
+## [1.218.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.218.0...v1.218.1) (2024-12-18)
+
+### Bug Fixes
+
+- ubuntu latest breaks ([ef2cf1d](https://github.com/bcgov/CONN-CCBC-portal/commit/ef2cf1d924caa1ebad17ef8401c14d3455eb8e59))
+- wrong user on announcement delete history ([f15a94d](https://github.com/bcgov/CONN-CCBC-portal/commit/f15a94d2f21859ad7208e01cac3f720654a75142))
+
+# [1.218.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.217.0...v1.218.0) (2024-12-10)
+
+### Features
+
+- add filters to history page ([13d5dea](https://github.com/bcgov/CONN-CCBC-portal/commit/13d5deae2cd2d46d24bdff8719456696608791ed))
+
+# [1.217.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.216.2...v1.217.0) (2024-12-10)
+
+### Features
+
+- create dependencies on submission ([87f0eb0](https://github.com/bcgov/CONN-CCBC-portal/commit/87f0eb0fef25023a2daed765c53e6d85a2dcaab6))
+
+## [1.216.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.216.1...v1.216.2) (2024-12-09)
+
+## [1.216.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.216.0...v1.216.1) (2024-12-09)
+
+# [1.216.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.215.0...v1.216.0) (2024-12-09)
+
+### Features
+
+- move application dependencies to technical assessments ([1ec087e](https://github.com/bcgov/CONN-CCBC-portal/commit/1ec087eadcf89968a214874bd7641f70dcb6fc67))
+- summary page enhancement for dependency ([a44bf27](https://github.com/bcgov/CONN-CCBC-portal/commit/a44bf270e3cb6db8786ca986fb21a6c1dfc2f2be))
+
 # [1.215.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.214.3...v1.215.0) (2024-12-04)
 
 ### Features
