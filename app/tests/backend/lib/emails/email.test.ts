@@ -17,6 +17,7 @@ import notifyConditionallyApproved from 'backend/lib/emails/templates/notifyCond
 import notifyApplicationSubmission from 'backend/lib/emails/templates/notifyApplicationSubmission';
 import notifyFailedReadOfTemplateData from 'backend/lib/emails/templates/notifyFailedReadOfTemplateData';
 import notifySowUpload from 'backend/lib/emails/templates/notifySowUpload';
+import notifyDocumentUpload from 'backend/lib/emails/templates/notifyDocumentUpload';
 
 jest.mock('backend/lib/emails/handleEmailNotification');
 
@@ -241,6 +242,31 @@ describe('Email API Endpoints', () => {
       expect.anything(),
       notifySowUpload,
       { ccbcNumber: 'CCBC-00001', amendmentNumber: 1 }
+    );
+  });
+
+  it('calls notifyDocumentUpload with correct parameters once notifyDocumentUpload called', async () => {
+    const reqBody = {
+      applicationId: '1',
+      ccbcNumber: 'CCBC-00001',
+      params: {
+        ccbcNumber: 'CCBC-00001',
+        documentType: 'Statement of Work',
+        timestamp: '2024-06-26',
+        documentNames: ['file1', 'file2'],
+      },
+    };
+    await request(app).post('/api/email/notifyDocumentUpload').send(reqBody);
+    expect(handleEmailNotification).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      notifyDocumentUpload,
+      {
+        ccbcNumber: 'CCBC-00001',
+        documentType: 'Statement of Work',
+        timestamp: '2024-06-26',
+        documentNames: ['file1', 'file2'],
+      }
     );
   });
 });

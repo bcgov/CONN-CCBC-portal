@@ -16,7 +16,7 @@ import FormDiv from 'components/FormDiv';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
-import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
 import useRfiCoverageMapKmzUploadedEmail from 'lib/helpers/useRfiCoverageMapKmzUploadedEmail';
 
 const Flex = styled('header')`
@@ -73,7 +73,7 @@ const ApplicantRfiPage = ({
   const [createNewFormData] = useCreateNewFormDataMutation();
   const [templateData, setTemplateData] = useState(null);
   const [formData, setFormData] = useState(rfiDataByRowId.jsonData);
-  const { notifyHHCountUpdate } = useHHCountUpdateEmail();
+  const { notifyHHCountUpdate } = useEmailNotification();
   const { notifyRfiCoverageMapKmzUploaded } =
     useRfiCoverageMapKmzUploadedEmail();
 

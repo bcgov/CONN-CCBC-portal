@@ -11,10 +11,11 @@ import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/u
 import styled from 'styled-components';
 
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
-import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
 import useRfiCoverageMapKmzUploadedEmail from 'lib/helpers/useRfiCoverageMapKmzUploadedEmail';
 import { useToast } from 'components/AppProvider';
 import Link from 'next/link';
+import joinWithAnd from 'utils/formatArray';
 
 const Flex = styled('header')`
   display: flex;
@@ -68,14 +69,16 @@ const RfiAnalystUpload = ({ query }) => {
   const [newFormData, setNewFormData] = useState(jsonData);
   const [templateData, setTemplateData] = useState(null);
   const [excelImportFields, setExcelImportFields] = useState([]);
+  const [excelImportFiles, setExcelImportFiles] = useState([]);
   const router = useRouter();
-  const { notifyHHCountUpdate } = useHHCountUpdateEmail();
+  const { notifyHHCountUpdate, notifyDocumentUpload } = useEmailNotification();
   const { notifyRfiCoverageMapKmzUploaded } =
     useRfiCoverageMapKmzUploadedEmail();
 
   useEffect(() => {
     if (templateData?.templateNumber === 1 && !templateData?.error) {
       setExcelImportFields([...excelImportFields, 'Template 1']);
+      setExcelImportFiles([...excelImportFiles, templateData?.templateName]);
       const newFormDataWithTemplateOne = {
         ...newFormData,
         benefits: {
@@ -88,6 +91,7 @@ const RfiAnalystUpload = ({ query }) => {
       setNewFormData(newFormDataWithTemplateOne);
     } else if (templateData?.templateNumber === 2 && !templateData?.error) {
       setExcelImportFields([...excelImportFields, 'Template 2']);
+      setExcelImportFiles([...excelImportFiles, templateData?.templateName]);
       const newFormDataWithTemplateTwo = {
         ...newFormData,
         budgetDetails: {
@@ -97,6 +101,9 @@ const RfiAnalystUpload = ({ query }) => {
         },
       };
       setNewFormData(newFormDataWithTemplateTwo);
+    } else if (templateData?.templateNumber === 9 && !templateData?.error) {
+      setExcelImportFields([...excelImportFields, 'Template 9']);
+      setExcelImportFiles([...excelImportFiles, templateData?.templateName]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templateData]);
@@ -163,6 +170,11 @@ const RfiAnalystUpload = ({ query }) => {
               ) {
                 showToast(getToastMessage(), 'success', 100000000);
               }
+              notifyDocumentUpload(applicationId, {
+                ccbcNumber,
+                documentType: joinWithAnd(excelImportFields),
+                documentNames: excelImportFiles,
+              });
             },
           });
         }
