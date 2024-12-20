@@ -156,6 +156,7 @@ describe('The index page', () => {
           commentsOnOverbuild: 'test 3',
           commentsOnOverlap: 'test 4',
         },
+        _dependenciesData: null,
         _assessmentType: 'gis',
       },
       connections: [],

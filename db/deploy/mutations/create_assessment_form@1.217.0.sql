@@ -2,7 +2,7 @@
 
 begin;
 
-drop function ccbc_public.create_assessment_form(varchar , jsonb , integer, jsonb);
+drop function ccbc_public.create_assessment_form(varchar , jsonb , integer);
 
 create or replace function ccbc_public.create_assessment_form(_assessment_type varchar, _json_data jsonb, _application_id int) returns ccbc_public.assessment_data as $$
 declare

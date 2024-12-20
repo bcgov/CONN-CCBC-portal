@@ -102,6 +102,7 @@ describe('The index page', () => {
           nextStep: 'Not started',
           decision: 'Low risk',
         },
+        _dependenciesData: null,
         _assessmentType: 'financialRisk',
       },
       connections: [],
