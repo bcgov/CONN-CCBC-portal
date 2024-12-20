@@ -98488,35 +98488,17 @@ type CreateAssessmentFormPayload {
   unchanged and unused. May be used by a client to track mutations.
   """
   clientMutationId: String
-  assessmentData: AssessmentData
+  assessmentFormResult: AssessmentFormResult
 
   """
   Our root query field type. Allows us to run any query from our mutation payload.
   """
   query: Query
+}
 
-  """Reads a single `Application` that is related to this `AssessmentData`."""
-  applicationByApplicationId: Application
-
-  """
-  Reads a single `AssessmentType` that is related to this `AssessmentData`.
-  """
-  assessmentTypeByAssessmentDataType: AssessmentType
-
-  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
-  ccbcUserByCreatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
-  ccbcUserByUpdatedBy: CcbcUser
-
-  """Reads a single `CcbcUser` that is related to this `AssessmentData`."""
-  ccbcUserByArchivedBy: CcbcUser
-
-  """An edge for our `AssessmentData`. May be used by Relay 1."""
-  assessmentDataEdge(
-    """The method to use when ordering `AssessmentData`."""
-    orderBy: [AssessmentDataOrderBy!] = [PRIMARY_KEY_ASC]
-  ): AssessmentDataEdge
+type AssessmentFormResult {
+  assessmentData: AssessmentData
+  applicationDependencies: ApplicationDependency
 }
 
 """All input for the `createAssessmentForm` mutation."""
@@ -98529,6 +98511,7 @@ input CreateAssessmentFormInput {
   _assessmentType: String!
   _jsonData: JSON!
   _applicationId: Int!
+  _dependenciesData: JSON
 }
 
 """The output of our `createCbcPendingChangeRequest` mutation."""

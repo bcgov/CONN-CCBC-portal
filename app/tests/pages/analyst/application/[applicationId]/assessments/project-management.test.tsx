@@ -101,6 +101,7 @@ describe('The index page', () => {
         _jsonData: {
           nextStep: 'Needs 2nd review',
         },
+        _dependenciesData: null,
         _assessmentType: 'projectManagement',
       },
       connections: [],
