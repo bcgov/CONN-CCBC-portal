@@ -1,5 +1,5 @@
 import writeXlsxFile, { Row } from 'write-excel-file';
-import generateFormData from '../../../lib/helpers/ccbcSummaryGenerateFormData';
+import generateFormData from 'lib/helpers/ccbcSummaryGenerateFormData';
 import { performQuery } from '../graphql';
 import {
   cleanDateTime,
