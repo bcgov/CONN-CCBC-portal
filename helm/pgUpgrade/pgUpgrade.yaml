@@ -1,0 +1,9 @@
+# apiVersion: postgres-operator.crunchydata.com/v1beta1
+# kind: PGUpgrade
+# metadata:
+#   name: pg-upgrade
+# spec:
+#   postgresClusterName: ccbc
+#   fromPostgresVersion: 14
+#   toPostgresVersion: 15
+#   image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-upgrade:ubi8-5.5.1-0

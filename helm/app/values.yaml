@@ -160,7 +160,7 @@ crunchy-postgres:
   nameOverride: ccbc
   fullnameOverride: ccbc
   # crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:ubi8-14.7-0
-  postgresVersion: 15
+  postgresVersion: 14
   postGISVersion: 3.3
   instances:
     name: hippo-ha # high availability

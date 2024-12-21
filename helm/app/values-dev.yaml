@@ -2,7 +2,7 @@ autoscaling:
   enabled: false
 
 deploy:
-  enabled: false
+  enabled: true
 
 cronsp:
   schedule: '0 0 15 10 *' # dev run once a year on October 15
@@ -13,13 +13,41 @@ db:
     for file in data/dev/*.sql; do
       psql -v "ON_ERROR_STOP=1" -f "${file}";
     done;
+resources:
+  app:
+    requests:
+      cpu: 1m
+      memory: '256Mi'
+    limits:
+      cpu: 100m
+      memory: '512Mi'
+  psql:
+    requests:
+      cpu: 1m
+      memory: '128Mi'
+    limits:
+      cpu: 100m
+      memory: '256Mi'
 
 crunchy-postgres:
-  pgBackRest:
-    retention: '1'
   instances:
-    dataVolumeClaimSpec:
-      storage: 5Gi
+    replicas: 1
+  dataVolumeClaimSpec:
+    storage: 5Gi
+  dataSource:
+    enabled: true
+    secretName: s3-pgbackrest
+    repo:
+      name: repo2
+      path: '/'
+      s3:
+        bucket: '' #gets passed automatically via existing deploy script
+        endpoint: 's3.ca-central-1.amazonaws.com'
+        region: 'ca-central-1'
+      stanza: db
+  pgBackRest:
+    s3:
+      enabled: false
 
 metabase:
   prodIngress:
