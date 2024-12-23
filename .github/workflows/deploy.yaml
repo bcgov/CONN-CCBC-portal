@@ -48,6 +48,7 @@ on:
       RD_FILE: { required: true }
       COVERAGES_FILE: { required: true }
       SESSION_SECRET: { required: true }
+      RECOVERY_S3_BUCKET: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -117,7 +118,7 @@ jobs:
           ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           pgbackrest_s3_key: ${{ secrets.AWS_CCBC_IAM_USER_KEY }}
           pgbackrest_s3_key_secret: ${{ secrets.AWS_CCBC_IAM_USER_KEY_SECRET }}
-          pgbackrest_s3_bucket: ${{ secrets.AWS_S3_BACKUPS_BUCKET }}
+          pgbackrest_s3_bucket: ${{ secrets.RECOVERY_S3_BUCKET }}
           er_file: ${{ secrets.ER_FILE }}
           rd_file: ${{ secrets.RD_FILE }}
           coverages_file: ${{ secrets.COVERAGES_FILE }}

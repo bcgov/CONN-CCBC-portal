@@ -200,6 +200,7 @@ runs:
           --set cronshp.rdFile="${{ inputs.rd_file }}" \
           --set cronshp.coveragesFile="${{ inputs.coverages_file }}" \
           --set app.sessionSecret="${{ inputs.session_secret }}" \
+          --set crunchy-postgres.dataSource.repo.s3.bucket="${{ inputs.pgbackrest_s3_bucket }}"
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash

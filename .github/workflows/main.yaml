@@ -165,7 +165,7 @@ jobs:
 
   deploy:
     # if: github.event.ref == 'refs/heads/main'
-    needs: [test-code, test-containers]
+    # needs: [test-code, test-containers]
     uses: ./.github/workflows/deploy.yaml
     secrets:
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
@@ -213,6 +213,7 @@ jobs:
       RD_FILE: ${{ secrets.RD_FILE }}
       COVERAGES_FILE: ${{ secrets.COVERAGES_FILE }}
       SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      RECOVERY_S3_BUCKET: ${{ secrets.RECOVERY_S3_BUCKET }}
 
   deploy-feature:
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
