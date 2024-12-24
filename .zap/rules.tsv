@@ -16,4 +16,4 @@
 90034	IGNORE	(Cloud Metadata Potentially Exposed)
 40039	IGNORE	(Web Cache Deception)
 110009	IGNORE	(Full Path Disclosure)
-90004   IGNORE  (Insufficient Site Isolation Against Spectre Vulnerability)
+90004	IGNORE	(Insufficient Site Isolation Against Spectre Vulnerability)
