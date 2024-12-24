@@ -34,7 +34,7 @@
     "@bcgov-cas/sso-express": "^3.2.0",
     "@bcgov-cas/sso-react": "^2.0.0",
     "@bcgov-ccbc/ccbc-node-sp-auth": "^1.0.0",
-    "@bcgov/bc-sans": "^1.0.1",
+    "@bcgov/bc-sans": "^2.1.0",
     "@button-inc/bcgov-theme": "^1.0.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
