@@ -30,7 +30,7 @@ jobs:
         id: check-changes
         run: |
           # Compare PR branch (HEAD) against the base branch (main)
-          CHANGED=$(git diff --name-only origin/main HEAD | grep -E '^db/' || true)
+          CHANGED=$(git diff --name-only origin/main HEAD | grep -E '^app/|^db/' || true)
           if [ -z "$CHANGED" ]; then
             echo "No changes detected in app or db folders."
             echo "changes-detected=false" >> $GITHUB_OUTPUT
