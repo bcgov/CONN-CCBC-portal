@@ -1,3 +1,19 @@
+## [1.218.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.218.2...v1.218.3) (2024-12-24)
+
+## [1.218.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.218.1...v1.218.2) (2024-12-19)
+
+### Bug Fixes
+
+- community progress report row buffer ([39cde7a](https://github.com/bcgov/CONN-CCBC-portal/commit/39cde7a39eabce52f8fcaa4340c21f2a8d92c903))
+- correct summary rows ([e0c3ed1](https://github.com/bcgov/CONN-CCBC-portal/commit/e0c3ed11d1708580f9328b873a1ab2ec06202851))
+
+## [1.218.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.218.0...v1.218.1) (2024-12-18)
+
+### Bug Fixes
+
+- ubuntu latest breaks ([ef2cf1d](https://github.com/bcgov/CONN-CCBC-portal/commit/ef2cf1d924caa1ebad17ef8401c14d3455eb8e59))
+- wrong user on announcement delete history ([f15a94d](https://github.com/bcgov/CONN-CCBC-portal/commit/f15a94d2f21859ad7208e01cac3f720654a75142))
+
 # [1.218.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.217.0...v1.218.0) (2024-12-10)
 
 ### Features

@@ -764,3 +764,7 @@ mutations/submit_application [mutations/submit_application@1.213.0] 2024-12-09T2
 tables/application_dependencies_001_add_applicant_insert 2024-12-09T22:35:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # grant insert to application dependencies to applicant for submission
 @1.217.0 2024-12-10T19:39:41Z CCBC Service Account <ccbc@button.is> # release v1.217.0
 @1.218.0 2024-12-10T21:09:25Z CCBC Service Account <ccbc@button.is> # release v1.218.0
+computed_columns/application_history [computed_columns/application_history@1.213.0] 2024-11-27T23:55:47Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # fix username in announcement history
+@1.218.1 2024-12-18T17:53:16Z CCBC Service Account <ccbc@button.is> # release v1.218.1
+@1.218.2 2024-12-19T16:29:04Z CCBC Service Account <ccbc@button.is> # release v1.218.2
+@1.218.3 2024-12-24T20:06:08Z CCBC Service Account <ccbc@button.is> # release v1.218.3
