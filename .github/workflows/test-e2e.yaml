@@ -38,7 +38,6 @@ jobs:
             echo "Changes detected in app or db folders."
             echo "changes-detected=true" >> $GITHUB_OUTPUT
           fi
-          fi
   yarn-test-e2e-applicant:
     needs: check-changes
     if: ${{ needs.check-changes.outputs.changes-detected == 'true' }}
