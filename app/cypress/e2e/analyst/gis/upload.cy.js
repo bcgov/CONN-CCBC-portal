@@ -67,6 +67,7 @@ describe('GIS Upload', () => {
     cy.wait(500);
     cy.contains('gis-data-400a.json');
     cy.contains('button', 'Continue').click();
+    cy.wait(1000);
     cy.contains(/Error uploading JSON file/);
     cy.contains(/must be array at line 1/);
   });
@@ -82,7 +83,7 @@ describe('GIS Upload', () => {
     cy.wait(500);
     cy.contains('gis-data-400b.json');
     cy.contains('button', 'Continue').click();
-    cy.wait(750);
+    cy.wait(1000);
     cy.contains(/Error uploading JSON file/);
     cy.contains(/Value expected at line 2/);
     cy.contains(/Expected comma at line 5/);
