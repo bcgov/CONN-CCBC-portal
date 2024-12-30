@@ -59,6 +59,8 @@ jobs:
         working-directory: ./app
 
   yarn-test-e2e-admin:
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.changes-detected == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -77,6 +79,8 @@ jobs:
         working-directory: ./app
 
   yarn-test-e2e-analyst:
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.changes-detected == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
