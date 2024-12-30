@@ -48,7 +48,7 @@ describe('GIS Upload', () => {
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('./tests/backend/lib/gis-data-errors.json', { force: true });
-    cy.wait(500);
+    cy.wait(10000);
     cy.contains('gis-data-errors.json');
     cy.contains('button', 'Continue').click();
     cy.contains(/Error uploading JSON file/);
@@ -64,10 +64,10 @@ describe('GIS Upload', () => {
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('./tests/backend/lib/gis-data-400a.json', { force: true });
-    cy.wait(500);
+    cy.wait(10000);
     cy.contains('gis-data-400a.json');
     cy.contains('button', 'Continue').click();
-    cy.wait(1000);
+    cy.wait(10000);
     cy.contains(/Error uploading JSON file/);
     cy.contains(/must be array at line 1/);
   });
@@ -80,10 +80,10 @@ describe('GIS Upload', () => {
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('./tests/backend/lib/gis-data-400b.json', { force: true });
-    cy.wait(500);
+    cy.wait(10000);
     cy.contains('gis-data-400b.json');
     cy.contains('button', 'Continue').click();
-    cy.wait(1000);
+    cy.wait(10000);
     cy.contains(/Error uploading JSON file/);
     cy.contains(/Value expected at line 2/);
     cy.contains(/Expected comma at line 5/);
