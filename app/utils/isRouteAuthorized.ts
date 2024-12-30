@@ -36,12 +36,7 @@ const pagesAuthorization = [
     allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin', 'super_admin'],
   },
   {
-    routePaths: ['/analyst/gis'],
-    isProtected: true,
-    allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin', 'super_admin'],
-  },
-  {
-    routePaths: ['/analyst/gis/(.*)'],
+    routePaths: ['/analyst/gis/(.*)', '/analyst/gis'],
     isProtected: true,
     allowedRoles: ['ccbc_admin', 'ccbc_analyst', 'cbc_admin', 'super_admin'],
   },
