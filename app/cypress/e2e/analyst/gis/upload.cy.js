@@ -38,10 +38,6 @@ describe('GIS Upload', () => {
     cy.contains(/GIS analysis updated for 0 projects/);
     cy.contains(/Total processed 1/);
     cy.get('body').happoScreenshot({ component: 'GIS upload success page' });
-  });
-
-  it('upload invalid json with invalid schema', () => {
-    cy.visit('/analyst/dashboard');
     cy.contains('a', 'GIS').click();
     cy.wait(10000);
     cy.url().should('include', '/analyst/gis');
@@ -54,10 +50,6 @@ describe('GIS Upload', () => {
     cy.contains(/Error uploading JSON file/);
     cy.contains(/GIS_TOTAL_HH must be number/);
     cy.contains(/GIS_PERCENT_OVERBUILD must be number/);
-  });
-
-  it('upload invalid json wrong format', () => {
-    cy.visit('/analyst/dashboard');
     cy.contains('a', 'GIS').click();
     cy.wait(10000);
     cy.url().should('include', '/analyst/gis');
@@ -70,10 +62,6 @@ describe('GIS Upload', () => {
     cy.wait(10000);
     cy.contains(/Error uploading JSON file/);
     cy.contains(/must be array at line 1/);
-  });
-
-  it('upload invalid json with empty values', () => {
-    cy.visit('/analyst/dashboard');
     cy.contains('a', 'GIS').click();
     cy.wait(10000);
     cy.url().should('include', '/analyst/gis');
@@ -89,4 +77,54 @@ describe('GIS Upload', () => {
     cy.contains(/Expected comma at line 5/);
     cy.contains(/Value expected at line 10/);
   });
+
+  // it('upload invalid json with invalid schema', () => {
+  //   cy.visit('/analyst/dashboard');
+  //   cy.contains('a', 'GIS').click();
+  //   cy.wait(10000);
+  //   cy.url().should('include', '/analyst/gis');
+  //   cy.get('[data-testid=file-test]')
+  //     .first()
+  //     .selectFile('./tests/backend/lib/gis-data-errors.json', { force: true });
+  //   cy.wait(10000);
+  //   cy.contains('gis-data-errors.json');
+  //   cy.contains('button', 'Continue').click();
+  //   cy.contains(/Error uploading JSON file/);
+  //   cy.contains(/GIS_TOTAL_HH must be number/);
+  //   cy.contains(/GIS_PERCENT_OVERBUILD must be number/);
+  // });
+
+  // it('upload invalid json wrong format', () => {
+  //   cy.visit('/analyst/dashboard');
+  //   cy.contains('a', 'GIS').click();
+  //   cy.wait(10000);
+  //   cy.url().should('include', '/analyst/gis');
+  //   cy.get('[data-testid=file-test]')
+  //     .first()
+  //     .selectFile('./tests/backend/lib/gis-data-400a.json', { force: true });
+  //   cy.wait(10000);
+  //   cy.contains('gis-data-400a.json');
+  //   cy.contains('button', 'Continue').click();
+  //   cy.wait(10000);
+  //   cy.contains(/Error uploading JSON file/);
+  //   cy.contains(/must be array at line 1/);
+  // });
+
+  // it('upload invalid json with empty values', () => {
+  //   cy.visit('/analyst/dashboard');
+  //   cy.contains('a', 'GIS').click();
+  //   cy.wait(10000);
+  //   cy.url().should('include', '/analyst/gis');
+  //   cy.get('[data-testid=file-test]')
+  //     .first()
+  //     .selectFile('./tests/backend/lib/gis-data-400b.json', { force: true });
+  //   cy.wait(10000);
+  //   cy.contains('gis-data-400b.json');
+  //   cy.contains('button', 'Continue').click();
+  //   cy.wait(10000);
+  //   cy.contains(/Error uploading JSON file/);
+  //   cy.contains(/Value expected at line 2/);
+  //   cy.contains(/Expected comma at line 5/);
+  //   cy.contains(/Value expected at line 10/);
+  // });
 });

@@ -45,7 +45,7 @@ jobs:
     uses: ./.github/workflows/test-zap.yaml
 
   test-e2e:
-    needs: [build, install-env]
+    needs: [install-env]
     uses: ./.github/workflows/test-e2e.yaml
     secrets:
       HAPPO_API_KEY: ${{ secrets.HAPPO_API_KEY }}
