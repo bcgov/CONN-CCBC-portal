@@ -52,11 +52,11 @@ describe('GIS Upload', () => {
     cy.wait(10000);
     cy.contains('gis-data-errors.json');
     cy.contains('button', 'Continue').click();
-    cy.wait('@gisUpload');
-    cy.wait(10000);
     cy.get('body').happoScreenshot({
       component: 'GIS invalid json with invalid schema',
     });
+    cy.wait('@gisUpload');
+    cy.wait(10000);
     // cy.contains(/Error uploading JSON file/);
     // cy.contains(/GIS_TOTAL_HH must be number/);
     // cy.contains(/GIS_PERCENT_OVERBUILD must be number/);
@@ -74,11 +74,11 @@ describe('GIS Upload', () => {
     cy.wait(10000);
     cy.contains('gis-data-400a.json');
     cy.contains('button', 'Continue').click();
-    cy.wait('@gisUpload');
-    cy.wait(10000);
     cy.get('body').happoScreenshot({
       component: 'GIS upload invalid json wrong format',
     });
+    cy.wait('@gisUpload');
+    cy.wait(10000);
     // cy.contains(/Error uploading JSON file/);
     // cy.contains(/must be array at line 1/);
   });
@@ -98,11 +98,11 @@ describe('GIS Upload', () => {
     });
     cy.contains('gis-data-400b.json');
     cy.contains('button', 'Continue').click();
-    cy.wait('@gisUpload');
-    cy.wait(10000);
     cy.get('body').happoScreenshot({
       component: 'GIS invalid json with empty',
     });
+    cy.wait('@gisUpload');
+    cy.wait(10000);
     // cy.contains(/Error uploading JSON file/);
     // cy.contains(/Value expected at line 2/);
     // cy.contains(/Expected comma at line 5/);
