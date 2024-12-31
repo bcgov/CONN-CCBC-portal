@@ -5,7 +5,7 @@ import { graphql } from 'react-relay';
 import styled from 'styled-components';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
-import { ButtonLink, Layout } from 'components';
+import { ButtonLink, Layout, MetabaseEmbed } from 'components';
 import { gisUploadedJsonQuery } from '__generated__/gisUploadedJsonQuery.graphql';
 import FileComponent from 'lib/theme/components/FileComponent';
 import { useRouter } from 'next/router';
@@ -205,7 +205,7 @@ const UploadJSON = ({
       <StyledContainer>
         <DashboardTabs session={session} />
         <GisTab />
-        {/* <MetabaseEmbed dashboardNumber={87} dashboardNumberTest={91} /> */}
+        <MetabaseEmbed dashboardNumber={87} dashboardNumberTest={91} />
       </StyledContainer>
     </Layout>
   );
