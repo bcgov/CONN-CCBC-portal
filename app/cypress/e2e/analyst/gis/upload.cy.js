@@ -48,7 +48,7 @@ describe('GIS Upload', () => {
     cy.url().should('include', '/analyst/gis');
     cy.get('[data-testid=file-test]')
       .first()
-      .selectFile('./tests/backend/lib/gis-data-errors.json', { force: true });
+      .selectFile('cypress/fixtures/gis-data-errors.json', { force: true });
     cy.wait(10000);
     cy.contains('gis-data-errors.json');
     cy.contains('button', 'Continue').click();
@@ -70,7 +70,7 @@ describe('GIS Upload', () => {
     cy.url().should('include', '/analyst/gis');
     cy.get('[data-testid=file-test]')
       .first()
-      .selectFile('./tests/backend/lib/gis-data-400a.json', { force: true });
+      .selectFile('cypress/fixtures/gis-data-400a.json', { force: true });
     cy.wait(10000);
     cy.contains('gis-data-400a.json');
     cy.contains('button', 'Continue').click();
@@ -91,8 +91,11 @@ describe('GIS Upload', () => {
     cy.url().should('include', '/analyst/gis');
     cy.get('[data-testid=file-test]')
       .first()
-      .selectFile('./tests/backend/lib/gis-data-400b.json', { force: true });
+      .selectFile('cypress/fixtures/gis-data-400b.json', { force: true });
     cy.wait(10000);
+    cy.get('body').happoScreenshot({
+      component: 'GIS invalid json upload empty',
+    });
     cy.contains('gis-data-400b.json');
     cy.contains('button', 'Continue').click();
     cy.wait('@gisUpload');
