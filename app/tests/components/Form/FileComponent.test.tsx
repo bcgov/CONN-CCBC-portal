@@ -31,9 +31,7 @@ describe('FileComponent', () => {
   it('should handle file drop correctly', async () => {
     renderStaticLayout(false, true);
     const dropzoneInput = screen.getByTestId('file-test');
-    const dropzone = dropzoneInput.closest(
-      '[class*="FileComponent__StyledContainer"]'
-    );
+    const dropzone = dropzoneInput.closest('[class*="file-widget"]');
     expect(dropzone).toHaveStyle('border: 1px dashed rgba(0, 0, 0, 0.16)');
 
     fireEvent.dragOver(dropzone);

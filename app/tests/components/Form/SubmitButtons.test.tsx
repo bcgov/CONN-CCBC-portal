@@ -3,10 +3,6 @@ import { render, screen } from '@testing-library/react';
 import GlobalTheme from 'styles/GlobalTheme';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('next/router', () => ({
-  useRouter: jest.fn(),
-}));
-
 const renderStaticLayout = ({
   disabled = false,
   isEditable = true,
@@ -47,7 +43,18 @@ const defaultProps = {
   status: 'draft',
 };
 
+const mockRouterState = {
+  route: '/',
+  pathname: '',
+  query: { id: 1 },
+};
+
 describe('The SubmitButtons component', () => {
+  beforeEach(() => {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+    const useRouter = jest.spyOn(require('next/router'), 'useRouter');
+    useRouter.mockImplementation(() => mockRouterState);
+  });
   it('should render the save and continue button on pages other than submission page', () => {
     renderStaticLayout(defaultProps);
 
