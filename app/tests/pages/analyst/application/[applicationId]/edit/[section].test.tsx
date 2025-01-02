@@ -7,13 +7,14 @@ import compiledSectionQuery, {
 } from '__generated__/SectionQuery.graphql';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import { mocked } from 'jest-mock';
-import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
 
-jest.mock('lib/helpers/useHHCountUpdateEmail');
+jest.mock('lib/helpers/useEmailNotification');
 
 const mockNotifyHHCountUpdate = jest.fn();
-mocked(useHHCountUpdateEmail).mockReturnValue({
+mocked(useEmailNotification).mockReturnValue({
   notifyHHCountUpdate: mockNotifyHHCountUpdate,
+  notifyDocumentUpload: jest.fn(),
 });
 
 const mockQueryPayload = {

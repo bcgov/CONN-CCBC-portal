@@ -11,6 +11,7 @@ import notifyConditionallyApproved from './templates/notifyConditionallyApproved
 import notifyApplicationSubmission from './templates/notifyApplicationSubmission';
 import notifyFailedReadOfTemplateData from './templates/notifyFailedReadOfTemplateData';
 import notifySowUpload from './templates/notifySowUpload';
+import notifyDocumentUpload from './templates/notifyDocumentUpload';
 
 const email = Router();
 
@@ -95,6 +96,13 @@ email.post('/api/email/notifySowUpload', limiter, (req, res) => {
   return handleEmailNotification(req, res, notifySowUpload, {
     ...params,
     ccbcNumber,
+  });
+});
+
+email.post('/api/email/notifyDocumentUpload', limiter, (req, res) => {
+  const { params } = req.body;
+  return handleEmailNotification(req, res, notifyDocumentUpload, {
+    ...params,
   });
 });
 

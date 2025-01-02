@@ -91,10 +91,16 @@ const Project = ({
 
   const { section: toggledSection } = useRouter().query;
   const projectInformationRef = useRef(null);
+  const communityProgressReportRef = useRef(null);
+  const milestoneRef = useRef(null);
+  const claimsRef = useRef(null);
 
   const sectionRefs = useMemo(
     () => ({
       projectInformation: projectInformationRef,
+      communityProgressReport: communityProgressReportRef,
+      milestoneReport: milestoneRef,
+      claimsReport: claimsRef,
     }),
     []
   );
@@ -155,7 +161,7 @@ const Project = ({
     if (toggledSection === 'conditionalApproval') {
       setIsConditionalApprovalExpanded(true);
     }
-  }, [conditionalApproval, date, projectInformation]);
+  }, [conditionalApproval, date, projectInformation, toggledSection]);
 
   const toggleExpandAll = () => {
     setIsConditionalApprovalExpanded(true);
@@ -225,22 +231,33 @@ const Project = ({
           </div>
         )}
         {showCommunityProgressReport && (
-          <CommunityProgressReportForm
-            application={applicationByRowId}
-            isExpanded={isCommunityProgressExpanded}
-          />
+          <div ref={communityProgressReportRef}>
+            <CommunityProgressReportForm
+              application={applicationByRowId}
+              isExpanded={
+                isCommunityProgressExpanded ||
+                toggledSection === 'communityProgressReport'
+              }
+            />
+          </div>
         )}
         {showMilestones && (
-          <MilestonesForm
-            application={applicationByRowId}
-            isExpanded={isMilestonesExpanded}
-          />
+          <div ref={milestoneRef}>
+            <MilestonesForm
+              application={applicationByRowId}
+              isExpanded={
+                isMilestonesExpanded || toggledSection === 'milestoneReport'
+              }
+            />
+          </div>
         )}
         {showClaims && (
-          <ClaimsForm
-            application={applicationByRowId}
-            isExpanded={isClaimsExpanded}
-          />
+          <div ref={claimsRef}>
+            <ClaimsForm
+              application={applicationByRowId}
+              isExpanded={isClaimsExpanded || toggledSection === 'claimsReport'}
+            />
+          </div>
         )}
       </AnalystLayout>
     </Layout>

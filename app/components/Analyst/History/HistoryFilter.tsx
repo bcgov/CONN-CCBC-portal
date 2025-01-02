@@ -2,7 +2,7 @@ import React from 'react';
 import { FormBase } from 'components/Form';
 import { historyFilter } from 'formSchema/analyst';
 import historyFilterUiSchema from 'formSchema/uiSchema/history/historyFilterUiSchema';
-import transformToTitleCase from 'utils/formatString';
+import toTitleCase from 'utils/formatString';
 
 interface HistoryFilterProps {
   filterOptions: { typeOptions: string[]; userOptions: string[] };
@@ -53,7 +53,7 @@ const HistoryFilter: React.FC<HistoryFilterProps> = ({
     .filter((type) => type !== 'attachment')
     .map((type) => ({
       value: type,
-      label: transformToTitleCase(type),
+      label: toTitleCase(type, '_'),
     }));
 
   const filterSchema = historyFilter(formattedTypeOptions, userOptions);

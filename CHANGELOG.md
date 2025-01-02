@@ -1,3 +1,9 @@
+# [1.219.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.218.3...v1.219.0) (2025-01-02)
+
+### Features
+
+- send email notification when a file upload to internal team ([517f87f](https://github.com/bcgov/CONN-CCBC-portal/commit/517f87f5a4cd063ff82d8d05dffcf5089a0f84cc))
+
 ## [1.218.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.218.2...v1.218.3) (2024-12-24)
 
 ## [1.218.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.218.1...v1.218.2) (2024-12-19)
