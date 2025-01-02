@@ -5,8 +5,8 @@ import { mocked } from 'jest-mock';
 import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
-import {mockClient} from 'aws-sdk-client-mock';
-import { SNSClient, PublishCommand } from "@aws-sdk/client-sns"; 
+import { mockClient } from 'aws-sdk-client-mock';
+import { SNSClient, PublishCommand } from '@aws-sdk/client-sns';
 import { pushMessage } from '../../../backend/lib/sns-client';
 import getAuthRole from '../../../utils/getAuthRole';
 
@@ -14,8 +14,7 @@ jest.mock('../../../backend/lib/graphql');
 jest.mock('../../../utils/getAuthRole');
 
 const snsMock = mockClient(SNSClient);
-jest.setTimeout(10000000);
-
+jest.setTimeout(1000);
 
 describe('SNS client', () => {
   let app;
@@ -32,12 +31,14 @@ describe('SNS client', () => {
         landingRoute: '/',
       };
     });
-    snsMock
-    .on(PublishCommand)
-    .resolves({
-        MessageId: '12345678-1111-2222-3333-111122223333',
+    snsMock.on(PublishCommand).resolves({
+      MessageId: '12345678-1111-2222-3333-111122223333',
     });
-    const response = await pushMessage('topic_arn','archive_uuid','[{name:"oops"}]');
+    const response = await pushMessage(
+      'topic_arn',
+      'archive_uuid',
+      '[{name:"oops"}]'
+    );
     expect(response.result).toBe('Success');
   });
 
@@ -50,8 +51,12 @@ describe('SNS client', () => {
     });
     snsMock.rejects('mocked rejection');
 
-    const response = await pushMessage('topic_arn','archive_uuid','[{name:"oops"}]');
-    expect(response.result.indexOf('Error')>-1).toBeTruthy(); 
+    const response = await pushMessage(
+      'topic_arn',
+      'archive_uuid',
+      '[{name:"oops"}]'
+    );
+    expect(response.result.indexOf('Error') > -1).toBeTruthy();
   });
 
   jest.resetAllMocks();

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import * as Sentry from '@sentry/nextjs';
 import { WidgetProps } from '@rjsf/utils';
 import {
   handleDelete,
@@ -218,12 +217,6 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   };
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const transaction = Sentry.startTransaction({ name: 'ccbc.function' });
-    const span = transaction.startChild({
-      op: 'file-widget-handle-upload',
-      description: 'FileWidget handleUpload function',
-    });
-
     if (loading) return;
     hideToast();
     const formId =
@@ -253,9 +246,6 @@ const FileWidget: React.FC<FileWidgetProps> = ({
     const uploadErrors = uploadResponse.filter((file) => file.error);
     if (uploadErrors.length > 0) {
       setErrors([...errors, ...uploadErrors]);
-      span.setStatus('error');
-    } else {
-      span.setStatus('ok');
     }
 
     if (templateValidate && showValidationToast) {
@@ -270,9 +260,6 @@ const FileWidget: React.FC<FileWidgetProps> = ({
         showToastMessage(fileDetails.map((file) => file.name));
       }
     }
-
-    span.finish();
-    transaction.finish();
 
     if (allowMultipleFiles) {
       onChange(value ? [...value, ...fileDetails] : fileDetails);
