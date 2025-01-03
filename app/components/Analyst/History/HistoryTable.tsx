@@ -3,6 +3,7 @@ import { graphql, useFragment } from 'react-relay';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import { HistoryTable_query$key } from '__generated__/HistoryTable_query.graphql';
 import { useMemo, useState } from 'react';
+import isEqual from 'lodash.isequal';
 import HistoryRow from './HistoryRow';
 import HistoryFilter, {
   filterByType,
@@ -240,6 +241,16 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
             }
 
             const prevHistoryItem = prevItems.length > 0 ? prevItems[0] : {};
+            // Skipping duplicate history items for communities
+            if (
+              historyItem?.tableName === 'application_communities' &&
+              isEqual(
+                prevHistoryItem.record?.application_rd,
+                historyItem.record?.application_rd
+              )
+            ) {
+              return null;
+            }
             // using index + recordId for key as just recordId was causing strange duplicate record bug for delete history item until page refresh
             return (
               <HistoryRow
