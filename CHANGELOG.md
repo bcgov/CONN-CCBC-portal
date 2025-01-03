@@ -1,3 +1,11 @@
+# [1.221.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.220.0...v1.221.0) (2025-01-03)
+
+### Features
+
+- audit track er and rd changes ([56621ae](https://github.com/bcgov/CONN-CCBC-portal/commit/56621ae3cf9441bbf32c5c05feb4201bef9b3ccb))
+- only run shp on coverage change ([65d8918](https://github.com/bcgov/CONN-CCBC-portal/commit/65d89183fc2869f5e2bc458f7e0d59bc6c3adcba))
+- record coverages upload ([b536308](https://github.com/bcgov/CONN-CCBC-portal/commit/b536308b8b050e16c4f46fe287650d931d7bc5eb))
+
 # [1.220.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.219.0...v1.220.0) (2025-01-02)
 
 ### Features
