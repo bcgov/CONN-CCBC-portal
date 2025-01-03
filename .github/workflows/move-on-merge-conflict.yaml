@@ -78,7 +78,7 @@ jobs:
                 "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY")
               status=$(echo "$response" | jq -r '.fields.status.name')
               echo "Issue status: $status"
-              if [ "$status" == "PO REVIEW" ]; then
+              if [ "$status" == "PO REVIEW" ] || [ "$status" == "SPRINT DONE" ]; then
                 echo "Moving issue $JIRA_KEY to Merge Conflict column"
                 curl -X POST \
                   -H "Authorization: Basic $JIRA_AUTH" \
