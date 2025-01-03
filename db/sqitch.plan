@@ -768,3 +768,5 @@ computed_columns/application_history [computed_columns/application_history@1.213
 @1.218.1 2024-12-18T17:53:16Z CCBC Service Account <ccbc@button.is> # release v1.218.1
 @1.218.2 2024-12-19T16:29:04Z CCBC Service Account <ccbc@button.is> # release v1.218.2
 @1.218.3 2024-12-24T20:06:08Z CCBC Service Account <ccbc@button.is> # release v1.218.3
+@1.219.0 2025-01-02T15:53:33Z CCBC Service Account <ccbc@button.is> # release v1.219.0
+@1.220.0 2025-01-02T19:26:33Z CCBC Service Account <ccbc@button.is> # release v1.220.0

@@ -1,8 +1,9 @@
-const transformToTitleCase = (input: string): string => {
+const toTitleCase = (input: string, delimiter = ' ') => {
   return input
-    .split('_')
+    .toLowerCase()
+    .split(delimiter)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
 
-export default transformToTitleCase;
+export default toTitleCase;

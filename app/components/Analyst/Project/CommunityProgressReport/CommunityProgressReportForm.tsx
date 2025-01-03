@@ -9,6 +9,7 @@ import excelValidateGenerator from 'lib/helpers/excelValidate';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import Toast from 'components/Toast';
 import useModal from 'lib/helpers/useModal';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
 import CommunityProgressView from './CommunityProgressView';
 import ProjectTheme from '../ProjectTheme';
 import ProjectForm from '../ProjectForm';
@@ -108,6 +109,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
   const [createCommunityProgressReport] =
     useCreateCommunityProgressReportMutation();
   const [archiveCommunityProgressReport] = useArchiveCpr();
+  const { notifyDocumentUpload } = useEmailNotification();
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   // use this to live validate the form after the first submit attempt
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
@@ -207,6 +209,11 @@ const CommunityProgressReportForm: React.FC<Props> = ({
 
           if (res?.status === 200) {
             setShowToast(true);
+            notifyDocumentUpload(applicationRowId, {
+              ccbcNumber,
+              documentType: 'Community Progress Report',
+              documentNames: [excelFile.name],
+            });
           }
         },
         onError: () => {
