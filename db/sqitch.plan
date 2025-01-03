@@ -772,3 +772,5 @@ computed_columns/application_history [computed_columns/application_history@1.213
 @1.220.0 2025-01-02T19:26:33Z CCBC Service Account <ccbc@button.is> # release v1.220.0
 tables/coverages_upload 2024-12-19T21:24:55Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create table to keep a record of coverages upload
 @1.221.0 2025-01-03T19:56:42Z CCBC Service Account <ccbc@button.is> # release v1.221.0
+types/assessment_form_result 2024-12-20T14:51:59Z ,,, <ryohani89@NH504670> # add assessment_form_result type to get assessment and dependencies together
+mutations/create_assessment_form [mutations/create_assessment_form@1.217.0] 2024-12-20T15:09:15Z ,,, <ryohani89@NH504670> # update create_assessment_form mutation

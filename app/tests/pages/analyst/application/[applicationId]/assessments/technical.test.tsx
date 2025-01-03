@@ -113,9 +113,8 @@ describe('The index page', () => {
         _jsonData: {
           nextStep: 'Not started',
           decision: 'Pass',
-          connectedCoastNetworkDependent: 'TBD',
-          crtcProjectDependent: 'TBD',
         },
+        _dependenciesData: null,
         _assessmentType: 'technical',
       },
       connections: [],

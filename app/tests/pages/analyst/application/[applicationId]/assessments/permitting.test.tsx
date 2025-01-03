@@ -112,6 +112,7 @@ describe('The index page', () => {
             'Normal permitting requirements and timelines anticipated.',
           ],
         },
+        _dependenciesData: null,
         _assessmentType: 'permitting',
       },
       connections: [],
