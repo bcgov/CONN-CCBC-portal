@@ -770,3 +770,5 @@ computed_columns/application_history [computed_columns/application_history@1.213
 @1.218.3 2024-12-24T20:06:08Z CCBC Service Account <ccbc@button.is> # release v1.218.3
 @1.219.0 2025-01-02T15:53:33Z CCBC Service Account <ccbc@button.is> # release v1.219.0
 @1.220.0 2025-01-02T19:26:33Z CCBC Service Account <ccbc@button.is> # release v1.220.0
+tables/coverages_upload 2024-12-19T21:24:55Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # create table to keep a record of coverages upload
+@1.221.0 2025-01-03T19:56:42Z CCBC Service Account <ccbc@button.is> # release v1.221.0
