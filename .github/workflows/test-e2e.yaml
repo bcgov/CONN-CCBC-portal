@@ -17,7 +17,30 @@ env:
   PGUSER: postgres
 
 jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changes-detected: ${{ steps.check-changes.outputs.changes-detected }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Check for changes in app or db folders
+        id: check-changes
+        run: |
+          # Compare PR branch (HEAD) against the base branch (main)
+          CHANGED=$(git diff --name-only origin/main HEAD | grep -E '^app/|^db/' || true)
+          if [ -z "$CHANGED" ]; then
+            echo "No changes detected in app or db folders."
+            echo "changes-detected=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected in app or db folders."
+            echo "changes-detected=true" >> $GITHUB_OUTPUT
+          fi
   yarn-test-e2e-applicant:
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.changes-detected == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,6 +59,8 @@ jobs:
         working-directory: ./app
 
   yarn-test-e2e-admin:
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.changes-detected == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -54,6 +79,8 @@ jobs:
         working-directory: ./app
 
   yarn-test-e2e-analyst:
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.changes-detected == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
