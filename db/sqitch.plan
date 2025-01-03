@@ -787,3 +787,4 @@ mutations/create_assessment_form [mutations/create_assessment_form@1.217.0] 2024
 @1.226.1 2025-01-24T17:22:30Z CCBC Service Account <ccbc@button.is> # release v1.226.1
 tables/intake_users 2025-01-23T20:58:14Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # table to hold users allowed on an intake
 @1.227.0 2025-01-27T22:44:59Z CCBC Service Account <ccbc@button.is> # release v1.227.0
+computed_columns/application_history [computed_columns/application_history@1.218.3] 2025-01-03T04:14:09Z ,,, <ryohani89@NH504670> # combine locations history to ccbc history

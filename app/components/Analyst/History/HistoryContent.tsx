@@ -13,10 +13,13 @@ import gis from 'formSchema/uiSchema/history/gis';
 import gisAssessmentHhSchema from 'formSchema/uiSchema/history/gisAssessmentHh';
 import applicationSowDataSchema from 'formSchema/uiSchema/history/applicationSowData';
 import applicationAnnounced from 'formSchema/uiSchema/history/applicationAnnounced';
+import { processArrayDiff } from 'components/DiffTable';
+import communities from 'formSchema/uiSchema/history/communities';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
 import HistoryFile from './HistoryFile';
+import CommunitiesHistoryTable from './CommunitiesHistoryTable';
 
 const StyledContent = styled.span`
   display: flex;
@@ -66,6 +69,13 @@ const filterArrays = (obj: Record<string, any>): Record<string, any> => {
     Array.isArray(value)
   );
   return Object.fromEntries(filteredEntries);
+};
+
+const processCommunity = (values) => {
+  return values?.map((community) => ({
+    economic_region: community.er,
+    regional_district: community.rd,
+  }));
 };
 
 const HistoryContent = ({
@@ -966,6 +976,41 @@ const HistoryContent = ({
             title="Uploaded Milestone Completion Evidence"
             tableTitle={false}
             testId="history-content-milestone-evidence-file"
+          />
+        )}
+      </>
+    );
+  }
+
+  if (tableName === 'application_communities') {
+    const user =
+      createdBy === 1 && op === 'INSERT' ? 'The system' : displayName;
+    const changes = diff(prevHistoryItem?.record || {}, record);
+    const [newArray, oldArray] = processArrayDiff(
+      changes,
+      communities.applicationCommunities
+    );
+
+    return (
+      <>
+        <StyledContent data-testid="history-content-communities">
+          <span>
+            {user} updated the coverage area for the project which resulted in a
+            change to <b>Community Location Data</b> on {createdAtFormatted}
+          </span>
+        </StyledContent>
+        {newArray.length > 0 && (
+          <CommunitiesHistoryTable
+            action="Added"
+            communities={processCommunity(newArray)}
+            isCbc={false}
+          />
+        )}
+        {oldArray.length > 0 && (
+          <CommunitiesHistoryTable
+            action="Deleted"
+            communities={processCommunity(oldArray)}
+            isCbc={false}
           />
         )}
       </>

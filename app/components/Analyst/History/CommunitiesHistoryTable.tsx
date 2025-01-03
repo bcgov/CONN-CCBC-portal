@@ -3,6 +3,12 @@ import styled from 'styled-components';
 interface Props {
   action: string;
   communities: any[];
+  isCbc?: boolean;
+}
+
+interface TableProps {
+  isCbc: boolean;
+  isDeleted?: boolean;
 }
 
 const StyledCommunitiesContainer = styled.div`
@@ -10,21 +16,22 @@ const StyledCommunitiesContainer = styled.div`
   align-items: center;
 `;
 
-const StyledLeftContainer = styled.div`
+const StyledLeftContainer = styled.div<TableProps>`
   padding-right: 2%;
-  width: 250px;
+  width: ${(props) => (props.isCbc ? '250px' : '300px')};
 `;
 
-const StyledTable = styled.table`
+const StyledTable = styled.table<TableProps>`
   th {
     border: none;
   }
   tbody > tr {
     border-bottom: thin dashed;
+    text-decoration: ${(props) => (props.isDeleted ? 'line-through' : 'none')};
     border-color: ${(props) => props.theme.color.borderGrey};
     td {
-      width: 200px;
-      max-width: 200px;
+      width: ${(props) => (props.isCbc ? '200px' : '350px')};
+      max-width: ${(props) => (props.isCbc ? '200px' : '350px')};
       border: none;
     }
   }
@@ -35,24 +42,28 @@ const StyledIdCell = styled.td`
   max-width: 100px;
 `;
 
-const CbcHistoryCommunitiesTable: React.FC<Props> = ({
+const CommunitiesHistoryTable: React.FC<Props> = ({
   action,
   communities,
+  isCbc = true,
 }) => {
   return (
     <StyledCommunitiesContainer
       style={{ display: 'flex', alignItems: 'center' }}
     >
-      <StyledLeftContainer>{`${action} community location data`}</StyledLeftContainer>
+      <StyledLeftContainer
+        isCbc={isCbc}
+        isDeleted={action === 'Deleted'}
+      >{`${action} community location data`}</StyledLeftContainer>
       <div>
-        <StyledTable>
+        <StyledTable isCbc={isCbc} isDeleted={action === 'Deleted'}>
           <thead>
             <tr>
               <th>Economic Region</th>
               <th>Regional District</th>
-              <th>Geographic Name</th>
-              <th>Type</th>
-              <th>ID</th>
+              {isCbc && <th>Geographic Name</th>}
+              {isCbc && <th>Type</th>}
+              {isCbc && <th>ID</th>}
             </tr>
           </thead>
           <tbody>
@@ -64,11 +75,13 @@ const CbcHistoryCommunitiesTable: React.FC<Props> = ({
               >
                 <td>{community.economic_region}</td>
                 <td>{community.regional_district}</td>
-                <td>{community.bc_geographic_name}</td>
-                <td>{community.geographic_type}</td>
-                <StyledIdCell>
-                  {community.communities_source_data_id}
-                </StyledIdCell>
+                {isCbc && <td>{community.bc_geographic_name}</td>}
+                {isCbc && <td>{community.geographic_type}</td>}
+                {isCbc && (
+                  <StyledIdCell>
+                    {community.communities_source_data_id}
+                  </StyledIdCell>
+                )}
               </tr>
             ))}
           </tbody>
@@ -78,4 +91,4 @@ const CbcHistoryCommunitiesTable: React.FC<Props> = ({
   );
 };
 
-export default CbcHistoryCommunitiesTable;
+export default CommunitiesHistoryTable;
