@@ -1159,7 +1159,7 @@ describe('The Summary page', () => {
 
     expect(screen.queryAllByText('(SOW)')).toHaveLength(0);
     const alerts = screen.getAllByTestId('styled-alert');
-    expect(alerts).toHaveLength(5);
+    expect(alerts).toHaveLength(4);
 
     fireEvent.mouseOver(alerts[1]);
     expect(
