@@ -2,7 +2,7 @@ import HistoryDetails from 'components/Analyst/History/HistoryDetails';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
 import { DateTime } from 'luxon';
 import styled from 'styled-components';
-import CbcHistoryCommunitiesTable from './CbcHistoryCommunitiesTable';
+import CommunitiesHistoryTable from '../../History/CommunitiesHistoryTable';
 
 const StyledContent = styled.span`
   display: flex;
@@ -76,13 +76,13 @@ const HistoryContent = ({
           overrideParent="cbcData"
         />
         {json?.locations?.added?.length > 0 && (
-          <CbcHistoryCommunitiesTable
+          <CommunitiesHistoryTable
             action="Added"
             communities={json?.locations?.added}
           />
         )}
         {json?.locations?.removed?.length > 0 && (
-          <CbcHistoryCommunitiesTable
+          <CommunitiesHistoryTable
             action="Deleted"
             communities={json?.locations?.removed}
           />
