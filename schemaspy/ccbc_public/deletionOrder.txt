@@ -32,6 +32,7 @@ application_claims_excel_data
 application_claims_data
 application_announced
 reporting_gcpe
+coverages_upload
 cbc_project
 application_rfi_data
 application_form_data
