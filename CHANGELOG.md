@@ -1,3 +1,9 @@
+## [1.221.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.221.0...v1.221.1) (2025-01-06)
+
+### Bug Fixes
+
+- formatting 0 values in history ([9f96d0d](https://github.com/bcgov/CONN-CCBC-portal/commit/9f96d0d4612fbf28627d8e1c7361db065a705cc2))
+
 # [1.221.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.220.0...v1.221.0) (2025-01-03)
 
 ### Features
