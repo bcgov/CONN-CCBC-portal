@@ -1,3 +1,9 @@
+## [1.221.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.221.3...v1.221.4) (2025-01-06)
+
+### Bug Fixes
+
+- status filter on all dashboard ([eab6020](https://github.com/bcgov/CONN-CCBC-portal/commit/eab602070d739f722eb1f04644fe3bb24c4a1d06))
+
 ## [1.221.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.221.2...v1.221.3) (2025-01-06)
 
 ### Bug Fixes
