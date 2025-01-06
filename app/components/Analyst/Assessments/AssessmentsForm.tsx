@@ -11,6 +11,7 @@ import { RJSFSchema } from '@rjsf/utils';
 import * as Sentry from '@sentry/nextjs';
 import { useToast } from 'components/AppProvider';
 import { FormBaseRef } from 'components/Form/FormBase';
+import isEqual from 'lodash.isequal';
 
 interface Props {
   addedContext?: any;
@@ -70,14 +71,52 @@ const AssessmentsForm: React.FC<Props> = ({
   >('idle');
   const formRef = useRef<FormBaseRef>(null);
 
+  const getDependenciesData = (data: any) => {
+    const newDependencies = {
+      connectedCoastNetworkDependent: data?.connectedCoastNetworkDependent,
+      crtcProjectDependent: data?.crtcProjectDependent,
+    };
+    const oldDependencies = {
+      connectedCoastNetworkDependent: formData?.connectedCoastNetworkDependent,
+      crtcProjectDependent: formData?.crtcProjectDependent,
+    };
+
+    if (!isEqual(newDependencies, oldDependencies)) {
+      return newDependencies;
+    }
+    return null;
+  };
+
   const handleSubmit = async (e: IChangeEvent<any>) => {
+    let hasTechnicalAssessmentChanged = false;
+    const newAssessmentData = { ...e.formData };
     if (!isFormSaved) {
+      // Remove the fields that are not part of the assessment data
+      // for dependencies handling and saving only what is needed
+      if (slug === 'technical') {
+        delete newAssessmentData.connectedCoastNetworkDependent;
+        delete newAssessmentData.crtcProjectDependent;
+
+        hasTechnicalAssessmentChanged = !isEqual(
+          newAssessmentData,
+          (({
+            connectedCoastNetworkDependent,
+            crtcProjectDependent,
+            ...assessment
+          }) => assessment)(formData)
+        );
+      }
+      const dependenciesData = getDependenciesData(e.formData);
       createAssessment({
         variables: {
           input: {
             _applicationId: queryFragment.rowId,
-            _jsonData: e.formData,
-            _assessmentType: slug,
+            _jsonData: newAssessmentData,
+            _dependenciesData: dependenciesData,
+            _assessmentType:
+              slug === 'technical' && !hasTechnicalAssessmentChanged
+                ? 'dependencies'
+                : slug,
           },
           connections: [],
         },
@@ -90,11 +129,29 @@ const AssessmentsForm: React.FC<Props> = ({
         },
         updater: (store, data) => {
           const application = store.get(queryFragment.id);
-          application.setLinkedRecord(
-            store.get(data.createAssessmentForm.assessmentData.id),
-            'assessmentForm',
-            { _assessmentDataType: slug }
-          );
+          if (data.createAssessmentForm.assessmentFormResult?.assessmentData) {
+            application.setLinkedRecord(
+              store.get(
+                data.createAssessmentForm.assessmentFormResult?.assessmentData
+                  .id
+              ),
+              'assessmentForm',
+              { _assessmentDataType: slug }
+            );
+          }
+          if (
+            data.createAssessmentForm.assessmentFormResult
+              ?.applicationDependencies
+          ) {
+            application.setLinkedRecord(
+              store.get(
+                data.createAssessmentForm.assessmentFormResult
+                  .applicationDependencies.id
+              ),
+              'applicationDependenciesByApplicationId',
+              { _applicationId: queryFragment.rowId }
+            );
+          }
         },
       });
     }

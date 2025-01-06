@@ -399,7 +399,7 @@ const HistoryContent = ({
       <>
         <StyledContent data-testid="history-content-dependencies">
           <span>
-            {user} updated the <b>Technical Assessment :</b> on{' '}
+            {user} updated the <b>Technical Assessment</b> on{' '}
             {createdAtFormatted}
           </span>
         </StyledContent>

@@ -1,3 +1,9 @@
+## [1.221.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.221.2...v1.221.3) (2025-01-06)
+
+### Bug Fixes
+
+- prevent extra row in history when saving dependencies/assessment ([2af8d24](https://github.com/bcgov/CONN-CCBC-portal/commit/2af8d2421b13ab922e2e5cf4e15ac4623533ffff))
+
 ## [1.221.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.221.1...v1.221.2) (2025-01-06)
 
 ## [1.221.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.221.0...v1.221.1) (2025-01-06)

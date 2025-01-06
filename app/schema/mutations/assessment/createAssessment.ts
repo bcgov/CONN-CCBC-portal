@@ -8,18 +8,24 @@ const mutation = graphql`
     $connections: [ID!]!
   ) {
     createAssessmentForm(input: $input) {
-      assessmentData
-        @prependNode(
-          connections: $connections
-          edgeTypeName: "AssessmentDataEdge"
-        ) {
-        id
-        rowId
-        jsonData
-        createdAt
-        updatedAt
-        updatedBy
-        assessmentDataType
+      assessmentFormResult {
+        assessmentData
+          @prependNode(
+            connections: $connections
+            edgeTypeName: "AssessmentDataEdge"
+          ) {
+          id
+          rowId
+          jsonData
+          createdAt
+          updatedAt
+          updatedBy
+          assessmentDataType
+        }
+        applicationDependencies {
+          id
+          jsonData
+        }
       }
     }
   }
