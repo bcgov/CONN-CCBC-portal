@@ -20,7 +20,7 @@ import { useCreateNewFormDataMutation } from 'schema/mutations/application/creat
 import { analystProjectArea, benefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
 import { RJSFSchema } from '@rjsf/utils';
-import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
 
 const getSectionQuery = graphql`
   query SectionQuery($rowId: Int!) {
@@ -85,7 +85,7 @@ const EditApplication = ({
   const [changeReason, setChangeReason] = useState('');
   const [isFormSaved, setIsFormSaved] = useState(true);
   const changeModal = useModal();
-  const { notifyHHCountUpdate } = useHHCountUpdateEmail();
+  const { notifyHHCountUpdate } = useEmailNotification();
   const handleChange = (e: IChangeEvent) => {
     setIsFormSaved(false);
     const newFormSectionData = { ...e.formData };

@@ -5,16 +5,18 @@ import RFIAnalystUpload from 'components/Analyst/RFI/RFIAnalystUpload';
 import compiledQuery, {
   RFIAnalystUploadTestQuery,
 } from '__generated__/RFIAnalystUploadTestQuery.graphql';
-import useHHCountUpdateEmail from 'lib/helpers/useHHCountUpdateEmail';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
 import useRfiCoverageMapKmzUploadedEmail from 'lib/helpers/useRfiCoverageMapKmzUploadedEmail';
 import { mocked } from 'jest-mock';
 
-jest.mock('lib/helpers/useHHCountUpdateEmail');
+jest.mock('lib/helpers/useEmailNotification');
 jest.mock('lib/helpers/useRfiCoverageMapKmzUploadedEmail');
 
 const mockNotifyHHCountUpdate = jest.fn();
-mocked(useHHCountUpdateEmail).mockReturnValue({
+const mockNotifyDocumentUpload = jest.fn();
+mocked(useEmailNotification).mockReturnValue({
   notifyHHCountUpdate: mockNotifyHHCountUpdate,
+  notifyDocumentUpload: mockNotifyDocumentUpload,
 });
 
 const mockNotifyRfiCoverageMapKmzUploaded = jest.fn();
@@ -336,7 +338,27 @@ describe('The RFIAnalystUpload component', () => {
       }
     );
 
-    expect(mockNotifyRfiCoverageMapKmzUploaded).toHaveBeenCalledTimes(1);
+    expect(mockNotifyHHCountUpdate).toHaveBeenCalledWith(
+      {
+        householdsImpactedIndigenous: 123987,
+        numberOfHouseholds: 2,
+      },
+      { householdsImpactedIndigenous: 13, numberOfHouseholds: 12 },
+      1,
+      {
+        ccbcNumber: 'CCBC-12345',
+        manualUpdate: false,
+        rfiNumber: 'RFI-01',
+        timestamp: expect.any(String),
+      }
+    );
+
+    expect(mockNotifyDocumentUpload).toHaveBeenCalledWith(1, {
+      ccbcNumber: 'CCBC-12345',
+      documentType: 'Template 1',
+      documentNames: ['template_one.xlsx'],
+    });
+
     expect(
       screen.getByText(/Template 1 data changed successfully/)
     ).toBeVisible();

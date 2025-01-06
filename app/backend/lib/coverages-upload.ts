@@ -6,6 +6,7 @@ import config from '../../config';
 import getAuthRole from '../../utils/getAuthRole';
 import { uploadFileToS3 } from './s3client';
 import { commonFormidableConfig, parseForm } from './express-helper';
+import { performQuery } from './graphql';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 
@@ -14,9 +15,17 @@ const limiter = RateLimit({
   max: 2000,
 });
 
-const s3upload = Router();
+const createCoveragesUploadMutation = `
+    mutation createCoveragesUpload($input: CreateCoveragesUploadInput!) {
+        createCoveragesUpload(input: $input) {
+            clientMutationId
+        }
+    }
+`;
 
-s3upload.post('/api/s3/upload', limiter, async (req, res) => {
+const coveragesUpload = Router();
+
+coveragesUpload.post('/api/coverages/upload', limiter, async (req, res) => {
   const authRole = getAuthRole(req);
   const isRoleAuthorized =
     authRole?.pgRole === 'ccbc_admin' ||
@@ -32,8 +41,8 @@ s3upload.post('/api/s3/upload', limiter, async (req, res) => {
   const files = await parseForm(form, req).catch((err) => {
     return res.status(400).json({ error: err }).end();
   });
-
   const filename = Object.keys(files)[0];
+  const newFilename = files[filename]?.[0].newFilename;
   const originalFilename = files[filename]?.[0].originalFilename;
   const uploadedFilesArray = files[filename] as Array<File>;
 
@@ -49,12 +58,31 @@ s3upload.post('/api/s3/upload', limiter, async (req, res) => {
     Body: file,
   };
 
+  const paramsUuid = {
+    Bucket: AWS_S3_BUCKET,
+    Key: newFilename,
+    Body: file,
+  };
+
   const uploadResult = await uploadFileToS3(params);
-  if (uploadResult) {
+  const uuidUploadResult = await uploadFileToS3(paramsUuid);
+  if (uploadResult && uuidUploadResult) {
+    // persist in DB
+    await performQuery(
+      createCoveragesUploadMutation,
+      {
+        input: {
+          coveragesUpload: {
+            uuid: newFilename,
+          },
+        },
+      },
+      req
+    );
     return res.json({ status: 'success' });
   }
 
   return res.status(200).end();
 });
 
-export default s3upload;
+export default coveragesUpload;
