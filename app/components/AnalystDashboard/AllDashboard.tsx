@@ -172,7 +172,7 @@ const statusFilter = (row, id, filterValue) => {
   if (filterValue.length === 0) {
     return true;
   }
-  return filterValue.includes(normalizeStatusName(row.getValue(id)));
+  return filterValue.includes(row.getValue(id));
 };
 
 interface Props {
