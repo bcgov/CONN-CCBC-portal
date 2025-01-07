@@ -30,7 +30,8 @@ const ClearFilters: React.FC<Props> = ({
     filters.filter((f) => f.id === 'program' && (f.value as any[]).length < 3)
       .length > 0;
 
-  const isGlobalFilterPresent = table.getState().globalFilter !== '';
+  const isGlobalFilterPresent =
+    table.getState().globalFilter && table.getState().globalFilter !== '';
 
   return (
     <Button

@@ -154,7 +154,7 @@ const ApplicantStatusCell = ({ cell }) => {
   return <StatusPill status={analystStatus} styles={statusStyles} />;
 };
 
-const filterOutNullishs = (val) => val !== undefined && val !== null;
+export const filterOutNullishs = (val) => val !== undefined && val !== null;
 
 const toLabelValuePair = (value) =>
   value ? { label: value, value } : { label: 'Unassigned', value: ' ' };
