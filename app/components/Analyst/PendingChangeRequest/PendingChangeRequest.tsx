@@ -35,6 +35,7 @@ const PendingChangeRequest = ({
             orderBy: CREATED_AT_DESC
             first: 1
           ) {
+            __id
             nodes {
               comment
               isPending
@@ -49,6 +50,7 @@ const PendingChangeRequest = ({
             orderBy: CREATED_AT_DESC
             first: 1
           ) {
+            __id
             nodes {
               comment
               isPending
@@ -68,7 +70,7 @@ const PendingChangeRequest = ({
   const [isPending, setIsPending] = useState(
     pendingRequests?.nodes?.[0]?.isPending || false
   );
-
+  const connectionId = pendingRequests?.__id;
   const [comment, setComment] = useState(
     isPending ? pendingRequests?.nodes?.[0]?.comment : null
   );
@@ -104,6 +106,18 @@ const PendingChangeRequest = ({
       variables: {
         input: input as CreateCbcPendingChangeRequestInput &
           CreatePendingChangeRequestInput,
+      },
+      updater: (store) => {
+        const payload = store.getRootField(
+          isCbc ? 'createCbcPendingChangeRequest' : 'createPendingChangeRequest'
+        );
+        const newEdge = payload.getLinkedRecord(
+          isCbc
+            ? 'cbcApplicationPendingChangeRequest'
+            : 'applicationPendingChangeRequest'
+        );
+        const connection = store.get(connectionId);
+        if (connection) connection.setLinkedRecords([newEdge], 'nodes');
       },
       onCompleted: () => {
         setIsPending(isPendingRequest);
