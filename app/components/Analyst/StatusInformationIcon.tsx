@@ -2,12 +2,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import useModal from 'lib/helpers/useModal';
+import StatusInformationModal from './StatusInformationModal';
 
 const StyledFontAwesome = styled(FontAwesomeIcon)`
   margin-left: 4px;
 `;
 
-const StatusInformationIcon = ({ ModalComponent }) => {
+interface StatusInformationIconProps {
+  type?: 'cbc' | 'ccbc';
+}
+
+const StatusInformationIcon = ({ type }: StatusInformationIconProps) => {
   const modalProps = useModal();
 
   const handleClick = () => {
@@ -22,7 +27,7 @@ const StatusInformationIcon = ({ ModalComponent }) => {
 
   return (
     <>
-      <ModalComponent {...modalProps} />
+      <StatusInformationModal type={type} {...modalProps} />
       <div
         role="button"
         tabIndex={0}

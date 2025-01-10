@@ -1,3 +1,9 @@
+# [1.222.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.221.4...v1.222.0) (2025-01-10)
+
+### Features
+
+- add sprint done to columns checked for merge conflict ([d58cebf](https://github.com/bcgov/CONN-CCBC-portal/commit/d58cebf9e6ccaf00266c292c9ad7ddd0f88fcc82))
+
 ## [1.221.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.221.3...v1.221.4) (2025-01-06)
 
 ### Bug Fixes

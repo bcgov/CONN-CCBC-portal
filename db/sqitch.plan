@@ -778,3 +778,4 @@ types/assessment_form_result 2024-12-20T14:51:59Z ,,, <ryohani89@NH504670> # add
 mutations/create_assessment_form [mutations/create_assessment_form@1.217.0] 2024-12-20T15:09:15Z ,,, <ryohani89@NH504670> # update create_assessment_form mutation
 @1.221.3 2025-01-06T21:34:27Z CCBC Service Account <ccbc@button.is> # release v1.221.3
 @1.221.4 2025-01-06T22:46:18Z CCBC Service Account <ccbc@button.is> # release v1.221.4
+@1.222.0 2025-01-10T16:34:19Z CCBC Service Account <ccbc@button.is> # release v1.222.0
