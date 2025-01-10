@@ -12,10 +12,11 @@ import review from 'formSchema/analyst/summary/review';
 import styled from 'styled-components';
 import { Tooltip } from '@mui/material';
 import { Info } from '@mui/icons-material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import generateFormData from 'lib/helpers/ccbcSummaryGenerateFormData';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import MapCaller from 'components/Analyst/Map/MapCaller';
 
 const getSummaryQuery = graphql`
   query summaryQuery($rowId: Int!) {
@@ -188,6 +189,7 @@ const Summary = ({
 }: RelayProps<Record<string, unknown>, summaryQuery>) => {
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
+  const [mapData, setMapData] = useState(null);
   const query = usePreloadedQuery(getSummaryQuery, preloadedQuery);
   const {
     applicationByRowId,
@@ -207,12 +209,21 @@ const Summary = ({
     allApplicationErs,
     allApplicationRds
   );
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetch(`/api/map/${applicationId}`);
+      setMapData(await data.json());
+    };
+
+    fetchData();
+  }, [applicationId]);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <>
           <h2>Summary</h2>
+          <MapCaller initialData={mapData} />
           <p>
             This section provides up-to-date information on the project&apos;s
             status by pulling from the{' '}
