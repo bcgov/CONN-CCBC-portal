@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 
-const LazyMap = dynamic(() => import('./Map'), {
+const LazyMap = dynamic(() => import('./SummaryMap'), {
   ssr: false,
   loading: () => <p>Loading...</p>,
 });
