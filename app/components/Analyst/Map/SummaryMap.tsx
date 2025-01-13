@@ -33,7 +33,7 @@ const convertKmlColorToHex = (
   hex: string;
   alpha: number;
 } => {
-  if (kmlColor === null || typeof kmlColor === undefined) {
+  if (kmlColor === null || typeof kmlColor === 'undefined') {
     return { hex: '#000000', alpha: 1 };
   }
 
@@ -72,7 +72,7 @@ const getBounds = (data) => {
   ];
 };
 
-const Map = ({ initialData, height, width }) => {
+const SummaryMap = ({ initialData, height, width }) => {
   const data = initialData;
   const tooltipClass = styles['tooltip-map'];
   const tooltipTextClass = styles['tooltip-text-map'];
@@ -279,4 +279,4 @@ const Map = ({ initialData, height, width }) => {
   );
 };
 
-export default Map;
+export default SummaryMap;
