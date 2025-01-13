@@ -30,9 +30,9 @@ interface Props {
 const AnalystLayout: React.FC<Props> = ({
   children,
   query,
-  mapData,
-  isMapExpanded,
-  setIsMapExpanded,
+  mapData = null,
+  isMapExpanded = null,
+  setIsMapExpanded = null,
 }) => {
   const queryFragment = useFragment(
     graphql`
