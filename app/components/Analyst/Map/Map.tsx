@@ -20,8 +20,12 @@ import {
   TileLayer,
   ScaleControl,
 } from 'react-leaflet';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Tooltip.module.css';
+
+const generateUniqueKey = () => {
+  return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+};
 
 const convertKmlColorToHex = (
   kmlColor: string
@@ -68,20 +72,22 @@ const getBounds = (data) => {
   ];
 };
 
-const Map = ({ initialData }) => {
+const Map = ({ initialData, height, width }) => {
   const data = initialData;
   const tooltipClass = styles['tooltip-map'];
   const tooltipTextClass = styles['tooltip-text-map'];
   const mapRef = useRef(null);
+  const [mapReady, setMapReady] = useState(false);
   useEffect(() => {
     const map = mapRef.current;
     if (map) {
       map.fitBounds([getBounds(data)]);
     }
-  }, [data]);
+  }, [data, mapReady]);
   return (
     <MapContainer
       preferCanvas
+      attributionControl={false}
       ref={mapRef}
       // BC Bounds
       bounds={[
@@ -91,7 +97,10 @@ const Map = ({ initialData }) => {
       // Zoom is automatically set when using bounds
       // zoom={5}
       scrollWheelZoom
-      style={{ height: '400px', width: '600px' }}
+      style={{ height, width }}
+      whenReady={() => {
+        setMapReady(true);
+      }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -106,12 +115,12 @@ const Map = ({ initialData }) => {
                 checked
                 // Name does not accept anything but string, but it will render basic HTML
                 name={`<span class='${tooltipClass}'>Geographic Coverage (${geoData?.source})<span class='${tooltipTextClass}'>${geoData?.fileName}</span></span>`}
-                key={`geo-overlay-${geoData?.fileName}`}
+                key={`geo-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
                   {geoData?.markers?.map((marker) => (
                     <Marker
-                      key={`geo-marker-${marker?.fileName}`}
+                      key={`geo-marker-${generateUniqueKey()}`}
                       position={marker.coordinates}
                     >
                       <Popup>
@@ -122,7 +131,7 @@ const Map = ({ initialData }) => {
                   ))}
                   {geoData?.polygons?.map((polygon) => (
                     <Polygon
-                      key={`geo-polygon-${polygon?.fileName}`}
+                      key={`geo-polygon-${generateUniqueKey()}`}
                       positions={polygon.coordinates}
                       color="blue"
                     >
@@ -144,12 +153,12 @@ const Map = ({ initialData }) => {
               <LayersControl.Overlay
                 checked={false}
                 name={`<span class='${tooltipClass}'>Current Network Infrastructure (${geoData?.source})<span class='${tooltipTextClass}'>${geoData?.fileName}</span></span>`}
-                key={`current-overlay-${geoData?.fileName}`}
+                key={`current-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
                   {geoData?.markers?.map((marker) => (
                     <Marker
-                      key={`current-marker-${marker?.fileName}`}
+                      key={`current-marker-${generateUniqueKey()}`}
                       position={marker.coordinates}
                     >
                       <Popup>
@@ -160,7 +169,7 @@ const Map = ({ initialData }) => {
                   ))}
                   {geoData?.polygons?.map((polygon) => (
                     <Polygon
-                      key={`current-polygon-${polygon?.fileName}`}
+                      key={`current-polygon-${generateUniqueKey()}`}
                       positions={polygon.coordinates}
                       color="red"
                     >
@@ -181,12 +190,12 @@ const Map = ({ initialData }) => {
               <LayersControl.Overlay
                 checked={false}
                 name={`<span class='${tooltipClass}'>Upgraded Network Infrastructure (${geoData?.source})<span class='${tooltipTextClass}'>${geoData?.fileName}</span></span>`}
-                key={`upgraded-overlay-${geoData?.fileName}`}
+                key={`upgraded-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
                   {geoData?.markers?.map((marker) => (
                     <Marker
-                      key={`upgraded-marker-${marker?.fileName}`}
+                      key={`upgraded-marker-${generateUniqueKey()}`}
                       position={marker.coordinates}
                     >
                       <Popup>
@@ -197,7 +206,7 @@ const Map = ({ initialData }) => {
                   ))}
                   {geoData?.polygons?.map((polygon) => (
                     <Polygon
-                      key={`upgraded-polygon-${polygon?.fileNam}`}
+                      key={`upgraded-polygon-${generateUniqueKey()}`}
                       positions={polygon.coordinates}
                       color="green"
                     >
@@ -218,12 +227,12 @@ const Map = ({ initialData }) => {
               <LayersControl.Overlay
                 checked
                 name={`<span class='${tooltipClass}'>Finalized Map Upload (${geoData?.source})<span class='${tooltipTextClass}'>${geoData?.fileName}</span></span>`}
-                key={`finalized-overlay-${geoData?.fileName}`}
+                key={`finalized-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
                   {geoData?.markers?.map((marker) => (
                     <Marker
-                      key={`finalized-marker-${marker?.fileName}`}
+                      key={`finalized-marker-${generateUniqueKey()}`}
                       position={marker.coordinates}
                     >
                       <Popup>

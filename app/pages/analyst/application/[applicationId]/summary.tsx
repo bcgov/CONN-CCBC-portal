@@ -9,6 +9,7 @@ import CbcForm from 'components/Analyst/CBC/CbcForm';
 import ReviewTheme from 'components/Review/ReviewTheme';
 import reviewUiSchema from 'formSchema/uiSchema/summary/reviewUiSchema';
 import review from 'formSchema/analyst/summary/review';
+import map from 'formSchema/analyst/summary/map';
 import styled from 'styled-components';
 import { Tooltip } from '@mui/material';
 import { Info } from '@mui/icons-material';
@@ -16,7 +17,7 @@ import { useEffect, useState } from 'react';
 import generateFormData from 'lib/helpers/ccbcSummaryGenerateFormData';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import MapCaller from 'components/Analyst/Map/MapCaller';
+import mapUiSchema from 'formSchema/uiSchema/summary/mapUiSchema';
 
 const getSummaryQuery = graphql`
   query summaryQuery($rowId: Int!) {
@@ -190,6 +191,7 @@ const Summary = ({
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
   const [mapData, setMapData] = useState(null);
+  const [isMapExpanded, setIsMapExpanded] = useState(false);
   const query = usePreloadedQuery(getSummaryQuery, preloadedQuery);
   const {
     applicationByRowId,
@@ -209,21 +211,53 @@ const Summary = ({
     allApplicationErs,
     allApplicationRds
   );
+  const [finalFormData, setFinalFormData] = useState<any>(formData);
+  const finalUiSchema = {
+    map: { ...mapUiSchema },
+    ...reviewUiSchema,
+  };
+  const finalSchema = {
+    ...review,
+    properties: {
+      map: {
+        required: map.required,
+        title: map.title,
+        properties: {
+          ...map.properties,
+        },
+      },
+      ...review.properties,
+    },
+  };
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetch(`/api/map/${applicationId}`);
-      setMapData(await data.json());
+      const json = await data.json();
+      setMapData(json);
+      setFinalFormData({
+        ...formData,
+        map: { map: { json, setIsMapExpanded } },
+      });
     };
 
     fetchData();
-  }, [applicationId]);
+  }, []);
+
+  useEffect(() => {
+    setMapData({ ...mapData });
+  }, [isMapExpanded]);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <AnalystLayout query={query}>
+      <AnalystLayout
+        query={query}
+        mapData={mapData}
+        isMapExpanded={isMapExpanded}
+        setIsMapExpanded={setIsMapExpanded}
+      >
         <>
           <h2>Summary</h2>
-          <MapCaller initialData={mapData} />
+          {/* <MapCaller initialData={mapData} height="400px" width="600px" /> */}
           <p>
             This section provides up-to-date information on the project&apos;s
             status by pulling from the{' '}
@@ -291,15 +325,15 @@ const Summary = ({
             formDataSource,
             showErrorHint: true,
           }}
-          formData={formData}
+          formData={finalFormData}
           handleChange={() => {}}
           isExpanded
           isFormAnimated={false}
           isFormEditMode={false}
           title="Summary"
           theme={ReviewTheme}
-          schema={review}
-          uiSchema={reviewUiSchema}
+          schema={isMapExpanded ? finalSchema : review}
+          uiSchema={isMapExpanded ? finalUiSchema : reviewUiSchema}
           resetFormData={() => {}}
           onSubmit={() => {}}
           setIsFormEditMode={() => {}}
