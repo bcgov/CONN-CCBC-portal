@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import RateLimit from 'express-rate-limit';
 import { getByteArrayFromS3 } from '../s3client';
 import { parseKMLFromBuffer, parseKMZ } from './utils';
 import { performQuery } from '../graphql';
@@ -29,6 +30,11 @@ type RfiData = {
 };
 
 const map = Router();
+
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 2000,
+});
 
 const getAppDataQuery = `
 query getAppDataQuery($rowId: Int!) {
@@ -203,7 +209,7 @@ const handleQueryResult = (rfiData, formData, projectInformationData) => {
 };
 
 // eslint-disable-next-line consistent-return
-map.get('/api/map/:id', async (req, res) => {
+map.get('/api/map/:id', limiter, async (req, res) => {
   const { id } = req.params;
   const applicationId = parseInt(id, 10);
   if (!applicationId) {
