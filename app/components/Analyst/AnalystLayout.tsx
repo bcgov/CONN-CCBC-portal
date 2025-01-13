@@ -23,8 +23,8 @@ interface Props {
   children: JSX.Element[] | JSX.Element;
   query: any;
   mapData?: any;
-  isMapExpanded: boolean;
-  setIsMapExpanded: (isMapExpanded: boolean) => void;
+  isMapExpanded?: boolean;
+  setIsMapExpanded?: (isMapExpanded: boolean) => void;
 }
 
 const AnalystLayout: React.FC<Props> = ({
