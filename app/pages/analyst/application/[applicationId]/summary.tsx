@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
@@ -242,10 +243,6 @@ const Summary = ({
 
     fetchData();
   }, []);
-
-  useEffect(() => {
-    setMapData({ ...mapData });
-  }, [isMapExpanded]);
 
   return (
     <Layout session={session} title="Connecting Communities BC">
