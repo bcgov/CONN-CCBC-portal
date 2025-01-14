@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
@@ -14,10 +14,26 @@ import * as Sentry from '@sentry/nextjs';
 import Tabs from 'components/Analyst/GIS/Tabs';
 import checkFileType from 'utils/checkFileType';
 import { useUnsavedChanges } from 'components/UnsavedChangesProvider';
+import GisHistory from 'components/Analyst/GIS/GisHistory';
 import config from '../../../config';
 
 const getCoveragesQuery = graphql`
   query coveragesQuery {
+    allRecordVersions(
+      orderBy: RECORD_ID_DESC
+      condition: { tableName: "coverages_upload" }
+    ) {
+      nodes {
+        record
+        tableName
+        createdBy
+        createdAt
+        ccbcUserByCreatedBy {
+          familyName
+          givenName
+        }
+      }
+    }
     session {
       sub
       ...DashboardTabs_query
@@ -92,7 +108,7 @@ const validateFile = (file: globalThis.File) => {
   return { isValid: true, error: null };
 };
 
-const CoveragesTab = () => {
+const CoveragesTab = ({ historyList }) => {
   const [selectedFile, setSelectedFile] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -144,6 +160,17 @@ const CoveragesTab = () => {
       Sentry.captureException(e);
     }
   };
+
+  const historyTableList = useMemo(
+    () =>
+      historyList.map((historyItem) => ({
+        name: `${historyItem.ccbcUserByCreatedBy.givenName} ${historyItem.ccbcUserByCreatedBy.familyName}`,
+        file: COVERAGES_FILE_NAME,
+        createdAt: historyItem.createdAt,
+        uuid: historyItem.record.uuid,
+      })),
+    [historyList]
+  );
 
   return (
     <div>
@@ -201,6 +228,7 @@ const CoveragesTab = () => {
           </StyledSuccess>
         )}
       </div>
+      <GisHistory historyTableList={historyTableList} />
     </div>
   );
 };
@@ -209,12 +237,12 @@ const UploadCoverages = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, coveragesQuery>) => {
   const query = usePreloadedQuery(getCoveragesQuery, preloadedQuery);
-  const { session } = query;
+  const { session, allRecordVersions } = query;
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledContainer>
         <DashboardTabs session={session} />
-        <CoveragesTab />
+        <CoveragesTab historyList={allRecordVersions?.nodes || []} />
       </StyledContainer>
     </Layout>
   );
