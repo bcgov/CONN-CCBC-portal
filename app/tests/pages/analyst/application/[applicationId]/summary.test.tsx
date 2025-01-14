@@ -1,4 +1,4 @@
-import { act, fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import Summary from 'pages/analyst/application/[applicationId]/summary';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledSummaryQuery, {
@@ -1249,5 +1249,33 @@ describe('The Summary page', () => {
         'Highlighted cells are null because SOW Excel table has not been uploaded in the portal'
       )
     ).toBeInTheDocument();
+  });
+
+  it('should show the map in two places', async () => {
+    pageTestingHelper.setMockRouterValues({
+      query: {
+        applicationId: '1',
+      },
+      asPath: '/summary',
+    });
+
+    await act(async () => {
+      pageTestingHelper.loadQuery();
+      pageTestingHelper.renderPage();
+    });
+
+    await waitFor(() =>
+      expect(screen.getByTestId('expand-map')).toBeInTheDocument()
+    );
+
+    const expandMapButton = screen.getByTestId('expand-map');
+
+    await act(async () => {
+      fireEvent.click(expandMapButton);
+    });
+
+    await waitFor(() =>
+      expect(screen.getByTestId('collapse-map')).toBeInTheDocument()
+    );
   });
 });

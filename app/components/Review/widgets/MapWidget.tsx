@@ -17,7 +17,7 @@ const MapWidget: React.FC<WidgetProps> = ({ value }) => {
     <>
       <MapCaller initialData={value?.json} height="400px" width="900px" />
       <StyledLink
-        data-testid="expand-map"
+        data-testid="collapse-map"
         onClick={(e) => {
           e.preventDefault();
           value?.setIsMapExpanded(false);
