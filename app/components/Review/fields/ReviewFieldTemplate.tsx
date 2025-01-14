@@ -11,6 +11,10 @@ const StyledHelp = styled(Help)`
   cursor: pointer;
 `;
 
+const StyledSpan = styled.span`
+  color: ${(props) => props.theme.color.disabledGrey};
+`;
+
 const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   id,
   formContext,
@@ -62,6 +66,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
     Object.keys(rfi?.jsonData?.rfiAdditionalFiles || []).includes(fieldName)
   );
   const hasError = isErrors && !isFieldInRfi;
+  const fallBackField = formContext?.fallBackFields?.[fieldName];
 
   return (
     <>
@@ -77,6 +82,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
           errorTextColor={errorTextColor}
         >
           {!showTitle && fieldTitle}
+          {fallBackField && <StyledSpan>{fallBackField}</StyledSpan>}
           {children}
           {hasError && showErrorHint && hasFormContextError && (
             <Tooltip
