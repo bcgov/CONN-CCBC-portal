@@ -212,7 +212,7 @@ const Summary = ({
   const [toggleOverride, setToggleExpandOrCollapseAll] = useState<
     boolean | undefined
   >(true);
-  const { formData, formDataSource, errors } = generateFormData(
+  const { formData, formDataSource, errors, fallBackFields } = generateFormData(
     applicationByRowId,
     allApplicationSowData,
     allIntakes,
@@ -335,6 +335,7 @@ const Summary = ({
             errors,
             formDataSource,
             showErrorHint: true,
+            fallBackFields,
           }}
           formData={finalFormData}
           handleChange={() => {}}
