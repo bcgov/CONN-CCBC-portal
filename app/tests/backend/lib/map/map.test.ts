@@ -157,16 +157,6 @@ describe('The Map API', () => {
     app = express();
     app.use(bodyParser.json());
     app.use('/', map);
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('processes query result and sends response', async () => {
-    mocked(performQuery).mockImplementation(async () => {
-      return queryResult;
-    });
 
     mocked(parseKMZ).mockImplementation(async () => {
       return {
@@ -186,6 +176,99 @@ describe('The Map API', () => {
 
       // Mock the function to return the file content
       return fileContent;
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('processes query result with all kmz and sends response', async () => {
+    mocked(performQuery).mockImplementation(async () => {
+      return queryResult;
+    });
+
+    const response = await request(app).get('/api/map/1');
+
+    expect(response.status).toBe(200);
+  });
+
+  it('processes query result with all kml and sends response', async () => {
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          ...queryResult.data,
+          applicationByRowId: {
+            ...queryResult.data.applicationByRowId,
+            applicationRfiDataByApplicationId: {
+              ...queryResult.data.applicationByRowId
+                .applicationRfiDataByApplicationId,
+              nodes: [
+                {
+                  rfiDataByRfiDataId: {
+                    jsonData: {
+                      rfiType: ['Missing files or information', 'Technical'],
+                      rfiDueBy: '2024-04-22',
+                      rfiAdditionalFiles: {
+                        geographicCoverageMap: [
+                          {
+                            id: 3198,
+                            name: 'OTHER.kml',
+                            size: 91873,
+                            type: 'application/vnd.google-earth.kml',
+                            uuid: '0d806c15-7b64-4a87-ffff-ffffffffff',
+                            uploadedAt: '2024-04-11T13:15:55.586-07:00',
+                          },
+                          {
+                            id: 3229,
+                            name: 'My ISED Coverage.KML',
+                            size: 98297,
+                            type: 'application/vnd.google-earth.kml',
+                            uuid: '87130d7c-3f73-49c7-fffff-ffffffffff',
+                            uploadedAt: '2024-04-18T11:45:32.209-07:00',
+                          },
+                        ],
+                        geographicCoverageMapRfi: true,
+
+                        otherSupportingMaterialsRfi: true,
+
+                        coverageAssessmentStatisticsRfi: true,
+
+                        supportingConnectivityEvidenceRfi: true,
+                        eligibilityAndImpactsCalculatorRfi: true,
+                      },
+                    },
+                    rfiNumber: 'CCBC-010001-1',
+                  },
+                },
+                {
+                  rfiDataByRfiDataId: {
+                    jsonData: {
+                      rfiType: ['Missing files or information'],
+                      rfiDueBy: '2024-05-24',
+                      rfiAdditionalFiles: {
+                        currentNetworkInfastructure: [
+                          {
+                            id: 3277,
+                            name: 'CURR.kml',
+                            size: 207349,
+                            type: 'application/vnd.google-earth.kml',
+                            uuid: 'ac0a9d4b-0d12-4828-ffff-ffffffff',
+                            uploadedAt: '2024-05-15T15:17:14.198-07',
+                          },
+                        ],
+                        otherSupportingMaterialsRfi: true,
+                        currentNetworkInfastructureRfi: true,
+                      },
+                    },
+                    rfiNumber: 'CCBC-010001-2',
+                  },
+                },
+              ],
+            },
+          },
+        },
+      };
     });
 
     const response = await request(app).get('/api/map/1');
