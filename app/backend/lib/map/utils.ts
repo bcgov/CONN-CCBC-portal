@@ -1,5 +1,5 @@
 import JSZip from 'jszip'; // For extracting KMZ files
-import { DOMParser } from 'xmldom'; // For parsing XML
+import { DOMParser } from '@xmldom/xmldom';
 import { Feature } from 'geojson';
 import toGeoJSON from '@tmcw/togeojson'; // Converts KML to GeoJSON
 
@@ -132,7 +132,7 @@ const parseKML = (
   source: string
 ): ParsedKML => {
   const kml = new DOMParser().parseFromString(kmlContent, 'text/xml');
-  const geoJson = toGeoJSON.kml(kml); // Converts to GeoJSON
+  const geoJson = toGeoJSON.kml(kml as any); // Converts to GeoJSON
 
   let hasLineStrings = false;
 
