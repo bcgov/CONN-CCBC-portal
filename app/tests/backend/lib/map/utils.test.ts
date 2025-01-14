@@ -51,7 +51,7 @@ const kmlData = `
 
 describe('Map util functions', () => {
   it('should parse KML data from buffer and convert it to GeoJSON', async () => {
-    const buffer = Buffer.from(kmlData, 'utf-8');
+    const buffer = Buffer.from(kmlData.trim(), 'utf-8');
     const parsedData = await parseKMLFromBuffer(
       buffer,
       'test-file.kml',
@@ -117,7 +117,7 @@ describe('Map util functions', () => {
   it('should parse KMZ data from buffer and convert it to GeoJSON', async () => {
     // Create a KMZ file containing the KML data
     const zip = new JSZip();
-    zip.file('doc.kml', kmlData);
+    zip.file('doc.kml', kmlData.trim());
     const kmzBuffer = await zip.generateAsync({ type: 'nodebuffer' });
 
     // Parse the KMZ buffer
