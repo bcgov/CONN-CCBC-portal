@@ -1,3 +1,9 @@
+# [1.223.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.222.0...v1.223.0) (2025-01-14)
+
+### Features
+
+- add history table to GIS coverage ([f299355](https://github.com/bcgov/CONN-CCBC-portal/commit/f2993558ba8f215f89c03c9f031e0c7ed4eb4329))
+
 # [1.222.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.221.4...v1.222.0) (2025-01-10)
 
 ### Features
