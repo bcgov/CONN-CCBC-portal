@@ -88,65 +88,65 @@ const queryResult = {
           },
         ],
       },
-    },
-    formData: {
-      jsonData: {
-        coverage: {
-          geographicCoverageMap: [
-            {
-              id: 3133,
-              name: 'GEO.kmz',
-              size: 91873,
-              type: 'application/vnd.google-earth.kmz',
-              uuid: '59d30e66-0bb9-4ca8-ffff-ffffffffff',
-              uploadedAt: '2024-03-14T13:24:48.939-07:00',
-            },
-          ],
-          currentNetworkInfastructure: [
-            {
-              id: 3135,
-              name: 'CURR.kmz',
-              size: 91873,
-              type: 'application/vnd.google-earth.kmz',
-              uuid: '69271059-9070-42fe-ffff-ffffffffff',
-              uploadedAt: '2024-03-14T13:24:57.995-07:00',
-            },
-          ],
-          upgradedNetworkInfrastructure: [
-            {
-              id: 3134,
-              name: 'UPGRADED.kmz',
-              size: 91873,
-              type: 'application/vnd.google-earth.kmz',
-              uuid: '69271059-9070-42fe-ffff-ffffffffff',
-              uploadedAt: '2024-03-14T13:24:57.995-07:00',
-            },
-          ],
-        },
-      },
-    },
-    projectInformationDataByApplicationId: {
-      nodes: [
-        {
-          jsonData: {
-            finalizedMapUpload: [
+      formData: {
+        jsonData: {
+          coverage: {
+            geographicCoverageMap: [
               {
-                id: 3275,
-                name: 'FINAL.kmz',
-                size: 229428,
+                id: 3133,
+                name: 'GEO.kmz',
+                size: 91873,
                 type: 'application/vnd.google-earth.kmz',
-                uuid: 'eb10e2bb-ba03-ffff-ffffffffffff',
-                uploadedAt: '2024-05-13T09:16:33.980-07:00',
+                uuid: '59d30e66-0bb9-4ca8-ffff-ffffffffff',
+                uploadedAt: '2024-03-14T13:24:48.939-07:00',
               },
             ],
-            dateFundingAgreementSigned: '2024-01-01',
-            hasFundingAgreementBeenSigned: true,
+            currentNetworkInfastructure: [
+              {
+                id: 3135,
+                name: 'CURR.kmz',
+                size: 91873,
+                type: 'application/vnd.google-earth.kmz',
+                uuid: '69271059-9070-42fe-ffff-ffffffffff',
+                uploadedAt: '2024-03-14T13:24:57.995-07:00',
+              },
+            ],
+            upgradedNetworkInfrastructure: [
+              {
+                id: 3134,
+                name: 'UPGRADED.kmz',
+                size: 91873,
+                type: 'application/vnd.google-earth.kmz',
+                uuid: '69271059-9070-42fe-ffff-ffffffffff',
+                uploadedAt: '2024-03-14T13:24:57.995-07:00',
+              },
+            ],
           },
-          updatedAt: '2024-06-10T15:03:59.543813+00:00',
         },
-      ],
+      },
+      projectInformationDataByApplicationId: {
+        nodes: [
+          {
+            jsonData: {
+              finalizedMapUpload: [
+                {
+                  id: 3275,
+                  name: 'FINAL.kmz',
+                  size: 229428,
+                  type: 'application/vnd.google-earth.kmz',
+                  uuid: 'eb10e2bb-ba03-ffff-ffffffffffff',
+                  uploadedAt: '2024-05-13T09:16:33.980-07:00',
+                },
+              ],
+              dateFundingAgreementSigned: '2024-01-01',
+              hasFundingAgreementBeenSigned: true,
+            },
+            updatedAt: '2024-06-10T15:03:59.543813+00:00',
+          },
+        ],
+      },
+      status: 'applicant_conditionally_approved',
     },
-    status: 'applicant_conditionally_approved',
   },
 };
 
