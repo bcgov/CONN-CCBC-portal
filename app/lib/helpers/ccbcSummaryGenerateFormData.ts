@@ -1,5 +1,5 @@
-import review from '../../formSchema/analyst/summary/review';
-import customValidate from '../../utils/ccbcCustomValidator';
+import review from 'formSchema/analyst/summary/review';
+import customValidate from 'utils/ccbcCustomValidator';
 
 const getEconomicRegions = (economicRegions) => {
   if (!economicRegions) {
