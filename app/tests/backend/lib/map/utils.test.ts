@@ -10,6 +10,28 @@ import {
 const kmlData = `
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
+  <Style id="LineStyle00">
+    <LabelStyle>
+      <color>00000000</color>
+      <scale>0.000000</scale>
+    </LabelStyle>
+    <LineStyle>
+      <color>ff1134fa</color>
+      <width>1.100000</width>
+    </LineStyle>
+    <PolyStyle>
+      <color>00000000</color>
+      <outline>0</outline>
+    </PolyStyle>
+  </Style>
+      <Style id="poly-balloon-style_map.polyMeta.accessType.fibre_map.polyMeta.transType.fibre^50_10">
+      <BalloonStyle>
+        <text><![CDATA[<table><tr><td><b>Maximum Download Speed (Mbps):</b></td><td>50</td></tr><tr><td><b>Maximum Upload Speed (Mbps):</b></dt><td>10</td></tr><tr><td><b>Access Technology (last mile):</b></td><td>Fibre</td></tr><tr><td><b>Transport technology (backbone):</b></td><td>Fibre</td></tr></table>]]></text>
+      </BalloonStyle>
+      <PolyStyle>
+        <color>99E2E18F</color>
+      </PolyStyle>
+  </Style>
   <Placemark>
     <name>Test Marker</name>
     <description>This is a test marker.</description>
@@ -36,6 +58,7 @@ const kmlData = `
   <Placemark>
     <name>Test LineString</name>
     <description>This is a test line string.</description>
+    <styleUrl>#LineStyle00</styleUrl>
     <MultiGeometry>
       <LineString>
           <coordinates>
@@ -99,7 +122,20 @@ describe('Map util functions', () => {
           ],
           name: 'Test LineString',
           description: 'This is a test line string.',
-          style: {},
+          style: {
+            labelStyle: {
+              color: '00000000',
+              scale: '0.000000',
+            },
+            lineStyle: {
+              color: 'ff1134fa',
+              width: '1.100000',
+            },
+            polyStyle: {
+              color: '00000000',
+              outline: '0',
+            },
+          },
           fileName: 'test-file.kml',
           source: 'Test Source',
         },
@@ -167,7 +203,20 @@ describe('Map util functions', () => {
           ],
           name: 'Test LineString',
           description: 'This is a test line string.',
-          style: {},
+          style: {
+            labelStyle: {
+              color: '00000000',
+              scale: '0.000000',
+            },
+            lineStyle: {
+              color: 'ff1134fa',
+              width: '1.100000',
+            },
+            polyStyle: {
+              color: '00000000',
+              outline: '0',
+            },
+          },
           fileName: 'test-file.kmz',
           source: 'Test Source',
         },
