@@ -60,10 +60,10 @@ const getBounds = (data) => {
       data?.finalizedMapUpload?.[0]?.bounds[1],
     ];
   }
-  if (data?.geographicCoverageMap?.[0].bounds?.length === 2) {
+  if (data?.geographicCoverageMap?.[0]?.bounds?.length === 2) {
     return [
-      data?.geographicCoverageMap?.[0].bounds[0],
-      data?.geographicCoverageMap?.[0].bounds[1],
+      data?.geographicCoverageMap?.[0]?.bounds[0],
+      data?.geographicCoverageMap?.[0]?.bounds[1],
     ];
   }
   return [
