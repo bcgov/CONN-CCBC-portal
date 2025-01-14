@@ -297,15 +297,19 @@ const parseKMZ = async (buffer, fileName, source) => {
 
   // Check the buffer size
   if (buffer.length > MAX_SIZE) {
-    throw new Error('KMZ file exceeds the maximum allowed size of 25MB');
+    // eslint-disable-next-line no-console
+    console.error(
+      `KMZ file ${fileName} exceeds the maximum allowed size of 25MB`
+    );
   }
 
   const zip = await JSZip.loadAsync(buffer); // Unzip KMZ buffer
 
   // Check the number of files in the zip
   if (Object.keys(zip.files).length > MAX_FILES) {
-    throw new Error(
-      'KMZ file contains more than the maximum allowed number of files (10)'
+    // eslint-disable-next-line no-console
+    console.error(
+      `KMZ file ${fileName} contains more than the maximum allowed number of files (10)`
     );
   }
 
@@ -313,12 +317,14 @@ const parseKMZ = async (buffer, fileName, source) => {
   const kmlFile = Object.keys(zip.files).find((file) => file.endsWith('.kml'));
 
   if (!kmlFile) {
-    throw new Error('No KML file found in the KMZ archive');
+    // eslint-disable-next-line no-console
+    console.error(`No KML file found in the KMZ ${fileName} archive`);
   }
 
   // Check for path traversal
   if (kmlFile.includes('..')) {
-    throw new Error('Path traversal detected in KMZ file');
+    // eslint-disable-next-line no-console
+    console.error(`Path traversal detected in KMZ file ${fileName}`);
   }
   const kmlContent = await zip.file(kmlFile).async('string');
 
