@@ -72,6 +72,26 @@ const getBounds = (data) => {
   ];
 };
 
+const RenderMarkers = ({ markers, name }) => (
+  <>
+    {markers?.map((marker) => (
+      <Marker
+        key={`${name}-${generateUniqueKey()}`}
+        position={marker.coordinates}
+      >
+        <Popup>
+          <h4>{marker?.name}</h4>
+          <p>
+            {typeof marker?.description === 'object'
+              ? parse(marker?.description?.value || 'No description')
+              : marker?.description}
+          </p>
+        </Popup>
+      </Marker>
+    ))}
+  </>
+);
+
 const SummaryMap = ({ initialData, height, width }) => {
   const data = initialData;
   const tooltipClass = styles['tooltip-map'];
@@ -118,17 +138,7 @@ const SummaryMap = ({ initialData, height, width }) => {
                 key={`geo-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
-                  {geoData?.markers?.map((marker) => (
-                    <Marker
-                      key={`geo-marker-${generateUniqueKey()}`}
-                      position={marker.coordinates}
-                    >
-                      <Popup>
-                        <h4>{marker?.name}</h4>
-                        <p>{marker?.description}</p>
-                      </Popup>
-                    </Marker>
-                  ))}
+                  <RenderMarkers markers={geoData.markers} name="geo-marker" />
                   {geoData?.polygons?.map((polygon) => (
                     <Polygon
                       key={`geo-polygon-${generateUniqueKey()}`}
@@ -156,17 +166,10 @@ const SummaryMap = ({ initialData, height, width }) => {
                 key={`current-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
-                  {geoData?.markers?.map((marker) => (
-                    <Marker
-                      key={`current-marker-${generateUniqueKey()}`}
-                      position={marker.coordinates}
-                    >
-                      <Popup>
-                        <h4>{marker?.name}</h4>
-                        <p>{marker?.description}</p>
-                      </Popup>
-                    </Marker>
-                  ))}
+                  <RenderMarkers
+                    markers={geoData?.markers}
+                    name="current-marker"
+                  />
                   {geoData?.polygons?.map((polygon) => (
                     <Polygon
                       key={`current-polygon-${generateUniqueKey()}`}
@@ -193,17 +196,10 @@ const SummaryMap = ({ initialData, height, width }) => {
                 key={`upgraded-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
-                  {geoData?.markers?.map((marker) => (
-                    <Marker
-                      key={`upgraded-marker-${generateUniqueKey()}`}
-                      position={marker.coordinates}
-                    >
-                      <Popup>
-                        <h4>{marker?.name}</h4>
-                        <p>{marker?.description}</p>
-                      </Popup>
-                    </Marker>
-                  ))}
+                  <RenderMarkers
+                    markers={geoData.markers}
+                    name="upgraded-marker"
+                  />
                   {geoData?.polygons?.map((polygon) => (
                     <Polygon
                       key={`upgraded-polygon-${generateUniqueKey()}`}
@@ -230,17 +226,10 @@ const SummaryMap = ({ initialData, height, width }) => {
                 key={`finalized-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
-                  {geoData?.markers?.map((marker) => (
-                    <Marker
-                      key={`finalized-marker-${generateUniqueKey()}`}
-                      position={marker.coordinates}
-                    >
-                      <Popup>
-                        <h4>{marker?.name}</h4>
-                        <p>{marker?.description}</p>
-                      </Popup>
-                    </Marker>
-                  ))}
+                  <RenderMarkers
+                    markers={geoData.markers}
+                    name="finalized-marker"
+                  />
                   {geoData?.polygons?.map((polygon) => (
                     <Polygon
                       key={`finalized-polygon-${polygon?.fileNam}`}
