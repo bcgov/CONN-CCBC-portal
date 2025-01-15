@@ -61,7 +61,7 @@ const Row = ({ application, onWithdraw, onDelete, schema }) => {
     status === 'submitted' ||
     status === 'applicant_conditionally_approved';
   const isDraft = application.status === 'draft';
-  const isEditable = formData.isEditable && status !== 'withdrawn';
+  const isEditable = false && formData.isEditable && status !== 'withdrawn';
 
   const getApplicationUrl = () => {
     if (isWithdrawn) {

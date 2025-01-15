@@ -10,7 +10,7 @@ import ArchiveModal from './ArchiveModal';
 import WithdrawModal from './WithdrawModal';
 
 const StyledFontAwesome = styled(FontAwesomeIcon)`
-  margin-left: 4px; ;
+  margin-left: 4px;
 `;
 
 const StyledTable = styled('table')`

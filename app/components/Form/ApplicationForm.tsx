@@ -217,11 +217,12 @@ const ApplicationForm: React.FC<Props> = ({
       jsonData,
       rowId: formDataRowId,
       id: formDataId,
-      isEditable,
+      // isEditable,
       updatedAt,
     },
     status,
   } = application;
+  const isEditable = false;
   const ccbcIntakeNumber =
     application.intakeByIntakeId?.ccbcIntakeNumber || null;
   const latestIntakeNumber =
