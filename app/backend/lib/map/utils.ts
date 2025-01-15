@@ -292,7 +292,7 @@ const parseKML = (
 
 // Function to read and parse KMZ files
 const parseKMZ = async (buffer, fileName, source) => {
-  const MAX_FILES = 10;
+  const MAX_FILES = 100;
   const MAX_SIZE = 25 * 1024 * 1024; // 25MB
 
   // Check the buffer size
