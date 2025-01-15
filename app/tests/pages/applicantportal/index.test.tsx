@@ -154,14 +154,14 @@ describe('The index page', () => {
 
     expect(
       screen.getByText(
-        /Applications will be accepted until August 19, 2027, 8:30:00 a.m. PDT./
+        /Intake 6 is now open until June 30, 2025. If you are interested in submitting an application, or for any questions about connectivity projects in your area, please email/
       )
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        /Draft and submitted applications will be editable until then./
-      )
-    ).toBeInTheDocument();
+    // expect(
+    //   screen.getByText(
+    //     /Draft and submitted applications will be editable until then./
+    //   )
+    // ).toBeInTheDocument();
   });
 
   it('Displays the callout message with correct information about submission', () => {

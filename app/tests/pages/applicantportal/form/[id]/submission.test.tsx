@@ -291,7 +291,7 @@ describe('The submission form page', () => {
 
     expect(
       screen.getByRole('button', { name: 'Submit' }).hasAttribute('disabled')
-    ).toBeFalse();
+    ).toBeTrue();
   });
 
   it('submission page submit button is disabled when geographic area is not filled', () => {
@@ -370,31 +370,31 @@ describe('The submission form page', () => {
     // After the first mutation completes, we still don't redirect
     expect(componentTestingHelper.router.push).not.toHaveBeenCalled();
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'submitApplicationMutation',
-      {
-        input: {
-          applicationRowId: 42,
-          _formSchemaId: 42,
-        },
-      }
-    );
+    // componentTestingHelper.expectMutationToBeCalled(
+    //   'submitApplicationMutation',
+    //   {
+    //     input: {
+    //       applicationRowId: 42,
+    //       _formSchemaId: 42,
+    //     },
+    //   }
+    // );
 
-    componentTestingHelper.environment.mock.resolveMostRecentOperation({
-      data: {
-        applicationsAddCcbcId: {
-          application: {
-            ccbcNumber: 'CCBC-010042',
-            status: 'submitted',
-          },
-        },
-      },
-    });
+    // componentTestingHelper.environment.mock.resolveMostRecentOperation({
+    //   data: {
+    //     applicationsAddCcbcId: {
+    //       application: {
+    //         ccbcNumber: 'CCBC-010042',
+    //         status: 'submitted',
+    //       },
+    //     },
+    //   },
+    // });
 
-    // We only redirect when the ccbc id is set
-    expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
-      '/applicantportal/form/42/success'
-    );
+    // // We only redirect when the ccbc id is set
+    // expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
+    //   '/applicantportal/form/42/success'
+    // );
   });
 
   it('Submission fields are disabled when visiting submitted application', async () => {
@@ -444,38 +444,41 @@ describe('The submission form page', () => {
       query: data.query,
     }));
 
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Save as draft' })
-    );
+    // TEMP INTAKE 6 UI ONLY CHANGE
+    expect(screen.getByRole('button', { name: 'Submit' })).toBeDisabled();
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationFormMutation',
-      {
-        input: {
-          formDataRowId: 42,
-          jsonData: {
-            organizationProfile: {
-              organizationName: 'Testing organization name',
-            },
-            submission: {
-              submissionCompletedFor: 'test',
-              submissionDate: '2022-09-27',
-              submissionCompletedBy: 'test',
-              submissionTitle: 'test',
-            },
-            projectArea: {
-              geographicArea: [1],
-            },
-            review: {
-              acknowledgeIncomplete: true,
-            },
-            acknowledgements: { acknowledgementsList: acknowledgementsEnum },
-          },
-          lastEditedPage: 'review',
-          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
-        },
-      }
-    );
+    // await userEvent.click(
+    //   screen.getByRole('button', { name: 'Save as draft' })
+    // );
+
+    // componentTestingHelper.expectMutationToBeCalled(
+    //   'updateApplicationFormMutation',
+    //   {
+    //     input: {
+    //       formDataRowId: 42,
+    //       jsonData: {
+    //         organizationProfile: {
+    //           organizationName: 'Testing organization name',
+    //         },
+    //         submission: {
+    //           submissionCompletedFor: 'test',
+    //           submissionDate: '2022-09-27',
+    //           submissionCompletedBy: 'test',
+    //           submissionTitle: 'test',
+    //         },
+    //         projectArea: {
+    //           geographicArea: [1],
+    //         },
+    //         review: {
+    //           acknowledgeIncomplete: true,
+    //         },
+    //         acknowledgements: { acknowledgementsList: acknowledgementsEnum },
+    //       },
+    //       lastEditedPage: 'review',
+    //       clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
+    //     },
+    //   }
+    // );
   });
 
   it('submit page submit button is disabled for submitted application', async () => {
@@ -511,14 +514,17 @@ describe('The submission form page', () => {
       query: data.query,
     }));
 
-    expect(
-      screen.getByRole('button', { name: 'Changes submitted' })
-    ).toBeTruthy();
-    expect(
-      screen
-        .getByRole('button', { name: 'Changes submitted' })
-        .hasAttribute('disabled')
-    ).toBeTrue();
+    // TEMP INTAKE 6 UI ONLY CHANGE
+    expect(screen.getByRole('button', { name: 'Submit' })).toBeDisabled();
+
+    // expect(
+    //   screen.getByRole('button', { name: 'Changes submitted' })
+    // ).toBeTruthy();
+    // expect(
+    //   screen
+    //     .getByRole('button', { name: 'Changes submitted' })
+    //     .hasAttribute('disabled')
+    // ).toBeTrue();
   });
 
   it('submit page has functioning return to dashboard button for submitted application', async () => {
@@ -640,41 +646,42 @@ describe('The submission form page', () => {
     const submitButton = screen.getByRole('button', { name: 'Submit' });
 
     expect(submitButton).toBeInTheDocument();
-    expect(submitButton).toBeEnabled();
+    // TEMP INTAKE 6 UI ONLY CHANGE
+    expect(submitButton).toBeDisabled();
 
-    await userEvent.click(submitButton);
+    // await userEvent.click(submitButton);
 
-    const confirmButton = screen.getByRole('button', {
-      name: 'Confirm Submission',
-    });
-    expect(confirmButton).toBeInTheDocument();
+    // const confirmButton = screen.getByRole('button', {
+    //   name: 'Confirm Submission',
+    // });
+    // expect(confirmButton).toBeInTheDocument();
 
-    await userEvent.click(confirmButton);
+    // await userEvent.click(confirmButton);
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'submitApplicationMutation',
-      {
-        input: {
-          applicationRowId: 42,
-          _formSchemaId: 42,
-        },
-      }
-    );
+    // componentTestingHelper.expectMutationToBeCalled(
+    //   'submitApplicationMutation',
+    //   {
+    //     input: {
+    //       applicationRowId: 42,
+    //       _formSchemaId: 42,
+    //     },
+    //   }
+    // );
 
-    componentTestingHelper.environment.mock.resolveMostRecentOperation({
-      data: {
-        applicationsAddCcbcId: {
-          application: {
-            ccbcNumber: 'CCBC-010042',
-            status: 'submitted',
-          },
-        },
-      },
-    });
+    // componentTestingHelper.environment.mock.resolveMostRecentOperation({
+    //   data: {
+    //     applicationsAddCcbcId: {
+    //       application: {
+    //         ccbcNumber: 'CCBC-010042',
+    //         status: 'submitted',
+    //       },
+    //     },
+    //   },
+    // });
 
-    expect(fetch).toHaveBeenCalledWith(
-      '/api/email/notifyApplicationSubmission',
-      expect.objectContaining({ method: 'POST' })
-    );
+    // expect(fetch).toHaveBeenCalledWith(
+    //   '/api/email/notifyApplicationSubmission',
+    //   expect.objectContaining({ method: 'POST' })
+    // );
   });
 });
