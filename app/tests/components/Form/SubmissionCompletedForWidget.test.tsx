@@ -25,21 +25,7 @@ const mockRouterState = {
   route: '/',
   pathname: '',
   query: { id: 1 },
-  asPath: '',
-  push: jest.fn(),
-  events: {
-    on: jest.fn(),
-    off: jest.fn(),
-  },
-  beforePopState: jest.fn(() => null),
-  prefetch: jest.fn(() => null),
 };
-
-jest.mock('next/router', () => ({
-  useRouter() {
-    return mockRouterState;
-  },
-}));
 
 const renderStaticLayout = (s: RJSFSchema, u: any, formData) => {
   return render(

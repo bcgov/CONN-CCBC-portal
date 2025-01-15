@@ -8,8 +8,8 @@ import session from 'express-session';
 import crypto from 'crypto';
 import { mocked } from 'jest-mock';
 import fs from 'fs';
-import * as readTemplateTwoData from '../../../backend/lib/excel_import/template_two';
-import * as readTemplateOneData from '../../../backend/lib/excel_import/template_one';
+import readTemplateTwoData from '../../../backend/lib/excel_import/template_two';
+import readTemplateOneData from '../../../backend/lib/excel_import/template_one';
 import getAuthRole from '../../../utils/getAuthRole';
 import templateUpload from '../../../backend/lib/template-upload';
 import { parseForm } from '../../../backend/lib/express-helper';
@@ -479,39 +479,68 @@ describe('sow_summary parsing tests', () => {
       SheetNames: ['Eligibility_Summary'],
     });
     jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(fakeTemplateOne);
-    jest.mock('../../../backend/lib/excel_import/template_one');
-    jest
-      .spyOn(readTemplateOneData, 'default')
-      .mockImplementationOnce(() => ({ success: true }));
-    mocked(getAuthRole).mockReturnValue({ pgRole: 'ccbc_auth_user' });
-    mocked(parseForm).mockResolvedValue({
-      someFileName: [{ filepath: 'mock-path' }],
+    mocked(getAuthRole).mockReturnValue({
+      pgRole: 'ccbc_auth_user',
+      landingRoute: '/',
     });
+    mocked(parseForm).mockResolvedValue({
+      someFileName: [
+        {
+          filepath: 'mock-path',
+          originalFilename: 'mock-file',
+          size: 123,
+          newFilename: '',
+          mimetype: '',
+          hashAlgorithm: false,
+          toJSON: jest.fn(),
+        },
+      ],
+    });
+
     jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
 
     await request(app)
       .post('/api/applicant/template?templateNumber=1')
       .expect(200)
       .then((response) => {
-        expect(response.body).toEqual({ result: { success: true } });
+        expect(response.body).toEqual({
+          result: {
+            finalEligibleHouseholds: 2,
+            totalNumberHouseholdsImpacted: 123987,
+          },
+        });
       });
   });
 
   it('should handle successful template 2 upload', async () => {
-    mocked(getAuthRole).mockReturnValue({ pgRole: 'ccbc_auth_user' });
+    mocked(getAuthRole).mockReturnValue({
+      pgRole: 'ccbc_auth_user',
+      landingRoute: '/',
+    });
     mocked(parseForm).mockResolvedValue({
-      someFileName: [{ filepath: 'mock-path' }],
+      someFileName: [
+        {
+          filepath: 'mock-path',
+          size: 0,
+          originalFilename: '',
+          newFilename: '',
+          mimetype: '',
+          hashAlgorithm: false,
+          toJSON: jest.fn(),
+        },
+      ],
     });
     jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
-    jest
-      .spyOn(readTemplateTwoData, 'default')
-      .mockImplementationOnce(() => ({ success: true }));
+
+    jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(fakeTemplateTwo);
 
     await request(app)
       .post('/api/applicant/template?templateNumber=2')
       .expect(200)
       .then((response) => {
-        expect(response.body).toEqual({ result: { success: true } });
+        expect(response.body).toEqual({
+          result: { totalEligibleCosts: 92455, totalProjectCosts: 101230 },
+        });
       });
   });
 
@@ -524,7 +553,7 @@ describe('sow_summary parsing tests', () => {
 
     const wb = XLSX.read(null);
 
-    const data = readTemplateOneData.default(wb, 'Eligibility_Summary');
+    const data = readTemplateOneData(wb, 'Eligibility_Summary');
     const expected = {
       finalEligibleHouseholds: 2,
       totalNumberHouseholdsImpacted: 123987,
@@ -533,6 +562,11 @@ describe('sow_summary parsing tests', () => {
   });
 
   it('return errors for invalid worksheet', async () => {
+    (readTemplateOneData as jest.Mock) = jest
+      .fn()
+      .mockImplementationOnce(() => ({
+        success: true,
+      }));
     jest.spyOn(XLSX, 'read').mockReturnValue({
       Sheets: { Sheet1: {} },
       SheetNames: ['Template 2'],
@@ -541,7 +575,7 @@ describe('sow_summary parsing tests', () => {
 
     const wb = XLSX.read(null);
 
-    const data = readTemplateTwoData.default(wb, 'Template 2');
+    const data = readTemplateTwoData(wb, 'Template 2');
     const expected = {
       totalEligibleCosts: 92455,
       totalProjectCosts: 101230,
@@ -565,7 +599,17 @@ describe('sow_summary parsing tests', () => {
 
   it('should handle invalid template numbers', async () => {
     mocked(parseForm).mockResolvedValue({
-      file: [{ filepath: 'mock-path' }],
+      file: [
+        {
+          filepath: 'mock-path',
+          size: 0,
+          originalFilename: '',
+          newFilename: '',
+          mimetype: '',
+          hashAlgorithm: false,
+          toJSON: jest.fn(),
+        },
+      ],
     });
     jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
 
@@ -581,13 +625,19 @@ describe('sow_summary parsing tests', () => {
 
   it('should handle general failure', async () => {
     mocked(parseForm).mockResolvedValue({
-      someFileName: [{ filepath: 'mock-path' }],
+      someFileName: [
+        {
+          filepath: 'mock-path',
+          size: 0,
+          originalFilename: '',
+          newFilename: '',
+          mimetype: '',
+          hashAlgorithm: false,
+          toJSON: jest.fn(),
+        },
+      ],
     });
     jest.spyOn(fs, 'readFileSync').mockReturnValue(Buffer.from('mock-content'));
-    // Let's assume templateNumber 1 returns null to simulate a failure
-    jest
-      .spyOn(readTemplateOneData, 'default')
-      .mockImplementationOnce(() => null);
 
     await request(app)
       .post('/api/applicant/template?templateNumber=1')

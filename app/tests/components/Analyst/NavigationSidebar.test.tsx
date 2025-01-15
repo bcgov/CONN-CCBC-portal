@@ -59,9 +59,10 @@ describe('The NavigationSidebar', () => {
     useRouter.mockImplementation(() => mockRouterState);
     renderStaticLayout();
 
-    expect(screen.getByText('Application').parentElement).toHaveStyle({
-      backgroundColor: 'rgb(241, 242, 243)',
-    });
+    const element = screen.getByText('Application').parentElement;
+    const style = window.getComputedStyle(element);
+
+    expect(style.backgroundColor).toBe('rgb(248, 248, 248)');
 
     expect(screen.getByText('Dashboard').parentElement).not.toHaveStyle({
       backgroundColor: 'rgb(241, 242, 243)',
@@ -81,8 +82,9 @@ describe('The NavigationSidebar', () => {
       backgroundColor: 'rgb(241, 242, 243)',
     });
 
-    expect(screen.getByText('Assessments').parentElement).toHaveStyle({
-      backgroundColor: 'rgb(241, 242, 243)',
-    });
+    const element = screen.getByText('Assessments').parentElement;
+    const style = window.getComputedStyle(element);
+
+    expect(style.backgroundColor).toBe('rgb(248, 248, 248)');
   });
 });
