@@ -196,7 +196,8 @@ const Dashboard = ({
           ) : (
             <StyledGovButton
               onClick={() => {
-                window.location.href = 'mailto:support@example.com';
+                window.location.href =
+                  'mailto:connectedcommunitiesbc@gov.bc.ca';
               }}
             >
               Email Us
