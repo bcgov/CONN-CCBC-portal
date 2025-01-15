@@ -21,9 +21,15 @@ const checkFirstTenColumns = (
   flagFunction: Function,
   index: number
 ) => {
-  return firstTenRowLetters.some((column) =>
-    flagFunction(claimsRequestFormSheet[index][column])
-  );
+  return firstTenRowLetters.some((column) => {
+    if (
+      claimsRequestFormSheet[index] &&
+      claimsRequestFormSheet[index][column]
+    ) {
+      return flagFunction(claimsRequestFormSheet[index][column]);
+    }
+    return false;
+  });
 };
 
 /// Get Claim Ruquest Form Fields
@@ -54,7 +60,7 @@ const getBcProjectNumber = (
       claimsRequestFormSheet[index][letter]
         ?.toLowerCase()
         ?.trim()
-        ?.contains('ccbc')
+        ?.includes('ccbc')
     ) {
       bcProjectNumber = claimsRequestFormSheet[index][letter];
     }
@@ -140,7 +146,7 @@ const isValidProgressReportInput = (input) => {
     input &&
     validInputs.some(
       (validInput) =>
-        validInput.trim().toLowerCase() === input.trim().toLowerCase()
+        validInput?.trim()?.toLowerCase() === input?.trim()?.toLowerCase()
     )
   );
 };
@@ -275,140 +281,182 @@ const getChangesToOverallBudget = (
 
 /// Claims Request Form Flags
 
-const isDateRequestedReceivedFlag = (dateStringFlag: String) => {
+const isDateRequestedReceivedFlag = (dateStringFlag: any) => {
+  if (typeof dateStringFlag !== 'string') {
+    return false;
+  }
   return (
-    dateStringFlag.toLowerCase().trim() ===
+    dateStringFlag?.toLowerCase()?.trim() ===
       'Date Request Received (ISED CCBC input) (YYYY-MM-DD)'
-        .toLowerCase()
-        .trim() ||
-    dateStringFlag.toLowerCase().trim() ===
+        ?.toLowerCase()
+        ?.trim() ||
+    dateStringFlag?.toLowerCase()?.trim() ===
       'Date Request Received (ISED/CCBC input) (YYYY-MM-DD)'
-        .toLowerCase()
-        .trim()
+        ?.toLowerCase()
+        ?.trim()
   );
 };
 
-const isBcProjectNumberFlag = (projectNumberFlag: String) => {
+const isBcProjectNumberFlag = (projectNumberFlag: any) => {
+  if (typeof projectNumberFlag !== 'string') {
+    return false;
+  }
   const bcProjectNumberStringNewClaims = 'BC Project No.';
   const bcProjectNumberFlagOldClaims = 'Project No.';
   return (
-    projectNumberFlag.toLowerCase().trim() ===
-      bcProjectNumberStringNewClaims.toLowerCase().trim() ||
-    projectNumberFlag.toLowerCase().trim() ===
-      bcProjectNumberFlagOldClaims.toLowerCase().trim()
+    projectNumberFlag?.toLowerCase()?.trim() ===
+      bcProjectNumberStringNewClaims?.toLowerCase()?.trim() ||
+    projectNumberFlag?.toLowerCase()?.trim() ===
+      bcProjectNumberFlagOldClaims?.toLowerCase()?.trim()
   );
 };
 
-const isIsedProjectNumberFlag = (projectNumberFlag: String) => {
+const isIsedProjectNumberFlag = (projectNumberFlag: any) => {
+  if (typeof projectNumberFlag !== 'string') {
+    return false;
+  }
   const isedProjectNumberString = 'ISED Project No.';
   return (
-    projectNumberFlag.toLowerCase().trim() ===
-    isedProjectNumberString.toLowerCase().trim()
+    projectNumberFlag?.toLowerCase()?.trim() ===
+    isedProjectNumberString?.toLowerCase()?.trim()
   );
 };
 
-const isClaimNumberFlag = (claimNumberFlag: String) => {
+const isClaimNumberFlag = (claimNumberFlag: any) => {
+  if (typeof claimNumberFlag !== 'string') {
+    return false;
+  }
   const claimNumberString = 'Claim No.';
   return (
-    claimNumberFlag.toLowerCase().trim() ===
-    claimNumberString.toLowerCase().trim()
+    claimNumberFlag?.toLowerCase()?.trim() ===
+    claimNumberString?.toLowerCase()?.trim()
   );
 };
 
 const isEligibleCostsIncurredFromDateFlag = (
-  eligibleCostsIncurredFromDateFlag: String
+  eligibleCostsIncurredFromDateFlag: any
 ) => {
+  if (typeof eligibleCostsIncurredFromDateFlag !== 'string') {
+    return false;
+  }
   const eligibleCostsIncurredFromDateString = 'From (YYYY-MM-DD):';
   return (
-    eligibleCostsIncurredFromDateFlag.toLowerCase().trim() ===
-    eligibleCostsIncurredFromDateString.toLowerCase().trim()
+    eligibleCostsIncurredFromDateFlag?.toLowerCase()?.trim() ===
+    eligibleCostsIncurredFromDateString?.toLowerCase()?.trim()
   );
 };
 
 const isEligibleCostsIncurredToDateFlag = (
-  eligibleCostsIncurredToDateFlag: String
+  eligibleCostsIncurredToDateFlag: any
 ) => {
+  if (typeof eligibleCostsIncurredToDateFlag !== 'string') {
+    return false;
+  }
   const eligibleCostsIncurredFromDateString = 'To (YYYY-MM-DD):';
   return (
-    eligibleCostsIncurredToDateFlag.toLowerCase().trim() ===
-    eligibleCostsIncurredFromDateString.toLowerCase().trim()
+    eligibleCostsIncurredToDateFlag?.toLowerCase()?.trim() ===
+    eligibleCostsIncurredFromDateString?.toLowerCase()?.trim()
   );
 };
 
 /// Progress Report Flags
 
-const isProgressOnPermitsFlag = (progressOnPermitsFlag: String) => {
+const isProgressOnPermitsFlag = (progressOnPermitsFlag: any) => {
+  if (typeof progressOnPermitsFlag !== 'string') {
+    return false;
+  }
   const progressOnPermitsString =
     '1.a) Progress on Permits/ land access / spectrum licensing / etc. ';
   return (
-    progressOnPermitsFlag.toLowerCase().trim() ===
-    progressOnPermitsString.toLowerCase().trim()
+    progressOnPermitsFlag?.toLowerCase()?.trim() ===
+    progressOnPermitsString?.toLowerCase()?.trim()
   );
 };
 
-const isHasConstructionBegunFlag = (hasConstructionBegunFlag: String) => {
+const isHasConstructionBegunFlag = (hasConstructionBegunFlag: any) => {
+  if (typeof hasConstructionBegunFlag !== 'string') {
+    return false;
+  }
   const hasConstructionBegunString = '1.b) Has construction begun? ';
   return (
-    hasConstructionBegunFlag.toLowerCase().trim() ===
-    hasConstructionBegunString.toLowerCase().trim()
+    hasConstructionBegunFlag?.toLowerCase()?.trim() ===
+    hasConstructionBegunString?.toLowerCase()?.trim()
   );
 };
 
-const isHaveServicesBeenOfferedFlag = (haveServicesBeenOfferedFlag: String) => {
+const isHaveServicesBeenOfferedFlag = (haveServicesBeenOfferedFlag: any) => {
+  if (typeof haveServicesBeenOfferedFlag !== 'string') {
+    return false;
+  }
   const haveServicesBeenOfferedString =
     '1.c) Have services begun being offered to households? For Mobile Wireless projects, are mobile services available to communities or along roads?';
   return (
-    haveServicesBeenOfferedFlag.toLowerCase().trim() ===
-    haveServicesBeenOfferedString.toLowerCase().trim()
+    haveServicesBeenOfferedFlag?.toLowerCase()?.trim() ===
+    haveServicesBeenOfferedString?.toLowerCase()?.trim()
   );
 };
 
-const isProjectScheduleRisksFlag = (projectScheduleRisksFlag: String) => {
+const isProjectScheduleRisksFlag = (projectScheduleRisksFlag: any) => {
+  if (typeof projectScheduleRisksFlag !== 'string') {
+    return false;
+  }
   const projectScheduleRisksString =
     '2. Have any issues or risks been encountered that may affect the current project schedule or completion date of the Project? Provide details including the related risk mitigation strategies.';
   return (
-    projectScheduleRisksFlag.toLowerCase().trim() ===
-    projectScheduleRisksString.toLowerCase().trim()
+    projectScheduleRisksFlag?.toLowerCase()?.trim() ===
+    projectScheduleRisksString?.toLowerCase()?.trim()
   );
 };
 
-const isThirdPartyPassiveInfrastructureFlag = (thirdPartyFlag: String) => {
+const isThirdPartyPassiveInfrastructureFlag = (thirdPartyFlag: any) => {
+  if (typeof thirdPartyFlag !== 'string') {
+    return false;
+  }
   const thirdPartyString =
     '3. Have you encountered issues in your requests to access a third party’s passive infrastructure?  If yes, provide details and any mitigation strategies.';
 
   return (
-    thirdPartyFlag.toLowerCase().trim() ===
-    thirdPartyString.toLowerCase().trim()
+    thirdPartyFlag?.toLowerCase()?.trim() ===
+    thirdPartyString?.toLowerCase()?.trim()
   );
 };
 
-const isCommunicationMaterialsFlag = (communicationMaterialsFlag: String) => {
+const isCommunicationMaterialsFlag = (communicationMaterialsFlag: any) => {
+  if (typeof communicationMaterialsFlag !== 'string') {
+    return false;
+  }
   const communicationMaterialsString =
     '4. Have there been any Communication Materials or Products produced? Provide any relevant documents or website link, if applicable.';
 
   return (
-    communicationMaterialsFlag.toLowerCase().trim() ===
-    communicationMaterialsString.toLowerCase().trim()
+    communicationMaterialsFlag?.toLowerCase()?.trim() ===
+    communicationMaterialsString?.toLowerCase()?.trim()
   );
 };
 
-const isProjectBudgetRisks = (projectBudgetRisksFlag: String) => {
+const isProjectBudgetRisks = (projectBudgetRisksFlag: any) => {
+  if (typeof projectBudgetRisksFlag !== 'string') {
+    return false;
+  }
   const isProjectBudgetRisksString =
     '5. Have any issues or risks been encountered that may affect the project budget? Provide details including the related risk mitigation strategies.';
 
   return (
-    projectBudgetRisksFlag.toLowerCase().trim() ===
-    isProjectBudgetRisksString.toLowerCase().trim()
+    projectBudgetRisksFlag?.toLowerCase()?.trim() ===
+    isProjectBudgetRisksString?.toLowerCase()?.trim()
   );
 };
 
-const isChangesToOverallBudget = (changesToOverallBudgetFlag: String) => {
+const isChangesToOverallBudgetFlag = (changesToOverallBudgetFlag: any) => {
+  if (typeof changesToOverallBudgetFlag !== 'string') {
+    return false;
+  }
   const isChangesToOverallBudgetString =
     '6. Have there been changes to the overall budget? If so, update below.';
 
   return (
-    changesToOverallBudgetFlag.toLowerCase().trim() ===
-    isChangesToOverallBudgetString.toLowerCase().trim()
+    changesToOverallBudgetFlag?.toLowerCase()?.trim() ===
+    isChangesToOverallBudgetString?.toLowerCase()?.trim()
   );
 };
 
@@ -535,7 +583,7 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
       projectBudgetRisks = getProjectBudgetRisks(progressReportSheet, i);
     }
     if (
-      checkFirstTenColumns(progressReportSheet, isChangesToOverallBudget, i)
+      checkFirstTenColumns(progressReportSheet, isChangesToOverallBudgetFlag, i)
     ) {
       changesToOverallBudget = getChangesToOverallBudget(
         progressReportSheet,
