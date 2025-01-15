@@ -1,3 +1,9 @@
+## [1.223.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.223.0...v1.223.1) (2025-01-14)
+
+### Bug Fixes
+
+- remove unwanted unsaved change modal ([e46153c](https://github.com/bcgov/CONN-CCBC-portal/commit/e46153c01d42261f9d240fb55ce842b340499cb1))
+
 # [1.223.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.222.0...v1.223.0) (2025-01-14)
 
 ### Features

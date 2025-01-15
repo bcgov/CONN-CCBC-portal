@@ -56,6 +56,7 @@ const ClosePendingRequestModal: React.FC<Props> = ({
         schema={pendingChangeRequestCancel}
         uiSchema={pendingChangeRequestCancelUiSchema}
         formData={formData}
+        formContext={{ skipUnsavedWarning: true }}
         onChange={(e) => setFormData(e.formData)}
         // Pass children to hide submit button
         // eslint-disable-next-line react/no-children-prop

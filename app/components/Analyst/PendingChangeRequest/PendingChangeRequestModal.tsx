@@ -60,6 +60,7 @@ const PendingChangeRequestModal: React.FC<Props> = ({
         schema={pendingChangeRequestComment}
         uiSchema={pendingChangeRequestCommentUiSchema}
         formData={formData}
+        formContext={{ skipUnsavedWarning: true }}
         onChange={(e) => setFormData(e.formData)}
         disabled={!isHeaderEditable}
         // Pass children to hide submit button
