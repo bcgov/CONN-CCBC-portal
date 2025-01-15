@@ -4,6 +4,15 @@ import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledSummaryQuery, {
   summaryQuery,
 } from '__generated__/summaryQuery.graphql';
+import * as moduleApi from '@growthbook/growthbook-react';
+
+const mockShowSummaryMap: moduleApi.FeatureResult<boolean> = {
+  value: true,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_summary_map',
+};
 
 const fakeMarkerData = {
   coordinates: [49.2827, -123.1207],
@@ -1121,6 +1130,7 @@ describe('The Summary page', () => {
     pageTestingHelper.setMockRouterValues({
       query: { applicationId: '1' },
     });
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowSummaryMap);
     // @ts-ignore
     global.fetch = jest.fn(() =>
       Promise.resolve({

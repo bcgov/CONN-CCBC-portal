@@ -19,6 +19,7 @@ import generateFormData from 'lib/helpers/ccbcSummaryGenerateFormData';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import mapUiSchema from 'formSchema/uiSchema/summary/mapUiSchema';
+import { useFeature } from '@growthbook/growthbook-react';
 
 const getSummaryQuery = graphql`
   query summaryQuery($rowId: Int!) {
@@ -191,6 +192,7 @@ const Summary = ({
 }: RelayProps<Record<string, unknown>, summaryQuery>) => {
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
+  const showMap = useFeature('show_summary_map').value;
   const [mapData, setMapData] = useState(null);
   const [isMapExpanded, setIsMapExpanded] = useState(false);
   const query = usePreloadedQuery(getSummaryQuery, preloadedQuery);
@@ -232,13 +234,15 @@ const Summary = ({
   };
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch(`/api/map/${applicationId}`);
-      const json = await data.json();
-      setMapData(json);
-      setFinalFormData({
-        ...formData,
-        map: { map: { json, setIsMapExpanded } },
-      });
+      if (showMap) {
+        const data = await fetch(`/api/map/${applicationId}`);
+        const json = await data.json();
+        setMapData(json);
+        setFinalFormData({
+          ...formData,
+          map: { map: { json, setIsMapExpanded } },
+        });
+      }
     };
 
     fetchData();
