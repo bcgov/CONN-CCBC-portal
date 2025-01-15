@@ -33,7 +33,6 @@ import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTabl
 import { Box, IconButton, TableCellProps } from '@mui/material';
 import { useFeature } from '@growthbook/growthbook-react';
 import getConfig from 'next/config';
-import StatusInformationModal from 'components/Analyst/StatusInformationModal';
 import { DateTime } from 'luxon';
 import { useToast } from 'components/AppProvider';
 import DownloadIcon from './DownloadIcon';
@@ -814,7 +813,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     renderToolbarInternalActions: ({ table }) => (
       <Box>
         <IconButton size="small">
-          <StatusInformationIcon />
           <DownloadIcon
             handleClick={() => handleDownload(table.getRowModel().rows)}
             isLoading={isLoading}
@@ -825,7 +823,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         <MRT_ToggleDensePaddingButton table={table} />
         <MRT_ToggleFullScreenButton table={table} />
         <IconButton size="small">
-          <StatusInformationIcon ModalComponent={StatusInformationModal} />
+          <StatusInformationIcon />
         </IconButton>
       </Box>
     ),
