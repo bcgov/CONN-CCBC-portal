@@ -60,7 +60,7 @@ export const convertStatus = (status: string): string => {
     case 'conditionally_approved':
       return 'Conditionally Approved';
     case 'approved':
-      return 'Approved';
+      return 'Agreement Signed';
     case 'on_hold':
       return 'On Hold';
     case 'closed':
@@ -86,4 +86,18 @@ export const formatCurrency = (value: number | null | undefined): string => {
   }
 
   return formatMoney(numberValue);
+};
+
+export const handleLastMileSpeed = (status): number => {
+  if (
+    status === 'conditionally_approved' ||
+    status === 'approved' ||
+    status === 'applicant_approved' ||
+    status === 'applicant_conditionally_approved' ||
+    status === 'applicant_complete' ||
+    status === 'complete'
+  ) {
+    return 50;
+  }
+  return null;
 };

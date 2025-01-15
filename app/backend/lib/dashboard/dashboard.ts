@@ -12,6 +12,7 @@ import {
   formatCurrency,
   handleCbcCommunities,
   handleCcbcCommunities,
+  handleLastMileSpeed,
 } from './util';
 import columnOptions from './column_options';
 
@@ -201,6 +202,16 @@ const getCbcDataQuery = `
           }
         }
       }
+      cbcApplicationPendingChangeRequestsByCbcId(
+        last: 1
+        filter: { archivedAt: { isNull: true } }
+      ) {
+        edges {
+          node {
+            isPending
+          }
+        }
+      }
     }
   }
 `;
@@ -278,7 +289,9 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
           data?.applicationByRowId
             ?.applicationPendingChangeRequestsByApplicationId?.nodes?.[0]
             ?.isPending
-        ),
+        )
+          ? 'YES'
+          : 'NO',
       },
       // project title
       { value: data?.applicationByRowId?.projectName },
@@ -289,8 +302,8 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       // 830 million funding
       {
         value: data?.applicationByRowId?.ccbcNumber.includes('CCBC')
-          ? 'Yes'
-          : 'No',
+          ? 'YES'
+          : 'NO',
       },
       // federal funding source
       { value: 'ISED-UBF Core' },
@@ -310,7 +323,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       // last mile technology
       { value: null },
       // last mile minimum speed
-      { value: null },
+      { value: handleLastMileSpeed(data?.applicationByRowId?.status) },
       // connected coast network dependent
       {
         value: `${summaryData?.formData?.dependency?.connectedCoastNetworkDependent || ''} (${summaryData?.formDataSource?.connectedCoastNetworkDependent && summaryData?.formData?.dependency?.connectedCoastNetworkDependent ? `(${summaryData?.formDataSource?.connectedCoastNetworkDependent})` : ''})`,
@@ -428,7 +441,10 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // phase
       {
-        value: cbcDataByCbcId?.phase,
+        value: cbcDataByCbcId?.phase
+          ? parseInt(cbcDataByCbcId?.phase, 10)
+          : null,
+        type: Number,
       },
       // zone
       { value: null },
@@ -445,7 +461,12 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
         value: convertStatus(cbcDataByCbcId?.projectStatus),
       },
       // change request pending
-      { value: null },
+      {
+        value: data?.cbcByRowId?.cbcApplicationPendingChangeRequestsByCbcId
+          ?.edges?.[0]?.node?.isPending
+          ? 'YES'
+          : 'NO',
+      },
       // project title
       {
         value: cbcDataByCbcId?.projectTitle,
@@ -484,7 +505,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // last mile technology
       {
-        value: cbcDataByCbcId?.lastMileTechnology,
+        value: cbcDataByCbcId?.lastMileProjectType,
       },
       // last mile minimum speed
       {
