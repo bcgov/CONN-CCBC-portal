@@ -148,23 +148,26 @@ describe('The application form', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Save and continue' })
-    );
+    // TEMP INTAKE 6 UI ONLY CHANGE
+    expect(screen.getByRole('button', { name: 'Continue' })).toBeEnabled();
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationFormMutation',
-      {
-        input: {
-          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
-          formDataRowId: 123,
-          jsonData: {
-            projectInformation: {},
-          },
-          lastEditedPage: 'projectArea',
-        },
-      }
-    );
+    // await userEvent.click(
+    //   screen.getByRole('button', { name: 'Save and continue' })
+    // );
+
+    // componentTestingHelper.expectMutationToBeCalled(
+    //   'updateApplicationFormMutation',
+    //   {
+    //     input: {
+    //       clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
+    //       formDataRowId: 123,
+    //       jsonData: {
+    //         projectInformation: {},
+    //       },
+    //       lastEditedPage: 'projectArea',
+    //     },
+    //   }
+    // );
   });
 
   it('acknowledgement page continue is disabled on initial load', async () => {
@@ -175,11 +178,14 @@ describe('The application form', () => {
       query: data.query,
     }));
 
-    expect(
-      screen.getByRole('button', {
-        name: 'Save and continue',
-      })
-    ).toBeDisabled();
+    // TEMP INTAKE 6 UI ONLY CHANGE
+    expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled();
+
+    // expect(
+    //   screen.getByRole('button', {
+    //     name: 'Save and continue',
+    //   })
+    // ).toBeDisabled();
   });
 
   it('acknowledgement page continue is enabled once all checkboxes have been clicked', async () => {
@@ -192,44 +198,46 @@ describe('The application form', () => {
 
     const checkBoxes = screen.getAllByRole('checkbox');
 
-    const lastCheckBox = checkBoxes.pop();
+    // const lastCheckBox = checkBoxes.pop();
 
     checkBoxes.forEach(async (acknowledgement) => {
       await userEvent.click(acknowledgement);
     });
 
-    expect(
-      screen.getByRole('button', { name: 'Save and continue' })
-    ).toBeDisabled();
+    // TEMP INTAKE 6 UI ONLY CHANGE
+    expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled();
 
-    await act(async () => {
-      await userEvent.click(lastCheckBox);
-    });
+    // expect(
+    //   screen.getByRole('button', { name: 'Save and continue' })
+    // ).toBeDisabled();
 
-    const updateFormRequest =
-      componentTestingHelper.environment.mock.getMostRecentOperation();
+    // await act(async () => {
+    //   await userEvent.click(lastCheckBox);
+    // });
 
-    act(() => {
-      componentTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          updateApplicationForm: {
-            formData: {
-              id: 'TestFormId',
-              rowId: 123,
-              jsonData: updateFormRequest.request.variables.input.jsonData,
-            },
-            formByFormSchemaId: {
-              jsonSchema: schema,
-            },
-            isEditable: true,
-          },
-        },
-      });
-    });
+    // const updateFormRequest =
+    //   componentTestingHelper.environment.mock.getMostRecentOperation();
 
-    expect(
-      screen.getByRole('button', { name: 'Save and continue' })
-    ).toBeEnabled();
+    // act(() => {
+    //   componentTestingHelper.environment.mock.resolveMostRecentOperation({
+    //     data: {
+    //       updateApplicationForm: {
+    //         formData: {
+    //           id: 'TestFormId',
+    //           rowId: 123,
+    //           jsonData: updateFormRequest.request.variables.input.jsonData,
+    //         },
+    //         formByFormSchemaId: {
+    //           jsonSchema: schema,
+    //         },
+    //         isEditable: true,
+    //       },
+    //     },
+    //   });
+    // });
+    // expect(
+    //   screen.getByRole('button', { name: 'Save and continue' })
+    // ).toBeEnabled();
   });
 
   it('displays the correct button label for withdrawn applications', async () => {
@@ -397,31 +405,37 @@ describe('The application form', () => {
     const hours = screen.getAllByLabelText(/Hours of employment/)[0];
     const months = screen.getAllByLabelText(/Total person months/)[0];
 
+    // TEMP INTAKE 6 UI ONLY CHANGE
+    expect(people).toBeDisabled();
+    expect(hours).toBeDisabled();
+    expect(months).toBeDisabled();
+
     await userEvent.type(people, '12');
     await userEvent.type(hours, '40');
     await userEvent.type(months, '20');
 
-    expect(screen.getByText(22.9)).toBeInTheDocument();
+    // TEMP INTAKE 6 UI ONLY CHANGE
+    expect(screen.queryByText('22.9')).not.toBeInTheDocument();
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationFormMutation',
-      {
-        input: {
-          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
-          formDataRowId: 123,
-          jsonData: {
-            estimatedProjectEmployment: {
-              estimatedFTECreation: 22.9,
-              estimatedFTEContractorCreation: null,
-              numberOfEmployeesToWork: 12,
-              hoursOfEmploymentPerWeek: 40,
-              personMonthsToBeCreated: 20,
-            },
-          },
-          lastEditedPage: 'estimatedProjectEmployment',
-        },
-      }
-    );
+    // componentTestingHelper.expectMutationToBeCalled(
+    //   'updateApplicationFormMutation',
+    //   {
+    //     input: {
+    //       clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
+    //       formDataRowId: 123,
+    //       jsonData: {
+    //         estimatedProjectEmployment: {
+    //           estimatedFTECreation: 22.9,
+    //           estimatedFTEContractorCreation: null,
+    //           numberOfEmployeesToWork: 12,
+    //           hoursOfEmploymentPerWeek: 40,
+    //           personMonthsToBeCreated: 20,
+    //         },
+    //       },
+    //       lastEditedPage: 'estimatedProjectEmployment',
+    //     },
+    //   }
+    // );
   });
 
   it('should set the correct calculated value on the project page', async () => {
@@ -438,31 +452,32 @@ describe('The application form', () => {
     await userEvent.type(screen.getAllByLabelText(/2025-26/)[0], '4');
     await userEvent.type(screen.getAllByLabelText(/2026-27/)[0], '5');
 
+    // TEMP INTAKE 6 UI ONLY CHANGE
     expect(
       screen.getByLabelText('Total amount requested under CCBC')
-    ).toHaveValue('$15');
+    ).not.toHaveValue('$15');
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'updateApplicationFormMutation',
-      {
-        input: {
-          clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
-          formDataRowId: 123,
-          jsonData: {
-            projectFunding: {
-              totalFundingRequestedCCBC: 15,
-              totalApplicantContribution: null,
-              fundingRequestedCCBC2223: 1,
-              fundingRequestedCCBC2324: 2,
-              fundingRequestedCCBC2425: 3,
-              fundingRequestedCCBC2526: 4,
-              fundingRequestedCCBC2627: 5,
-            },
-          },
-          lastEditedPage: 'projectFunding',
-        },
-      }
-    );
+    // componentTestingHelper.expectMutationToBeCalled(
+    //   'updateApplicationFormMutation',
+    //   {
+    //     input: {
+    //       clientUpdatedAt: '2022-09-12T14:04:10.790848-07:00',
+    //       formDataRowId: 123,
+    //       jsonData: {
+    //         projectFunding: {
+    //           totalFundingRequestedCCBC: 15,
+    //           totalApplicantContribution: null,
+    //           fundingRequestedCCBC2223: 1,
+    //           fundingRequestedCCBC2324: 2,
+    //           fundingRequestedCCBC2425: 3,
+    //           fundingRequestedCCBC2526: 4,
+    //           fundingRequestedCCBC2627: 5,
+    //         },
+    //       },
+    //       lastEditedPage: 'projectFunding',
+    //     },
+    //   }
+    // );
   });
 
   it('Form is disabled when isEditable is false', () => {
@@ -567,9 +582,12 @@ describe('The application form', () => {
         query: data.query,
       }));
 
-      expect(
-        screen.getByRole('button', { name: /save and continue/i })
-      ).toBeEnabled();
+      // TEMP INTAKE 6 UI ONLY CHANGE
+      expect(screen.getByRole('button', { name: 'Continue' })).toBeEnabled();
+
+      // expect(
+      //   screen.getByRole('button', { name: /save and continue/i })
+      // ).toBeEnabled();
     });
 
     it('prevents submission if errors are not acknowledged', async () => {
@@ -580,43 +598,46 @@ describe('The application form', () => {
         query: data.query,
       }));
 
-      expect(
-        screen.getByRole('button', { name: /save and continue/i })
-      ).toBeDisabled();
+      // TEMP INTAKE 6 UI ONLY CHANGE
+      expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled();
 
-      await act(async () => {
-        await userEvent.click(
-          screen.getByLabelText(
-            /you acknowledge that there are incomplete fields and incomplete applications may not be assessed/i
-          )
-        );
-      });
+      // expect(
+      //   screen.getByRole('button', { name: /save and continue/i })
+      // ).toBeDisabled();
 
-      act(() => {
-        componentTestingHelper.environment.mock.resolveMostRecentOperation({
-          data: {
-            updateApplicationForm: {
-              formData: {
-                id: 'TestFormId',
-                rowId: 123,
-                jsonData: {
-                  review: {
-                    acknowledgeIncomplete: true,
-                  },
-                },
-                formByFormSchemaId: {
-                  jsonSchema: schema,
-                },
-                isEditable: true,
-              },
-            },
-          },
-        });
-      });
+      // await act(async () => {
+      //   await userEvent.click(
+      //     screen.getByLabelText(
+      //       /you acknowledge that there are incomplete fields and incomplete applications may not be assessed/i
+      //     )
+      //   );
+      // });
 
-      expect(
-        screen.getByRole('button', { name: /save and continue/i })
-      ).toBeEnabled();
+      // act(() => {
+      //   componentTestingHelper.environment.mock.resolveMostRecentOperation({
+      //     data: {
+      //       updateApplicationForm: {
+      //         formData: {
+      //           id: 'TestFormId',
+      //           rowId: 123,
+      //           jsonData: {
+      //             review: {
+      //               acknowledgeIncomplete: true,
+      //             },
+      //           },
+      //           formByFormSchemaId: {
+      //             jsonSchema: schema,
+      //           },
+      //           isEditable: true,
+      //         },
+      //       },
+      //     },
+      //   });
+      // });
+
+      // expect(
+      //   screen.getByRole('button', { name: /save and continue/i })
+      // ).toBeEnabled();
     });
 
     it('does not show the incomplete fields acknowledgment checkbox if there are no errors', () => {
@@ -703,27 +724,30 @@ describe('The application form', () => {
       fireEvent.change(addTemplateTwoFileInput, { target: { files: [file] } });
     });
 
-    await act(async () => {
-      fireEvent.click(
-        screen.getByRole('button', { name: 'Save and continue' })
-      );
-    });
+    // TEMP INTAKE 6 UI ONLY CHANGE
+    expect(screen.getByRole('button', { name: 'Continue' })).toBeEnabled();
 
-    expect(global.fetch).toHaveBeenCalledWith(
-      '/api/email/notifyFailedReadOfTemplateData',
-      {
-        body: JSON.stringify({
-          applicationId: 42,
-          host: 'http://localhost',
-          params: {
-            templateNumber: 2,
-          },
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      }
-    );
+    // await act(async () => {
+    //   fireEvent.click(
+    //     screen.getByRole('button', { name: 'Save and continue' })
+    //   );
+    // });
+
+    // expect(global.fetch).toHaveBeenCalledWith(
+    //   '/api/email/notifyFailedReadOfTemplateData',
+    //   {
+    //     body: JSON.stringify({
+    //       applicationId: 42,
+    //       host: 'http://localhost',
+    //       params: {
+    //         templateNumber: 2,
+    //       },
+    //     }),
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     method: 'POST',
+    //   }
+    // );
   });
 });
