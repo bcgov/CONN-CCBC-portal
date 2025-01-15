@@ -65,8 +65,8 @@ describe('Dashboard util functions', () => {
     );
   });
 
-  it('should return "Approved" for "approved"', () => {
-    expect(convertStatus('approved')).toBe('Approved');
+  it('should return "Agreement Signed" for "approved"', () => {
+    expect(convertStatus('approved')).toBe('Agreement Signed');
   });
 
   it('should return "On Hold" for "on_hold"', () => {
