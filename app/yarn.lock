@@ -4629,32 +4629,32 @@
     "@smithy/types" "^4.1.0"
     tslib "^2.6.2"
 
-"@snowplow/browser-tracker-core@3.23.0":
-  version "3.23.0"
-  resolved "https://registry.yarnpkg.com/@snowplow/browser-tracker-core/-/browser-tracker-core-3.23.0.tgz#a849f6804e779c1b6539deb036c94d06db834fd9"
-  integrity sha512-Lt0Mc2Z3NiWCskn8rfgAQ3SCAI16qeU/j7OB6PP1H9NM40hbUVvsg6txYn0JwY2hZEhD8C0H2fi16enbIpZkkw==
+"@snowplow/browser-tracker-core@4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@snowplow/browser-tracker-core/-/browser-tracker-core-4.2.0.tgz#2b02fa8654e224fa7099288ae5462943a608e130"
+  integrity sha512-yLqaPSoFOH7c7csg1as3gNflvB2M6AwUToiHDddtx52jE52rudAa5jqCh8pblIfQ7HAulzSR/DQicQIYn7ihZw==
   dependencies:
-    "@snowplow/tracker-core" "3.23.0"
+    "@snowplow/tracker-core" "4.2.0"
     sha1 "^1.1.1"
     tslib "^2.3.1"
-    uuid "^3.4.0"
+    uuid "^10.0.0"
 
-"@snowplow/browser-tracker@^3.23.0":
-  version "3.23.0"
-  resolved "https://registry.yarnpkg.com/@snowplow/browser-tracker/-/browser-tracker-3.23.0.tgz#e04d5e82fed98d82b8d1b694f2c0fade9fe4bb5c"
-  integrity sha512-+cZ9TUomhMQluUdWCy0hqy3eHOFAlLD/Z+/b0CouMVF/jFvLzIv4xw5sxSnA2JUnzIYD7F10lesehEH4bpMuXQ==
+"@snowplow/browser-tracker@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@snowplow/browser-tracker/-/browser-tracker-4.2.0.tgz#d1d279bcb6db1d05c309ea283888436d08485887"
+  integrity sha512-EPns0oZDGVfNpsdag5bh5o4OHxwfAQpueKVrSjyPdIbciio+hIVH0zeOiKPhlLts+uirCE7YRMJ9S1SHNwjqqQ==
   dependencies:
-    "@snowplow/browser-tracker-core" "3.23.0"
-    "@snowplow/tracker-core" "3.23.0"
+    "@snowplow/browser-tracker-core" "4.2.0"
+    "@snowplow/tracker-core" "4.2.0"
     tslib "^2.3.1"
 
-"@snowplow/tracker-core@3.23.0":
-  version "3.23.0"
-  resolved "https://registry.yarnpkg.com/@snowplow/tracker-core/-/tracker-core-3.23.0.tgz#49fc6c679b9d81ac31a2bb911c6ccebc84f7473f"
-  integrity sha512-q6Z7czCjyfzhnftnofWo+jaLf3jdmTO8yNze7WbJcnZBTQjO0iMjx1ffVieZ38zFOc+O6ANLv4roMfmgyohwiQ==
+"@snowplow/tracker-core@4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@snowplow/tracker-core/-/tracker-core-4.2.0.tgz#a4e21d53d5f7d6d5159d1714fed3a4f487c1690b"
+  integrity sha512-6SZi1SACJgCFIiz6BYk9Run5Z4u2lEKC5AYuaU5qM1xMnmW6UV2752nl3VmRqIeg0Be7VCgaA83iZZf3z/Sg5g==
   dependencies:
     tslib "^2.3.1"
-    uuid "^3.4.0"
+    uuid "^10.0.0"
 
 "@storybook/addon-a11y@^6.2.9":
   version "6.4.22"
@@ -15484,10 +15484,10 @@ utils-merge@1.0.1, utils-merge@^1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-uuid@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
-  integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+uuid@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-10.0.0.tgz#5a95aa454e6e002725c79055fd42aaba30ca6294"
+  integrity sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==
 
 uuid@^8.3.2:
   version "8.3.2"
