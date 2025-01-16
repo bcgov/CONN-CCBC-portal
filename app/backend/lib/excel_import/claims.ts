@@ -41,8 +41,8 @@ const getDateRequestReceived = (
   let dateRequestReceived = null;
   firstTenRowLetters.forEach((letter) => {
     if (
-      claimsRequestFormSheet[index][letter] !== null &&
-      typeof claimsRequestFormSheet[index][letter] === 'number'
+      claimsRequestFormSheet[index][letter] &&
+      convertExcelDateToJSDate(claimsRequestFormSheet[index][letter])
     ) {
       dateRequestReceived = claimsRequestFormSheet[index][letter];
     }
@@ -54,13 +54,12 @@ const getBcProjectNumber = (
   claimsRequestFormSheet: Array<any>,
   index: number
 ) => {
-  let bcProjectNumber = null;
+  let bcProjectNumber;
   firstTenRowLetters.forEach((letter) => {
     if (
-      claimsRequestFormSheet[index][letter]
-        ?.toLowerCase()
-        ?.trim()
-        ?.includes('ccbc')
+      claimsRequestFormSheet[index][letter] &&
+      typeof claimsRequestFormSheet[index][letter] === 'string' &&
+      /^CCBC-\d{6}$/.test(claimsRequestFormSheet[index][letter].trim())
     ) {
       bcProjectNumber = claimsRequestFormSheet[index][letter];
     }
@@ -75,7 +74,7 @@ const getIsedProjectNumber = (
   let isedProjectNumber = null;
   firstTenRowLetters.forEach((letter) => {
     if (
-      claimsRequestFormSheet[index][letter] !== null &&
+      claimsRequestFormSheet[index][letter] &&
       typeof claimsRequestFormSheet[index][letter] === 'number'
     ) {
       isedProjectNumber = claimsRequestFormSheet[index][letter];
@@ -85,11 +84,12 @@ const getIsedProjectNumber = (
 };
 
 const getClaimNumber = (claimsRequestFormSheet: Array<any>, index: number) => {
-  let claimNumber = null;
+  let claimNumber;
   firstTenRowLetters.forEach((letter) => {
     if (
-      claimsRequestFormSheet[index][letter] !== null &&
-      typeof claimsRequestFormSheet[index][letter] === 'number'
+      claimsRequestFormSheet[index][letter] &&
+      typeof claimsRequestFormSheet[index][letter] === 'number' &&
+      !claimNumber
     ) {
       claimNumber = claimsRequestFormSheet[index][letter];
     }
@@ -104,9 +104,11 @@ const getEligibleCostsIncurredFromDate = (
   let eligibleCostsIncurredFromDate = null;
   firstTenRowLetters.forEach((letter) => {
     if (
-      claimsRequestFormSheet[index][letter] !== null &&
+      claimsRequestFormSheet[index][letter] &&
       // excel date is of type number
-      typeof claimsRequestFormSheet[index][letter] === 'number'
+      typeof claimsRequestFormSheet[index][letter] === 'number' &&
+      // we only want the first value since there are others after
+      eligibleCostsIncurredFromDate === null
     ) {
       eligibleCostsIncurredFromDate = claimsRequestFormSheet[index][letter];
     }
@@ -121,9 +123,11 @@ const getEligibleCostsIncurredToDate = (
   let eligibleCostsIncurredToDate = null;
   firstTenRowLetters.forEach((letter) => {
     if (
-      claimsRequestFormSheet[index][letter] !== null &&
+      claimsRequestFormSheet[index][letter] &&
       // excel date is of type number
-      typeof claimsRequestFormSheet[index][letter] === 'number'
+      typeof claimsRequestFormSheet[index][letter] === 'number' &&
+      // we only want the first value since there are others after
+      eligibleCostsIncurredToDate === null
     ) {
       eligibleCostsIncurredToDate = claimsRequestFormSheet[index][letter];
     }
@@ -135,11 +139,12 @@ const getEligibleCostsIncurredToDate = (
 
 const isValidProgressReportInput = (input) => {
   const validInputs = [
-    'Please select',
     'Not Started',
     'In Progress',
     'Completed',
     'N/A',
+    'Yes',
+    'No',
   ];
 
   return (
@@ -158,7 +163,7 @@ const getProgressOnPermits = (
   let progressOnPermits = null;
   firstTenRowLetters.forEach((letter) => {
     if (
-      progressReportSheet[index][letter] !== null &&
+      progressReportSheet[index][letter] &&
       isValidProgressReportInput(progressReportSheet[index][letter])
     ) {
       progressOnPermits = progressReportSheet[index][letter];
@@ -174,7 +179,7 @@ const getHasConstructionBegun = (
   let hasConstructionBegun = null;
   firstTenRowLetters.forEach((letter) => {
     if (
-      progressReportSheet[index][letter] !== null &&
+      progressReportSheet[index][letter] &&
       isValidProgressReportInput(progressReportSheet[index][letter])
     ) {
       hasConstructionBegun = progressReportSheet[index][letter];
@@ -190,7 +195,7 @@ const getHaveServicesBeenOffered = (
   let haveServicesBeenOffered = null;
   firstTenRowLetters.forEach((letter) => {
     if (
-      progressReportSheet[index][letter] !== null &&
+      progressReportSheet[index][letter] &&
       isValidProgressReportInput(progressReportSheet[index][letter])
     ) {
       haveServicesBeenOffered = progressReportSheet[index][letter];
@@ -206,7 +211,7 @@ const getProjectScheduleRisks = (
   let projectScheduleRisks = null;
   firstTenRowLetters.forEach((letter) => {
     if (
-      progressReportSheet[index][letter] !== null &&
+      progressReportSheet[index][letter] &&
       isValidProgressReportInput(progressReportSheet[index][letter])
     ) {
       projectScheduleRisks = progressReportSheet[index][letter];
@@ -222,7 +227,7 @@ const getThirdPartyPassiveInfrastructure = (
   let thirdPartyPassiveInfrastructure = null;
   firstTenRowLetters.forEach((letter) => {
     if (
-      progressReportSheet[index][letter] !== null &&
+      progressReportSheet[index][letter] &&
       isValidProgressReportInput(progressReportSheet[index][letter])
     ) {
       thirdPartyPassiveInfrastructure = progressReportSheet[index][letter];
@@ -238,7 +243,7 @@ const getCommunicationMaterials = (
   let communicationMaterials = null;
   firstTenRowLetters.forEach((letter) => {
     if (
-      progressReportSheet[index][letter] !== null &&
+      progressReportSheet[index][letter] &&
       isValidProgressReportInput(progressReportSheet[index][letter])
     ) {
       communicationMaterials = progressReportSheet[index][letter];
@@ -254,7 +259,7 @@ const getProjectBudgetRisks = (
   let projectBudgetRisks = null;
   firstTenRowLetters.forEach((letter) => {
     if (
-      progressReportSheet[index][letter] !== null &&
+      progressReportSheet[index][letter] &&
       isValidProgressReportInput(progressReportSheet[index][letter])
     ) {
       projectBudgetRisks = progressReportSheet[index][letter];
@@ -270,7 +275,7 @@ const getChangesToOverallBudget = (
   let changesToOverallBudget = null;
   firstTenRowLetters.forEach((letter) => {
     if (
-      progressReportSheet[index][letter] !== null &&
+      progressReportSheet[index][letter] &&
       isValidProgressReportInput(progressReportSheet[index][letter])
     ) {
       changesToOverallBudget = progressReportSheet[index][letter];
@@ -691,7 +696,7 @@ const ValidateData = async (data, req) => {
     }
   }
 
-  if (dateRequestReceived === undefined) {
+  if (dateRequestReceived === undefined || dateRequestReceived === null) {
     errors.push({
       level: 'cell',
       error: 'Invalid data: Date request received',
