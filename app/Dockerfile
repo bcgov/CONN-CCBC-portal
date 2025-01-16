@@ -33,9 +33,9 @@ RUN apk add --no-cache libc6-compat
 FROM base AS deps
 
 # Copy only package.json yarn.lock and the patches for caching purposes
-COPY app/patches patches
 COPY app/package.json .
 COPY app/yarn.lock .
+COPY app/patches patches
 
 # Install all dependencies (including dev) to ensure build tools are available
 RUN yarn --frozen-lockfile
@@ -67,9 +67,9 @@ RUN yarn build:next
 FROM base AS prod-deps
 
 # Copy only package.json yarn.lock and the patches for caching purposes
-COPY app/patches patches
 COPY app/package.json .
 COPY app/yarn.lock .
+COPY app/patches patches
 
 # Install only production dependencies so this layer can be cached separately
 RUN yarn install --frozen-lockfile --production=true --prefer-offline
