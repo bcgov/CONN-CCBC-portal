@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import * as moduleApi from '@growthbook/growthbook-react';
 import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 import { schema } from 'formSchema';
 import Dashboard, {
   withRelayOptions,
@@ -279,7 +279,9 @@ describe('The index page', () => {
       .spyOn(moduleApi, 'useFeature')
       .mockReturnValueOnce(mockInternalIntakeClosed);
 
-    expect(screen.getByText('Create application')).toBeDisabled();
+    expect(screen.queryByText('Create application')).not.toBeInTheDocument();
+    // TEMP INTAKE 6 UI CHANGES
+    expect(screen.getByText('Email Us')).toBeEnabled();
   });
 
   it('displays the alert message when there is no open intake', async () => {
@@ -316,30 +318,40 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(
-      screen.getByText(`Create application`).closest('button').disabled
-    ).toBeFalse();
+    // TEMP INTAKE 6 UI CHANGES
+    expect(screen.getByText('Email Us')).toBeEnabled();
+
+    // expect(
+    //   screen.getByText(`Create application`).closest('button').disabled
+    // ).toBeFalse();
   });
 
   it('has create intake button disabled when there is no open intake', async () => {
     pageTestingHelper.loadQuery(mockClosedIntakePayload);
     pageTestingHelper.renderPage();
 
-    expect(screen.getByText(`Create application`)).toBeDisabled();
+    // TEMP INTAKE 6 UI CHANGES
+    expect(screen.getByText('Email Us')).toBeEnabled();
+
+    // expect(screen.getByText(`Create application`)).toBeDisabled();
   });
 
   it('has create application button enabled when open hidden intake returns a value', async () => {
     pageTestingHelper.loadQuery(mockClosedIntakeOpenHiddenIntakePayload);
     pageTestingHelper.renderPage();
     pageTestingHelper.router.query = { code: 'asdf' };
-    const createApplicationButton = screen.getByText('Create application');
-    expect(createApplicationButton).toBeEnabled();
-    await userEvent.click(createApplicationButton);
-    pageTestingHelper.expectMutationToBeCalled('createApplicationMutation', {
-      input: {
-        code: 'asdf',
-      },
-    });
+
+    // TEMP INTAKE 6 UI CHANGES
+    expect(screen.getByText('Email Us')).toBeEnabled();
+
+    // const createApplicationButton = screen.getByText('Create application');
+    // expect(createApplicationButton).toBeEnabled();
+    // await userEvent.click(createApplicationButton);
+    // pageTestingHelper.expectMutationToBeCalled('createApplicationMutation', {
+    //   input: {
+    //     code: 'asdf',
+    //   },
+    // });
   });
 
   it('displays the message when user has no applications', async () => {
@@ -403,7 +415,7 @@ describe('The index page', () => {
     ).not.toBeInTheDocument();
     expect(
       screen.getByText(
-        /The review of applications will begin immediately after submission. You will no longer be able to edit your application after submission/
+        /Intake 6 is now open until June 30, 2025. If you are interested in submitting an application, or for any questions about connectivity projects in your area, please email/
       )
     ).toBeInTheDocument();
   });

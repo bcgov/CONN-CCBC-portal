@@ -23,530 +23,530 @@ describe('The applicant dashboard', () => {
 
   // Commenting out radio inputs until we pass in proper names or ids to select from
 
-  it('should allow to start and fill an application', () => {
-    cy.visit('/applicantportal/dashboard');
-    // Dashboard page
+  // it('should allow to start and fill an application', () => {
+  //   cy.visit('/applicantportal/dashboard');
+  //   // Dashboard page
 
-    cy.findByRole('heading', { name: /^Dashboard/i }).should('exist');
-    // wait for our page component to stop re-rendering 6 times...
-    cy.wait(1000);
+  //   cy.findByRole('heading', { name: /^Dashboard/i }).should('exist');
+  //   // wait for our page component to stop re-rendering 6 times...
+  //   cy.wait(1000);
 
-    cy.get('body').happoScreenshot({ component: 'Dashboard Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Dashboard Page' });
 
-    cy.findByRole('button', { name: /Create application/i }).not('be.disabled');
-    cy.findByRole('button', { name: /Create application/i }).click();
+  //   cy.findByRole('button', { name: /Create application/i }).not('be.disabled');
+  //   cy.findByRole('button', { name: /Create application/i }).click();
 
-    // Project information page
-    cy.findByRole('heading', { name: /^Project information/i }).should('exist');
-    cy.get('[id="root_projectTitle"]');
+  //   // Project information page
+  //   cy.findByRole('heading', { name: /^Project information/i }).should('exist');
+  //   cy.get('[id="root_projectTitle"]');
 
-    cy.intercept(
-      {
-        url: '/graphql',
-        method: 'POST',
-      },
-      (req) => {
-        req.on('before:response', (res) => {
-          console.log(res);
-          // Check if the response contains the specific error message
-          if (
-            res.body &&
-            res.body.errors &&
-            res.body.errors.some(
-              (error) => error.message === 'Data is Out of Sync'
-            )
-          ) {
-            // Erase the window location hash
-            // cy.window().location.hash = '';
-          }
-          delete res.body.errors;
-          return res;
-        });
-      }
-    ).as('graphql');
+  //   cy.intercept(
+  //     {
+  //       url: '/graphql',
+  //       method: 'POST',
+  //     },
+  //     (req) => {
+  //       req.on('before:response', (res) => {
+  //         console.log(res);
+  //         // Check if the response contains the specific error message
+  //         if (
+  //           res.body &&
+  //           res.body.errors &&
+  //           res.body.errors.some(
+  //             (error) => error.message === 'Data is Out of Sync'
+  //           )
+  //         ) {
+  //           // Erase the window location hash
+  //           // cy.window().location.hash = '';
+  //         }
+  //         delete res.body.errors;
+  //         return res;
+  //       });
+  //     }
+  //   ).as('graphql');
 
-    cy.get('[id="root_geographicAreaDescription"]').type('test');
+  //   cy.get('[id="root_geographicAreaDescription"]').type('test');
 
-    cy.get('[id="root_projectDescription"]').type('test');
+  //   cy.get('[id="root_projectDescription"]').type('test');
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Project Information Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Project Information Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // Project area page
+  //   // Project area page
 
-    cy.contains('h1', 'Project area');
+  //   cy.contains('h1', 'Project area');
 
-    cy.contains('a', 'project zones');
+  //   cy.contains('a', 'project zones');
 
-    cy.get('input[id="root_geographicArea-0"]').parent().click({ force: true });
+  //   cy.get('input[id="root_geographicArea-0"]').parent().click({ force: true });
 
-    cy.get('input[id="root_projectSpanMultipleLocations-0"]')
-      .scrollIntoView()
-      .parent()
-      .click();
+  //   cy.get('input[id="root_projectSpanMultipleLocations-0"]')
+  //     .scrollIntoView()
+  //     .parent()
+  //     .click();
 
-    cy.get('input[id="root_provincesTerritories-0"]').parent().click();
+  //   cy.get('input[id="root_provincesTerritories-0"]').parent().click();
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Project Area Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Project Area Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // Existing network coverage page
-    cy.contains('h1', 'Existing network coverage');
+  //   // Existing network coverage page
+  //   cy.contains('h1', 'Existing network coverage');
 
-    cy.get('input[id="root_hasProvidedExitingNetworkCoverage-0"]').parent();
+  //   cy.get('input[id="root_hasProvidedExitingNetworkCoverage-0"]').parent();
 
-    cy.get('input[id="root_hasProvidedExitingNetworkCoverage-0"]')
-      .parent()
-      .click({ force: true });
-    cy.get('input[id="root_hasProvidedExitingNetworkCoverage-1"]')
-      .parent()
-      .click({ force: true });
-    cy.get('input[id="root_hasProvidedExitingNetworkCoverage-2"]')
-      .parent()
-      .click({ force: true });
+  //   cy.get('input[id="root_hasProvidedExitingNetworkCoverage-0"]')
+  //     .parent()
+  //     .click({ force: true });
+  //   cy.get('input[id="root_hasProvidedExitingNetworkCoverage-1"]')
+  //     .parent()
+  //     .click({ force: true });
+  //   cy.get('input[id="root_hasProvidedExitingNetworkCoverage-2"]')
+  //     .parent()
+  //     .click({ force: true });
 
-    cy.get('input[id="root_hasPassiveInfrastructure-0"]').parent().click();
+  //   cy.get('input[id="root_hasPassiveInfrastructure-0"]').parent().click();
 
-    cy.get('input[id="root_isInfrastructureAvailable-0"]').parent().click();
+  //   cy.get('input[id="root_isInfrastructureAvailable-0"]').parent().click();
 
-    cy.get('input[id="root_requiresThirdPartyInfrastructureAccess-0"]')
-      .parent()
-      .click();
-    cy.get('input[id="root_requiresThirdPartyInfrastructureAccess-1"]')
-      .parent()
-      .click();
+  //   cy.get('input[id="root_requiresThirdPartyInfrastructureAccess-0"]')
+  //     .parent()
+  //     .click();
+  //   cy.get('input[id="root_requiresThirdPartyInfrastructureAccess-1"]')
+  //     .parent()
+  //     .click();
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({
-      component: 'Existing Network Coverage Page',
-    });
+  //   cy.get('body').happoScreenshot({
+  //     component: 'Existing Network Coverage Page',
+  //   });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Project funding page
-    cy.findByRole('heading', { name: /^Project funding/i }).should('exist');
+  //   // // Project funding page
+  //   cy.findByRole('heading', { name: /^Project funding/i }).should('exist');
 
-    cy.get('[id="root_fundingRequestedCCBC2223"]').type(123);
-    cy.get('[id="root_fundingRequestedCCBC2324"]').type(123);
-    cy.get('[id="root_fundingRequestedCCBC2425"]').type(123);
-    cy.get('[id="root_fundingRequestedCCBC2526"]').type(123);
-    cy.get('[id="root_fundingRequestedCCBC2627"]').type(123);
+  //   cy.get('[id="root_fundingRequestedCCBC2223"]').type(123);
+  //   cy.get('[id="root_fundingRequestedCCBC2324"]').type(123);
+  //   cy.get('[id="root_fundingRequestedCCBC2425"]').type(123);
+  //   cy.get('[id="root_fundingRequestedCCBC2526"]').type(123);
+  //   cy.get('[id="root_fundingRequestedCCBC2627"]').type(123);
 
-    cy.get('[id="root_applicationContribution2223"]').type(123);
-    cy.get('[id="root_applicationContribution2324"]').type(123);
-    cy.get('[id="root_applicationContribution2425"]').type(123);
-    cy.get('[id="root_applicationContribution2526"]').type(123);
-    cy.get('[id="root_applicationContribution2627"]').type(123);
+  //   cy.get('[id="root_applicationContribution2223"]').type(123);
+  //   cy.get('[id="root_applicationContribution2324"]').type(123);
+  //   cy.get('[id="root_applicationContribution2425"]').type(123);
+  //   cy.get('[id="root_applicationContribution2526"]').type(123);
+  //   cy.get('[id="root_applicationContribution2627"]').type(123);
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Project Funding Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Project Funding Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // Other funding sources page
-    cy.findByRole('heading', { name: /^Other funding sources/i }).should(
-      'exist'
-    );
+  //   // Other funding sources page
+  //   cy.findByRole('heading', { name: /^Other funding sources/i }).should(
+  //     'exist'
+  //   );
 
-    cy.get('[id="root_infrastructureBankFunding2223"]').type(123);
-    cy.get('[id="root_infrastructureBankFunding2324"]').type(123);
-    cy.get('[id="root_infrastructureBankFunding2425"]').type(123);
-    cy.get('[id="root_infrastructureBankFunding2526"]').type(123);
+  //   cy.get('[id="root_infrastructureBankFunding2223"]').type(123);
+  //   cy.get('[id="root_infrastructureBankFunding2324"]').type(123);
+  //   cy.get('[id="root_infrastructureBankFunding2425"]').type(123);
+  //   cy.get('[id="root_infrastructureBankFunding2526"]').type(123);
 
-    cy.get('input[id="root_otherFundingSources-0"]').parent().click();
+  //   cy.get('input[id="root_otherFundingSources-0"]').parent().click();
 
-    cy.get('[id="root_otherFundingSourcesArray_0_fundingPartnersName"]').type(
-      'test'
-    );
+  //   cy.get('[id="root_otherFundingSourcesArray_0_fundingPartnersName"]').type(
+  //     'test'
+  //   );
 
-    cy.get(
-      '[id="root_otherFundingSourcesArray_0_fundingSourceContactInfo"]'
-    ).type('test');
+  //   cy.get(
+  //     '[id="root_otherFundingSourcesArray_0_fundingSourceContactInfo"]'
+  //   ).type('test');
 
-    cy.get(
-      'select[id="root_otherFundingSourcesArray_0_statusOfFunding"]'
-    ).select('Submitted');
+  //   cy.get(
+  //     'select[id="root_otherFundingSourcesArray_0_statusOfFunding"]'
+  //   ).select('Submitted');
 
-    cy.get('select[id="root_otherFundingSourcesArray_0_funderType"]').select(
-      'Federal'
-    );
+  //   cy.get('select[id="root_otherFundingSourcesArray_0_funderType"]').select(
+  //     'Federal'
+  //   );
 
-    cy.get('[id="root_otherFundingSourcesArray_0_nameOfFundingProgram"]').type(
-      'test'
-    );
+  //   cy.get('[id="root_otherFundingSourcesArray_0_nameOfFundingProgram"]').type(
+  //     'test'
+  //   );
 
-    cy.get(
-      '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2223"]'
-    ).type(123);
+  //   cy.get(
+  //     '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2223"]'
+  //   ).type(123);
 
-    cy.get(
-      '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2324"]'
-    ).type(123);
+  //   cy.get(
+  //     '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2324"]'
+  //   ).type(123);
 
-    cy.get(
-      '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2425"]'
-    ).type(123);
+  //   cy.get(
+  //     '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2425"]'
+  //   ).type(123);
 
-    cy.get(
-      '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2526"]'
-    ).type(123);
+  //   cy.get(
+  //     '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2526"]'
+  //   ).type(123);
 
-    cy.get(
-      '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2627"]'
-    ).type(123);
+  //   cy.get(
+  //     '[id="root_otherFundingSourcesArray_0_requestedFundingPartner2627"]'
+  //   ).type(123);
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Other Funding Sources Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Other Funding Sources Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Technological solution page
-    cy.findByRole('heading', { name: /^Technological solution/i }).should(
-      'exist'
-    );
+  //   // // Technological solution page
+  //   cy.findByRole('heading', { name: /^Technological solution/i }).should(
+  //     'exist'
+  //   );
 
-    cy.get('[id="root_systemDesign"]');
+  //   cy.get('[id="root_systemDesign"]');
 
-    cy.get('[id="root_systemDesign"]').type('test', { force: true });
+  //   cy.get('[id="root_systemDesign"]').type('test', { force: true });
 
-    cy.get('[id="root_scalability"]').type('test', { force: true });
+  //   cy.get('[id="root_scalability"]').type('test', { force: true });
 
-    cy.get('input[id="root_backboneTechnology-0"]').parent().click();
-    cy.get('input[id="root_backboneTechnology-1"]').parent().click();
-    cy.get('input[id="root_backboneTechnology-2"]').parent().click();
+  //   cy.get('input[id="root_backboneTechnology-0"]').parent().click();
+  //   cy.get('input[id="root_backboneTechnology-1"]').parent().click();
+  //   cy.get('input[id="root_backboneTechnology-2"]').parent().click();
 
-    cy.get('input[id="root_lastMileTechnology-0"]').parent().click();
-    cy.get('input[id="root_lastMileTechnology-1"]').parent().click();
-    cy.get('input[id="root_lastMileTechnology-2"]').parent().click();
-    cy.get('input[id="root_lastMileTechnology-3"]').parent().click();
+  //   cy.get('input[id="root_lastMileTechnology-0"]').parent().click();
+  //   cy.get('input[id="root_lastMileTechnology-1"]').parent().click();
+  //   cy.get('input[id="root_lastMileTechnology-2"]').parent().click();
+  //   cy.get('input[id="root_lastMileTechnology-3"]').parent().click();
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({
-      component: 'Technological Solution Page',
-    });
+  //   cy.get('body').happoScreenshot({
+  //     component: 'Technological Solution Page',
+  //   });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Benefits page
-    cy.findByRole('heading', { name: /^Benefits/i }).should('exist');
+  //   // // Benefits page
+  //   cy.findByRole('heading', { name: /^Benefits/i }).should('exist');
 
-    cy.get('[id="root_projectBenefits"]').type('test', { force: true });
+  //   cy.get('[id="root_projectBenefits"]').type('test', { force: true });
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Benefits Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Benefits Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // Project planning and management page
-    cy.findByRole('heading', {
-      name: /Project planning and management/i,
-    }).should('exist');
+  //   // Project planning and management page
+  //   cy.findByRole('heading', {
+  //     name: /Project planning and management/i,
+  //   }).should('exist');
 
-    cy.get('#root_projectStartDate');
+  //   cy.get('#root_projectStartDate');
 
-    cy.get('#root_projectCompletionDate');
+  //   cy.get('#root_projectCompletionDate');
 
-    cy.get('[id="root_projectStartDate"]').type('2023-08-30');
+  //   cy.get('[id="root_projectStartDate"]').type('2023-08-30');
 
-    cy.get('[id="root_projectCompletionDate"]').type('2023-12-31');
+  //   cy.get('[id="root_projectCompletionDate"]').type('2023-12-31');
 
-    cy.get('[id="root_relationshipManagerApplicant"]').type('test');
+  //   cy.get('[id="root_relationshipManagerApplicant"]').type('test');
 
-    cy.get('[id="root_overviewOfProjectParticipants"]').type('test');
+  //   cy.get('[id="root_overviewOfProjectParticipants"]').type('test');
 
-    cy.get('[id="root_operationalPlan"]').type('test');
+  //   cy.get('[id="root_operationalPlan"]').type('test');
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({
-      component: 'Project Planning and Management Page',
-    });
+  //   cy.get('body').happoScreenshot({
+  //     component: 'Project Planning and Management Page',
+  //   });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Estimated project employment page
-    cy.findByRole('heading', { name: /^Estimated project employment/i }).should(
-      'not.exist'
-    );
+  //   // // Estimated project employment page
+  //   cy.findByRole('heading', { name: /^Estimated project employment/i }).should(
+  //     'not.exist'
+  //   );
 
-    // // Template uploads page
-    cy.findByRole('heading', { name: /^Template uploads/i }).should('exist');
+  //   // // Template uploads page
+  //   cy.findByRole('heading', { name: /^Template uploads/i }).should('exist');
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Template Uploads Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Template Uploads Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Supporting documents page
-    cy.findByRole('heading', { name: /^Supporting documents/i }).should(
-      'exist'
-    );
+  //   // // Supporting documents page
+  //   cy.findByRole('heading', { name: /^Supporting documents/i }).should(
+  //     'exist'
+  //   );
 
-    cy.contains('a', 'connectingcommunitiesbc@gov.bc.ca');
+  //   cy.contains('a', 'connectingcommunitiesbc@gov.bc.ca');
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Supporting Documents Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Supporting Documents Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Coverage page
-    cy.findByRole('heading', { name: /^Coverage/i }).should('exist');
+  //   // // Coverage page
+  //   cy.findByRole('heading', { name: /^Coverage/i }).should('exist');
 
-    cy.contains('a', 'Eligibility Mapping Tool');
+  //   cy.contains('a', 'Eligibility Mapping Tool');
 
-    // Todo: file uploads
+  //   // Todo: file uploads
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Coverage Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Coverage Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // Organization Profile page
-    cy.findByRole('heading', { name: /^Organization profile/i }).should(
-      'exist'
-    );
+  //   // Organization Profile page
+  //   cy.findByRole('heading', { name: /^Organization profile/i }).should(
+  //     'exist'
+  //   );
 
-    cy.get('input[id="root_typeOfOrganization-0"]').parent().click();
+  //   cy.get('input[id="root_typeOfOrganization-0"]').parent().click();
 
-    cy.get('input[id="root_typeOfOrganization-14"]').parent().click();
+  //   cy.get('input[id="root_typeOfOrganization-14"]').parent().click();
 
-    cy.get('input[id="root_other"]').type('test');
+  //   cy.get('input[id="root_other"]').type('test');
 
-    cy.get('input[id="root_organizationName"]').type('Test org name');
+  //   cy.get('input[id="root_organizationName"]').type('Test org name');
 
-    cy.get('input[id="root_isNameLegalName-0"]').parent().click();
+  //   cy.get('input[id="root_isNameLegalName-0"]').parent().click();
 
-    cy.get('input[id="root_isSubsidiary-0"]').parent().click();
+  //   cy.get('input[id="root_isSubsidiary-0"]').parent().click();
 
-    cy.get('input[id="root_parentOrgName"]').type('test');
+  //   cy.get('input[id="root_parentOrgName"]').type('test');
 
-    cy.get('input[id="root_isIndigenousEntity-0"]').parent().click();
+  //   cy.get('input[id="root_isIndigenousEntity-0"]').parent().click();
 
-    cy.get('input[id="root_indigenousEntityDesc"]').type('test');
+  //   cy.get('input[id="root_indigenousEntityDesc"]').type('test');
 
-    // Todo: Datepicker test
-    cy.get('#root_orgRegistrationDate');
+  //   // Todo: Datepicker test
+  //   cy.get('#root_orgRegistrationDate');
 
-    cy.get('input[id="root_businessNumber"]').type(123);
+  //   cy.get('input[id="root_businessNumber"]').type(123);
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Organization Profile Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Organization Profile Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Organization location page
-    cy.findByRole('heading', { name: /^Organization location/i }).should(
-      'exist'
-    );
+  //   // // Organization location page
+  //   cy.findByRole('heading', { name: /^Organization location/i }).should(
+  //     'exist'
+  //   );
 
-    cy.get('input[id="root_streetNumber"]').type(123);
+  //   cy.get('input[id="root_streetNumber"]').type(123);
 
-    cy.get('input[id="root_streetName"]').type('test');
+  //   cy.get('input[id="root_streetName"]').type('test');
 
-    cy.get('input[id="root_POBox"]').type('test');
+  //   cy.get('input[id="root_POBox"]').type('test');
 
-    cy.get('input[id="root_city"]').type('test');
+  //   cy.get('input[id="root_city"]').type('test');
 
-    cy.get('select[id="root_province"]').select('British Columbia');
+  //   cy.get('select[id="root_province"]').select('British Columbia');
 
-    cy.get('input[id="root_postalCode"]').type('test');
+  //   cy.get('input[id="root_postalCode"]').type('test');
 
-    cy.get('input[id="root_isMailingAddress-1"]').parent().click();
+  //   cy.get('input[id="root_isMailingAddress-1"]').parent().click();
 
-    cy.get('input[id="root_mailingAddress_unitNumberMailing"]').type('test');
+  //   cy.get('input[id="root_mailingAddress_unitNumberMailing"]').type('test');
 
-    cy.get('input[id="root_mailingAddress_streetNumberMailing"]').type('test');
+  //   cy.get('input[id="root_mailingAddress_streetNumberMailing"]').type('test');
 
-    cy.get('input[id="root_mailingAddress_streetNameMailing"]').type('test');
+  //   cy.get('input[id="root_mailingAddress_streetNameMailing"]').type('test');
 
-    cy.get('input[id="root_mailingAddress_POBoxMailing"]').type('test');
+  //   cy.get('input[id="root_mailingAddress_POBoxMailing"]').type('test');
 
-    cy.get('input[id="root_mailingAddress_cityMailing"]').type('test');
+  //   cy.get('input[id="root_mailingAddress_cityMailing"]').type('test');
 
-    cy.get('select[id="root_mailingAddress_provinceMailing"]').select(
-      'British Columbia'
-    );
+  //   cy.get('select[id="root_mailingAddress_provinceMailing"]').select(
+  //     'British Columbia'
+  //   );
 
-    cy.get('input[id="root_mailingAddress_postalCodeMailing"]').type('test');
+  //   cy.get('input[id="root_mailingAddress_postalCodeMailing"]').type('test');
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Organization Location Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Organization Location Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Organization contact information page
-    cy.findByRole('heading', {
-      name: /Organization contact information/i,
-    }).should('exist');
+  //   // // Organization contact information page
+  //   cy.findByRole('heading', {
+  //     name: /Organization contact information/i,
+  //   }).should('exist');
 
-    cy.get('input[id="root_contactTelephoneNumber"]').type('123-4567');
+  //   cy.get('input[id="root_contactTelephoneNumber"]').type('123-4567');
 
-    cy.get('input[id="root_contactExtension"]').type('123');
+  //   cy.get('input[id="root_contactExtension"]').type('123');
 
-    cy.get('input[id="root_contactEmail"]').type('test@test.com');
+  //   cy.get('input[id="root_contactEmail"]').type('test@test.com');
 
-    cy.get('input[id="root_contactWebsite"]').type('test');
+  //   cy.get('input[id="root_contactWebsite"]').type('test');
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({
-      component: 'Organization Contact Information Page',
-    });
+  //   cy.get('body').happoScreenshot({
+  //     component: 'Organization Contact Information Page',
+  //   });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Authorized contact page
-    cy.findByRole('heading', { name: /^Authorized business contact/i }).should(
-      'exist'
-    );
+  //   // // Authorized contact page
+  //   cy.findByRole('heading', { name: /^Authorized business contact/i }).should(
+  //     'exist'
+  //   );
 
-    cy.get('input[id="root_authFamilyName"]').type('test');
+  //   cy.get('input[id="root_authFamilyName"]').type('test');
 
-    cy.get('input[id="root_authGivenName"]').type('test');
+  //   cy.get('input[id="root_authGivenName"]').type('test');
 
-    cy.get('input[id="root_authPositionTitle"]').type('test');
+  //   cy.get('input[id="root_authPositionTitle"]').type('test');
 
-    cy.get('input[id="root_authEmail"]').type('test@test.com');
+  //   cy.get('input[id="root_authEmail"]').type('test@test.com');
 
-    cy.get('input[id="root_authTelephone"]').type('123-456');
+  //   cy.get('input[id="root_authTelephone"]').type('123-456');
 
-    cy.get('input[id="root_authExtension"]').type('123');
+  //   cy.get('input[id="root_authExtension"]').type('123');
 
-    cy.get('input[id="root_isAuthContactSigningOfficer-0"]').parent().click();
+  //   cy.get('input[id="root_isAuthContactSigningOfficer-0"]').parent().click();
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Authorized Contact Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Authorized Contact Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Alternate contact page
-    cy.findByRole('heading', { name: /^Alternate business contact/i }).should(
-      'exist'
-    );
+  //   // // Alternate contact page
+  //   cy.findByRole('heading', { name: /^Alternate business contact/i }).should(
+  //     'exist'
+  //   );
 
-    cy.get('input[id="root_altFamilyName"]').type('test');
+  //   cy.get('input[id="root_altFamilyName"]').type('test');
 
-    cy.get('input[id="root_altGivenName"]').type('test');
+  //   cy.get('input[id="root_altGivenName"]').type('test');
 
-    cy.get('input[id="root_altPositionTitle"]').type('test');
+  //   cy.get('input[id="root_altPositionTitle"]').type('test');
 
-    cy.get('input[id="root_altEmail"]').type('test@test.com');
+  //   cy.get('input[id="root_altEmail"]').type('test@test.com');
 
-    cy.get('input[id="root_altTelephone"]').type('123-456');
+  //   cy.get('input[id="root_altTelephone"]').type('123-456');
 
-    cy.get('input[id="root_altExtension"]').type('123');
+  //   cy.get('input[id="root_altExtension"]').type('123');
 
-    cy.get('input[id="root_isAltContactSigningOfficer-0"]').parent().click();
+  //   cy.get('input[id="root_isAltContactSigningOfficer-0"]').parent().click();
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Alternate Contact Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Alternate Contact Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Review page
-    cy.findByRole('heading', { name: /^Review/i }).should('exist');
+  //   // // Review page
+  //   cy.findByRole('heading', { name: /^Review/i }).should('exist');
 
-    cy.get('input[id="root_acknowledgeIncomplete"]').parent().click();
+  //   cy.get('input[id="root_acknowledgeIncomplete"]').parent().click();
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Review Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Review Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Acknowledgements page
-    cy.findByRole('heading', { name: /^Acknowledgements/i }).should('exist');
+  //   // // Acknowledgements page
+  //   cy.findByRole('heading', { name: /^Acknowledgements/i }).should('exist');
 
-    cy.get('input[id="root_acknowledgementsList-0"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-0"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-1"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-1"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-2"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-2"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-3"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-3"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-4"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-4"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-5"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-5"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-6"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-6"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-7"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-7"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-8"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-8"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-9"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-9"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-10"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-10"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-11"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-11"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-12"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-12"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-13"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-13"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-14"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-14"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-15"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-15"]').parent().click();
 
-    cy.get('input[id="root_acknowledgementsList-16"]').parent().click();
+  //   cy.get('input[id="root_acknowledgementsList-16"]').parent().click();
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Acknowledgements Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Acknowledgements Page' });
 
-    cy.contains('button', 'Save and continue').click();
+  //   cy.contains('button', 'Save and continue').click();
 
-    // // Sign Submission
-    cy.findByRole('heading', { name: /^Submission/i }).should('exist');
+  //   // // Sign Submission
+  //   cy.findByRole('heading', { name: /^Submission/i }).should('exist');
 
-    cy.get('[id="root_submissionCompletedFor"]').should(
-      'have.text',
-      'Test org name'
-    );
+  //   cy.get('[id="root_submissionCompletedFor"]').should(
+  //     'have.text',
+  //     'Test org name'
+  //   );
 
-    cy.get('input[id="root_submissionCompletedBy"]').type('test');
-    cy.get('input[id="root_submissionTitle"]').type('test');
+  //   cy.get('input[id="root_submissionCompletedBy"]').type('test');
+  //   cy.get('input[id="root_submissionTitle"]').type('test');
 
-    cy.get('[id="root_submissionDate"]').should('have.text', '2022-10-09');
+  //   cy.get('[id="root_submissionDate"]').should('have.text', '2022-10-09');
 
-    cy.contains('header > div', 'Last saved:');
+  //   cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Submission Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Submission Page' });
 
-    cy.contains('button', 'Submit').click();
+  //   cy.contains('button', 'Submit').click();
 
-    // // Success page
-    cy.findByRole('heading', { name: /^Application submitted/i }).should(
-      'exist'
-    );
+  //   // // Success page
+  //   cy.findByRole('heading', { name: /^Application submitted/i }).should(
+  //     'exist'
+  //   );
 
-    cy.findByRole('heading', {
-      name: /Thank you for applying to CCBC Intake 1/i,
-    }).should('exist');
+  //   cy.findByRole('heading', {
+  //     name: /Thank you for applying to CCBC Intake 1/i,
+  //   }).should('exist');
 
-    cy.get('body').happoScreenshot({ component: 'Success Page' });
+  //   cy.get('body').happoScreenshot({ component: 'Success Page' });
 
-    cy.contains('button', 'Return to dashboard').click();
-  });
+  //   cy.contains('button', 'Return to dashboard').click();
+  // });
 
   it('should see dashboard and have disabled form out of intake', () => {
     const mockedDateString = '2025-10-10';

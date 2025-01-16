@@ -78,6 +78,7 @@ const Dashboard = ({
   const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
   const { allApplications, nextIntake, openIntake, session, openHiddenIntake } =
     query;
+  const disableIntake = true;
 
   const closeTimestamp = openIntake?.closeTimestamp;
   const isRollingIntake = openIntake?.rollingIntake ?? false;
@@ -154,11 +155,20 @@ const Dashboard = ({
           <h1>Dashboard</h1>
           {openIntake ? (
             <p>
-              {isRollingIntake
-                ? `The review of applications will begin immediately after submission. You will no longer be able to edit your application after submission. However, you can edit your draft application until the end of the intake period.`
-                : `Review of applications will begin on
+              {isRollingIntake ? (
+                <>
+                  Intake 6 is now open until June 30, 2025. If you are
+                  interested in submitting an application, or for any questions
+                  about connectivity projects in your area, please email{' '}
+                  <a href="mailto:connectedcommunitiesbc@gov.bc.ca">
+                    connectedcommunitiesbc@gov.bc.ca
+                  </a>
+                </>
+              ) : (
+                `Review of applications will begin on
               ${dateTimeSubtracted(closeTimestamp, showSubtractedTime)}. You can
-              edit draft and submitted applications until this date.`}
+              edit draft and submitted applications until this date.`
+              )}
             </p>
           ) : (
             <div>
@@ -176,12 +186,23 @@ const Dashboard = ({
               </p>
             </div>
           )}
-          <StyledGovButton
-            onClick={handleCreateApplication}
-            disabled={isCreateApplicationDisabled}
-          >
-            Create application
-          </StyledGovButton>
+          {!disableIntake ? (
+            <StyledGovButton
+              onClick={handleCreateApplication}
+              disabled={isCreateApplicationDisabled || disableIntake}
+            >
+              Create application
+            </StyledGovButton>
+          ) : (
+            <StyledGovButton
+              onClick={() => {
+                window.location.href =
+                  'mailto:connectedcommunitiesbc@gov.bc.ca';
+              }}
+            >
+              Email Us
+            </StyledGovButton>
+          )}
         </section>
         <section>
           {hasApplications ? (

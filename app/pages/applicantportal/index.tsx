@@ -7,7 +7,7 @@ import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
 import { useMemo } from 'react';
 import { Button, Callout } from '@button-inc/bcgov-theme';
-import dateTimeSubtracted from 'utils/dateTimeSubtracted';
+// import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import { ButtonLink, DynamicAlert, Layout, LoginForm } from '../../components';
 import defaultRelayOptions from '../../lib/relay/withRelayOptions';
 import { applicantportalQuery } from '../../__generated__/applicantportalQuery.graphql';
@@ -76,11 +76,11 @@ const Home = ({
     getApplicantportalQuery,
     preloadedQuery
   );
-  const isRollingIntake = openIntake?.rollingIntake || false;
+  // const isRollingIntake = openIntake?.rollingIntake || false;
 
   const openIntakeBanner = useFeature('open_intake_alert').value || {};
   const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
-  const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
+  // const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
 
   const intakeCalloutChildren = useMemo(() => {
     if (!openIntake)
@@ -96,22 +96,21 @@ const Home = ({
         </>
       );
 
-    const formattedClosingDate = dateTimeSubtracted(
-      openIntake.closeTimestamp,
-      showSubtractedTime
-    );
+    // const formattedClosingDate = dateTimeSubtracted(
+    //   openIntake.closeTimestamp,
+    //   showSubtractedTime
+    // );
 
     return (
       <BoldText>
-        {`Applications will be accepted until ${formattedClosingDate}.`}
-        <br />
-        {isRollingIntake
-          ? `The review of applications will begin after submission.`
-          : `Review of applications will not begin until this date.`}{' '}
-        <br />
-        {isRollingIntake
-          ? `Drafts will be editable until then.`
-          : `Draft and submitted applications will be editable until then.`}
+        <>
+          Intake 6 is now open until June 30, 2025. <br />
+          If you are interested in submitting an application, or for any
+          questions about connectivity projects in your area, please email{' '}
+          <a href="mailto:connectedcommunitiesbc@gov.bc.ca">
+            connectedcommunitiesbc@gov.bc.ca
+          </a>
+        </>
       </BoldText>
     );
   }, [openIntake]);

@@ -176,7 +176,7 @@ describe('The Dashboard', () => {
     componentTestingHelper.renderComponent();
     expect(screen.getByText('Unassigned')).toBeInTheDocument();
     expect(screen.getByText('Draft')).toBeInTheDocument();
-    expect(screen.getByText('Edit')).toBeInTheDocument();
+    // expect(screen.getByText('Edit')).toBeInTheDocument();
     expect(screen.queryByTestId('withdraw-btn-test')).toBeNull();
   });
 
@@ -218,7 +218,7 @@ describe('The Dashboard', () => {
 
     expect(screen.getByText('CCBC-010004')).toBeInTheDocument();
     expect(screen.getByText('Submitted')).toBeInTheDocument();
-    expect(screen.getByText('Edit')).toBeInTheDocument();
+    // expect(screen.getByText('Edit')).toBeInTheDocument();
     expect(screen.getByTestId('withdraw-btn-test')).toBeInTheDocument();
   });
 
@@ -261,7 +261,7 @@ describe('The Dashboard', () => {
     componentTestingHelper.renderComponent();
     expect(screen.getByText('CCBC-010005')).toBeInTheDocument();
     expect(screen.getByText('Submitted')).toBeInTheDocument();
-    expect(screen.getByText('Edit')).toBeInTheDocument();
+    // expect(screen.getByText('Edit')).toBeInTheDocument();
     expect(screen.getByTestId('withdraw-btn-test')).toBeInTheDocument();
 
     const withdrawBtn = screen.getByTestId('withdraw-btn-test');

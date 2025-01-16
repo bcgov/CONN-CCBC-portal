@@ -1,3 +1,14 @@
+# [1.224.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.223.0...v1.224.0) (2025-01-16)
+
+### Bug Fixes
+
+- authorized path for gis ([c2b4551](https://github.com/bcgov/CONN-CCBC-portal/commit/c2b45514f3c11c17cf536cd697fe006217563d4a))
+- remove unwanted unsaved change modal ([8fae8dd](https://github.com/bcgov/CONN-CCBC-portal/commit/8fae8dd1f0352c3539bf0281935321d9affe4e46))
+
+### Features
+
+- intake 6 UI preparation ([083cc8e](https://github.com/bcgov/CONN-CCBC-portal/commit/083cc8eea4fe036148713c1d910a89aaadd3754f))
+
 ## [1.223.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.223.0...v1.223.1) (2025-01-14)
 
 ### Bug Fixes
