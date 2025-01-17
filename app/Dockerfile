@@ -25,7 +25,7 @@ ENV UPLOAD_DIR=${APP_HOME}/uploads
 WORKDIR ${APP_HOME}
 
 # Install system dependencies
-RUN apk add --no-cache libc6-compat
+RUN apk add libc6-compat
 
 # 1ST STAGE: INSTALL ALL DEPENDENCIES NEEDED FOR BUILD --
 
@@ -55,9 +55,7 @@ COPY app/ .
 
 # Build the app (compile Relay, server, and Next.js)
 ENV NODE_ENV=production
-RUN yarn build:relay
-RUN yarn build:server
-RUN yarn build:next
+RUN yarn build:relay && yarn build:server && yarn build:next
 
 # -- END OF 2ND STAGE --
 
@@ -66,10 +64,10 @@ RUN yarn build:next
 # Separate stage for production dependencies to leverage Docker caching
 FROM base AS prod-deps
 
-# Copy only package.json yarn.lock and the patches for caching purposes
-COPY app/package.json .
-COPY app/yarn.lock .
-COPY app/patches patches
+# Copy package.json, yarn.lock, and patches from the deps stage
+COPY --from=deps ${APP_HOME}/package.json .
+COPY --from=deps ${APP_HOME}/yarn.lock .
+COPY --from=deps ${APP_HOME}/patches patches
 
 # Install only production dependencies so this layer can be cached separately
 RUN yarn install --frozen-lockfile --production=true --prefer-offline
@@ -107,9 +105,9 @@ COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/dist ./dist
 COPY --from=prod-deps --chown=${USER_ID}:0 ${APP_HOME}/node_modules ./node_modules
 
 # Make sure uploads directory has proper permission
-RUN mkdir -p ${UPLOAD_DIR}
-RUN chown -PR ${USER_ID}:0 ${UPLOAD_DIR}
-RUN chmod -R g+rw ${UPLOAD_DIR}
+RUN mkdir -p ${UPLOAD_DIR} && \
+  chown -PR ${USER_ID}:0 ${UPLOAD_DIR} && \
+  chmod -R g+rw ${UPLOAD_DIR}
 
 # Run as the non-root user
 USER ${USER_ID}
