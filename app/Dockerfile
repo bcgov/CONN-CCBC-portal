@@ -64,10 +64,10 @@ RUN yarn build:relay && yarn build:server && yarn build:next
 # Separate stage for production dependencies to leverage Docker caching
 FROM base AS prod-deps
 
-# Copy package.json, yarn.lock, and patches from the deps stage
-COPY --from=deps ${APP_HOME}/package.json .
-COPY --from=deps ${APP_HOME}/yarn.lock .
-COPY --from=deps ${APP_HOME}/patches patches
+# Copy only package.json yarn.lock and the patches for caching purposes
+COPY app/package.json .
+COPY app/yarn.lock .
+COPY app/patches patches
 
 # Install only production dependencies so this layer can be cached separately
 RUN yarn install --frozen-lockfile --production=true --prefer-offline
