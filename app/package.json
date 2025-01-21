@@ -121,8 +121,7 @@
     "vscode-json-languageservice": "^5.4.2",
     "whatwg-url": "^14.1.0",
     "write-excel-file": "^2.0.11",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz",
-    "xmldom": "^0.6.0"
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.729.0",
