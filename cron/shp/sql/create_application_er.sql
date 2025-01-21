@@ -15,6 +15,8 @@ CREATE TABLE ccbc_public.application_er (
     archived_at TIMESTAMP WITH TIME ZONE DEFAULT NULL -- Timestamp when the record was archived
 );
 
+GRANT TRIGGER ON ccbc_public.application_er TO ccbc;
+
 SELECT audit.enable_tracking('ccbc_public.application_er'::regclass);
 
 -- Step 3: Populate the table with data
