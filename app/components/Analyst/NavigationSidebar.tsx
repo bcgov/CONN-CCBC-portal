@@ -11,6 +11,7 @@ import {
   faNoteSticky,
 } from '@fortawesome/free-solid-svg-icons';
 import NavItem from './NavItem';
+import SideMap from './SideMap';
 
 const StyledAside = styled.aside`
   min-height: 100%;
@@ -30,12 +31,15 @@ const StyledLowerSection = styled.section`
   margin-top: 1em;
 `;
 
-const NavigationSidebar = () => {
+const NavigationSidebar = ({
+  mapData = null,
+  isMapExpanded = null,
+  setIsMapExpanded = null,
+}) => {
   const router = useRouter();
   const { asPath } = router;
   const { applicationId } = router.query;
   const assessmentLastVisited = cookie.get('assessment_last_visited') || null;
-
   return (
     <StyledAside>
       <StyledNav>
@@ -89,6 +93,13 @@ const NavigationSidebar = () => {
             label="History"
           />
         </StyledLowerSection>
+        {asPath.includes('summary') && mapData && (
+          <SideMap
+            mapData={mapData}
+            isMapExpanded={isMapExpanded}
+            setIsMapExpanded={setIsMapExpanded}
+          />
+        )}
       </StyledNav>
     </StyledAside>
   );

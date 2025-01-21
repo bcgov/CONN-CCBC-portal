@@ -1,9 +1,94 @@
-import { act, fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import Summary from 'pages/analyst/application/[applicationId]/summary';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledSummaryQuery, {
   summaryQuery,
 } from '__generated__/summaryQuery.graphql';
+import * as moduleApi from '@growthbook/growthbook-react';
+
+const mockShowSummaryMap: moduleApi.FeatureResult<boolean> = {
+  value: true,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_summary_map',
+};
+
+const fakeMarkerData = {
+  coordinates: [49.2827, -123.1207],
+  name: 'Test Marker',
+  description: 'This is a test marker.',
+  // extendedData: {
+  //   key1: 'value1',
+  //   key2: 'value2',
+  // },
+  style: {
+    color: 'red',
+    icon: 'marker-icon.png',
+  },
+  fileName: 'test-file.kml',
+  source: 'Test Source',
+  balloonData: '<div><h1>Test Marker</h1><p>This is a test marker.</p></div>',
+};
+
+const fakePolygonData = {
+  coordinates: [
+    [
+      [49.2827, -123.1207],
+      [49.2828, -123.1208],
+      [49.2829, -123.1209],
+      [49.2827, -123.1207],
+    ],
+  ],
+  name: 'Test Polygon',
+  description: 'This is a test polygon.',
+  // extendedData: {
+  //   key1: 'value1',
+  //   key2: 'value2',
+  // },
+  style: {
+    color: 'blue',
+    fillColor: 'lightblue',
+  },
+  fileName: 'test-file.kml',
+  source: 'Test Source',
+  balloonData: '<div><h1>Test Polygon</h1><p>This is a test polygon.</p></div>',
+};
+
+const fakeLineStringData = {
+  coordinates: [
+    [
+      [49.2827, -123.1207],
+      [49.2828, -123.1208],
+      [49.2829, -123.1209],
+    ],
+  ],
+  name: 'Test LineString',
+  description: 'This is a test line string.',
+  // extendedData: {
+  //   key1: 'value1',
+  //   key2: 'value2',
+  // },
+  style: {
+    color: 'green',
+    weight: 2,
+  },
+  fileName: 'test-file.kml',
+  source: 'Test Source',
+};
+
+const fakeParsedKML = {
+  polygons: [fakePolygonData],
+  markers: [fakeMarkerData],
+  lineStrings: [fakeLineStringData],
+  bounds: [
+    [49.2827, -123.1207],
+    [49.2829, -123.1209],
+  ],
+  center: [49.2828, -123.1208],
+  fileName: 'test-file.kml',
+  source: 'Test Source',
+};
 
 const mockQueryPayload = {
   Query() {
@@ -1045,6 +1130,13 @@ describe('The Summary page', () => {
     pageTestingHelper.setMockRouterValues({
       query: { applicationId: '1' },
     });
+    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowSummaryMap);
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(fakeParsedKML),
+      })
+    );
   });
 
   afterEach(() => {
@@ -1167,5 +1259,33 @@ describe('The Summary page', () => {
         'Highlighted cells are null because SOW Excel table has not been uploaded in the portal'
       )
     ).toBeInTheDocument();
+  });
+
+  it('should show the map in two places', async () => {
+    pageTestingHelper.setMockRouterValues({
+      query: {
+        applicationId: '1',
+      },
+      asPath: '/summary',
+    });
+
+    await act(async () => {
+      pageTestingHelper.loadQuery();
+      pageTestingHelper.renderPage();
+    });
+
+    await waitFor(() =>
+      expect(screen.getByTestId('expand-map')).toBeInTheDocument()
+    );
+
+    const expandMapButton = screen.getByTestId('expand-map');
+
+    await act(async () => {
+      fireEvent.click(expandMapButton);
+    });
+
+    await waitFor(() =>
+      expect(screen.getByTestId('collapse-map')).toBeInTheDocument()
+    );
   });
 });

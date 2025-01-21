@@ -1,3 +1,10 @@
+# [1.225.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.224.0...v1.225.0) (2025-01-21)
+
+### Features
+
+- display map on summary page ([b3148b3](https://github.com/bcgov/CONN-CCBC-portal/commit/b3148b347766e419929706aab2a11775fb017412))
+- left and accordion map ([4ec8ff0](https://github.com/bcgov/CONN-CCBC-portal/commit/4ec8ff05cc4c59e9658f54d24b578e00fa3d1a44))
+
 # [1.224.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.223.0...v1.224.0) (2025-01-16)
 
 ### Bug Fixes

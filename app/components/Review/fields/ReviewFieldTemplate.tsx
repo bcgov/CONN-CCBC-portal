@@ -63,7 +63,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
     <>
       {before}
       <tr>
-        <StyledColLeft id={`${id}_title`}>{title}</StyledColLeft>
+        {title && <StyledColLeft id={`${id}_title`}>{title}</StyledColLeft>}
         <StyledColRight
           data-testid={`${id}-value`}
           hasError={hasError}

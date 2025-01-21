@@ -22,9 +22,18 @@ const StyledFormDiv = styled(FormDiv)`
 interface Props {
   children: JSX.Element[] | JSX.Element;
   query: any;
+  mapData?: any;
+  isMapExpanded?: boolean;
+  setIsMapExpanded?: (isMapExpanded: boolean) => void;
 }
 
-const AnalystLayout: React.FC<Props> = ({ children, query }) => {
+const AnalystLayout: React.FC<Props> = ({
+  children,
+  query,
+  mapData = null,
+  isMapExpanded = null,
+  setIsMapExpanded = null,
+}) => {
   const queryFragment = useFragment(
     graphql`
       fragment AnalystLayout_query on Query {
@@ -37,7 +46,11 @@ const AnalystLayout: React.FC<Props> = ({ children, query }) => {
     <StyledContainer>
       <ApplicationHeader query={queryFragment} />
       <StyledFlex>
-        <NavigationSidebar />
+        <NavigationSidebar
+          mapData={mapData}
+          isMapExpanded={isMapExpanded}
+          setIsMapExpanded={setIsMapExpanded}
+        />
         <StyledFormDiv>{children}</StyledFormDiv>
       </StyledFlex>
     </StyledContainer>
