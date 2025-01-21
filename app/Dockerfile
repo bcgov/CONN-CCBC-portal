@@ -14,12 +14,8 @@ LABEL summary="$SUMMARY" \
   maintainer="Romer, Meherzad CITZ:EX <Meherzad.Romer@gov.bc.ca>"
 
 # Environment variables
-ARG GIT_HASH
-ARG SENTRY_AUTH_TOKEN
 ENV USER_ID=1001
 ENV APP_HOME=/application
-ENV GIT_HASH=${GIT_HASH}
-ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 ENV UPLOAD_DIR=${APP_HOME}/uploads
 
 WORKDIR ${APP_HOME}
@@ -46,6 +42,11 @@ RUN yarn --frozen-lockfile
 
 # Build the app
 FROM base AS builder
+
+ARG GIT_HASH
+ARG SENTRY_AUTH_TOKEN
+ENV GIT_HASH=${GIT_HASH}
+ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 
 # Copy node_modules from the deps stage
 COPY --from=deps ${APP_HOME}/node_modules ./node_modules
