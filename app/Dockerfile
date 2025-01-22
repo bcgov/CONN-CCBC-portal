@@ -43,10 +43,7 @@ RUN yarn --frozen-lockfile
 # Build the app
 FROM base AS builder
 
-# ARG GIT_HASH
-# ARG SENTRY_AUTH_TOKEN
-# ENV GIT_HASH=${GIT_HASH}
-# ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
+RUN --mount=type=secret,id=sentry_token,env=SENTRY_AUTH_TOKEN
 
 # Copy node_modules from the deps stage
 COPY --from=deps ${APP_HOME}/node_modules ./node_modules

@@ -45,9 +45,6 @@ const moduleExports = {
       language: 'typescript',
     },
   },
-  generateBuildId: async () => {
-    return 'latest';
-  },
 
   publicRuntimeConfig: {
     NEXT_PUBLIC_GROWTHBOOK_API_KEY: process.env.NEXT_PUBLIC_GROWTHBOOK_API_KEY,
@@ -93,12 +90,9 @@ module.exports = withSentryConfig(moduleExports, {
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options
 
-  // authToken: `${process.env.SENTRY_AUTH_TOKEN}`,
+  authToken: `${process.env.SENTRY_AUTH_TOKEN}`,
   org: 'bcgov-ccbc-yr',
   project: 'ccbc',
-  sourcemaps: {
-    disable: true,
-  },
 
   // Only print logs for uploading source maps in CI
   silent: !process.env.CI,
