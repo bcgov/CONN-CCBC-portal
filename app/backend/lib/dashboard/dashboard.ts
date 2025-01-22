@@ -437,7 +437,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       { value: 'CBC' },
       // project id
       {
-        value: cbcDataByCbcId?.projectNumber,
+        value: data?.cbcByRowId?.projectNumber,
       },
       // phase
       {
