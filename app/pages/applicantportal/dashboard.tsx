@@ -200,7 +200,7 @@ const Dashboard = ({
                   'mailto:connectedcommunitiesbc@gov.bc.ca';
               }}
             >
-              Email Us
+              Email Us!
             </StyledGovButton>
           )}
         </section>
