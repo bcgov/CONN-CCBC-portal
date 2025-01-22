@@ -5,6 +5,7 @@ import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import cookie from 'js-cookie';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import * as Sentry from '@sentry/nextjs';
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -19,8 +20,8 @@ import {
   MRT_ToggleFullScreenButton,
   MRT_ShowHideColumnsButton,
   MRT_FilterFns,
+  MRT_Row,
 } from 'material-react-table';
-
 import RowCount from 'components/Table/RowCount';
 import AssignLead from 'components/Analyst/AssignLead';
 import StatusPill from 'components/StatusPill';
@@ -32,6 +33,9 @@ import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTabl
 import { Box, IconButton, TableCellProps } from '@mui/material';
 import { useFeature } from '@growthbook/growthbook-react';
 import getConfig from 'next/config';
+import { DateTime } from 'luxon';
+import { useToast } from 'components/AppProvider';
+import DownloadIcon from './DownloadIcon';
 import {
   filterZones,
   sortStatus,
@@ -283,6 +287,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
   const [isFirstRender, setIsFirstRender] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const { showToast, hideToast } = useToast();
 
   const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];
   const enableTimeMachine =
@@ -323,6 +329,67 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     zones: 91,
   });
   const tableContainerRef = useRef(null);
+
+  const handleBlob = (blob, toastMessage, reportDate) => {
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${reportDate}_Connectivity_Projects_Export.xlsx`;
+    document.body.appendChild(a); // Append to the DOM to ensure click works in Firefox
+    a.click();
+    a.remove(); // Remove the element after clicking
+    window.URL.revokeObjectURL(url); // Clean up and release object URL
+    showToast(toastMessage, 'success', 15000);
+  };
+
+  const handleError = (error) => {
+    Sentry.captureException(error);
+    showToast('An error occurred. Please try again.', 'error', 15000);
+  };
+
+  const handleDownload = async (rows: MRT_Row<any>[]) => {
+    setIsLoading(true);
+    hideToast();
+    const rowData = rows.map((row) => row.original);
+    const groupedData = rowData.reduce(
+      (result, item) => {
+        const program =
+          item.program === 'CCBC' || item.program === 'OTHER' ? 'ccbc' : 'cbc';
+
+        if (!result[program]) {
+          // eslint-disable-next-line no-param-reassign
+          result[program.toLowerCase()] = [];
+        }
+
+        result[program].push(item.rowId);
+        return result;
+      },
+      {} as Record<string, number[]>
+    );
+    await fetch('/api/dashboard/export', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(groupedData),
+    }).then((response) => {
+      response
+        .blob()
+        .then((blob) => {
+          handleBlob(
+            blob,
+            'Export successful',
+            DateTime.now()
+              .setZone('America/Los_Angeles')
+              .toLocaleString(DateTime.DATETIME_FULL)
+          );
+        })
+        .catch((error) => {
+          handleError(error);
+        });
+    });
+    setIsLoading(false);
+  };
 
   const statusOrderMap = useMemo(() => {
     return allApplicationStatusTypes?.nodes?.reduce((acc, status) => {
@@ -746,12 +813,18 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     renderToolbarInternalActions: ({ table }) => (
       <Box>
         <IconButton size="small">
-          <StatusInformationIcon />
+          <DownloadIcon
+            handleClick={() => handleDownload(table.getRowModel().rows)}
+            isLoading={isLoading}
+          />
         </IconButton>
         <MRT_ToggleFiltersButton table={table} />
         <MRT_ShowHideColumnsButton table={table} />
         <MRT_ToggleDensePaddingButton table={table} />
         <MRT_ToggleFullScreenButton table={table} />
+        <IconButton size="small">
+          <StatusInformationIcon />
+        </IconButton>
       </Box>
     ),
     renderTopToolbarCustomActions: () => (
