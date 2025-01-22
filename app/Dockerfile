@@ -49,7 +49,7 @@ COPY --from=deps ${APP_HOME}/node_modules ./node_modules
 # Copy the application source code
 COPY app/ .
 
-# Build the app (compile Relay, server, and Next.js)
+# Build the app (compile Relay, server, and Next.js) load sentry auth token from secret
 ENV NODE_ENV=production
 RUN --mount=type=secret,id=sentry_auth_token \
   SENTRY_AUTH_TOKEN="$(cat /run/secrets/sentry_auth_token)" && \
