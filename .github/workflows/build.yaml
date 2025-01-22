@@ -72,7 +72,8 @@ jobs:
           file: ${{ matrix.dockerfile }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          secrets: 'sentry_token=${{ secrets.SENTRY_AUTH_TOKEN }}'
+          secrets: |
+            sentry_auth_token=${{ secrets.SENTRY_AUTH_TOKEN }}
           cache-from: type=registry,ref=${{ matrix.image }}:buildcache
           cache-to: type=registry,ref=${{ matrix.image }}:buildcache,mode=max
           # cache-to: ${{ github.ref == 'refs/heads/main' && 'type=registry,ref=${{ matrix.image }}:buildcache,mode=max' || '' }}

@@ -43,8 +43,6 @@ RUN yarn --frozen-lockfile
 # Build the app
 FROM base AS builder
 
-RUN --mount=type=secret,id=sentry_token,env=SENTRY_AUTH_TOKEN
-
 # Copy node_modules from the deps stage
 COPY --from=deps ${APP_HOME}/node_modules ./node_modules
 
@@ -53,7 +51,9 @@ COPY app/ .
 
 # Build the app (compile Relay, server, and Next.js)
 ENV NODE_ENV=production
-RUN yarn build:relay && yarn build:server && yarn build:next
+RUN --mount=type=secret,id=sentry_auth_token \
+  SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_auth_token) \
+  yarn build:relay && yarn build:server && yarn build:next
 
 # -- END OF 2ND STAGE --
 
