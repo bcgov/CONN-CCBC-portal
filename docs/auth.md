@@ -14,7 +14,7 @@ This enables requests made with tools such as `cypress` or `k6` to bypass the lo
 
 For convenience, a cypress command was created: in cypress tests, you can use `cy.mockLogin(<mock_role_name>)` to log in for the rest of the test.
 
-The session sub will be defined as `mockUser@<mock_role_name>`, meaning that for a mock applicant to see applications, the application's owner must be `mockUser@ccbc_auth_user`.
+The session sub will be defined as `mockUser@<mock_role_name>`, meaning that for a mock applicant to see applications, the application's owner must be `mockUser@ccbc_auth_user`..
 
 ## Authorization
 
