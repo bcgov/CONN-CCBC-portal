@@ -1,3 +1,9 @@
+# [1.226.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.225.0...v1.226.0) (2025-01-22)
+
+### Features
+
+- add all dashboard export ([334b8dd](https://github.com/bcgov/CONN-CCBC-portal/commit/334b8dd47f0c4ea8418199a8f41523177c3db8c8))
+
 # [1.225.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.224.0...v1.225.0) (2025-01-21)
 
 ### Features
