@@ -72,7 +72,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           secrets: |
-            id=sentry_auth_token,src=${{ secrets.SENTRY_AUTH_TOKEN }}
+            "sentry_auth_token=${{ secrets.SENTRY_AUTH_TOKEN }}"
           cache-from: type=registry,ref=${{ matrix.image }}:buildcache
           cache-to: type=registry,ref=${{ matrix.image }}:buildcache,mode=max
           # cache-to: ${{ github.ref == 'refs/heads/main' && 'type=registry,ref=${{ matrix.image }}:buildcache,mode=max' || '' }}
