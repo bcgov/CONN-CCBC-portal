@@ -1,27 +1,28 @@
 diff --git a/node_modules/@bcgov-cas/sso-react/dist/LogoutWarningModal.js b/node_modules/@bcgov-cas/sso-react/dist/LogoutWarningModal.js
-index c925039..23865e2 100644
+index c925039..4eb90fa 100644
 --- a/node_modules/@bcgov-cas/sso-react/dist/LogoutWarningModal.js
 +++ b/node_modules/@bcgov-cas/sso-react/dist/LogoutWarningModal.js
-@@ -54,18 +54,16 @@ var LogoutWarningModal = function (props) {
+@@ -54,18 +54,14 @@ var LogoutWarningModal = function (props) {
          return renderModal(__assign({ remainingSeconds: remainingSeconds }, props));
      }
      // Default render
 -    return (react_1.default.createElement(Modal_1.default, { size: "lg", id: id, style: { zIndex: 100 } },
+-        react_1.default.createElement(Modal_1.default.Header, { className: "h4" }, "Inactivity Logout Warning"),
 +    return (react_1.default.createElement(Modal_1.default, { size: "lg", id: id, style: { zIndex: 100, top: '100px' } },
-         react_1.default.createElement(Modal_1.default.Header, { className: "h4" }, "Inactivity Logout Warning"),
++        react_1.default.createElement(Modal_1.default.Header, { className: "h4" }, "Session time exceeded"),
          react_1.default.createElement(Modal_1.default.Content, { style: { padding: "2em" } },
              react_1.default.createElement(Grid_1.default, { cols: 12 },
 -                react_1.default.createElement(Grid_1.default.Row, null, "Your session is about to expire due to inactivity."),
                  react_1.default.createElement(Grid_1.default.Row, null,
 -                    "You will be logged out in ",
-+                    "You have exceeded the 8 hour session time, and for security reasons you will be logged out in ",
-                     remainingSeconds,
-                     " seconds."),
+-                    remainingSeconds,
+-                    " seconds."),
++                    "You have exceeded the 8 hour session time, and for security reasons you have been logged out."),
                  react_1.default.createElement(Grid_1.default.Row, { style: { marginTop: "1em" }, justify: "end" },
                      react_1.default.createElement("form", { action: logoutPath, method: "post", style: { marginBottom: 0 } },
 -                        react_1.default.createElement(Button_1.default, { type: "submit", variant: "secondary", id: "logout-warning-modal-logout-button" }, "Logout")),
 -                    react_1.default.createElement(Button_1.default, { id: "logout-warning-modal-remain-active-button", onClick: onExtendSession, variant: "primary", style: { marginLeft: "1em" } }, "Remain\u00A0active"))))));
-+                        react_1.default.createElement(Button_1.default, { type: "submit", variant: "secondary", id: "logout-warning-modal-logout-button" }, "Logout now")))))));
++                        react_1.default.createElement(Button_1.default, { type: "submit", variant: "secondary", id: "logout-warning-modal-logout-button" }, "Log back in")))))));
  };
  exports.default = LogoutWarningModal;
 diff --git a/node_modules/@bcgov-cas/sso-react/dist/SessionTimeoutHandler.js b/node_modules/@bcgov-cas/sso-react/dist/SessionTimeoutHandler.js
