@@ -165,7 +165,7 @@ jobs:
 
   deploy:
     if: github.event.ref == 'refs/heads/main'
-    needs: [build]
+    needs: [test-code, test-containers]
     uses: ./.github/workflows/deploy.yaml
     secrets:
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
