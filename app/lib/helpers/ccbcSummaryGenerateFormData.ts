@@ -1,4 +1,4 @@
-import review from 'formSchema/analyst/summary/review';
+import review from '../../formSchema/analyst/summary/review';
 
 const getEconomicRegions = (economicRegions) => {
   if (!economicRegions) {

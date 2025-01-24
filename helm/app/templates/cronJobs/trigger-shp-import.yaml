@@ -73,9 +73,6 @@ spec:
               image: {{ .Values.image.cronshp.repository }}:{{ .Values.image.cronshp.tag }}
               imagePullPolicy: IfNotPresent
               resources:
-                limits:
-                  cpu: 200m
-                  memory: 128Mi
                 requests:
                   cpu: 100m
                   memory: 64Mi

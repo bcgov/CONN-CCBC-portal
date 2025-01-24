@@ -23,7 +23,7 @@ jobs:
       changes-detected: ${{ steps.check-changes.outputs.changes-detected }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Check for changes in app or db folders

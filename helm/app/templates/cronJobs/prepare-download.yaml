@@ -23,9 +23,6 @@ spec:
               image: docker.io/alpine/curl
               imagePullPolicy: {{ .Values.image.db.pullPolicy }}
               resources:
-                limits:
-                  cpu: 200m
-                  memory: 128Mi
                 requests:
                   cpu: 100m
                   memory: 64Mi
