@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { performQuery } from './graphql';
+import getAuthRole from '../../utils/getAuthRole';
 
 const currentIntakeQuery = `
   query currentIntake {
@@ -35,21 +36,33 @@ const intake = Router();
 intake.get('/api/intake', async (req, res) => {
   try {
     const { code } = req?.query || null;
-    const intakeId = req?.query?.intake as string;
-    if (!code || !intake) {
+    if (!code) {
       return res
         .status(400)
         .json({ error: 'Missing required query parameters' });
     }
-    const parsedIntake = parseInt(intakeId, 10);
+
+    const authRole = getAuthRole(req);
+    // not logged in
+    if (authRole.pgRole === 'ccbc_guest') {
+      res.redirect(`/applicantportal?redirect=/api/intake?code=${code}`);
+    }
+    // if a non-applicant is logged in, redirect to dashboard
+    if (
+      authRole.pgRole === 'ccbc_admin' ||
+      authRole.pgRole === 'ccbc_analyst' ||
+      authRole.pgRole === 'super_admin' ||
+      authRole.pgRole === 'cbc_admin'
+    ) {
+      res.redirect('/analyst/dashboard');
+    }
 
     // validate that the code and intake number matches the current open intake
     const currentIntake = await performQuery(currentIntakeQuery, null, req);
     const { hiddenCode } = currentIntake.data.openIntake;
-    const { ccbcIntakeNumber } = currentIntake.data.openIntake;
     const intakeRowId = currentIntake.data.openIntake.rowId;
     const userRowId = currentIntake.data.session.ccbcUserBySub.rowId;
-    if (hiddenCode !== code || ccbcIntakeNumber !== parsedIntake) {
+    if (hiddenCode !== code) {
       return res.status(400).json({ error: 'Invalid' });
     }
 
