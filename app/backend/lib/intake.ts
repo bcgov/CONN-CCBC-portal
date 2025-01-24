@@ -45,7 +45,7 @@ intake.get('/api/intake', async (req, res) => {
     const authRole = getAuthRole(req);
     // not logged in
     if (authRole.pgRole === 'ccbc_guest') {
-      res.redirect(`/applicantportal?redirect=/api/intake?code=${code}`);
+      return res.redirect(`/applicantportal?redirect=/api/intake?code=${code}`);
     }
     // if a non-applicant is logged in, redirect to dashboard
     if (
@@ -54,7 +54,7 @@ intake.get('/api/intake', async (req, res) => {
       authRole.pgRole === 'super_admin' ||
       authRole.pgRole === 'cbc_admin'
     ) {
-      res.redirect('/analyst/dashboard');
+      return res.redirect('/analyst/dashboard');
     }
 
     // validate that the code and intake number matches the current open intake
