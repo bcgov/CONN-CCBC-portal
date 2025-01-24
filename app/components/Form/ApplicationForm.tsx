@@ -333,7 +333,7 @@ const ApplicationForm: React.FC<Props> = ({
       fullFormData: jsonData,
       formSchema: jsonSchema,
       formErrorSchema,
-      isApplicationEditable,
+      isEditable: isApplicationEditable,
       areAllAcknowledgementsChecked,
       rowId,
       finalUiSchema,
