@@ -15,7 +15,7 @@ const testQuery = graphql`
 const mockQueryPayload = {
   Query() {
     return {
-      allApplications: {
+      allCcbcApplicationData: {
         nodes: [
           {
             ccbcNumber: 'CCBC-010020',
@@ -83,7 +83,7 @@ const componentTestingHelper =
     }),
   });
 
-describe('The application header component', () => {
+describe('The application navigation bar component', () => {
   beforeEach(() => {
     componentTestingHelper.reinit();
   });

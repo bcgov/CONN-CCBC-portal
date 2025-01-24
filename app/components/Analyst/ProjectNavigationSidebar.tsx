@@ -53,7 +53,11 @@ const ProjectNavigationSidebar = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
       fragment ProjectNavigationSidebar_query on Query {
-        allApplications {
+        allCcbcApplicationData: allApplications(
+          first: 1000
+          filter: { archivedAt: { isNull: true } }
+          orderBy: CCBC_NUMBER_ASC
+        ) {
           nodes {
             ccbcNumber
             rowId
@@ -81,13 +85,14 @@ const ProjectNavigationSidebar = ({ query }) => {
   const applicationId = (
     router.query.applicationId || router.query.cbcId
   )?.toString();
+  const applicationType = asPath.includes(CBC_LINK) ? 'CBC' : 'CCBC';
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('allDashboard_row_model'));
+    const data = JSON.parse(localStorage.getItem('dashboard_row_model'));
     if (!data) {
-      const { allApplications, allCbcData } = queryFragment;
-      const applications = allApplications?.nodes?.map((item) => {
+      const { allCcbcApplicationData, allCbcData } = queryFragment;
+      const applications = allCcbcApplicationData?.nodes?.map((item) => {
         return {
           description: item.ccbcNumber,
           id: item.rowId,
@@ -114,27 +119,34 @@ const ProjectNavigationSidebar = ({ query }) => {
       );
     }
   }, [queryFragment]);
-  const nextOption = useMemo(() => {
-    const currentIndex = options.findIndex(
-      (option) => option.id?.toString() === applicationId
+
+  const currentIndex = useMemo(() => {
+    return options.findIndex(
+      (option) =>
+        option.id?.toString() === applicationId &&
+        option.type === applicationType
     );
+  }, [applicationId, options, applicationType]);
+
+  const nextOption = useMemo(() => {
     return options[currentIndex + 1];
-  }, [applicationId, options]);
+  }, [currentIndex, options]);
 
   const prevOption = useMemo(() => {
-    const currentIndex = options.findIndex(
-      (option) => option.id?.toString() === applicationId
-    );
     return options[currentIndex - 1];
-  }, [applicationId, options]);
+  }, [currentIndex, options]);
 
   const lastVisited =
     JSON.parse(cookie.get('project_nav_last_visited') || '{}') || {};
 
   const processCurrentNode = () => {
-    const currentNode = options.find(
-      (option) => option.id?.toString() === applicationId
-    );
+    const currentNode =
+      currentIndex > -1
+        ? options[currentIndex]
+        : {
+            type: applicationType,
+            id: applicationId,
+          };
     const newLastVisited = {
       ...lastVisited,
       [currentNode.type]: asPath,
@@ -189,7 +201,8 @@ const ProjectNavigationSidebar = ({ query }) => {
           options={options}
           getOptionLabel={(option: any) => option.description?.toString()}
           getOptionDisabled={(option: any) =>
-            option.id?.toString() === applicationId
+            option.id?.toString() === applicationId &&
+            option.type === applicationType
           }
           renderInput={(params) => (
             <TextField

@@ -149,7 +149,11 @@ const EditApplication = ({
   };
 
   return (
-    <Layout session={session} title="Connecting Communities BC">
+    <Layout
+      session={session}
+      title="Connecting Communities BC"
+      provisionRightNav
+    >
       <AnalystLayout query={query}>
         <h2>Application</h2>
         <hr />
