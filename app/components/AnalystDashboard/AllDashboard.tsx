@@ -842,6 +842,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     ),
   });
 
+  useEffect(() => {
+    const rowModel = table.getRowModel().rows?.map((row) => row.original);
+    localStorage.setItem('allDashboard_row_model', JSON.stringify(rowModel));
+  }, [table.getRowModel().rows]);
+
   const visibleRowCount = table.getRowModel().rows?.length ?? 0;
   const renderRowCount = () => (
     <RowCount
