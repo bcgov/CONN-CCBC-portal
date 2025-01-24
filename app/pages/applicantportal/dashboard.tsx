@@ -87,7 +87,8 @@ const Dashboard = ({
     query;
   // NOTE: if there are future intakes this logic should be adjusted to check intake id
   const disableIntake =
-    session?.ccbcUserBySub?.intakeUsersByUserId?.nodes.length === 0;
+    !session?.ccbcUserBySub ||
+    session.ccbcUserBySub.intakeUsersByUserId?.nodes.length === 0;
 
   const closeTimestamp = openIntake?.closeTimestamp;
   const isRollingIntake = openIntake?.rollingIntake ?? false;

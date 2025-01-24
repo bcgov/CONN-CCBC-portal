@@ -236,7 +236,7 @@ const ApplicationForm: React.FC<Props> = ({
   } = application;
   // NOTE: if there are future intakes this logic should be adjusted to check intake id
   const isApplicationEditable =
-    isEditable && session.ccbcUserBySub.intakeUsersByUserId.nodes.length > 0;
+    isEditable && session?.ccbcUserBySub?.intakeUsersByUserId?.nodes.length > 0;
   const ccbcIntakeNumber =
     application.intakeByIntakeId?.ccbcIntakeNumber || null;
   const latestIntakeNumber =
