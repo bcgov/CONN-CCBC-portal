@@ -782,3 +782,5 @@ mutations/create_assessment_form [mutations/create_assessment_form@1.217.0] 2024
 @1.223.0 2025-01-14T21:14:14Z CCBC Service Account <ccbc@button.is> # release v1.223.0
 @1.223.1 2025-01-14T23:37:53Z CCBC Service Account <ccbc@button.is> # release v1.223.1
 @1.224.0 2025-01-16T00:06:57Z CCBC Service Account <ccbc@button.is> # release v1.224.0
+@1.225.0 2025-01-21T23:24:46Z CCBC Service Account <ccbc@button.is> # release v1.225.0
+@1.226.0 2025-01-22T20:27:02Z CCBC Service Account <ccbc@button.is> # release v1.226.0

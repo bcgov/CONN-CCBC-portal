@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Placemark>
+    <name>Test Marker</name>
+    <description>This is a test marker.</description>
+    <Point>
+      <coordinates>-123.1207,49.2827,0</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Test Polygon</name>
+    <description>This is a test polygon.</description>
+    <Polygon>
+      <outerBoundaryIs>
+        <LinearRing>
+          <coordinates>
+            -123.1207,49.2827,0
+            -123.1208,49.2828,0
+            -123.1209,49.2829,0
+            -123.1207,49.2827,0
+          </coordinates>
+        </LinearRing>
+      </outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+  <Placemark>
+    <name>Test LineString</name>
+    <description>This is a test line string.</description>
+    <MultiGeometry>
+      <LineString>
+          <coordinates>
+          -123.1207,49.2827,0
+          -123.1208,49.2828,0
+          -123.1209,49.2829,0
+          </coordinates>
+      </LineString>
+    </MultiGeometry>
+  </Placemark>
+</kml>

@@ -12,6 +12,7 @@ import BooleanWidget from './widgets/BooleanWidget';
 import FileWidget from './widgets/FileWidget';
 import DateWidget from './widgets/DateWidget';
 import LinkArrayWidget from './widgets/LinkArrayWidget';
+import MapWidget from './widgets/MapWidget';
 
 const { templates } = getDefaultRegistry();
 
@@ -40,6 +41,7 @@ const ReviewTheme: ThemeProps = {
     ReadOnlyProjectAreaWidgetIntakeFour: DefaultWidget,
     DateWidget,
     LinkArrayWidget,
+    MapWidget,
   },
   templates: {
     ...templates,
