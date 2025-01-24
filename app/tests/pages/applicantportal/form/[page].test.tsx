@@ -30,6 +30,9 @@ const mockQueryPayload = {
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+        intakeUsersByUserId: {
+          nodes: [{ intakeId: 1 }],
+        },
       },
       allForms: {
         nodes: [
@@ -398,18 +401,15 @@ describe('The form page', () => {
 
     await userEvent.click(areas[5]);
 
-    // TEMP INTAKE 6 UI ONLY CHANGE
-    expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled();
+    expect(
+      screen.getByText(
+        'For this intake, CCBC is considering projects that are in Zones 1, 2, 3, 4, or 5 if the project is not First Nations-led or First Nations-supported.'
+      )
+    ).toBeInTheDocument();
 
-    // expect(
-    //   screen.getByText(
-    //     'For this intake, CCBC is considering projects that are in Zones 1, 2, 3, 4, or 5 if the project is not First Nations-led or First Nations-supported.'
-    //   )
-    // ).toBeInTheDocument();
+    const modalOkButton = screen.getByTestId('project-modal-ok');
 
-    // const modalOkButton = screen.getByTestId('project-modal-ok');
-
-    // await userEvent.click(modalOkButton);
+    await userEvent.click(modalOkButton);
   });
 
   it('project area page should warn after submission on geographic area change', async () => {
@@ -503,14 +503,11 @@ describe('The form page', () => {
 
     await userEvent.click(geographicArea);
 
-    // TEMP INTAKE 6 UI ONLY CHANGE
-    expect(screen.getByRole('button', { name: 'Continue' })).toBeEnabled();
+    const modal = screen.getByText(
+      /Invalid selection. You have indicated that this project is not led/i
+    );
 
-    // const modal = screen.getByText(
-    //   /Invalid selection. You have indicated that this project is not led/i
-    // );
-
-    // expect(modal).toBeInTheDocument();
+    expect(modal).toBeInTheDocument();
   });
   it('project area page should warn after submission on first nations question change', async () => {
     const payload = {
@@ -562,43 +559,40 @@ describe('The form page', () => {
     pageTestingHelper.loadQuery(payload);
     pageTestingHelper.renderPage();
 
-    // const fnQuestionNo = screen.getAllByLabelText('No')[0];
+    const fnQuestionNo = screen.getAllByLabelText('No')[0];
 
-    // TEMP INTAKE 6 UI ONLY CHANGE
-    expect(screen.getByRole('button', { name: 'Continue' })).toBeEnabled();
+    await userEvent.click(fnQuestionNo);
+    // original data is saved, change is rejected
+    pageTestingHelper.expectMutationToBeCalled(
+      'updateApplicationFormMutation',
+      {
+        input: {
+          jsonData: {
+            review: {
+              acknowledgeIncomplete: true,
+            },
+            submission: {
+              submissionDate: '2023-12-28',
+              submissionTitle: 'asdf',
+              submissionCompletedBy: 'asdf',
+              submissionCompletedFor: 'asdf',
+            },
+            projectArea: {
+              geographicArea: [8],
+              firstNationsLed: true,
+            },
+          },
+          lastEditedPage: 'projectArea',
+          formDataRowId: expect.anything(),
+          clientUpdatedAt: expect.anything(),
+        },
+      }
+    );
+    const modal = screen.getByText(
+      /Invalid selection. Please first choose from Zones/i
+    );
 
-    // await userEvent.click(fnQuestionNo);
-    // // original data is saved, change is rejected
-    // pageTestingHelper.expectMutationToBeCalled(
-    //   'updateApplicationFormMutation',
-    //   {
-    //     input: {
-    //       jsonData: {
-    //         review: {
-    //           acknowledgeIncomplete: true,
-    //         },
-    //         submission: {
-    //           submissionDate: '2023-12-28',
-    //           submissionTitle: 'asdf',
-    //           submissionCompletedBy: 'asdf',
-    //           submissionCompletedFor: 'asdf',
-    //         },
-    //         projectArea: {
-    //           geographicArea: [8],
-    //           firstNationsLed: true,
-    //         },
-    //       },
-    //       lastEditedPage: 'projectArea',
-    //       formDataRowId: expect.anything(),
-    //       clientUpdatedAt: expect.anything(),
-    //     },
-    //   }
-    // );
-    // const modal = screen.getByText(
-    //   /Invalid selection. Please first choose from Zones/i
-    // );
-
-    // expect(modal).toBeInTheDocument();
+    expect(modal).toBeInTheDocument();
   });
 
   it('project area page should not allow null on geographic area after submission', async () => {
@@ -840,18 +834,15 @@ describe('The form page', () => {
     await userEvent.click(fnQuestion);
     await userEvent.click(areas[5]);
 
-    // TEMP INTAKE 6 UI ONLY CHANGE
-    expect(screen.getByRole('button', { name: 'Continue' })).toBeDisabled();
+    expect(
+      screen.getByText(
+        'For this intake, CCBC is considering projects that are in Zones 1, 2, 3, 4, or 5 if the project is not First Nations-led or First Nations-supported.'
+      )
+    ).toBeInTheDocument();
 
-    // expect(
-    //   screen.getByText(
-    //     'For this intake, CCBC is considering projects that are in Zones 1, 2, 3, 4, or 5 if the project is not First Nations-led or First Nations-supported.'
-    //   )
-    // ).toBeInTheDocument();
+    const modalOkButton = screen.getByTestId('project-modal-ok');
 
-    // const modalOkButton = screen.getByTestId('project-modal-ok');
-
-    // await userEvent.click(modalOkButton);
+    await userEvent.click(modalOkButton);
   });
 
   it('should not show modal if first nations led no if intake is all zone permitted', async () => {
