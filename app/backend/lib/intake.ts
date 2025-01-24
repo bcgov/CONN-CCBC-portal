@@ -1,6 +1,13 @@
 import { Router } from 'express';
+import RateLimit from 'express-rate-limit';
 import { performQuery } from './graphql';
 import getAuthRole from '../../utils/getAuthRole';
+
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  // Max 10 connections per IP per window (1 minute)
+  max: 10,
+});
 
 const currentIntakeQuery = `
   query currentIntake {
@@ -33,7 +40,7 @@ const intakeUserMutation = `
 
 const intake = Router();
 
-intake.get('/api/intake', async (req, res) => {
+intake.get('/api/intake', limiter, async (req, res) => {
   try {
     const { code } = req?.query || null;
     if (!code) {
