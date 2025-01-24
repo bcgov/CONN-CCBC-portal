@@ -40,6 +40,7 @@ import milestoneDue from './backend/lib/milestoneDueDate';
 import communityReport from './backend/lib/communityReportsDueDate';
 import map from './backend/lib/map/map';
 import dashboardExport from './backend/lib/dashboard/dashboard_export';
+import intake from './backend/lib/intake';
 
 // Function to exclude middleware from certain routes
 // The paths argument takes an array of strings containing routes to exclude from the middleware
@@ -159,6 +160,7 @@ app.prepare().then(async () => {
   server.use('/', communityReport);
   server.use('/', map);
   server.use('/', dashboardExport);
+  server.use('/', intake);
 
   server.all('*', async (req, res) => handle(req, res));
 

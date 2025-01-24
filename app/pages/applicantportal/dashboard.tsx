@@ -53,6 +53,13 @@ const getDashboardQuery = graphql`
     }
     session {
       sub
+      ccbcUserBySub {
+        intakeUsersByUserId {
+          nodes {
+            intakeId
+          }
+        }
+      }
     }
     openIntake {
       closeTimestamp
@@ -78,7 +85,9 @@ const Dashboard = ({
   const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
   const { allApplications, nextIntake, openIntake, session, openHiddenIntake } =
     query;
-  const disableIntake = true;
+  // NOTE: if there are future intakes this logic should be adjusted to check intake id
+  const disableIntake =
+    session?.ccbcUserBySub?.intakeUsersByUserId?.nodes.length === 0;
 
   const closeTimestamp = openIntake?.closeTimestamp;
   const isRollingIntake = openIntake?.rollingIntake ?? false;
@@ -206,7 +215,7 @@ const Dashboard = ({
         </section>
         <section>
           {hasApplications ? (
-            <DashboardTable applications={query} />
+            <DashboardTable applications={query} editEnabled={!disableIntake} />
           ) : (
             <p>Applications will appear here</p>
           )}

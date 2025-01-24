@@ -179,6 +179,7 @@ const ApplicationForm: React.FC<Props> = ({
           closeTimestamp
           ccbcIntakeNumber
           rollingIntake
+          rowId
         }
         allIntakes(
           first: 1
@@ -197,6 +198,17 @@ const ApplicationForm: React.FC<Props> = ({
             jsonSchema
           }
         }
+        session {
+          ccbcUserBySub {
+            rowId
+            sessionSub
+            intakeUsersByUserId {
+              nodes {
+                intakeId
+              }
+            }
+          }
+        }
       }
     `,
     query
@@ -208,7 +220,7 @@ const ApplicationForm: React.FC<Props> = ({
     typeof draftAppsUseLatestSchema.value === 'boolean'
       ? draftAppsUseLatestSchema?.value
       : null;
-  const { openIntake, allIntakes } = applicationFormQuery;
+  const { openIntake, allIntakes, session } = applicationFormQuery;
   const latestJsonSchema = applicationFormQuery.allForms.nodes[0].jsonSchema;
   const latestFormSchemaId = applicationFormQuery.allForms.nodes[0].rowId;
   const {
@@ -217,12 +229,14 @@ const ApplicationForm: React.FC<Props> = ({
       jsonData,
       rowId: formDataRowId,
       id: formDataId,
-      // isEditable,
+      isEditable,
       updatedAt,
     },
     status,
   } = application;
-  const isEditable = false;
+  // NOTE: if there are future intakes this logic should be adjusted to check intake id
+  const isApplicationEditable =
+    isEditable && session.ccbcUserBySub.intakeUsersByUserId.nodes.length > 0;
   const ccbcIntakeNumber =
     application.intakeByIntakeId?.ccbcIntakeNumber || null;
   const latestIntakeNumber =
@@ -319,7 +333,7 @@ const ApplicationForm: React.FC<Props> = ({
       fullFormData: jsonData,
       formSchema: jsonSchema,
       formErrorSchema,
-      isEditable,
+      isApplicationEditable,
       areAllAcknowledgementsChecked,
       rowId,
       finalUiSchema,
@@ -336,6 +350,7 @@ const ApplicationForm: React.FC<Props> = ({
     application?.intakeByIntakeId?.closeTimestamp,
     formErrorSchema,
     isEditable,
+    isApplicationEditable,
     areAllAcknowledgementsChecked,
     rowId,
     jsonSchema,
@@ -435,7 +450,7 @@ const ApplicationForm: React.FC<Props> = ({
         areAllAcknowledgementsChecked &&
         (noErrors || isAcknowledgeIncomplete) &&
         !isSubmitted &&
-        isEditable &&
+        isApplicationEditable &&
         !isProjectAreaInvalid &&
         isProjectAreaSelected
       );
@@ -449,7 +464,7 @@ const ApplicationForm: React.FC<Props> = ({
     isWithdrawn,
     jsonData,
     isSubmitted,
-    isEditable,
+    isApplicationEditable,
     isAcknowledgeIncomplete,
     isUpdating,
     isProjectAreaInvalid,
@@ -687,7 +702,7 @@ const ApplicationForm: React.FC<Props> = ({
     isRedirectingToNextPage = false,
     isSaveAsDraftBtn = false
   ) => {
-    if (!isEditable) {
+    if (!isApplicationEditable) {
       if (pageNumber < subschemaArray.length) {
         router.push(`/applicantportal/form/${rowId}/${pageNumber + 1}`);
       } else {
@@ -743,7 +758,7 @@ const ApplicationForm: React.FC<Props> = ({
     return (
       isWithdrawn ||
       (isSubmitted && isAcknowledgementOrSubmissionPage) ||
-      !isEditable
+      !isApplicationEditable
     );
   };
 
@@ -776,7 +791,7 @@ const ApplicationForm: React.FC<Props> = ({
       >
         <SubmitButtons
           disabled={!isSubmitEnabled || isSubmitting}
-          isEditable={isEditable}
+          isEditable={isApplicationEditable}
           isUpdating={isUpdating}
           isSubmitPage={isSubmitPage}
           formData={jsonData[sectionName]}

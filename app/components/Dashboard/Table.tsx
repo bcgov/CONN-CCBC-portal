@@ -37,9 +37,10 @@ const StyledTableHeadCell = styled('th')`
 
 type Props = {
   applications: Pick<dashboardQuery$data, 'allApplications'>;
+  editEnabled?: boolean;
 };
 
-const Table = ({ applications }: Props) => {
+const Table = ({ applications, editEnabled }: Props) => {
   const [currentApplication, setCurrentApplication] = useState(null);
   const [archiveId, setArchiveId] = useState({ rowId: null, id: null });
 
@@ -76,6 +77,7 @@ const Table = ({ applications }: Props) => {
             return application ? (
               <Row
                 application={application}
+                editEnabled={editEnabled}
                 key={application.owner}
                 schema={application.formData.formByFormSchemaId.jsonSchema}
                 onWithdraw={() => {
