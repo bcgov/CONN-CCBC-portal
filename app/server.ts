@@ -84,7 +84,7 @@ app.prepare().then(async () => {
     await app.close();
     await pgPool.end();
   });
-  const logger = morgan(
+  const logs = morgan(
     '[:date] :method :url :status :res[content-length] - :remote-addr - :response-time ms'
   );
   server.use((req, res, _next) => {
@@ -98,7 +98,7 @@ app.prepare().then(async () => {
       }
     });
     // continue logging
-    logger(req, res, _next);
+    logs(req, res, _next);
   });
 
   server.use(json({ limit: bodyParserLimit }));

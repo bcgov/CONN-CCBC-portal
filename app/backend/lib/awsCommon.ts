@@ -11,7 +11,7 @@ import CustomHttpsAgent from './CustomHttpsAgent';
 
 const AWS_S3_REGION = config.get('AWS_S3_REGION');
 const AWS_ROLE_ARN = config.get('AWS_ROLE_ARN');
-const ENABLE_AWS_LOGS = config.get('ENABLE_AWS_LOGS');
+// const ENABLE_AWS_LOGS = config.get('ENABLE_AWS_LOGS');
 
 const httpsAgent = new CustomHttpsAgent();
 const httpAgent = new http.Agent({
@@ -27,7 +27,6 @@ const nodeHandler = new NodeHttpHandler({
 
 const awsConfig: any = {
   region: AWS_S3_REGION,
-  logger: ENABLE_AWS_LOGS && console,
   requestHandler: nodeHandler,
   credentials: fromTemporaryCredentials({
     masterCredentials: fromEnv(),
