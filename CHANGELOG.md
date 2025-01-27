@@ -1,3 +1,13 @@
+# [1.227.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.226.1...v1.227.0) (2025-01-27)
+
+### Bug Fixes
+
+- set proper cache-to ([9fad52e](https://github.com/bcgov/CONN-CCBC-portal/commit/9fad52e27f2c83876cfffc97be4cebbcc9afd062))
+
+### Features
+
+- enable intake by user ([2b9cce4](https://github.com/bcgov/CONN-CCBC-portal/commit/2b9cce4d95090889bd7058d0c81ce8a2082a71c6))
+
 ## [1.226.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.226.0...v1.226.1) (2025-01-24)
 
 # [1.226.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.225.0...v1.226.0) (2025-01-22)
