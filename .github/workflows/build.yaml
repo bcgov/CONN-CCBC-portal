@@ -13,7 +13,6 @@ concurrency:
 env:
   REGISTRY: ghcr.io
   GIT_HASH: ${{ github.sha }}
-  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
 jobs:
   build-and-push-image:
@@ -64,9 +63,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-        env:
-          GIT_HASH: ${{ env.GIT_HASH }}
-          SENTRY_AUTH_TOKEN: ${{ env.SENTRY_AUTH_TOKEN }}
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
@@ -75,11 +71,11 @@ jobs:
           file: ${{ matrix.dockerfile }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            SENTRY_AUTH_TOKEN=${{ env.SENTRY_AUTH_TOKEN }}
-            GIT_HASH=${{ env.GIT_HASH }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          secrets: |
+            "sentry_auth_token=${{ secrets.SENTRY_AUTH_TOKEN }}"
+          cache-from: type=registry,ref=${{ matrix.image }}:buildcache
+          # cache-to: type=registry,ref=${{ matrix.image }}:buildcache,mode=max
+          cache-to: ${{ github.ref == 'refs/heads/main' && 'type=registry,ref=${{ matrix.image }}:buildcache,mode=max' || '' }}
         # Temp fix
         # https://github.com/docker/build-push-action/issues/252
         # https://github.com/moby/buildkit/issues/1896
