@@ -159,7 +159,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
       return dateB.getTime() - dateA.getTime();
     });
 
-  const apiPath = `/api/analyst/milestone/${applicationRowId}/${ccbcNumber}/${currentMilestoneData?.rowId}`;
+  const apiPath = `/api/analyst/milestone/${applicationRowId}/${ccbcNumber}/${currentMilestoneData?.excelDataId}`;
 
   const hasValidationErrors =
     milestoneValidationErrors.length > 0 || excelFile === null;
@@ -167,7 +167,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const validateMilestone = useCallback(
     excelValidateGenerator(apiPath, setExcelFile, setMilestoneValidationErrors),
-    [setExcelFile]
+    [setExcelFile, apiPath]
   );
 
   const handleResetFormData = () => {
