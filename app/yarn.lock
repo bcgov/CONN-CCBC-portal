@@ -3532,10 +3532,10 @@
   resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-2.1.0.tgz#383acd31259d7c9ae8fb1b02d5e18fe613c2a13d"
   integrity sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==
 
-"@rjsf/core@5.24.1":
-  version "5.24.1"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.24.1.tgz#1e3300456225b81b0609c310c6a28cf6535f17e1"
-  integrity sha512-x3oZ9MfoBA4SPKhvNkqagqnjUbSKuT3gGW3NgH+cowAma33fYs9/hfhPUOvXySdPqh0layuLlnI1W5MHeBmVzg==
+"@rjsf/core@5.18.0":
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.18.0.tgz#85149397f653772bf806643b60283322d8d5572a"
+  integrity sha512-4j0KwmcD3SAzCvsSFBK1RTNni7ZJlk6TgWPhYP6BrBlWJKgi+I49DNndu4SSJ0kNPV2QbNa3n4sWRVV0i06mGw==
   dependencies:
     lodash "^4.17.21"
     lodash-es "^4.17.21"
@@ -3543,10 +3543,10 @@
     nanoid "^3.3.7"
     prop-types "^15.8.1"
 
-"@rjsf/utils@5.24.1":
-  version "5.24.1"
-  resolved "https://registry.yarnpkg.com/@rjsf/utils/-/utils-5.24.1.tgz#4c02eb7a93be78082f328b0224698fa336ff3080"
-  integrity sha512-A25fFj/TNz5bKikCIs20DiedKAalLuAQ7vUX9VQkD2hps5C9YVr0dJgSlsPa5kzl6lQMaRsNouTx8E1ZdLV2fg==
+"@rjsf/utils@5.17.1":
+  version "5.17.1"
+  resolved "https://registry.yarnpkg.com/@rjsf/utils/-/utils-5.17.1.tgz#ad85d503dd15cc9fc49b5d6870534fa2ed8103b0"
+  integrity sha512-q1Igz/cuM2hi+jiXFkoaXqdRTUFB+a0jfVKNmZlHmvPmfYeeJfcfyOTzO8dQ41fHNHUFb15ryxa/TblDQimwkA==
   dependencies:
     json-schema-merge-allof "^0.8.1"
     jsonpointer "^5.0.1"
@@ -3554,10 +3554,10 @@
     lodash-es "^4.17.21"
     react-is "^18.2.0"
 
-"@rjsf/validator-ajv8@5.24.1":
-  version "5.24.1"
-  resolved "https://registry.yarnpkg.com/@rjsf/validator-ajv8/-/validator-ajv8-5.24.1.tgz#0c09b7f9bb4395db786cc952cec1199a6c4ff5e0"
-  integrity sha512-p6URehglU9yFUAoQXE1ryqZjLYSjc6qdbiUfCVvEFAzUuMECsIFomz2hH3CPlt10K72sAFdzwVvrKn1iWTnxDw==
+"@rjsf/validator-ajv8@5.18.0":
+  version "5.18.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/validator-ajv8/-/validator-ajv8-5.18.0.tgz#a953afc0d5e7c82de2c23b5a898c905ce28ac267"
+  integrity sha512-55sgnjt56LDmUsLWl1yRG1cFnrbqufP+Q5QfficVIojc3aQDHSRxTT7r5oFJY69rXEhOtliZ0AmvpTLjrOrJow==
   dependencies:
     ajv "^8.12.0"
     ajv-formats "^2.1.1"
@@ -5234,13 +5234,6 @@
   version "14.0.13"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.13.tgz#ee1128e881b874c371374c1f72201893616417c9"
   integrity sha512-rouEWBImiRaSJsVA+ITTFM6ZxibuAlTuNOCyxVbwreu6k6+ujs7DfnU9o+PShFhET78pMBl3eH+AGSI5eOTkPA==
-
-"@types/node@^18.14.6":
-  version "18.19.74"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.74.tgz#4d093acd2a558ebbc5f0efa4e20ce63791b0cc58"
-  integrity sha512-HMwEkkifei3L605gFdV+/UwtpxP6JSzM+xFk2Ia6DNFSwSVBRh9qp5Tgf4lNFOMfPVuU0WnkcWpXZpgn5ufO4A==
-  dependencies:
-    undici-types "~5.26.4"
 
 "@types/object-path@^0.11.1":
   version "0.11.1"
@@ -7123,7 +7116,7 @@ core-js-compat@^3.38.0, core-js-compat@^3.38.1:
   dependencies:
     browserslist "^4.24.3"
 
-core-js@^3.0.0, core-js@^3.29.0, core-js@^3.6.5, core-js@^3.8.2:
+core-js@^3.0.0, core-js@^3.6.5, core-js@^3.8.2:
   version "3.40.0"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.40.0.tgz#2773f6b06877d8eda102fc42f828176437062476"
   integrity sha512-7vsMc/Lty6AGnn7uFpYT56QesI5D2Y/UkgKounk87OP9Z2H9Z8kj6jzcSGAxFmUtDOS0ntK6lbQz+Nsa0Jj6mQ==
@@ -12947,13 +12940,12 @@ react-property@2.0.2:
   resolved "https://registry.yarnpkg.com/react-property/-/react-property-2.0.2.tgz#d5ac9e244cef564880a610bc8d868bd6f60fdda6"
   integrity sha512-+PbtI3VuDV0l6CleQMsx2gtK0JZbZKbpdu5ynr+lbsuvtmgbNcS3VM0tuY2QjFNOcWxvXeHjDpy42RO+4U2rug==
 
-react-relay-network-modern@6.2.2:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/react-relay-network-modern/-/react-relay-network-modern-6.2.2.tgz#8f1ddf2ad3ad07d41d215df642d3fc659ff99180"
-  integrity sha512-069KzBi7X6+mYtQgiNMblKr8n9ftme6N7neG+ZwAgV5w9SmQRg1020X7OE3RWWeMHKL+nTyx+JTc17yAtfNSQw==
+react-relay-network-modern@6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/react-relay-network-modern/-/react-relay-network-modern-6.2.1.tgz#34e93110cf1bb0e666bffb00b513335c37950bc9"
+  integrity sha512-O1kP9GkNrm4d+ibfuTY9yNbkXV6vAByJ4jYTZIXn8nh7jLWoe6PneF1VcBYvYvzWYsebpCLDQHDPoXI05S+rhQ==
   dependencies:
-    "@types/node" "^18.14.6"
-    core-js "^3.29.0"
+    core-js "^3.0.0"
     extract-files "^9.0.0"
 
 react-relay@^13.2.0:
