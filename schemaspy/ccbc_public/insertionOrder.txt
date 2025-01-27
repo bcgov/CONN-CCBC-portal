@@ -54,6 +54,7 @@ application_gis_data
 assessment_data
 attachment
 cbc_project_communities
+intake_users
 notification
 application_er
 application_rd

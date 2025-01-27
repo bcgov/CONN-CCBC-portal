@@ -1294,6 +1294,10 @@
             <child column="archived_by" foreignKey="intake_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake"/>
             <child column="created_by" foreignKey="intake_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake"/>
             <child column="updated_by" foreignKey="intake_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake"/>
+            <child column="archived_by" foreignKey="intake_users_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake_users"/>
+            <child column="created_by" foreignKey="intake_users_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake_users"/>
+            <child column="updated_by" foreignKey="intake_users_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake_users"/>
+            <child column="user_id" foreignKey="intake_users_user_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake_users"/>
             <child column="archived_by" foreignKey="notification_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="notification"/>
             <child column="created_by" foreignKey="notification_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="notification"/>
             <child column="updated_by" foreignKey="notification_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="notification"/>
@@ -1664,6 +1668,7 @@
       <table name="intake" remarks="Table containing intake numbers and their respective open and closing dates" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for each intake number" size="10" type="int4" typeCode="4">
             <child column="intake_id" foreignKey="application_intake_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+            <child column="intake_id" foreignKey="intake_users_intake_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake_users"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="6" id="1" name="open_timestamp" nullable="false" remarks="Open date and time for an intake number" size="35" type="timestamptz" typeCode="93"/>
          <column autoUpdated="false" defaultValue="null" digits="6" id="2" name="close_timestamp" nullable="false" remarks="Close date and time for an intake number" size="35" type="timestamptz" typeCode="93"/>
@@ -1706,6 +1711,40 @@
          </index>
          <index name="intake_ccbc_intake_number_key" unique="true">
             <column ascending="true" name="ccbc_intake_number"/>
+         </index>
+      </table>
+      <table name="intake_users" remarks="" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="intake_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="intake_users_intake_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="intake"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="user_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="intake_users_user_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="intake_users_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="4" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="intake_users_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="intake_users_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="intake_users_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_intake_users_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_intake_users_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_intake_users_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
          </index>
       </table>
       <table name="notification" remarks="Table containing list of application notifications" schema="ccbc_public" type="TABLE">

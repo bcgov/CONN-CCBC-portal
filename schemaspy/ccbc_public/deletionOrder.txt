@@ -2,6 +2,7 @@ history_item
 application_rd
 application_er
 notification
+intake_users
 cbc_project_communities
 attachment
 assessment_data
