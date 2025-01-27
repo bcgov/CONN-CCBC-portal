@@ -41,7 +41,7 @@ const StyledWithdraw = styled.button`
   color: #d8292f;
 `;
 
-const Row = ({ application, onWithdraw, onDelete, schema }) => {
+const Row = ({ application, onWithdraw, onDelete, schema, editEnabled }) => {
   const { ccbcNumber, intakeByIntakeId, formData, projectName, rowId, status } =
     application;
 
@@ -61,7 +61,8 @@ const Row = ({ application, onWithdraw, onDelete, schema }) => {
     status === 'submitted' ||
     status === 'applicant_conditionally_approved';
   const isDraft = application.status === 'draft';
-  const isEditable = false && formData.isEditable && status !== 'withdrawn';
+  const isEditable =
+    editEnabled && formData.isEditable && status !== 'withdrawn';
 
   const getApplicationUrl = () => {
     if (isWithdrawn) {

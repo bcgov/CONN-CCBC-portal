@@ -30,17 +30,17 @@ context('Homepage', () => {
 
     // Dashboard page
     cy.contains('h1', 'Dashboard');
-    // cy.contains('a', 'Edit').click();
-    // cy.wait(2000);
-    // cy.contains('a', 'Supporting documents').click();
-    // cy.wait(2000);
+    cy.contains('a', 'Edit').click();
+    cy.wait(2000);
+    cy.contains('a', 'Supporting documents').click();
+    cy.wait(2000);
 
-    // cy.get('[id="root_copiesOfRegistration-btn"]').click();
-    // cy.get('[data-testid=file-test]')
-    //   .first()
-    //   .selectFile('cypress/fixtures/doc.txt', { force: true });
-    // cy.wait(2000);
-    // cy.contains('button', 'doc.txt');
+    cy.get('[id="root_copiesOfRegistration-btn"]').click();
+    cy.get('[data-testid=file-test]')
+      .first()
+      .selectFile('cypress/fixtures/doc.txt', { force: true });
+    cy.wait(2000);
+    cy.contains('button', 'doc.txt');
   });
 
   afterEach(function () {
