@@ -68,9 +68,6 @@ spec:
           name: {{ template "ccbc.fullname" . }}-provision-pg-credentials
           image: {{ .Values.image.psql.repository }}:{{ .Values.image.psql.tag }}
           resources:
-            limits:
-              cpu: {{ .Values.resources.psql.limits.cpu }}
-              memory: {{ .Values.resources.psql.limits.memory }}
             requests:
               cpu: {{ .Values.resources.psql.requests.cpu }}
               memory: {{ .Values.resources.psql.requests.memory }}
@@ -118,9 +115,6 @@ spec:
           image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
           imagePullPolicy: {{ .Values.image.db.pullPolicy }}
           resources:
-            limits:
-              cpu: {{ .Values.resources.psql.limits.cpu }}
-              memory: {{ .Values.resources.psql.limits.memory }}
             requests:
               cpu: {{ .Values.resources.psql.requests.cpu }}
               memory: {{ .Values.resources.psql.requests.memory }}
@@ -145,9 +139,6 @@ spec:
           image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
           imagePullPolicy: {{ .Values.image.db.pullPolicy }}
           resources:
-            limits:
-              cpu: {{ .Values.resources.psql.limits.cpu }}
-              memory: {{ .Values.resources.psql.limits.memory }}
             requests:
               cpu: {{ .Values.resources.psql.requests.cpu }}
               memory: {{ .Values.resources.psql.requests.memory }}
@@ -255,9 +246,6 @@ spec:
             requests:
               memory: {{ .Values.resources.app.requests.memory }}
               cpu: {{ .Values.resources.app.requests.cpu }}
-            limits:
-              memory: {{ .Values.resources.app.limits.memory }}
-              cpu: {{ .Values.resources.app.limits.cpu }}
           ports:
             - containerPort: {{ .Values.app.port }}
               protocol: TCP
