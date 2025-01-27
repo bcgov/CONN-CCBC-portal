@@ -75,7 +75,7 @@ jobs:
             "sentry_auth_token=${{ secrets.SENTRY_AUTH_TOKEN }}"
           cache-from: type=registry,ref=${{ matrix.image }}:buildcache
           # cache-to: type=registry,ref=${{ matrix.image }}:buildcache,mode=max
-          cache-to: ${{ github.ref == 'refs/heads/main' && 'type=registry,ref=${{ matrix.image }}:buildcache,mode=max' || '' }}
+          cache-to: ${{ github.ref == 'refs/heads/main' && format('type=registry,ref={0}:buildcache,mode=max', matrix.image) || '' }}
         # Temp fix
         # https://github.com/docker/build-push-action/issues/252
         # https://github.com/moby/buildkit/issues/1896
