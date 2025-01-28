@@ -1,3 +1,9 @@
+# [1.229.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.228.0...v1.229.0) (2025-01-28)
+
+### Features
+
+- claims importer more flexible and handle new claims sheet ([a654ebd](https://github.com/bcgov/CONN-CCBC-portal/commit/a654ebd8a3b2c001df7c1e11ec43e93c0b184c07))
+
 # [1.228.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.227.0...v1.228.0) (2025-01-28)
 
 ### Features
