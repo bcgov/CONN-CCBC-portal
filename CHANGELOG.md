@@ -1,3 +1,9 @@
+# [1.228.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.227.0...v1.228.0) (2025-01-28)
+
+### Features
+
+- enable history on ccbc communities ([57fcee5](https://github.com/bcgov/CONN-CCBC-portal/commit/57fcee59c5a3eec7cb01c7039dab1d2308a5c744))
+
 # [1.227.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.226.1...v1.227.0) (2025-01-27)
 
 ### Bug Fixes
