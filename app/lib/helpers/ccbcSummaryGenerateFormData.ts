@@ -258,7 +258,7 @@ const getCommunitiesNumberWithAmendmentNumber = (sowNodes: Array<any>) => {
   let communitiesNumber = null;
 
   sowNodes.forEach((node) => {
-    if (communitiesNumber !== null && node) {
+    if (!communitiesNumber && node) {
       communitiesNumber = {
         communitiesNumber:
           node?.sowTab8SBySowId?.nodes[0]?.jsonData?.communitiesNumber,
@@ -281,7 +281,7 @@ const getHouseholdsImpactedCountWithAmendmentNumber = (
   let totalIndigenousHouseholds = null;
 
   sowNodes.forEach((node) => {
-    if (totalIndigenousHouseholds !== null && node) {
+    if (!totalIndigenousHouseholds && node) {
       totalIndigenousHouseholds = {
         totalIndigenousHouseholds:
           node?.sowTab1SBySowId?.nodes[0]?.jsonData
@@ -315,7 +315,6 @@ const getSowErrors = (sowData, schema, formDataSource) => {
       }
     });
   });
-
   return errors;
 };
 
@@ -364,37 +363,51 @@ const getApplicationErrors = (
 const getSowData = (sowData, baseSowData) => {
   const communitiesData = getCommunitiesWithAmendmentNumber(sowData?.nodes);
   const communities = getCommunitiesNumberWithAmendmentNumber(sowData?.nodes);
-  const communitiesNumber = communities?.communitiesNumber;
-  const indigenousCommunities = communities?.indigenousCommunitiesNumber;
-
+  const communitiesNumber = communities?.communitiesNumber ?? 'TBD';
+  const indigenousCommunities =
+    communities?.indigenousCommunitiesNumber ?? 'TBD';
   const communityNumbersAmendmentNumber = communities?.amendmentNumber;
-
-  const sowTextCommunityNumber =
-    communityNumbersAmendmentNumber === 0
-      ? 'SOW'
-      : `SOW amendment ${communityNumbersAmendmentNumber}`;
-
   const householdsImpacted = getHouseholdsImpactedCountWithAmendmentNumber(
     sowData?.nodes
   );
+  let sowTextCommunityNumber;
+  let sowTextHouseholdsImpacted;
 
-  const sowTextHouseholdsImpacted =
-    householdsImpacted?.amendmentNumber === 0
-      ? 'SOW'
-      : `SOW amendment ${householdsImpacted?.amendmentNumber}`;
+  const counts: any = {};
+  if (!communities) {
+    counts.communities = 'TBD';
+    counts.indigenousCommunities = 'TBD';
+    counts.nonIndigenousCommunities = 'TBD';
+    counts.totalHouseholdsImpacted = 'TBD';
+    counts.numberOfIndigenousHouseholds = 'TBD';
+  } else {
+    counts.communities = communitiesNumber;
+    counts.indigenousCommunities = indigenousCommunities;
+    counts.nonIndigenousCommunities =
+      communitiesNumber && indigenousCommunities
+        ? communitiesNumber - indigenousCommunities
+        : communitiesNumber;
+    counts.totalHouseholdsImpacted =
+      householdsImpacted?.totalHouseholdsImpacted;
+    counts.numberOfIndigenousHouseholds =
+      householdsImpacted?.totalIndigenousHouseholds;
+  }
+  if (communityNumbersAmendmentNumber) {
+    sowTextCommunityNumber =
+      communityNumbersAmendmentNumber === 0
+        ? 'SOW'
+        : `SOW amendment ${communityNumbersAmendmentNumber}`;
+  }
+
+  if (householdsImpacted?.amendmentNumber) {
+    sowTextHouseholdsImpacted =
+      householdsImpacted?.amendmentNumber === 0
+        ? 'SOW'
+        : `SOW amendment ${householdsImpacted?.amendmentNumber}`;
+  }
 
   const formData = {
-    counts: {
-      communities: communitiesNumber,
-      indigenousCommunities,
-      nonIndigenousCommunities:
-        communitiesNumber && indigenousCommunities
-          ? communitiesNumber - indigenousCommunities
-          : communitiesNumber,
-      totalHouseholdsImpacted: householdsImpacted?.totalHouseholdsImpacted,
-      numberOfIndigenousHouseholds:
-        householdsImpacted?.householdsImpactedIndigenous,
-    },
+    counts: { ...counts },
     locations: {
       benefitingCommunities: communitiesData?.benefitingCommunities,
       benefitingIndigenousCommunities:
@@ -651,6 +664,18 @@ const getFormDataFromApplication = (
       communities
     ),
   };
+  // TODO: change to throw in fallbackFields.
+  // if (!applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0]) {
+  //   formData.formData.counts = {
+  //     communities: 'N/A',
+  //     nonIndigenousCommunities: 'N/A',
+  //     indigenousCommunities: 'N/A',
+  //     benefitingIndigenousCommunities: 'N/A',
+  //     totalHouseholdsImpacted: formData.formData.counts.totalHouseholdsImpacted,
+  //     numberOfIndigenousHouseholds:
+  //       formData.formData.counts.numberOfIndigenousHouseholds,
+  //   };
+  // }
 
   return formData;
 };
