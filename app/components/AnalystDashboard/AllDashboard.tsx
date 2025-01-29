@@ -103,10 +103,12 @@ const StyledTableHeader = styled.div`
 const muiTableBodyCellProps = (props): TableCellProps => {
   const centeredCols = ['Package', 'zones', 'intakeNumber'];
   const isExpandColumn = props.column.id === 'mrt-row-expand';
+  const isExpandedRow = props.row.getIsExpanded();
   return {
     align: centeredCols.includes(props.column.id) ? 'center' : 'left',
     sx: {
       padding: isExpandColumn ? '0 8px' : '8px 0px',
+      borderBottom: isExpandedRow ? 'none' : '1px solid rgba(224, 224, 224, 1)',
     },
   };
 };
@@ -776,11 +778,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       sx: {
         padding: '0 8px 8px 8px',
         maxHeight: freezeHeader ? `calc(100vh - ${tableHeightOffset})` : '100%',
-      },
-    },
-    muiTableBodyRowProps: {
-      sx: {
-        boxShadow: '0 3px 3px -2px #c4c4c4',
       },
     },
     layoutMode: isLargeUp ? 'grid' : 'semantic',
