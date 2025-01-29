@@ -815,3 +815,4 @@ computed_columns/cbc_history [computed_columns/cbc_history@1.230.0] 2025-02-19T2
 tables/application_fnha_contribution 2025-02-24T19:40:28Z ,,, <ryohani89@NH504670> # Add fnha contribution table
 mutations/save_fnha_contribution 2025-02-25T16:48:17Z ,,, <ryohani89@NH504670> # Add mutation to save fnha contribution
 @1.246.0 2025-03-05T22:03:48Z CCBC Service Account <ccbc@button.is> # release v1.246.0
+functions/session [functions/session@1.228.0] 2025-01-29T18:15:42Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # handle azureidir as idir
