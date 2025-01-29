@@ -36,7 +36,7 @@ const getAuthRole = (req: Request) => {
   const isAnalyst = roles?.includes('analyst');
   const isCbcAdmin = roles?.includes('cbc_admin');
 
-  if (idp === 'idir') {
+  if (idp === 'idir' || idp === 'azureidir') {
     if (isCbcAdmin && isAdmin) {
       return {
         pgRole: 'super_admin',
