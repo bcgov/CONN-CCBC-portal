@@ -6,6 +6,23 @@ const template9Validation = {
 };
 
 const CCBC_VALIDATIONS = {
+  counts: {
+    communities: {
+      rules: [template9Validation],
+    },
+    indigenousCommunities: {
+      rules: [template9Validation],
+    },
+    nonIndigenousCommunities: {
+      rules: [template9Validation],
+    },
+    totalHouseholdsImpacted: {
+      rules: [template9Validation],
+    },
+    numberOfIndigenousHouseholds: {
+      rules: [template9Validation],
+    },
+  },
   locations: {
     benefitingCommunities: {
       rules: [template9Validation],
