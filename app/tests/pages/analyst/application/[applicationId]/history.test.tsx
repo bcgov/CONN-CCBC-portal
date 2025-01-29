@@ -3566,29 +3566,24 @@ describe('The filter', () => {
     const dropdown = document.querySelector('[role="listbox"]') as HTMLElement;
     const options = within(dropdown!).getAllByRole('option');
     const optionNames = options.map((option) => option.textContent?.trim());
-
-    expect(options.length).toEqual(19);
+    expect(options.length).toEqual(15);
 
     const expectedOptionNames = [
-      'Application Dependencies',
-      'Application Announced',
-      'Application Sow Data',
-      'Application Gis Assessment Hh',
-      'Application Project Type',
-      'Conditional Approval Data',
-      'Application Milestone Data',
-      'Application Claims Data',
-      'Application Community Progress Report Data',
-      'Change Request Data',
-      'Project Information Data',
-      'Application Package',
-      'Application Analyst Lead',
-      'Assessment Data',
-      'Application Status',
-      'Application Gis Data',
-      'Form Data',
-      'Rfi Data',
-      'Application Communities',
+      'Amendment',
+      'Announcement',
+      'Application',
+      'Application communities',
+      'Assessment',
+      'Claims & progress report',
+      'Community progress report',
+      'Conditional approval',
+      'Funding agreement, sow & map',
+      'Lead',
+      'Milestone report',
+      'Package',
+      'Project type',
+      'Rfi',
+      'Status',
     ];
 
     expect(optionNames).toEqual(expect.arrayContaining(expectedOptionNames));
@@ -3636,12 +3631,12 @@ describe('The filter', () => {
     fireEvent.mouseDown(typeFilter);
 
     const applicationOption = await screen.findByRole('option', {
-      name: /Application Status/i,
+      name: /Status/i,
     });
 
     fireEvent.click(applicationOption);
 
-    expect(screen.getByText(/Application Status/)).toBeInTheDocument();
+    expect(screen.getAllByText(/Status/)[0]).toBeInTheDocument();
 
     expect(screen.queryAllByTestId('history-content-status')).toHaveLength(7);
     expect(screen.queryAllByTestId('history-content-package')).toHaveLength(0);

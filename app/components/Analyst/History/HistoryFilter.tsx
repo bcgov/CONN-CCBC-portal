@@ -74,8 +74,10 @@ const HistoryFilter: React.FC<HistoryFilterProps> = ({
 }) => {
   const { typeOptions, userOptions } = filterOptions;
 
+  console.log('typeOptions', typeOptions);
+
   const formattedTypeOptions = typeOptions
-    .filter((type) => type !== 'attachment')
+    .filter((type) => type !== 'Attachment')
     .map((type) => ({
       value: type,
       label: getLabelForType(type),
