@@ -790,3 +790,5 @@ tables/intake_users 2025-01-23T20:58:14Z Rafael Solorzano <61289255+rafasdc@user
 computed_columns/application_history [computed_columns/application_history@1.218.3] 2025-01-03T04:14:09Z ,,, <ryohani89@NH504670> # combine locations history to ccbc history
 @1.228.0 2025-01-28T18:53:08Z CCBC Service Account <ccbc@button.is> # release v1.228.0
 @1.229.0 2025-01-28T23:58:35Z CCBC Service Account <ccbc@button.is> # release v1.229.0
+tables/application_map_data 2025-01-28T17:53:59Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # table to hold summary page map data per application
+@1.230.0 2025-01-29T19:05:43Z CCBC Service Account <ccbc@button.is> # release v1.230.0
