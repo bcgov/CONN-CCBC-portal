@@ -97,9 +97,47 @@ query getAppDataQuery($rowId: Int!) {
         updatedAt
       }
     }
+    applicationMapDataByApplicationId(last: 1) {
+      nodes {
+        files
+        mapData
+        errors
+        rowId
+      }
+    }
     status
   }
 }
+`;
+
+const createAppMapDataMutation = `
+mutation createAppMapDataMutation($input: CreateApplicationMapDataInput!) {
+  createApplicationMapData(input: $input) {
+    clientMutationId
+  }
+}
+`;
+
+const updateMapDataMutation = `
+mutation updateMapDataMutation($input: UpdateApplicationMapDataByRowIdInput!) {
+  updateApplicationMapDataByRowId(input: $input) {
+    clientMutationId
+  }
+}
+`;
+
+const allApplicationsQuery = `
+  query allApplicationsQuery {
+    allApplications(
+      filter: { archivedAt: { isNull: true }, ccbcNumber: { isNull: false } }
+    ) {
+      nodes {
+        rowId
+        ccbcNumber
+      }
+      totalCount
+    }
+  }
 `;
 
 const extractAllRfiFiles = (data: RfiData[]): Record<string, RfiFile[]> => {
@@ -212,152 +250,325 @@ const handleQueryResult = (rfiData, formData, projectInformationData) => {
 map.get('/api/map/:id', limiter, async (req, res) => {
   const { id } = req.params;
   const applicationId = parseInt(id, 10);
+  let files;
+  let exists = false;
+  let mapDataRowId;
   if (!applicationId) {
     return res.status(400).end();
   }
-  const queryResult = await performQuery(
-    getAppDataQuery,
-    { rowId: applicationId },
-    req
-  );
+  try {
+    const force = req?.query?.force === 'true';
+    const queryResult = await performQuery(
+      getAppDataQuery,
+      { rowId: applicationId },
+      req
+    );
 
-  const {
-    applicationRfiDataByApplicationId,
-    formData,
-    projectInformationDataByApplicationId,
-  } = queryResult.data.applicationByRowId;
+    const {
+      applicationRfiDataByApplicationId,
+      formData,
+      projectInformationDataByApplicationId,
+      applicationMapDataByApplicationId,
+    } = queryResult.data.applicationByRowId;
 
-  const files = handleQueryResult(
-    applicationRfiDataByApplicationId,
-    formData,
-    projectInformationDataByApplicationId
-  );
+    files = handleQueryResult(
+      applicationRfiDataByApplicationId,
+      formData,
+      projectInformationDataByApplicationId
+    );
 
-  const response = {
-    geographicCoverageMap: [],
-    currentNetworkInfrastructure: [],
-    upgradedNetworkInfrastructure: [],
-    finalizedMapUpload: [],
-  };
-  const processGeographicCoverageMap = files.geographicCoverageMap.map(
-    async (geographicCoverageMap) => {
-      const fileName =
-        geographicCoverageMap?.fileName || geographicCoverageMap?.name;
-      if (geographicCoverageMap.uuid && fileName) {
-        const geoMapByteArray = await getByteArrayFromS3(
-          geographicCoverageMap.uuid
-        );
-        let data = null;
-        if (fileName.toLowerCase().includes('.kmz')) {
-          data = await parseKMZ(
-            geoMapByteArray,
-            fileName,
-            geographicCoverageMap.source
-          );
-        } else if (fileName.toLowerCase().includes('.kml')) {
-          data = await parseKMLFromBuffer(
-            geoMapByteArray,
-            fileName,
-            geographicCoverageMap.source
-          );
+    // check if there is any data for application map data
+    if (
+      applicationMapDataByApplicationId?.nodes?.length > 0 ||
+      applicationMapDataByApplicationId?.nodes?.errors != null
+    ) {
+      exists = true;
+      mapDataRowId = applicationMapDataByApplicationId.nodes[0].rowId;
+      // there is data, check if the files are the same
+      if (!force) {
+        const { files: filesData } = applicationMapDataByApplicationId.nodes[0];
+        const { mapData, errors } = applicationMapDataByApplicationId.nodes[0];
+        // compare filesData against files by uuid
+        const filesDataKeys = Object.keys(filesData);
+        const filesKeys = Object.keys(files);
+        if (filesDataKeys.length === filesKeys.length) {
+          const isSame = filesDataKeys.every((key) => {
+            const filesDataArray = filesData[key];
+            const filesArray = files[key];
+            if (filesDataArray.length !== filesArray.length) {
+              return false;
+            }
+            return filesDataArray.every((fileData) => {
+              const file = filesArray.find((f) => f.uuid === fileData.uuid);
+              if (!file) {
+                return false;
+              }
+              return true;
+            });
+          });
+          if (isSame) {
+            return res.send(mapData || errors);
+          }
         }
-        response.geographicCoverageMap.push(data);
       }
     }
-  );
 
-  const processCurrentNetworkInfrastructure =
-    files.currentNetworkInfrastructure.map(
-      async (currentNetworkInfrastructure) => {
+    const response = {
+      geographicCoverageMap: [],
+      currentNetworkInfrastructure: [],
+      upgradedNetworkInfrastructure: [],
+      finalizedMapUpload: [],
+    };
+
+    const errors = [];
+    const processGeographicCoverageMap = files.geographicCoverageMap.map(
+      async (geographicCoverageMap) => {
         const fileName =
-          currentNetworkInfrastructure?.fileName ||
-          currentNetworkInfrastructure?.name;
-        if (currentNetworkInfrastructure.uuid && fileName) {
-          const currentNetworkByteArray = await getByteArrayFromS3(
-            currentNetworkInfrastructure.uuid
+          geographicCoverageMap?.fileName || geographicCoverageMap?.name;
+        if (geographicCoverageMap.uuid && fileName) {
+          const geoMapByteArray = await getByteArrayFromS3(
+            geographicCoverageMap.uuid
           );
           let data = null;
-          if (fileName.toLowerCase().includes('.kmz')) {
-            data = await parseKMZ(
-              currentNetworkByteArray,
-              fileName,
-              currentNetworkInfrastructure.source
-            );
-          } else if (fileName.toLowerCase().includes('.kml')) {
-            data = await parseKMLFromBuffer(
-              currentNetworkByteArray,
-              fileName,
-              currentNetworkInfrastructure.source
-            );
+          try {
+            if (fileName.toLowerCase().includes('.kmz')) {
+              data = await parseKMZ(
+                geoMapByteArray,
+                fileName,
+                geographicCoverageMap.source
+              );
+            } else if (fileName.toLowerCase().includes('.kml')) {
+              data = await parseKMLFromBuffer(
+                geoMapByteArray,
+                fileName,
+                geographicCoverageMap.source
+              );
+            }
+            response.geographicCoverageMap.push(data);
+          } catch (error) {
+            errors.push({
+              file: geographicCoverageMap,
+              error: error.message,
+            });
           }
-          response.currentNetworkInfrastructure.push(data);
         }
       }
     );
 
-  const processUpgradedNetworkInfrastructure =
-    files.upgradedNetworkInfrastructure.map(
-      async (upgradedNetworkInfrastructure) => {
+    const processCurrentNetworkInfrastructure =
+      files.currentNetworkInfrastructure.map(
+        async (currentNetworkInfrastructure) => {
+          const fileName =
+            currentNetworkInfrastructure?.fileName ||
+            currentNetworkInfrastructure?.name;
+          if (currentNetworkInfrastructure.uuid && fileName) {
+            const currentNetworkByteArray = await getByteArrayFromS3(
+              currentNetworkInfrastructure.uuid
+            );
+            let data = null;
+            try {
+              if (fileName.toLowerCase().includes('.kmz')) {
+                data = await parseKMZ(
+                  currentNetworkByteArray,
+                  fileName,
+                  currentNetworkInfrastructure.source
+                );
+              } else if (fileName.toLowerCase().includes('.kml')) {
+                data = await parseKMLFromBuffer(
+                  currentNetworkByteArray,
+                  fileName,
+                  currentNetworkInfrastructure.source
+                );
+              }
+              response.currentNetworkInfrastructure.push(data);
+            } catch (error) {
+              errors.push({
+                file: currentNetworkInfrastructure,
+                error: error.message,
+              });
+            }
+          }
+        }
+      );
+
+    const processUpgradedNetworkInfrastructure =
+      files.upgradedNetworkInfrastructure.map(
+        async (upgradedNetworkInfrastructure) => {
+          const fileName =
+            upgradedNetworkInfrastructure?.fileName ||
+            upgradedNetworkInfrastructure?.name;
+          if (upgradedNetworkInfrastructure.uuid && fileName) {
+            const upgradedNetworkByteArray = await getByteArrayFromS3(
+              upgradedNetworkInfrastructure.uuid
+            );
+            let data = null;
+            try {
+              if (fileName.toLowerCase().includes('.kmz')) {
+                data = await parseKMZ(
+                  upgradedNetworkByteArray,
+                  fileName,
+                  upgradedNetworkInfrastructure.source
+                );
+              } else if (fileName.toLowerCase().includes('.kml')) {
+                data = await parseKMLFromBuffer(
+                  upgradedNetworkByteArray,
+                  fileName,
+                  upgradedNetworkInfrastructure.source
+                );
+              }
+              response.upgradedNetworkInfrastructure.push(data);
+            } catch (error) {
+              errors.push({
+                file: upgradedNetworkInfrastructure,
+                error: error.message,
+              });
+            }
+          }
+        }
+      );
+
+    const processFinalizedMapUpload = files.finalizedMapUpload.map(
+      async (finalizedMapUpload) => {
         const fileName =
-          upgradedNetworkInfrastructure?.fileName ||
-          upgradedNetworkInfrastructure?.name;
-        if (upgradedNetworkInfrastructure.uuid && fileName) {
-          const upgradedNetworkByteArray = await getByteArrayFromS3(
-            upgradedNetworkInfrastructure.uuid
+          finalizedMapUpload?.fileName || finalizedMapUpload?.name;
+        if (finalizedMapUpload.uuid && fileName) {
+          const finalizedMapByteArray = await getByteArrayFromS3(
+            finalizedMapUpload.uuid
           );
           let data = null;
-          if (fileName.toLowerCase().includes('.kmz')) {
-            data = await parseKMZ(
-              upgradedNetworkByteArray,
-              fileName,
-              upgradedNetworkInfrastructure.source
-            );
-          } else if (fileName.toLowerCase().includes('.kml')) {
-            data = await parseKMLFromBuffer(
-              upgradedNetworkByteArray,
-              fileName,
-              upgradedNetworkInfrastructure.source
-            );
+          try {
+            if (fileName.toLowerCase().includes('.kmz')) {
+              data = await parseKMZ(
+                finalizedMapByteArray,
+                fileName,
+                finalizedMapUpload.source
+              );
+            } else if (fileName.toLowerCase().includes('.kml')) {
+              data = await parseKMLFromBuffer(
+                finalizedMapByteArray,
+                fileName,
+                finalizedMapUpload.source
+              );
+            }
+            response.finalizedMapUpload.push(data);
+          } catch (error) {
+            errors.push({
+              file: finalizedMapUpload,
+              error: error.message,
+            });
           }
-          response.upgradedNetworkInfrastructure.push(data);
         }
       }
     );
 
-  const processFinalizedMapUpload = files.finalizedMapUpload.map(
-    async (finalizedMapUpload) => {
-      const fileName = finalizedMapUpload?.fileName || finalizedMapUpload?.name;
-      if (finalizedMapUpload.uuid && fileName) {
-        const finalizedMapByteArray = await getByteArrayFromS3(
-          finalizedMapUpload.uuid
-        );
-        let data = null;
-        if (fileName.toLowerCase().includes('.kmz')) {
-          data = await parseKMZ(
-            finalizedMapByteArray,
-            fileName,
-            finalizedMapUpload.source
-          );
-        } else if (fileName.toLowerCase().includes('.kml')) {
-          data = await parseKMLFromBuffer(
-            finalizedMapByteArray,
-            fileName,
-            finalizedMapUpload.source
-          );
-        }
-        response.finalizedMapUpload.push(data);
-      }
+    await Promise.all([
+      ...processGeographicCoverageMap,
+      ...processCurrentNetworkInfrastructure,
+      ...processUpgradedNetworkInfrastructure,
+      ...processFinalizedMapUpload,
+    ]);
+
+    // store result for future use
+    if (!exists) {
+      await performQuery(
+        createAppMapDataMutation,
+        {
+          input: {
+            applicationMapData: {
+              applicationId,
+              files,
+              errors,
+              mapData: response,
+            },
+          },
+        },
+        req
+      );
+    } else {
+      await performQuery(
+        updateMapDataMutation,
+        {
+          input: {
+            rowId: mapDataRowId,
+            applicationMapDataPatch: {
+              applicationId,
+              files,
+              errors,
+              mapData: response,
+            },
+          },
+        },
+        req
+      );
     }
+
+    res.send(response);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    if (!exists) {
+      await performQuery(
+        createAppMapDataMutation,
+        {
+          input: {
+            applicationMapData: {
+              applicationId,
+              files,
+              errors: { errors: error.message },
+            },
+          },
+        },
+        req
+      );
+    } else {
+      await performQuery(
+        updateMapDataMutation,
+        {
+          input: {
+            rowId: mapDataRowId,
+            applicationMapDataPatch: {
+              applicationId,
+              files,
+              errors: { errors: error.message },
+            },
+          },
+        },
+        req
+      );
+    }
+
+    res.status(500).send({ error: error.message });
+  }
+});
+
+map.get('/api/all/map', limiter, async (req, res) => {
+  const force = req?.query?.force === 'true';
+  const queryResult = await performQuery(allApplicationsQuery, {}, req);
+  const applications = queryResult.data.allApplications.nodes;
+
+  const results = await Promise.all(
+    applications.map(async (application) => {
+      try {
+        const response = await fetch(
+          `${req.protocol}://${req.get('host')}/api/map/${application.rowId}?force=${force}`,
+          {
+            headers: {
+              ...(req.headers as any),
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        return { rowId: application.rowId, responseCode: response.status };
+      } catch (error) {
+        return {
+          rowId: application.rowId,
+          responseCode: error.response?.status || 500,
+        };
+      }
+    })
   );
 
-  await Promise.all([
-    ...processGeographicCoverageMap,
-    ...processCurrentNetworkInfrastructure,
-    ...processUpgradedNetworkInfrastructure,
-    ...processFinalizedMapUpload,
-  ]);
-
-  res.send(response);
+  res.send(results);
 });
 
 export default map;
