@@ -60,7 +60,9 @@ export const withRelayOptions = {
   serverSideProps: async (ctx) => {
     const { default: getAuthRole } = await import('../../utils/getAuthRole');
     const request = ctx.req as any;
-    const isIdirUser = request?.claims?.identity_provider === 'idir';
+    const isIdirUser =
+      request?.claims?.identity_provider === 'idir' ||
+      request?.claims?.identity_provider === 'azureidir';
     const authRole = getAuthRole(request);
     const isAuthenticatedAnalyst =
       authRole?.pgRole === 'ccbc_admin' ||
