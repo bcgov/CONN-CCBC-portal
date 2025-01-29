@@ -3058,6 +3058,69 @@ const mockQueryPayload = {
               sessionSub: '54f0aa1ad196497bb80d05b21c20a1ef@bceidbasic',
               tableName: 'application_communities',
             },
+            {
+              record: {
+                id: 1,
+                comment: null,
+                created_at: '2024-05-16T15:40:36.30913+00:00',
+                created_by: 323,
+                is_pending: true,
+                updated_at: '2024-05-16T15:40:36.30913+00:00',
+                updated_by: 323,
+                archived_at: null,
+                archived_by: null,
+                application_id: 56,
+              },
+              oldRecord: null,
+              familyName: 'Foo',
+              givenName: 'Bar',
+              tableName: 'application_pending_change_request',
+              sessionSub: 'test-session-sub@idir',
+              recordId: '7d5e7f28-23fe-50d3-b4f8-b6391839faca',
+              op: 'INSERT',
+            },
+            {
+              record: {
+                id: 2,
+                comment: 'Yes, change request cancelled',
+                created_at: '2024-05-16T15:40:48.96457+00:00',
+                created_by: 323,
+                is_pending: false,
+                updated_at: '2024-05-16T15:40:48.96457+00:00',
+                updated_by: 323,
+                archived_at: null,
+                archived_by: null,
+                application_id: 56,
+              },
+              oldRecord: null,
+              familyName: 'Foo',
+              givenName: 'Bar',
+              tableName: 'application_pending_change_request',
+              sessionSub: 'test-session-sub@idir',
+              recordId: 'b5c41516-6166-52e9-8346-c2aa47bae87d',
+              op: 'INSERT',
+            },
+            {
+              record: {
+                id: 34,
+                comment: null,
+                created_at: '2025-01-29T22:30:37.142+00:00',
+                created_by: 185,
+                is_pending: true,
+                updated_at: '2025-01-29T22:30:37.142+00:00',
+                updated_by: 185,
+                archived_at: null,
+                archived_by: null,
+                application_id: 56,
+              },
+              oldRecord: null,
+              familyName: 'Foo',
+              givenName: 'Bar',
+              tableName: 'application_pending_change_request',
+              sessionSub: 'test-session-sub@idir',
+              recordId: '34eb1bd2-1b93-5f3f-a08f-d8f332afe333',
+              op: 'INSERT',
+            },
           ],
         },
         formData: {
@@ -3275,13 +3338,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 31 diff tables', async () => {
+  it('shows all 32 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(31);
+    expect(diffTables.length).toBe(32);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -3566,13 +3629,14 @@ describe('The filter', () => {
     const dropdown = document.querySelector('[role="listbox"]') as HTMLElement;
     const options = within(dropdown!).getAllByRole('option');
     const optionNames = options.map((option) => option.textContent?.trim());
-    expect(options.length).toEqual(15);
+    expect(options.length).toEqual(16);
 
     const expectedOptionNames = [
       'Amendment',
       'Announcement',
       'Application',
       'Application communities',
+      'Application pending change request',
       'Assessment',
       'Claims & progress report',
       'Community progress report',
