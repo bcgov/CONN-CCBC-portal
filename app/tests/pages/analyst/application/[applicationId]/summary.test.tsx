@@ -1538,7 +1538,7 @@ describe('The Summary page', () => {
 
     fireEvent.mouseOver(helpIcon1);
     const tooltip1 = await screen.findByText(
-      /SOW excel table has not been uploaded in the portal/
+      /This value is informed by SOW tab 8, which has not been uploaded to the portal/
     );
     expect(tooltip1).toBeInTheDocument();
 
@@ -1554,7 +1554,7 @@ describe('The Summary page', () => {
 
     fireEvent.mouseOver(helpIcon2);
     const tooltip2 = await screen.findByText(
-      /SOW excel table has not been uploaded in the portal/
+      /This value is informed by SOW tab 8, which has not been uploaded to the portal/
     );
     expect(tooltip2).toBeInTheDocument();
   });

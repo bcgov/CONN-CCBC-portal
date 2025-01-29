@@ -265,7 +265,9 @@ const getSowErrors = (sowData, schema, formDataSource) => {
           ],
         };
         errors[parentKey][key] = {
-          __errors: ['SOW excel table has not been uploaded in the portal'],
+          __errors: [
+            'This value is informed by SOW tab 8, which has not been uploaded to the portal.',
+          ],
         };
       }
     });
