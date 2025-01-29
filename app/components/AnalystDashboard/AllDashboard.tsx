@@ -35,6 +35,7 @@ import { useFeature } from '@growthbook/growthbook-react';
 import getConfig from 'next/config';
 import { DateTime } from 'luxon';
 import { useToast } from 'components/AppProvider';
+import { useRouter } from 'next/router';
 import DownloadIcon from './DownloadIcon';
 import {
   filterZones,
@@ -287,6 +288,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const { allApplications, allCbcData, allApplicationStatusTypes } =
     queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
+  const router = useRouter();
 
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -783,6 +785,18 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     layoutMode: isLargeUp ? 'grid' : 'semantic',
     muiTableBodyCellProps,
     muiTableHeadCellProps,
+    muiTableBodyRowProps: ({ row }) => ({
+      onClick: () => {
+        if (row.original.isCbcProject) {
+          router.push(`/analyst/cbc/${row.original.rowId}`);
+        } else {
+          router.push(`/analyst/application/${row.original.rowId}/summary`);
+        }
+      },
+      sx: {
+        cursor: 'pointer',
+      },
+    }),
     enableStickyHeader: freezeHeader,
     onSortingChange: handleOnSortChange,
     onColumnFiltersChange: setColumnFilters,
