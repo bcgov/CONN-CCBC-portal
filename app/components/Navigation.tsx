@@ -55,24 +55,10 @@ interface Props {
 const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   const router = useRouter();
   const isApplicantPortal = router?.pathname.startsWith('/applicantportal');
-  const isCbcPage = router?.pathname.includes('/cbc/');
-  const useCustomLogin = useFeature('use_custom_login').value;
-  const useDirectIdir = useFeature('use_direct_idir').value;
   const useNewHeader = useFeature('use_new_header').value;
   const { value: banner } = useFeature('header-banner');
 
-  let action;
-  if (useCustomLogin) {
-    if (useDirectIdir) {
-      action = `/api/login/${IDP_HINT_PARAM}=${IDP_HINTS['IDIR']}`;
-    } else {
-      action = '/api/login/multi-auth';
-    }
-  } else if (useDirectIdir) {
-    action = `/login?${IDP_HINT_PARAM}=${IDP_HINTS['IDIR']}`;
-  } else {
-    action = '/login';
-  }
+  const action = `/api/login/${IDP_HINT_PARAM}=${IDP_HINTS['IDIR']}`;
 
   return (
     <StyledBaseNavigation>
