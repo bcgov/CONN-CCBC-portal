@@ -85,6 +85,7 @@
             <child column="application_id" foreignKey="application_gis_assessment_hh_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_gis_assessment_hh"/>
             <child column="application_id" foreignKey="application_gis_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_gis_data"/>
             <child column="application_id" foreignKey="application_internal_description_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_internal_description"/>
+            <child column="application_id" foreignKey="application_map_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_map_data"/>
             <child column="application_id" foreignKey="application_milestone_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_milestone_data"/>
             <child column="application_id" foreignKey="application_milestone_excel_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_milestone_excel_data"/>
             <child column="application_id" foreignKey="application_package_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_package"/>
@@ -583,6 +584,40 @@
             <column ascending="true" name="created_by"/>
          </index>
          <index name="ccbc_public_application_internal_description_updated_by_foreign" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="application_map_data" remarks="" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="application_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_map_data_application_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="map_data" nullable="true" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="files" nullable="true" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="errors" nullable="true" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_map_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_map_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="8" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="application_map_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="10" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="application_map_data_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_application_map_data_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_application_map_data_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_application_map_data_updated_by_foreign_key" unique="false">
             <column ascending="true" name="updated_by"/>
          </index>
       </table>
@@ -1222,6 +1257,9 @@
             <child column="archived_by" foreignKey="application_internal_description_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_internal_description"/>
             <child column="created_by" foreignKey="application_internal_description_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_internal_description"/>
             <child column="updated_by" foreignKey="application_internal_description_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_internal_description"/>
+            <child column="archived_by" foreignKey="application_map_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_map_data"/>
+            <child column="created_by" foreignKey="application_map_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_map_data"/>
+            <child column="updated_by" foreignKey="application_map_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_map_data"/>
             <child column="archived_by" foreignKey="application_milestone_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_milestone_data"/>
             <child column="created_by" foreignKey="application_milestone_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_milestone_data"/>
             <child column="updated_by" foreignKey="application_milestone_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="application_milestone_data"/>
