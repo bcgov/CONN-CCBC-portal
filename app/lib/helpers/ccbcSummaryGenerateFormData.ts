@@ -256,16 +256,16 @@ const getSowFallBackFields = (sowData, formData, communitiesData) => {
     )
       ? null
       : 'TBD',
-    totalHouseholdsImpacted:
-      formData.counts.totalHouseholdsImpacted &&
-      formData.counts.totalHouseholdsImpacted >= 0
-        ? null
-        : 'TBD',
-    numberOfIndigenousHouseholds:
-      formData.counts.numberOfIndigenousHouseholds &&
-      formData.counts.numberOfIndigenousHouseholds >= 0
-        ? null
-        : 'TBD',
+    totalHouseholdsImpacted: Number.isInteger(
+      formData.counts.totalHouseholdsImpacted
+    )
+      ? null
+      : 'TBD',
+    numberOfIndigenousHouseholds: Number.isInteger(
+      formData.counts.numberOfIndigenousHouseholds
+    )
+      ? null
+      : 'TBD',
     benefitingCommunities: !communitiesData?.benefitingCommunities?.length
       ? 'None'
       : null,
