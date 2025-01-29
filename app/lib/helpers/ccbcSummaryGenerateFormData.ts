@@ -322,7 +322,7 @@ const getHouseholdsImpactedCountWithAmendmentNumber = (
 
 const getSowErrors = (sowData, schema, formDataSource) => {
   if (sowData?.length) return null;
-  const errors = {};
+  const errors: any = {};
   Object.entries(schema?.properties || {}).forEach(([parentKey, value]) => {
     const sectionSchema = value['properties'];
     Object.keys(sectionSchema || {}).forEach((key) => {
@@ -340,6 +340,32 @@ const getSowErrors = (sowData, schema, formDataSource) => {
       }
     });
   });
+  // Custom errors for counts
+  if (errors?.counts?.communities?.__errors?.length > 0) {
+    errors.counts.communities.__errors = [
+      'This value is informed from SOW tab 8 cell E15 which has not been uploaded to the portal.',
+    ];
+  }
+  if (errors?.counts?.indigenousCommunities?.__errors?.length > 0) {
+    errors.counts.indigenousCommunities.__errors = [
+      'This value is informed from SOW tab 8 cell E16 which has not been uploaded to the portal.',
+    ];
+  }
+  if (errors?.counts?.nonIndigenousCommunities?.__errors?.length > 0) {
+    errors.counts.nonIndigenousCommunities.__errors = [
+      'This value is informed from SOW tab 8 which has not been uploaded to the portal.',
+    ];
+  }
+  if (errors?.counts?.totalHouseholdsImpacted?.__errors?.length > 0) {
+    errors.counts.totalHouseholdsImpacted.__errors = [
+      'This value is informed from SOW tab 1 cell H18  which has not been uploaded to the portal.',
+    ];
+  }
+  if (errors?.counts?.numberOfIndigenousHouseholds?.__errors?.length > 0) {
+    errors.counts.numberOfIndigenousHouseholds.__errors = [
+      'This value is informed from SOW tab 1 cell H17  which has not been uploaded to the portal.',
+    ];
+  }
   return errors;
 };
 
