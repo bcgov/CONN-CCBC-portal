@@ -20,7 +20,7 @@ const StyledForm = styled.form`
 
 type Props = {
   linkText: string;
-  action: '/api/login/multi-auth' | '/api/logout';
+  action: string;
 };
 
 const LoginForm: React.FC<Props> = ({ linkText, action }) => (
