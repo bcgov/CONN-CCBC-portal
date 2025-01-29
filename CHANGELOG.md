@@ -1,3 +1,9 @@
+# [1.230.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.229.0...v1.230.0) (2025-01-29)
+
+### Features
+
+- cache application map data ([ae5677b](https://github.com/bcgov/CONN-CCBC-portal/commit/ae5677b1a0ec60c29539188bbf74fc38ce0fbeee))
+
 # [1.229.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.228.0...v1.229.0) (2025-01-28)
 
 ### Features
