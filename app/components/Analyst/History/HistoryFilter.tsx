@@ -79,7 +79,8 @@ const HistoryFilter: React.FC<HistoryFilterProps> = ({
     .map((type) => ({
       value: type,
       label: getLabelForType(type),
-    }));
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   const filterSchema = historyFilter(formattedTypeOptions, userOptions);
 
