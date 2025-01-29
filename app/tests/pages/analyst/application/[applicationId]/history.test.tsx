@@ -3084,6 +3084,69 @@ const mockQueryPayload = {
               sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
               tableName: 'application_fnha_contribution',
             },
+            {
+              record: {
+                id: 1,
+                comment: null,
+                created_at: '2024-05-16T15:40:36.30913+00:00',
+                created_by: 323,
+                is_pending: true,
+                updated_at: '2024-05-16T15:40:36.30913+00:00',
+                updated_by: 323,
+                archived_at: null,
+                archived_by: null,
+                application_id: 56,
+              },
+              oldRecord: null,
+              familyName: 'Foo',
+              givenName: 'Bar',
+              tableName: 'application_pending_change_request',
+              sessionSub: 'test-session-sub@idir',
+              recordId: '7d5e7f28-23fe-50d3-b4f8-b6391839faca',
+              op: 'INSERT',
+            },
+            {
+              record: {
+                id: 2,
+                comment: 'Yes, change request cancelled',
+                created_at: '2024-05-16T15:40:48.96457+00:00',
+                created_by: 323,
+                is_pending: false,
+                updated_at: '2024-05-16T15:40:48.96457+00:00',
+                updated_by: 323,
+                archived_at: null,
+                archived_by: null,
+                application_id: 56,
+              },
+              oldRecord: null,
+              familyName: 'Foo',
+              givenName: 'Bar',
+              tableName: 'application_pending_change_request',
+              sessionSub: 'test-session-sub@idir',
+              recordId: 'b5c41516-6166-52e9-8346-c2aa47bae87d',
+              op: 'INSERT',
+            },
+            {
+              record: {
+                id: 34,
+                comment: null,
+                created_at: '2025-01-29T22:30:37.142+00:00',
+                created_by: 185,
+                is_pending: true,
+                updated_at: '2025-01-29T22:30:37.142+00:00',
+                updated_by: 185,
+                archived_at: null,
+                archived_by: null,
+                application_id: 56,
+              },
+              oldRecord: null,
+              familyName: 'Foo',
+              givenName: 'Bar',
+              tableName: 'application_pending_change_request',
+              sessionSub: 'test-session-sub@idir',
+              recordId: '34eb1bd2-1b93-5f3f-a08f-d8f332afe333',
+              op: 'INSERT',
+            },
           ],
         },
         formData: {
@@ -3777,7 +3840,7 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 31 diff tables', async () => {
+  it('shows all 32 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -4088,6 +4151,7 @@ describe('The filter', () => {
       'Announcement',
       'Application',
       'Application communities',
+      'Application pending change request',
       'Assessment',
       'Claims & progress report',
       'Community progress report',
