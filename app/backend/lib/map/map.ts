@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import RateLimit from 'express-rate-limit';
+import getAuthRole from 'utils/getAuthRole';
 import { getByteArrayFromS3 } from '../s3client';
 import { parseKMLFromBuffer, parseKMZ } from './utils';
 import { performQuery } from '../graphql';
@@ -542,6 +543,13 @@ map.get('/api/map/:id', limiter, async (req, res) => {
 });
 
 map.get('/api/all/map', limiter, async (req, res) => {
+  const authRole = getAuthRole(req);
+  const isRoleAuthorized =
+    authRole?.pgRole === 'ccbc_admin' || authRole?.pgRole === 'super_admin';
+  if (!isRoleAuthorized) {
+    return res.status(404).end();
+  }
+
   const force = req?.query?.force === 'true';
   const queryResult = await performQuery(allApplicationsQuery, {}, req);
   const applications = queryResult.data.allApplications.nodes;
@@ -568,7 +576,7 @@ map.get('/api/all/map', limiter, async (req, res) => {
     })
   );
 
-  res.send(results);
+  return res.send(results);
 });
 
 export default map;
