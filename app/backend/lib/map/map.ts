@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import RateLimit from 'express-rate-limit';
-import getAuthRole from 'utils/getAuthRole';
+import getAuthRole from '../../../utils/getAuthRole';
 import { getByteArrayFromS3 } from '../s3client';
 import { parseKMLFromBuffer, parseKMZ } from './utils';
 import { performQuery } from '../graphql';
