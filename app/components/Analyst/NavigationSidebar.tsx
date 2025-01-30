@@ -44,7 +44,7 @@ const NavigationSidebar = ({
 
   useEffect(() => {
     if (!assessmentLastVisited) {
-      cookie.set(
+      sessionStorage.setItem(
         'mrt_last_visited_row_application',
         JSON.stringify({ isCcbc: true, rowId: applicationId })
       );

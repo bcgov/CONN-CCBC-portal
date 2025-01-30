@@ -443,7 +443,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       setColumnSizing(JSON.parse(columnSizingSession));
     }
 
-    const lastVisitedRowCookie = cookie.get('mrt_last_visited_row_application');
+    const lastVisitedRowCookie = sessionStorage.getItem(
+      'mrt_last_visited_row_application'
+    );
 
     if (lastVisitedRowCookie) {
       setLastVisitedRow(JSON.parse(lastVisitedRowCookie));
@@ -469,7 +471,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       // warning: will break if we use a virtualized table
       document
         .getElementById(
-          `${lastVisitedRow.isCcbc ? 'ccbc' : 'cbc'}-${lastVisitedRow.rowId}`
+          `${lastVisitedRow?.isCcbc ? 'ccbc' : 'cbc'}-${lastVisitedRow?.rowId}`
         )
         ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
