@@ -301,7 +301,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
   const showCbcProjects = useFeature('show_cbc_projects').value ?? false;
-  const showCbcProjectsLink = useFeature('show_cbc_view_link').value ?? false;
+  const showCbcProjectsLink = false;
   const freezeHeader = useFeature('freeze_dashboard_header').value ?? false;
   const enableGlobalFilter = useFeature('show_global_filter').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
@@ -599,7 +599,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       packageNumber: application.node.package,
       projectTitle: application.node.projectName,
       isCbcProject: false,
-      showLink: true,
+      showLink: false,
       externalStatusOrder: statusOrderMap[application.node.externalStatus],
       internalStatusOrder: statusOrderMap[application.node.analystStatus],
       communities: getCommunities(application.node),
