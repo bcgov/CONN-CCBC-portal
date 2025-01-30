@@ -7,7 +7,15 @@ runs:
       shell: bash
       env:
         POSTGRES_PASSWORD: mysecretpassword
-      run: docker run -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgis/postgis:15-3.5 && make drop_db && make create_db
+      run: |
+        docker run -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgis/postgis:15-3.5
+        # Wait for PostgreSQL to be ready
+        until docker exec $(docker ps -q -f ancestor=postgis/postgis:15-3.5) pg_isready -U postgres; do
+          echo "Waiting for PostgreSQL to be ready..."
+          sleep 2
+        done
+        make drop_db
+        make create_db
     - name: deploy migrations
       shell: bash
       env:
