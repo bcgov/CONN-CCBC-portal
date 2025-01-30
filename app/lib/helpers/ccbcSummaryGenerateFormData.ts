@@ -216,9 +216,8 @@ const getFallBackFields = (applicationData, formData, communities) => {
     communities: 'N/A',
     indigenousCommunities: 'N/A',
     nonIndigenousCommunities: 'N/A',
-    totalHouseholdsImpacted: 'N/A',
-    numberOfIndigenousHouseholds: 'N/A',
   };
+
   const fallBackFields = {
     benefitingCommunities: !communities?.benefitingCommunities?.length
       ? 'None'
@@ -232,6 +231,17 @@ const getFallBackFields = (applicationData, formData, communities) => {
       : null,
     regionalDistricts: !formData?.locations?.regionalDistricts?.length
       ? 'TBD'
+      : null,
+    // since we can get non-integers, check if it's a NaN
+    totalHouseholdsImpacted: Number.isNaN(
+      formData?.counts?.totalHouseholdsImpacted
+    )
+      ? 'N/A'
+      : null,
+    numberOfIndigenousHouseholds: Number.isNaN(
+      formData?.counts?.numberOfIndigenousHouseholds
+    )
+      ? 'N/A'
       : null,
     ...template9MissingFallBackData,
   };
