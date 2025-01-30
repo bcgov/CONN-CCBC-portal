@@ -14,6 +14,13 @@ runs:
           echo "Waiting for PostgreSQL to be ready..."
           sleep 2
         done
+        # Additional wait to ensure PostgreSQL is fully ready
+        sleep 10
+        # Check PostgreSQL readiness from the host
+        until pg_isready -h localhost -p 5432 -U postgres; do
+          echo "Waiting for PostgreSQL to be ready from the host..."
+          sleep 2
+        done
         make drop_db PSQL="psql -h localhost -U postgres"
         make create_db PSQL="psql -h localhost -U postgres"
     - name: deploy migrations
