@@ -41,7 +41,7 @@ jobs:
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
 
   test-zap:
-    needs: [build, install-env]
+    needs: [build]
     uses: ./.github/workflows/test-zap.yaml
 
   test-e2e:
