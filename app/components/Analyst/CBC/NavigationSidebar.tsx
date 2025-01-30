@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import cookie from 'js-cookie';
 import { useEffect } from 'react';
 import {
   faChevronLeft,
@@ -28,7 +27,7 @@ const NavigationSidebar = () => {
   const { asPath } = router;
   const { cbcId } = router.query;
   useEffect(() => {
-    cookie.set(
+    sessionStorage.setItem(
       'mrt_last_visited_row_application',
       JSON.stringify({ isCcbc: false, rowId: cbcId })
     );

@@ -3,6 +3,7 @@ import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import * as moduleApi from '@growthbook/growthbook-react';
 import cookie from 'js-cookie';
+import userEvent from '@testing-library/user-event';
 import Dashboard from '../../../pages/analyst/dashboard';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import PageTestingHelper from '../../utils/pageTestingHelper';
@@ -568,9 +569,13 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const row = screen.getByText('CCBC-010001');
+    const row = screen.getAllByRole('row')[1];
 
-    expect(row).toHaveAttribute('href', '/analyst/application/1/summary');
+    await userEvent.click(row);
+
+    expect(pageTestingHelper.router.push).toHaveBeenCalledWith(
+      '/analyst/application/1/summary'
+    );
   });
 
   it('shows the assign lead dropdown when column enabled', async () => {
