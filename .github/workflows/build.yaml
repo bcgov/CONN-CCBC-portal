@@ -24,14 +24,17 @@ jobs:
             context: .
             dockerfile: app/Dockerfile
             name: app
+            build_on_main: false
           - image: ghcr.io/bcgov/conn-ccbc-portal/ccbc-db
             context: .
             dockerfile: db/Dockerfile
             name: db
+            build_on_main: true
           - image: ghcr.io/bcgov/conn-ccbc-portal/ccbc-cron-shp
             context: .
             dockerfile: cron/shp/Dockerfile
             name: cron-shp
+            build_on_main: true
     permissions:
       contents: read
       packages: write
@@ -59,6 +62,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
+        if: ${{ matrix.build_on_main != true || github.ref == 'refs/heads/main' || matrix.name == 'app' }}
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
