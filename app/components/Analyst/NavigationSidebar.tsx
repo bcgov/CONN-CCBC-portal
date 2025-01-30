@@ -10,6 +10,7 @@ import {
   faEnvelope,
   faNoteSticky,
 } from '@fortawesome/free-solid-svg-icons';
+import { useEffect } from 'react';
 import NavItem from './NavItem';
 import SideMap from './SideMap';
 
@@ -40,6 +41,16 @@ const NavigationSidebar = ({
   const { asPath } = router;
   const { applicationId } = router.query;
   const assessmentLastVisited = cookie.get('assessment_last_visited') || null;
+
+  useEffect(() => {
+    if (!assessmentLastVisited) {
+      cookie.set(
+        'mrt_last_visited_row_application',
+        JSON.stringify({ isCcbc: true, rowId: applicationId })
+      );
+    }
+  }, [applicationId, assessmentLastVisited]);
+
   return (
     <StyledAside>
       <StyledNav>
