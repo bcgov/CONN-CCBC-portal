@@ -5,9 +5,14 @@ runs:
   steps:
     - name: start postgres and create database
       shell: bash
-      run: make start_pg && make drop_db && make create_db
+      env:
+        POSTGRES_PASSWORD: mysecretpassword
+      run: docker run -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgis/postgis:15-3.5 && make drop_db && make create_db
     - name: deploy migrations
       shell: bash
+      env:
+        PGUSER: postgres
+        PGPASSWORD: mysecretpassword
       run: |
         cd db
         docker pull sqitch/sqitch
@@ -15,6 +20,9 @@ runs:
         ./sqitch deploy
     - name: deploy mock schema
       shell: bash
+      env:
+        PGUSER: postgres
+        PGPASSWORD: mysecretpassword
       run: |
         cd mocks_schema
         docker pull sqitch/sqitch
