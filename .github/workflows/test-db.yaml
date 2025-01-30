@@ -1,0 +1,69 @@
+# Tests for db that do not require any node_modules
+name: test db
+
+env:
+  PGPASSWORD: mysecretpassword
+  PGUSER: postgres
+  PGDATABASE: ccbc
+
+on:
+  workflow_call:
+
+concurrency:
+  group: test-db-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  reverts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: deploy db migrations
+        run: |
+          docker run -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgis/postgis:15-3.5
+          # Wait for PostgreSQL to be ready
+          until docker exec $(docker ps -q -f ancestor=postgis/postgis:15-3.5) pg_isready -U postgres; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 2
+          done
+          # Additional wait to ensure PostgreSQL is fully ready
+          sleep 5
+          # Check PostgreSQL readiness from the host one more time
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for PostgreSQL to be ready from the host..."
+            sleep 2
+          done
+          make drop_db PSQL="psql -h localhost -U postgres"
+          make create_db PSQL="psql -h localhost -U postgres"
+          # Deploy migrations
+          docker pull sqitch/sqitch
+          curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
+          ./sqitch --chdir db deploy
+          ./sqitch --chdir mocks_schema deploy
+      - name: revert db migrations
+        run: |
+          docker pull sqitch/sqitch
+          curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
+          ./sqitch --chdir db revert
+          ./sqitch --chdir mocks_schema revert
+      - name: re-deploy db migrations
+        run: |
+          docker pull sqitch/sqitch
+          curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
+          ./sqitch --chdir db deploy
+          ./sqitch --chdir mocks_schema deploy
+
+  pgtap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      #   - name: dev env setup
+      #     uses: ./.github/actions/dev-env-setup
+      - name: Run Database Unit Tests
+        run: make db_unit_tests
+      - name: Run Database Style Tests
+        run: make db_style_tests
