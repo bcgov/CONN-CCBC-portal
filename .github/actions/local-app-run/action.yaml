@@ -14,8 +14,8 @@ runs:
           echo "Waiting for PostgreSQL to be ready..."
           sleep 2
         done
-        make drop_db
-        make create_db
+        make drop_db PSQL="psql -h localhost -U postgres"
+        make create_db PSQL="psql -h localhost -U postgres"
     - name: deploy migrations
       shell: bash
       env:
