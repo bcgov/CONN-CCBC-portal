@@ -47,7 +47,7 @@ on:
     types: [submitted]
 
 env:
-  TAG: sha-${{ github.sha }}
+  # TAG: sha-${{ github.sha }}
   FEATURE_NAME: ${{ github.event.pull_request.head.ref }}
 
 jobs:
@@ -56,6 +56,14 @@ jobs:
     environment:
       name: development
     steps:
+      - name: Set TAG based on event type
+        id: set-tag
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request_review" ]]; then
+            echo "TAG=sha-${{ github.event.pull_request.head.sha }}" >> $GITHUB_ENV
+          else
+            echo "TAG=sha-${{ github.sha }}" >> $GITHUB_ENV
+          fi
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install OpenShift CLI (oc)
