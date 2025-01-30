@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import ProjectForm from 'components/Analyst/Project/ProjectForm';
 import conditionalApprovalSchema from 'formSchema/analyst/conditionalApproval';
@@ -66,12 +66,17 @@ const ConditionalApprovalForm: React.FC<Props> = ({
   const relayConnectionId = conditionalApprovalDataByApplicationId?.__id;
 
   const [createConditionalApproval] = useCreateConditionalApprovalMutation();
-  const [newFormData, setNewFormData] = useState(conditionalApproval?.jsonData);
-  const [oldFormData, setOldFormData] = useState(conditionalApproval?.jsonData);
+  const [newFormData, setNewFormData] = useState(null);
+  const [oldFormData, setOldFormData] = useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(
     !conditionalApproval?.jsonData
   );
   const conditionalApprovalModal = useModal();
+
+  useEffect(() => {
+    setNewFormData(conditionalApproval?.jsonData);
+    setOldFormData(conditionalApproval?.jsonData);
+  }, [conditionalApproval]);
 
   const oldFormStatus = oldFormData?.response?.statusApplicantSees;
   const newFormStatus = newFormData?.response?.statusApplicantSees;

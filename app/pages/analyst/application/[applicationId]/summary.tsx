@@ -242,11 +242,13 @@ const Summary = ({
           ...formData,
           map: { map: { json, setIsMapExpanded } },
         });
+      } else {
+        setFinalFormData(formData);
       }
     };
 
     fetchData();
-  }, []);
+  }, [applicationId, showMap]);
 
   return (
     <Layout

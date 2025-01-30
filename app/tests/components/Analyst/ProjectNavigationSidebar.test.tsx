@@ -86,6 +86,8 @@ const componentTestingHelper =
 describe('The application navigation bar component', () => {
   beforeEach(() => {
     componentTestingHelper.reinit();
+    delete (window as any).location;
+    (window as any).location = { href: '' };
   });
 
   it('renders project navigation correctly with initial data', () => {
@@ -133,9 +135,7 @@ describe('The application navigation bar component', () => {
 
     fireEvent.click(nextButton);
 
-    expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
-      '/analyst/application/41'
-    );
+    expect(window.location.href).toBe('/analyst/application/41');
   });
 
   it('navigates to the next project on previous button click', async () => {
@@ -151,9 +151,7 @@ describe('The application navigation bar component', () => {
 
     fireEvent.click(prevButton);
 
-    expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
-      '/analyst/application/1'
-    );
+    expect(window.location.href).toBe('/analyst/application/1');
   });
 
   it('renders the autocomplete dropdown and selects an option', async () => {
@@ -178,9 +176,7 @@ describe('The application navigation bar component', () => {
 
     fireEvent.click(option);
 
-    expect(componentTestingHelper.router.push).toHaveBeenCalledWith(
-      '/analyst/application/1'
-    );
+    expect(window.location.href).toBe('/analyst/application/1');
   });
 
   it('reads and loads correct options from last visited list in storage', async () => {
