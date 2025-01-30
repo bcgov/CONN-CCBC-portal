@@ -337,7 +337,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     projectTitle: 150,
     zones: 91,
   });
-  const tableContainerRef = useRef(null);
 
   const handleBlob = (blob, toastMessage, reportDate) => {
     const url = window.URL.createObjectURL(blob);
@@ -444,18 +443,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       setColumnSizing(JSON.parse(columnSizingSession));
     }
 
-    const lastVisitedRowId = cookie.get('mrt_last_visited_row_application');
+    const lastVisitedRowCookie = cookie.get('mrt_last_visited_row_application');
 
-    if (lastVisitedRowId) {
-      setLastVisitedRow(JSON.parse(lastVisitedRowId));
+    if (lastVisitedRowCookie) {
+      setLastVisitedRow(JSON.parse(lastVisitedRowCookie));
     }
 
     setIsFirstRender(false);
-
-    const savedScrollTop = sessionStorage.getItem('dashboard_scroll_position');
-    if (savedScrollTop && tableContainerRef.current) {
-      tableContainerRef.current.scrollTop = parseInt(savedScrollTop, 10);
-    }
   }, []);
 
   useEffect(() => {
@@ -469,6 +463,17 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       }));
     }
   }, [isFirstRender, showLeadFeatureFlag]);
+
+  useEffect(() => {
+    if (!isFirstRender) {
+      // warning: will break if we use a virtualized table
+      document
+        .getElementById(
+          `${lastVisitedRow.isCcbc ? 'ccbc' : 'cbc'}-${lastVisitedRow.rowId}`
+        )
+        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isFirstRender, lastVisitedRow?.rowId, lastVisitedRow?.isCcbc]);
 
   useEffect(() => {
     if (!isFirstRender) {
@@ -770,13 +775,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     }
   };
 
-  const handleTableScroll = () => {
-    sessionStorage.setItem(
-      'dashboard_scroll_position',
-      tableContainerRef?.current?.scrollTop
-    );
-  };
-
   const tableHeightOffset = enableTimeMachine ? '460px' : '360px';
 
   const isLastVisitedRow = (row) => {
@@ -794,8 +792,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     columnResizeMode: 'onChange',
     state,
     muiTableContainerProps: {
-      ref: tableContainerRef,
-      onScroll: handleTableScroll,
       sx: {
         padding: '0 8px 8px 8px',
         maxHeight: freezeHeader ? `calc(100vh - ${tableHeightOffset})` : '100%',
@@ -805,6 +801,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     muiTableBodyCellProps,
     muiTableHeadCellProps,
     muiTableBodyRowProps: ({ row }) => ({
+      id: `${row.original.isCbcProject ? 'cbc' : 'ccbc'}-${row.original.rowId}`,
       onClick: () => {
         if (row.original.isCbcProject) {
           router.push(`/analyst/cbc/${row.original.rowId}`);
