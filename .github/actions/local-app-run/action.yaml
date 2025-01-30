@@ -6,7 +6,7 @@ runs:
     - name: start postgres and create database
       shell: bash
       env:
-        POSTGRES_PASSWORD: mysecretpassword
+        PGPASSWORD: mysecretpassword
       run: |
         docker run -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgis/postgis:15-3.5
         # Wait for PostgreSQL to be ready
