@@ -45,4 +45,4 @@ runs:
         ./sqitch deploy
     - name: start app
       shell: bash
-      run: docker run --network=bridge -e "PGHOST=host.docker.internal" -e "PGUSER=postgres" -e "PGPASSWORD=mysecretpassword" -e "ENABLE_MOCK_AUTH=true" -e "ENABLE_MOCK_COOKIES=true" -e "NEXT_PUBLIC_GROWTHBOOK_API_KEY=dev_MIjxKii1kycPLz7CSjBYui0uERkFRSn7AXbu6oROCRQ" -p 3000:3000 ghcr.io/bcgov/conn-ccbc-portal/ccbc-app:sha-${{ github.sha }}
+      run: docker run -e "PGHOST=localhost" -e "PGUSER=postgres" -e "PGPASSWORD=mysecretpassword" -e "ENABLE_MOCK_AUTH=true" -e "ENABLE_MOCK_COOKIES=true" -e "NEXT_PUBLIC_GROWTHBOOK_API_KEY=dev_MIjxKii1kycPLz7CSjBYui0uERkFRSn7AXbu6oROCRQ" -p 3000:3000 ghcr.io/bcgov/conn-ccbc-portal/ccbc-app:sha-${{ github.sha }}
