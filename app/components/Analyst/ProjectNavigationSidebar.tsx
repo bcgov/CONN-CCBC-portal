@@ -6,7 +6,6 @@ import {
   faCircleArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useMemo, useState } from 'react';
-import { Url } from 'node_modules/next/dist/shared/lib/router/router';
 import cookie from 'js-cookie';
 import { graphql, useFragment } from 'react-relay';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -165,7 +164,7 @@ const ProjectNavigationSidebar = ({ query }) => {
   const handleNavigation = (nextNode) => {
     const currentNode = processCurrentNode();
     const id = nextNode?.id;
-    let newPath: Url;
+    let newPath: string;
 
     // switching between cbc and ccbc application types
     if (nextNode?.type !== currentNode?.type) {
@@ -185,7 +184,7 @@ const ProjectNavigationSidebar = ({ query }) => {
     } else {
       newPath = replacePath(nextNode.type, asPath, id);
     }
-    router.push(newPath);
+    window.location.href = newPath;
   };
 
   return (
