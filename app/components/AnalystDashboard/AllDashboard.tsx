@@ -317,6 +317,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
   const [expanded, setExpanded] = useState({});
   const [globalFilter, setGlobalFilter] = useState(null);
+  // uses rowId for the key to keep track of last visited row
+  const [lastVisitedRow, setLastVisitedRow] = useState<{
+    isCcbc: boolean;
+    rowId: any;
+  } | null>(null);
 
   const expandedRowsRef = useRef({});
 
@@ -437,6 +442,12 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
     if (columnSizingSession) {
       setColumnSizing(JSON.parse(columnSizingSession));
+    }
+
+    const lastVisitedRowId = cookie.get('mrt_last_visited_row_application');
+
+    if (lastVisitedRowId) {
+      setLastVisitedRow(JSON.parse(lastVisitedRowId));
     }
 
     setIsFirstRender(false);
@@ -768,6 +779,14 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const tableHeightOffset = enableTimeMachine ? '460px' : '360px';
 
+  const isLastVisitedRow = (row) => {
+    return (
+      parseInt(lastVisitedRow?.rowId, 10) ===
+        parseInt(row.original.rowId, 10) &&
+      lastVisitedRow?.isCcbc === !row.original.isCbcProject
+    );
+  };
+
   const table = useMaterialReactTable({
     columns,
     data: tableData,
@@ -795,6 +814,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       },
       sx: {
         cursor: 'pointer',
+        backgroundColor: isLastVisitedRow(row)
+          ? 'rgba(178, 178, 178, 0.3)'
+          : 'inherit',
       },
     }),
     enableStickyHeader: freezeHeader,
