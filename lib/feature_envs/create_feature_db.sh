@@ -61,3 +61,6 @@ OPENSHIFT_NAMESPACE=$3
 
 # Patch the Custom Resource
 oc -n $3 patch PostgresCluster "$PG_CLUSTER_NAME" --type=merge --patch="$PATCH_CONTENT"
+
+# Give the cluster 15 seconds to create the new database
+sleep 15
