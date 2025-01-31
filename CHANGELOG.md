@@ -1,3 +1,9 @@
+# [1.231.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.230.0...v1.231.0) (2025-01-31)
+
+### Features
+
+- show Received from RFI ([98069dd](https://github.com/bcgov/CONN-CCBC-portal/commit/98069dd216dea72d02775b5b12b8c95fd43ef58a))
+
 # [1.230.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.229.0...v1.230.0) (2025-01-29)
 
 ### Features
