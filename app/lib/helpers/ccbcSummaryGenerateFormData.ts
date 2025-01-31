@@ -234,12 +234,12 @@ const getFallBackFields = (applicationData, formData, communities) => {
       : null,
     // since we can get non-integers, check if it's a NaN
     totalHouseholdsImpacted: Number.isNaN(
-      formData?.counts?.totalHouseholdsImpacted
+      parseInt(formData?.counts?.totalHouseholdsImpacted, 10)
     )
       ? 'N/A'
       : null,
     numberOfIndigenousHouseholds: Number.isNaN(
-      formData?.counts?.numberOfIndigenousHouseholds
+      parseInt(formData?.counts?.numberOfIndigenousHouseholds, 10)
     )
       ? 'N/A'
       : null,
@@ -415,7 +415,7 @@ const getApplicationErrors = (
   const template9Data =
     applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0];
   const formErrors = validate(
-    { template9Data, allApplicationErs, allApplicationRds },
+    { template9Data, applicationData, allApplicationErs, allApplicationRds },
     review
   );
   return formErrors;

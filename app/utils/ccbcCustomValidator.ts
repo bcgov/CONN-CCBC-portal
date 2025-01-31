@@ -17,10 +17,37 @@ const CCBC_VALIDATIONS = {
       rules: [template9Validation],
     },
     totalHouseholdsImpacted: {
-      rules: [template9Validation],
+      rules: [
+        {
+          condition: (data) => {
+            return Number.isNaN(
+              parseInt(
+                data?.applicationData?.formData?.jsonData?.benefits
+                  ?.numberOfHouseholds,
+                10
+              )
+            );
+          },
+          error:
+            'This value is informed from Template 1 which has not been received from the applicant.',
+        },
+      ],
     },
     numberOfIndigenousHouseholds: {
-      rules: [template9Validation],
+      rules: [
+        {
+          condition: (data) =>
+            Number.isNaN(
+              parseInt(
+                data?.applicationData?.formData?.jsonData?.benefits
+                  ?.householdsImpactedIndigenous,
+                10
+              )
+            ),
+          error:
+            'This value is informed from Template 1 which has not been received from the applicant.',
+        },
+      ],
     },
   },
   locations: {
