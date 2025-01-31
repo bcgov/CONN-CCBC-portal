@@ -21,6 +21,7 @@ describe('The cbc project view', () => {
     cy.sqlFixture('e2e/001_intake');
     cy.sqlFixture('e2e/001_application');
     cy.sqlFixture('e2e/001_application_received');
+    cy.sqlFixture('e2e/001_cbc_project');
     cy.sqlFixture('e2e/001_analyst');
   });
   describe('cbc load tests for each role', () => {
