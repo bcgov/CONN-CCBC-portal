@@ -22,9 +22,9 @@ jobs:
           fetch-depth: 0
       - name: deploy db migrations
         run: |
-          docker run --rm --name ccbc-db -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres:15
+          docker run --name ccbc-db -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres:15
           # Wait for PostgreSQL to be ready
-          until docker exec $(docker ps -q -f ancestor=postgis/postgis:15-3.5) pg_isready -U postgres; do
+          until docker exec ccbc-db pg_isready -U postgres; do
             echo "Waiting for PostgreSQL to be ready..."
             sleep 2
           done
@@ -66,6 +66,8 @@ jobs:
         run: |
           docker run --rm --name ccbc-pgtap -p 5432:5432 -d ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db:latest
           sleep 5
+          docker pull sqitch/sqitch
+          curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
           make create_test_db PSQL="docker exec -i ccbc-pgtap psql -h localhost -U postgres"
           make deploy_test_db_migrations PSQL="docker exec -i ccbc-pgtap psql -h localhost -U postgres" SQITCH="./sqitch -u postgres"
           ./pg_prove -h localhost -U postgres --failures -d ccbc_test db/test/unit/**/*_test.sql)
