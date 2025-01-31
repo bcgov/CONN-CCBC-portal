@@ -793,3 +793,4 @@ computed_columns/application_history [computed_columns/application_history@1.218
 tables/application_map_data 2025-01-28T17:53:59Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # table to hold summary page map data per application
 @1.230.0 2025-01-29T19:05:43Z CCBC Service Account <ccbc@button.is> # release v1.230.0
 @1.231.0 2025-01-31T05:19:13Z CCBC Service Account <ccbc@button.is> # release v1.231.0
+@1.232.0 2025-01-31T17:43:27Z CCBC Service Account <ccbc@button.is> # release v1.232.0

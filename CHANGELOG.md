@@ -1,3 +1,9 @@
+# [1.232.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.231.0...v1.232.0) (2025-01-31)
+
+### Features
+
+- immediate notify application submission ([d41ef7f](https://github.com/bcgov/CONN-CCBC-portal/commit/d41ef7fd47c6fa2fc5714aab6df641e815cd33f9))
+
 # [1.231.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.230.0...v1.231.0) (2025-01-31)
 
 ### Features
