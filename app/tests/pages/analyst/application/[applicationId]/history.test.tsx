@@ -3010,6 +3010,54 @@ const mockQueryPayload = {
               sessionSub: '7af64dcdkl39e8830b297e4b51df6@idir',
               tableName: 'application_dependencies',
             },
+            {
+              applicationId: 1,
+              createdAt: '2025-01-02T18:25:04.719664+00:00',
+              createdBy: 1,
+              externalAnalyst: null,
+              familyName: null,
+              item: null,
+              givenName: null,
+              op: 'INSERT',
+              record: {
+                application_rd: [
+                  {
+                    er: 'North Coast',
+                    rd: 'Regional District of Kitimat-Stikine',
+                  },
+                  {
+                    er: 'Cariboo',
+                    rd: 'Cariboo Regional District',
+                  },
+                ],
+              },
+              oldRecord: [null, null],
+              recordId: '670542c4-54e2-50a0-9c2c-3cc3dff4dbff',
+              sessionSub: '54f0aa1ad196497bb80d05b21c20a1ef@bceidbasic',
+              tableName: 'application_communities',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2025-01-02T18:20:30.935361+00:00',
+              createdBy: 1,
+              externalAnalyst: null,
+              familyName: null,
+              item: null,
+              givenName: null,
+              op: 'INSERT',
+              record: {
+                application_rd: [
+                  {
+                    er: 'Vancouver Island and Coast',
+                    rd: 'Regional District of Mount Waddington',
+                  },
+                ],
+              },
+              oldRecord: [null],
+              recordId: 'd3146e1f-a687-589f-92a5-d996ce0b38e5',
+              sessionSub: '54f0aa1ad196497bb80d05b21c20a1ef@bceidbasic',
+              tableName: 'application_communities',
+            },
           ],
         },
         formData: {
@@ -3469,6 +3517,30 @@ describe('The index page', () => {
       'Bar Foo updated Announcement info on Jul 31, 2024, 8:25 a.m.'
     );
   });
+
+  it('should show the correct history for added and removed communities', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+    const addedCommunities = screen.getAllByText(
+      /Added community location data/
+    );
+    expect(addedCommunities).toHaveLength(2);
+
+    const removedCommunities = screen.getByText(
+      /Deleted community location data/
+    );
+    expect(removedCommunities).toBeInTheDocument();
+
+    const addedCommunityRows = document.querySelectorAll(
+      'tr[data-key^="Added-row"]'
+    );
+    expect(addedCommunityRows).toHaveLength(3);
+
+    const removedCommunityRows = document.querySelectorAll(
+      'tr[data-key^="Deleted-row"]'
+    );
+    expect(removedCommunityRows).toHaveLength(1);
+  });
 });
 
 describe('The filter', () => {
@@ -3495,7 +3567,7 @@ describe('The filter', () => {
     const options = within(dropdown!).getAllByRole('option');
     const optionNames = options.map((option) => option.textContent?.trim());
 
-    expect(options.length).toEqual(18);
+    expect(options.length).toEqual(19);
 
     const expectedOptionNames = [
       'Application Dependencies',
@@ -3516,6 +3588,7 @@ describe('The filter', () => {
       'Application Gis Data',
       'Form Data',
       'Rfi Data',
+      'Application Communities',
     ];
 
     expect(optionNames).toEqual(expect.arrayContaining(expectedOptionNames));

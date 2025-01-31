@@ -53,6 +53,7 @@ const iconMap = {
   application_community_progress_report_data: faTreeCity,
   application_milestone_data: faSignsPost,
   application_project_type: faWifi,
+  application_communities: faClipboardList,
 };
 
 interface Props {

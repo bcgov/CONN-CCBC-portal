@@ -7,6 +7,7 @@ CREATE TABLE ccbc_public.application_rd (
     application_id INTEGER,
     ccbc_number TEXT,
     rd TEXT,
+    er TEXT,
     created_by INTEGER DEFAULT NULL, -- User ID who created the record
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(), -- Timestamp when the record was created
     updated_by INTEGER DEFAULT NULL, -- User ID who last updated the record
@@ -23,19 +24,22 @@ SELECT audit.enable_tracking('ccbc_public.application_rd'::regclass);
 WITH rd_regions AS (
     SELECT
         s.ccbc_numbe AS ccbc_number,
-        r.aa_name AS rd
+        r.aa_name AS rd,
+        er.cnmcrgnnm AS er
     FROM
         ccbc_public.ccbc_applications_coverages s
     LEFT JOIN
         ccbc_public.regional_districts r ON ST_Intersects(ST_makeValid(s.geom), r.geom)
+    LEFT JOIN LATERAL (SELECT er.cnmcrgnnm FROM ccbc_public.economic_regions er ORDER BY ST_Area(ST_Intersection(ST_MakeValid(er.geom), ST_MakeValid(r.geom))) DESC LIMIT 1) er ON true
     ORDER BY
         s.ccbc_numbe
 )
-INSERT INTO ccbc_public.application_rd (application_id, ccbc_number, rd)
+INSERT INTO ccbc_public.application_rd (application_id, ccbc_number, rd, er)
 SELECT
     a.id as application_id,
     rd.ccbc_number,
-    rd.rd
+    rd.rd,
+    rd.er
 FROM
     rd_regions rd
 JOIN
