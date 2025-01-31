@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
       - name: deploy db migrations
         run: |
-          docker run -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgis/postgis:15-3.5
+          docker run -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db:latest
           # Wait for PostgreSQL to be ready
           until docker exec $(docker ps -q -f ancestor=postgis/postgis:15-3.5) pg_isready -U postgres; do
             echo "Waiting for PostgreSQL to be ready..."
@@ -61,9 +61,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-      #   - name: dev env setup
-      #     uses: ./.github/actions/dev-env-setup
       - name: Run Database Unit Tests
-        run: make db_unit_tests
+        run: |
+          docker pull itheory/pg_prove:latest
+          curl -L https://git.io/JUdgg -o pg_prove && chmod +x pg_prove
+          make create_test_db PSQL="docker exec -i ccbc-pgtap psql -h localhost -U postgres"
+          make deploy_test_db_migrations PSQL="docker exec -i ccbc-pgtap psql -h localhost -U postgres" SQITCH="./sqitch"
+          ./pg_prove -h localhost -U postgres --failures -d ccbc_test db/test/unit/**/*_test.sql
       - name: Run Database Style Tests
-        run: make db_style_tests
+        run: ./pg_prove -h localhost -U postgres --failures -d ccbc_test mocks_schema/test/**/*_test.sql
