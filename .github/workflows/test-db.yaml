@@ -68,8 +68,8 @@ jobs:
           sleep 5
           docker pull sqitch/sqitch
           curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
-          make create_test_db PSQL="docker exec -i ccbc-pgtap psql -h localhost -U postgres"
-          make deploy_test_db_migrations PSQL="docker exec -i ccbc-pgtap psql -h localhost -U postgres" SQITCH="./sqitch -u postgres"
+          make create_test_db PSQL="docker exec ccbc-pgtap psql -h localhost -U postgres"
+          make deploy_test_db_migrations PSQL="docker exec ccbc-pgtap psql -h localhost -U postgres" SQITCH="./sqitch -u postgres"
           docker pull itheory/pg_prove:latest
           curl -L https://git.io/JUdgg -o pg_prove && chmod +x pg_prove
           ./pg_prove -h localhost -U postgres --failures -d ccbc_test db/test/unit/**/*_test.sql
