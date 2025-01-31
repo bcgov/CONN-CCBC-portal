@@ -27,6 +27,11 @@ jobs:
     uses: ./.github/workflows/test-code.yaml
     secrets: inherit
 
+  test-db:
+    needs: [install-env]
+    uses: ./.github/workflows/test-db.yaml
+    secrets: inherit
+
   test-checks:
     uses: ./.github/workflows/test-checks.yaml
     secrets: inherit
