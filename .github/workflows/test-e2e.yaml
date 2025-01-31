@@ -50,8 +50,9 @@ jobs:
       - name: Find test files
         id: set-matrix
         run: |
-          FILES=$(find app/cypress/e2e -type f -name "*.cy.js" ! -name "setup.cy.js" | jq -R -s -c 'split("\n")[:-1]')
+          FILES=$(find cypress/e2e -type f -name "*.cy.js" ! -name "setup.cy.js" | jq -R -s -c 'split("\n")[:-1]')
           echo "files=$FILES" >> $GITHUB_OUTPUT
+        working-directory: ./app
   # yarn-test-e2e-applicant:
   #   needs: check-changes
   #   if: ${{ needs.check-changes.outputs.changes-detected == 'true' }}
@@ -129,6 +130,7 @@ jobs:
         run: |
           echo "Running Cypress test for ${{ matrix.file }}"
           yarn run test:e2e --spec '${{ matrix.file }}'
+        working-directory: ./app
 
   yarn-test-e2e-finalize:
     runs-on: ubuntu-latest
