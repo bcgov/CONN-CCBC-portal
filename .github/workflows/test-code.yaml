@@ -2,7 +2,7 @@
 name: test code
 
 env:
-  PGPASSWORD: postgres
+  PGPASSWORD: mysecretpassword
   PGUSER: postgres
   PGDATABASE: ccbc
 
