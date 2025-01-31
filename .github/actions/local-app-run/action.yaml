@@ -8,9 +8,9 @@ runs:
       env:
         PGPASSWORD: mysecretpassword
       run: |
-        docker run --rm -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgis/postgres:15
+        docker run --rm -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres:15
         # Wait for PostgreSQL to be ready
-        until docker exec $(docker ps -q -f ancestor=postgis/postgres:15) pg_isready -U postgres; do
+        until docker exec $(docker ps -q -f ancestor=postgres:15) pg_isready -U postgres; do
           echo "Waiting for PostgreSQL to be ready..."
           sleep 2
         done
