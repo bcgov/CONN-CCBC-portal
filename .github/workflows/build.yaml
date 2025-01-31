@@ -35,6 +35,11 @@ jobs:
             dockerfile: cron/shp/Dockerfile
             name: cron-shp
             build_on_main: true
+          - image: ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db
+            context: .
+            dockerfile: local_setup/unit_tests/Dockerfile
+            name: db-unit-test
+            build_on_main: false
     permissions:
       contents: read
       packages: write
