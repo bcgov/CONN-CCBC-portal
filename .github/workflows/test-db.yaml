@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
       - name: deploy db migrations
         run: |
-          docker run -p 5432:5432 -d ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db:latest
+          docker run --rm --name ccbc-db -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres:15
           # Wait for PostgreSQL to be ready
           until docker exec $(docker ps -q -f ancestor=postgis/postgis:15-3.5) pg_isready -U postgres; do
             echo "Waiting for PostgreSQL to be ready..."
@@ -54,6 +54,7 @@ jobs:
           curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
           ./sqitch --chdir db deploy
           ./sqitch --chdir mocks_schema deploy
+          docker stop ccbc-db
 
   pgtap:
     runs-on: ubuntu-latest
@@ -63,10 +64,12 @@ jobs:
           submodules: recursive
       - name: Run Database Unit Tests
         run: |
-          docker pull itheory/pg_prove:latest
-          curl -L https://git.io/JUdgg -o pg_prove && chmod +x pg_prove
-          make create_test_db PSQL="psql -h localhost -U postgres"
-          make deploy_test_db_migrations PSQL="psql -h localhost -U postgres" SQITCH="./sqitch"
-          ./pg_prove -h localhost -U postgres --failures -d ccbc_test db/test/unit/**/*_test.sql
+          docker run --rm --name ccbc-pgtap -p 5432:5432 -d ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db:latest
+          sleep 5
+          make create_test_db PSQL="docker exec -i ccbc-pgtap psql -h localhost -U postgres")
+          make deploy_test_db_migrations PSQL="docker exec -i ccbc-pgtap psql -h localhost -U postgres" SQITCH="./sqitch -u postgres")
+          ./pg_prove -h localhost -U postgres --failures -d ccbc_test db/test/unit/**/*_test.sql)
+          ./pg_prove -h localhost -U postgres --failures -d ccbc_test mocks_schema/test/**/*_test.sql)
+          docker stop ccbc-pgtap
       - name: Run Database Style Tests
         run: ./pg_prove -h localhost -U postgres --failures -d ccbc_test mocks_schema/test/**/*_test.sql
