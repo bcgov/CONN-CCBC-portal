@@ -28,7 +28,6 @@ jobs:
     secrets: inherit
 
   test-db:
-    needs: [install-env]
     uses: ./.github/workflows/test-db.yaml
     secrets: inherit
 
