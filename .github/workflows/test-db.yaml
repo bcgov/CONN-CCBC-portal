@@ -74,6 +74,7 @@ jobs:
           curl -L https://git.io/JUdgg -o pg_prove && chmod +x pg_prove
           script -q -c "./pg_prove -h localhost -U postgres --failures -d ccbc_test db/test/unit/**/*_test.sql"
           script -q -c "./pg_prove --no-psqlrc -h localhost -U postgres --failures -d ccbc_test mocks_schema/test/**/*_test.sql"
-          docker stop ccbc-pgtap
       - name: Run Database Style Tests
-        run: ./pg_prove -h localhost -U postgres --failures -d ccbc_test mocks_schema/test/**/*_test.sql
+        run: |
+          script -q -c "./pg_prove -h localhost -U postgres --failures -d ccbc_test mocks_schema/test/**/*_test.sql"
+          docker stop ccbc-pgtap
