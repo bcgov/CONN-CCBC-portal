@@ -1,3 +1,9 @@
+# [1.233.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.232.0...v1.233.0) (2025-01-31)
+
+### Features
+
+- update logout modal ([aef6ee1](https://github.com/bcgov/CONN-CCBC-portal/commit/aef6ee10b207caa9868a56ae6cd55fd9fc10e3ae))
+
 # [1.232.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.231.0...v1.232.0) (2025-01-31)
 
 ### Features
