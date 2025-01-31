@@ -3,12 +3,17 @@ begin;
 select mocks.set_mocked_time_in_transaction('2022-10-09 09:00:00-07'::timestamptz);
 
 delete from ccbc_public.record_version cascade;
+delete from ccbc_public.intake_users;
 delete from ccbc_public.ccbc_user cascade;
 
 set jwt.claims.sub to 'mockUser@ccbc_auth_user';
 insert into ccbc_public.ccbc_user
   (id, given_name, family_name, email_address, session_sub) overriding system value values
   (1, 'foo1', 'bar', 'foo1@bar.com', 'mockUser@ccbc_auth_user');
+
+insert into ccbc_public.intake_users
+  (id, intake_id, user_id, created_by, created_at, updated_by, updated_at) overriding system value values
+  (1, 1, 1, 1, '2022-10-17 10:16:45.319172-07', 1, '2022-10-17 10:16:45.319172-07');
 
 insert into ccbc_public.application
 (id, ccbc_number,owner,intake_id,created_by, created_at,updated_by, updated_at)

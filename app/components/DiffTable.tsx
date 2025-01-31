@@ -386,6 +386,50 @@ const generateDiffTable = (
   ) : null;
 };
 
+function createObjectFromSchema(schema, data) {
+  const keys = Object.keys(schema.properties);
+  return keys.reduce((acc, key) => {
+    acc[key] = data[key];
+    return acc;
+  }, {});
+}
+
+export const processArrayDiff = (changes, schema) => {
+  const newArray = [];
+  const oldArray = [];
+
+  const entries = Object.entries(changes);
+  entries.forEach(([key, value]) => {
+    if (key.endsWith('__added') && Array.isArray(value)) {
+      newArray.push(...value);
+    } else if (key.endsWith('__deleted') && Array.isArray(value)) {
+      oldArray.push(...value);
+    } else if (Array.isArray(value)) {
+      value.forEach(([prefix, diffValue]) => {
+        if (prefix === '-') {
+          oldArray.push(diffValue);
+        } else if (prefix === '~') {
+          ['__old', '__new'].forEach((childKey, idx) => {
+            const newObject = createObjectFromSchema(schema, {
+              er: diffValue.er[childKey],
+              rd: diffValue.rd[childKey],
+            });
+            if (idx === 0) {
+              oldArray.push(newObject);
+            } else {
+              newArray.push(newObject);
+            }
+          });
+        } else if (prefix === '+') {
+          newArray.push(diffValue);
+        }
+      });
+    }
+  });
+
+  return [newArray, oldArray];
+};
+
 interface Props {
   changes: any;
   diffSchema: any;

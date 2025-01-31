@@ -14,18 +14,14 @@ LABEL summary="$SUMMARY" \
   maintainer="Romer, Meherzad CITZ:EX <Meherzad.Romer@gov.bc.ca>"
 
 # Environment variables
-ARG GIT_HASH
-ARG SENTRY_AUTH_TOKEN
 ENV USER_ID=1001
 ENV APP_HOME=/application
-ENV GIT_HASH=${GIT_HASH}
-ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 ENV UPLOAD_DIR=${APP_HOME}/uploads
 
 WORKDIR ${APP_HOME}
 
 # Install system dependencies
-RUN apk add --no-cache libc6-compat
+RUN apk add libc6-compat
 
 # 1ST STAGE: INSTALL ALL DEPENDENCIES NEEDED FOR BUILD --
 
@@ -33,9 +29,9 @@ RUN apk add --no-cache libc6-compat
 FROM base AS deps
 
 # Copy only package.json yarn.lock and the patches for caching purposes
-COPY app/patches patches
 COPY app/package.json .
 COPY app/yarn.lock .
+COPY app/patches patches
 
 # Install all dependencies (including dev) to ensure build tools are available
 RUN yarn --frozen-lockfile
@@ -53,11 +49,11 @@ COPY --from=deps ${APP_HOME}/node_modules ./node_modules
 # Copy the application source code
 COPY app/ .
 
-# Build the app (compile Relay, server, and Next.js)
+# Build the app (compile Relay, server, and Next.js) load sentry auth token from secret
 ENV NODE_ENV=production
-RUN yarn build:relay
-RUN yarn build:server
-RUN yarn build:next
+RUN --mount=type=secret,id=sentry_auth_token \
+  SENTRY_AUTH_TOKEN="$(cat /run/secrets/sentry_auth_token)" && \
+  yarn build:relay && yarn build:server && yarn build:next
 
 # -- END OF 2ND STAGE --
 
@@ -67,9 +63,9 @@ RUN yarn build:next
 FROM base AS prod-deps
 
 # Copy only package.json yarn.lock and the patches for caching purposes
-COPY app/patches patches
 COPY app/package.json .
 COPY app/yarn.lock .
+COPY app/patches patches
 
 # Install only production dependencies so this layer can be cached separately
 RUN yarn install --frozen-lockfile --production=true --prefer-offline
@@ -107,9 +103,9 @@ COPY --from=builder --chown=${USER_ID}:0 ${APP_HOME}/dist ./dist
 COPY --from=prod-deps --chown=${USER_ID}:0 ${APP_HOME}/node_modules ./node_modules
 
 # Make sure uploads directory has proper permission
-RUN mkdir -p ${UPLOAD_DIR}
-RUN chown -PR ${USER_ID}:0 ${UPLOAD_DIR}
-RUN chmod -R g+rw ${UPLOAD_DIR}
+RUN mkdir -p ${UPLOAD_DIR} && \
+  chown -PR ${USER_ID}:0 ${UPLOAD_DIR} && \
+  chmod -R g+rw ${UPLOAD_DIR}
 
 # Run as the non-root user
 USER ${USER_ID}

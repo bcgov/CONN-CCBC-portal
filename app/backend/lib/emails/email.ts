@@ -76,6 +76,8 @@ email.post('/api/email/notifyConditionalApproval', limiter, (req, res) => {
 
 email.post('/api/email/notifyApplicationSubmission', limiter, (req, res) => {
   const { params } = req.body;
+  req.claims = req.claims || ({} as any);
+  req.claims.identity_provider = 'serviceaccount';
   return handleEmailNotification(req, res, notifyApplicationSubmission, {
     ...params,
   });

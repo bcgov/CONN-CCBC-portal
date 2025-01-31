@@ -21,9 +21,6 @@ spec:
           image: {{ .Values.image.psql.repository }}:{{ default .Values.defaultImageTag .Values.image.psql.tag }}
           imagePullPolicy:  {{ .Values.image.db.pullPolicy }}
           resources:
-            limits:
-              cpu: 1000m
-              memory: 128Mi
             requests:
               cpu: 100m
               memory: 64Mi

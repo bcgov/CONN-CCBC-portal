@@ -1,3 +1,45 @@
+# [1.232.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.231.0...v1.232.0) (2025-01-31)
+
+### Features
+
+- immediate notify application submission ([d41ef7f](https://github.com/bcgov/CONN-CCBC-portal/commit/d41ef7fd47c6fa2fc5714aab6df641e815cd33f9))
+
+# [1.231.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.230.0...v1.231.0) (2025-01-31)
+
+### Features
+
+- show Received from RFI ([98069dd](https://github.com/bcgov/CONN-CCBC-portal/commit/98069dd216dea72d02775b5b12b8c95fd43ef58a))
+
+# [1.230.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.229.0...v1.230.0) (2025-01-29)
+
+### Features
+
+- cache application map data ([ae5677b](https://github.com/bcgov/CONN-CCBC-portal/commit/ae5677b1a0ec60c29539188bbf74fc38ce0fbeee))
+
+# [1.229.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.228.0...v1.229.0) (2025-01-28)
+
+### Features
+
+- claims importer more flexible and handle new claims sheet ([a654ebd](https://github.com/bcgov/CONN-CCBC-portal/commit/a654ebd8a3b2c001df7c1e11ec43e93c0b184c07))
+
+# [1.228.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.227.0...v1.228.0) (2025-01-28)
+
+### Features
+
+- enable history on ccbc communities ([57fcee5](https://github.com/bcgov/CONN-CCBC-portal/commit/57fcee59c5a3eec7cb01c7039dab1d2308a5c744))
+
+# [1.227.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.226.1...v1.227.0) (2025-01-27)
+
+### Bug Fixes
+
+- set proper cache-to ([9fad52e](https://github.com/bcgov/CONN-CCBC-portal/commit/9fad52e27f2c83876cfffc97be4cebbcc9afd062))
+
+### Features
+
+- enable intake by user ([2b9cce4](https://github.com/bcgov/CONN-CCBC-portal/commit/2b9cce4d95090889bd7058d0c81ce8a2082a71c6))
+
+## [1.226.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.226.0...v1.226.1) (2025-01-24)
+
 # [1.226.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.225.0...v1.226.0) (2025-01-22)
 
 ### Features

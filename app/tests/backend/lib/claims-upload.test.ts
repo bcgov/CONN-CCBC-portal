@@ -76,6 +76,36 @@ describe('The Claims excel import api route', () => {
     expect(response.status).toBe(200);
   });
 
+  it('should process uploaded file for new format', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          createApplicationClaimsData: {
+            applicationClaimsData: { rowId: 1 },
+          },
+        },
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/claims/10/CCBC-010001/undefined/undefined')
+      .set('Content-Type', 'application/json')
+      .set('Connection', 'keep-alive')
+      .field('data', JSON.stringify({ name: 'claims-data' }))
+      // replace with claims file once we receive it
+      .attach('claims-data', `${__dirname}/claims_new_format.xlsx`)
+      .expect(200);
+
+    expect(response.status).toBe(200);
+  });
+
   it('should return error if file does not have expected worksheets', async () => {
     mocked(getAuthRole).mockImplementation(() => {
       return {
@@ -119,6 +149,44 @@ describe('The Claims excel import api route', () => {
       .set('Connection', 'keep-alive')
       .field('data', JSON.stringify({ name: 'claims-data' }))
       .attach('claims-data', `${__dirname}/claims_empty.xlsx`)
+      .expect(400);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual([
+      {
+        error: 'Invalid data: Claim number',
+        level: 'cell',
+      },
+      { level: 'cell', error: 'Invalid data: Date request received' },
+      {
+        level: 'cell',
+        error: 'Invalid data: Eligible costs incurred from date',
+      },
+      {
+        level: 'cell',
+        error: 'Invalid data: Eligible costs incurred to date',
+      },
+      {
+        error:
+          'CCBC Number mismatch: expected CCBC-010001, received: undefined',
+      },
+    ]);
+  });
+
+  it('should return correct errors for excel with empty fields for new format', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/analyst/claims/10/CCBC-010001/undefined/undefined')
+      .set('Content-Type', 'application/json')
+      .set('Connection', 'keep-alive')
+      .field('data', JSON.stringify({ name: 'claims-data' }))
+      .attach('claims-data', `${__dirname}/claims_new_format_empty.xlsx`)
       .expect(400);
 
     expect(response.status).toBe(400);
