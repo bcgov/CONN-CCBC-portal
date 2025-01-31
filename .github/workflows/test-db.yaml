@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
       - name: deploy db migrations
         run: |
-          docker run -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db:latest
+          docker run -p 5432:5432 -d ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db:latest
           # Wait for PostgreSQL to be ready
           until docker exec $(docker ps -q -f ancestor=postgis/postgis:15-3.5) pg_isready -U postgres; do
             echo "Waiting for PostgreSQL to be ready..."
