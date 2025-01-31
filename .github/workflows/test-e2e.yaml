@@ -128,7 +128,7 @@ jobs:
           HAPPO_NONCE: ${{ github.sha }}
         run: |
           echo "Running Cypress test for ${{ matrix.file }}"
-          yarn run test:e2e --spec ${{ matrix.file }}
+          yarn run test:e2e --spec '${{ matrix.file }}'
 
   yarn-test-e2e-finalize:
     runs-on: ubuntu-latest
