@@ -39,7 +39,7 @@ jobs:
             context: .
             dockerfile: local_setup/unit_tests/Dockerfile
             name: db-unit-test
-            build_on_main: false
+            build_on_main: true
     permissions:
       contents: read
       packages: write
