@@ -1,3 +1,9 @@
+# [1.234.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.233.0...v1.234.0) (2025-01-31)
+
+### Features
+
+- allow selects to not have null value ([a7c798c](https://github.com/bcgov/CONN-CCBC-portal/commit/a7c798cd3e5ef0486458c4bf124412d32a4809cf))
+
 # [1.233.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.232.0...v1.233.0) (2025-01-31)
 
 ### Features
