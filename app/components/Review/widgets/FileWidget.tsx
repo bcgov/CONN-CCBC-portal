@@ -115,7 +115,7 @@ const FileWidget: React.FC<WidgetProps> = ({
                     </StyledSingleDetails>
                   ) : (
                     <StyledDetails>
-                      <span>Received from {rfi.rfiNumber}</span>
+                      <span>Received from RFI: {rfi.rfiNumber}</span>
                       <span>{fileDate}</span>
                     </StyledDetails>
                   )}

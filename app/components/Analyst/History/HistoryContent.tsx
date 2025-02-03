@@ -392,11 +392,23 @@ const HistoryContent = ({
   }
 
   if (tableName === 'application_package') {
+    const newPackage = record?.package ?? 'Unassigned';
+    const previousPackage = prevHistoryItem?.record?.package ?? null;
+
+    let change = 'updated';
+    if (newPackage === 'Unassigned') {
+      change = 'removed';
+    } else if (previousPackage === null) {
+      change = 'assigned';
+    }
+
     return (
       <StyledContent data-testid="history-content-package">
         <span>
-          {displayName} added the application to a <b>Package</b> on{' '}
-          {createdAtFormatted}
+          {displayName} {change} the application{' '}
+          {change === 'assigned' ? 'to' : 'from'}{' '}
+          <b>Package {previousPackage}</b> {change !== 'assigned' && 'to'}{' '}
+          <b>{newPackage}</b> on {createdAtFormatted}
         </span>
       </StyledContent>
     );

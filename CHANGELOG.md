@@ -1,3 +1,35 @@
+## [1.234.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.234.1...v1.234.2) (2025-02-03)
+
+### Bug Fixes
+
+- archive old community progress data on new data upload ([771ab30](https://github.com/bcgov/CONN-CCBC-portal/commit/771ab305e849c1fb7fcf8b014b305433dc5b4a33))
+
+## [1.234.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.234.0...v1.234.1) (2025-02-03)
+
+# [1.234.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.233.0...v1.234.0) (2025-01-31)
+
+### Features
+
+- allow selects to not have null value ([a7c798c](https://github.com/bcgov/CONN-CCBC-portal/commit/a7c798cd3e5ef0486458c4bf124412d32a4809cf))
+
+# [1.233.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.232.0...v1.233.0) (2025-01-31)
+
+### Features
+
+- update logout modal ([aef6ee1](https://github.com/bcgov/CONN-CCBC-portal/commit/aef6ee10b207caa9868a56ae6cd55fd9fc10e3ae))
+
+# [1.232.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.231.0...v1.232.0) (2025-01-31)
+
+### Features
+
+- immediate notify application submission ([d41ef7f](https://github.com/bcgov/CONN-CCBC-portal/commit/d41ef7fd47c6fa2fc5714aab6df641e815cd33f9))
+
+# [1.231.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.230.0...v1.231.0) (2025-01-31)
+
+### Features
+
+- show Received from RFI ([98069dd](https://github.com/bcgov/CONN-CCBC-portal/commit/98069dd216dea72d02775b5b12b8c95fd43ef58a))
+
 # [1.230.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.229.0...v1.230.0) (2025-01-29)
 
 ### Features
