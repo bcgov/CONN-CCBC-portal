@@ -1,3 +1,9 @@
+## [1.234.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.234.1...v1.234.2) (2025-02-03)
+
+### Bug Fixes
+
+- archive old community progress data on new data upload ([771ab30](https://github.com/bcgov/CONN-CCBC-portal/commit/771ab305e849c1fb7fcf8b014b305433dc5b4a33))
+
 ## [1.234.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.234.0...v1.234.1) (2025-02-03)
 
 # [1.234.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.233.0...v1.234.0) (2025-01-31)
