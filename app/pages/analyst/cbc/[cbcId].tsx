@@ -424,6 +424,7 @@ const Cbc = ({
             errors: formErrors,
             showErrorHint: true,
             recordLocked,
+            editMode,
             geographicNamesByRegionalDistrict,
             regionalDistrictsByEconomicRegion,
             economicRegions: allEconomicRegions,
