@@ -1,3 +1,9 @@
+# [1.235.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.234.2...v1.235.0) (2025-02-03)
+
+### Features
+
+- make cbc project locations take full width ([1f6bf14](https://github.com/bcgov/CONN-CCBC-portal/commit/1f6bf1449164403ae485a7458ec56e8a811485db))
+
 ## [1.234.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.234.1...v1.234.2) (2025-02-03)
 
 ### Bug Fixes
