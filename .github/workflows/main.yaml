@@ -27,6 +27,10 @@ jobs:
     uses: ./.github/workflows/test-code.yaml
     secrets: inherit
 
+  test-db:
+    uses: ./.github/workflows/test-db.yaml
+    secrets: inherit
+
   test-checks:
     uses: ./.github/workflows/test-checks.yaml
     secrets: inherit
@@ -41,7 +45,7 @@ jobs:
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
 
   test-zap:
-    needs: [build, install-env]
+    needs: [build]
     uses: ./.github/workflows/test-zap.yaml
 
   test-e2e:
@@ -165,7 +169,7 @@ jobs:
 
   deploy:
     if: github.event.ref == 'refs/heads/main'
-    needs: [test-code, test-containers]
+    needs: [build]
     uses: ./.github/workflows/deploy.yaml
     secrets:
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}

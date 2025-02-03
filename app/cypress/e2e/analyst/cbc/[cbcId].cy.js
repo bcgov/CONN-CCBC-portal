@@ -17,10 +17,10 @@ describe('The cbc project view', () => {
     const mockedDateString = '2024-01-03';
     const mockedDate = new Date(mockedDateString);
     cy.useMockedTime(mockedDate);
-    cy.sqlFixture('e2e/reset_db');
+    cy.sqlFixture('e2e/reset_db_all');
     cy.sqlFixture('e2e/001_intake');
-    cy.sqlFixture('e2e/001_application');
-    cy.sqlFixture('e2e/001_application_received');
+    cy.sqlFixture('e2e/001_received_applications');
+    cy.sqlFixture('e2e/001_cbc_project');
     cy.sqlFixture('e2e/001_analyst');
   });
   describe('cbc load tests for each role', () => {
