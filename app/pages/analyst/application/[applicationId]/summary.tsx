@@ -246,14 +246,20 @@ const Summary = ({
           ...formData,
           map: { map: { json, setIsMapExpanded } },
         });
+      } else {
+        setFinalFormData(formData);
       }
     };
 
     fetchData();
-  }, []);
+  }, [applicationId, showMap]);
 
   return (
-    <Layout session={session} title="Connecting Communities BC">
+    <Layout
+      session={session}
+      title="Connecting Communities BC"
+      provisionRightNav
+    >
       <AnalystLayout
         query={query}
         mapData={mapData}

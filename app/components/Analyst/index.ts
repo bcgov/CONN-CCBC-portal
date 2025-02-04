@@ -8,3 +8,4 @@ export { default as EditProjectDescription } from './EditProjectDescription';
 export { default as NavigationSidebar } from './NavigationSidebar';
 export { default as NavItem } from './NavItem';
 export { default as PendingChangeRequest } from './PendingChangeRequest/PendingChangeRequest';
+export { default as ProjectNavigationSidebar } from './ProjectNavigationSidebar';

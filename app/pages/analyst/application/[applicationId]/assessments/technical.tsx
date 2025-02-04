@@ -66,7 +66,11 @@ const TechnicalAssessment = ({
   };
 
   return (
-    <Layout session={session} title="Connecting Communities BC">
+    <Layout
+      session={session}
+      title="Connecting Communities BC"
+      provisionRightNav
+    >
       <AnalystLayout query={query}>
         <AssessmentsTabs />
         <StyledInfoBarDiv>

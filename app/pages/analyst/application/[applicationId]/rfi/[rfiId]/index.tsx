@@ -26,7 +26,11 @@ const RfiId = ({
   const query = usePreloadedQuery(getRfiIdQuery, preloadedQuery);
   const { session, rfiDataByRowId } = query;
   return (
-    <Layout session={session} title="Connecting Communities BC">
+    <Layout
+      session={session}
+      title="Connecting Communities BC"
+      provisionRightNav
+    >
       <AnalystLayout query={query}>
         <h2>RFI</h2>
         <hr />

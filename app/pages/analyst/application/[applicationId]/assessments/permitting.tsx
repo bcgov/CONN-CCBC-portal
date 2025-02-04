@@ -47,7 +47,11 @@ const PermittingAssessment = ({
   const { applicationByRowId, session } = query;
 
   return (
-    <Layout session={session} title="Connecting Communities BC">
+    <Layout
+      session={session}
+      title="Connecting Communities BC"
+      provisionRightNav
+    >
       <AnalystLayout query={query}>
         <AssessmentsTabs />
         <AssessmentsForm

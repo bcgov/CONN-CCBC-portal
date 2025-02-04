@@ -30,7 +30,11 @@ const Assessments = ({
   const { applicationByRowId, session } = query;
 
   return (
-    <Layout session={session} title="Connecting Communities BC">
+    <Layout
+      session={session}
+      title="Connecting Communities BC"
+      provisionRightNav
+    >
       <AnalystLayout query={query}>
         <h2>Assessments</h2>
         <hr />

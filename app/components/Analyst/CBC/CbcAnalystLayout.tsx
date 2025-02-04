@@ -3,6 +3,7 @@ import { graphql, useFragment } from 'react-relay';
 import FormDiv from 'components/FormDiv';
 import NavigationSidebar from './NavigationSidebar';
 import CbcHeader from './CbcHeader';
+import ProjectNavigationSidebar from '../ProjectNavigationSidebar';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -17,6 +18,13 @@ const StyledFlex = styled.div`
 
 const StyledFormDiv = styled(FormDiv)`
   max-width: 100%;
+`;
+
+const StyledOuterContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  width: 100%;
 `;
 
 interface Props {
@@ -34,18 +42,22 @@ const CbcAnalystLayout: React.FC<Props> = ({
     graphql`
       fragment CbcAnalystLayout_query on Query {
         ...CbcHeader_query
+        ...ProjectNavigationSidebar_query
       }
     `,
     query
   );
   return (
-    <StyledContainer>
-      <CbcHeader query={queryFragment} isFormEditable={isFormEditable} />
-      <StyledFlex>
-        <NavigationSidebar />
-        <StyledFormDiv>{children}</StyledFormDiv>
-      </StyledFlex>
-    </StyledContainer>
+    <StyledOuterContainer>
+      <StyledContainer>
+        <CbcHeader query={queryFragment} isFormEditable={isFormEditable} />
+        <StyledFlex>
+          <NavigationSidebar />
+          <StyledFormDiv>{children}</StyledFormDiv>
+        </StyledFlex>
+      </StyledContainer>
+      <ProjectNavigationSidebar query={queryFragment} />
+    </StyledOuterContainer>
   );
 };
 

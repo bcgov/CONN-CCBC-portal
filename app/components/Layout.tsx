@@ -13,6 +13,7 @@ const StyledFooter = styled(Footer)`
 `;
 interface MainProps {
   maxWidthOverride?: string;
+  provisionRightNav?: boolean;
 }
 
 const StyledLayout = styled('div')`
@@ -26,10 +27,21 @@ const StyledLayout = styled('div')`
 const StyledMain = styled('main')<MainProps>`
   display: flex;
   width: 100%;
-  max-width: ${({ maxWidthOverride, theme }) =>
-    maxWidthOverride || theme.width.pageMaxWidth};
   flex: 1;
   padding: 1em 2em;
+
+  ${({ theme, provisionRightNav, maxWidthOverride }) => {
+    const { pageMaxWidth } = theme.width;
+    const dynamicCalc = `calc(${pageMaxWidth} - 4em + ((100vw - ${pageMaxWidth}) / 2))`;
+    const dynamicMargin = `calc(((100vw - ${pageMaxWidth}) / 2) - 4em)`;
+
+    return {
+      maxWidth: provisionRightNav
+        ? dynamicCalc
+        : (maxWidthOverride ?? pageMaxWidth),
+      marginLeft: provisionRightNav ? dynamicMargin : '0',
+    };
+  }}
 `;
 
 const StyledDiv = styled('div')`
@@ -43,6 +55,7 @@ type Props = {
   children: JSX.Element | JSX.Element[] | string | string[];
   maxWidthOverride?: string;
   session: any;
+  provisionRightNav?: boolean;
 };
 
 const Layout: React.FC<Props> = ({
@@ -50,6 +63,7 @@ const Layout: React.FC<Props> = ({
   maxWidthOverride,
   session,
   title,
+  provisionRightNav = false,
 }) => {
   const enableTimeMachine = runtimeConfig.ENABLE_MOCK_TIME;
   const isLoggedIn = session?.sub;
@@ -84,7 +98,12 @@ const Layout: React.FC<Props> = ({
         <link rel="icon" href="/icons/bcid-favicon-32x32.png" />
       </Head>
       <Navigation isLoggedIn={isLoggedIn} />
-      <StyledMain maxWidthOverride={maxWidthOverride}>{children}</StyledMain>
+      <StyledMain
+        maxWidthOverride={maxWidthOverride}
+        provisionRightNav={provisionRightNav}
+      >
+        {children}
+      </StyledMain>
       {enableTimeMachine && (
         <StyledDiv style={{ paddingLeft: '16px' }}>
           <TimeTravel />
