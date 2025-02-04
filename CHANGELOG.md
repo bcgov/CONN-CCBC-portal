@@ -1,3 +1,10 @@
+# [1.236.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.235.1...v1.236.0) (2025-02-04)
+
+### Features
+
+- allow kml uploads ([f1f1945](https://github.com/bcgov/CONN-CCBC-portal/commit/f1f1945b65ad2e36f266af721e181cfde3ce9181))
+- update text for upload of kmz or kml in project information ([6037ddc](https://github.com/bcgov/CONN-CCBC-portal/commit/6037ddcba527c4199feb331c4b0977e2aecd1a23))
+
 ## [1.235.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.235.0...v1.235.1) (2025-02-03)
 
 # [1.235.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.234.2...v1.235.0) (2025-02-03)
