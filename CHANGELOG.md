@@ -1,3 +1,15 @@
+# [1.237.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.235.1...v1.237.0) (2025-02-04)
+
+### Bug Fixes
+
+- data not switchin on navigation issue ([1ac213a](https://github.com/bcgov/CONN-CCBC-portal/commit/1ac213a0808ecee80dae4a39e0b8e47f8115fa70))
+
+### Features
+
+- add project navigation to right ([a92bcd9](https://github.com/bcgov/CONN-CCBC-portal/commit/a92bcd9b452f1d64bf06e32d8cce6cd3b3e053c3))
+- allow kml uploads ([01275da](https://github.com/bcgov/CONN-CCBC-portal/commit/01275dafef7a4b3cf466601ad3e3722bf2550a57))
+- update text for upload of kmz or kml in project information ([32d1c2f](https://github.com/bcgov/CONN-CCBC-portal/commit/32d1c2f2486e19fc12ec1f169973b2d6f4d10e37))
+
 # [1.236.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.235.1...v1.236.0) (2025-02-04)
 
 ### Features
