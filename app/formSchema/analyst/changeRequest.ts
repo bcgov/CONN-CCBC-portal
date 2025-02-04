@@ -55,7 +55,7 @@ const changeRequest: RJSFSchema = {
       type: 'string',
     },
     updatedMapUpload: {
-      title: 'Upload updated spatial data (kmz)',
+      title: 'Upload updated spatial data (KMZ or KML)',
       type: 'string',
     },
     otherFiles: {
