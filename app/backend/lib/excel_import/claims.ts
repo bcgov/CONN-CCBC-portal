@@ -772,6 +772,7 @@ const LoadClaimsData = async (wb, sheet_1, sheet_2, req) => {
       input: {
         _applicationId: data._applicationId,
         _jsonData: data._jsonData,
+        _oldId: Number.isNaN(data._oldId) ? null : data._oldId,
       },
     },
     req

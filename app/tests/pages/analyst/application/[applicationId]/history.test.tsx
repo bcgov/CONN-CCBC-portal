@@ -3249,7 +3249,7 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-package')[0]
     ).toHaveTextContent(
-      'Foo Bar added the application to a Package on Mar 6, 2023, 9:24 a.m.'
+      'Foo Bar assigned the application to Package 6 on Mar 6, 2023, 9:24 a.m.'
     );
   });
 

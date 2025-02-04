@@ -137,7 +137,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
       return dateB.getTime() - dateA.getTime();
     });
 
-  const apiPath = `/api/analyst/community-report/${applicationRowId}/${currentCommunityProgressData?.rowId}`;
+  const apiPath = `/api/analyst/community-report/${applicationRowId}/${currentCommunityProgressData?.excelDataId}`;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const validateCommunityReport = useCallback(
@@ -146,7 +146,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
       setExcelFile,
       setCommunityProgressValidationErrors
     ),
-    [setExcelFile]
+    [setExcelFile, apiPath]
   );
 
   const hasValidationErrors =

@@ -307,6 +307,7 @@ const LoadCommunityReportData = async (wb, sheet_name, req) => {
       input: {
         _applicationId: data._applicationId,
         _jsonData: data._jsonData,
+        _oldId: !Number.isNaN(data._oldId) ? data._oldId : null,
       },
     },
     req

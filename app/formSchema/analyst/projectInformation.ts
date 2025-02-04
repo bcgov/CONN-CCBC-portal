@@ -45,7 +45,7 @@ const projectInformation: RJSFSchema = {
               type: 'string',
             },
             finalizedMapUpload: {
-              title: 'Upload the finalized spatial data (kmz)',
+              title: 'Upload finalized spatial data (KMZ or KML)',
               type: 'string',
             },
             otherFiles: {

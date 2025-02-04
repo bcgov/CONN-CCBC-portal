@@ -6,6 +6,7 @@ const locationsUiSchema = {
   projectLocations: {
     'ui:widget': 'TextAreaWidget',
     'ui:label': 'Project Locations',
+    'ui:hidetitleineditmode': true,
   },
   geographicNames: {
     'ui:hidden': true,
