@@ -41,7 +41,7 @@ describe('The Analyst Dashboard', () => {
         cy.wait(2000);
 
         // Click on a specific dashboard row
-        cy.contains('a', 'CCBC-010001').click();
+        cy.contains('td', 'CCBC-010001').click();
 
         // Verify the URL after clicking
         cy.url().should('include', '/analyst/application/');
