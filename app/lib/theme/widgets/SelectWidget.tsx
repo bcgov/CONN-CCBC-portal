@@ -76,8 +76,8 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
   // @ts-ignore
   const options = objectOptions ?? (schema.enum as Array<string>);
   const description = uiSchema ? uiSchema['ui:description'] : null;
+  const showNull = uiSchema?.['ui:shownull'] ?? true;
   const isError = rawErrors && rawErrors.length > 0 && !value;
-
   return (
     <StyledDiv className="select-widget-wrapper">
       <StyledSelect
@@ -95,9 +95,12 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
         value={value}
         aria-label={label}
       >
-        <option key={`option-placeholder-${id}`} value={undefined}>
-          {placeholder}
-        </option>
+        {showNull && (
+          <option key={`option-placeholder-${id}`} value={undefined}>
+            {placeholder}
+          </option>
+        )}
+        ;
         {options?.map((opt, index) => {
           return (
             <option

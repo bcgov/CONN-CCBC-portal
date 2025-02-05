@@ -35,7 +35,7 @@ const projectInformationUiSchema = {
   finalizedMapUpload: {
     'ui:widget': 'FileWidget',
     'ui:options': {
-      fileTypes: '.kmz',
+      fileTypes: '.kmz, .kml',
       allowMultipleFiles: true,
       allowDragAndDrop: true,
     },

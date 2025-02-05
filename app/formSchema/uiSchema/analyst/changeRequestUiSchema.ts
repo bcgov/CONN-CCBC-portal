@@ -71,7 +71,7 @@ const changeRequestUiSchema = {
     'ui:widget': 'FileWidget',
     'ui:options': {
       flexDirection: 'column',
-      fileTypes: '.kmz',
+      fileTypes: '.kmz, .kml',
       allowMultipleFiles: true,
       allowDragAndDrop: true,
     },

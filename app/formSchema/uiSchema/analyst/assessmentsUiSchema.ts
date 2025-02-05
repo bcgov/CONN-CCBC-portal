@@ -45,12 +45,14 @@ const assessmentsUiSchema = {
   },
   connectedCoastNetworkDependent: {
     'ui:widget': 'SelectWidget',
+    'ui:shownull': false,
     'ui:options': {
       boldTitle: true,
     },
   },
   crtcProjectDependent: {
     'ui:widget': 'SelectWidget',
+    'ui:shownull': false,
     'ui:options': {
       boldTitle: true,
     },

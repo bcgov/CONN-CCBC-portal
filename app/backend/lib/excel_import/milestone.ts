@@ -244,7 +244,7 @@ const LoadMilestoneData = async (wb, sheets, req) => {
       input: {
         _applicationId: data._applicationId,
         _jsonData: data._jsonData,
-        _oldId: data._oldId || null,
+        _oldId: Number.isNaN(data._oldId) ? null : data._oldId,
       },
     },
     req

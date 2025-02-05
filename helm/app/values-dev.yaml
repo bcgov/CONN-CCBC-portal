@@ -19,7 +19,7 @@ crunchy-postgres:
     retention: '1'
   instances:
     dataVolumeClaimSpec:
-      storage: 5Gi
+      storage: 20Gi
 
 metabase:
   prodIngress:

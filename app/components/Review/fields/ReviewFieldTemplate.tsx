@@ -30,7 +30,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   )
     return children;
 
-  const title =
+  const fieldTitle =
     (uiSchema?.['ui:options']?.customTitle as JSX.Element) ?? schema.title;
 
   const isExcludeTableFormat = uiSchema?.['ui:options']?.excludeTableFormat;
@@ -44,6 +44,10 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   const fieldName = id?.split('_')?.[2];
   const pageName = id?.split('_')?.[1];
   const showErrorHint = formContext?.showErrorHint ?? false;
+  const editMode = formContext?.editMode;
+  const hideTitleInEditMode = uiSchema?.['ui:hidetitleineditmode'];
+  const showTitle = !(editMode === true && hideTitleInEditMode === true);
+  const title = showTitle ? fieldTitle : null;
 
   const formErrorSchema = formContext?.formErrorSchema ?? formContext.errors;
   const {
@@ -63,13 +67,16 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
     <>
       {before}
       <tr>
-        {title && <StyledColLeft id={`${id}_title`}>{title}</StyledColLeft>}
+        {showTitle && title && (
+          <StyledColLeft id={`${id}_title`}>{title}</StyledColLeft>
+        )}
         <StyledColRight
           data-testid={`${id}-value`}
           hasError={hasError}
           errorColor={errorColor}
           errorTextColor={errorTextColor}
         >
+          {!showTitle && fieldTitle}
           {children}
           {hasError && showErrorHint && hasFormContextError && (
             <Tooltip

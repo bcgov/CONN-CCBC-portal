@@ -792,3 +792,12 @@ computed_columns/application_history [computed_columns/application_history@1.218
 @1.229.0 2025-01-28T23:58:35Z CCBC Service Account <ccbc@button.is> # release v1.229.0
 tables/application_map_data 2025-01-28T17:53:59Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # table to hold summary page map data per application
 @1.230.0 2025-01-29T19:05:43Z CCBC Service Account <ccbc@button.is> # release v1.230.0
+@1.231.0 2025-01-31T05:19:13Z CCBC Service Account <ccbc@button.is> # release v1.231.0
+@1.232.0 2025-01-31T17:43:27Z CCBC Service Account <ccbc@button.is> # release v1.232.0
+@1.233.0 2025-01-31T22:40:56Z CCBC Service Account <ccbc@button.is> # release v1.233.0
+@1.234.0 2025-01-31T23:42:58Z CCBC Service Account <ccbc@button.is> # release v1.234.0
+@1.234.1 2025-02-03T04:26:41Z CCBC Service Account <ccbc@button.is> # release v1.234.1
+@1.234.2 2025-02-03T04:52:00Z CCBC Service Account <ccbc@button.is> # release v1.234.2
+@1.235.0 2025-02-03T16:58:59Z CCBC Service Account <ccbc@button.is> # release v1.235.0
+@1.235.1 2025-02-03T22:52:39Z CCBC Service Account <ccbc@button.is> # release v1.235.1
+@1.236.0 2025-02-04T16:28:48Z CCBC Service Account <ccbc@button.is> # release v1.236.0
