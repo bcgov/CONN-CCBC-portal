@@ -43,6 +43,10 @@ const mockQueryPayload = {
         rfi: {
           updatedAt: '2022-12-01',
         },
+        formData: {
+          jsonData: {},
+          formSchemaId: 'test',
+        },
         projectName: 'projName',
         status: 'Received',
       },
@@ -217,59 +221,71 @@ describe('The applicantRfiId Page', () => {
       fireEvent.click(screen.getByRole('button', { name: 'Save' }));
     });
 
-    pageTestingHelper.expectMutationToBeCalled(
-      'updateWithTrackingRfiMutation',
-      {
-        input: {
-          jsonData: {
-            rfiType: [],
-            rfiAdditionalFiles: {
-              eligibilityAndImpactsCalculatorRfi: true,
-              detailedBudgetRfi: true,
-              eligibilityAndImpactsCalculator: [
-                {
-                  id: 1,
-                  uuid: 'string',
-                  name: 'file.xlsx',
-                  size: 1,
-                  type: 'application/vnd.ms-excel',
-                  uploadedAt: expect.anything(),
-                },
-              ],
-              detailedBudget: [
-                {
-                  id: 2,
-                  uuid: 'string',
-                  name: 'file.xlsx',
-                  size: 1,
-                  type: 'application/vnd.ms-excel',
-                  uploadedAt: expect.anything(),
-                },
-              ],
-              geographicCoverageMapRfi: true,
-              geographicCoverageMap: [
-                {
-                  uuid: 1,
-                  name: '1.kmz',
-                  size: 0,
-                  type: '',
-                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
-                },
-                {
-                  uuid: 2,
-                  name: '2.kmz',
-                  size: 0,
-                  type: '',
-                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
-                },
-              ],
-            },
-            rfiDueBy: '2022-12-22',
+    pageTestingHelper.expectMutationToBeCalled('updateRfiAndFormDataMutation', {
+      rfiInput: {
+        jsonData: {
+          rfiType: [],
+          rfiAdditionalFiles: {
+            detailedBudgetRfi: true,
+            eligibilityAndImpactsCalculatorRfi: true,
+            geographicCoverageMapRfi: true,
+            geographicCoverageMap: [
+              {
+                uuid: 1,
+                name: '1.kmz',
+                size: 0,
+                type: '',
+                uploadedAt: expect.anything(),
+              },
+              {
+                uuid: 2,
+                name: '2.kmz',
+                size: 0,
+                type: '',
+                uploadedAt: expect.anything(),
+              },
+            ],
+            eligibilityAndImpactsCalculator: [
+              {
+                id: 1,
+                uuid: 'string',
+                name: 'file.xlsx',
+                size: 1,
+                type: 'application/vnd.ms-excel',
+                uploadedAt: expect.anything(),
+              },
+            ],
+            detailedBudget: [
+              {
+                id: 2,
+                uuid: 'string',
+                name: 'file.xlsx',
+                size: 1,
+                type: 'application/vnd.ms-excel',
+                uploadedAt: expect.anything(),
+              },
+            ],
           },
-          rfiRowId: 1,
+          rfiDueBy: '2022-12-22',
         },
-      }
-    );
+        rfiRowId: 1,
+      },
+      formInput: {
+        applicationRowId: 1,
+        jsonData: {
+          benefits: {
+            householdsImpactedIndigenous: 60,
+            numberOfHouseholds: 4,
+          },
+          budgetDetails: {
+            totalEligibleCosts: 92455,
+            totalProjectCost: 101230,
+          },
+        },
+        reasonForChange: 'Auto updated from upload for RFI: CCBC-01001-01',
+        formSchemaId: 'test',
+      },
+    });
   });
   it('uses template 1 and 2 data to notify if failed template read', async () => {
     pageTestingHelper.loadQuery();
@@ -308,7 +324,7 @@ describe('The applicantRfiId Page', () => {
       fireEvent.change(inputFile, { target: { files: [file] } });
     });
 
-    act(() => {
+    await act(async () => {
       pageTestingHelper.environment.mock.resolveMostRecentOperation({
         data: {
           createAttachment: {
@@ -328,10 +344,13 @@ describe('The applicantRfiId Page', () => {
       '/api/applicant/template?templateNumber=1',
       { body: formData, method: 'POST' }
     );
+
     expect(global.fetch).toHaveBeenCalledWith(
       '/api/email/notifyFailedReadOfTemplateData',
       {
-        body: '{"applicationId":"1","host":"http://localhost","params":{"templateNumber":1}}',
+        body: expect.stringContaining(
+          '{"applicationId":"1","host":"http://localhost","params":{"templateNumber":1,"uuid":"string","uploadedAt":'
+        ),
         headers: { 'Content-Type': 'application/json' },
         method: 'POST',
       }
