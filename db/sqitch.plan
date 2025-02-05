@@ -815,3 +815,4 @@ computed_columns/cbc_history [computed_columns/cbc_history@1.230.0] 2025-02-19T2
 tables/application_fnha_contribution 2025-02-24T19:40:28Z ,,, <ryohani89@NH504670> # Add fnha contribution table
 mutations/save_fnha_contribution 2025-02-25T16:48:17Z ,,, <ryohani89@NH504670> # Add mutation to save fnha contribution
 @1.246.0 2025-03-05T22:03:48Z CCBC Service Account <ccbc@button.is> # release v1.246.0
+tables/application_form_template_9_data_002_add_auth_user_role_permission 2025-02-05T15:11:34Z Anthony Bushara <anthony@button.is> # Adds permissions for an applicant to insert and read template 9 data

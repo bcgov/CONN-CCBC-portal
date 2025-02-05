@@ -72,6 +72,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const { setTemplateData, rfiNumber } = formContext;
   const { showToast, hideToast } = useToast();
 
+  const isApplicantPage = router.pathname.includes('applicant');
+
   useEffect(() => {
     if (rawErrors?.length > 0) {
       setErrors([{ error: 'rjsf_validation' }]);
@@ -109,25 +111,50 @@ const FileWidget: React.FC<FileWidgetProps> = ({
                 });
               }
             } else if (templateNumber === 9) {
-              const response = await fetch(
-                `/api/template-nine/rfi/${formId}/${rfiNumber}`,
-                {
-                  method: 'POST',
-                  body: fileFormData,
+              if (isApplicantPage) {
+                // fetch for applicant and handle as expected
+                const response = await fetch(
+                  `/api/template-nine/rfi/applicant/${formId}/${rfiNumber}`,
+                  {
+                    method: 'POST',
+                    body: fileFormData,
+                  }
+                );
+                if (response.ok) {
+                  const data = await response.json();
+                  setTemplateData({
+                    templateNumber,
+                    data: data.templateNineData,
+                    templateName: file.name,
+                  });
+                } else {
+                  isTemplateValid = false;
+                  setTemplateData({
+                    templateNumber,
+                    error: true,
+                  });
                 }
-              );
-              if (response.ok) {
-                await response.json();
-                setTemplateData({
-                  templateNumber,
-                  templateName: file.name,
-                });
               } else {
-                isTemplateValid = false;
-                setTemplateData({
-                  templateNumber,
-                  error: true,
-                });
+                const response = await fetch(
+                  `/api/template-nine/rfi/${formId}/${rfiNumber}`,
+                  {
+                    method: 'POST',
+                    body: fileFormData,
+                  }
+                );
+                if (response.ok) {
+                  await response.json();
+                  setTemplateData({
+                    templateNumber,
+                    templateName: file.name,
+                  });
+                } else {
+                  isTemplateValid = false;
+                  setTemplateData({
+                    templateNumber,
+                    error: true,
+                  });
+                }
               }
             }
           } catch (error) {
