@@ -606,62 +606,19 @@ templateNine.post(
 
     const templateNineData = await loadTemplateNineData(wb);
 
-    if (templateNineData) {
-      const findTemplateNineData = await performQuery(
-        findTemplateNineDataQuery,
-        { applicationId },
-        req
-      );
-      if (
-        findTemplateNineData.data.allApplicationFormTemplate9Data.totalCount > 0
-      ) {
-        // update
-        await performQuery(
-          updateTemplateNineDataMutation,
-          {
-            input: {
-              rowId:
-                findTemplateNineData.data.allApplicationFormTemplate9Data
-                  .nodes[0].rowId,
-              applicationFormTemplate9DataPatch: {
-                jsonData: templateNineData,
-                errors: templateNineData.errors || null,
-                source: {
-                  source: 'rfi',
-                  rfiNumber: rfiNumber || null,
-                  fileName: uploaded.originalFilename,
-                  date: DateTime.now().toISO(),
-                },
-                applicationId,
-              },
-            },
-          },
-          req
-        );
-        // else create new one
-      } else {
-        await performQuery(
-          createTemplateNineDataMutation,
-          {
-            input: {
-              applicationFormTemplate9Data: {
-                jsonData: templateNineData,
-                errors: templateNineData.errors || null,
-                source: {
-                  source: 'rfi',
-                  rfiNumber: rfiNumber || null,
-                  fileName: uploaded.originalFilename,
-                  date: DateTime.now().toISO(),
-                },
-                applicationId,
-              },
-            },
-          },
-          req
-        );
-      }
+    if (
+      !templateNineData ||
+      (templateNineData.errors && templateNineData.errors.length > 0)
+    ) {
+      return res
+        .status(400)
+        .json({ error: 'failed to process template upload' })
+        .end();
     }
-    return res.status(200).json({ result: 'success' });
+    return res.status(200).json({
+      ...templateNineData,
+      originalFileName: uploaded.originalFilename,
+    });
   }
 );
 
