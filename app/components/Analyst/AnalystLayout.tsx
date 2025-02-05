@@ -3,10 +3,18 @@ import { graphql, useFragment } from 'react-relay';
 import NavigationSidebar from 'components/Analyst/NavigationSidebar';
 import FormDiv from 'components/FormDiv';
 import ApplicationHeader from './ApplicationHeader';
+import ProjectNavigationSidebar from './ProjectNavigationSidebar';
 
 const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+`;
+
+const StyledOuterContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   margin: 0 auto;
   width: 100%;
 `;
@@ -37,23 +45,27 @@ const AnalystLayout: React.FC<Props> = ({
   const queryFragment = useFragment(
     graphql`
       fragment AnalystLayout_query on Query {
+        ...ProjectNavigationSidebar_query
         ...ApplicationHeader_query
       }
     `,
     query
   );
   return (
-    <StyledContainer>
-      <ApplicationHeader query={queryFragment} />
-      <StyledFlex>
-        <NavigationSidebar
-          mapData={mapData}
-          isMapExpanded={isMapExpanded}
-          setIsMapExpanded={setIsMapExpanded}
-        />
-        <StyledFormDiv>{children}</StyledFormDiv>
-      </StyledFlex>
-    </StyledContainer>
+    <StyledOuterContainer>
+      <StyledContainer>
+        <ApplicationHeader query={queryFragment} />
+        <StyledFlex>
+          <NavigationSidebar
+            mapData={mapData}
+            isMapExpanded={isMapExpanded}
+            setIsMapExpanded={setIsMapExpanded}
+          />
+          <StyledFormDiv>{children}</StyledFormDiv>
+        </StyledFlex>
+      </StyledContainer>
+      <ProjectNavigationSidebar query={queryFragment} />
+    </StyledOuterContainer>
   );
 };
 

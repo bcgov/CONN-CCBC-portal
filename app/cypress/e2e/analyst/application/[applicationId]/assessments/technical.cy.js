@@ -62,8 +62,8 @@ describe('The analyst technical assessment page', () => {
     cy.wait('@graphql');
     cy.get('select[id="root_assignedTo"]').select('Meherzad Romer');
     cy.get('input[id="root_targetDate"]').invoke('val', '2023-03-10');
-    cy.get('input[id="root_nextStep-1"]').parent().click();
-    cy.get('input[id="root_decision-1"]').parent().click();
+    cy.get('input[id="root_nextStep-1"]').parent().click({ force: true });
+    cy.get('input[id="root_decision-1"]').parent().click({ force: true });
     cy.contains('button', /^Save$/).click();
     cy.contains('button', 'Saved').should('exist');
     cy.visit('/analyst/application/1/assessments/technical');

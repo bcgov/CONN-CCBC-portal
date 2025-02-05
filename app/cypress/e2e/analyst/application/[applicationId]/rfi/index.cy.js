@@ -39,8 +39,8 @@ describe('The RFI index page', () => {
           .selectFile('cypress/fixtures/doc.txt', { force: true });
         cy.get('input[id="root_rfiAdditionalFiles_detailedBudgetRfi"]')
           .parent()
-          .click();
-        cy.get('input[id="root_rfiType-0"]').parent().click();
+          .click({ force: true });
+        cy.get('input[id="root_rfiType-0"]').parent().click({ force: true });
         cy.contains('button', /^Save$/).click();
         cy.get('svg[data-icon="pen"]').should('exist');
         cy.get('body').happoScreenshot({
