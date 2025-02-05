@@ -555,7 +555,7 @@ templateNine.post(
     }
 
     if (templateNineData) {
-      return res.status(200).json({ templateNineData });
+      return res.status(200).json(templateNineData);
     }
     return res
       .status(400)
