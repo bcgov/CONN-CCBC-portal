@@ -124,7 +124,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
                   const data = await response.json();
                   setTemplateData({
                     templateNumber,
-                    data: data.templateNineData,
+                    data,
                     templateName: file.name,
                   });
                 } else {
