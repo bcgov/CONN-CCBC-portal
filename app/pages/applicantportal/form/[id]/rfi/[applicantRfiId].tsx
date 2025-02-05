@@ -92,6 +92,23 @@ const ApplicantRfiPage = ({
     useRfiCoverageMapKmzUploadedEmail();
 
   useEffect(() => {
+    const getFileDetails = (templateNumber) => {
+      if (templateNumber === 1) {
+        return formData?.rfiAdditionalFiles
+          ?.eligibilityAndImpactsCalculator?.[0];
+      }
+      if (templateNumber === 2) {
+        return formData?.rfiAdditionalFiles?.detailedBudget?.[0];
+      }
+      if (templateNumber === 9) {
+        return formData?.rfiAdditionalFiles?.geographicNames?.[0];
+      }
+
+      return null;
+    };
+
+    const fileDetails = getFileDetails(templateData?.templateNumber);
+
     if (templateData?.templateNumber === 1 && !templateData.error) {
       const newFormDataWithTemplateOne = {
         ...newFormData,
@@ -106,6 +123,7 @@ const ApplicantRfiPage = ({
       setTemplatesUpdated((prevTemplatesUpdated) => {
         return { ...prevTemplatesUpdated, one: true };
       });
+      setTemplateData(null);
       setHasApplicationFormDataUpdated(true);
     } else if (templateData?.templateNumber === 2 && !templateData.error) {
       const newFormDataWithTemplateTwo = {
@@ -121,19 +139,20 @@ const ApplicantRfiPage = ({
         return { ...prevTemplatesUpdated, two: true };
       });
       setHasApplicationFormDataUpdated(true);
+      setTemplateData(null);
     } else if (templateData?.templateNumber === 9 && !templateData.error) {
       setTemplatesUpdated((prevTemplatesUpdated) => {
         return { ...prevTemplatesUpdated, nine: true };
       });
       setTemplateNineData({ ...templateData });
+      setTemplateData(null);
     } else if (
+      fileDetails &&
       templateData?.error &&
       (templateData?.templateNumber === 1 ||
         templateData?.templateNumber === 2 ||
         templateData?.templateNumber === 9)
     ) {
-      const fileArrayLength =
-        newFormData.templateUploads?.eligibilityAndImpactsCalculator?.length;
       fetch(`/api/email/notifyFailedReadOfTemplateData`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -142,18 +161,16 @@ const ApplicantRfiPage = ({
           host: window.location.origin,
           params: {
             templateNumber: templateData.templateNumber,
-            uuid: newFormData.templateUploads
-              ?.eligibilityAndImpactsCalculator?.[fileArrayLength - 1]?.uuid,
-            uploadedAt:
-              newFormData.templateUploads?.eligibilityAndImpactsCalculator?.[
-                fileArrayLength - 1
-              ]?.uploadedAt,
+            uuid: fileDetails.uuid,
+            uploadedAt: fileDetails?.uploadedAt,
           },
         }),
+      }).then(() => {
+        setTemplateData(null);
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [templateData]);
+  }, [templateData, formData]);
 
   const handleSubmit = (e: IChangeEvent<any>) => {
     const getTemplateNineUUID = () => {
@@ -204,6 +221,7 @@ const ApplicantRfiPage = ({
           },
         },
         onCompleted: () => {
+          setTemplateData(null);
           checkAndNotifyRfiCoverage().then(() => {
             // wait until email is sent before redirecting
             router.push(`/applicantportal/dashboard`);
@@ -241,6 +259,7 @@ const ApplicantRfiPage = ({
           );
         },
         onCompleted: () => {
+          setTemplateData(null);
           checkAndNotifyRfiCoverage().then(() => {
             // wait until email(s) is sent before redirecting
             router.push(`/applicantportal/dashboard`);
@@ -309,6 +328,7 @@ const ApplicantRfiPage = ({
           );
         },
         onCompleted: () => {
+          setTemplateData(null);
           checkAndNotifyHHCount().then(() => {
             checkAndNotifyRfiCoverage().then(() => {
               // wait until email(s) is sent before redirecting
