@@ -589,7 +589,7 @@ describe('The applicantRfiId Page', () => {
       finalEligibleHouseholds: 4,
     };
     const mockFetchPromiseTemplateOne = Promise.resolve({
-      ok: false,
+      ok: true,
       status: 200,
       json: () => Promise.resolve({ result: mockSuccessResponseTemplateOne }),
     });
@@ -599,7 +599,7 @@ describe('The applicantRfiId Page', () => {
       totalProjectCosts: 101230,
     };
     const mockFetchPromiseTemplateTwo = Promise.resolve({
-      ok: false,
+      ok: true,
       status: 200,
       json: () => Promise.resolve({ result: mockSuccessResponseTemplateTwo }),
     });
@@ -681,7 +681,7 @@ describe('The applicantRfiId Page', () => {
       });
     });
 
-    expect(global.fetch).toHaveBeenCalledTimes(5);
+    expect(global.fetch).toHaveBeenCalledTimes(3);
     expect(global.fetch).toHaveBeenCalledWith(
       '/api/applicant/template?templateNumber=1',
       { body: expect.any(FormData), method: 'POST' }
@@ -702,7 +702,7 @@ describe('The applicantRfiId Page', () => {
     });
 
     pageTestingHelper.expectMutationToBeCalled(
-      'updateRfiAndCreateTemplateNineDataMutation',
+      'updateFormRfiAndCreateTemplateNineDataMutation',
       {
         rfiInput: {
           jsonData: {
@@ -772,6 +772,21 @@ describe('The applicantRfiId Page', () => {
             uuid: 'UUIDTemplateNine',
           },
           _errors: [],
+        },
+        formInput: {
+          applicationRowId: 1,
+          jsonData: {
+            benefits: {
+              householdsImpactedIndigenous: 60,
+              numberOfHouseholds: 4,
+            },
+            budgetDetails: {
+              totalEligibleCosts: 92455,
+              totalProjectCost: 101230,
+            },
+          },
+          reasonForChange: 'Auto updated from upload for RFI: CCBC-01001-01',
+          formSchemaId: 'test',
         },
       }
     );
