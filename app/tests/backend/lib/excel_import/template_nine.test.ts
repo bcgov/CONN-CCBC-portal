@@ -324,4 +324,22 @@ describe('The Community Progress Report import', () => {
 
     expect(response.status).toBe(200);
   });
+
+  it('should process the rfi for applicant', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_auth_user',
+        landingRoute: '/',
+      };
+    });
+
+    const response = await request(app)
+      .post('/api/template-nine/rfi/applicant/1/CCBC-00001-1')
+      .set('Content-Type', 'application/json')
+      .set('Connection', 'keep-alive')
+      .field('data', JSON.stringify({ name: 'form' }))
+      .attach('template9', `${__dirname}/template9-complete.xlsx`);
+
+    expect(response.status).toBe(200);
+  });
 });

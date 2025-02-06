@@ -572,8 +572,7 @@ templateNine.post(
     const isRoleAuthorized =
       pgRole === 'ccbc_admin' ||
       pgRole === 'super_admin' ||
-      pgRole === 'ccbc_analyst' ||
-      pgRole === 'ccbc_auth_user';
+      pgRole === 'ccbc_analyst';
 
     if (!isRoleAuthorized) {
       return res.status(404).end();
