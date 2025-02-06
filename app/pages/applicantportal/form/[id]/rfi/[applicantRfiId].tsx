@@ -44,6 +44,13 @@ const getApplicantRfiIdQuery = graphql`
       id
       ccbcNumber
       organizationName
+      applicationFormTemplate9DataByApplicationId(
+        filter: { archivedAt: { isNull: true } }
+      ) {
+        nodes {
+          rowId
+        }
+      }
       formData {
         id
         formSchemaId
@@ -76,6 +83,9 @@ const ApplicantRfiPage = ({
   const applicationId = router.query.id as string;
   const formSchemaId = applicationByRowId?.formData?.formSchemaId;
   const ccbcNumber = applicationByRowId?.ccbcNumber;
+  const applicationFormTemplate9DataId =
+    applicationByRowId?.applicationFormTemplate9DataByApplicationId?.nodes?.[0]
+      ?.rowId;
   const [newFormData, setNewFormData] = useState(formJsonData);
   const [hasApplicationFormDataUpdated, setHasApplicationFormDataUpdated] =
     useState(false);
@@ -241,14 +251,14 @@ const ApplicantRfiPage = ({
             rfiRowId: rfiDataByRowId.rowId,
           },
           templateNineInput: {
-            applicationFormTemplate9Data: {
-              applicationId: Number(applicationId),
-              jsonData: templateNineData.data,
-              source: {
-                source: 'RFI',
-                uuid: getTemplateNineUUID(),
-              },
+            _applicationId: Number(applicationId),
+            _jsonData: templateNineData.data,
+            _previousTemplate9Id: applicationFormTemplate9DataId,
+            _source: {
+              source: 'RFI',
+              uuid: getTemplateNineUUID(),
             },
+            _errors: templateNineData.data?.errors,
           },
         },
         onError: (err) => {
@@ -310,14 +320,14 @@ const ApplicantRfiPage = ({
             rfiRowId: rfiDataByRowId.rowId,
           },
           templateNineInput: {
-            applicationFormTemplate9Data: {
-              applicationId: Number(applicationId),
-              jsonData: templateNineData.data,
-              source: {
-                source: 'RFI',
-                uuid: getTemplateNineUUID(),
-              },
+            _applicationId: Number(applicationId),
+            _jsonData: templateNineData.data,
+            _source: {
+              source: 'RFI',
+              uuid: getTemplateNineUUID(),
             },
+            _previousTemplate9Id: applicationFormTemplate9DataId,
+            _errors: templateNineData.data?.errors,
           },
         },
         onError: (err) => {

@@ -48,6 +48,13 @@ const mockQueryPayload = {
           jsonData: {},
           formSchemaId: 'test',
         },
+        applicationFormTemplate9DataByApplicationId: {
+          nodes: [
+            {
+              rowId: 1,
+            },
+          ],
+        },
         projectName: 'projName',
         status: 'Received',
       },
@@ -552,14 +559,18 @@ describe('The applicantRfiId Page', () => {
           rfiRowId: 1,
         },
         templateNineInput: {
-          applicationFormTemplate9Data: {
-            applicationId: 1,
-            jsonData: mockSuccessResponseTemplateNine,
-            source: {
-              source: 'RFI',
-              uuid: 'UUIDstring',
-            },
+          _applicationId: 1,
+          _jsonData: {
+            errors: [],
+            projectZone: 'zone',
+            geoName: 'geoName',
           },
+          _previousTemplate9Id: 1,
+          _source: {
+            source: 'RFI',
+            uuid: 'UUIDstring',
+          },
+          _errors: [],
         },
       }
     );
@@ -753,14 +764,14 @@ describe('The applicantRfiId Page', () => {
           rfiRowId: 1,
         },
         templateNineInput: {
-          applicationFormTemplate9Data: {
-            applicationId: 1,
-            jsonData: mockSuccessResponseTemplateNine,
-            source: {
-              source: 'RFI',
-              uuid: 'UUIDTemplateNine',
-            },
+          _previousTemplate9Id: 1,
+          _applicationId: 1,
+          _jsonData: mockSuccessResponseTemplateNine,
+          _source: {
+            source: 'RFI',
+            uuid: 'UUIDTemplateNine',
           },
+          _errors: [],
         },
       }
     );
