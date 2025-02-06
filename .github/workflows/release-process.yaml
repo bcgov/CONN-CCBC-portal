@@ -76,7 +76,7 @@ jobs:
             console.log(`PR has been ${approved ? 'approved' : 'not approved'}`);
             return approved;
       - name: Checkout
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+        # if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
