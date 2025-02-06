@@ -5,7 +5,7 @@ import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 const mutation = graphql`
   mutation updateFormRfiAndCreateTemplateNineDataMutation(
     $rfiInput: UpdateRfiInput!
-    $templateNineInput: CreateApplicationFormTemplate9DataInput!
+    $templateNineInput: CreateOrUpdateApplicationFormTemplate9DataInput!
     $formInput: CreateNewFormDataInput!
   ) {
     updateRfi(input: $rfiInput) {
@@ -15,7 +15,7 @@ const mutation = graphql`
         id
       }
     }
-    createApplicationFormTemplate9Data(input: $templateNineInput) {
+    createOrUpdateApplicationFormTemplate9Data(input: $templateNineInput) {
       applicationFormTemplate9Data {
         rowId
         applicationId
