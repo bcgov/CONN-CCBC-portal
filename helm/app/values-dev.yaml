@@ -17,6 +17,8 @@ db:
 crunchy-postgres:
   pgBackRest:
     retention: '1'
+    volume:
+      storage: 20Gi
   instances:
     dataVolumeClaimSpec:
       storage: 20Gi
