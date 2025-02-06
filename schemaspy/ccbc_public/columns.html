@@ -326,9 +326,9 @@
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "ccbc_number",
-        "type": "varchar",
-        "length": 255,
+        "name": "application_id",
+        "type": "int4",
+        "length": 10,
         "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
@@ -2832,7 +2832,7 @@
         "tableType": "Table",
         "keyClass": "",
         "keyTitle": "",
-        "name": "rd",
+        "name": "ccbc_number",
         "type": "varchar",
         "length": 255,
         "nullable": "√",
@@ -3245,6 +3245,20 @@
         "autoUpdated": "",
         "defaultValue": "null",
         "comments": "<p>Description of the form<\/p>"
+    },
+    {
+        "tableName": "application_rfi_data",
+        "tableFileName": "application_rfi_data",
+        "tableType": "Table",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>rfi_data_id",
+        "type": "int4",
+        "length": 10,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "null",
+        "comments": "<p>The foreign key of a form<\/p>"
     },
     {
         "tableName": "intake",
@@ -3749,20 +3763,6 @@
         "autoUpdated": "",
         "defaultValue": "null",
         "comments": "<p>updated by user id<\/p>"
-    },
-    {
-        "tableName": "application_rfi_data",
-        "tableFileName": "application_rfi_data",
-        "tableType": "Table",
-        "keyClass": "primaryKey",
-        "keyTitle": "Primary Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>rfi_data_id",
-        "type": "int4",
-        "length": 10,
-        "nullable": "",
-        "autoUpdated": "",
-        "defaultValue": "null",
-        "comments": "<p>The foreign key of a form<\/p>"
     },
     {
         "tableName": "application_package",
@@ -6509,18 +6509,18 @@
         "comments": "<p>created at timestamp<\/p>"
     },
     {
-        "tableName": "application_rd",
-        "tableFileName": "application_rd",
+        "tableName": "application_rfi_data",
+        "tableFileName": "application_rfi_data",
         "tableType": "Table",
-        "keyClass": "",
-        "keyTitle": "",
-        "name": "application_id",
+        "keyClass": "primaryKey",
+        "keyTitle": "Primary Key",
+        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>application_id",
         "type": "int4",
         "length": 10,
-        "nullable": "√",
+        "nullable": "",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": ""
+        "comments": "<p>The foreign key of an application<\/p>"
     },
     {
         "tableName": "application_er",
@@ -7685,18 +7685,18 @@
         "comments": "<p>The data imported from the Excel filled by the respondent. See <a href=\"https://json-schema.app/view/%23?url=https%3A%2F%2Fbcgov.github.io%2FCONN-CCBC-portal%2Fschemaspy%2Fdata%2Fsow_tab_7.json\">schema<\/a><\/p>"
     },
     {
-        "tableName": "application_rfi_data",
-        "tableFileName": "application_rfi_data",
+        "tableName": "application_rd",
+        "tableFileName": "application_rd",
         "tableType": "Table",
-        "keyClass": "primaryKey",
-        "keyTitle": "Primary Key",
-        "name": "<i class='icon ion-key iconkey' style='padding-left: 5px;'><\/i>application_id",
-        "type": "int4",
-        "length": 10,
-        "nullable": "",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "rd",
+        "type": "varchar",
+        "length": 255,
+        "nullable": "√",
         "autoUpdated": "",
         "defaultValue": "null",
-        "comments": "<p>The foreign key of an application<\/p>"
+        "comments": ""
     },
     {
         "tableName": "application_claims_data",
