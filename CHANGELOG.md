@@ -1,3 +1,9 @@
+## [1.237.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.237.0...v1.237.1) (2025-02-06)
+
+### Bug Fixes
+
+- distorted conditional approval history ([15403e0](https://github.com/bcgov/CONN-CCBC-portal/commit/15403e0088cefea6964df1c22c702056077fed94))
+
 # [1.237.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.235.1...v1.237.0) (2025-02-05)
 
 ### Bug Fixes

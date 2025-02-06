@@ -557,6 +557,7 @@ const HistoryContent = ({
             'name',
             'uuid',
             'type',
+            'letterOfApprovalUpload',
           ]}
           diffSchema={conditionalApprovalSchema}
           overrideParent="conditionalApproval"
