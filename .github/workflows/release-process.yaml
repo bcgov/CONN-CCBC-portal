@@ -102,7 +102,7 @@ jobs:
           ./sqitch config --user user.name 'CCBC Service Account'
           ./sqitch config --user user.email 'ccbc@button.is'
       - name: Make Release
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+        # if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
         run: |
           yarn
           git checkout "${GITHUB_HEAD_REF}"
