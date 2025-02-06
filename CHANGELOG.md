@@ -1,3 +1,9 @@
+# [1.238.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.237.2...v1.238.0) (2025-02-06)
+
+### Features
+
+- update and group history filters ([c327776](https://github.com/bcgov/CONN-CCBC-portal/commit/c327776ac556ac35cf4f11ff41a542ebdcb20125))
+
 ## [1.237.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.237.1...v1.237.2) (2025-02-06)
 
 ### Bug Fixes
