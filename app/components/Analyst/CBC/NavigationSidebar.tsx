@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import {
   faChevronLeft,
   faClipboardList,
@@ -25,7 +26,12 @@ const NavigationSidebar = () => {
   const router = useRouter();
   const { asPath } = router;
   const { cbcId } = router.query;
-
+  useEffect(() => {
+    sessionStorage.setItem(
+      'mrt_last_visited_row_application',
+      JSON.stringify({ isCcbc: false, rowId: cbcId })
+    );
+  }, [cbcId]);
   return (
     <StyledAside>
       <StyledNav>
