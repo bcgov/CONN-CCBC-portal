@@ -1,3 +1,9 @@
+## [1.237.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.237.1...v1.237.2) (2025-02-06)
+
+### Bug Fixes
+
+- email sender wrongly set to dev in prod ([c6adea4](https://github.com/bcgov/CONN-CCBC-portal/commit/c6adea4f7d49a5618539262738e87876d6ca8994))
+
 ## [1.237.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.237.0...v1.237.1) (2025-02-06)
 
 ### Bug Fixes
