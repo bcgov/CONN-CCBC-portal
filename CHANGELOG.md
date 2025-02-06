@@ -1,3 +1,12 @@
+# [1.239.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.238.0...v1.239.0) (2025-02-06)
+
+### Features
+
+- click anywhere in row to go to desired application ([abd6785](https://github.com/bcgov/CONN-CCBC-portal/commit/abd67853fef9cadb8b72d0acf69b6bd01e3dbabd))
+- highlight row when returning ([1caf679](https://github.com/bcgov/CONN-CCBC-portal/commit/1caf6793ff30f5937386271df9040b56e1cc4160))
+- remove boxshadow and borderBottom when expanded ([becba05](https://github.com/bcgov/CONN-CCBC-portal/commit/becba0561b6f472092f3efe502e2ff1fad962583))
+- scroll into view when re-visiting dashboard ([d97c45b](https://github.com/bcgov/CONN-CCBC-portal/commit/d97c45b5808a993aba7ad779385c82b92ce3d8fc))
+
 # [1.238.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.237.2...v1.238.0) (2025-02-06)
 
 ### Features
