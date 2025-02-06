@@ -1,10 +1,9 @@
 import * as Sentry from '@sentry/nextjs';
 import getConfig from 'next/config';
-import toTitleCase from '../../../utils/formatString';
 import config from '../../../config';
+import toTitleCase from '../../../utils/formatString';
 
 const CHES_API_URL = config.get('CHES_API_URL');
-const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
 
 const sendEmail = async (
   token: string,
@@ -14,7 +13,8 @@ const sendEmail = async (
   tag: string,
   emailCC: string[] = []
 ) => {
-  const environment = toTitleCase(namespace?.split('-')[1] || 'Dev');
+  const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
+  const environment = toTitleCase(namespace?.split('-')[1] || '');
   try {
     const request = {
       bodyType: 'html',
@@ -22,7 +22,7 @@ const sendEmail = async (
       cc: emailCC,
       delayTs: 0,
       encoding: 'utf-8',
-      from: `CCBC Portal ${environment !== 'Prod' && environment}  <noreply-ccbc-portal@gov.bc.ca>`,
+      from: `CCBC Portal ${environment} <noreply-ccbc-portal@gov.bc.ca>`,
       priority: 'normal',
       subject,
       to: emailTo,

@@ -1,3 +1,57 @@
+## [1.239.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.239.0...v1.239.1) (2025-02-06)
+
+### Bug Fixes
+
+- optional chaining on markers ([e7cdc00](https://github.com/bcgov/CONN-CCBC-portal/commit/e7cdc00fb14c18705e1f8b3b13ebf7f0a5145fff))
+
+# [1.239.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.238.0...v1.239.0) (2025-02-06)
+
+### Features
+
+- click anywhere in row to go to desired application ([abd6785](https://github.com/bcgov/CONN-CCBC-portal/commit/abd67853fef9cadb8b72d0acf69b6bd01e3dbabd))
+- highlight row when returning ([1caf679](https://github.com/bcgov/CONN-CCBC-portal/commit/1caf6793ff30f5937386271df9040b56e1cc4160))
+- remove boxshadow and borderBottom when expanded ([becba05](https://github.com/bcgov/CONN-CCBC-portal/commit/becba0561b6f472092f3efe502e2ff1fad962583))
+- scroll into view when re-visiting dashboard ([d97c45b](https://github.com/bcgov/CONN-CCBC-portal/commit/d97c45b5808a993aba7ad779385c82b92ce3d8fc))
+
+# [1.238.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.237.2...v1.238.0) (2025-02-06)
+
+### Features
+
+- update and group history filters ([c327776](https://github.com/bcgov/CONN-CCBC-portal/commit/c327776ac556ac35cf4f11ff41a542ebdcb20125))
+
+## [1.237.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.237.1...v1.237.2) (2025-02-06)
+
+### Bug Fixes
+
+- email sender wrongly set to dev in prod ([c6adea4](https://github.com/bcgov/CONN-CCBC-portal/commit/c6adea4f7d49a5618539262738e87876d6ca8994))
+
+## [1.237.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.237.0...v1.237.1) (2025-02-06)
+
+### Bug Fixes
+
+- distorted conditional approval history ([15403e0](https://github.com/bcgov/CONN-CCBC-portal/commit/15403e0088cefea6964df1c22c702056077fed94))
+
+# [1.237.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.235.1...v1.237.0) (2025-02-05)
+
+### Bug Fixes
+
+- data not switchin on navigation issue ([cb376bc](https://github.com/bcgov/CONN-CCBC-portal/commit/cb376bc841291dbc869b0e59221f0dcd78f93599))
+
+### Features
+
+- add project navigation to right ([a92bcd9](https://github.com/bcgov/CONN-CCBC-portal/commit/a92bcd9b452f1d64bf06e32d8cce6cd3b3e053c3))
+- allow kml uploads ([01275da](https://github.com/bcgov/CONN-CCBC-portal/commit/01275dafef7a4b3cf466601ad3e3722bf2550a57))
+- update text for upload of kmz or kml in project information ([32d1c2f](https://github.com/bcgov/CONN-CCBC-portal/commit/32d1c2f2486e19fc12ec1f169973b2d6f4d10e37))
+
+# [1.236.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.235.1...v1.236.0) (2025-02-04)
+
+### Features
+
+- allow kml uploads ([f1f1945](https://github.com/bcgov/CONN-CCBC-portal/commit/f1f1945b65ad2e36f266af721e181cfde3ce9181))
+- update text for upload of kmz or kml in project information ([6037ddc](https://github.com/bcgov/CONN-CCBC-portal/commit/6037ddcba527c4199feb331c4b0977e2aecd1a23))
+
+## [1.235.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.235.0...v1.235.1) (2025-02-03)
+
 # [1.235.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.234.2...v1.235.0) (2025-02-03)
 
 ### Features

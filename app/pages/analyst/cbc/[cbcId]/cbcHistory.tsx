@@ -22,7 +22,7 @@ const CbcHistory = ({
 }: RelayProps<Record<string, unknown>, cbcHistoryQuery>) => {
   const query = usePreloadedQuery(getCbcHistoryQuery, preloadedQuery);
   return (
-    <Layout session={null} title="Connecting Communities BC">
+    <Layout session={null} title="Connecting Communities BC" provisionRightNav>
       <CbcAnalystLayout query={query}>
         <CbcHistoryTable query={query} />
       </CbcAnalystLayout>

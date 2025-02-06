@@ -35,6 +35,7 @@ import { useFeature } from '@growthbook/growthbook-react';
 import getConfig from 'next/config';
 import { DateTime } from 'luxon';
 import { useToast } from 'components/AppProvider';
+import { useRouter } from 'next/router';
 import DownloadIcon from './DownloadIcon';
 import {
   filterZones,
@@ -103,10 +104,12 @@ const StyledTableHeader = styled.div`
 const muiTableBodyCellProps = (props): TableCellProps => {
   const centeredCols = ['Package', 'zones', 'intakeNumber'];
   const isExpandColumn = props.column.id === 'mrt-row-expand';
+  const isExpandedRow = props.row.getIsExpanded();
   return {
     align: centeredCols.includes(props.column.id) ? 'center' : 'left',
     sx: {
       padding: isExpandColumn ? '0 8px' : '8px 0px',
+      borderBottom: isExpandedRow ? 'none' : '1px solid rgba(224, 224, 224, 1)',
     },
   };
 };
@@ -285,6 +288,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const { allApplications, allCbcData, allApplicationStatusTypes } =
     queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
+  const router = useRouter();
 
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -297,7 +301,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
   const showCbcProjects = useFeature('show_cbc_projects').value ?? false;
-  const showCbcProjectsLink = useFeature('show_cbc_view_link').value ?? false;
+  const showCbcProjectsLink = false;
   const freezeHeader = useFeature('freeze_dashboard_header').value ?? false;
   const enableGlobalFilter = useFeature('show_global_filter').value ?? false;
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
@@ -313,6 +317,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
   const [expanded, setExpanded] = useState({});
   const [globalFilter, setGlobalFilter] = useState(null);
+  // uses rowId for the key to keep track of last visited row
+  const [lastVisitedRow, setLastVisitedRow] = useState<{
+    isCcbc: boolean;
+    rowId: any;
+  } | null>(null);
 
   const expandedRowsRef = useRef({});
 
@@ -328,7 +337,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     projectTitle: 150,
     zones: 91,
   });
-  const tableContainerRef = useRef(null);
 
   const handleBlob = (blob, toastMessage, reportDate) => {
     const url = window.URL.createObjectURL(blob);
@@ -435,12 +443,15 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       setColumnSizing(JSON.parse(columnSizingSession));
     }
 
-    setIsFirstRender(false);
+    const lastVisitedRowCookie = sessionStorage.getItem(
+      'mrt_last_visited_row_application'
+    );
 
-    const savedScrollTop = sessionStorage.getItem('dashboard_scroll_position');
-    if (savedScrollTop && tableContainerRef.current) {
-      tableContainerRef.current.scrollTop = parseInt(savedScrollTop, 10);
+    if (lastVisitedRowCookie) {
+      setLastVisitedRow(JSON.parse(lastVisitedRowCookie));
     }
+
+    setIsFirstRender(false);
   }, []);
 
   useEffect(() => {
@@ -454,6 +465,17 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       }));
     }
   }, [isFirstRender, showLeadFeatureFlag]);
+
+  useEffect(() => {
+    if (!isFirstRender) {
+      // warning: will break if we use a virtualized table
+      document
+        .getElementById(
+          `${lastVisitedRow?.isCcbc ? 'ccbc' : 'cbc'}-${lastVisitedRow?.rowId}`
+        )
+        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [isFirstRender, lastVisitedRow?.rowId, lastVisitedRow?.isCcbc]);
 
   useEffect(() => {
     if (!isFirstRender) {
@@ -584,7 +606,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       packageNumber: application.node.package,
       projectTitle: application.node.projectName,
       isCbcProject: false,
-      showLink: true,
+      showLink: false,
       externalStatusOrder: statusOrderMap[application.node.externalStatus],
       internalStatusOrder: statusOrderMap[application.node.analystStatus],
       communities: getCommunities(application.node),
@@ -755,14 +777,15 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     }
   };
 
-  const handleTableScroll = () => {
-    sessionStorage.setItem(
-      'dashboard_scroll_position',
-      tableContainerRef?.current?.scrollTop
+  const tableHeightOffset = enableTimeMachine ? '460px' : '360px';
+
+  const isLastVisitedRow = (row) => {
+    return (
+      parseInt(lastVisitedRow?.rowId, 10) ===
+        parseInt(row.original.rowId, 10) &&
+      lastVisitedRow?.isCcbc === !row.original.isCbcProject
     );
   };
-
-  const tableHeightOffset = enableTimeMachine ? '460px' : '360px';
 
   const table = useMaterialReactTable({
     columns,
@@ -771,21 +794,30 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     columnResizeMode: 'onChange',
     state,
     muiTableContainerProps: {
-      ref: tableContainerRef,
-      onScroll: handleTableScroll,
       sx: {
         padding: '0 8px 8px 8px',
         maxHeight: freezeHeader ? `calc(100vh - ${tableHeightOffset})` : '100%',
       },
     },
-    muiTableBodyRowProps: {
-      sx: {
-        boxShadow: '0 3px 3px -2px #c4c4c4',
-      },
-    },
     layoutMode: isLargeUp ? 'grid' : 'semantic',
     muiTableBodyCellProps,
     muiTableHeadCellProps,
+    muiTableBodyRowProps: ({ row }) => ({
+      id: `${row.original.isCbcProject ? 'cbc' : 'ccbc'}-${row.original.rowId}`,
+      onClick: () => {
+        if (row.original.isCbcProject) {
+          router.push(`/analyst/cbc/${row.original.rowId}`);
+        } else {
+          router.push(`/analyst/application/${row.original.rowId}/summary`);
+        }
+      },
+      sx: {
+        cursor: 'pointer',
+        backgroundColor: isLastVisitedRow(row)
+          ? 'rgba(178, 178, 178, 0.3)'
+          : 'inherit',
+      },
+    }),
     enableStickyHeader: freezeHeader,
     onSortingChange: handleOnSortChange,
     onColumnFiltersChange: setColumnFilters,
@@ -841,6 +873,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       </StyledTableHeader>
     ),
   });
+
+  useEffect(() => {
+    const rowModel = table.getRowModel().rows?.map((row) => row.original);
+    localStorage.setItem('dashboard_row_model', JSON.stringify(rowModel));
+  }, [table.getRowModel().rows]);
 
   const visibleRowCount = table.getRowModel().rows?.length ?? 0;
   const renderRowCount = () => (

@@ -263,7 +263,7 @@ const EditCbcSection = ({
   );
 
   return (
-    <Layout title="Edit CBC Section" session={session}>
+    <Layout title="Edit CBC Section" session={session} provisionRightNav>
       <CbcAnalystLayout query={query} isFormEditable>
         <FormBase
           formData={formData?.[section] ?? {}}

@@ -188,6 +188,10 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const StyledParagraph = styled('p')`
+  margin-bottom: 0;
+`;
+
 const Summary = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, summaryQuery>) => {
@@ -243,14 +247,20 @@ const Summary = ({
           ...formData,
           map: { map: { json, setIsMapExpanded } },
         });
+      } else {
+        setFinalFormData(formData);
       }
     };
 
     fetchData();
-  }, []);
+  }, [applicationId, showMap]);
 
   return (
-    <Layout session={session} title="Connecting Communities BC">
+    <Layout
+      session={session}
+      title="Connecting Communities BC"
+      provisionRightNav
+    >
       <AnalystLayout
         query={query}
         mapData={mapData}
@@ -260,7 +270,7 @@ const Summary = ({
         <>
           <h2>Summary</h2>
           {/* <MapCaller initialData={mapData} height="400px" width="600px" /> */}
-          <p>
+          <StyledParagraph>
             This section provides up-to-date information on the project&apos;s
             status by pulling from the{' '}
             <StyledLink
@@ -281,8 +291,7 @@ const Summary = ({
               SOW
             </StyledLink>{' '}
             as it progresses through each stage.
-          </p>{' '}
-          <br />
+          </StyledParagraph>
         </>
         <RightAlignText>
           <>

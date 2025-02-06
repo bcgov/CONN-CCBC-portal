@@ -10,23 +10,47 @@ interface HistoryFilterProps {
   onFilterChange: (newFilters: any) => void;
 }
 
-export const filterByType = (historyItem: any, filters: any) =>
-  !filters?.types?.length || filters?.types?.includes(historyItem.tableName);
+const typeLabelMappings: Record<string, string> = {
+  application_community_progress_report_data: 'Community progress report',
+  application_dependencies: 'Assessment',
+  assessment_data: 'Assessment',
+  application_announced: 'Announcement',
+  application_announcement: 'Announcement',
+  project_information_data: 'Funding agreement, SOW & map',
+  application_sow_data: 'Funding agreement, SOW & map',
+  application_project_type: 'Project type',
+  application_status: 'Status',
+  conditional_approval_data: 'Conditional approval',
+  application_gis_data: 'Assessment',
+  form_data: 'Application',
+  rfi_data: 'RFI',
+  application_package: 'Package',
+  application_analyst_lead: 'Lead',
+  application_milestone_data: 'Milestone report',
+  change_request_data: 'Amendment',
+  application_claims_data: 'Claims & Progress Report',
+  application_gis_assessment_hh: 'Assessment',
+};
+
+const getLabelForType = (type: string) =>
+  typeLabelMappings[type] || toTitleCase(type, '_');
+
+export const filterByType = (historyItem: any, filters: any) => {
+  const typeLabel = getLabelForType(historyItem.tableName);
+  return !filters?.types?.length || filters?.types?.includes(typeLabel);
+};
 
 export const filterByUser = (historyItem: any, filters: any) =>
   !filters?.users?.length || filters?.users?.includes(historyItem.user);
 
 export const getTypeOptions = (historyItems: any[], filters: any) => {
-  return [
-    ...new Set(
-      historyItems
-        .filter(
-          (item) =>
-            !filters?.users?.length || filters?.users?.includes(item.user)
-        )
-        .map((item) => item.tableName)
-    ),
-  ];
+  const typeLabels = historyItems
+    .filter(
+      (item) => !filters?.users?.length || filters?.users?.includes(item.user)
+    )
+    .map((item) => getLabelForType(item.tableName));
+
+  return [...new Set(typeLabels)];
 };
 
 export const getUserOptions = (historyItems: any[], filters: any) => {
@@ -35,7 +59,8 @@ export const getUserOptions = (historyItems: any[], filters: any) => {
       historyItems
         .filter(
           (item) =>
-            !filters?.types?.length || filters?.types?.includes(item.tableName)
+            !filters?.types?.length ||
+            filters?.types?.includes(getLabelForType(item.tableName))
         )
         .map((item) => item.user)
     ),
@@ -50,11 +75,12 @@ const HistoryFilter: React.FC<HistoryFilterProps> = ({
   const { typeOptions, userOptions } = filterOptions;
 
   const formattedTypeOptions = typeOptions
-    .filter((type) => type !== 'attachment')
+    .filter((type) => type !== 'Attachment')
     .map((type) => ({
       value: type,
-      label: toTitleCase(type, '_'),
-    }));
+      label: getLabelForType(type),
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   const filterSchema = historyFilter(formattedTypeOptions, userOptions);
 

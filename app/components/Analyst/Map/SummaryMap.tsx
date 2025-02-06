@@ -138,7 +138,7 @@ const SummaryMap = ({ initialData, height, width }) => {
                 key={`geo-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
-                  <RenderMarkers markers={geoData.markers} name="geo-marker" />
+                  <RenderMarkers markers={geoData?.markers} name="geo-marker" />
                   {geoData?.polygons?.map((polygon) => (
                     <Polygon
                       key={`geo-polygon-${generateUniqueKey()}`}
