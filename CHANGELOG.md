@@ -1,3 +1,9 @@
+## [1.239.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.239.0...v1.239.1) (2025-02-06)
+
+### Bug Fixes
+
+- optional chaining on markers ([e7cdc00](https://github.com/bcgov/CONN-CCBC-portal/commit/e7cdc00fb14c18705e1f8b3b13ebf7f0a5145fff))
+
 # [1.239.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.238.0...v1.239.0) (2025-02-06)
 
 ### Features
