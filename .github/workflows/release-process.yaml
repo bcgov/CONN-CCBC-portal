@@ -81,8 +81,9 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
-      - name: Set up Git and import GPG key
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+      - name:
+          Set up Git and import GPG key
+          # if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
         env:
           GPG_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
         run: |
@@ -92,10 +93,10 @@ jobs:
           git config user.signingkey "$(gpg --list-secret-keys --with-colons | awk -F: '/sec:/ {print $5}')"
           git config commit.gpgsign true
       - name: dev env setup
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+        # if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
         uses: ./.github/actions/dev-env-setup
       - name: Setup Sqitch User
-        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+        # if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
         run: |
           docker pull sqitch/sqitch
           curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
