@@ -899,6 +899,74 @@ describe('The index page', () => {
     });
   });
 
+  it('renders global filter modes', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
+    expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
+
+    const globalSearch = screen.getByPlaceholderText('Search');
+    expect(globalSearch).toBeInTheDocument();
+
+    const searchButton = screen.getByTestId('SearchIcon');
+    expect(searchButton).toBeInTheDocument();
+
+    fireEvent.click(searchButton);
+
+    const menuItems = screen.getAllByRole('menuitem');
+    expect(menuItems).toHaveLength(3);
+    expect(menuItems[0]).toHaveTextContent('Fuzzy');
+    expect(menuItems[1]).toHaveTextContent('Contains');
+    expect(menuItems[2]).toHaveTextContent('Starts With');
+  });
+
+  it('global filter filters based on selected mode', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('CCBC-010001')).toBeInTheDocument();
+    expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
+
+    const globalSearch = screen.getByPlaceholderText('Search');
+    expect(globalSearch).toBeInTheDocument();
+
+    const searchButton = screen.getByTestId('SearchIcon');
+    expect(searchButton).toBeInTheDocument();
+
+    fireEvent.click(searchButton);
+
+    const menuItems = screen.getAllByRole('menuitem');
+
+    fireEvent.change(globalSearch, {
+      target: { value: 'oae' },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('CCBC-010001')).toBeInTheDocument();
+      expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
+    });
+
+    fireEvent.click(menuItems[1]);
+
+    fireEvent.change(globalSearch, {
+      target: { value: 'oae' },
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText('CCBC-010001')).not.toBeInTheDocument();
+      expect(screen.queryByText('CCBC-010002')).not.toBeInTheDocument();
+    });
+  });
+
   it('clear filters correctly clears global filter and restore data', async () => {
     jest
       .spyOn(moduleApi, 'useFeature')
