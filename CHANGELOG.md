@@ -1,3 +1,10 @@
+# [1.241.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.240.0...v1.241.0) (2025-02-07)
+
+### Features
+
+- application data count shows helptext ([ba802c0](https://github.com/bcgov/CONN-CCBC-portal/commit/ba802c00afbd50643e28a4996d21d119b578ef83))
+- sow data is traversed for amendments ([0173d75](https://github.com/bcgov/CONN-CCBC-portal/commit/0173d75d0eb704ef21c912389b2586e107b41bff))
+
 # [1.240.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.239.1...v1.240.0) (2025-02-06)
 
 ### Features
