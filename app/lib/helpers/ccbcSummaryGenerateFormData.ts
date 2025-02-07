@@ -213,7 +213,11 @@ const getFallBackFields = (applicationData, formData, communities) => {
   const template9MissingFallBackData = !template9Data && {
     benefitingIndigenousCommunities: 'N/A',
     benefitingCommunities: 'N/A',
+    communities: 'N/A',
+    indigenousCommunities: 'N/A',
+    nonIndigenousCommunities: 'N/A',
   };
+
   const fallBackFields = {
     benefitingCommunities: !communities?.benefitingCommunities?.length
       ? 'None'
@@ -228,6 +232,17 @@ const getFallBackFields = (applicationData, formData, communities) => {
     regionalDistricts: !formData?.locations?.regionalDistricts?.length
       ? 'TBD'
       : null,
+    // since we can get non-integers, check if it's a NaN
+    totalHouseholdsImpacted: Number.isNaN(
+      parseInt(formData?.counts?.totalHouseholdsImpacted, 10)
+    )
+      ? 'N/A'
+      : null,
+    numberOfIndigenousHouseholds: Number.isNaN(
+      parseInt(formData?.counts?.numberOfIndigenousHouseholds, 10)
+    )
+      ? 'N/A'
+      : null,
     ...template9MissingFallBackData,
   };
 
@@ -239,8 +254,28 @@ const getSowFallBackFields = (sowData, formData, communitiesData) => {
     benefitingCommunities: 'TBD',
     benefitingIndigenousCommunities: 'TBD',
   };
-
   return {
+    communities: Number.isInteger(formData.counts.communities) ? null : 'TBD',
+    indigenousCommunities: Number.isInteger(
+      formData.counts.indigenousCommunities
+    )
+      ? null
+      : 'TBD',
+    nonIndigenousCommunities: Number.isInteger(
+      formData.counts.nonIndigenousCommunities
+    )
+      ? null
+      : 'TBD',
+    totalHouseholdsImpacted: Number.isInteger(
+      formData.counts.totalHouseholdsImpacted
+    )
+      ? null
+      : 'TBD',
+    numberOfIndigenousHouseholds: Number.isInteger(
+      formData.counts.numberOfIndigenousHouseholds
+    )
+      ? null
+      : 'TBD',
     benefitingCommunities: !communitiesData?.benefitingCommunities?.length
       ? 'None'
       : null,
@@ -251,10 +286,53 @@ const getSowFallBackFields = (sowData, formData, communitiesData) => {
     ...MissingSowFallBackData,
   };
 };
+const getCommunitiesNumberWithAmendmentNumber = (sowNodes: Array<any>) => {
+  if (!sowNodes) {
+    return null;
+  }
+  let communitiesNumber = null;
+
+  sowNodes.forEach((node) => {
+    if (!communitiesNumber && node) {
+      communitiesNumber = {
+        communitiesNumber:
+          node?.sowTab8SBySowId?.nodes[0]?.jsonData?.communitiesNumber,
+        indigenousCommunitiesNumber:
+          node?.sowTab8SBySowId?.nodes[0]?.jsonData
+            ?.indigenousCommunitiesNumber,
+        amendmentNumber: node?.amendmentNumber,
+      };
+    }
+  });
+  return communitiesNumber;
+};
+
+const getHouseholdsImpactedCountWithAmendmentNumber = (
+  sowNodes: Array<any>
+) => {
+  if (!sowNodes) {
+    return null;
+  }
+  let totalIndigenousHouseholds = null;
+
+  sowNodes.forEach((node) => {
+    if (!totalIndigenousHouseholds && node) {
+      totalIndigenousHouseholds = {
+        totalIndigenousHouseholds:
+          node?.sowTab1SBySowId?.nodes[0]?.jsonData
+            ?.householdsImpactedIndigenous,
+        totalHouseholdsImpacted:
+          node?.sowTab1SBySowId?.nodes[0]?.jsonData?.numberOfHouseholds,
+        amendmentNumber: node?.amendmentNumber,
+      };
+    }
+  });
+  return totalIndigenousHouseholds;
+};
 
 const getSowErrors = (sowData, schema, formDataSource) => {
   if (sowData?.length) return null;
-  const errors = {};
+  const errors: any = {};
   Object.entries(schema?.properties || {}).forEach(([parentKey, value]) => {
     const sectionSchema = value['properties'];
     Object.keys(sectionSchema || {}).forEach((key) => {
@@ -272,7 +350,32 @@ const getSowErrors = (sowData, schema, formDataSource) => {
       }
     });
   });
-
+  // Custom errors for counts
+  if (errors?.counts?.communities?.__errors?.length > 0) {
+    errors.counts.communities.__errors = [
+      'This value is informed from SOW tab 8 cell E15 which has not been uploaded to the portal.',
+    ];
+  }
+  if (errors?.counts?.indigenousCommunities?.__errors?.length > 0) {
+    errors.counts.indigenousCommunities.__errors = [
+      'This value is informed from SOW tab 8 cell E16 which has not been uploaded to the portal.',
+    ];
+  }
+  if (errors?.counts?.nonIndigenousCommunities?.__errors?.length > 0) {
+    errors.counts.nonIndigenousCommunities.__errors = [
+      'This value is informed from SOW tab 8 which has not been uploaded to the portal.',
+    ];
+  }
+  if (errors?.counts?.totalHouseholdsImpacted?.__errors?.length > 0) {
+    errors.counts.totalHouseholdsImpacted.__errors = [
+      'This value is informed from SOW tab 1 cell H18  which has not been uploaded to the portal.',
+    ];
+  }
+  if (errors?.counts?.numberOfIndigenousHouseholds?.__errors?.length > 0) {
+    errors.counts.numberOfIndigenousHouseholds.__errors = [
+      'This value is informed from SOW tab 1 cell H17  which has not been uploaded to the portal.',
+    ];
+  }
   return errors;
 };
 
@@ -312,7 +415,7 @@ const getApplicationErrors = (
   const template9Data =
     applicationData?.applicationFormTemplate9DataByApplicationId?.nodes[0];
   const formErrors = validate(
-    { template9Data, allApplicationErs, allApplicationRds },
+    { template9Data, applicationData, allApplicationErs, allApplicationRds },
     review
   );
   return formErrors;
@@ -320,26 +423,59 @@ const getApplicationErrors = (
 
 const getSowData = (sowData, baseSowData) => {
   const communitiesData = getCommunitiesWithAmendmentNumber(sowData?.nodes);
-  const communities =
-    sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData?.communitiesNumber;
-  const indigenousCommunities =
-    sowData?.nodes[0]?.sowTab8SBySowId?.nodes[0]?.jsonData
-      ?.indigenousCommunitiesNumber;
+  const communities = getCommunitiesNumberWithAmendmentNumber(sowData?.nodes);
+  const communitiesNumber = communities?.communitiesNumber;
+  const indigenousCommunities = communities?.indigenousCommunitiesNumber;
+  const communityNumbersAmendmentNumber = communities?.amendmentNumber;
+  const householdsImpacted = getHouseholdsImpactedCountWithAmendmentNumber(
+    sowData?.nodes
+  );
+  let sowTextCommunityNumber;
+  let sowTextHouseholdsImpacted;
+
+  const counts: any = {};
+  counts.communities = null;
+  counts.indigenousCommunities = null;
+  counts.nonIndigenousCommunities = null;
+  counts.totalHouseholdsImpacted = null;
+  counts.numberOfIndigenousHouseholds = null;
+  // if there are communities add data
+  if (communities) {
+    counts.communities = communitiesNumber;
+    counts.indigenousCommunities = indigenousCommunities;
+    counts.nonIndigenousCommunities =
+      communitiesNumber && indigenousCommunities
+        ? communitiesNumber - indigenousCommunities
+        : communitiesNumber;
+  }
+  // if there are  households impacted add data
+  if (householdsImpacted) {
+    counts.totalHouseholdsImpacted =
+      householdsImpacted?.totalHouseholdsImpacted;
+    counts.numberOfIndigenousHouseholds =
+      householdsImpacted?.totalIndigenousHouseholds;
+  }
+
+  if (communityNumbersAmendmentNumber) {
+    sowTextCommunityNumber =
+      communityNumbersAmendmentNumber === 0
+        ? 'SOW'
+        : `SOW amendment ${communityNumbersAmendmentNumber}`;
+  } else {
+    sowTextCommunityNumber = 'SOW';
+  }
+
+  if (householdsImpacted?.amendmentNumber) {
+    sowTextHouseholdsImpacted =
+      householdsImpacted?.amendmentNumber === 0
+        ? 'SOW'
+        : `SOW amendment ${householdsImpacted?.amendmentNumber}`;
+  } else {
+    sowTextHouseholdsImpacted = 'SOW';
+  }
+
   const formData = {
-    counts: {
-      communities,
-      indigenousCommunities,
-      nonIndigenousCommunities:
-        communities && indigenousCommunities
-          ? communities - indigenousCommunities
-          : communities,
-      totalHouseholdsImpacted:
-        sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
-          ?.numberOfHouseholds,
-      numberOfIndigenousHouseholds:
-        sowData?.nodes[0]?.sowTab1SBySowId?.nodes[0]?.jsonData
-          ?.householdsImpactedIndigenous,
-    },
+    counts: { ...counts },
     locations: {
       benefitingCommunities: communitiesData?.benefitingCommunities,
       benefitingIndigenousCommunities:
@@ -381,13 +517,13 @@ const getSowData = (sowData, baseSowData) => {
     },
   };
   const formDataSource = {
-    communities: 'SOW',
     benefitingCommunities: `SOW${communitiesData?.amendmentNumber ? ` amendment ${communitiesData.amendmentNumber}` : ''}`,
-    indigenousCommunities: 'SOW',
-    nonIndigenousCommunities: 'SOW',
     benefitingIndigenousCommunities: `SOW${communitiesData?.amendmentNumber ? ` amendment ${communitiesData.amendmentNumber}` : ''}`,
-    totalHouseholdsImpacted: 'SOW',
-    numberOfIndigenousHouseholds: 'SOW',
+    communities: sowTextCommunityNumber,
+    indigenousCommunities: sowTextCommunityNumber,
+    nonIndigenousCommunities: sowTextCommunityNumber,
+    totalHouseholdsImpacted: sowTextHouseholdsImpacted,
+    numberOfIndigenousHouseholds: sowTextHouseholdsImpacted,
     bcFundingRequested: 'SOW',
     federalFunding: 'SOW',
     fundingRequestedCcbc: 'SOW',
