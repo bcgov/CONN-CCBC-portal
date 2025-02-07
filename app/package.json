@@ -114,7 +114,7 @@
     "react-typography": "^0.16.23",
     "relay-nextjs": "^0.8.0",
     "relay-runtime": "^13.2.0",
-    "styled-components": "^5.3.5",
+    "styled-components": "^6.1.15",
     "typography": "^0.16.24",
     "url": "^0.11.4",
     "validator": "^13.12.0",
