@@ -208,7 +208,7 @@ jobs:
 
           echo "::set-output name=status::$status"
       - name: Transition Issue
-        if: steps.pr_approval.outputs.result == 'true' && steps.get_status.outputs.status != 'SPRINT Done' && steps.get_status.outputs.status != 'Closed'
+        if: steps.pr_approval.outputs.result == 'true' && steps.get_status.outputs.status != 'SPRINT Done' && steps.get_status.outputs.status != 'Closed' && steps.get_status.outputs.status != 'In Progress (DRAFT PR)'
         run: |
           curl -X POST \
             -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
