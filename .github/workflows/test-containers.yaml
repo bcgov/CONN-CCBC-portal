@@ -45,6 +45,7 @@ jobs:
         run: echo "results-length=$(cat trivy-results.sarif | jq '.runs[0].results | length')" >> $GITHUB_OUTPUT
 
   trivy-scan-db:
+    if: github.event.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
       results-length: ${{ steps.scan-results-length.outputs.results-length }}

@@ -27,7 +27,7 @@
       }
     },
     "hooks": {
-      "before:bump": "sqitch --chdir db tag ${version} -m 'release v${version}'",
+      "before:bump": "./.bin/check-db-changes.sh ${version}",
       "before:git:beforeRelease": "./.bin/pre-commit-format.sh CHANGELOG.md"
     }
   }

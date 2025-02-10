@@ -97,8 +97,10 @@ jobs:
       - name: Setup Sqitch User
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
         run: |
-          sqitch config --user user.name 'CCBC Service Account'
-          sqitch config --user user.email 'ccbc@button.is'
+          docker pull sqitch/sqitch
+          curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
+          ./sqitch config --user user.name 'CCBC Service Account'
+          ./sqitch config --user user.email 'ccbc@button.is'
       - name: Make Release
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
         run: |

@@ -18,7 +18,7 @@ spec:
       containers:
         - env: {{ include "ccbc.postgresPgEnv" . | nindent 16 }}
           name: {{ template "ccbc.fullname" . }}-db-pre
-          image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
+          image: {{ .Values.image.db.repository }}:latest
           imagePullPolicy:  {{ .Values.image.db.pullPolicy }}
           resources:
             requests:

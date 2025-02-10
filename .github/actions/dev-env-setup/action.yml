@@ -3,32 +3,6 @@ description: 'Sets up asdf, perl and configures the cache'
 runs:
   using: composite
   steps:
-    - name: asdf setup
-      uses: asdf-vm/actions/setup@v2
-    - uses: shogo82148/actions-setup-perl@v1
-    - name: install pg perl library
-      run: sudo apt-get install -y libpq-dev libdbd-pg-perl libreadline-dev uuid-dev
-      shell: bash
-    - name: set perl env variables
-      shell: bash
-      run: | # pragma: allowlist secret
-        echo "PERL5LIB=/home/runner/perl5/lib/perl5" >> $GITHUB_ENV
-        echo "PERL_LOCAL_LIB_ROOT=/home/runner/perl5" >> $GITHUB_ENV
-        echo "PERL_MB_OPT=--install_base '/home/runner/perl5'" >> $GITHUB_ENV
-        echo "PERL_MM_OPT=INSTALL_BASE=/home/runner/perl5" >> $GITHUB_ENV
-        echo "/home/runner/perl5/bin" >> $GITHUB_PATH
-    - uses: actions/cache@v3
-      id: asdf-cache
-      with:
-        path: |
-          ~/.asdf
-        key: ${{ runner.os }}-asdf-cache-${{ hashFiles('.tool-versions') }}-v2
-    - uses: actions/cache@v3
-      id: perl-cache
-      with:
-        path: |
-          ~/perl5
-        key: ${{ runner.os }}-perl-cache-${{ hashFiles('cpanfile') }}-v2
     - uses: actions/cache@v3
       id: yarn-cache
       with:
