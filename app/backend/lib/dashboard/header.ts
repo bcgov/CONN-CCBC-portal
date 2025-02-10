@@ -171,6 +171,13 @@ const HEADER_ROW: Row = [
     wrap: true,
   },
   {
+    value: 'Geographic IDs',
+    fontWeight: 'bold',
+    type: String,
+    height: 95,
+    wrap: true,
+  },
+  {
     value: 'Total Communities and Locales',
     fontWeight: 'bold',
     type: String,

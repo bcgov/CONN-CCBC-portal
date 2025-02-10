@@ -49,41 +49,43 @@ const columnOptions: Columns = [
   {},
   // column 24 (Geographic Names)
   {},
-  // column 25 (Total communities and locales)
+  // column 25 geo ids
   {},
-  // column 26 (Indigenous communities)
+  // column 26 (Total communities and locales)
   {},
-  // column 27 (Household count)
+  // column 27 (Indigenous communities)
   {},
-  // column 28 (Transport KM)
+  // column 28 (Household count)
   {},
-  // column 29 (Highway KM)
+  // column 29 (Transport KM)
   {},
-  // column 30 (Rest Areas)
+  // column 30 (Highway KM)
   {},
-  // column 31 (bc funding)
+  // column 31 (Rest Areas)
+  {},
+  // column 32 (bc funding)
   { width: 24 },
-  // column 32 (applicant amount)
+  // column 33 (applicant amount)
   { width: 24 },
-  // column 33 (other funds requested)
+  // column 34 (other funds requested)
   { width: 24 },
-  // column 34 (total fnha funding)
+  // column 35 (total fnha funding)
   { width: 24 },
-  // column 35 (total budget)
+  // column 36 (total budget)
   { width: 24 },
-  // column 36 (announced by bc/ised)
+  // column 37 (announced by bc/ised)
   {},
-  // column 37 (Date application received)
+  // column 38 (Date application received)
   {},
-  // column 38 (Date conditionally approved)
+  // column 39 (Date conditionally approved)
   {},
-  // column 39 (date agreement signed)
+  // column 40 (date agreement signed)
   {},
-  // column 40 (Proposed start date)
+  // column 41 (Proposed start date)
   {},
-  // column 41 (% Project milestone completion)
+  // column 42 (% Project milestone completion)
   {},
-  // column 42 (Construction completed on)
+  // column 43 (Construction completed on)
   {},
 ];
 

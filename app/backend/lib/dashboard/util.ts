@@ -26,7 +26,10 @@ export const handleCcbcCommunities = (ccbcCommunities) => {
   if (!ccbcCommunities) {
     return null;
   }
-  return ccbcCommunities.map((community) => community.name);
+  return ccbcCommunities.map((community) => ({
+    name: community.name,
+    id: community.id,
+  }));
 };
 
 export const convertStatus = (status: string): string => {
