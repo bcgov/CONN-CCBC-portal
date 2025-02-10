@@ -21,4 +21,4 @@ export const CCBC_TECH_ESSENTIALS_TEMPLATE =
   'https://bcgov.sharepoint.com/:x:/r/teams/053702/Shared%20Documents/General/CCBC%20Program%20Documents/0%20FINAL%20PROGRAM%20DOCUMENTATION/4-Assessments/CCBC%20Assessment%20-%20Tech%20Essentials%20Template.xlsm';
 
 export const CCBC_PM_ESSENTIALS_TEMPLATE =
-  'https://bcgov.sharepoint.com/:x:/r/teams/053702/Shared%20Documents/General/CCBC%20Program%20Documents/0%20FINAL%20PROGRAM%20DOCUMENTATION/4-Assessments/CCBC%20Assessment%20-%20Project%20Management%20Essentials%20Template.xlsm';
+  'https://bcgov.sharepoint.com/:x:/r/teams/053702/Shared%20Documents/General/CCBC%20Program%20Documents/0%20FINAL%20PROGRAM%20DOCUMENTATION/4-Assessments/CCBC%20Assessment%20-%20Project%20Management%20Assessment.xlsm';
