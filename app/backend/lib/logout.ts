@@ -16,9 +16,15 @@ logout.post('/api/logout', async (req: any, res) => {
     const idp = req.claims?.identity_provider;
     const baseRoute = idp === 'idir' ? '/analyst' : '/';
 
-    const logoutUrl = `${siteminderUrl}?retnow=1&returl=${authServerUrl}/protocol/openid-connect/logout?redirect_uri=${encodeURI(
-      `${baseUrl}${baseRoute}`
-    )}`;
+    // azureidir does not use siteminder, sending to the siteminderurl
+    // will send user to logout of their azure sessions, which is not ideal
+    // hence we log them out of the portal only
+    const logoutUrl =
+      idp !== 'azureidir'
+        ? `${siteminderUrl}?retnow=1&returl=${authServerUrl}/protocol/openid-connect/logout?redirect_uri=${encodeURI(
+            `${baseUrl}${baseRoute}`
+          )}`
+        : `${baseUrl}${baseRoute}`;
 
     req.session.destroy(() => {
       res.clearCookie('analyst.sort');
