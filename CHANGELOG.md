@@ -1,3 +1,14 @@
+# [1.242.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.240.0...v1.242.0) (2025-02-10)
+
+### Bug Fixes
+
+- Pm assessment link ([3997496](https://github.com/bcgov/CONN-CCBC-portal/commit/39974965803c7a5f1060c2dd703cd9de6897a2a1))
+
+### Features
+
+- application data count shows helptext ([502076e](https://github.com/bcgov/CONN-CCBC-portal/commit/502076e0340da910d6132f6bc92b046bf699b459))
+- sow data is traversed for amendments ([96d05c3](https://github.com/bcgov/CONN-CCBC-portal/commit/96d05c348189dd39fff59e272ea3fae1947ec453))
+
 # [1.241.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.240.0...v1.241.0) (2025-02-07)
 
 ### Features
