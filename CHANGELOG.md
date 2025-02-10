@@ -1,3 +1,23 @@
+# [1.241.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.240.0...v1.241.0) (2025-02-07)
+
+### Features
+
+- application data count shows helptext ([ba802c0](https://github.com/bcgov/CONN-CCBC-portal/commit/ba802c00afbd50643e28a4996d21d119b578ef83))
+- sow data is traversed for amendments ([0173d75](https://github.com/bcgov/CONN-CCBC-portal/commit/0173d75d0eb704ef21c912389b2586e107b41bff))
+
+# [1.240.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.239.1...v1.240.0) (2025-02-06)
+
+### Features
+
+- application data count shows helptext ([ef0d9a6](https://github.com/bcgov/CONN-CCBC-portal/commit/ef0d9a60bd0c3579e860f300237281c7309d97a3))
+- sow data is traversed for amendments ([6fc3349](https://github.com/bcgov/CONN-CCBC-portal/commit/6fc3349614217fcbfa1314f67c0d95358fb09aeb))
+
+## [1.239.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.239.0...v1.239.1) (2025-02-06)
+
+### Bug Fixes
+
+- optional chaining on markers ([e7cdc00](https://github.com/bcgov/CONN-CCBC-portal/commit/e7cdc00fb14c18705e1f8b3b13ebf7f0a5145fff))
+
 # [1.239.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.238.0...v1.239.0) (2025-02-06)
 
 ### Features

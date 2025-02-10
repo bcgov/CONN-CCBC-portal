@@ -287,6 +287,179 @@ const mockQueryPayloadReceived = {
   },
 };
 
+const mockQueryPayloadReceivedWithoutTemplate9 = {
+  Query() {
+    return {
+      allApplicationErs: { edges: [] },
+      allApplicationRds: { edges: [] },
+      applicationByRowId: {
+        announcements: {
+          totalCount: 3,
+        },
+        formData: {
+          jsonData: {
+            review: {
+              acknowledgeIncomplete: true,
+            },
+            benefits: {
+              projectBenefits:
+                "Test project benefits. This is a test project's benefits.",
+              numberOfHouseholds: 31,
+              householdsImpactedIndigenous: 0,
+            },
+
+            projectPlan: {
+              operationalPlan:
+                'Test operational plan. This is a test operational plan.',
+              projectStartDate: '2023-01-01',
+              projectCompletionDate: '2024-01-01',
+            },
+            budgetDetails: {
+              totalProjectCost: 111,
+              totalEligibleCosts: 222,
+            },
+            projectFunding: {
+              fundingRequestedCCBC2324: 111,
+              fundingRequestedCCBC2425: 222,
+              totalFundingRequestedCCBC: 333,
+              totalApplicantContribution: 444,
+              applicationContribution2324: 555,
+              applicationContribution2425: 666,
+            },
+            alternateContact: {},
+            authorizedContact: {},
+            contactInformation: {},
+            projectInformation: {
+              projectTitle: 'Test project title',
+              projectDescription:
+                'Test project description. This is a test project description.',
+              geographicAreaDescription:
+                'Test geographic area description. This is a test geographic area description.',
+            },
+            organizationProfile: {},
+            otherFundingSources: {
+              otherFundingSources: true,
+              otherFundingSourcesArray: [
+                {
+                  funderType: 'Provincial/territorial',
+                  statusOfFunding: 'Submitted',
+                  fundingPartnersName:
+                    'Test funding partner name. This is a test funding partner name.',
+                  nameOfFundingProgram: 'Test',
+                  fundingSourceContactInfo: 'Test',
+                  requestedFundingPartner2324: 777,
+                  requestedFundingPartner2425: 888,
+                  totalRequestedFundingPartner: 999,
+                },
+              ],
+              totalInfrastructureBankFunding: null,
+            },
+            supportingDocuments: {},
+            organizationLocation: {},
+            existingNetworkCoverage: {},
+            estimatedProjectEmployment: {
+              currentEmployment: 1,
+              estimatedFTECreation: 1.1,
+              numberOfEmployeesToWork: 1,
+              personMonthsToBeCreated: 1,
+              hoursOfEmploymentPerWeek: 10,
+              numberOfContractorsToWork: 1,
+              estimatedFTEContractorCreation: 1.4,
+              contractorPersonMonthsToBeCreated: 1,
+              hoursOfContractorEmploymentPerWeek: 11,
+            },
+          },
+        },
+        projectInformation: {},
+        applicationMilestoneExcelDataByApplicationId: {
+          nodes: [],
+        },
+        applicationDependenciesByApplicationId: {
+          nodes: [
+            {
+              jsonData: {
+                connectedCoastNetworkDependent: 'Yes',
+                connectedCoastNetworkDependentDetails: 'TBD',
+              },
+            },
+          ],
+        },
+        applicationFormTemplate9DataByApplicationId: {
+          nodes: [],
+        },
+        conditionalApproval: {},
+        changeRequestDataByApplicationId: {},
+        status: 'received',
+        allAssessments: {
+          nodes: [],
+        },
+        intakeNumber: 1,
+      },
+      allApplicationSowData: {
+        nodes: [],
+      },
+      allIntakes: {
+        nodes: [
+          {
+            closeTimestamp: '2022-12-15T22:30:00+00:00',
+            ccbcIntakeNumber: 1,
+          },
+          {
+            closeTimestamp: '2023-02-16T22:30:00+00:00',
+            ccbcIntakeNumber: 2,
+          },
+          {
+            closeTimestamp: '2027-04-01T06:59:59+00:00',
+            ccbcIntakeNumber: 99,
+          },
+          {
+            closeTimestamp: '2024-03-14T21:30:00+00:00',
+            ccbcIntakeNumber: 3,
+          },
+          {
+            closeTimestamp: '2024-06-20T21:30:00+00:00',
+            ccbcIntakeNumber: 4,
+          },
+        ],
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+    };
+  },
+};
+
+const mockQueryPayloadReceivedTemplate9EmptyGeoNames = {
+  Query() {
+    return {
+      ...mockQueryPayloadReceivedWithoutTemplate9.Query(),
+      applicationByRowId: {
+        ...mockQueryPayloadReceivedWithoutTemplate9.Query().applicationByRowId,
+        applicationFormTemplate9DataByApplicationId: {
+          nodes: [
+            {
+              jsonData: {
+                geoNames: [],
+                communitiesToBeServed: 0,
+                totalNumberOfHouseholds: 0,
+                indigenousCommunitiesToBeServed: 0,
+                totalNumberOfIndigenousHouseholds: 0,
+              },
+              source: {
+                date: '2025-01-13T10:23:17.198-08:00',
+                source: 'rfi',
+                fileName: 'Template 9 - Geographic Names.xlsx',
+                rfiNumber: 'CCBC-060081-2',
+              },
+              id: 'WyJhcHBsaWNhdGlvbl9mb3JtX3RlbXBsYXRlXzlfZGF0YSIsMTE5XQ==',
+            },
+          ],
+        },
+      },
+    };
+  },
+};
+
 const payloadConditionalApproval = {
   applicationByRowId: {
     announcements: {
@@ -709,6 +882,7 @@ const mockQueryPayloadAgreementSigned = {
       allApplicationSowData: {
         nodes: [
           {
+            amendmentNumber: 1,
             rowId: 4,
             jsonData: {
               province: 'BC',
@@ -1172,6 +1346,97 @@ describe('The Summary page', () => {
     expect(screen.getAllByText('(Application)')).toHaveLength(8);
   });
 
+  it('should show the reason for blanks for locations when template 9 not uploaded when application status is received', async () => {
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockQueryPayloadReceivedWithoutTemplate9);
+      pageTestingHelper.renderPage();
+    });
+
+    const benefitingIndigenousCommunities = screen.getByTestId(
+      'root_locations_benefitingIndigenousCommunities-value'
+    );
+    expect(benefitingIndigenousCommunities).toHaveTextContent('N/A');
+    const helpIcon1 = benefitingIndigenousCommunities.querySelector(
+      '[data-testid="HelpIcon"]'
+    );
+    expect(helpIcon1).toBeInTheDocument();
+
+    fireEvent.mouseOver(helpIcon1);
+    const tooltip1 = await screen.findByText(
+      /This value is informed from Template 9 which has not been received from the applicant./
+    );
+    expect(tooltip1).toBeInTheDocument();
+
+    const benefitingCommunities = screen.getByTestId(
+      'root_locations_benefitingCommunities-value'
+    );
+    expect(benefitingCommunities).toHaveTextContent('N/A');
+
+    const helpIcon2 = benefitingCommunities.querySelector(
+      '[data-testid="HelpIcon"]'
+    );
+    expect(helpIcon2).toBeInTheDocument();
+
+    fireEvent.mouseOver(helpIcon2);
+    const tooltip2 = await screen.findByText(
+      /This value is informed from Template 9 which has not been received from the applicant./
+    );
+    expect(tooltip2).toBeInTheDocument();
+  });
+
+  it('should show correct values when application status is received and template 9 does not have location data', async () => {
+    await act(async () => {
+      pageTestingHelper.loadQuery(
+        mockQueryPayloadReceivedTemplate9EmptyGeoNames
+      );
+      pageTestingHelper.renderPage();
+    });
+
+    const benefitingIndigenousCommunities = screen.getByTestId(
+      'root_locations_benefitingIndigenousCommunities-value'
+    );
+    expect(benefitingIndigenousCommunities).toHaveTextContent('None');
+    const helpIcon1 = benefitingIndigenousCommunities.querySelector(
+      '[data-testid="HelpIcon"]'
+    );
+    expect(helpIcon1).not.toBeInTheDocument();
+
+    const benefitingCommunities = screen.getByTestId(
+      'root_locations_benefitingCommunities-value'
+    );
+    expect(benefitingCommunities).toHaveTextContent('None');
+  });
+
+  it('should show the reason for blanks for locations when shp file uploaded but no data found', async () => {
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockQueryPayloadReceivedWithoutTemplate9);
+      pageTestingHelper.renderPage();
+    });
+
+    const ers = screen.getByTestId('root_locations_economicRegions-value');
+    expect(ers).toHaveTextContent('TBD');
+    const helpIcon1 = ers.querySelector('[data-testid="HelpIcon"]');
+    expect(helpIcon1).toBeInTheDocument();
+
+    fireEvent.mouseOver(helpIcon1);
+    const tooltip1 = await screen.findByText(
+      /Coverage data requires updating in the Portal./
+    );
+    expect(tooltip1).toBeInTheDocument();
+
+    const rds = screen.getByTestId('root_locations_regionalDistricts-value');
+    expect(rds).toHaveTextContent('TBD');
+
+    const helpIcon2 = rds.querySelector('[data-testid="HelpIcon"]');
+    expect(helpIcon2).toBeInTheDocument();
+
+    fireEvent.mouseOver(helpIcon2);
+    const tooltip2 = await screen.findByText(
+      /Coverage data requires updating in the Portal./
+    );
+    expect(tooltip2).toBeInTheDocument();
+  });
+
   it('should show the correct data when application is conditional approval', async () => {
     await act(async () => {
       pageTestingHelper.loadQuery(mockQueryPayloadConditionalApproval);
@@ -1240,7 +1505,8 @@ describe('The Summary page', () => {
     // milestone
     expect(screen.getByText('24%')).toBeInTheDocument();
     // application source
-    expect(screen.getAllByText('(SOW)')).toHaveLength(17);
+    expect(screen.getAllByText(/SOW amendment 1/)).toHaveLength(7);
+    expect(screen.getAllByText('(SOW)')).toHaveLength(10);
   });
 
   it('should show the alert when SOW has not been uploaded and application is agreement signed', async () => {
@@ -1259,6 +1525,38 @@ describe('The Summary page', () => {
         'Highlighted cells are null because SOW Excel table has not been uploaded in the portal'
       )
     ).toBeInTheDocument();
+
+    // locations data
+    const benefitingIndigenousCommunities = screen.getByTestId(
+      'root_locations_benefitingIndigenousCommunities-value'
+    );
+    expect(benefitingIndigenousCommunities).toHaveTextContent('TBD');
+    const helpIcon1 = benefitingIndigenousCommunities.querySelector(
+      '[data-testid="HelpIcon"]'
+    );
+    expect(helpIcon1).toBeInTheDocument();
+
+    fireEvent.mouseOver(helpIcon1);
+    const tooltip1 = await screen.findByText(
+      /This value is informed by SOW tab 8, which has not been uploaded to the portal/
+    );
+    expect(tooltip1).toBeInTheDocument();
+
+    const benefitingCommunities = screen.getByTestId(
+      'root_locations_benefitingCommunities-value'
+    );
+    expect(benefitingCommunities).toHaveTextContent('TBD');
+
+    const helpIcon2 = benefitingCommunities.querySelector(
+      '[data-testid="HelpIcon"]'
+    );
+    expect(helpIcon2).toBeInTheDocument();
+
+    fireEvent.mouseOver(helpIcon2);
+    const tooltip2 = await screen.findByText(
+      /This value is informed by SOW tab 8, which has not been uploaded to the portal/
+    );
+    expect(tooltip2).toBeInTheDocument();
   });
 
   it('should show the map in two places', async () => {
