@@ -20,26 +20,33 @@ jobs:
     strategy:
       matrix:
         include:
+          # build app image on every push
           - image: ghcr.io/bcgov/conn-ccbc-portal/ccbc-app
             context: .
             dockerfile: app/Dockerfile
             name: app
-            build_on_main: false
+            build_only_on_main: false
+          # build db image only on main, helper image, does not change
+          # will use cache from registry
           - image: ghcr.io/bcgov/conn-ccbc-portal/ccbc-db
             context: .
             dockerfile: db/Dockerfile
             name: db
-            build_on_main: true
+            build_only_on_main: true
+          # build shp image only on main, cron image, does not change
+          # will use cache from registry
           - image: ghcr.io/bcgov/conn-ccbc-portal/ccbc-cron-shp
             context: .
             dockerfile: cron/shp/Dockerfile
             name: cron-shp
-            build_on_main: true
+            build_only_on_main: true
+          # build unit test db only on main, testing image, does not change
+          # will use cache from registry
           - image: ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db
             context: .
             dockerfile: local_setup/unit_tests/Dockerfile
             name: db-unit-test
-            build_on_main: true
+            build_only_on_main: true
     permissions:
       contents: read
       packages: write
@@ -67,7 +74,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-        if: ${{ matrix.build_on_main != true || github.ref == 'refs/heads/main' || matrix.name == 'app' }}
+        if: ${{ matrix.build_only_on_main != true || github.ref == 'refs/heads/main' || matrix.name == 'app' }}
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
