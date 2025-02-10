@@ -1019,7 +1019,7 @@ const HistoryContent = ({
     }
     if (
       record.comment === 'Yes, change request cancelled' ||
-      record.comment === 'Yes, change request complete'
+      record.comment === 'Yes, change request completed'
     ) {
       action = 'indicated';
       pendingChangeRequestSchema.pendingChangeRequest.properties.comment.title =
