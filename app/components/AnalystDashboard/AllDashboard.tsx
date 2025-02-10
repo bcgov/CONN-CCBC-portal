@@ -293,7 +293,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     isCcbc: boolean;
     rowId: any;
   } | null>(null);
-  const globalFilterMode = useRef('fuzzy');
+  const globalFilterMode = useRef('contains');
 
   const expandedRowsRef = useRef({});
 
@@ -545,7 +545,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     if (visibility === false) return false;
     if (!filterValue) return true;
     if (row.getValue(id) === null) return false;
-    const filterMode = globalFilterMode.current || 'fuzzy';
+    const filterMode = globalFilterMode.current || 'contains';
     let defaultMatch = false;
     if (filterMode === 'fuzzy') {
       defaultMatch = MRT_FilterFns.fuzzy(row, id, filterValue, filterMeta);
