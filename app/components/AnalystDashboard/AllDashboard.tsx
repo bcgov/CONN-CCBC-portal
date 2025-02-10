@@ -26,7 +26,6 @@ import RowCount from 'components/Table/RowCount';
 import AssignLead from 'components/Analyst/AssignLead';
 import StatusPill from 'components/StatusPill';
 import statusStyles from 'data/statusStyles';
-import Link from 'next/link';
 import StatusInformationIcon from 'components/Analyst/StatusInformationIcon';
 import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
@@ -86,15 +85,6 @@ const cbcProjectStatusConverter = (status) => {
   return status;
 };
 
-const StyledLink = styled(Link)`
-  color: ${(props) => props.theme.color.links};
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 const StyledTableHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -130,25 +120,6 @@ const muiTableHeadCellProps = {
       paddingRight: '16px',
     },
   },
-};
-
-const CcbcIdCell = ({ cell }) => {
-  const applicationId = cell.row.original?.rowId;
-  const isCbcProject = cell.row.original?.isCbcProject;
-  const linkCbc = cell.row.original?.showLink;
-  return (
-    <>
-      {linkCbc ? (
-        <StyledLink
-          href={`/analyst/${isCbcProject ? 'cbc' : 'application'}/${applicationId}${isCbcProject ? '' : '/summary'}`}
-        >
-          {cell.getValue()}
-        </StyledLink>
-      ) : (
-        cell.getValue()
-      )}
-    </>
-  );
 };
 
 const AnalystStatusCell = ({ cell }) => {
@@ -733,7 +704,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       {
         accessorKey: 'projectId',
         header: 'Project ID',
-        Cell: CcbcIdCell,
       },
       {
         accessorKey: 'zones',
