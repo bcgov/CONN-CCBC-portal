@@ -264,23 +264,18 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       handleCcbcCommunities(
         summaryData?.formData?.locations?.benefitingCommunities
       ) || null;
-    // const benefitingCommunitiesNames = benefitingCommunities?.map(
-    //   (c) => c?.name
-    // );
-    const combinedBenefitingCommunities = benefitingCommunities?.map(
-      (c) => `${c?.name} (${c?.id})`
-    );
-    const benefitingCommunitiesIds = benefitingCommunities?.map((c) => c?.id);
+    const benefitingCommunitiesNames =
+      benefitingCommunities?.map((c) => c?.name) || [];
+    const benefitingCommunitiesIds =
+      benefitingCommunities?.map((c) => c?.id) || [];
     const benefitingIndigenousCommunities =
       handleCcbcCommunities(
         summaryData?.formData?.locations?.benefitingIndigenousCommunities
       ) || null;
-    // const benefitingIndigenousCommunitiesNames =
-    //   benefitingIndigenousCommunities?.map((c) => c?.name);
+    const benefitingIndigenousCommunitiesNames =
+      benefitingIndigenousCommunities?.map((c) => c?.name) || [];
     const benefitingIndigenousCommunitiesIds =
-      benefitingIndigenousCommunities?.map((c) => c?.id);
-    const combinedBenefitingIndigenousCommunities =
-      benefitingIndigenousCommunities?.map((c) => `${c?.name} (${c?.id})`);
+      benefitingIndigenousCommunities?.map((c) => c?.id) || [];
     const row: Row = [
       // program
       { value: data?.applicationByRowId?.program },
@@ -353,10 +348,10 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // geographic names
       {
-        value: `${combinedBenefitingCommunities} ${combinedBenefitingIndigenousCommunities} ${summaryData.formDataSource.benefitingCommunities || summaryData.formDataSource.benefitingIndigenousCommunities ? `(${summaryData.formDataSource.benefitingCommunities})` : ''}`,
+        value: `${benefitingCommunitiesNames.join(',')} ${benefitingIndigenousCommunitiesNames.join(',')} ${summaryData.formDataSource.benefitingCommunities || summaryData.formDataSource.benefitingIndigenousCommunities ? `(${summaryData.formDataSource.benefitingCommunities})` : ''}`,
       },
       {
-        value: `${benefitingCommunitiesIds} ${benefitingIndigenousCommunitiesIds}`,
+        value: `${benefitingCommunitiesIds.join(',')} ${benefitingIndigenousCommunitiesIds.join(',')}`,
       },
       // total communities and locales
       {
