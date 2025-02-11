@@ -117,6 +117,7 @@ const getCommunitiesTemplateNine = (communities) => {
         benefitingCommunities.push({
           name: community?.geoName,
           link: community?.mapLink,
+          id: community?.geoNameId,
         });
       }
     }
@@ -125,6 +126,7 @@ const getCommunitiesTemplateNine = (communities) => {
         benefitingIndigenousCommunities.push({
           name: community?.geoName,
           link: community?.mapLink,
+          id: community?.geoNameId,
         });
       }
     }
@@ -163,6 +165,7 @@ const getCommunities = (communities) => {
         benefitingCommunities.push({
           name: community?.bcGeoName,
           link: community?.mapLink,
+          id: community?.geoNameId,
         });
       }
     }
@@ -175,6 +178,7 @@ const getCommunities = (communities) => {
         benefitingIndigenousCommunities.push({
           name: community?.bcGeoName,
           link: community?.mapLink,
+          id: community?.geoNameId,
         });
       }
     }
