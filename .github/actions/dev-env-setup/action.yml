@@ -3,7 +3,7 @@ description: 'Sets up asdf, perl and configures the cache'
 runs:
   using: composite
   steps:
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: yarn-cache
       with:
         path: |
