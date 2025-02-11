@@ -537,7 +537,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       // geographic names
       { value: communities.bcGeographicNames },
       // geo ids
-      { value: null },
+      { value: communities.bcGeographicIds },
       // total communities and locales
       { value: communities.totalCount },
       // indigenous communities
