@@ -342,10 +342,11 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       { value: `${summaryData?.formData?.locations?.regionalDistricts || ''}` },
       // geographic names
       {
-        value: `${benefitingCommunitiesNames.join(',')} ${benefitingIndigenousCommunitiesNames.join(',')}`,
+        value: `${benefitingCommunitiesNames.length > 0 ? benefitingCommunitiesNames.join(',') : ''}${benefitingIndigenousCommunitiesNames.length > 0 ? (benefitingCommunitiesNames.length > 0 ? ',' : '') + benefitingIndigenousCommunitiesNames.join(',') : ''}`,
       },
+      // geo ids
       {
-        value: `${benefitingCommunitiesIds.join(',')} ${benefitingIndigenousCommunitiesIds.join(',')}`,
+        value: `${benefitingCommunitiesIds.length > 0 ? benefitingCommunitiesIds.join(',') : ''}${benefitingIndigenousCommunitiesIds.length > 0 ? (benefitingCommunitiesIds.length > 0 ? ',' : '') + benefitingIndigenousCommunitiesIds.join(',') : ''}`,
       },
       // total communities and locales
       { value: summaryData?.formData?.counts?.communities || '' },
@@ -533,9 +534,9 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       // regional district
       { value: communities.regionalDistricts },
       // geographic names
-      { value: communities.bcGeographicNames },
+      { value: communities.bcGeographicNames.join(',') },
       // geo ids
-      { value: communities.bcGeographicIds },
+      { value: communities.bcGeographicIds.join(',') },
       // total communities and locales
       { value: communities.totalCount },
       // indigenous communities
