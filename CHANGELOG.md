@@ -1,3 +1,16 @@
+# [1.243.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.242.1...v1.243.0) (2025-02-11)
+
+### Features
+
+- add geo name id to dashboard export ([1f39c4d](https://github.com/bcgov/CONN-CCBC-portal/commit/1f39c4d4caf9f370878ebfc48f3501bbbd6880b1))
+
+## [1.242.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.242.0...v1.242.1) (2025-02-11)
+
+### Bug Fixes
+
+- sow communities not showing up ([3466997](https://github.com/bcgov/CONN-CCBC-portal/commit/34669979a58648ddb0b0277dae0e829c9aa953aa))
+- update sonarqube scan ([6036799](https://github.com/bcgov/CONN-CCBC-portal/commit/6036799222559a547acaf16951be30094142c089))
+
 # [1.242.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.240.0...v1.242.0) (2025-02-10)
 
 ### Bug Fixes

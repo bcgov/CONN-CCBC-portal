@@ -2,7 +2,7 @@
 name: test code
 
 env:
-  PGPASSWORD: postgres
+  PGPASSWORD: mysecretpassword
   PGUSER: postgres
   PGDATABASE: ccbc
 
@@ -31,7 +31,7 @@ jobs:
           attempt_limit: 2
           attempt_delay: 2000
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v4.2.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -73,36 +73,27 @@ jobs:
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - name: deploy db migrations
-        run: make start_pg && make drop_db && make deploy_db_migrations
+        run: |
+          docker run --rm -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres:15
+          # Wait for PostgreSQL to be ready
+          until docker exec $(docker ps -q -f ancestor=postgres:15) pg_isready -U postgres; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 2
+          done
+          # Additional wait to ensure PostgreSQL is fully ready
+          sleep 5
+          # Check PostgreSQL readiness from the host one more time
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for PostgreSQL to be ready from the host..."
+            sleep 2
+          done
+          make drop_db PSQL="psql -h localhost -U postgres"
+          make create_db PSQL="psql -h localhost -U postgres"
+          # Deploy migrations
+          docker pull sqitch/sqitch
+          curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
+          ./sqitch --chdir db deploy
       - run: yarn build:schema
         working-directory: ./app
       - name: Check for inconsistency between graphql schema and commit schema
         run: git diff --exit-code || (echo 'The contents of the `schema` folder are out of sync with `app/schema/schema.graphql`. Did you forget to \"yarn build:schema\"?' && false)
-
-  reverts:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
-      - name: deploy db migrations
-        run: make start_pg && make drop_db && make deploy_db_migrations
-      - name: revert db migrations
-        run: make revert_db_migrations
-      - name: re-deploy db migrations
-        run: make deploy_db_migrations
-
-  pgtap:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
-      - name: Run Database Unit Tests
-        run: make db_unit_tests
-      - name: Run Database Style Tests
-        run: make db_style_tests

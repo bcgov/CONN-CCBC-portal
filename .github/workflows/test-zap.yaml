@@ -16,8 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
+      # - name: dev env setup
+      #   uses: ./.github/actions/dev-env-setup
       - name: run app locally
         uses: ./.github/actions/local-app-run
       - name: ZAP Full Scan

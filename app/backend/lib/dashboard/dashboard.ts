@@ -263,11 +263,19 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
     const benefitingCommunities =
       handleCcbcCommunities(
         summaryData?.formData?.locations?.benefitingCommunities
-      ) || '';
+      ) || null;
+    const benefitingCommunitiesNames =
+      benefitingCommunities?.map((c) => c?.name) || [];
+    const benefitingCommunitiesIds =
+      benefitingCommunities?.map((c) => c?.id) || [];
     const benefitingIndigenousCommunities =
       handleCcbcCommunities(
         summaryData?.formData?.locations?.benefitingIndigenousCommunities
-      ) || '';
+      ) || null;
+    const benefitingIndigenousCommunitiesNames =
+      benefitingIndigenousCommunities?.map((c) => c?.name) || [];
+    const benefitingIndigenousCommunitiesIds =
+      benefitingIndigenousCommunities?.map((c) => c?.id) || [];
     const row: Row = [
       // program
       { value: data?.applicationByRowId?.program },
@@ -340,7 +348,10 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // geographic names
       {
-        value: `${benefitingCommunities} ${benefitingIndigenousCommunities} ${summaryData.formDataSource.benefitingCommunities || summaryData.formDataSource.benefitingIndigenousCommunities ? `(${summaryData.formDataSource.benefitingCommunities})` : ''}`,
+        value: `${benefitingCommunitiesNames.join(',')} ${benefitingIndigenousCommunitiesNames.join(',')} ${summaryData.formDataSource.benefitingCommunities || summaryData.formDataSource.benefitingIndigenousCommunities ? `(${summaryData.formDataSource.benefitingCommunities})` : ''}`,
+      },
+      {
+        value: `${benefitingCommunitiesIds.join(',')} ${benefitingIndigenousCommunitiesIds.join(',')}`,
       },
       // total communities and locales
       {
@@ -525,6 +536,8 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       { value: communities.regionalDistricts },
       // geographic names
       { value: communities.bcGeographicNames },
+      // geo ids
+      { value: communities.bcGeographicIds },
       // total communities and locales
       { value: communities.totalCount },
       // indigenous communities

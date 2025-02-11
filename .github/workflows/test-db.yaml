@@ -1,0 +1,80 @@
+# Tests for db that do not require any node_modules
+name: test db
+
+env:
+  PGPASSWORD: mysecretpassword
+  PGUSER: postgres
+  PGDATABASE: ccbc
+
+on:
+  workflow_call:
+
+concurrency:
+  group: test-db-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  reverts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: deploy db migrations
+        run: |
+          docker run --name ccbc-db -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres:15
+          # Wait for PostgreSQL to be ready
+          until docker exec ccbc-db pg_isready -U postgres; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 2
+          done
+          # Additional wait to ensure PostgreSQL is fully ready
+          sleep 5
+          # Check PostgreSQL readiness from the host one more time
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for PostgreSQL to be ready from the host..."
+            sleep 2
+          done
+          make drop_db PSQL="psql -h localhost -U postgres"
+          make create_db PSQL="psql -h localhost -U postgres"
+          # Deploy migrations
+          docker pull sqitch/sqitch
+          curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
+          ./sqitch --chdir db deploy
+          ./sqitch --chdir mocks_schema deploy
+      - name: revert db migrations
+        run: |
+          docker pull sqitch/sqitch
+          curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
+          ./sqitch --chdir db revert
+          ./sqitch --chdir mocks_schema revert
+      - name: re-deploy db migrations
+        run: |
+          docker pull sqitch/sqitch
+          curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
+          ./sqitch --chdir db deploy
+          ./sqitch --chdir mocks_schema deploy
+          docker stop ccbc-db
+
+  pgtap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Run Database Unit Tests
+        run: |
+          docker run --rm --name ccbc-pgtap -p 5432:5432 -d ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db:latest
+          sleep 5
+          docker pull sqitch/sqitch
+          curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
+          make create_test_db PSQL="docker exec ccbc-pgtap psql -h localhost -U postgres"
+          make deploy_test_db_migrations PSQL="docker exec ccbc-pgtap psql -h localhost -U postgres" SQITCH="./sqitch -u postgres"
+          docker pull itheory/pg_prove:latest
+          curl -L https://git.io/JUdgg -o pg_prove && chmod +x pg_prove
+          script -q -c "./pg_prove -h localhost -U postgres --failures -d ccbc_test db/test/unit/**/*_test.sql"
+          script -q -c "./pg_prove --no-psqlrc -h localhost -U postgres --failures -d ccbc_test mocks_schema/test/**/*_test.sql"
+      - name: Run Database Style Tests
+        run: |
+          script -q -c "./pg_prove -h localhost -U postgres --failures -d ccbc_test mocks_schema/test/**/*_test.sql"
+          docker stop ccbc-pgtap

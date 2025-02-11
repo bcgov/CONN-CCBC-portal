@@ -1,12 +1,12 @@
-# Use the official PostgreSQL 14 image as the base image
-FROM postgres:14
+# Use the official PostgreSQL 15 image as the base image
+FROM postgres:15
 
 # Set environment variables for PostgreSQL
-ENV POSTGRES_PASSWORD mysecretpassword
+ENV POSTGRES_PASSWORD=mysecretpassword
 
 # Install required dependencies and tools
 RUN apt-get update \
-    && apt-get install -y git build-essential postgresql-server-dev-14 \
+    && apt-get install -y git build-essential postgresql-server-dev-15 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

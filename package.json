@@ -1,6 +1,6 @@
 {
   "name": "CONN-CCBC-portal",
-  "version": "1.242.0",
+  "version": "1.243.0",
   "main": "index.js",
   "repository": "https://github.com/bcgov/CONN-CCBC-portal.git",
   "author": "Romer, Meherzad CITZ:EX <Meherzad.Romer@gov.bc.ca>",
@@ -27,7 +27,7 @@
       }
     },
     "hooks": {
-      "before:bump": "sqitch --chdir db tag ${version} -m 'release v${version}'",
+      "before:bump": "./.bin/check-db-changes.sh ${version}",
       "before:git:beforeRelease": "./.bin/pre-commit-format.sh CHANGELOG.md"
     }
   }
