@@ -216,7 +216,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
               zones
               status
               applicationSowDataByApplicationId(
-                condition: { isAmendment: false }
+                condition: { archivedAt: null }
                 last: 1
               ) {
                 totalCount
@@ -224,7 +224,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
                   id
                   jsonData
                   rowId
-                  sowTab8SBySowId(condition: { archivedAt: null }) {
+                  sowTab8SBySowId {
                     nodes {
                       rowId
                       jsonData
