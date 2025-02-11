@@ -4,6 +4,7 @@ export const handleCbcCommunities = (cbcCommunities) => {
   const economicRegions = new Set<string>();
   const regionalDistricts = new Set<string>();
   const bcGeographicNames = new Set<string>();
+  const bcGeographicIds = new Set<string>();
 
   cbcCommunities.forEach((community) => {
     const sourceData = community.communitiesSourceDataByCommunitiesSourceDataId;
@@ -11,6 +12,7 @@ export const handleCbcCommunities = (cbcCommunities) => {
       economicRegions.add(sourceData.economicRegion);
       regionalDistricts.add(sourceData.regionalDistrict);
       bcGeographicNames.add(sourceData.bcGeographicName);
+      bcGeographicIds.add(sourceData.geographicNameId);
     }
   });
 
@@ -18,6 +20,7 @@ export const handleCbcCommunities = (cbcCommunities) => {
     economicRegions: Array.from(economicRegions),
     regionalDistricts: Array.from(regionalDistricts),
     bcGeographicNames: Array.from(bcGeographicNames),
+    bcGeographicIds: Array.from(bcGeographicIds),
     totalCount: cbcCommunities.length,
   };
 };
