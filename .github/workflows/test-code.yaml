@@ -31,7 +31,7 @@ jobs:
           attempt_limit: 2
           attempt_delay: 2000
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@4.2.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
