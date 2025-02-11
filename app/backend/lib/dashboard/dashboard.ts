@@ -9,7 +9,6 @@ import {
 import { generateHeaderInfoRow, HEADER_ROW } from './header';
 import {
   convertStatus,
-  formatCurrency,
   handleCbcCommunities,
   handleCcbcCommunities,
   handleLastMileSpeed,
@@ -362,27 +361,33 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       { value: null },
       // bc funding requested
       {
-        value: formatCurrency(
-          summaryData?.formData?.funding?.bcFundingRequested
-        ),
+        value: summaryData?.formData?.funding?.bcFundingRequested,
+        format: '$#,##0.00',
+        type: Number,
       },
       // applicant amount
       {
-        value: formatCurrency(summaryData?.formData?.funding?.applicantAmount),
+        value: summaryData?.formData?.funding?.applicantAmount,
+        format: '$#,##0.00',
+        type: Number,
       },
       // other funds requested
       {
-        value: formatCurrency(
-          summaryData?.formData?.funding?.otherFundingRequested
-        ),
+        value: summaryData?.formData?.funding?.otherFundingRequested,
+        format: '$#,##0.00',
+        type: Number,
       },
       // total fnha funding
-      { value: formatCurrency(summaryData?.formData?.funding?.fhnaFunding) },
+      {
+        value: summaryData?.formData?.funding?.fhnaFunding,
+        format: '$#,##0.00',
+        type: Number,
+      },
       // total project budget
       {
-        value: formatCurrency(
-          summaryData?.formData?.funding?.totalProjectBudget
-        ),
+        value: summaryData?.formData?.funding?.totalProjectBudget,
+        format: '$#,##0.00',
+        type: Number,
       },
       // announced by bc/ised
       { value: convertBoolean(data?.applicationByRowId?.announced) },
