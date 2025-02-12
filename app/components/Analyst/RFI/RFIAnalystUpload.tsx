@@ -9,6 +9,7 @@ import { rfiAnalystUiSchema } from 'formSchema/uiSchema/analyst/rfiUiSchema';
 import { useRouter } from 'next/router';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import styled from 'styled-components';
+import { DateTime } from 'luxon';
 
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 import useEmailNotification from 'lib/helpers/useEmailNotification';
@@ -16,6 +17,8 @@ import useRfiCoverageMapKmzUploadedEmail from 'lib/helpers/useRfiCoverageMapKmzU
 import { useToast } from 'components/AppProvider';
 import Link from 'next/link';
 import joinWithAnd from 'utils/formatArray';
+import { useCreateTemplateNineDataMutation } from 'schema/mutations/application/createTemplateNineData';
+import { useUpdateTemplateNineDataMutation } from 'schema/mutations/application/updateTemplateNineData';
 
 const Flex = styled('header')`
   display: flex;
@@ -39,6 +42,12 @@ const RfiAnalystUpload = ({ query }) => {
             formSchemaId
             jsonData
           }
+          applicationFormTemplate9DataByApplicationId {
+            totalCount
+            nodes {
+              rowId
+            }
+          }
           ...RfiFormStatus_application
         }
         rfiDataByRowId(rowId: $rfiId) {
@@ -58,6 +67,7 @@ const RfiAnalystUpload = ({ query }) => {
     formData: { formSchemaId, jsonData },
     rowId: applicationId,
     ccbcNumber,
+    applicationFormTemplate9DataByApplicationId,
   } = applicationByRowId;
   const { showToast, hideToast } = useToast();
 
@@ -65,9 +75,12 @@ const RfiAnalystUpload = ({ query }) => {
 
   const [createNewFormData] = useCreateNewFormDataMutation();
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
+  const [createTemplateNineDataMutation] = useCreateTemplateNineDataMutation();
+  const [updateTemplateNineDataMutation] = useUpdateTemplateNineDataMutation();
   const [rfiFormData, setRfiFormData] = useState(rfiDataByRowId?.jsonData);
   const [newFormData, setNewFormData] = useState(jsonData);
   const [templateData, setTemplateData] = useState(null);
+  const [templateNineData, setTemplateNineData] = useState(null);
   const [excelImportFields, setExcelImportFields] = useState([]);
   const [excelImportFiles, setExcelImportFiles] = useState([]);
   const router = useRouter();
@@ -104,6 +117,7 @@ const RfiAnalystUpload = ({ query }) => {
     } else if (templateData?.templateNumber === 9 && !templateData?.error) {
       setExcelImportFields([...excelImportFields, 'Template 9']);
       setExcelImportFiles([...excelImportFiles, templateData?.templateName]);
+      setTemplateNineData(templateData.data);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templateData]);
@@ -128,7 +142,48 @@ const RfiAnalystUpload = ({ query }) => {
     );
   };
 
-  const handleSubmit = () => {
+  const showTemplateNineToast = (state) => {
+    const messages = {
+      success:
+        'Template 9 processing successful, geographic names have been updated for this application.',
+      error: 'Template 9 processing failed, please try again later.',
+    };
+    showToast(messages[state] || messages.error, state, 100000000);
+  };
+
+  const handleCreateTemplateNineData = async () => {
+    const payload = {
+      jsonData: templateNineData,
+      errors: templateNineData.errors || null,
+      source: {
+        source: 'rfi',
+        rfiNumber: rfiNumber || null,
+        fileName: templateNineData.originalFilename,
+        date: DateTime.now().toISO(),
+      },
+      applicationId,
+    };
+
+    const hasExistingData =
+      applicationFormTemplate9DataByApplicationId.totalCount > 0;
+    const mutation = hasExistingData
+      ? updateTemplateNineDataMutation
+      : createTemplateNineDataMutation;
+    const input: any = hasExistingData
+      ? {
+          rowId: applicationFormTemplate9DataByApplicationId.nodes[0].rowId,
+          applicationFormTemplate9DataPatch: payload,
+        }
+      : { applicationFormTemplate9Data: payload };
+
+    mutation({
+      variables: { input },
+      onCompleted: () => showTemplateNineToast('success'),
+      onError: () => showTemplateNineToast('error'),
+    });
+  };
+
+  const handleSubmit = async () => {
     const updatedExcelFields = excelImportFields.join(', ');
     const reasonForChange = `Auto updated from upload of ${updatedExcelFields} for RFI: ${rfiNumber}`;
     hideToast();
@@ -140,6 +195,9 @@ const RfiAnalystUpload = ({ query }) => {
         },
       },
       onCompleted: () => {
+        if (excelImportFields.includes('Template 9')) {
+          handleCreateTemplateNineData();
+        }
         if (excelImportFields.length > 0) {
           createNewFormData({
             variables: {
