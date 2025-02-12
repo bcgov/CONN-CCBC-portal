@@ -5,29 +5,35 @@
 import * as Sentry from '@sentry/nextjs';
 import getConfig from 'next/config';
 
-const { SENTRY_ENVIRONMENT, SENTRY_RELEASE } =
+const { SENTRY_ENVIRONMENT, SENTRY_RELEASE, OPENSHIFT_APP_NAMESPACE } =
   getConfig().publicRuntimeConfig || {};
 
-Sentry.init({
-  dsn: 'https://d6719b95640e48e28369cd152b9ea9e5@o4504057698320384.ingest.us.sentry.io/4504079285944320',
+if (
+  OPENSHIFT_APP_NAMESPACE &&
+  OPENSHIFT_APP_NAMESPACE.includes('ff61fb') &&
+  !OPENSHIFT_APP_NAMESPACE.includes('dev')
+) {
+  Sentry.init({
+    dsn: 'https://d6719b95640e48e28369cd152b9ea9e5@o4504057698320384.ingest.us.sentry.io/4504079285944320',
 
-  // Add optional integrations for additional features
-  integrations: [Sentry.replayIntegration()],
+    // Add optional integrations for additional features
+    integrations: [Sentry.replayIntegration()],
 
-  // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
-  tracesSampleRate: 1,
+    // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
+    tracesSampleRate: 1,
 
-  // Define how likely Replay events are sampled.
-  // This sets the sample rate to be 10%. You may want this to be 100% while
-  // in development and sample at a lower rate in production
-  replaysSessionSampleRate: 0.1,
+    // Define how likely Replay events are sampled.
+    // This sets the sample rate to be 10%. You may want this to be 100% while
+    // in development and sample at a lower rate in production
+    replaysSessionSampleRate: 0.1,
 
-  // Define how likely Replay events are sampled when an error occurs.
-  replaysOnErrorSampleRate: 1.0,
+    // Define how likely Replay events are sampled when an error occurs.
+    replaysOnErrorSampleRate: 1.0,
 
-  // Setting this option to true will print useful information to the console while you're setting up Sentry.
-  debug: false,
+    // Setting this option to true will print useful information to the console while you're setting up Sentry.
+    debug: false,
 
-  environment: SENTRY_ENVIRONMENT,
-  release: SENTRY_RELEASE,
-});
+    environment: SENTRY_ENVIRONMENT,
+    release: SENTRY_RELEASE,
+  });
+}
