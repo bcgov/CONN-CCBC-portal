@@ -1,3 +1,10 @@
+## [1.243.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.243.0...v1.243.1) (2025-02-12)
+
+### Bug Fixes
+
+- handling ccbc currency fields ([83fe8ba](https://github.com/bcgov/CONN-CCBC-portal/commit/83fe8ba75b08c619e1cbbcf25a4db4531e39805c))
+- not transitioning PRs which are in-progress ([e2c4c4b](https://github.com/bcgov/CONN-CCBC-portal/commit/e2c4c4b283b62314a4ad5ae65229d49fece1be4f))
+
 # [1.243.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.242.1...v1.243.0) (2025-02-11)
 
 ### Features
