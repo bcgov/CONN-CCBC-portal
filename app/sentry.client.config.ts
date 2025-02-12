@@ -8,7 +8,11 @@ import getConfig from 'next/config';
 const { SENTRY_ENVIRONMENT, SENTRY_RELEASE, OPENSHIFT_APP_NAMESPACE } =
   getConfig().publicRuntimeConfig || {};
 
-if (OPENSHIFT_APP_NAMESPACE && OPENSHIFT_APP_NAMESPACE.includes('ff61fb')) {
+if (
+  OPENSHIFT_APP_NAMESPACE &&
+  OPENSHIFT_APP_NAMESPACE.includes('ff61fb') &&
+  !OPENSHIFT_APP_NAMESPACE.includes('dev')
+) {
   Sentry.init({
     dsn: 'https://d6719b95640e48e28369cd152b9ea9e5@o4504057698320384.ingest.us.sentry.io/4504079285944320',
 
