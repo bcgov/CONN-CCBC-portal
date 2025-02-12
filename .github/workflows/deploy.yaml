@@ -133,12 +133,7 @@ jobs:
       - run: ./.bin/sqitch-last-change-is-tag.sh db
 
   deploy-to-openshift-test:
-    needs:
-      [
-        deploy-to-openshift-development,
-        ensure-sqitch-plan-ends-with-tag,
-        is-tagged-release,
-      ]
+    needs: [deploy-to-openshift-development, is-tagged-release]
     if: contains(needs.is-tagged-release.outputs.tagVersion, 'v')
     runs-on: ubuntu-latest
     environment:
@@ -194,12 +189,7 @@ jobs:
           environment: test
 
   deploy-to-openshift-production:
-    needs:
-      [
-        deploy-to-openshift-test,
-        ensure-sqitch-plan-ends-with-tag,
-        is-tagged-release,
-      ]
+    needs: [deploy-to-openshift-test, is-tagged-release]
     if: contains(needs.is-tagged-release.outputs.tagVersion, 'v')
     runs-on: ubuntu-latest
     environment:
