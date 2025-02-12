@@ -1,3 +1,10 @@
+## [1.243.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.243.2...v1.243.4) (2025-02-12)
+
+### Bug Fixes
+
+- commas on geo names and ids ([7c680f2](https://github.com/bcgov/CONN-CCBC-portal/commit/7c680f23d910a838d637d60a1316099c9f0ca21e))
+- deployment without sqitch tag ([5e227e2](https://github.com/bcgov/CONN-CCBC-portal/commit/5e227e29476e76dba8b7b7e997ff8062e4305c3b))
+
 ## [1.243.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.243.2...v1.243.3) (2025-02-12)
 
 ### Bug Fixes
