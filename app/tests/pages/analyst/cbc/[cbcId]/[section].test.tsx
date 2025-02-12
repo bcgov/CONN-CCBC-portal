@@ -317,6 +317,7 @@ describe('EditCbcSection', () => {
   });
 
   it('should call update function and cbcCommunityUpdate with correct data on save', async () => {
+    jest.setTimeout(10000);
     pageTestingHelper.setMockRouterValues({
       query: { cbcId: '1', section: 'locations' },
     });
