@@ -9,7 +9,6 @@ import {
 import { generateHeaderInfoRow, HEADER_ROW } from './header';
 import {
   convertStatus,
-  formatCurrency,
   handleCbcCommunities,
   handleCcbcCommunities,
   handleLastMileSpeed,
@@ -334,37 +333,26 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       { value: handleLastMileSpeed(data?.applicationByRowId?.status) },
       // connected coast network dependent
       {
-        value: `${summaryData?.formData?.dependency?.connectedCoastNetworkDependent || ''} (${summaryData?.formDataSource?.connectedCoastNetworkDependent && summaryData?.formData?.dependency?.connectedCoastNetworkDependent ? `(${summaryData?.formDataSource?.connectedCoastNetworkDependent})` : ''})`,
+        value: `${summaryData?.formData?.dependency?.connectedCoastNetworkDependent || ''}`,
       },
       // project location ??
       { value: null },
-      // economic region
-      {
-        value: `${summaryData?.formData?.locations?.economicRegions || ''} ${summaryData?.formDataSource?.economicRegions ? `(${summaryData?.formDataSource?.economicRegions})` : ''}`,
-      },
+      { value: `${summaryData?.formData?.locations?.economicRegions || ''}` },
       // regional district
-      {
-        value: `${summaryData?.formData?.locations?.regionalDistricts || ''} ${summaryData?.formDataSource?.regionalDistricts ? `(${summaryData?.formDataSource?.regionalDistricts})` : ''}`,
-      },
+      { value: `${summaryData?.formData?.locations?.regionalDistricts || ''}` },
       // geographic names
       {
-        value: `${benefitingCommunitiesNames.join(',')} ${benefitingIndigenousCommunitiesNames.join(',')} ${summaryData.formDataSource.benefitingCommunities || summaryData.formDataSource.benefitingIndigenousCommunities ? `(${summaryData.formDataSource.benefitingCommunities})` : ''}`,
+        value: `${benefitingCommunitiesNames.join(',')} ${benefitingIndigenousCommunitiesNames.join(',')}`,
       },
       {
         value: `${benefitingCommunitiesIds.join(',')} ${benefitingIndigenousCommunitiesIds.join(',')}`,
       },
       // total communities and locales
-      {
-        value: `${summaryData?.formData?.counts?.communities || ''} ${summaryData?.formDataSource?.communities ? `(${summaryData?.formDataSource?.communities})` : ''}`,
-      },
+      { value: summaryData?.formData?.counts?.communities || '' },
       // indigenous communities
-      {
-        value: `${summaryData?.formData?.counts?.indigenousCommunities || ''} ${summaryData?.formDataSource?.indigenousCommunities ? `(${summaryData?.formDataSource?.indigenousCommunities})` : ''}`,
-      },
+      { value: summaryData?.formData?.counts?.indigenousCommunities || '' },
       // household count
-      {
-        value: `${summaryData?.formData?.counts?.totalHouseholdsImpacted || ''} ${summaryData?.formDataSource?.totalHouseholdsImpacted ? `(${summaryData?.formDataSource?.totalHouseholdsImpacted})` : ''}`,
-      },
+      { value: summaryData?.formData?.counts?.totalHouseholdsImpacted || '' },
       // transport km
       { value: null },
       // highway km
@@ -373,23 +361,33 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       { value: null },
       // bc funding requested
       {
-        value: `${formatCurrency(summaryData?.formData?.funding?.bcFundingRequested)} ${summaryData?.formDataSource?.bcFundingRequested ? `(${summaryData?.formDataSource?.bcFundingRequested})` : ''}`,
+        value: summaryData?.formData?.funding?.bcFundingRequested,
+        format: '$#,##0.00',
+        type: Number,
       },
       // applicant amount
       {
-        value: `${formatCurrency(summaryData?.formData?.funding?.applicantAmount)} ${summaryData?.formDataSource?.applicantAmount ? `(${summaryData?.formDataSource?.applicantAmount})` : ''}`,
+        value: summaryData?.formData?.funding?.applicantAmount,
+        format: '$#,##0.00',
+        type: Number,
       },
       // other funds requested
       {
-        value: `${formatCurrency(summaryData?.formData?.funding?.otherFundingRequested)} ${summaryData?.formDataSource?.otherFundingRequested ? `(${summaryData?.formDataSource?.otherFundingRequested})` : ''}`,
+        value: summaryData?.formData?.funding?.otherFundingRequested,
+        format: '$#,##0.00',
+        type: Number,
       },
       // total fnha funding
       {
-        value: `${formatCurrency(summaryData?.formData?.funding?.fhnaFunding)} ${summaryData?.formDataSource?.fhnaFunding ? `(${summaryData?.formDataSource?.fhnaFunding})` : ''}`,
+        value: summaryData?.formData?.funding?.fhnaFunding,
+        format: '$#,##0.00',
+        type: Number,
       },
       // total project budget
       {
-        value: `${formatCurrency(summaryData?.formData?.funding?.totalProjectBudget)} ${summaryData?.formDataSource?.totalProjectBudget ? `(${summaryData?.formDataSource?.totalProjectBudget})` : ''}`,
+        value: summaryData?.formData?.funding?.totalProjectBudget,
+        format: '$#,##0.00',
+        type: Number,
       },
       // announced by bc/ised
       { value: convertBoolean(data?.applicationByRowId?.announced) },
@@ -399,7 +397,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
           cleanDateTime(
             summaryData?.formData?.eventsAndDates?.dateApplicationReceived
           ) || ''
-        } ${summaryData?.formDataSource?.dateApplicationReceived ? `(${summaryData?.formDataSource?.dateApplicationReceived})` : ''}`,
+        }`,
       },
       // date conditionally approved
       {
@@ -407,7 +405,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
           cleanDateTime(
             summaryData?.formData?.eventsAndDates?.dateConditionallyApproved
           ) || ''
-        } ${summaryData?.formDataSource?.dateConditionallyApproved ? `(${summaryData?.formDataSource?.dateConditionallyApproved})` : ''}`,
+        }`,
       },
       // date agreement signed
       {
@@ -415,7 +413,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
           cleanDateTime(
             summaryData?.formData?.eventsAndDates?.dateAgreementSigned
           ) || ''
-        } ${summaryData?.formDataSource?.dateAgreementSigned ? `(${summaryData?.formDataSource?.dateAgreementSigned})` : ''}`,
+        }`,
       },
       // proposed start date
       {
@@ -423,11 +421,11 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
           cleanDateTime(
             summaryData?.formData?.eventsAndDates?.proposedStartDate
           ) || ''
-        } ${summaryData?.formDataSource?.proposedStartDate ? `(${summaryData?.formDataSource?.proposedStartDate})` : ''}`,
+        }`,
       },
       // % project milestone completion
       {
-        value: `${summaryData?.formData?.milestone?.percentProjectMilestoneComplete || ''} ${summaryData?.formDataSource?.percentProjectMilestoneComplete && summaryData?.formData?.milestone?.percentProjectMilestoneComplete ? `(${summaryData?.formDataSource?.percentProjectMilestoneComplete})` : ''}`,
+        value: `${summaryData?.formData?.milestone?.percentProjectMilestoneComplete || ''}`,
       },
       // construction completed on
       { value: null },
