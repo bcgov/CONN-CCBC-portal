@@ -26,11 +26,10 @@ import RowCount from 'components/Table/RowCount';
 import AssignLead from 'components/Analyst/AssignLead';
 import StatusPill from 'components/StatusPill';
 import statusStyles from 'data/statusStyles';
-import Link from 'next/link';
 import StatusInformationIcon from 'components/Analyst/StatusInformationIcon';
 import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
-import { Box, IconButton, TableCellProps } from '@mui/material';
+import { Box, IconButton, MenuItem, TableCellProps } from '@mui/material';
 import { useFeature } from '@growthbook/growthbook-react';
 import getConfig from 'next/config';
 import { DateTime } from 'luxon';
@@ -86,15 +85,6 @@ const cbcProjectStatusConverter = (status) => {
   return status;
 };
 
-const StyledLink = styled(Link)`
-  color: ${(props) => props.theme.color.links};
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
 const StyledTableHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -130,25 +120,6 @@ const muiTableHeadCellProps = {
       paddingRight: '16px',
     },
   },
-};
-
-const CcbcIdCell = ({ cell }) => {
-  const applicationId = cell.row.original?.rowId;
-  const isCbcProject = cell.row.original?.isCbcProject;
-  const linkCbc = cell.row.original?.showLink;
-  return (
-    <>
-      {linkCbc ? (
-        <StyledLink
-          href={`/analyst/${isCbcProject ? 'cbc' : 'application'}/${applicationId}${isCbcProject ? '' : '/summary'}`}
-        >
-          {cell.getValue()}
-        </StyledLink>
-      ) : (
-        cell.getValue()
-      )}
-    </>
-  );
 };
 
 const AnalystStatusCell = ({ cell }) => {
@@ -322,6 +293,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     isCcbc: boolean;
     rowId: any;
   } | null>(null);
+  const globalFilterMode = useRef('contains');
 
   const expandedRowsRef = useRef({});
 
@@ -561,8 +533,26 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     globalFilter,
   };
 
-  const customGlobalFilter = (row, id, filterValue, filterMeta) => {
-    const defaultMatch = MRT_FilterFns.fuzzy(row, id, filterValue, filterMeta);
+  const customGlobalFilter = (
+    row,
+    id,
+    filterValue,
+    filterMeta,
+    columnVisibility
+  ) => {
+    // exclude hidden columns from global filter
+    const visibility = columnVisibility?.[id];
+    if (visibility === false) return false;
+    if (!filterValue) return true;
+    if (row.getValue(id) === null) return false;
+    const filterMode = globalFilterMode.current || 'contains';
+    let defaultMatch = false;
+    if (filterMode === 'fuzzy') {
+      defaultMatch = MRT_FilterFns.fuzzy(row, id, filterValue, filterMeta);
+    } else {
+      defaultMatch = MRT_FilterFns[filterMode](row, id, filterValue);
+    }
+
     const communitiesString = row.original.communities
       ?.map((item) => item.geoName)
       .join(',')
@@ -610,6 +600,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       externalStatusOrder: statusOrderMap[application.node.externalStatus],
       internalStatusOrder: statusOrderMap[application.node.analystStatus],
       communities: getCommunities(application.node),
+      organizationName: application.node.organizationName || '',
     }));
 
     const allCbcApplications = showCbcProjects
@@ -713,7 +704,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       {
         accessorKey: 'projectId',
         header: 'Project ID',
-        Cell: CcbcIdCell,
       },
       {
         accessorKey: 'zones',
@@ -822,17 +812,29 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     onSortingChange: handleOnSortChange,
     onColumnFiltersChange: setColumnFilters,
     autoResetAll: false,
-    onColumnVisibilityChange: setVisibilityPreference,
+    onColumnVisibilityChange: (columnVisibility) => {
+      setVisibilityPreference(columnVisibility);
+      table.setGlobalFilter(null);
+    },
     onDensityChange: setDensity,
     onShowColumnFiltersChange: setShowColumnFilters,
     onColumnSizingChange: setColumnSizing,
     enablePagination: false,
     enableGlobalFilter,
+    enableGlobalFilterModes: true,
+    globalFilterModeOptions: ['fuzzy', 'startsWith', 'contains'],
     enableBottomToolbar: false,
     filterFns: {
       filterNumber,
       statusFilter,
-      customGlobalFilter,
+      customGlobalFilter: (row, id, filterValue, filterMeta) =>
+        customGlobalFilter(
+          row,
+          id,
+          filterValue,
+          filterMeta,
+          table.getState()?.columnVisibility
+        ),
     },
     renderDetailPanel: ({ row }) => (
       <AllDashboardDetailPanel row={row} filterValue={globalFilter} />
@@ -841,6 +843,25 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     onGlobalFilterChange: setGlobalFilter,
     onExpandedChange: (expanded) => {
       setExpanded(expanded);
+    },
+    renderGlobalFilterModeMenuItems: ({
+      internalFilterOptions,
+      onSelectFilterMode,
+    }) => {
+      return internalFilterOptions.map((option) => (
+        <MenuItem
+          key={option.toString()}
+          selected={option?.option === globalFilterMode.current}
+          onClick={() => {
+            onSelectFilterMode(option?.option);
+            // setting up for custom global filter
+            table.setGlobalFilterFn('customGlobalFilter');
+            globalFilterMode.current = option?.option;
+          }}
+        >
+          {option.label}
+        </MenuItem>
+      ));
     },
     renderToolbarInternalActions: ({ table }) => (
       <Box>
