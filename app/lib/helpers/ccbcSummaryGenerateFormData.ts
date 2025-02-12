@@ -539,7 +539,7 @@ const getSowData = (sowData, baseSowData) => {
     effectiveStartDate: 'SOW',
     proposedStartDate: 'SOW',
     proposedCompletionDate: 'SOW',
-    dateAgreementSigned: 'SOW',
+    dateAgreementSigned: 'Funding Agreement',
   };
   const errors = getSowErrors(sowData?.nodes, review, formDataSource);
   const fallBackFields = getSowFallBackFields(
