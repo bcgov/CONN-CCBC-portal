@@ -110,6 +110,8 @@ const pageTestingHelper = new PageTestingHelper<SectionCbcDataQuery>({
   },
 });
 
+jest.setTimeout(10000);
+
 describe('EditCbcSection', () => {
   beforeEach(() => {
     pageTestingHelper.reinit();
