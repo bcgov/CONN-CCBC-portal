@@ -52,7 +52,7 @@
     "@rjsf/utils": "5.17.1",
     "@rjsf/validator-ajv8": "5.18.0",
     "@sentry/nextjs": "^8",
-    "@smithy/node-http-handler": "^3.2.4",
+    "@smithy/node-http-handler": "^4.0.2",
     "@snowplow/browser-tracker": "^4.2.0",
     "@tmcw/togeojson": "^6.0.0",
     "@types/eslint": "^8.44.2",
