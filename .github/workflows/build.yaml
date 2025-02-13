@@ -32,7 +32,7 @@ jobs:
             context: .
             dockerfile: db/Dockerfile
             name: db
-            build_only_on_main: true
+            build_only_on_main: false
           # build shp image only on main, cron image, does not change
           # will use cache from registry
           - image: ghcr.io/bcgov/conn-ccbc-portal/ccbc-cron-shp
