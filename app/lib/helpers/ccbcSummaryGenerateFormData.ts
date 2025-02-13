@@ -259,6 +259,9 @@ const getSowFallBackFields = (sowData, formData, communitiesData) => {
     benefitingIndigenousCommunities: 'TBD',
   };
   return {
+    dateAgreementSigned: formData.eventsAndDates.dateAgreementSigned
+      ? null
+      : 'Placeholder',
     communities: Number.isInteger(formData.counts.communities) ? null : 'TBD',
     indigenousCommunities: Number.isInteger(
       formData.counts.indigenousCommunities
@@ -334,7 +337,7 @@ const getHouseholdsImpactedCountWithAmendmentNumber = (
   return totalIndigenousHouseholds;
 };
 
-const getSowErrors = (sowData, schema, formDataSource) => {
+const getSowErrors = (sowData, schema, formDataSource, formData) => {
   if (sowData?.length) return null;
   const errors: any = {};
   Object.entries(schema?.properties || {}).forEach(([parentKey, value]) => {
@@ -354,6 +357,20 @@ const getSowErrors = (sowData, schema, formDataSource) => {
       }
     });
   });
+
+  if (
+    // undefined and a length of 0 will both be !falsy
+    !formData.eventsAndDates.dateAgreementSigned?.length
+  ) {
+    errors.eventsAndDates = {
+      dateAgreementSigned: {
+        __errors: [
+          'The date has not been selected on the Project page in the "Funding Agreement, Statement of Work and Map"',
+        ],
+      },
+    };
+  }
+
   // Custom errors for counts
   if (errors?.counts?.communities?.__errors?.length > 0) {
     errors.counts.communities.__errors = [
@@ -541,7 +558,7 @@ const getSowData = (sowData, baseSowData) => {
     proposedCompletionDate: 'SOW',
     dateAgreementSigned: 'Funding Agreement',
   };
-  const errors = getSowErrors(sowData?.nodes, review, formDataSource);
+  const errors = getSowErrors(sowData?.nodes, review, formDataSource, formData);
   const fallBackFields = getSowFallBackFields(
     sowData?.nodes,
     formData,
