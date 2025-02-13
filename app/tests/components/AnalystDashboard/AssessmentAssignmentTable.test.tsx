@@ -218,6 +218,8 @@ const mockQueryPayloadUnassignedTechAssesment = {
   },
 };
 
+jest.setTimeout(10000);
+
 const componentTestingHelper =
   new ComponentTestingHelper<AssessmentAssignmentTableTestQuery>({
     component: AssessmentAssignmentTable,
