@@ -17,6 +17,7 @@ import {
   faTreeCity,
   faSignsPost,
   faWifi,
+  faHourglass,
 } from '@fortawesome/free-solid-svg-icons';
 
 const StyledIcon = styled.div`
@@ -54,6 +55,7 @@ const iconMap = {
   application_milestone_data: faSignsPost,
   application_project_type: faWifi,
   application_communities: faClipboardList,
+  application_pending_change_request: faHourglass,
 };
 
 interface Props {
