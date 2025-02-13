@@ -261,7 +261,7 @@ const getSowFallBackFields = (sowData, formData, communitiesData) => {
   return {
     dateAgreementSigned: formData.eventsAndDates.dateAgreementSigned
       ? null
-      : 'Placeholder',
+      : 'TBD',
     communities: Number.isInteger(formData.counts.communities) ? null : 'TBD',
     indigenousCommunities: Number.isInteger(
       formData.counts.indigenousCommunities
