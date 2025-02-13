@@ -112,7 +112,7 @@ spec:
                 apiVersion: v1
                 fieldPath: metadata.namespace
           name: {{ template "ccbc.fullname" . }}-wait-for-migrations
-          image: {{ .Values.image.db.repository }}:latest
+          image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
           imagePullPolicy: {{ .Values.image.db.pullPolicy }}
           resources:
             requests:
@@ -136,7 +136,7 @@ spec:
                 apiVersion: v1
                 fieldPath: metadata.namespace
           name: {{ template "ccbc.fullname" . }}-deploy-data
-          image: {{ .Values.image.db.repository }}:latest
+          image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
           imagePullPolicy: {{ .Values.image.db.pullPolicy }}
           resources:
             requests:
