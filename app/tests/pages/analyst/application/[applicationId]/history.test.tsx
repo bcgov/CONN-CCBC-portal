@@ -3075,6 +3075,448 @@ const mockQueryPayload = {
   },
 };
 
+const mockRfiHistoryPayload = {
+  Query() {
+    return {
+      session: {
+        sub: 'mockUser@ccbc_auth_user',
+      },
+      applicationByRowId: {
+        history: {
+          nodes: [
+            {
+              applicationId: 510,
+              createdAt: '2024-12-10T17:32:50.723898+00:00',
+              createdBy: 619,
+              externalAnalyst: null,
+              familyName: '',
+              item: 'draft',
+              givenName: 'Isaac Maxfield',
+              op: 'INSERT',
+              record: {
+                id: 1331,
+                status: 'draft',
+                created_at: '2024-12-10T17:32:50.723898+00:00',
+                created_by: 619,
+                updated_at: '2024-12-10T17:32:50.723898+00:00',
+                updated_by: 619,
+                archived_at: null,
+                archived_by: null,
+                change_reason: null,
+                application_id: 510,
+              },
+              oldRecord: null,
+              recordId: 'addc1cfe-bd37-5550-b40e-e8cb2f58b273',
+              sessionSub: '2b0e7f1e9bba4c2288fec060ee02cb10@bceidbusiness',
+              tableName: 'application_status',
+            },
+            {
+              applicationId: 510,
+              createdAt: '2024-12-13T21:16:21.4321+00:00',
+              createdBy: 619,
+              externalAnalyst: null,
+              familyName: '',
+              item: 'submitted',
+              givenName: 'Isaac Maxfield',
+              op: 'INSERT',
+              record: {
+                id: 1363,
+                status: 'submitted',
+                created_at: '2024-12-13T21:16:21.4321+00:00',
+                created_by: 619,
+                updated_at: '2024-12-13T21:16:21.4321+00:00',
+                updated_by: 619,
+                archived_at: null,
+                archived_by: null,
+                change_reason: null,
+                application_id: 510,
+              },
+              oldRecord: null,
+              recordId: '6c2758af-fa69-5f74-97db-d69cf95ec622',
+              sessionSub: '2b0e7f1e9bba4c2288fec060ee02cb10@bceidbusiness',
+              tableName: 'application_status',
+            },
+            {
+              applicationId: 510,
+              createdAt: '2024-12-13T21:16:21.4321+00:00',
+              createdBy: 619,
+              externalAnalyst: null,
+              familyName: '',
+              item: 'received',
+              givenName: 'Isaac Maxfield',
+              op: 'INSERT',
+              record: {
+                id: 1364,
+                status: 'received',
+                created_at: '2024-12-13T21:16:21.4321+00:00',
+                created_by: 619,
+                updated_at: '2024-12-13T21:16:21.4321+00:00',
+                updated_by: 619,
+                archived_at: null,
+                archived_by: null,
+                change_reason: null,
+                application_id: 510,
+              },
+              oldRecord: null,
+              recordId: '00c91656-f468-5a07-99bf-dfc48b7b92f0',
+              sessionSub: '2b0e7f1e9bba4c2288fec060ee02cb10@bceidbusiness',
+              tableName: 'application_status',
+            },
+            {
+              applicationId: 510,
+              createdAt: '2024-12-19T20:26:30.868832+00:00',
+              createdBy: 180,
+              externalAnalyst: null,
+              familyName: 'Boarato',
+              item: 'screening',
+              givenName: 'Karina',
+              op: 'INSERT',
+              record: {
+                id: 1375,
+                status: 'screening',
+                created_at: '2024-12-19T20:26:30.868832+00:00',
+                created_by: 180,
+                updated_at: '2024-12-19T20:26:30.868832+00:00',
+                updated_by: 180,
+                archived_at: null,
+                archived_by: null,
+                change_reason: '',
+                application_id: 510,
+              },
+              oldRecord: null,
+              recordId: '1175a782-4e77-5c83-aa06-fbf0662ffddf',
+              sessionSub: '9e230129960942aba2968389001a4130@idir',
+              tableName: 'application_status',
+            },
+            {
+              applicationId: 510,
+              createdAt: '2024-12-20T20:22:37.077661+00:00',
+              createdBy: 180,
+              externalAnalyst: null,
+              familyName: 'Boarato',
+              item: 'assessment',
+              givenName: 'Karina',
+              op: 'INSERT',
+              record: {
+                id: 1376,
+                status: 'assessment',
+                created_at: '2024-12-20T20:22:37.077661+00:00',
+                created_by: 180,
+                updated_at: '2024-12-20T20:22:37.077661+00:00',
+                updated_by: 180,
+                archived_at: null,
+                archived_by: null,
+                change_reason: '',
+                application_id: 510,
+              },
+              oldRecord: null,
+              recordId: '305a4c2a-4d8d-52b3-916f-c46e42357f6b',
+              sessionSub: '9e230129960942aba2968389001a4130@idir',
+              tableName: 'application_status',
+            },
+            {
+              applicationId: 510,
+              createdAt: '2025-02-14T21:42:26.835483+00:00',
+              createdBy: 336,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: '[]',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 938,
+                json_data: {
+                  rfiType: [],
+                  rfiAdditionalFiles: {
+                    equipmentDetailsRfi: true,
+                    wirelessAddendumRfi: true,
+                    eligibilityAndImpactsCalculatorRfi: true,
+                  },
+                },
+                created_at: '2025-02-14T21:42:26.835483+00:00',
+                created_by: 336,
+                rfi_number: 'CCBC-050080-1',
+                updated_at: '2025-02-14T21:42:26.835483+00:00',
+                updated_by: 336,
+                archived_at: null,
+                archived_by: null,
+                rfi_data_status_type_id: 'draft',
+              },
+              oldRecord: null,
+              recordId: '0ce951a3-e79b-5bd5-8cb1-a03412d91970',
+              sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
+              tableName: 'rfi_data',
+            },
+            {
+              applicationId: 510,
+              createdAt: '2025-02-14T21:43:04.434544+00:00',
+              createdBy: 336,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: '[]',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 939,
+                json_data: {
+                  rfiType: [],
+                  rfiAdditionalFiles: {
+                    equipmentDetails: [
+                      {
+                        id: 4599,
+                        name: 'template_10-equipment_details.xlsx',
+                        size: 24922,
+                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        uuid: 'b1b3cef7-20e7-4273-9bb1-19bbb1e3a716',
+                        fileDate: '2025-02-14',
+                        uploadedAt: '2025-02-14T13:43:03.646-08:00',
+                      },
+                    ],
+                    wirelessAddendum: [
+                      {
+                        id: 4598,
+                        name: 'template_7-wireless_addendum_ccbc.xlsx',
+                        size: 316247,
+                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        uuid: '4da5221b-9dca-453e-98c0-ea6cc55002cd',
+                        fileDate: '2025-02-14',
+                        uploadedAt: '2025-02-14T13:42:58.039-08:00',
+                      },
+                    ],
+                    equipmentDetailsRfi: true,
+                    wirelessAddendumRfi: true,
+                    eligibilityAndImpactsCalculator: [
+                      {
+                        id: 4597,
+                        name: 'CCBC-010001 - Template 1 FILLED OUT 1.xlsx',
+                        size: 42330,
+                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        uuid: 'c186361f-4612-4372-98b4-0ea566ea5c21',
+                        fileDate: '2025-02-14',
+                        uploadedAt: '2025-02-14T13:42:51.473-08:00',
+                      },
+                    ],
+                    eligibilityAndImpactsCalculatorRfi: true,
+                  },
+                },
+                created_at: '2025-02-14T21:43:04.434544+00:00',
+                created_by: 336,
+                rfi_number: 'CCBC-050080-1',
+                updated_at: '2025-02-14T21:43:04.434544+00:00',
+                updated_by: 336,
+                archived_at: null,
+                archived_by: null,
+                rfi_data_status_type_id: 'draft',
+              },
+              oldRecord: null,
+              recordId: 'de3a4758-92dd-5371-9627-acb2aaee468c',
+              sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
+              tableName: 'rfi_data',
+            },
+            {
+              applicationId: 510,
+              createdAt: '2025-02-14T22:06:08.112123+00:00',
+              createdBy: 336,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: '[]',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 940,
+                json_data: {
+                  rfiType: [],
+                  rfiAdditionalFiles: {
+                    equipmentDetails: [
+                      {
+                        id: 4599,
+                        name: 'template_10-equipment_details.xlsx',
+                        size: 24922,
+                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        uuid: 'b1b3cef7-20e7-4273-9bb1-19bbb1e3a716',
+                        fileDate: '2025-02-14',
+                        uploadedAt: '2025-02-14T13:43:03.646-08:00',
+                      },
+                    ],
+                    wirelessAddendum: [
+                      {
+                        id: 4600,
+                        name: 'wireless_addeddum_edited.alsx',
+                        size: 5619925,
+                        type: '',
+                        uuid: '2cc5c489-23ee-431f-93af-4d4d819e5827',
+                        fileDate: '2025-02-14',
+                        uploadedAt: '2025-02-14T14:06:06.535-08:00',
+                      },
+                    ],
+                    equipmentDetailsRfi: true,
+                    wirelessAddendumRfi: true,
+                    eligibilityAndImpactsCalculator: [
+                      {
+                        id: 4597,
+                        name: 'CCBC-010001 - Template 1 FILLED OUT 1.xlsx',
+                        size: 42330,
+                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        uuid: 'c186361f-4612-4372-98b4-0ea566ea5c21',
+                        fileDate: '2025-02-14',
+                        uploadedAt: '2025-02-14T13:42:51.473-08:00',
+                      },
+                    ],
+                    eligibilityAndImpactsCalculatorRfi: true,
+                  },
+                },
+                created_at: '2025-02-14T22:06:08.112123+00:00',
+                created_by: 336,
+                rfi_number: 'CCBC-050080-1',
+                updated_at: '2025-02-14T22:06:08.112123+00:00',
+                updated_by: 336,
+                archived_at: null,
+                archived_by: null,
+                rfi_data_status_type_id: 'draft',
+              },
+              oldRecord: null,
+              recordId: '8fc6952a-aba9-57e1-8fd6-962068165282',
+              sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
+              tableName: 'rfi_data',
+            },
+            {
+              applicationId: 510,
+              createdAt: '2025-02-14T22:15:31.590564+00:00',
+              createdBy: 336,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: '[]',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 941,
+                json_data: {
+                  rfiType: [],
+                  rfiAdditionalFiles: {
+                    equipmentDetails: null,
+                    wirelessAddendum: [
+                      {
+                        id: 4600,
+                        name: 'wireless_addeddum_edited.alsx',
+                        size: 5619925,
+                        type: '',
+                        uuid: '2cc5c489-23ee-431f-93af-4d4d819e5827',
+                        fileDate: '2025-02-14',
+                        uploadedAt: '2025-02-14T14:06:06.535-08:00',
+                      },
+                    ],
+                    equipmentDetailsRfi: true,
+                    wirelessAddendumRfi: true,
+                    eligibilityAndImpactsCalculator: [
+                      {
+                        id: 4597,
+                        name: 'CCBC-010001 - Template 1 FILLED OUT 1.xlsx',
+                        size: 42330,
+                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        uuid: 'c186361f-4612-4372-98b4-0ea566ea5c21',
+                        fileDate: '2025-02-14',
+                        uploadedAt: '2025-02-14T13:42:51.473-08:00',
+                      },
+                    ],
+                    eligibilityAndImpactsCalculatorRfi: true,
+                  },
+                },
+                created_at: '2025-02-14T22:15:31.590564+00:00',
+                created_by: 336,
+                rfi_number: 'CCBC-050080-1',
+                updated_at: '2025-02-14T22:15:31.590564+00:00',
+                updated_by: 336,
+                archived_at: null,
+                archived_by: null,
+                rfi_data_status_type_id: 'draft',
+              },
+              oldRecord: null,
+              recordId: '01e47712-9ee1-595f-b6aa-389667c9eddc',
+              sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
+              tableName: 'rfi_data',
+            },
+            {
+              applicationId: 510,
+              createdAt: '2025-02-14T22:33:40.781573+00:00',
+              createdBy: 336,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: '[]',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 942,
+                json_data: {
+                  rfiType: [],
+                  rfiAdditionalFiles: {
+                    equipmentDetails: null,
+                    wirelessAddendum: [
+                      {
+                        id: 4601,
+                        name: 'template_7-new_addendum.xlsx',
+                        size: 110188,
+                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        uuid: 'b09c3e94-bf31-4d83-957d-1ceb0c03bfcf',
+                        fileDate: '2025-02-14',
+                        uploadedAt: '2025-02-14T14:33:33.184-08:00',
+                      },
+                      {
+                        id: 4602,
+                        name: 'template_7-last_mile_internet_service_offering_ccbc.xlsx',
+                        size: 42346,
+                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        uuid: '613b2a64-2d0d-42d4-90c2-a80a402d5264',
+                        fileDate: '2025-02-14',
+                        uploadedAt: '2025-02-14T14:33:39.578-08:00',
+                      },
+                    ],
+                    equipmentDetailsRfi: true,
+                    wirelessAddendumRfi: true,
+                    eligibilityAndImpactsCalculator: [
+                      {
+                        id: 4597,
+                        name: 'CCBC-010001 - Template 1 FILLED OUT 1.xlsx',
+                        size: 42330,
+                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                        uuid: 'c186361f-4612-4372-98b4-0ea566ea5c21',
+                        fileDate: '2025-02-14',
+                        uploadedAt: '2025-02-14T13:42:51.473-08:00',
+                      },
+                    ],
+                    eligibilityAndImpactsCalculatorRfi: true,
+                  },
+                },
+                created_at: '2025-02-14T22:33:40.781573+00:00',
+                created_by: 336,
+                rfi_number: 'CCBC-050080-1',
+                updated_at: '2025-02-14T22:33:40.781573+00:00',
+                updated_by: 336,
+                archived_at: null,
+                archived_by: null,
+                rfi_data_status_type_id: 'draft',
+              },
+              oldRecord: null,
+              recordId: 'c5ef0109-a7b4-56b6-a093-f2f47905a40a',
+              sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
+              tableName: 'rfi_data',
+            },
+          ],
+        },
+        formData: {
+          jsonData: {
+            projectInformation: {
+              projectTitle: 'originalProjectTitle',
+            },
+            organizationProfile: {
+              organizationName: 'originalOrganizationName',
+            },
+          },
+        },
+      },
+    };
+  },
+};
+
 const mockShowHistory: FeatureResult<JSONValue> = {
   value: true,
   source: 'defaultValue',
@@ -3174,6 +3616,40 @@ describe('The index page', () => {
     expect(screen.getAllByTestId('history-content-rfi')[4]).toHaveTextContent(
       /Foo Bar saved RFI-CCBC-020001-1 on Mar 3, 2023, 8:03 a.m./
     );
+  });
+
+  it('shows the correct rfi file history', async () => {
+    pageTestingHelper.loadQuery(mockRfiHistoryPayload);
+    pageTestingHelper.renderPage();
+
+    expect(screen.getAllByTestId('history-content-rfi')[0]).toHaveTextContent(
+      /Foo Bar saved RFI-CCBC-050080-1 on Feb 14, 2025, 2:33 p.m./
+    );
+    expect(
+      screen.getAllByText(
+        /Template 1 - Eligibility and Impacts Calculator requested/
+      )
+    ).toHaveLength(2);
+    expect(
+      screen.getAllByText(/template_10-equipment_details.xlsx/)
+    ).toHaveLength(2);
+    expect(
+      screen.getAllByText(/Template 7 - Wireless Addendum requested/)
+    ).toHaveLength(4);
+    expect(
+      screen.getAllByText(/Template 10 - Equipment Details requested/)
+    ).toHaveLength(3);
+    expect(
+      screen.getByText(/CCBC-010001 - Template 1 FILLED OUT 1.xlsx/)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /template_7-last_mile_internet_service_offering_ccbc.xlsx/
+      )
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/template_7-new_addendum.xlsx/)
+    ).toBeInTheDocument();
   });
 
   it('shows the correct conditional approval history', async () => {
