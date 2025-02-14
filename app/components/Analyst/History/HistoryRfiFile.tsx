@@ -21,24 +21,19 @@ const StyledTable = styled.table`
   }
 `;
 
-const HistoryFile = ({
+const HistoryRfiFile = ({
   filesArray,
-  previousFileArray = null,
-  title,
+  previousFileArray,
   tableTitle = true,
   testId = '',
+  diffSchema,
 }) => {
   const filesDiff = diff(previousFileArray || [], filesArray || [], {
     keepUnchangedValues: true,
     full: true,
   });
 
-  const hasFileChanges =
-    filesDiff?.filter(
-      (file) => file[0] === '+' || file[0] === '-' || file[0] === '~'
-    ).length > 0;
-
-  return hasFileChanges ? (
+  return (
     <StyledTable>
       <thead style={{ borderBottom: '2px solid #CCC' }}>
         {tableTitle && (
@@ -48,26 +43,40 @@ const HistoryFile = ({
         )}
       </thead>
       <tbody>
-        <tr data-testid={testId}>
-          <td style={tableTitle ? { paddingTop: '8px' } : {}}>{title}</td>
-          <td style={tableTitle ? { paddingTop: '8px' } : {}}>
-            <div>
-              {filesDiff &&
-                filesDiff.map((file, index) => {
+        {Object.keys(filesDiff).map((key) => {
+          const sanitizedKey = key.split('__')[0];
+          const title =
+            diffSchema?.rfi?.properties?.[`${sanitizedKey}Rfi`]?.title;
+
+          const rfiCategoryDiff = diff(
+            previousFileArray[sanitizedKey] || [],
+            filesArray[sanitizedKey] || []
+          );
+          const hasFileChanges =
+            rfiCategoryDiff?.filter(
+              (file) => file[0] === '+' || file[0] === '-' || file[0] === '~'
+            ).length > 0;
+
+          return hasFileChanges ? (
+            <tr key={key} data-testid={testId}>
+              <td>{title}</td>
+              <td>
+                {rfiCategoryDiff.map((file, index) => {
                   return (
                     <HistoryFileRow
-                      key={`${file[1]?.uuid || index}`}
+                      key={file[1]?.uuid || index}
                       file={file}
-                      filesDiff={filesDiff}
+                      filesDiff={rfiCategoryDiff}
                     />
                   );
                 })}
-            </div>
-          </td>
-        </tr>
+              </td>
+            </tr>
+          ) : null;
+        })}
       </tbody>
     </StyledTable>
-  ) : null;
+  );
 };
 
-export default HistoryFile;
+export default HistoryRfiFile;
