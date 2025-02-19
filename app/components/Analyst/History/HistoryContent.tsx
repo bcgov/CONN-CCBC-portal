@@ -20,6 +20,7 @@ import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
 import HistoryFile from './HistoryFile';
 import CommunitiesHistoryTable from './CommunitiesHistoryTable';
+import HistoryRfiFile from './HistoryRfiFile';
 
 const StyledContent = styled.span`
   display: flex;
@@ -213,19 +214,19 @@ const HistoryContent = ({
               />
             )}
             {showAdditionalFiles && (
-              <HistoryFile
-                filesArray={additionalFiles || []}
-                previousFileArray={prevAdditionalFiles || []}
-                title="Additional files"
+              <HistoryRfiFile
+                filesArray={additionalFilesArray || []}
+                previousFileArray={prevAdditionalFilesArray || []}
+                diffSchema={rfiDiffSchema}
               />
             )}
           </>
         )}
         {displayName === 'The applicant' && (
-          <HistoryFile
-            filesArray={additionalFiles || []}
-            previousFileArray={prevAdditionalFiles || []}
-            title="Additional files"
+          <HistoryRfiFile
+            filesArray={additionalFilesArray || []}
+            previousFileArray={prevAdditionalFilesArray || []}
+            diffSchema={rfiDiffSchema}
           />
         )}
       </>
