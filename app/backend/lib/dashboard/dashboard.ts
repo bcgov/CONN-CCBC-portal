@@ -457,7 +457,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
         type: Number,
       },
       // zone
-      { value: null },
+      { value: cbcDataByCbcId?.zones },
       // intake number
       {
         value: cbcDataByCbcId?.intake,
