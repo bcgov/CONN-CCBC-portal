@@ -46,6 +46,7 @@ const CbcHistoryTable: React.FC<Props> = ({ query }) => {
               oldRecord
               op
               tableName
+              createdBy
               createdAt
               ccbcUserByCreatedBy {
                 givenName
@@ -62,11 +63,20 @@ const CbcHistoryTable: React.FC<Props> = ({ query }) => {
   const { history } = cbcByRowId;
   const [filters, setFilters] = useState({ types: [], users: [] });
 
+  const formatUser = (item) => {
+    const isSystem =
+      item.createdBy === 1 &&
+      (!item.ccbcUserByCreatedBy || !item.ccbcUserByCreatedBy?.givenName);
+    return isSystem
+      ? 'The System'
+      : `${item.ccbcUserByCreatedBy?.givenName} ${item.ccbcUserByCreatedBy?.familyName}`;
+  };
+
   const historyItems = useMemo(
     () =>
       history?.nodes?.map((item) => ({
         ...item,
-        user: `${item.ccbcUserByCreatedBy.givenName} ${item.ccbcUserByCreatedBy.familyName}`,
+        user: formatUser(item),
       })) ?? [],
     [history?.nodes]
   );
