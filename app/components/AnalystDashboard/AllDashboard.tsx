@@ -163,11 +163,6 @@ const genericFilterMultiSelect = (row, id, filterValue) => {
     return true;
   }
   const stringFilterValues = filterValue.map((value) => value?.toString());
-  console.log('stringFilterValues', stringFilterValues);
-  console.log(
-    'row.getValue(id)?.toString()',
-    `'${row.getValue(id)?.toString()}'`
-  );
   return stringFilterValues.includes(row.getValue(id)?.toString());
 };
 
