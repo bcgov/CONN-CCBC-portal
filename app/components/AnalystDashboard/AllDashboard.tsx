@@ -131,7 +131,7 @@ const ApplicantStatusCell = ({ cell }) => {
 export const filterOutNullishs = (val) => val !== undefined && val !== null;
 
 const toLabelValuePair = (value) =>
-  value ? { label: value, value } : { label: 'Unassigned', value: ' ' };
+  value ? { label: value, value } : { label: 'Unassigned', value: '' };
 
 const accessorFunctionGeneratorInjectsEmptyString = (accessorKey) => {
   return (row) => row[accessorKey] ?? '';
@@ -163,7 +163,11 @@ const genericFilterMultiSelect = (row, id, filterValue) => {
     return true;
   }
   const stringFilterValues = filterValue.map((value) => value?.toString());
-
+  console.log('stringFilterValues', stringFilterValues);
+  console.log(
+    'row.getValue(id)?.toString()',
+    `'${row.getValue(id)?.toString()}'`
+  );
   return stringFilterValues.includes(row.getValue(id)?.toString());
 };
 
