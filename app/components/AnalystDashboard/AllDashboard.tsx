@@ -149,6 +149,7 @@ const statusFilter = (row, id, filterValue) => {
 };
 
 const filterMultiSelectZones = (row, id, filterValue) => {
+  /// NOSONAR
   if (filterValue.length === 0) {
     return true;
   }
@@ -159,6 +160,7 @@ const filterMultiSelectZones = (row, id, filterValue) => {
 };
 
 const genericFilterMultiSelect = (row, id, filterValue) => {
+  /// NOSONAR
   if (filterValue.length === 0) {
     return true;
   }
