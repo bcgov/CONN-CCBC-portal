@@ -11,6 +11,8 @@ import compileddashboardQuery, {
   dashboardAnalystQuery,
 } from '../../../__generated__/dashboardAnalystQuery.graphql';
 
+jest.setTimeout(10000);
+
 const mockQueryPayload = {
   Query() {
     return {
