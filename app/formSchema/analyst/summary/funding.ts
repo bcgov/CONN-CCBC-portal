@@ -8,15 +8,19 @@ const funding: RJSFSchema = {
     'bcFundingRequested',
     'federalFunding',
     'applicantAmount',
+    'otherFunding',
     'cibFunding',
     'fhnaFunding',
-    'otherFunding',
     'totalProjectBudget',
   ],
   properties: {
     bcFundingRequested: {
       type: 'number',
       title: 'BC Funding Requested',
+    },
+    fnhaContribution: {
+      type: 'number',
+      title: 'FNHA Contribution',
     },
     federalFunding: {
       type: 'number',
@@ -30,6 +34,10 @@ const funding: RJSFSchema = {
       type: 'number',
       title: 'Applicant Amount',
     },
+    otherFunding: {
+      type: 'number',
+      title: 'Other Funding',
+    },
     cibFunding: {
       type: 'number',
       title: 'CIB Funding',
@@ -37,10 +45,6 @@ const funding: RJSFSchema = {
     fhnaFunding: {
       type: 'number',
       title: 'FNHA Funding',
-    },
-    otherFunding: {
-      type: 'number',
-      title: 'Other Funding',
     },
     totalProjectBudget: {
       type: 'number',

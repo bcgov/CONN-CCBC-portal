@@ -8,6 +8,14 @@ const StyledHR = styled.hr`
   margin-bottom: ${(props) => props.theme.spacing.small};
 `;
 
+interface StyledDivProps {
+  isSubField: boolean;
+}
+
+const StyledDiv = styled.div<StyledDivProps>`
+  margin-left: ${(props) => (props.isSubField ? '60px' : '0')};
+`;
+
 const FieldTemplate: React.FC<FieldTemplateProps> = ({
   children,
   errors,
@@ -30,9 +38,10 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
   const isAddHorizontalLine = uiOptions?.addHorizontalLine as boolean;
   const showLabel = displayLabel && !customTitle;
   const createdAt = formContext?.createdAt;
+  const isSubField = (uiOptions?.isSubField as boolean) ?? false;
 
   return (
-    <div>
+    <StyledDiv isSubField={isSubField}>
       {showLabel && (
         <FieldLabel
           bold={boldTitle}
@@ -58,7 +67,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
         <div className="error-div">{errors}</div>
       ) : null}
       {isAddHorizontalLine && <StyledHR />}
-    </div>
+    </StyledDiv>
   );
 };
 

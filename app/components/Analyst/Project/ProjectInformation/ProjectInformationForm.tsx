@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import { AddButton, ProjectForm } from 'components/Analyst/Project';
@@ -17,6 +18,9 @@ import excelValidateGenerator from 'lib/helpers/excelValidate';
 import ReadOnlyView from 'components/Analyst/Project/ProjectInformation/ReadOnlyView';
 import * as Sentry from '@sentry/nextjs';
 import useEmailNotification from 'lib/helpers/useEmailNotification';
+import GenericConfirmationModal from 'lib/theme/widgets/GenericConfirmationModal';
+import useModal from 'lib/helpers/useModal';
+import { formatCurrency } from 'backend/lib/dashboard/util';
 import ChangeRequestTheme from '../ChangeRequestTheme';
 
 const StyledProjectForm = styled(ProjectForm)`
@@ -60,6 +64,12 @@ const ProjectInformationForm: React.FC<Props> = ({
           id
           jsonData
         }
+        applicationFnhaContributionsByApplicationId {
+          nodes {
+            id
+            fnhaContribution
+          }
+        }
         changeRequestDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
           orderBy: AMENDMENT_NUMBER_DESC
@@ -92,8 +102,12 @@ const ProjectInformationForm: React.FC<Props> = ({
     id,
     rowId,
     projectInformation,
+    applicationFnhaContributionsByApplicationId: {
+      nodes: [applicationFnhaContributionsByApplicationId],
+    },
   } = queryFragment;
 
+  const router = useRouter();
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [archiveApplicationSow] = useArchiveApplicationSowMutation();
   const [createChangeRequest] = useCreateChangeRequestMutation();
@@ -112,6 +126,7 @@ const ProjectInformationForm: React.FC<Props> = ({
   const [currentChangeRequestData, setCurrentChangeRequestData] =
     useState(null);
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
+  const fnhaInfoModal = useModal();
 
   const apiPath = `/api/analyst/sow/${rowId}/${ccbcNumber}/${
     isChangeRequest ? formData?.amendmentNumber : 0
@@ -284,6 +299,7 @@ const ProjectInformationForm: React.FC<Props> = ({
         const isSowErrors = sowValidationErrors.length > 0;
         const isSowUploaded =
           formData?.statementOfWorkUpload?.length > 0 && sowFile !== null;
+        const fnhaFunding = response?.result?.tab7Summary?.totalFNHAFunding;
 
         // If there are sow errors, persist sow error in form data if not delete
         const newFormData = { ...formData };
@@ -318,6 +334,7 @@ const ProjectInformationForm: React.FC<Props> = ({
                   });
                 }
                 setShowToast(true);
+                if (!fnhaFunding) fnhaInfoModal.open();
               }
 
               setCurrentChangeRequestData(null);
@@ -373,6 +390,7 @@ const ProjectInformationForm: React.FC<Props> = ({
               if (isSowUploaded && response?.status === 200) {
                 if (!latestAmendment) notifySowUpload();
                 setShowToast(true);
+                if (!fnhaFunding) fnhaInfoModal.open();
               }
             },
             updater: (store, data) => {
@@ -398,149 +416,165 @@ const ProjectInformationForm: React.FC<Props> = ({
 
   const isOriginalSowUpload = projectInformation?.jsonData;
   return (
-    <StyledProjectForm
-      additionalContext={{
-        amendmentNumbers,
-        applicationId: rowId,
-        excelValidationErrors: sowValidationErrors,
-        validateExcel: validateSow,
-        currentAmendmentNumber: currentChangeRequestData?.amendmentNumber,
-      }}
-      before={
-        <StyledFlex isFormEditMode={isFormEditMode}>
-          {isOriginalSowUpload && (
-            <AddButton
-              isFormEditMode={isFormEditMode}
-              onClick={() => {
-                setIsSubmitAttempted(false);
-                setIsChangeRequest(true);
-                setFormData({});
-                setShowToast(false);
-                setIsFormEditMode(true);
-              }}
-              title="Add change request"
+    <>
+      <StyledProjectForm
+        additionalContext={{
+          amendmentNumbers,
+          applicationId: rowId,
+          excelValidationErrors: sowValidationErrors,
+          validateExcel: validateSow,
+          currentAmendmentNumber: currentChangeRequestData?.amendmentNumber,
+        }}
+        before={
+          <StyledFlex isFormEditMode={isFormEditMode}>
+            {isOriginalSowUpload && (
+              <AddButton
+                isFormEditMode={isFormEditMode}
+                onClick={() => {
+                  setIsSubmitAttempted(false);
+                  setIsChangeRequest(true);
+                  setFormData({});
+                  setShowToast(false);
+                  setIsFormEditMode(true);
+                }}
+                title="Add change request"
+              />
+            )}
+            <MetabaseLink
+              href={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/90-prod-sow-data-dashboard?ccbc_number=${ccbcNumber}`}
+              text="View project data in Metabase"
+              testHref={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`}
+              width={326}
             />
-          )}
-          <MetabaseLink
-            href={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/90-prod-sow-data-dashboard?ccbc_number=${ccbcNumber}`}
-            text="View project data in Metabase"
-            testHref={`https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/89-sow-data-dashboard-test?ccbc_number=${ccbcNumber}`}
-            width={326}
-          />
-        </StyledFlex>
-      }
-      formData={formData}
-      handleChange={(e) => {
-        setHasFormSaved(false);
-        if (!isChangeRequest && !e.formData.hasFundingAgreementBeenSigned) {
-          setFormData({});
-        } else {
-          setFormData({ ...e.formData });
+          </StyledFlex>
         }
-      }}
-      liveValidate={isSubmitAttempted && isFormEditMode}
-      isExpanded={isExpanded}
-      isFormEditMode={isFormEditMode}
-      title="Funding agreement, statement of work, & map"
-      formAnimationHeight={isChangeRequest ? 3000 : 800}
-      formAnimationHeightOffset={68}
-      isFormAnimated
-      schema={formSchema}
-      theme={isChangeRequest ? ChangeRequestTheme : ProjectTheme}
-      uiSchema={uiSchema}
-      resetFormData={handleResetFormData}
-      onSubmit={handleSubmit}
-      saveBtnText={getSaveButtonText()}
-      setFormData={setFormData}
-      submittingText="Importing Statement of Work. Please wait."
-      submitting={
-        !hasSowValidationErrors &&
-        !hasFormErrors &&
-        sowFile &&
-        formData.statementOfWorkUpload &&
-        isFormSubmitting
-      }
-      saveBtnDisabled={isFormSubmitting}
-      setIsFormEditMode={(isEditMode: boolean) => {
-        setShowToast(false);
-        setIsFormEditMode(isEditMode);
-        setIsChangeRequest((_isChangeRequest) =>
-          isEditMode ? false : _isChangeRequest
-        );
-      }}
-      showEditBtn={!hasFundingAgreementBeenSigned && !isFormEditMode}
-      hiddenSubmitRef={hiddenSubmitRef}
-      validate={validate}
-    >
-      {changeRequestData?.map((changeRequest) => {
-        const {
-          id: changeRequestId,
-          amendmentNumber,
-          jsonData,
-        } = changeRequest.node;
+        formData={formData}
+        handleChange={(e) => {
+          setHasFormSaved(false);
+          if (!isChangeRequest && !e.formData.hasFundingAgreementBeenSigned) {
+            setFormData({});
+          } else {
+            setFormData({ ...e.formData });
+          }
+        }}
+        liveValidate={isSubmitAttempted && isFormEditMode}
+        isExpanded={isExpanded}
+        isFormEditMode={isFormEditMode}
+        title="Funding agreement, statement of work, & map"
+        formAnimationHeight={isChangeRequest ? 3000 : 800}
+        formAnimationHeightOffset={68}
+        isFormAnimated
+        schema={formSchema}
+        theme={isChangeRequest ? ChangeRequestTheme : ProjectTheme}
+        uiSchema={uiSchema}
+        resetFormData={handleResetFormData}
+        onSubmit={handleSubmit}
+        saveBtnText={getSaveButtonText()}
+        setFormData={setFormData}
+        submittingText="Importing Statement of Work. Please wait."
+        submitting={
+          !hasSowValidationErrors &&
+          !hasFormErrors &&
+          sowFile &&
+          formData.statementOfWorkUpload &&
+          isFormSubmitting
+        }
+        saveBtnDisabled={isFormSubmitting}
+        setIsFormEditMode={(isEditMode: boolean) => {
+          setShowToast(false);
+          setIsFormEditMode(isEditMode);
+          setIsChangeRequest((_isChangeRequest) =>
+            isEditMode ? false : _isChangeRequest
+          );
+        }}
+        showEditBtn={!hasFundingAgreementBeenSigned && !isFormEditMode}
+        hiddenSubmitRef={hiddenSubmitRef}
+        validate={validate}
+      >
+        {changeRequestData?.map((changeRequest) => {
+          const {
+            id: changeRequestId,
+            amendmentNumber,
+            jsonData,
+          } = changeRequest.node;
 
-        const {
-          additionalComments,
-          changeRequestFormUpload,
-          dateApproved,
-          dateRequested,
-          descriptionOfChanges,
-          levelOfAmendment,
-          statementOfWorkUpload,
-          updatedMapUpload,
-          otherFiles,
-        } = jsonData || {};
+          const {
+            additionalComments,
+            changeRequestFormUpload,
+            dateApproved,
+            dateRequested,
+            descriptionOfChanges,
+            levelOfAmendment,
+            statementOfWorkUpload,
+            updatedMapUpload,
+            otherFiles,
+          } = jsonData || {};
 
-        // Need to pass in correct values once the change request metadata ticket is complete
-        return (
+          // Need to pass in correct values once the change request metadata ticket is complete
+          return (
+            <ReadOnlyView
+              key={changeRequestId}
+              additionalComments={additionalComments}
+              changeRequestForm={changeRequestFormUpload?.[0]}
+              date={dateApproved}
+              dateRequested={dateRequested}
+              descriptionOfChanges={descriptionOfChanges}
+              levelOfAmendment={levelOfAmendment}
+              title={`Amendment #${amendmentNumber}`}
+              onFormEdit={() => {
+                setIsChangeRequest(true);
+                setIsFormEditMode(true);
+                setCurrentChangeRequestData(changeRequest.node);
+                setFormData(jsonData);
+                setShowToast(false);
+              }}
+              isChangeRequest
+              isFormEditMode={isFormEditMode}
+              isSowUploadError={jsonData?.isSowUploadError}
+              maps={updatedMapUpload}
+              sow={statementOfWorkUpload?.[0]}
+              otherFiles={otherFiles}
+            />
+          );
+        })}
+        {hasFundingAgreementBeenSigned && (
           <ReadOnlyView
-            key={changeRequestId}
-            additionalComments={additionalComments}
-            changeRequestForm={changeRequestFormUpload?.[0]}
-            date={dateApproved}
-            dateRequested={dateRequested}
-            descriptionOfChanges={descriptionOfChanges}
-            levelOfAmendment={levelOfAmendment}
-            title={`Amendment #${amendmentNumber}`}
+            date={projectInformationData?.dateFundingAgreementSigned}
+            title="Original"
             onFormEdit={() => {
-              setIsChangeRequest(true);
+              setIsChangeRequest(false);
+              setFormData(projectInformationData);
               setIsFormEditMode(true);
-              setCurrentChangeRequestData(changeRequest.node);
-              setFormData(jsonData);
               setShowToast(false);
             }}
-            isChangeRequest
             isFormEditMode={isFormEditMode}
-            isSowUploadError={jsonData?.isSowUploadError}
-            maps={updatedMapUpload}
-            sow={statementOfWorkUpload?.[0]}
-            otherFiles={otherFiles}
+            isSowUploadError={projectInformationData?.isSowUploadError}
+            maps={projectInformationData?.finalizedMapUpload}
+            sow={projectInformationData?.statementOfWorkUpload?.[0]}
+            fundingAgreement={
+              projectInformationData?.fundingAgreementUpload?.[0]
+            }
+            wirelessSow={projectInformationData?.sowWirelessUpload?.[0]}
+            otherFiles={projectInformationData?.otherFiles}
           />
-        );
-      })}
-      {hasFundingAgreementBeenSigned && (
-        <ReadOnlyView
-          date={projectInformationData?.dateFundingAgreementSigned}
-          title="Original"
-          onFormEdit={() => {
-            setIsChangeRequest(false);
-            setFormData(projectInformationData);
-            setIsFormEditMode(true);
-            setShowToast(false);
-          }}
-          isFormEditMode={isFormEditMode}
-          isSowUploadError={projectInformationData?.isSowUploadError}
-          maps={projectInformationData?.finalizedMapUpload}
-          sow={projectInformationData?.statementOfWorkUpload?.[0]}
-          fundingAgreement={projectInformationData?.fundingAgreementUpload?.[0]}
-          wirelessSow={projectInformationData?.sowWirelessUpload?.[0]}
-          otherFiles={projectInformationData?.otherFiles}
-        />
-      )}
-      {showToast && (
-        <Toast timeout={5000}>Statement of work successfully imported</Toast>
-      )}
-    </StyledProjectForm>
+        )}
+        {showToast && (
+          <Toast timeout={5000}>Statement of work successfully imported</Toast>
+        )}
+      </StyledProjectForm>
+      <GenericConfirmationModal
+        id="fnha-info-modal"
+        title="FNHA Contribution"
+        message={`The fnha contribution recorded on the Summary page for this project is ${formatCurrency(applicationFnhaContributionsByApplicationId?.fnhaContribution)}. If this amount has changed, please update it there.`}
+        okLabel="Update now"
+        cancelLabel="Keep existing"
+        onConfirm={() => {
+          router.push(`/analyst/application/${rowId}/summary?section=funding`);
+          fnhaInfoModal.close();
+        }}
+        {...fnhaInfoModal}
+      />
+    </>
   );
 };
 

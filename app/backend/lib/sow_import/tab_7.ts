@@ -7,6 +7,7 @@ const tab7Mutation = `
     createSowTab7(input: { sowTab7: $input }) {
       sowTab7 {
         id
+        jsonData
       }
     }
   }
