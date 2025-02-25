@@ -37,6 +37,22 @@ const mockQueryPayload = {
           },
         },
         status: 'received',
+        applicationFnhaContributionsByApplicationId: {
+          nodes: [
+            {
+              id: 'WyJhcHBsaWNhdGlvbl9mbmhhX2NvbnRyaWJ1dGlvbnMiLDFd',
+              fnhaContribution: '10000',
+            },
+          ],
+        },
+        // applicationFnhaContributionsByApplicationId: {
+        //   nodes: [
+        //     {
+        //       id: 1,
+        //       fnhaContribution: 10000,
+        //     },
+        //   ],
+        // },
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -297,5 +313,65 @@ describe('The analyst edit application page', () => {
         timestamp: expect.any(String),
       }
     );
+  });
+});
+
+describe('The analyst edit summary page', () => {
+  beforeEach(() => {
+    pageTestingHelper.reinit();
+    pageTestingHelper.setMockRouterValues({
+      query: { applicationId: '1', section: 'funding' },
+    });
+  });
+
+  it('displays the correct header', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByRole('heading', { name: 'Funding' })
+    ).toBeInTheDocument();
+  });
+
+  it('displays the save and cancel buttons', () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByRole('button', { name: 'Saved' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
+  });
+
+  it('should set the correct calculated value on the funding section', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+    expect(screen.getByTestId('root_fnhaContribution')).toHaveValue('$10,000');
+  });
+
+  it('displays the confirmation modal and calls the mutation on save', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    await userEvent.type(screen.getByTestId('root_fnhaContribution'), '0'); // adding another 0 to make it 100000
+    const formSaveButton = screen.getByRole('button', { name: 'Save' });
+    expect(formSaveButton).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(formSaveButton);
+    });
+    const textarea = screen.getAllByTestId('reason-for-change')[0];
+    fireEvent.change(textarea, { target: { value: 'test text' } });
+
+    const saveButton = screen.getAllByTestId('status-change-save-btn')[0];
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('saveFnhaContributionMutation', {
+      input: {
+        _applicationId: 1,
+        _fnhaContribution: 100000,
+        _reasonForChange: 'test text',
+      },
+    });
   });
 });

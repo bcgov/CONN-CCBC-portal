@@ -73,6 +73,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
   let exportError;
   if (result) {
     const loadError = (result as any).error;
+    let tab7Summary;
     if (loadError) {
       errorList.push({ level: 'summary', error: loadError });
     } else {
@@ -91,7 +92,8 @@ const processSow: ExpressMiddleware = async (req, res) => {
         errorList.push({ level: 'tab1', error: exportError });
       }
       // await LoadTab7Data(sowId, wb, '7', req);
-      const tab7 = await LoadTab7Data(sowId, wb, '7', req);
+      const tab7: any = await LoadTab7Data(sowId, wb, '7', req);
+      tab7Summary = tab7?.data?.createSowTab7?.sowTab7?.jsonData?.summaryTable;
       exportError = (tab7 as any)?.error;
       if (exportError) {
         errorList.push({ level: 'tab7', error: exportError });
@@ -106,7 +108,10 @@ const processSow: ExpressMiddleware = async (req, res) => {
       return res.status(400).json(errorList).end();
     }
 
-    return res.status(200).json({ result }).end();
+    return res
+      .status(200)
+      .json({ result: { ...result, tab7Summary } })
+      .end();
   }
 
   return res.status(400).json({ error: 'failed to save SoW data in DB' }).end();
