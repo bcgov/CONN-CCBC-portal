@@ -660,6 +660,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         ...allCbcData.edges.flatMap((edge) => edge.node.jsonData?.zones),
       ]),
     ]
+      .filter(filterOutNullishs)
       .map((zone) => zone.toString())
       .sort((a, b) => Number(a) - Number(b));
 
