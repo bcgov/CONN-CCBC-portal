@@ -8,7 +8,7 @@ create or replace function ccbc_public.cbc_history(_cbc_project ccbc_public.cbc)
     r.id, r.record_id, r.old_record_id, r.op, r.ts, r.table_oid, r.table_schema, r.table_name,
     -- if the operation is an update, use the updated_by field in the record
     -- because created_by is listed as the person who initially created the record
-    case when r.op = 'UPDATE'::audit.operation then (r.record->>'updated_by')::int else r.created_by end as created_by,
+    case when r.op = 'UPDATE'::audit.operation THEN COALESCE((r.record->>'updated_by')::int, r.created_by) else r.created_by end as created_by,
     r.created_at,
     -- Add added_communities and deleted_communities to the record JSON field
     r.record || jsonb_build_object(

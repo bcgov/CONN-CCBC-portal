@@ -1,3 +1,9 @@
+# [1.244.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.243.4...v1.244.0) (2025-02-26)
+
+### Features
+
+- enable cbc history to show system ([a1b7c0a](https://github.com/bcgov/CONN-CCBC-portal/commit/a1b7c0a139190b98389fe435477f2c78461c26c5))
+
 ## [1.243.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.243.2...v1.243.4) (2025-02-12)
 
 ### Bug Fixes
