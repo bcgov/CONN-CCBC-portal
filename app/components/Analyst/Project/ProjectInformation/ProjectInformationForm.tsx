@@ -565,7 +565,7 @@ const ProjectInformationForm: React.FC<Props> = ({
       <GenericConfirmationModal
         id="fnha-info-modal"
         title="FNHA Contribution"
-        message={`The fnha contribution recorded on the Summary page for this project is ${formatCurrency(applicationFnhaContributionsByApplicationId?.fnhaContribution)}. If this amount has changed, please update it there.`}
+        message={`The FNHA contribution recorded on the Summary page for this project is ${formatCurrency(applicationFnhaContributionsByApplicationId?.fnhaContribution) || '$0.00'}. If this amount has changed, please update it there.`}
         okLabel="Update now"
         cancelLabel="Keep existing"
         onConfirm={() => {

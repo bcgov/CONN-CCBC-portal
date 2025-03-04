@@ -263,7 +263,7 @@ const Summary = ({
     };
 
     fetchData();
-  }, [applicationId, showMap]);
+  }, [applicationId, showMap, query]);
 
   return (
     <Layout

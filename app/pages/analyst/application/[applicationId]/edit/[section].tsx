@@ -149,7 +149,7 @@ const EditApplication = ({
         connections: [applicationFnhaContributionsByApplicationId.__id],
         input: {
           _applicationId: Number(applicationId),
-          _fnhaContribution: sectionFormData?.fnhaContribution,
+          _fnhaContribution: sectionFormData?.fnhaContribution || 0,
           _reasonForChange: changeReason,
         },
       },
@@ -271,6 +271,7 @@ const EditApplication = ({
 
         <ChangeModal
           id="change-modal"
+          title="Reason for change (Optional)"
           onCancel={changeModal.close}
           onSave={isSummaryEdit ? handleSummaryEdit : handleSubmit}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
