@@ -477,8 +477,8 @@ const getFundingDataFromApplication = (applicationData) => {
     totalProjectBudget:
       applicationData?.formData?.jsonData?.budgetDetails?.totalProjectCost,
     fnhaContribution:
-      applicationData?.applicationFnhaContributionsByApplicationId?.nodes[0]
-        ?.fnhaContribution || '0',
+      applicationData?.applicationFnhaContributionsByApplicationId?.edges[0]
+        ?.node?.fnhaContribution || '0',
   };
 };
 
@@ -513,8 +513,8 @@ const getFundingDataFromConditionalApproval = (applicationData) => {
         ?.federalRequested
     ),
     fnhaContribution:
-      applicationData?.applicationFnhaContributionsByApplicationId?.nodes[0]
-        ?.fnhaContribution || '0',
+      applicationData?.applicationFnhaContributionsByApplicationId?.edges[0]
+        ?.node?.fnhaContribution || '0',
   };
 };
 
@@ -526,8 +526,8 @@ export const getFundingData = (applicationData, sowData) => {
     return {
       ...getFundingDataFromSow(sowData),
       fnhaContribution:
-        applicationData?.applicationFnhaContributionsByApplicationId?.nodes[0]
-          ?.fnhaContribution || '0',
+        applicationData?.applicationFnhaContributionsByApplicationId?.edges[0]
+          ?.node?.fnhaContribution || '0',
     };
   }
   if (
@@ -780,7 +780,7 @@ const generateFormData = (
   const dependencyData =
     applicationData?.applicationDependenciesByApplicationId?.nodes[0]?.jsonData;
   const fnhaContribution =
-    applicationData?.applicationFnhaContributionsByApplicationId?.nodes[0]
+    applicationData?.applicationFnhaContributionsByApplicationId?.edges[0]?.node
       ?.fnhaContribution || '0';
   let formData;
   let formDataSource;

@@ -43,10 +43,12 @@ const getSummaryQuery = graphql`
           jsonData
         }
       }
-      applicationFnhaContributionsByApplicationId(first: 1) {
-        nodes {
-          id
-          fnhaContribution
+      applicationFnhaContributionsByApplicationId {
+        edges {
+          node {
+            id
+            fnhaContribution
+          }
         }
       }
       applicationStatusesByApplicationId(

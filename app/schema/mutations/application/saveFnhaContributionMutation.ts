@@ -3,9 +3,16 @@ import { saveFnhaContributionMutation } from '__generated__/saveFnhaContribution
 import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 
 const mutation = graphql`
-  mutation saveFnhaContributionMutation($input: SaveFnhaContributionInput!) {
+  mutation saveFnhaContributionMutation(
+    $input: SaveFnhaContributionInput!
+    $connections: [ID!]!
+  ) {
     saveFnhaContribution(input: $input) {
-      applicationFnhaContribution {
+      applicationFnhaContribution
+        @prependNode(
+          connections: $connections
+          edgeTypeName: "ApplicationFnhaContributionsEdge"
+        ) {
         id
         fnhaContribution
         reasonForChange

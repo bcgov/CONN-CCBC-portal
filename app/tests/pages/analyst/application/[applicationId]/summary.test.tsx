@@ -200,10 +200,12 @@ const mockQueryPayloadReceived = {
           ],
         },
         applicationFnhaContributionsByApplicationId: {
-          nodes: [
+          edges: [
             {
-              id: '1',
-              fnhaContribution: 10000,
+              node: {
+                id: '1',
+                fnhaContribution: 10000,
+              },
             },
           ],
         },

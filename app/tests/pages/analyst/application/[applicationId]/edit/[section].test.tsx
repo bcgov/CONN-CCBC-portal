@@ -38,21 +38,15 @@ const mockQueryPayload = {
         },
         status: 'received',
         applicationFnhaContributionsByApplicationId: {
-          nodes: [
+          edges: [
             {
-              id: 'WyJhcHBsaWNhdGlvbl9mbmhhX2NvbnRyaWJ1dGlvbnMiLDFd',
-              fnhaContribution: '10000',
+              node: {
+                id: 'WyJhcHBsaWNhdGlvbl9mbmhhX2NvbnRyaWJ1dGlvbnMiLDFd',
+                fnhaContribution: '10000',
+              },
             },
           ],
         },
-        // applicationFnhaContributionsByApplicationId: {
-        //   nodes: [
-        //     {
-        //       id: 1,
-        //       fnhaContribution: 10000,
-        //     },
-        //   ],
-        // },
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -372,6 +366,7 @@ describe('The analyst edit summary page', () => {
         _fnhaContribution: 100000,
         _reasonForChange: 'test text',
       },
+      connections: expect.any(Array),
     });
   });
 });

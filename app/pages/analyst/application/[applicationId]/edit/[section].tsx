@@ -41,10 +41,13 @@ const getSectionQuery = graphql`
       conditionalApproval {
         jsonData
       }
-      applicationFnhaContributionsByApplicationId(first: 1) {
-        nodes {
-          id
-          fnhaContribution
+      applicationFnhaContributionsByApplicationId {
+        __id
+        edges {
+          node {
+            id
+            fnhaContribution
+          }
         }
       }
     }
@@ -79,6 +82,7 @@ const EditApplication = ({
     session,
     applicationByRowId: {
       ccbcNumber,
+      applicationFnhaContributionsByApplicationId,
       formData: {
         formByFormSchemaId: { jsonSchema },
         formSchemaId,
@@ -142,6 +146,7 @@ const EditApplication = ({
   const handleSummaryEdit = () => {
     saveFnhaContributionMutation({
       variables: {
+        connections: [applicationFnhaContributionsByApplicationId.__id],
         input: {
           _applicationId: Number(applicationId),
           _fnhaContribution: sectionFormData?.fnhaContribution,
