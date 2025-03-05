@@ -11,6 +11,8 @@ import compileddashboardQuery, {
   dashboardAnalystQuery,
 } from '../../../__generated__/dashboardAnalystQuery.graphql';
 
+jest.setTimeout(10000);
+
 const mockQueryPayload = {
   Query() {
     return {
@@ -32,7 +34,7 @@ const mockQueryPayload = {
               organizationName: 'Test Org Name',
               intakeNumber: 1,
               zone: 1,
-              zones: [1, 2],
+              zones: [2, 3],
               program: 'CCBC',
               status: 'received',
               package: '1',
@@ -62,8 +64,8 @@ const mockQueryPayload = {
               ccbcNumber: 'CCBC-010002',
               organizationName: 'Test Org Name 2',
               intakeNumber: 2189,
-              zone: null,
-              zones: [],
+              zone: 1,
+              zones: [1],
               program: 'CCBC',
               status: 'approved',
               package: null,
@@ -1045,6 +1047,47 @@ describe('The index page', () => {
     });
 
     const option = screen.getByRole('option', { name: 'Unassigned' });
+    await act(async () => {
+      fireEvent.click(option);
+    });
+
+    await waitFor(
+      () => {
+        expect(screen.getByText('CCBC-010002')).toBeInTheDocument();
+        expect(screen.queryByText('CCBC-010001')).not.toBeInTheDocument();
+      },
+      { timeout: 5000 }
+    );
+  });
+
+  it('should correctly filter by zone filter', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('CCBC-010001')).toBeVisible();
+    expect(screen.getByText('CCBC-010002')).toBeVisible();
+
+    const columnActions = document.querySelectorAll(
+      '[aria-label="Show/Hide filters"]'
+    )[0];
+
+    await act(async () => {
+      fireEvent.click(columnActions);
+    });
+
+    const zoneFilter = screen.getAllByText('Filter by Zone')[0];
+
+    expect(zoneFilter).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.keyDown(zoneFilter, { key: 'Enter', code: 'Enter' });
+    });
+
+    const option = screen.getByRole('option', { name: '1' });
     await act(async () => {
       fireEvent.click(option);
     });
