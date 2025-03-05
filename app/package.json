@@ -167,7 +167,7 @@
     "eslint-plugin-jest": "^28.11.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-relay": "^1.8.3",
-    "fetch-mock": "9.11.0",
+    "fetch-mock": "12.5.2",
     "fse": "^4.0.1",
     "happo-cypress": "^4.3.0",
     "happo-e2e": "^3.3.3",
