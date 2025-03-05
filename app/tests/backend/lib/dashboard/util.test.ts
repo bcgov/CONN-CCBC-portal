@@ -17,8 +17,8 @@ describe('Dashboard util functions', () => {
     expect(convertStatus('applicant_cancelled')).toBe('Cancelled');
   });
 
-  it('should return "Closed" for "applicant_closed"', () => {
-    expect(convertStatus('applicant_closed')).toBe('Closed');
+  it('should return "Not Selected" for "applicant_closed"', () => {
+    expect(convertStatus('applicant_closed')).toBe('Not Selected');
   });
 
   it('should return "Complete" for "applicant_complete"', () => {
@@ -73,8 +73,8 @@ describe('Dashboard util functions', () => {
     expect(convertStatus('on_hold')).toBe('On Hold');
   });
 
-  it('should return "Closed" for "closed"', () => {
-    expect(convertStatus('closed')).toBe('Closed');
+  it('should return "Not Selected" for "closed"', () => {
+    expect(convertStatus('closed')).toBe('Not Selected');
   });
 
   it('should return "Recommendation" for "recommendation"', () => {
