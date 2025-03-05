@@ -1,3 +1,19 @@
+# [1.245.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.244.2...v1.245.0) (2025-03-05)
+
+### Bug Fixes
+
+- history for rfi file uploads to show correct category ([482c582](https://github.com/bcgov/CONN-CCBC-portal/commit/482c5827f63ce601794af16cecb6b88d455967b3))
+
+### Features
+
+- add fnha contribution to summary page ([6e765f2](https://github.com/bcgov/CONN-CCBC-portal/commit/6e765f22ae911c4682f2bb27565d41eb21b9c7ab))
+
+## [1.244.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.244.2...v1.244.3) (2025-03-04)
+
+### Bug Fixes
+
+- history for rfi file uploads to show correct category ([b82c069](https://github.com/bcgov/CONN-CCBC-portal/commit/b82c069cb598f6c94d217d48d39d8059dbc345fa))
+
 ## [1.244.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.244.1...v1.244.2) (2025-02-27)
 
 ## [1.244.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.244.0...v1.244.1) (2025-02-26)

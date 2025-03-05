@@ -9,7 +9,44 @@ const reviewUiSchema = {
   dependency: dependencyUiSchema,
   counts: countsUiSchema,
   locations: locationsUiSchema,
-  funding: fundingUiSchema,
+  funding: {
+    ...fundingUiSchema,
+    bcFundingRequested: {
+      ...fundingUiSchema.bcFundingRequested,
+      'ui:widget': 'ReadOnlyMoneyWidget',
+    },
+    federalFunding: {
+      ...fundingUiSchema.federalFunding,
+      'ui:widget': 'ReadOnlyMoneyWidget',
+    },
+    fundingRequestedCcbc: {
+      ...fundingUiSchema.fundingRequestedCcbc,
+      'ui:widget': 'ReadOnlyMoneyWidget',
+    },
+    applicantAmount: {
+      ...fundingUiSchema.applicantAmount,
+      'ui:widget': 'ReadOnlyMoneyWidget',
+    },
+    otherFunding: {
+      ...fundingUiSchema.otherFunding,
+      'ui:widget': 'ReadOnlyMoneyWidget',
+    },
+    cibFunding: {
+      ...fundingUiSchema.cibFunding,
+      'ui:widget': 'ReadOnlyMoneyWidget',
+    },
+    fhnaFunding: {
+      ...fundingUiSchema.fhnaFunding,
+      'ui:widget': 'ReadOnlyMoneyWidget',
+    },
+    totalProjectBudget: {
+      ...fundingUiSchema.totalProjectBudget,
+      'ui:widget': 'ReadOnlyMoneyWidget',
+    },
+    'ui:options': {
+      allowAnalystEdit: true,
+    },
+  },
   eventsAndDates: eventsAndDatesUiSchema,
   milestone: milestoneUiSchema,
 };

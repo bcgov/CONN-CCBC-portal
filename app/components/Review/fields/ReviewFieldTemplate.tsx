@@ -15,6 +15,15 @@ const StyledSpan = styled.span`
   color: ${(props) => props.theme.color.disabledGrey};
 `;
 
+interface StyledRowProps {
+  isSubField?: boolean;
+}
+
+const StyledRow = styled.tr<StyledRowProps>`
+  border-top: ${(props) =>
+    props.isSubField ? 'none' : '1px solid rgba(0, 0, 0, 0.16)'};
+`;
+
 const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   id,
   formContext,
@@ -52,6 +61,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   const hideTitleInEditMode = uiSchema?.['ui:hidetitleineditmode'];
   const showTitle = !(editMode === true && hideTitleInEditMode === true);
   const title = showTitle ? fieldTitle : null;
+  const isSubField = (uiSchema?.['ui:options']?.isSubField as boolean) ?? false;
 
   const formErrorSchema = formContext?.formErrorSchema ?? formContext.errors;
   const {
@@ -71,9 +81,12 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   return (
     <>
       {before}
-      <tr>
+      <StyledRow isSubField={isSubField}>
         {showTitle && title && (
-          <StyledColLeft id={`${id}_title`}>{title}</StyledColLeft>
+          <StyledColLeft id={`${id}_title`}>
+            {isSubField ? '\u2003\u2003> ' : ''}
+            {title}
+          </StyledColLeft>
         )}
         <StyledColRight
           data-testid={`${id}-value`}
@@ -97,7 +110,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
             </Tooltip>
           )}
         </StyledColRight>
-      </tr>
+      </StyledRow>
       {after}
     </>
   );
