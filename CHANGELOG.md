@@ -1,3 +1,9 @@
+# [1.246.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.245.0...v1.246.0) (2025-03-05)
+
+### Features
+
+- add error message and placeholder text for fallback field ([e4b0778](https://github.com/bcgov/CONN-CCBC-portal/commit/e4b0778c43e6e54b2e0379f5a6ab4a80aeaf2bb3))
+
 # [1.245.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.244.2...v1.245.0) (2025-03-05)
 
 ### Bug Fixes
