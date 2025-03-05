@@ -812,3 +812,5 @@ tables/application_map_data 2025-01-28T17:53:59Z Rafael Solorzano <61289255+rafa
 @1.242.0 2025-02-10T16:59:53Z CCBC Service Account <ccbc@button.is> # release v1.242.0
 computed_columns/cbc_history [computed_columns/cbc_history@1.230.0] 2025-02-19T20:39:49Z ,,, <ryohani89@NH504670> # update cbc_history to include createdBy
 @1.244.0 2025-02-26T17:47:45Z CCBC Service Account <ccbc@button.is> # release v1.244.0
+tables/application_fnha_contribution 2025-02-24T19:40:28Z ,,, <ryohani89@NH504670> # Add fnha contribution table
+mutations/save_fnha_contribution 2025-02-25T16:48:17Z ,,, <ryohani89@NH504670> # Add mutation to save fnha contribution

@@ -30,6 +30,7 @@ const ChangeModal: React.FC<Props> = ({
   cancelLabel = 'Cancel',
   description = 'Please provide a reason for the change.',
   id = 'change-modal',
+  title = 'Reason for change',
   maxLength = 1000,
   onCancel = () => {},
   onChange,
@@ -43,7 +44,7 @@ const ChangeModal: React.FC<Props> = ({
       id={id}
       open={isOpen}
       onClose={onCancel}
-      title="Reason for change"
+      title={title}
       actions={[
         {
           id: 'status-change-save-btn',
