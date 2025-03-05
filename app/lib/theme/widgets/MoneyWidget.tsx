@@ -95,11 +95,11 @@ const MoneyWidget: React.FC<WidgetProps> = ({
         allowNegativeValue={false}
         maxLength={14}
         decimalsLimit={2}
-        onValueChange={(val: any) => onChange(val || undefined)}
+        onValueChange={(val: any) => onChange(val || 0)}
         required={required}
         aria-label={label}
         placeholder={placeholder}
-        value={value || ''}
+        value={value || value === 0 ? value : ''}
       />
       <StyledMessage>
         {errorMessage && <StyledError>{errorMessage}</StyledError>}

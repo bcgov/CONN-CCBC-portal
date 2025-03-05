@@ -4,7 +4,7 @@ import { StyledValue } from './ReadOnlyWidget';
 
 const ReadOnlyRequestedMoneyWidget: React.FC<WidgetProps> = ({ value }) => (
   <StyledValue data-testid="read-only-requested-money-widget">
-    {value ? `${formatMoney(value)} requested` : null}
+    {value || value === 0 ? `${formatMoney(value) ?? '$0'} requested` : null}
   </StyledValue>
 );
 
