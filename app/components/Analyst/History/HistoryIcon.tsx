@@ -54,6 +54,7 @@ const iconMap = {
   application_milestone_data: faSignsPost,
   application_project_type: faWifi,
   application_communities: faClipboardList,
+  application_fnha_contribution: faDollarSign,
 };
 
 interface Props {

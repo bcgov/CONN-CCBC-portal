@@ -15,6 +15,7 @@ import applicationSowDataSchema from 'formSchema/uiSchema/history/applicationSow
 import applicationAnnounced from 'formSchema/uiSchema/history/applicationAnnounced';
 import { processArrayDiff } from 'components/DiffTable';
 import communities from 'formSchema/uiSchema/history/communities';
+import fnhaContribution from 'formSchema/uiSchema/history/fnhaContribution';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -1028,6 +1029,35 @@ const HistoryContent = ({
           />
         )}
       </>
+    );
+  }
+
+  if (tableName === 'application_fnha_contribution') {
+    return (
+      <StyledContent data-testid="history-fnha-contribution">
+        <span>
+          {displayName} updated <b>FNHA Contribution</b> on {createdAtFormatted}
+        </span>
+        {showHistoryDetails && (
+          <HistoryDetails
+            json={record}
+            prevJson={prevHistoryItem?.record || {}}
+            excludedKeys={[
+              'id',
+              'updated_at',
+              'created_at',
+              'created_by',
+              'updated_by',
+              'archived_at',
+              'archived_by',
+              'reason_for_change',
+            ]}
+            diffSchema={fnhaContribution}
+            overrideParent="fnhaContribution"
+          />
+        )}
+        {reasonForChange && <ChangeReason reason={reasonForChange} />}
+      </StyledContent>
     );
   }
 

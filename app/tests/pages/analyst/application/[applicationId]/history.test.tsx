@@ -3058,6 +3058,32 @@ const mockQueryPayload = {
               sessionSub: '54f0aa1ad196497bb80d05b21c20a1ef@bceidbasic',
               tableName: 'application_communities',
             },
+            {
+              applicationId: 1,
+              createdAt: '2025-03-06T19:50:30.265459+00:00',
+              createdBy: 243,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: null,
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 1,
+                created_at: '2025-03-06T19:50:30.265459+00:00',
+                created_by: 243,
+                updated_at: '2025-03-06T19:50:30.265459+00:00',
+                updated_by: 243,
+                archived_at: null,
+                archived_by: null,
+                application_id: 1,
+                fnha_contribution: 10000,
+                reason_for_change: 'Some test reason',
+              },
+              oldRecord: null,
+              recordId: '5ebdd9d8-9f9f-53cb-abc5-580bee710b73',
+              sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
+              tableName: 'application_fnha_contribution',
+            },
           ],
         },
         formData: {
@@ -3757,7 +3783,7 @@ describe('The index page', () => {
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(31);
+    expect(diffTables.length).toBe(32);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -4017,6 +4043,19 @@ describe('The index page', () => {
     );
     expect(removedCommunityRows).toHaveLength(1);
   });
+
+  it('shows the correct history for fnha contribution', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const fnhaHistory = screen.getAllByTestId('history-fnha-contribution')[0];
+
+    expect(fnhaHistory).toBeInTheDocument();
+
+    expect(fnhaHistory).toHaveTextContent(
+      'Foo Bar updated FNHA Contribution on Mar 6, 2025, 11:50 a.m.'
+    );
+  });
 });
 
 describe('The filter', () => {
@@ -4042,7 +4081,7 @@ describe('The filter', () => {
     const dropdown = document.querySelector('[role="listbox"]') as HTMLElement;
     const options = within(dropdown!).getAllByRole('option');
     const optionNames = options.map((option) => option.textContent?.trim());
-    expect(options.length).toEqual(15);
+    expect(options.length).toEqual(16);
 
     const expectedOptionNames = [
       'Amendment',
@@ -4053,6 +4092,7 @@ describe('The filter', () => {
       'Claims & progress report',
       'Community progress report',
       'Conditional approval',
+      'Fnha contribution',
       'Funding agreement, sow & map',
       'Lead',
       'Milestone report',
