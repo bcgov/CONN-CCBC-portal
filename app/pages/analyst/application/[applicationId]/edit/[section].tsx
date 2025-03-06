@@ -21,16 +21,49 @@ import { analystProjectArea, benefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
 import { RJSFSchema } from '@rjsf/utils';
 import useEmailNotification from 'lib/helpers/useEmailNotification';
+import review from 'formSchema/analyst/summary/review';
+import reviewUiSchema from 'formSchema/uiSchema/summary/reviewUiSchema';
+import { getFundingData } from 'lib/helpers/ccbcSummaryGenerateFormData';
+import { useSaveFnhaContributionMutation } from 'schema/mutations/application/saveFnhaContributionMutation';
 
 const getSectionQuery = graphql`
   query SectionQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
       ccbcNumber
+      status
       formData {
         formSchemaId
         jsonData
         formByFormSchemaId {
           jsonSchema
+        }
+      }
+      conditionalApproval {
+        jsonData
+      }
+      applicationFnhaContributionsByApplicationId {
+        __id
+        edges {
+          node {
+            id
+            fnhaContribution
+          }
+        }
+      }
+    }
+    allApplicationSowData(
+      filter: { applicationId: { equalTo: $rowId } }
+      orderBy: AMENDMENT_NUMBER_DESC
+      condition: { archivedAt: null }
+    ) {
+      nodes {
+        rowId
+        sowTab7SBySowId {
+          nodes {
+            jsonData
+            rowId
+            sowId
+          }
         }
       }
     }
@@ -49,12 +82,14 @@ const EditApplication = ({
     session,
     applicationByRowId: {
       ccbcNumber,
+      applicationFnhaContributionsByApplicationId,
       formData: {
         formByFormSchemaId: { jsonSchema },
         formSchemaId,
         jsonData,
       },
     },
+    allApplicationSowData,
   } = query;
 
   // Use a hidden ref for submit button instead of passing to modal so we have the most up to date form data
@@ -72,8 +107,13 @@ const EditApplication = ({
       ...budgetDetails,
     },
   };
+  const isSummaryEdit = sectionName === 'funding';
+  const sectionSchema = (
+    isSummaryEdit
+      ? review.properties.funding
+      : formSchema.properties[sectionName]
+  ) as RJSFSchema;
 
-  const sectionSchema = formSchema.properties[sectionName] as RJSFSchema;
   uiSchema.benefits = { ...uiSchema.benefits, ...benefits } as any;
   uiSchema.projectArea = {
     ...uiSchema.projectArea,
@@ -81,11 +121,18 @@ const EditApplication = ({
   } as any;
   // https://github.com/rjsf-team/react-jsonschema-form/issues/1023
   // Save and update form data in state due to RJSF setState bug
-  const [sectionFormData, setSectionFormData] = useState(jsonData[sectionName]);
+  const fundingSummaryData = getFundingData(
+    query.applicationByRowId,
+    allApplicationSowData
+  );
+  const [sectionFormData, setSectionFormData] = useState(
+    isSummaryEdit ? fundingSummaryData : jsonData[sectionName]
+  );
   const [changeReason, setChangeReason] = useState('');
   const [isFormSaved, setIsFormSaved] = useState(true);
   const changeModal = useModal();
   const { notifyHHCountUpdate } = useEmailNotification();
+  const [saveFnhaContributionMutation] = useSaveFnhaContributionMutation();
   const handleChange = (e: IChangeEvent) => {
     setIsFormSaved(false);
     const newFormSectionData = { ...e.formData };
@@ -95,6 +142,22 @@ const EditApplication = ({
   };
 
   const [createNewFormData] = useCreateNewFormDataMutation();
+
+  const handleSummaryEdit = () => {
+    saveFnhaContributionMutation({
+      variables: {
+        connections: [applicationFnhaContributionsByApplicationId.__id],
+        input: {
+          _applicationId: Number(applicationId),
+          _fnhaContribution: sectionFormData?.fnhaContribution || 0,
+          _reasonForChange: changeReason,
+        },
+      },
+      onCompleted: () => {
+        router.push(`/analyst/application/${applicationId}/summary`);
+      },
+    });
+  };
 
   const handleSubmit = () => {
     const calculatedSectionData = calculate(sectionFormData, sectionName);
@@ -155,14 +218,21 @@ const EditApplication = ({
       provisionRightNav
     >
       <AnalystLayout query={query}>
-        <h2>Application</h2>
-        <hr />
-        <h3>{sectionSchema.title}</h3>
+        {!isSummaryEdit && (
+          <>
+            <h2>Application</h2>
+            <hr />
+            <h3>{sectionSchema.title}</h3>
+          </>
+        )}
+
         <FormBase
           formData={sectionFormData}
           onChange={handleChange}
           schema={sectionSchema}
-          uiSchema={uiSchema[sectionName]}
+          uiSchema={
+            isSummaryEdit ? reviewUiSchema.funding : uiSchema[sectionName]
+          }
           onSubmit={triggerModal}
           noValidate
         >
@@ -188,7 +258,11 @@ const EditApplication = ({
             style={{ marginLeft: '24px' }}
             onClick={(e: React.MouseEvent<HTMLInputElement>) => {
               e.preventDefault();
-              router.push(`/analyst/application/${applicationId}`);
+              router.push(
+                isSummaryEdit
+                  ? `/analyst/application/${applicationId}/summary`
+                  : `/analyst/application/${applicationId}`
+              );
             }}
           >
             Cancel
@@ -197,8 +271,9 @@ const EditApplication = ({
 
         <ChangeModal
           id="change-modal"
+          title="Reason for change (Optional)"
           onCancel={changeModal.close}
-          onSave={handleSubmit}
+          onSave={isSummaryEdit ? handleSummaryEdit : handleSubmit}
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setChangeReason(e.target.value)
           }
