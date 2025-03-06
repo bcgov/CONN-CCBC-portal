@@ -9113,7 +9113,7 @@ glob@^10.0.0:
     minipass "^7.0.4"
     path-scurry "^1.11.0"
 
-glob@^7.1.2, glob@^7.1.3, glob@^7.1.4:
+glob@^7.1.3, glob@^7.1.4:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.0.tgz#d15535af7732e02e948f4c41628bd910293f6023"
   integrity sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
@@ -9348,33 +9348,7 @@ happo-e2e@^3.3.3:
     parse-srcset "^1.0.2"
     yargs "^17.7.2"
 
-happo.io@^11.0.1:
-  version "11.0.1"
-  resolved "https://registry.yarnpkg.com/happo.io/-/happo.io-11.0.1.tgz#103ac0a7bb250e958235d2a7b0c8785f166de21f"
-  integrity sha512-PhrTFoVyf0Cb4W9jhbtAKK+QWjkzp0fw9FZOyUPjh2gHgqetP7qPLfizEp6osAPqdGeqmMNr01ftOoki67g5Jw==
-  dependencies:
-    "@babel/preset-react" "^7.12.1"
-    abort-controller "^3.0.0"
-    archiver "^7.0.1"
-    async-retry "^1.3.1"
-    babel-plugin-dynamic-import-node "^2.1.0"
-    commander "^2.15.1"
-    form-data "^4.0.0"
-    glob "^7.1.2"
-    https-proxy-agent "^5.0.0"
-    jose "^5.4.1"
-    jsdom "^16.4.0"
-    lcs-image-diff "^2.0.0"
-    node-fetch "^2.6.6"
-    parse-srcset "^1.0.2"
-    pngjs "^3.4.0"
-    require-relative "^0.8.7"
-    rimraf "^3.0.0"
-    source-map-support "^0.5.9"
-    string.prototype.matchall "^4.0.0"
-    supports-color "^7.1.0"
-
-happo.io@^12.0.0:
+happo.io@^12.0.0, happo.io@^12.0.1:
   version "12.0.1"
   resolved "https://registry.yarnpkg.com/happo.io/-/happo.io-12.0.1.tgz#6991c70305c101884d0b2ac3b858f1d69779ae69"
   integrity sha512-p5jQX91i+AUgm5VlOSpigzVzpzmx0SJrtJYAHIcsVBxqkBdThPWZiZ4IgPQT0mmvS0YKF4J+VVtqKKGH4DOKuA==
@@ -11116,13 +11090,6 @@ lazystream@^1.0.0:
   dependencies:
     readable-stream "^2.0.5"
 
-lcs-image-diff@^2.0.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/lcs-image-diff/-/lcs-image-diff-2.1.1.tgz#eaa88f344853500f0acbb3e1430f1339ee047ef0"
-  integrity sha512-pMsEXSN3GibFRxP5oH3b+3sJ6DA926XCeFLmkdxbp9QucwiAQ2nmMOaQECTP+NZ8+zo1ZIbs+Qqfa6Jm9Qtb0Q==
-  dependencies:
-    imagetracerjs "^1.2.5"
-
 lcs-image-diff@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lcs-image-diff/-/lcs-image-diff-3.0.0.tgz#9f924f534d68b3d923a02215e6a61afc75c26ee7"
@@ -12419,11 +12386,6 @@ pluralize@^7.0.0:
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
   integrity sha512-ARhBOdzS3e41FbkW/XWrTEtukqqLoK5+Z/4UeDaLuSW+39JPeFgs4gCGqsrJHVZX0fUrx//4OF0K1CUGwlIFow==
 
-pngjs@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-3.4.0.tgz#99ca7d725965fb655814eaf65f38f12bbdbf555f"
-  integrity sha512-NCrCHhWmnQklfH4MtJMRjZ2a8c80qXeMlQMv2uVp9ISJMTt562SbGd6n2oq0PaPgKm7Z6pL9E2UlLIhC+SHL3w==
-
 pngjs@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-7.0.0.tgz#a8b7446020ebbc6ac739db6c5415a65d17090e26"
@@ -13321,7 +13283,7 @@ rimraf@^2.6.3:
   dependencies:
     glob "^7.1.3"
 
-rimraf@^3.0.0, rimraf@^3.0.2:
+rimraf@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-3.0.2.tgz#f1a5402ba6220ad52cc1282bac1ae3aa49fd061a"
   integrity sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==
@@ -13860,7 +13822,7 @@ string.prototype.includes@^2.0.1:
     define-properties "^1.2.1"
     es-abstract "^1.23.3"
 
-string.prototype.matchall@^4.0.0, string.prototype.matchall@^4.0.11:
+string.prototype.matchall@^4.0.11:
   version "4.0.11"
   resolved "https://registry.yarnpkg.com/string.prototype.matchall/-/string.prototype.matchall-4.0.11.tgz#1092a72c59268d2abaad76582dccc687c0297e0a"
   integrity sha512-NUdh0aDavY2og7IbBPenWqR9exH+E26Sv8e0/eTe1tltDGZL+GtBkDAnnyBtmekfK6/Dq3MkcGtzXFEd1LQrtg==
