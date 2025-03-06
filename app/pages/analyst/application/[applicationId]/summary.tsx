@@ -43,6 +43,14 @@ const getSummaryQuery = graphql`
           jsonData
         }
       }
+      applicationFnhaContributionsByApplicationId {
+        edges {
+          node {
+            id
+            fnhaContribution
+          }
+        }
+      }
       applicationStatusesByApplicationId(
         filter: { status: { equalTo: "submitted" } }
       ) {
@@ -197,6 +205,7 @@ const Summary = ({
 }: RelayProps<Record<string, unknown>, summaryQuery>) => {
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
+  const { section: toggledSection } = router.query;
   const showMap = useFeature('show_summary_map').value;
   const [mapData, setMapData] = useState(null);
   const [isMapExpanded, setIsMapExpanded] = useState(false);
@@ -220,6 +229,7 @@ const Summary = ({
     allApplicationRds
   );
   const [finalFormData, setFinalFormData] = useState<any>(formData);
+  const [editMode, setEditMode] = useState(false);
   const finalUiSchema = {
     map: { ...mapUiSchema },
     ...reviewUiSchema,
@@ -253,7 +263,7 @@ const Summary = ({
     };
 
     fetchData();
-  }, [applicationId, showMap]);
+  }, [applicationId, showMap, query]);
 
   return (
     <Layout
@@ -331,24 +341,26 @@ const Summary = ({
           additionalContext={{
             toggleOverride,
             isCbc: false,
-            isEditable: false,
+            isEditable: true,
             errors,
+            editMode,
             formDataSource,
             showErrorHint: true,
             fallBackFields,
+            toggledSection,
           }}
           formData={finalFormData}
           handleChange={() => {}}
           isExpanded
           isFormAnimated={false}
-          isFormEditMode={false}
+          isFormEditMode={editMode}
           title="Summary"
           theme={ReviewTheme}
           schema={isMapExpanded ? finalSchema : review}
           uiSchema={isMapExpanded ? finalUiSchema : reviewUiSchema}
           resetFormData={() => {}}
           onSubmit={() => {}}
-          setIsFormEditMode={() => {}}
+          setIsFormEditMode={setEditMode}
           saveBtnText="Save"
         />
       </AnalystLayout>

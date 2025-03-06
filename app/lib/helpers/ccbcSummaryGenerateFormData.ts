@@ -259,6 +259,9 @@ const getSowFallBackFields = (sowData, formData, communitiesData) => {
     benefitingIndigenousCommunities: 'TBD',
   };
   return {
+    dateAgreementSigned: formData.eventsAndDates.dateAgreementSigned
+      ? null
+      : 'TBD',
     communities: Number.isInteger(formData.counts.communities) ? null : 'TBD',
     indigenousCommunities: Number.isInteger(
       formData.counts.indigenousCommunities
@@ -334,7 +337,7 @@ const getHouseholdsImpactedCountWithAmendmentNumber = (
   return totalIndigenousHouseholds;
 };
 
-const getSowErrors = (sowData, schema, formDataSource) => {
+const getSowErrors = (sowData, schema, formDataSource, formData) => {
   if (sowData?.length) return null;
   const errors: any = {};
   Object.entries(schema?.properties || {}).forEach(([parentKey, value]) => {
@@ -354,6 +357,20 @@ const getSowErrors = (sowData, schema, formDataSource) => {
       }
     });
   });
+
+  if (
+    // undefined and a length of 0 will both be !falsy
+    !formData.eventsAndDates.dateAgreementSigned?.length
+  ) {
+    errors.eventsAndDates = {
+      dateAgreementSigned: {
+        __errors: [
+          'The date has not been selected on the Project page in the "Funding Agreement, Statement of Work and Map"',
+        ],
+      },
+    };
+  }
+
   // Custom errors for counts
   if (errors?.counts?.communities?.__errors?.length > 0) {
     errors.counts.communities.__errors = [
@@ -425,6 +442,121 @@ const getApplicationErrors = (
   return formErrors;
 };
 
+const getFundingDataFromSow = (sowData) => {
+  const summaryTable =
+    sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable;
+  return {
+    bcFundingRequested: summaryTable?.amountRequestedFromProvince,
+    federalFunding: summaryTable?.amountRequestedFromFederalGovernment,
+    fundingRequestedCcbc: summaryTable?.totalFundingRequestedCCBC,
+    applicantAmount: summaryTable?.totalApplicantContribution,
+    cibFunding: summaryTable?.totalInfrastructureBankFunding,
+    fhnaFunding: summaryTable?.totalFNHAFunding,
+    otherFunding: summaryTable?.fundingFromAllOtherSources,
+    totalProjectBudget: summaryTable?.totalProjectCost,
+  };
+};
+
+const handleSplitFunding = (requestedFunding) => {
+  if (!requestedFunding) {
+    return { bc: null, federal: null };
+  }
+  const halfAmount = requestedFunding / 2;
+
+  // Rounding up for bc and down for federal
+  const bc = Math.ceil(halfAmount);
+  const federal = Math.floor(halfAmount);
+
+  return { bc, federal };
+};
+
+const getFundingDataFromApplication = (applicationData) => {
+  const splitFunding = handleSplitFunding(
+    applicationData?.formData?.jsonData?.projectFunding
+      ?.totalFundingRequestedCCBC
+  );
+  return {
+    bcFundingRequested: splitFunding?.bc,
+    federalFunding: splitFunding?.federal,
+    fundingRequestedCcbc:
+      applicationData?.formData?.jsonData?.projectFunding
+        ?.totalFundingRequestedCCBC,
+    applicantAmount:
+      applicationData?.formData?.jsonData?.projectFunding
+        ?.totalApplicantContribution,
+    cibFunding:
+      applicationData?.formData?.jsonData?.otherFundingSources
+        ?.totalInfrastructureBankFunding,
+    fhnaFunding: null,
+    otherFunding: handleOtherFundingSourcesApplication(
+      applicationData?.formData?.jsonData?.otherFundingSources
+    ),
+    totalProjectBudget:
+      applicationData?.formData?.jsonData?.budgetDetails?.totalProjectCost,
+    fnhaContribution:
+      applicationData?.applicationFnhaContributionsByApplicationId?.edges[0]
+        ?.node?.fnhaContribution || '0',
+  };
+};
+
+const sumConditionalApprovalFunding = (
+  bcFundingRequested,
+  isedFundingRequested
+) => {
+  if (!bcFundingRequested && !isedFundingRequested) {
+    return null;
+  }
+  if (!bcFundingRequested && isedFundingRequested) {
+    return isedFundingRequested;
+  }
+  if (bcFundingRequested && !isedFundingRequested) {
+    return bcFundingRequested;
+  }
+  return bcFundingRequested + isedFundingRequested;
+};
+
+const getFundingDataFromConditionalApproval = (applicationData) => {
+  return {
+    bcFundingRequested:
+      applicationData?.conditionalApproval?.jsonData?.decision
+        ?.provincialRequested,
+    federalFunding:
+      applicationData?.conditionalApproval?.jsonData?.isedDecisionObj
+        ?.federalRequested,
+    fundingRequestedCcbc: sumConditionalApprovalFunding(
+      applicationData?.conditionalApproval?.jsonData?.decision
+        ?.provincialRequested,
+      applicationData?.conditionalApproval?.jsonData?.isedDecisionObj
+        ?.federalRequested
+    ),
+    fnhaContribution:
+      applicationData?.applicationFnhaContributionsByApplicationId?.edges[0]
+        ?.node?.fnhaContribution || '0',
+  };
+};
+
+export const getFundingData = (applicationData, sowData) => {
+  if (
+    applicationData.status === 'approved' ||
+    applicationData.status === 'applicant_approved'
+  ) {
+    return {
+      ...getFundingDataFromSow(sowData),
+      fnhaContribution:
+        applicationData?.applicationFnhaContributionsByApplicationId?.edges[0]
+          ?.node?.fnhaContribution || '0',
+    };
+  }
+  if (
+    applicationData.status === 'conditionally_approved' ||
+    applicationData.status === 'applicant_conditionally_approved' ||
+    applicationData.status === 'closed'
+  ) {
+    return getFundingDataFromConditionalApproval(applicationData);
+  }
+  return getFundingDataFromApplication(applicationData);
+};
+
 const getSowData = (sowData, baseSowData) => {
   const communitiesData = getCommunitiesWithAmendmentNumber(sowData?.nodes);
   const communities = getCommunitiesNumberWithAmendmentNumber(sowData?.nodes);
@@ -485,32 +617,7 @@ const getSowData = (sowData, baseSowData) => {
       benefitingIndigenousCommunities:
         communitiesData?.benefitingIndigenousCommunities,
     },
-    funding: {
-      bcFundingRequested:
-        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-          ?.amountRequestedFromProvince,
-      federalFunding:
-        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-          ?.amountRequestedFromFederalGovernment,
-      fundingRequestedCcbc:
-        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-          ?.totalFundingRequestedCCBC,
-      applicantAmount:
-        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-          ?.totalApplicantContribution,
-      cibFunding:
-        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-          ?.totalInfrastructureBankFunding,
-      fhnaFunding:
-        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-          ?.totalFNHAFunding,
-      otherFunding:
-        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-          ?.fundingFromAllOtherSources,
-      totalProjectBudget:
-        sowData?.nodes[0]?.sowTab7SBySowId?.nodes[0]?.jsonData?.summaryTable
-          ?.totalProjectCost,
-    },
+    funding: getFundingDataFromSow(sowData),
     eventsAndDates: {
       effectiveStartDate: sowData?.nodes[0]?.jsonData?.effectiveStartDate,
       proposedStartDate: sowData?.nodes[0]?.jsonData?.projectStartDate,
@@ -539,9 +646,9 @@ const getSowData = (sowData, baseSowData) => {
     effectiveStartDate: 'SOW',
     proposedStartDate: 'SOW',
     proposedCompletionDate: 'SOW',
-    dateAgreementSigned: 'SOW',
+    dateAgreementSigned: 'Funding Agreement',
   };
-  const errors = getSowErrors(sowData?.nodes, review, formDataSource);
+  const errors = getSowErrors(sowData?.nodes, review, formDataSource, formData);
   const fallBackFields = getSowFallBackFields(
     sowData?.nodes,
     formData,
@@ -556,52 +663,10 @@ const getSowData = (sowData, baseSowData) => {
   };
 };
 
-const handleSplitFunding = (requestedFunding) => {
-  if (!requestedFunding) {
-    return { bc: null, federal: null };
-  }
-  const halfAmount = requestedFunding / 2;
-
-  // Rounding up for bc and down for federal
-  const bc = Math.ceil(halfAmount);
-  const federal = Math.floor(halfAmount);
-
-  return { bc, federal };
-};
-
-const sumConditionalApprovalFunding = (
-  bcFundingRequested,
-  isedFundingRequested
-) => {
-  if (!bcFundingRequested && !isedFundingRequested) {
-    return null;
-  }
-  if (!bcFundingRequested && isedFundingRequested) {
-    return isedFundingRequested;
-  }
-  if (bcFundingRequested && !isedFundingRequested) {
-    return bcFundingRequested;
-  }
-  return bcFundingRequested + isedFundingRequested;
-};
-
 const getFormDataNonSow = (applicationData) => {
   return {
     formData: {
-      funding: {
-        bcFundingRequested:
-          applicationData?.conditionalApproval?.jsonData?.decision
-            ?.provincialRequested,
-        federalFunding:
-          applicationData?.conditionalApproval?.jsonData?.isedDecisionObj
-            ?.federalRequested,
-        fundingRequestedCcbc: sumConditionalApprovalFunding(
-          applicationData?.conditionalApproval?.jsonData?.decision
-            ?.provincialRequested,
-          applicationData?.conditionalApproval?.jsonData?.isedDecisionObj
-            ?.federalRequested
-        ),
-      },
+      funding: getFundingDataFromConditionalApproval(applicationData),
       eventsAndDates: {
         dateConditionallyApproved: getConditionalApprovalDate(
           applicationData?.conditionalApproval?.jsonData
@@ -669,25 +734,7 @@ const getFormDataFromApplication = (
       economicRegions: getEconomicRegions(economicRegions),
       regionalDistricts: getRegionalDistricts(regionalDistricts),
     },
-    funding: {
-      bcFundingRequested: splitFunding?.bc,
-      federalFunding: splitFunding?.federal,
-      fundingRequestedCcbc:
-        applicationData?.formData?.jsonData?.projectFunding
-          ?.totalFundingRequestedCCBC,
-      applicantAmount:
-        applicationData?.formData?.jsonData?.projectFunding
-          ?.totalApplicantContribution,
-      cibFunding:
-        applicationData?.formData?.jsonData?.otherFundingSources
-          ?.totalInfrastructureBankFunding,
-      fhnaFunding: null,
-      otherFunding: handleOtherFundingSourcesApplication(
-        applicationData?.formData?.jsonData?.otherFundingSources
-      ),
-      totalProjectBudget:
-        applicationData?.formData?.jsonData?.budgetDetails?.totalProjectCost,
-    },
+    funding: getFundingDataFromApplication(applicationData),
     eventsAndDates: {
       dateApplicationReceived: handleApplicationDateReceived(
         applicationData,
@@ -749,6 +796,9 @@ const generateFormData = (
 ) => {
   const dependencyData =
     applicationData?.applicationDependenciesByApplicationId?.nodes[0]?.jsonData;
+  const fnhaContribution =
+    applicationData?.applicationFnhaContributionsByApplicationId?.edges[0]?.node
+      ?.fnhaContribution || '0';
   let formData;
   let formDataSource;
   let errors = null;
@@ -899,7 +949,7 @@ const generateFormData = (
       },
       counts: { ...formData?.counts },
       locations: { ...formData?.locations },
-      funding: { ...formData?.funding },
+      funding: { ...formData?.funding, fnhaContribution }, // fnhaContribution is one source
       eventsAndDates: {
         ...formData?.eventsAndDates,
         announcedByProvince: applicationData

@@ -615,7 +615,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             rowId: project.node.cbcId,
             ...project.node.jsonData,
             program: 'CBC',
-            zones: [],
+            zones: project.node.jsonData?.zones || [],
             intakeNumber: project.node.jsonData?.intake || 'N/A',
             projectId: project.node.projectNumber,
             internalStatus: null,
@@ -655,8 +655,12 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     });
 
     const uniqueZones = [
-      ...new Set(allApplications.edges.flatMap((edge) => edge.node.zones)),
+      ...new Set([
+        ...allApplications.edges.flatMap((edge) => edge.node.zones),
+        ...allCbcData.edges.flatMap((edge) => edge.node.jsonData?.zones),
+      ]),
     ]
+      .filter(filterOutNullishs)
       .map((zone) => zone.toString())
       .sort((a, b) => Number(a) - Number(b));
 

@@ -199,6 +199,16 @@ const mockQueryPayloadReceived = {
             },
           ],
         },
+        applicationFnhaContributionsByApplicationId: {
+          edges: [
+            {
+              node: {
+                id: '1',
+                fnhaContribution: 10000,
+              },
+            },
+          ],
+        },
         applicationFormTemplate9DataByApplicationId: {
           nodes: [
             {
@@ -1342,6 +1352,8 @@ describe('The Summary page', () => {
     expect(screen.getByText('2023-01-01')).toBeInTheDocument();
     // date received (intake closing)
     expect(screen.getByText('2022-12-15')).toBeInTheDocument();
+    // fnha Contribution
+    expect(screen.getByText('$10,000')).toBeInTheDocument();
     // application source
     expect(screen.getAllByText('(Application)')).toHaveLength(8);
   });
@@ -1585,5 +1597,19 @@ describe('The Summary page', () => {
     await waitFor(() =>
       expect(screen.getByTestId('collapse-map')).toBeInTheDocument()
     );
+  });
+
+  it('funding accordion should be editable', async () => {
+    pageTestingHelper.loadQuery(mockQueryPayloadReceived);
+    pageTestingHelper.renderPage();
+
+    const fundingSection = document.getElementById('root_funding');
+    expect(fundingSection).toBeInTheDocument();
+
+    const icons = screen.getAllByRole('img', { hidden: true });
+
+    const penIcon = icons.find((icon) => icon.classList.contains('fa-pen'));
+    expect(penIcon).toBeInTheDocument();
+    expect(fundingSection).toContainElement(penIcon as HTMLElement);
   });
 });
