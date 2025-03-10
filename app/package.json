@@ -54,7 +54,7 @@
     "@sentry/nextjs": "^8",
     "@smithy/node-http-handler": "^4.0.2",
     "@snowplow/browser-tracker": "^4.2.0",
-    "@tmcw/togeojson": "^6.0.1",
+    "@tmcw/togeojson": "^7.0.0",
     "@types/eslint": "^8.44.2",
     "@types/formidable": "^3.4.5",
     "@types/geojson": "^7946.0.16",
