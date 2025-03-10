@@ -4749,10 +4749,10 @@
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.6.1.tgz#13e09a32d7a8b7060fe38304788ebf4197cd2149"
   integrity sha512-vq7fv0rnt+QTXgPxr5Hjc210p6YKq2kmdziLgnsZGgLJ9e6VAShx1pACLuRjd/AS/sr7phAR58OIIpf0LlmQNw==
 
-"@tmcw/togeojson@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@tmcw/togeojson/-/togeojson-6.0.1.tgz#db9b0e14c3427e9cd1ee4810ed6848edb8a5444d"
-  integrity sha512-eit0noOFdAz6f26ODt5h3E/7wkmW/Sr8b3cVDPTKwYCXk9JL1lfoRKGw2axFVYJC6s5unVTVCjOe86Vak02Vuw==
+"@tmcw/togeojson@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@tmcw/togeojson/-/togeojson-7.0.0.tgz#4ca264741884356795ad541fddda348e87ec6ab7"
+  integrity sha512-e2BoFtuCm47R0Bz4m/HATdMIDcsbNUKiNCtm9AySukG8uaanEluncdvq+h3b2tT36LBkEdM6hmpWDcOw97tWpQ==
 
 "@tootallnate/once@1":
   version "1.1.2"
