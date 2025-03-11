@@ -267,6 +267,7 @@ const Cbc = ({
           rowId: query?.cbcByRowId?.cbcDataByCbcId?.edges[0].node.rowId || null,
           cbcDataPatch: {
             jsonData: {
+              ...query?.cbcByRowId?.cbcDataByCbcId?.edges[0].node.jsonData,
               ...formData.tombstone,
               ...formData.projectType,
               projectLocations,
