@@ -1,3 +1,9 @@
+## [1.246.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.1...v1.246.2) (2025-03-11)
+
+### Bug Fixes
+
+- add condition for view more text in sow read only ([0a9caa9](https://github.com/bcgov/CONN-CCBC-portal/commit/0a9caa98acebd16d0cb4353710835b4dab6699c5))
+
 ## [1.246.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.0...v1.246.1) (2025-03-11)
 
 # [1.246.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.245.0...v1.246.0) (2025-03-05)
