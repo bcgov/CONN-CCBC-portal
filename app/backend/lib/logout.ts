@@ -12,13 +12,13 @@ const siteminderUrl = config.get('SITEMINDER_LOGOUT_URL');
 const logout = Router();
 
 logout.post('/api/logout', async (req: any, res) => {
+  const idToken = req?.session?.tokenSet?.id_token;
   req.logout(() => {
     const idp = req.claims?.identity_provider;
     const baseRoute = idp === 'idir' ? '/analyst' : '/';
 
-    const logoutUrl = `${siteminderUrl}?retnow=1&returl=${authServerUrl}/protocol/openid-connect/logout?redirect_uri=${encodeURI(
-      `${baseUrl}${baseRoute}`
-    )}`;
+    const keycloakLogoutUrl = `${authServerUrl}/protocol/openid-connect/logout?id_token_hint=${encodeURIComponent(idToken)}&post_logout_redirect_uri=${encodeURIComponent(`${baseUrl}${baseRoute}`)}`;
+    const logoutUrl = `${siteminderUrl}?retnow=1&returl=${encodeURIComponent(keycloakLogoutUrl)}`;
 
     req.session.destroy(() => {
       res.clearCookie('analyst.sort');

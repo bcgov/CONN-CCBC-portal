@@ -197,7 +197,8 @@ const ReadOnlyView: React.FC<Props> = ({
               onClick={() => setShowMore(!showMore)}
               isShowMore={showMore}
             >
-              View more <FontAwesomeIcon icon={faChevronRight} size="xs" />
+              {showMore ? 'View Less' : 'View more'}{' '}
+              <FontAwesomeIcon icon={faChevronRight} size="xs" />
             </StyledArrowButton>
           )}
         </div>
