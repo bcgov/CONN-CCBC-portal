@@ -1,3 +1,9 @@
+## [1.246.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.2...v1.246.3) (2025-03-11)
+
+### Bug Fixes
+
+- update email to connectingcommunitiesbc ([ffff9e2](https://github.com/bcgov/CONN-CCBC-portal/commit/ffff9e250c4b1540db14ac51fd3897613fe4748e))
+
 ## [1.246.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.1...v1.246.2) (2025-03-11)
 
 ### Bug Fixes
