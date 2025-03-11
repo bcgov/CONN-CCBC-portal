@@ -1,3 +1,9 @@
+## [1.246.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.3...v1.246.4) (2025-03-11)
+
+### Bug Fixes
+
+- add conversion from closed to not selected ([48bff21](https://github.com/bcgov/CONN-CCBC-portal/commit/48bff213f6fd2f56e406322f400f97f744234504))
+
 ## [1.246.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.2...v1.246.3) (2025-03-11)
 
 ### Bug Fixes
