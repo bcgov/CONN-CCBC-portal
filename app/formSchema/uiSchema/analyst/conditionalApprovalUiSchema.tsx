@@ -60,6 +60,7 @@ const conditionalApprovalUiSchema = {
       'ui:placeholder': 'No recommendation',
     },
     federalRequested: {
+      'ui:widget': 'MoneyWidget',
       'ui:placeholder': '$ requested',
     },
   },
