@@ -1,3 +1,9 @@
+## [1.246.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.5...v1.246.6) (2025-03-12)
+
+### Bug Fixes
+
+- cc on cbc download on dashboard ([968c743](https://github.com/bcgov/CONN-CCBC-portal/commit/968c743044fc7068c479949db787582555ba2075))
+
 ## [1.246.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.4...v1.246.5) (2025-03-12)
 
 ### Bug Fixes
