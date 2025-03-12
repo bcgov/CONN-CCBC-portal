@@ -204,6 +204,7 @@ const EditCbcSection = ({
           rowId: cbcDataRowId,
           cbcDataPatch: {
             jsonData: {
+              ...jsonData,
               ...formData.tombstone,
               ...formData.projectType,
               projectLocations,
