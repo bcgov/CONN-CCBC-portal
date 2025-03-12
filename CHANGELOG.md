@@ -1,3 +1,9 @@
+## [1.246.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.4...v1.246.5) (2025-03-12)
+
+### Bug Fixes
+
+- conditional approval amount to show 0 if the value was cleared ([13f4efc](https://github.com/bcgov/CONN-CCBC-portal/commit/13f4efc52cea46c923c66692f97d2e9910ad4c70))
+
 ## [1.246.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.3...v1.246.4) (2025-03-11)
 
 ### Bug Fixes
