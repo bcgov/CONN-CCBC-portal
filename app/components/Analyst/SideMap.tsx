@@ -26,7 +26,12 @@ const SideMap = ({ mapData, isMapExpanded, setIsMapExpanded }) => {
       <StyledMap>
         {!isMapExpanded && (
           <>
-            <MapCaller initialData={mapData} height="230px" width="230px" />
+            <MapCaller
+              initialData={mapData}
+              height="230px"
+              width="230px"
+              expanded={false}
+            />
             <StyledLink
               data-testid="expand-map"
               onClick={(e) => {
