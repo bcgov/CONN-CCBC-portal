@@ -9,3 +9,39 @@ deployer:
 linter:
   serviceAccount:
     enabled: true
+
+# Redis Configuration
+redis:
+  replicas: 1
+  image:
+    repository: redis
+    tag: '7.0'
+  resources:
+    requests:
+      memory: '256Mi'
+      cpu: '200m'
+
+# RabbitMQ Configuration
+rabbitmq:
+  replicas: 1
+  image:
+    repository: rabbitmq
+    tag: '3.12-management'
+  defaultUser: 'guest'
+  defaultPass: 'guest'
+  resources:
+    requests:
+      memory: '512Mi'
+      cpu: '300m'
+
+# SvelteKit Application Configuration
+sveltekit:
+  replicas: 2
+  image:
+    repository: conn-ccbc-portal
+    tag: 'latest' #for development
+  port: 3000
+  resources:
+    requests:
+      memory: '256Mi'
+      cpu: '200m'
