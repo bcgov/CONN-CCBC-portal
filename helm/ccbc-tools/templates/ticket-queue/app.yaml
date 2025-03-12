@@ -23,6 +23,3 @@ spec:
           requests:
             memory: {{ .Values.sveltekit.resources.requests.memory }}
             cpu: {{ .Values.sveltekit.resources.requests.cpu }}
-          limits:
-            memory: {{ .Values.sveltekit.resources.limits.memory }}
-            cpu: {{ .Values.sveltekit.resources.limits.cpu }}
