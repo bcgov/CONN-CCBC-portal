@@ -2,9 +2,11 @@ name: deploy tools chart
 
 on:
   push:
-    branches: [main, NDT-742-Allow-Tickets-to-be-queued-for-merging]
+    branches: [main]
     paths:
       - 'helm/ccbc-tools/**'
+  pull_request:
+    branches: [main]
 
 jobs:
   helm_deploy:
