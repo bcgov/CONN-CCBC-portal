@@ -1,0 +1,14 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ .Release.Name }}-sveltekit
+  labels:
+    app: {{ .Release.Name }}-sveltekit
+spec:
+  to:
+    kind: Service
+    name: {{ .Release.Name }}-sveltekit
+  port:
+    targetPort: {{ .Values.sveltekit.port }}
+  tls:
+    termination: edge

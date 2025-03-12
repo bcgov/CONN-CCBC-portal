@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-sveltekit
+  labels:
+    app: {{ .Release.Name }}-sveltekit
+spec:
+  replicas: {{ .Values.sveltekit.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-sveltekit
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-sveltekit
+    spec:
+      containers:
+      - name: sveltekit
+        image: {{ .Values.sveltekit.image.repository }}:{{ .Values.sveltekit.image.tag }}
+        ports:
+        - containerPort: {{ .Values.sveltekit.port }}
+        resources:
+          requests:
+            memory: {{ .Values.sveltekit.resources.requests.memory }}
+            cpu: {{ .Values.sveltekit.resources.requests.cpu }}
+          limits:
+            memory: {{ .Values.sveltekit.resources.limits.memory }}
+            cpu: {{ .Values.sveltekit.resources.limits.cpu }}
