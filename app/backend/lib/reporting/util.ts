@@ -7,7 +7,7 @@ export const convertStatus = (status: string): string => {
     case 'on_hold':
       return 'On Hold';
     case 'closed':
-      return 'Closed';
+      return 'Not selected';
     case 'recommendation':
       return 'Recommendation';
     case 'complete':
