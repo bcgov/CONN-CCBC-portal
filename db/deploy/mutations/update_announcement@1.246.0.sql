@@ -2,8 +2,6 @@
 
 begin;
 
-drop function if exists ccbc_public.update_announcement(project_numbers varchar, json_data jsonb, old_row_id int, update_only boolean);
-
 create or replace function ccbc_public.update_announcement(project_numbers varchar, json_data jsonb, old_row_id int)
 returns ccbc_public.announcement
 as $function$

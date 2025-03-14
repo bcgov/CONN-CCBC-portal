@@ -10,8 +10,8 @@ const limiter = RateLimit({
 });
 
 const saveLinkPreviewMutation = `
-  mutation linkPreviewMutation($input: JSON!, $id: Int!, $ccbcNumbers: String!) {
-    updateAnnouncement(input: {jsonData: $input, oldRowId: $id, projectNumbers: $ccbcNumbers}) {
+  mutation linkPreviewMutation($input: JSON!, $id: Int!, $ccbcNumbers: String!, $updateOnly: Boolean!) {
+    updateAnnouncement(input: {jsonData: $input, oldRowId: $id, projectNumbers: $ccbcNumbers, updateOnly: $updateOnly}) {
       announcement {
         id,
         rowId,
@@ -69,7 +69,7 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
     (async () => {
       await performQuery(
         saveLinkPreviewMutation,
-        { input: jsonData, id: rowId, ccbcNumbers },
+        { input: jsonData, id: rowId, ccbcNumbers, updateOnly: true },
         req
       ).catch((e) => {
         return res.status(400).json({ error: e }).end();
@@ -98,7 +98,7 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
       jsonData.previewed = true;
       await performQuery(
         saveLinkPreviewMutation,
-        { input: jsonData, id: rowId, ccbcNumbers },
+        { input: jsonData, id: rowId, ccbcNumbers, updateOnly: true },
         req
       ).catch((e) => {
         return res.status(400).json({ error: e }).end();
