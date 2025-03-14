@@ -14,8 +14,8 @@ linter:
 redis:
   replicas: 1
   image:
-    repository: redis
-    tag: '7.0'
+    repository: docker.io/redis
+    tag: '7'
   resources:
     requests:
       memory: '256Mi'
@@ -25,8 +25,8 @@ redis:
 rabbitmq:
   replicas: 1
   image:
-    repository: rabbitmq
-    tag: '3.12-management'
+    repository: docker.io/rabbitmq
+    tag: '4.0.7-management'
   defaultUser: 'guest'
   defaultPass: 'guest'
   resources:
@@ -38,7 +38,7 @@ rabbitmq:
 sveltekit:
   replicas: 2
   image:
-    repository: conn-ccbc-portal
+    repository: ghcr.io/bcgov/conn-ccbc-portal/conn-ticket-queue
     tag: 'latest' #for development
   port: 3000
   resources:
