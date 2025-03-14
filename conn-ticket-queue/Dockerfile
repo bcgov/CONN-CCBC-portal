@@ -8,13 +8,13 @@ WORKDIR /app
 RUN apk add --no-cache yarn
 
 # Copy package files
-COPY package.json yarn.lock* ./
+COPY conn-ticket-queue/package.json conn-ticket-queue/yarn.lock* ./
 
 # Install all dependencies (including devDependencies for build) using Yarn
 RUN yarn install --frozen-lockfile
 
 # Copy the rest of the application code
-COPY . .
+COPY conn-ticket-queue/ .
 
 # Build the SvelteKit app with adapter-node using Yarn
 RUN yarn build
