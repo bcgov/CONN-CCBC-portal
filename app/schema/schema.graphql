@@ -106555,6 +106555,7 @@ input UpdateAnnouncementInput {
   projectNumbers: String!
   jsonData: JSON!
   oldRowId: Int!
+  updateOnly: Boolean
 }
 
 """The output of our `updateApplicationForm` mutation."""
