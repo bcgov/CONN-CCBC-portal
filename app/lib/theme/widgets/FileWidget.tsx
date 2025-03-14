@@ -27,6 +27,101 @@ interface FileWidgetProps extends WidgetProps {
   value: Array<File>;
 }
 
+export async function processFileTemplate(
+  file: any,
+  setTemplateData: Function,
+  templateNumber: number,
+  isApplicantPage: boolean,
+  formId: number,
+  rfiNumber: string
+) {
+  let isTemplateValid = true;
+  const fileFormData = new FormData();
+  if (file) {
+    fileFormData.append('file', file);
+    if (setTemplateData) {
+      try {
+        if (templateNumber !== 9) {
+          const response = await fetch(
+            `/api/applicant/template?templateNumber=${templateNumber}`,
+            {
+              method: 'POST',
+              body: fileFormData,
+            }
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setTemplateData({
+              templateNumber,
+              data,
+              templateName: file.name,
+            });
+          } else {
+            isTemplateValid = false;
+            setTemplateData({
+              templateNumber,
+              error: true,
+            });
+          }
+        } else if (templateNumber === 9) {
+          if (isApplicantPage) {
+            // fetch for applicant and handle as expected
+            const response = await fetch(
+              `/api/template-nine/rfi/applicant/${formId}/${rfiNumber}`,
+              {
+                method: 'POST',
+                body: fileFormData,
+              }
+            );
+            if (response.ok) {
+              const data = await response.json();
+              setTemplateData({
+                templateNumber,
+                data,
+                templateName: file.name,
+              });
+            } else {
+              isTemplateValid = false;
+              setTemplateData({
+                templateNumber,
+                error: true,
+              });
+            }
+          } else {
+            const response = await fetch(
+              `/api/template-nine/rfi/${formId}/${rfiNumber}`,
+              {
+                method: 'POST',
+                body: fileFormData,
+              }
+            );
+            if (response.ok) {
+              await response.json();
+              setTemplateData({
+                templateNumber,
+                templateName: file.name,
+              });
+            } else {
+              isTemplateValid = false;
+              setTemplateData({
+                templateNumber,
+                error: true,
+              });
+            }
+          }
+        }
+      } catch (error) {
+        isTemplateValid = false;
+        setTemplateData({
+          templateNumber,
+          error: true,
+        });
+      }
+    }
+  }
+  return isTemplateValid;
+}
+
 const FileWidget: React.FC<FileWidgetProps> = ({
   id,
   disabled,
@@ -72,6 +167,8 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   const { setTemplateData, rfiNumber } = formContext;
   const { showToast, hideToast } = useToast();
 
+  const isApplicantPage = router.pathname.includes('applicant');
+
   useEffect(() => {
     if (rawErrors?.length > 0) {
       setErrors([{ error: 'rjsf_validation' }]);
@@ -79,67 +176,16 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   }, [rawErrors, setErrors]);
 
   const getValidatedFile = async (file: any, formId: number) => {
-    let isTemplateValid = true;
-    if (templateValidate) {
-      const fileFormData = new FormData();
-      if (file) {
-        fileFormData.append('file', file);
-        if (setTemplateData) {
-          try {
-            if (templateNumber !== 9) {
-              const response = await fetch(
-                `/api/applicant/template?templateNumber=${templateNumber}`,
-                {
-                  method: 'POST',
-                  body: fileFormData,
-                }
-              );
-              if (response.ok) {
-                const data = await response.json();
-                setTemplateData({
-                  templateNumber,
-                  data,
-                  templateName: file.name,
-                });
-              } else {
-                isTemplateValid = false;
-                setTemplateData({
-                  templateNumber,
-                  error: true,
-                });
-              }
-            } else if (templateNumber === 9) {
-              const response = await fetch(
-                `/api/template-nine/rfi/${formId}/${rfiNumber}`,
-                {
-                  method: 'POST',
-                  body: fileFormData,
-                }
-              );
-              if (response.ok) {
-                await response.json();
-                setTemplateData({
-                  templateNumber,
-                  templateName: file.name,
-                });
-              } else {
-                isTemplateValid = false;
-                setTemplateData({
-                  templateNumber,
-                  error: true,
-                });
-              }
-            }
-          } catch (error) {
-            isTemplateValid = false;
-            setTemplateData({
-              templateNumber,
-              error: true,
-            });
-          }
-        }
-      }
-    }
+    const isTemplateValid = templateValidate
+      ? await processFileTemplate(
+          file,
+          setTemplateData,
+          templateNumber,
+          isApplicantPage,
+          formId,
+          rfiNumber
+        )
+      : true;
 
     const { name, size, type } = file;
     const { isValid, error: newError } = validateFile(
