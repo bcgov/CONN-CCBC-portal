@@ -31,12 +31,12 @@ rabbitmq:
   defaultPass: 'guest'
   resources:
     requests:
-      memory: '512Mi'
+      memory: '256Mi'
       cpu: '10m'
 
 # SvelteKit Application Configuration
 sveltekit:
-  replicas: 2
+  replicas: 1
   image:
     repository: ghcr.io/bcgov/conn-ccbc-portal/conn-ticket-queue
     tag: 'latest' #for development
