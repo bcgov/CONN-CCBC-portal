@@ -19,7 +19,7 @@ redis:
   resources:
     requests:
       memory: '256Mi'
-      cpu: '200m'
+      cpu: '10m'
 
 # RabbitMQ Configuration
 rabbitmq:
@@ -32,7 +32,7 @@ rabbitmq:
   resources:
     requests:
       memory: '512Mi'
-      cpu: '300m'
+      cpu: '10m'
 
 # SvelteKit Application Configuration
 sveltekit:
@@ -44,4 +44,4 @@ sveltekit:
   resources:
     requests:
       memory: '256Mi'
-      cpu: '200m'
+      cpu: '10m'
