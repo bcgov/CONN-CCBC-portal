@@ -258,7 +258,7 @@ const ApplicantRfiPage = ({
               source: 'RFI',
               uuid: getTemplateNineUUID(),
             },
-            _errors: templateNineData.data?.errors,
+            _errors: templateNineData.data?.errors ?? [],
           },
         },
         onError: (err) => {
@@ -327,7 +327,7 @@ const ApplicantRfiPage = ({
               uuid: getTemplateNineUUID(),
             },
             _previousTemplate9Id: applicationFormTemplate9DataId,
-            _errors: templateNineData.data?.errors,
+            _errors: templateNineData.data?.errors ?? [],
           },
         },
         onError: (err) => {

@@ -535,7 +535,7 @@ templateNine.post(
       files = await parseForm(form, req);
     } catch (err) {
       errorList.push({ level: 'file', error: err });
-      return res.status(400).json(errorList).end();
+      return res.status(400).json({ errors: errorList }).end();
     }
     const filename = Object.keys(files)[0];
     const uploadedFilesArray = files[filename] as Array<File>;
@@ -551,7 +551,7 @@ templateNine.post(
       templateNineData = await loadTemplateNineData(wb);
     } catch (err) {
       errorList.push({ level: 'file', error: err });
-      return res.status(400).json(errorList).end();
+      return res.status(400).json({ errors: errorList }).end();
     }
 
     if (templateNineData) {
