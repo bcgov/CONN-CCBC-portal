@@ -38,4 +38,8 @@ create or replace function ccbc_public.create_or_update_application_form_templat
   end;
   $$ language plpgsql volatile;
 
+grant execute on function ccbc_public.create_or_update_application_form_template_9_data to ccbc_analyst;
+grant execute on function ccbc_public.create_or_update_application_form_template_9_data to ccbc_admin;
+grant execute on function ccbc_public.create_or_update_application_form_template_9_data to ccbc_auth_user;
+
 commit;
