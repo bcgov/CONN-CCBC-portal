@@ -204,6 +204,7 @@ const EditCbcSection = ({
           rowId: cbcDataRowId,
           cbcDataPatch: {
             jsonData: {
+              // TODO: Update when working on NDT-725
               ...jsonData,
               ...formData.tombstone,
               ...formData.projectType,
