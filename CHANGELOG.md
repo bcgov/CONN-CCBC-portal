@@ -1,3 +1,9 @@
+## [1.246.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.6...v1.246.7) (2025-03-19)
+
+### Bug Fixes
+
+- add proper call to errors list ([475c873](https://github.com/bcgov/CONN-CCBC-portal/commit/475c8732558554a9affaf2f14ba31273c8c3b376))
+
 ## [1.246.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.5...v1.246.6) (2025-03-12)
 
 ### Bug Fixes
