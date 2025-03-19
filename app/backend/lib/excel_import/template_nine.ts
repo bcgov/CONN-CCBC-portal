@@ -510,6 +510,60 @@ templateNine.get(
 );
 
 templateNine.post(
+  '/api/template-nine/rfi/applicant/:id/:rfiNumber',
+  limiter,
+  async (req, res) => {
+    const authRole = getAuthRole(req);
+    const pgRole = authRole?.pgRole;
+    const isRoleAuthorized = pgRole === 'ccbc_auth_user';
+    if (!isRoleAuthorized) {
+      return res.status(404).end();
+    }
+
+    const { id, rfiNumber } = req.params;
+
+    const applicationId = parseInt(id, 10);
+
+    if (!id || !rfiNumber || Number.isNaN(applicationId)) {
+      return res.status(400).json({ error: 'Invalid parameters' });
+    }
+    const errorList = [];
+    const form = formidable(commonFormidableConfig);
+
+    let files;
+    try {
+      files = await parseForm(form, req);
+    } catch (err) {
+      errorList.push({ level: 'file', error: err });
+      return res.status(400).json({ errors: errorList }).end();
+    }
+    const filename = Object.keys(files)[0];
+    const uploadedFilesArray = files[filename] as Array<File>;
+    const uploaded = uploadedFilesArray?.[0];
+
+    if (!uploaded) {
+      return res.status(400).end();
+    }
+    const buf = fs.readFileSync(uploaded.filepath);
+    const wb = XLSX.read(buf);
+    let templateNineData;
+    try {
+      templateNineData = await loadTemplateNineData(wb);
+    } catch (err) {
+      errorList.push({ level: 'file', error: err });
+      return res.status(400).json({ errors: errorList }).end();
+    }
+
+    if (templateNineData) {
+      return res.status(200).json(templateNineData);
+    }
+    return res
+      .status(400)
+      .json({ error: 'Unknown error while parsing template nine' });
+  }
+);
+
+templateNine.post(
   '/api/template-nine/rfi/:id/:rfiNumber',
   limiter,
   async (req, res) => {
