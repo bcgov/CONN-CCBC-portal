@@ -69,22 +69,38 @@ const convertKmlColorToHex = (
 };
 
 const getBounds = (data) => {
-  if (data?.finalizedMapUpload?.[0]?.bounds?.length === 2) {
-    return [
-      data?.finalizedMapUpload?.[0]?.bounds[0],
-      data?.finalizedMapUpload?.[0]?.bounds[1],
-    ];
-  }
-  if (data?.geographicCoverageMap?.[0]?.bounds?.length === 2) {
-    return [
-      data?.geographicCoverageMap?.[0]?.bounds[0],
-      data?.geographicCoverageMap?.[0]?.bounds[1],
-    ];
-  }
-  return [
-    [47.768, -145.59],
-    [60.283, -103.403],
+  // Default bounds for BC
+  const defaultBounds = [
+    [47.768, -145.59], // Southwest corner
+    [60.283, -103.403], // Northeast corner
   ];
+
+  const isValidBounds = (bounds) =>
+    Array.isArray(bounds) &&
+    bounds.length === 2 &&
+    Array.isArray(bounds[0]) &&
+    Array.isArray(bounds[1]) &&
+    bounds[0].every((coord) => coord !== null && typeof coord === 'number') &&
+    bounds[1].every((coord) => coord !== null && typeof coord === 'number');
+
+  if (
+    data?.finalizedMapUpload?.[0]?.bounds &&
+    isValidBounds(data.finalizedMapUpload[0].bounds)
+  ) {
+    const { bounds } = data.finalizedMapUpload[0];
+    return bounds;
+  }
+
+  if (
+    data?.geographicCoverageMap?.[0]?.bounds &&
+    isValidBounds(data.geographicCoverageMap[0].bounds)
+  ) {
+    const { bounds } = data.geographicCoverageMap[0];
+    return bounds;
+  }
+
+  // Fallback to default bounds if no valid data is found
+  return defaultBounds;
 };
 
 const RenderMarkers = ({ markers, name, expanded }) => (

@@ -69,6 +69,16 @@ const kmlData = `
       </LineString>
     </MultiGeometry>
   </Placemark>
+  <Placemark>
+      <name>Test Single</name>
+      <styleUrl>#LineStyle00</styleUrl>
+      <LineString>
+        <tessellate>1</tessellate>
+        <coordinates>
+          -125.36,49.007,0 -125.36,49.00,0
+        </coordinates>
+      </LineString>
+	</Placemark>
 </kml>
 `;
 
@@ -139,12 +149,38 @@ describe('Map util functions', () => {
           fileName: 'test-file.kml',
           source: 'Test Source',
         },
+        {
+          coordinates: [
+            [
+              [49.007, -125.36],
+              [49, -125.36],
+            ],
+          ],
+          name: 'Test Single',
+          description: null,
+          style: {
+            labelStyle: {
+              color: '00000000',
+              scale: '0.000000',
+            },
+            lineStyle: {
+              color: 'ff1134fa',
+              width: '1.100000',
+            },
+            polyStyle: {
+              color: '00000000',
+              outline: '0',
+            },
+          },
+          fileName: 'test-file.kml',
+          source: 'Test Source',
+        },
       ],
       bounds: [
-        [49.2827, -123.1209],
+        [49, -125.36],
         [49.2829, -123.1207],
       ],
-      center: [49.282775, -123.12077500000001],
+      center: [49.22692, -123.56861999999998],
       fileName: 'test-file.kml',
       source: 'Test Source',
     });
@@ -220,12 +256,38 @@ describe('Map util functions', () => {
           fileName: 'test-file.kmz',
           source: 'Test Source',
         },
+        {
+          coordinates: [
+            [
+              [49.007, -125.36],
+              [49, -125.36],
+            ],
+          ],
+          name: 'Test Single',
+          description: null,
+          style: {
+            labelStyle: {
+              color: '00000000',
+              scale: '0.000000',
+            },
+            lineStyle: {
+              color: 'ff1134fa',
+              width: '1.100000',
+            },
+            polyStyle: {
+              color: '00000000',
+              outline: '0',
+            },
+          },
+          fileName: 'test-file.kmz',
+          source: 'Test Source',
+        },
       ],
       bounds: [
-        [49.2827, -123.1209],
+        [49, -125.36],
         [49.2829, -123.1207],
       ],
-      center: [49.282775, -123.12077500000001],
+      center: [49.22692, -123.56861999999998],
       fileName: 'test-file.kmz',
       source: 'Test Source',
     });
