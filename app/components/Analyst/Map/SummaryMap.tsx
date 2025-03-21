@@ -87,12 +87,14 @@ const getBounds = (data) => {
   ];
 };
 
-const RenderMarkers = ({ markers, name }) => (
+const RenderMarkers = ({ markers, name, expanded }) => (
   <>
     {markers?.map((marker) => (
       <Marker
         key={`${name}-${generateUniqueKey()}`}
         position={marker.coordinates}
+        interactive={expanded}
+        bubblingMouseEvents={expanded}
       >
         <Popup>
           <h4>{marker?.name}</h4>
@@ -113,6 +115,10 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
   const tooltipTextClass = styles['tooltip-text-map'];
   const mapRef = useRef(null);
   const [mapReady, setMapReady] = useState(false);
+  const pathOptions = {
+    interactive: expanded,
+    bubblingMouseEvents: expanded,
+  }; // Disable interactivity when not expanded
   useEffect(() => {
     const map = mapRef.current;
     if (map) {
@@ -155,12 +161,17 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                 key={`geo-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
-                  <RenderMarkers markers={geoData?.markers} name="geo-marker" />
+                  <RenderMarkers
+                    markers={geoData?.markers}
+                    name="geo-marker"
+                    expanded={expanded}
+                  />
                   {geoData?.polygons?.map((polygon) => (
                     <Polygon
                       key={`geo-polygon-${generateUniqueKey()}`}
                       positions={polygon.coordinates}
                       color="blue"
+                      pathOptions={pathOptions}
                     >
                       <Popup>
                         {polygon?.balloonData && (
@@ -186,6 +197,7 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                   <RenderMarkers
                     markers={geoData?.markers}
                     name="current-marker"
+                    expanded={expanded}
                   />
                   {geoData?.polygons?.map((polygon) => (
                     <Polygon
@@ -216,6 +228,7 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                   <RenderMarkers
                     markers={geoData.markers}
                     name="upgraded-marker"
+                    expanded={expanded}
                   />
                   {geoData?.polygons?.map((polygon) => (
                     <Polygon
@@ -246,12 +259,14 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                   <RenderMarkers
                     markers={geoData.markers}
                     name="finalized-marker"
+                    expanded={expanded}
                   />
                   {geoData?.polygons?.map((polygon) => (
                     <Polygon
                       key={`finalized-polygon-${polygon?.fileNam}`}
                       positions={polygon.coordinates}
                       color="purple"
+                      pathOptions={pathOptions}
                     >
                       <Popup>
                         <h4>{polygon?.name}</h4>
@@ -266,6 +281,7 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                       color={
                         convertKmlColorToHex(line?.style?.lineStyle?.color).hex
                       }
+                      pathOptions={pathOptions}
                     >
                       <Popup>
                         <h4>{line?.name}</h4>
