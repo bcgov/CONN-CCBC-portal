@@ -1,3 +1,9 @@
+## [1.246.10](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.9...v1.246.10) (2025-03-21)
+
+### Bug Fixes
+
+- dashboard download to show correct value for closed ([285523f](https://github.com/bcgov/CONN-CCBC-portal/commit/285523fd88abb7cabb578e431b11cd5554b6c28b))
+
 ## [1.246.9](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.8...v1.246.9) (2025-03-21)
 
 ## [1.246.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.7...v1.246.8) (2025-03-19)
