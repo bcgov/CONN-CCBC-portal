@@ -107,8 +107,8 @@ const Home = ({
           Intake 6 is now open until June 30, 2025. <br />
           If you are interested in submitting an application, or for any
           questions about connectivity projects in your area, please email{' '}
-          <a href="mailto:connectedcommunitiesbc@gov.bc.ca">
-            connectedcommunitiesbc@gov.bc.ca
+          <a href="mailto:connectingcommunitiesbc@gov.bc.ca">
+            connectingcommunitiesbc@gov.bc.ca
           </a>
         </>
       </BoldText>

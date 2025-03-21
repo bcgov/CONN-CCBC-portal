@@ -523,7 +523,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // connected coast network dependent
       {
-        value: convertBoolean(cbcDataByCbcId?.connectedCoastNetworkDependent),
+        value: convertBoolean(cbcDataByCbcId?.connectedCoastNetworkDependant),
       },
       // project location
       {

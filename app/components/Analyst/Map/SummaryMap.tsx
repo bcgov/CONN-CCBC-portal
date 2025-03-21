@@ -21,7 +21,22 @@ import {
   ScaleControl,
 } from 'react-leaflet';
 import { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 import styles from './Tooltip.module.css';
+
+interface SummaryMapProps {
+  height: string;
+  width: string;
+  expanded?: boolean;
+}
+
+const StyledMapContainer = styled(MapContainer)<SummaryMapProps>`
+  height: ${(props) => props.height};
+  width: ${(props) => props.width};
+  .leaflet-control-layers {
+    visibility: ${(props) => (props.expanded ? 'visible' : 'hidden')};
+  }
+`;
 
 const generateUniqueKey = () => {
   return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
@@ -111,7 +126,7 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
     }
   }, [data, mapReady]);
   return (
-    <MapContainer
+    <StyledMapContainer
       preferCanvas
       attributionControl={false}
       ref={mapRef}
@@ -123,10 +138,12 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
       // Zoom is automatically set when using bounds
       // zoom={5}
       scrollWheelZoom
-      style={{ height, width }}
       whenReady={() => {
         setMapReady(true);
       }}
+      height={height}
+      width={width}
+      expanded={expanded}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -280,7 +297,7 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
           </>
         )}
       </LayersControl>
-    </MapContainer>
+    </StyledMapContainer>
   );
 };
 

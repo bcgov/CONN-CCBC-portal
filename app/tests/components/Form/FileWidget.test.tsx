@@ -1,4 +1,5 @@
 import ApplicationForm from 'components/Form/ApplicationForm';
+import { processFileTemplate } from 'lib/theme/widgets/FileWidget';
 import { graphql } from 'react-relay';
 import compiledQuery, {
   FileWidgetTestQuery,
@@ -535,6 +536,184 @@ describe('The FileWidget', () => {
       '/api/applicant/template?templateNumber=1',
       { body: formData, method: 'POST' }
     );
+  });
+
+  describe('processFileTemplate function tests', () => {
+    // Keep a reference to the original fetch.
+    const originalFetch = global.fetch;
+
+    beforeEach(() => {
+      global.fetch = jest.fn();
+    });
+
+    afterEach(() => {
+      jest.resetAllMocks();
+      global.fetch = originalFetch;
+    });
+
+    const file = { name: 'test.txt' };
+
+    test('should return true and do nothing if file is not provided', async () => {
+      const setTemplateData = jest.fn();
+      //  file: null, setTemplateData, templateNumber: 1 }
+      const result = await processFileTemplate(null, setTemplateData, 1);
+      expect(result).toBe(true);
+      expect(global.fetch).not.toHaveBeenCalled();
+      expect(setTemplateData).not.toHaveBeenCalled();
+    });
+
+    test('should process template (non-9) when response is ok', async () => {
+      const mockData = { key: 'value' };
+      global.fetch.mockResolvedValue({
+        ok: true,
+        json: jest.fn().mockResolvedValue(mockData),
+      });
+      const setTemplateData = jest.fn();
+      const result = await processFileTemplate(
+        file,
+        setTemplateData,
+        5,
+        false,
+        1,
+        'rfi-1'
+      );
+      expect(global.fetch).toHaveBeenCalledWith(
+        `/api/applicant/template?templateNumber=5`,
+        expect.objectContaining({
+          method: 'POST',
+          body: expect.any(FormData),
+        })
+      );
+      expect(setTemplateData).toHaveBeenCalledWith({
+        templateNumber: 5,
+        data: mockData,
+        templateName: file.name,
+      });
+      expect(result).toBe(true);
+    });
+
+    test('should set error for non-9 template when response is not ok', async () => {
+      global.fetch.mockResolvedValue({
+        ok: false,
+        json: jest.fn(),
+      });
+      const setTemplateData = jest.fn();
+      const result = await processFileTemplate(
+        file,
+        setTemplateData,
+        3,
+        false,
+        1,
+        'rfi-1'
+      );
+      expect(setTemplateData).toHaveBeenCalledWith({
+        templateNumber: 3,
+        error: true,
+      });
+      expect(result).toBe(false);
+    });
+
+    test('should catch error for non-9 template when fetch throws', async () => {
+      global.fetch.mockRejectedValue(new Error('Network error'));
+      const setTemplateData = jest.fn();
+      const result = await processFileTemplate(
+        file,
+        setTemplateData,
+        2,
+        false,
+        1,
+        'rfi-1'
+      );
+      expect(setTemplateData).toHaveBeenCalledWith({
+        templateNumber: 2,
+        error: true,
+      });
+      expect(result).toBe(false);
+    });
+
+    test('should process template 9 when response is ok', async () => {
+      global.fetch.mockResolvedValue({
+        ok: true,
+        json: jest.fn().mockResolvedValue({}),
+      });
+      const setTemplateData = jest.fn();
+      const result = await processFileTemplate(
+        file,
+        setTemplateData,
+        9,
+        false,
+        'form123',
+        'rfi456'
+      );
+      expect(global.fetch).toHaveBeenCalledWith(
+        `/api/template-nine/rfi/form123/rfi456`,
+        expect.objectContaining({
+          method: 'POST',
+          body: expect.any(FormData),
+        })
+      );
+      expect(setTemplateData).toHaveBeenCalledWith({
+        templateNumber: 9,
+        templateName: file.name,
+      });
+      expect(result).toBe(true);
+    });
+
+    test('should process applicant template 9 when response is ok', async () => {
+      global.fetch.mockResolvedValue({
+        ok: true,
+        json: jest.fn().mockResolvedValue({}),
+      });
+      const setTemplateData = jest.fn();
+      const result = await processFileTemplate(
+        file,
+        setTemplateData,
+        9,
+        true,
+        'form123',
+        'rfi456'
+      );
+      expect(global.fetch).toHaveBeenCalledWith(
+        `/api/template-nine/rfi/applicant/form123/rfi456`,
+        expect.objectContaining({
+          method: 'POST',
+          body: expect.any(FormData),
+        })
+      );
+      expect(setTemplateData).toHaveBeenCalledWith({
+        templateNumber: 9,
+        templateName: file.name,
+        data: {},
+      });
+      expect(result).toBe(true);
+    });
+
+    test('should set error for template 9 when response is not ok', async () => {
+      global.fetch.mockResolvedValue({
+        ok: false,
+        json: jest.fn(),
+      });
+      const setTemplateData = jest.fn();
+      const result = await processFileTemplate(
+        file,
+        setTemplateData,
+        9,
+        'form123',
+        'rfi456'
+      );
+      expect(setTemplateData).toHaveBeenCalledWith({
+        templateNumber: 9,
+        error: true,
+      });
+      expect(result).toBe(false);
+    });
+
+    test('should return true if setTemplateData is not provided', async () => {
+      const result = await processFileTemplate(file, undefined, 5);
+      // With no setTemplateData, no fetch is performed and isTemplateValid remains true.
+      expect(global.fetch).not.toHaveBeenCalled();
+      expect(result).toBe(true);
+    });
   });
 
   afterEach(() => {

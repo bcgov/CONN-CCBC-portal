@@ -1,3 +1,43 @@
+## [1.246.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.7...v1.246.8) (2025-03-19)
+
+## [1.246.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.6...v1.246.7) (2025-03-19)
+
+### Bug Fixes
+
+- add proper call to errors list ([475c873](https://github.com/bcgov/CONN-CCBC-portal/commit/475c8732558554a9affaf2f14ba31273c8c3b376))
+
+## [1.246.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.5...v1.246.6) (2025-03-12)
+
+### Bug Fixes
+
+- cc on cbc download on dashboard ([968c743](https://github.com/bcgov/CONN-CCBC-portal/commit/968c743044fc7068c479949db787582555ba2075))
+
+## [1.246.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.4...v1.246.5) (2025-03-12)
+
+### Bug Fixes
+
+- conditional approval amount to show 0 if the value was cleared ([13f4efc](https://github.com/bcgov/CONN-CCBC-portal/commit/13f4efc52cea46c923c66692f97d2e9910ad4c70))
+
+## [1.246.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.3...v1.246.4) (2025-03-11)
+
+### Bug Fixes
+
+- add conversion from closed to not selected ([48bff21](https://github.com/bcgov/CONN-CCBC-portal/commit/48bff213f6fd2f56e406322f400f97f744234504))
+
+## [1.246.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.2...v1.246.3) (2025-03-11)
+
+### Bug Fixes
+
+- update email to connectingcommunitiesbc ([ffff9e2](https://github.com/bcgov/CONN-CCBC-portal/commit/ffff9e250c4b1540db14ac51fd3897613fe4748e))
+
+## [1.246.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.1...v1.246.2) (2025-03-11)
+
+### Bug Fixes
+
+- add condition for view more text in sow read only ([0a9caa9](https://github.com/bcgov/CONN-CCBC-portal/commit/0a9caa98acebd16d0cb4353710835b4dab6699c5))
+
+## [1.246.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.0...v1.246.1) (2025-03-11)
+
 # [1.246.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.245.0...v1.246.0) (2025-03-05)
 
 ### Features
