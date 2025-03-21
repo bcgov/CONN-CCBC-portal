@@ -36,11 +36,7 @@ import { DateTime } from 'luxon';
 import { useToast } from 'components/AppProvider';
 import { useRouter } from 'next/router';
 import DownloadIcon from './DownloadIcon';
-import {
-  filterZones,
-  sortStatus,
-  sortZones,
-} from './AssessmentAssignmentTable';
+import { sortStatus, sortZones } from './AssessmentAssignmentTable';
 import AdditionalFilters, {
   additionalFilterColumns,
 } from './AdditionalFilters';
@@ -135,7 +131,7 @@ const ApplicantStatusCell = ({ cell }) => {
 export const filterOutNullishs = (val) => val !== undefined && val !== null;
 
 const toLabelValuePair = (value) =>
-  value ? { label: value, value } : { label: 'Unassigned', value: ' ' };
+  value ? { label: value, value } : { label: 'Unassigned', value: '' };
 
 const accessorFunctionGeneratorInjectsEmptyString = (accessorKey) => {
   return (row) => row[accessorKey] ?? '';
@@ -150,6 +146,26 @@ const statusFilter = (row, id, filterValue) => {
     return true;
   }
   return filterValue.includes(row.getValue(id));
+};
+
+const filterMultiSelectZones = (row, id, filterValue) => {
+  /// NOSONAR
+  if (filterValue.length === 0) {
+    return true;
+  }
+  const rowZones = row.getValue(id) ?? [];
+  // find full subArray in the row.getValue
+  // if requirements change for any in the zones should be met change to some
+  return filterValue.every((zone) => rowZones.includes(Number(zone)));
+};
+
+const genericFilterMultiSelect = (row, id, filterValue) => {
+  /// NOSONAR
+  if (filterValue.length === 0) {
+    return true;
+  }
+  const stringFilterValues = filterValue.map((value) => value?.toString());
+  return stringFilterValues.includes(row.getValue(id)?.toString());
 };
 
 interface Props {
@@ -702,7 +718,8 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       {
         accessorKey: 'intakeNumber',
         header: 'Intake',
-        filterVariant: 'select',
+        filterVariant: 'multi-select',
+        filterFn: genericFilterMultiSelect,
         filterSelectOptions: uniqueIntakeNumbers,
       },
       {
@@ -713,9 +730,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         accessorKey: 'zones',
         header: 'Zone',
         Cell: ({ cell }) => (cell.getValue() as number[]).join(', ') ?? [],
-        filterVariant: 'select',
+        filterVariant: 'multi-select',
         filterSelectOptions: uniqueZones,
-        filterFn: filterZones,
+        filterFn: filterMultiSelectZones,
         sortingFn: sortZones,
       },
       {
@@ -750,15 +767,17 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         header: 'Lead',
         accessorFn: accessorFunctionGeneratorInjectsEmptyString('analystLead'),
         Cell: AssignAnalystLead,
-        filterVariant: 'select',
+        filterVariant: 'multi-select',
         filterSelectOptions: uniqueLeads,
+        filterFn: genericFilterMultiSelect,
       },
       {
         accessorFn:
           accessorFunctionGeneratorInjectsEmptyString('packageNumber'),
         header: 'Package',
-        filterVariant: 'select',
+        filterVariant: 'multi-select',
         filterSelectOptions: uniquePackages,
+        filterFn: genericFilterMultiSelect,
       },
       // adding dummy columns for filter purposes
       ...additionalFilterColumns,
