@@ -223,6 +223,7 @@ describe('EditCbcSection', () => {
           rowId: 20,
           cbcDataPatch: {
             jsonData: {
+              errorLog: [],
               projectNumber: 5555,
               originalProjectNumber: 5555,
               phase: 2,
@@ -389,6 +390,7 @@ describe('EditCbcSection', () => {
           rowId: 20,
           cbcDataPatch: {
             jsonData: {
+              errorLog: [],
               projectNumber: 5555,
               originalProjectNumber: 5555,
               phase: 2,
