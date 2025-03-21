@@ -604,6 +604,7 @@ describe('Cbc', () => {
           rowId: 1,
           cbcDataPatch: {
             jsonData: {
+              errorLog: [],
               projectNumber: 5555,
               phase: 2,
               intake: 1,
@@ -722,6 +723,7 @@ describe('Cbc', () => {
           rowId: 1,
           cbcDataPatch: {
             jsonData: {
+              errorLog: [],
               projectNumber: 5555,
               phase: 2,
               intake: 1,
