@@ -55,6 +55,7 @@ const mockQueryPayload = {
             detailedBudgetRfi: true,
             eligibilityAndImpactsCalculatorRfi: true,
             geographicCoverageMapRfi: true,
+            geographicNamesRfi: true,
             geographicCoverageMap: [
               {
                 uuid: 1,
@@ -107,6 +108,12 @@ describe('The RFIAnalystUpload component', () => {
     expect(
       screen.getByRole('heading', {
         name: 'Template 2 - Detailed Budget',
+      })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('heading', {
+        name: 'Template 9 - Backbone and Geographic Names',
       })
     ).toBeInTheDocument();
   });
@@ -230,9 +237,9 @@ describe('The RFIAnalystUpload component', () => {
     });
 
     componentTestingHelper.expectMutationToBeCalled(
-      'updateWithTrackingRfiMutation',
+      'updateRfiAndFormDataMutation',
       {
-        input: {
+        rfiInput: {
           jsonData: {
             rfiType: [],
             rfiAdditionalFiles: {
@@ -240,69 +247,13 @@ describe('The RFIAnalystUpload component', () => {
               eligibilityAndImpactsCalculatorRfi: true,
               eligibilityAndImpactsCalculator: expect.anything(),
               geographicCoverageMapRfi: true,
-              geographicCoverageMap: [
-                {
-                  uuid: 1,
-                  name: '1.kmz',
-                  size: 0,
-                  type: '',
-                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
-                },
-                {
-                  uuid: 2,
-                  name: '2.kmz',
-                  size: 0,
-                  type: '',
-                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
-                },
-              ],
+              geographicNamesRfi: true,
+              geographicCoverageMap: expect.anything(),
             },
           },
           rfiRowId: 1,
         },
-      }
-    );
-
-    act(() => {
-      componentTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          updateWithTrackingRfi: {
-            rfiData: {
-              rowId: 1,
-              jsonData: {
-                rfiAdditionalFiles: {
-                  detailedBudgetRfi: true,
-                  eligibilityAndImpactsCalculatorRfi: true,
-                  eligibilityAndImpactsCalculator: expect.anything(),
-                  geographicCoverageMapRfi: true,
-                  geographicCoverageMap: [
-                    {
-                      uuid: 1,
-                      name: '1.kmz',
-                      size: 0,
-                      type: '',
-                      uploadedAt: '2024-05-31T14:05:03.509-07:00',
-                    },
-                    {
-                      uuid: 2,
-                      name: '2.kmz',
-                      size: 0,
-                      type: '',
-                      uploadedAt: '2024-05-31T14:05:03.509-07:00',
-                    },
-                  ],
-                },
-              },
-            },
-          },
-        },
-      });
-    });
-
-    componentTestingHelper.expectMutationToBeCalled(
-      'createNewFormDataMutation',
-      {
-        input: {
+        formInput: {
           applicationRowId: 1,
           jsonData: {
             benefits: {
@@ -317,9 +268,42 @@ describe('The RFIAnalystUpload component', () => {
       }
     );
 
-    act(() => {
-      componentTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {},
+    await act(async () => {
+      act(() => {
+        componentTestingHelper.environment.mock.resolveMostRecentOperation({
+          data: {
+            updateRfi: {
+              rfiData: {
+                rowId: 1,
+                jsonData: {
+                  rfiAdditionalFiles: {
+                    detailedBudgetRfi: true,
+                    eligibilityAndImpactsCalculatorRfi: true,
+                    geographicNamesRfi: true,
+                    detailedBudget: expect.anything(),
+                    geographicCoverageMapRfi: true,
+                    geographicCoverageMap: expect.anything(),
+                  },
+                },
+              },
+            },
+            createNewFormData: {
+              formData: {
+                rowId: 1,
+                jsonData: {
+                  benefits: {
+                    householdsImpactedIndigenous: 13,
+                    numberOfHouseholds: 12,
+                  },
+                  budgetDetails: {
+                    totalEligibleCosts: 92455,
+                    totalProjectCost: 101230,
+                  },
+                },
+              },
+            },
+          },
+        });
       });
     });
 
@@ -364,7 +348,7 @@ describe('The RFIAnalystUpload component', () => {
     ).toBeVisible();
   });
 
-  it('should render success toast for template two when upload successful', async () => {
+  it('should render success toast for template 2 when upload successful', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -444,49 +428,23 @@ describe('The RFIAnalystUpload component', () => {
     });
 
     componentTestingHelper.expectMutationToBeCalled(
-      'updateWithTrackingRfiMutation',
+      'updateRfiAndFormDataMutation',
       {
-        input: {
+        rfiInput: {
           jsonData: {
             rfiType: [],
             rfiAdditionalFiles: {
               detailedBudgetRfi: true,
               eligibilityAndImpactsCalculatorRfi: true,
               detailedBudget: expect.anything(),
+              geographicNamesRfi: true,
               geographicCoverageMapRfi: true,
               geographicCoverageMap: expect.anything(),
             },
           },
           rfiRowId: 1,
         },
-      }
-    );
-
-    act(() => {
-      componentTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {
-          updateWithTrackingRfi: {
-            rfiData: {
-              rowId: 1,
-              jsonData: {
-                rfiAdditionalFiles: {
-                  detailedBudgetRfi: true,
-                  eligibilityAndImpactsCalculatorRfi: true,
-                  detailedBudget: expect.anything(),
-                  geographicCoverageMapRfi: true,
-                  geographicCoverageMap: expect.anything(),
-                },
-              },
-            },
-          },
-        },
-      });
-    });
-
-    componentTestingHelper.expectMutationToBeCalled(
-      'createNewFormDataMutation',
-      {
-        input: {
+        formInput: {
           applicationRowId: 1,
           jsonData: {
             benefits: {
@@ -507,12 +465,292 @@ describe('The RFIAnalystUpload component', () => {
 
     act(() => {
       componentTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {},
+        data: {
+          updateRfi: {},
+          createNewFormData: {},
+        },
       });
     });
 
     expect(
       screen.getByText(/Template 2 data changed successfully/)
     ).toBeVisible();
+  });
+
+  it('should save template nine data and render success toast for template nine when upload successful', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        status: 200,
+        json: () =>
+          Promise.resolve({
+            communitiesToBeServed: 3,
+            indigenousCommunitiesToBeServed: 1,
+            totalNumberOfHouseholds: 39,
+            totalNumberOfIndigenousHouseholds: 2,
+            geoNames: [
+              {
+                projectZone: 9,
+                geoName: 'Cranbrook',
+                type: 'City',
+                mapLink: 'https://apps.gov.bc.ca/pub/bcgnws/names/4786.html',
+                isIndigenous: 'N',
+                geoNameId: 4786,
+                regionalDistrict: 'Regional District of East Kootenay',
+                economicRegion: 'Kootenay',
+                pointOfPresenceId: 'Mission Road Site',
+                proposedSolution: 'Fibre-Optic',
+                households: 18,
+              },
+              {
+                projectZone: 9,
+                geoName: 'Kimberley',
+                type: 'City',
+                mapLink: 'https://apps.gov.bc.ca/pub/bcgnws/names/3865.html',
+                isIndigenous: 'N',
+                geoNameId: 3865,
+                regionalDistrict: 'Regional District of East Kootenay',
+                economicRegion: 'Kootenay',
+                pointOfPresenceId: 'Mission Road Site',
+                proposedSolution: 'Fibre-Optic',
+                households: 19,
+              },
+              {
+                projectZone: 9,
+                geoName: "Saint Mary's 1A",
+                type: 'Indian Reserve',
+                mapLink: 'https://apps.gov.bc.ca/pub/bcgnws/names/65172.html',
+                isIndigenous: 'Y',
+                geoNameId: 65172,
+                regionalDistrict: 'Regional District of East Kootenay',
+                economicRegion: 'Kootenay',
+                pointOfPresenceId: 'Mission Road Site',
+                proposedSolution: 'Fibre-Optic',
+                households: 2,
+              },
+            ],
+            originalFileName: 'template_nine.xlsx',
+          }),
+      })
+    );
+
+    const dateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dateInput, {
+        target: {
+          value: '2025-07-01',
+        },
+      });
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'template_nine.xlsx', {
+      type: 'application/excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[2];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAttachmentMutation',
+      {
+        input: {
+          attachment: {
+            file: expect.anything(),
+            fileName: 'template_nine.xlsx',
+            fileSize: '1 Bytes',
+            fileType: 'application/excel',
+            applicationId: expect.anything(),
+          },
+        },
+      }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.getByText('template_nine.xlsx')).toBeInTheDocument();
+
+    expect(screen.getByText(/Template 9 processing successful/)).toBeVisible();
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateRfiAndCreateTemplateNineDataMutation',
+      {
+        rfiInput: {
+          jsonData: {
+            rfiType: [],
+            rfiAdditionalFiles: {
+              detailedBudgetRfi: true,
+              eligibilityAndImpactsCalculatorRfi: true,
+              geographicCoverageMapRfi: true,
+              geographicNamesRfi: true,
+              geographicCoverageMap: expect.anything(),
+              geographicNames: expect.anything(),
+            },
+          },
+          rfiRowId: 1,
+        },
+        templateNineInput: {
+          _applicationId: 1,
+          _jsonData: {
+            communitiesToBeServed: 3,
+            indigenousCommunitiesToBeServed: 1,
+            totalNumberOfHouseholds: 39,
+            totalNumberOfIndigenousHouseholds: 2,
+            geoNames: [
+              {
+                projectZone: 9,
+                geoName: 'Cranbrook',
+                type: 'City',
+                mapLink: 'https://apps.gov.bc.ca/pub/bcgnws/names/4786.html',
+                isIndigenous: 'N',
+                geoNameId: 4786,
+                regionalDistrict: 'Regional District of East Kootenay',
+                economicRegion: 'Kootenay',
+                pointOfPresenceId: 'Mission Road Site',
+                proposedSolution: 'Fibre-Optic',
+                households: 18,
+              },
+              {
+                projectZone: 9,
+                geoName: 'Kimberley',
+                type: 'City',
+                mapLink: 'https://apps.gov.bc.ca/pub/bcgnws/names/3865.html',
+                isIndigenous: 'N',
+                geoNameId: 3865,
+                regionalDistrict: 'Regional District of East Kootenay',
+                economicRegion: 'Kootenay',
+                pointOfPresenceId: 'Mission Road Site',
+                proposedSolution: 'Fibre-Optic',
+                households: 19,
+              },
+              {
+                projectZone: 9,
+                geoName: "Saint Mary's 1A",
+                type: 'Indian Reserve',
+                mapLink: 'https://apps.gov.bc.ca/pub/bcgnws/names/65172.html',
+                isIndigenous: 'Y',
+                geoNameId: 65172,
+                regionalDistrict: 'Regional District of East Kootenay',
+                economicRegion: 'Kootenay',
+                pointOfPresenceId: 'Mission Road Site',
+                proposedSolution: 'Fibre-Optic',
+                households: 2,
+              },
+            ],
+            originalFileName: 'template_nine.xlsx',
+          },
+          _previousTemplate9Id: 42,
+          _source: {
+            source: 'rfi',
+            rfiNumber: 'RFI-01',
+            date: expect.any(String),
+          },
+          _errors: {},
+        },
+      }
+    );
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {},
+      });
+    });
+
+    expect(screen.getByText(/Template 9 processing successful/)).toBeVisible();
+  });
+
+  it('should show error when template nine when upload fails', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: false,
+        status: 400,
+        json: () =>
+          Promise.resolve({
+            error: 'failed to process template upload',
+          }),
+      })
+    );
+
+    const dateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dateInput, {
+        target: {
+          value: '2025-07-01',
+        },
+      });
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'template_nine.xlsx', {
+      type: 'application/excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[2];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAttachmentMutation',
+      {
+        input: {
+          attachment: {
+            file: expect.anything(),
+            fileName: 'template_nine.xlsx',
+            fileSize: '1 Bytes',
+            fileType: 'application/excel',
+            applicationId: expect.anything(),
+          },
+        },
+      }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.getByText('template_nine.xlsx')).toBeInTheDocument();
+
+    expect(screen.getByText(/Template 9 validation failed/)).toBeVisible();
   });
 });
