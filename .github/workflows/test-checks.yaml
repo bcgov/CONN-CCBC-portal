@@ -82,7 +82,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: git checkout "$GITHUB_BASE_REF" && git tag latest && git checkout "$GITHUB_HEAD_REF"
       - name: Conventional commits check
-        uses: cocogitto/cocogitto-action@v3.10
+        uses: cocogitto/cocogitto-action@v3.11
         with:
           check-latest-tag-only: true
 
