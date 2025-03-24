@@ -9,3 +9,39 @@ deployer:
 linter:
   serviceAccount:
     enabled: true
+
+# Redis Configuration
+redis:
+  replicas: 1
+  image:
+    repository: docker.io/redis
+    tag: '7'
+  resources:
+    requests:
+      memory: '256Mi'
+      cpu: '10m'
+
+# RabbitMQ Configuration
+rabbitmq:
+  replicas: 1
+  image:
+    repository: docker.io/rabbitmq
+    tag: '4.0.7-management'
+  defaultUser: 'guest'
+  defaultPass: 'guest'
+  resources:
+    requests:
+      memory: '256Mi'
+      cpu: '10m'
+
+# SvelteKit Application Configuration
+sveltekit:
+  replicas: 1
+  image:
+    repository: ghcr.io/bcgov/conn-ccbc-portal/conn-ticket-queue
+    tag: 'latest' #for development
+  port: 3000
+  resources:
+    requests:
+      memory: '256Mi'
+      cpu: '10m'
