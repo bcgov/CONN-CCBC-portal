@@ -261,7 +261,7 @@ const RfiAnalystUpload = ({ query }) => {
 
     if (!hasApplicationFormDataUpdated && !templatesUpdated.nine) {
       // only update rfi
-      processUpload(updateRfi, { rfiInput: payloadRfi });
+      processUpload(updateRfi, { input: payloadRfi });
     } else if (!hasApplicationFormDataUpdated && templatesUpdated.nine) {
       // form data not updated but template nine updated, update rfi and create template nine record
       processUpload(updateRfiAndCreateTemplateNineData, {
