@@ -11,7 +11,6 @@ import {
   findPrimaryAnnouncement,
   findPrimaryAnnouncementDate,
   findSecondaryAnnouncement,
-  getConnectedCoastDependent,
   getHouseholdCount,
   getTotalProjectBudget,
   handleProjectType,
@@ -125,6 +124,11 @@ const getCcbcQuery = `
             assessmentDataByApplicationId(condition: {archivedAt: null}) {
               nodes {
                 assessmentDataType
+                jsonData
+              }
+            }
+            applicationDependenciesByApplicationId(first: 1) {
+              nodes {
                 jsonData
               }
             }
@@ -465,7 +469,9 @@ const generateExcelData = async (
       { value: null },
       // connected coast network dependent
       {
-        value: getConnectedCoastDependent(node?.assessmentDataByApplicationId),
+        value:
+          node?.applicationDependenciesByApplicationId?.nodes[0]?.jsonData
+            ?.connectedCoastNetworkDependent,
       },
       // proposed start date
       { value: node?.formData?.jsonData?.projectPlan?.projectStartDate },
