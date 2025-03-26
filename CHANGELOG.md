@@ -1,3 +1,13 @@
+# [1.247.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.11...v1.247.0) (2025-03-26)
+
+### Bug Fixes
+
+- map bounds case when null, proper fallback ([dd2b20f](https://github.com/bcgov/CONN-CCBC-portal/commit/dd2b20fe62b556566e0cbd645463fed350846b17))
+
+### Features
+
+- handle single line strings in placemarks ([5bd9455](https://github.com/bcgov/CONN-CCBC-portal/commit/5bd94553e8eb6edfa6378c338b0ddc408d9d9834))
+
 ## [1.246.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.10...v1.246.11) (2025-03-26)
 
 ### Bug Fixes
