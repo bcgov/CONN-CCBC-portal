@@ -133,7 +133,6 @@ const parseKML = (
 ): ParsedKML => {
   const kml = new DOMParser().parseFromString(kmlContent, 'text/xml');
   const geoJson = toGeoJSON.kml(kml as any); // Converts to GeoJSON
-
   let hasLineStrings = false;
 
   const polygons: PolygonData[] = [];
@@ -280,6 +279,34 @@ const parseKML = (
           fileName,
           source,
         });
+        // there is no MultiGeometry, just a LineString or multiple
+      } else {
+        const lineStringElements = placemark.getElementsByTagName('LineString');
+        if (lineStringElements.length > 0) {
+          const coordinates = [];
+          for (let j = 0; j < lineStringElements.length; j++) {
+            const lineString = lineStringElements[j];
+            const coordinatesText =
+              lineString.getElementsByTagName('coordinates')[0]?.textContent ||
+              '';
+            const cords = coordinatesText
+              .trim()
+              .split(/\s+/)
+              .map((pair) => {
+                const [lng, lat] = pair.split(',').map(Number);
+                return [lat, lng];
+              });
+            coordinates.push(cords);
+          }
+          lineStrings.push({
+            coordinates,
+            name,
+            description,
+            style: styleData,
+            fileName,
+            source,
+          });
+        }
       }
     }
   }
