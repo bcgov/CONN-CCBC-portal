@@ -1,3 +1,11 @@
+## [1.246.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.10...v1.246.11) (2025-03-26)
+
+### Bug Fixes
+
+- add comments on changes ([c5d540d](https://github.com/bcgov/CONN-CCBC-portal/commit/c5d540d07fc2ee26b39539225754705e6a4ac83d))
+- cbc data save issue ([6fdf489](https://github.com/bcgov/CONN-CCBC-portal/commit/6fdf4896f496228e54d2317f899f45db9e70c03c))
+- tests failing ([ddd199b](https://github.com/bcgov/CONN-CCBC-portal/commit/ddd199b73f3eafc9ac173d0f52cf999d030be4f3))
+
 ## [1.246.10](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.9...v1.246.10) (2025-03-21)
 
 ### Bug Fixes
