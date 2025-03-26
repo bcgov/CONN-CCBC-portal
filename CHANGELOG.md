@@ -1,3 +1,9 @@
+# [1.248.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.247.0...v1.248.0) (2025-03-26)
+
+### Features
+
+- multi select on all dashboard ([5f94e6c](https://github.com/bcgov/CONN-CCBC-portal/commit/5f94e6c17574048a0f2eb89814fd163dad4aebff))
+
 # [1.247.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.246.11...v1.247.0) (2025-03-26)
 
 ### Bug Fixes
