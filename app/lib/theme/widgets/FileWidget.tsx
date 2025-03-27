@@ -96,9 +96,10 @@ export async function processFileTemplate(
               }
             );
             if (response.ok) {
-              await response.json();
+              const data = await response.json();
               setTemplateData({
                 templateNumber,
+                data,
                 templateName: file.name,
               });
             } else {
@@ -249,10 +250,15 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       fields = 'Total Households and Indigenous Households data';
     } else if (templateNumber === 2) {
       fields = 'Total eligible costs and Total project costs data';
+    } else if (templateNumber === 9) {
+      fields = 'geographic names';
     }
     let message: string;
     if (templateNumber === 9) {
-      message = `Template ${templateNumber} processing successful, geographic names have been automatically updated or created for this application.`;
+      message =
+        type === 'success'
+          ? `Template ${templateNumber} processing successful, geographic names will be automatically update or create upon 'Save'.`
+          : `Template ${templateNumber} validation failed: ${files.join(', ')} failed to validate. ${fields} in the application will not update.`;
     } else {
       message =
         type === 'success'

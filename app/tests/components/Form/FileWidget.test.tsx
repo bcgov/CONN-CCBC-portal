@@ -654,6 +654,7 @@ describe('The FileWidget', () => {
       );
       expect(setTemplateData).toHaveBeenCalledWith({
         templateNumber: 9,
+        data: expect.any(Object),
         templateName: file.name,
       });
       expect(result).toBe(true);
