@@ -821,4 +821,3 @@ mutations/create_or_update_application_form_template_9_data 2025-02-06T16:46:05Z
 @1.246.9 2025-03-21T18:45:46Z CCBC Service Account <ccbc@button.is> # release v1.246.9
 computed_columns/application_history [computed_columns/application_history@1.246.0] 2025-03-06T19:40:06Z ,,, <ryohani89@NH504670> # combine fnha contribution to application_history
 @1.246.11 2025-03-26T16:17:30Z CCBC Service Account <ccbc@button.is> # release v1.246.11
-computed_columns/application_history [computed_columns/application_history@1.230.0] 2025-01-29T22:32:55Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add application pending change request
