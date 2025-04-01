@@ -4144,7 +4144,7 @@ describe('The filter', () => {
     const dropdown = document.querySelector('[role="listbox"]') as HTMLElement;
     const options = within(dropdown!).getAllByRole('option');
     const optionNames = options.map((option) => option.textContent?.trim());
-    expect(options.length).toEqual(16);
+    expect(options.length).toEqual(17);
 
     const expectedOptionNames = [
       'Amendment',
