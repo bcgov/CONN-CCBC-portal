@@ -10,10 +10,6 @@ spec:
     users:
     - name: rafael.solorzano@gov.bc.ca
       role: ROLE_TEAM_EDIT
-    - name: alec@button.is
-      role: ROLE_TEAM_EDIT
-    - name: anthony@button.is
-      role: ROLE_TEAM_EDIT
     - name: meherzad.romer@gov.bc.ca
       role: ROLE_TEAM_EDIT
     - name: rumesha.ranathunga@gov.bc.ca
