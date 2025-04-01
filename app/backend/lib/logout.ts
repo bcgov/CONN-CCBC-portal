@@ -18,7 +18,14 @@ logout.post('/api/logout', async (req: any, res) => {
     const baseRoute = idp === 'idir' ? '/analyst' : '/';
 
     const keycloakLogoutUrl = `${authServerUrl}/protocol/openid-connect/logout?id_token_hint=${encodeURIComponent(idToken)}&post_logout_redirect_uri=${encodeURIComponent(`${baseUrl}${baseRoute}`)}`;
-    const logoutUrl = `${siteminderUrl}?retnow=1&returl=${encodeURIComponent(keycloakLogoutUrl)}`;
+    // const logoutUrl = `${siteminderUrl}?retnow=1&returl=${encodeURIComponent(keycloakLogoutUrl)}`;
+    // azureidir does not use siteminder, sending to the siteminderurl
+    // will send user to logout of their azure sessions, which is not ideal
+    // hence we log them out of the portal only
+    const logoutUrl =
+      idp !== 'azureidir'
+        ? `${siteminderUrl}?retnow=1&returl=${encodeURIComponent(keycloakLogoutUrl)}`
+        : `${encodeURIComponent(keycloakLogoutUrl)}`;
 
     req.session.destroy(() => {
       res.clearCookie('analyst.sort');
