@@ -268,25 +268,7 @@ union all
         inner join ccbc_public.ccbc_user u on v.created_by=u.id
     where v.op='INSERT' and v.table_name='application_rd' and v.record->>'archived_by' is null
         and v.record->>'application_id'=application.id::varchar(10)
-    group by v.created_at, v.op, v.table_name, u.family_name, u.given_name, u.session_sub, u.external_analyst, v.created_by
-
-    union all
-    select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
-        v.record->>'application_fnha_contribution' as item,
-        u.family_name, u.given_name, u.session_sub, u.external_analyst, v.created_by
-    from ccbc_public.record_version as v
-        inner join ccbc_public.ccbc_user u on v.created_by=u.id
-    where (v.op='INSERT' or v.op='UPDATE') and v.table_name='application_fnha_contribution' and v.record->>'archived_by' is null
-        and v.record->>'application_id'=application.id::varchar(10)
-
-    union all
-    select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
-        v.record->>'application_pending_change_request' as item,
-        u.family_name, u.given_name, u.session_sub, u.external_analyst, v.created_by
-    from ccbc_public.record_version as v
-        inner join ccbc_public.ccbc_user u on v.created_by=u.id
-    where v.op='INSERT' and v.table_name='application_pending_change_request' and v.record->>'archived_by' is null
-        and v.record->>'application_id'=application.id::varchar(10);
+    group by v.created_at, v.op, v.table_name, u.family_name, u.given_name, u.session_sub, u.external_analyst, v.created_by;
 
 $$ language sql stable;
 
