@@ -1,3 +1,10 @@
+## [1.249.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.0...v1.249.1) (2025-04-02)
+
+### Bug Fixes
+
+- match gcpe connected coast case ([9e9e148](https://github.com/bcgov/CONN-CCBC-portal/commit/9e9e1488e931f39cbd73d9aa126b75fbbf7c8608))
+- wrong source for connected coast data ([dcc49fc](https://github.com/bcgov/CONN-CCBC-portal/commit/dcc49fc13845648a4b2c1620ac8de19158f34113))
+
 # [1.249.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.248.0...v1.249.0) (2025-04-02)
 
 ### Features
