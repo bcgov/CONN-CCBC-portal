@@ -11,13 +11,13 @@ import {
   findPrimaryAnnouncement,
   findPrimaryAnnouncementDate,
   findSecondaryAnnouncement,
-  getConnectedCoastDependent,
   getHouseholdCount,
   getTotalProjectBudget,
   handleProjectType,
   handleCbcEconomicRegions,
   handleCcbcEconomicRegions,
 } from './util';
+import toTitleCase from '../../../utils/formatString';
 
 const getCbcDataQuery = `
   query getCbcData {
@@ -125,6 +125,11 @@ const getCcbcQuery = `
             assessmentDataByApplicationId(condition: {archivedAt: null}) {
               nodes {
                 assessmentDataType
+                jsonData
+              }
+            }
+            applicationDependenciesByApplicationId(first: 1) {
+              nodes {
                 jsonData
               }
             }
@@ -313,7 +318,11 @@ const generateExcelData = async (
       // rest areas
       { value: node?.jsonData?.restAreas },
       // connected coast network dependent
-      { value: convertBoolean(node?.jsonData?.connectedCoastNetworkDependant) },
+      {
+        value: toTitleCase(
+          convertBoolean(node?.jsonData?.connectedCoastNetworkDependant) ?? ''
+        ),
+      },
       // proposed start date
       { value: cleanDateTime(node?.jsonData?.proposedStartDate) },
       // date approved
@@ -465,7 +474,9 @@ const generateExcelData = async (
       { value: null },
       // connected coast network dependent
       {
-        value: getConnectedCoastDependent(node?.assessmentDataByApplicationId),
+        value:
+          node?.applicationDependenciesByApplicationId?.nodes[0]?.jsonData
+            ?.connectedCoastNetworkDependent,
       },
       // proposed start date
       { value: node?.formData?.jsonData?.projectPlan?.projectStartDate },
