@@ -3840,13 +3840,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 32 diff tables', async () => {
+  it('shows all 33 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(32);
+    expect(diffTables.length).toBe(33);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
