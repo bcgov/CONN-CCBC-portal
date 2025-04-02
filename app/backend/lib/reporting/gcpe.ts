@@ -17,6 +17,7 @@ import {
   handleCbcEconomicRegions,
   handleCcbcEconomicRegions,
 } from './util';
+import toTitleCase from '../../../utils/formatString';
 
 const getCbcDataQuery = `
   query getCbcData {
@@ -317,7 +318,11 @@ const generateExcelData = async (
       // rest areas
       { value: node?.jsonData?.restAreas },
       // connected coast network dependent
-      { value: convertBoolean(node?.jsonData?.connectedCoastNetworkDependant) },
+      {
+        value: toTitleCase(
+          convertBoolean(node?.jsonData?.connectedCoastNetworkDependant) ?? ''
+        ),
+      },
       // proposed start date
       { value: cleanDateTime(node?.jsonData?.proposedStartDate) },
       // date approved
