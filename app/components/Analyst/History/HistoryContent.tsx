@@ -997,6 +997,71 @@ const HistoryContent = ({
     );
   }
 
+  if (tableName === 'application_pending_change_request') {
+    let action = 'edited';
+    let { comment } = record;
+    let message = 'the';
+    let messageBolded = 'pending change request';
+    const pendingChangeRequestSchema = {
+      pendingChangeRequest: {
+        properties: {
+          comment: {
+            title: 'Comments:',
+            type: 'string',
+          },
+        },
+      },
+    };
+    if (record.is_pending === true && !prevHistoryItem?.record?.is_pending) {
+      action = 'indicated';
+      message = 'that a';
+      messageBolded = 'change request is pending';
+    }
+    if (
+      record.comment === 'Yes, change request cancelled' ||
+      record.comment === 'Yes, change request completed'
+    ) {
+      action = 'indicated';
+      pendingChangeRequestSchema.pendingChangeRequest.properties.comment.title =
+        'Reason:';
+      comment = record.comment?.replace(/^Yes, /, '');
+      message = 'that the';
+      messageBolded = 'change request is no longer pending';
+    }
+
+    const excludedKeys = [
+      'id',
+      'created_at',
+      'updated_at',
+      'created_by',
+      'updated_by',
+      'archived_at',
+      'archived_by',
+      'is_pending',
+    ];
+    if (record.comment === null) {
+      excludedKeys.push('comment');
+    }
+    return (
+      <>
+        <StyledContent data-testid="history-content-pending-change-request">
+          <span>
+            {displayName} {action} {message}{' '}
+          </span>
+          <b>{messageBolded}</b>
+          <span> on {createdAtFormatted}</span>
+        </StyledContent>
+        <HistoryDetails
+          json={{ ...record, comment }}
+          prevJson={prevHistoryItem?.record || {}}
+          excludedKeys={excludedKeys}
+          diffSchema={pendingChangeRequestSchema}
+          overrideParent="pendingChangeRequest"
+        />
+      </>
+    );
+  }
+
   if (tableName === 'application_communities') {
     const user =
       createdBy === 1 && op === 'INSERT' ? 'The system' : displayName;
