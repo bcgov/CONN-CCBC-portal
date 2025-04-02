@@ -14,6 +14,7 @@ import {
   handleLastMileSpeed,
 } from './util';
 import columnOptions from './column_options';
+import toTitleCase from '../../../utils/formatString';
 
 const getApplicationDataQuery = `
   query applicationDataQuery($rowId: Int!) {
@@ -523,7 +524,9 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // connected coast network dependent
       {
-        value: convertBoolean(cbcDataByCbcId?.connectedCoastNetworkDependant),
+        value: toTitleCase(
+          convertBoolean(cbcDataByCbcId?.connectedCoastNetworkDependant) ?? ''
+        ),
       },
       // project location
       {
