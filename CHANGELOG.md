@@ -1,3 +1,9 @@
+# [1.249.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.248.0...v1.249.0) (2025-04-02)
+
+### Features
+
+- application pending change request history ([4d24c52](https://github.com/bcgov/CONN-CCBC-portal/commit/4d24c5228b328b51d5064bec083f84415943c77b))
+
 # [1.248.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.247.0...v1.248.0) (2025-03-26)
 
 ### Features
