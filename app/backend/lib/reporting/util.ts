@@ -167,3 +167,23 @@ export const handleCbcEconomicRegions = (
   }
   return regions.join(', ');
 };
+
+export const getCCBCIntakeNumber = (application): string => {
+  if (application?.ccbcNumber?.includes('000074')) return '';
+  return application?.intakeNumber;
+};
+
+export const getCCBCFederalFundingSource = (application: any): string => {
+  const isedMinisterApproved =
+    application?.conditionalApproval?.jsonData?.decision?.ministerDecision ===
+    'Approved';
+  const applicationApproved =
+    application?.status === 'conditionally_approved' ||
+    application?.status === 'applicant_conditionally_approved' ||
+    application?.status === 'closed';
+
+  if (applicationApproved && isedMinisterApproved) {
+    return 'ISED-UBF Core';
+  }
+  return '';
+};
