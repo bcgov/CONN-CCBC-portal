@@ -1,3 +1,9 @@
+## [1.249.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.1...v1.249.2) (2025-04-02)
+
+### Bug Fixes
+
+- match excel download connected coast case ([e075bcb](https://github.com/bcgov/CONN-CCBC-portal/commit/e075bcb227c77372a114a53909be630c251e489c))
+
 ## [1.249.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.0...v1.249.1) (2025-04-02)
 
 ### Bug Fixes
