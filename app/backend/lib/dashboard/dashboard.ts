@@ -4,6 +4,8 @@ import { performQuery } from '../graphql';
 import {
   cleanDateTime,
   convertBoolean,
+  getCCBCFederalFundingSource,
+  getCCBCIntakeNumber,
   handleProjectType,
 } from '../reporting/util';
 import { generateHeaderInfoRow, HEADER_ROW } from './header';
@@ -286,7 +288,9 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       // zone
       { value: data?.applicationByRowId?.zone },
       // intake number
-      { value: data?.applicationByRowId?.intakeNumber },
+      {
+        value: getCCBCIntakeNumber(data?.applicationByRowId),
+      },
       // internal status
       { value: convertStatus(data?.applicationByRowId?.status) },
       // external status
@@ -314,7 +318,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
           : 'NO',
       },
       // federal funding source
-      { value: 'ISED-UBF Core' },
+      { value: getCCBCFederalFundingSource(data?.applicationByRowId) },
       // federal project number
       { value: null },
       // project type
