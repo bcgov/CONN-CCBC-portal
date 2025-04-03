@@ -1,3 +1,9 @@
+## [1.249.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.2...v1.249.3) (2025-04-03)
+
+### Bug Fixes
+
+- announcement duplicate save calls ([731e5ff](https://github.com/bcgov/CONN-CCBC-portal/commit/731e5ff33bbfc7a819907334ee0c78f44f56e92a))
+
 ## [1.249.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.1...v1.249.2) (2025-04-02)
 
 ### Bug Fixes
