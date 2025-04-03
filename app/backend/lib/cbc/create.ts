@@ -100,9 +100,7 @@ const createCbcProject = async (
     },
     req
   );
-  console.log('createCbcResult', createCbcResult);
   if (createCbcResult?.errors) {
-    console.error('Error creating CBC:', createCbcResult.errors);
     return {
       error: createCbcResult.errors,
     };
