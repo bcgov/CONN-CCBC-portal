@@ -2,6 +2,7 @@
 import { json } from '@sveltejs/kit';
 import amqp from 'amqplib';
 import { redis } from '$lib/server/redis';
+import { amqpUrl } from '$lib/server/rabbit';
 import type { QueueMessage } from '$lib/types';
 
 // api/complete/+server.ts (updated snippet)
@@ -25,7 +26,7 @@ export async function POST({ request }) {
 	console.log('taskStatus:', taskStatus);
 
 	try {
-		const connection = await amqp.connect('amqp://localhost');
+		const connection = await amqp.connect(amqpUrl);
 		const channel = await connection.createChannel();
 		const queue = 'task_queue';
 
