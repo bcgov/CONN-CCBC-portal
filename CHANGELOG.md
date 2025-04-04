@@ -1,3 +1,10 @@
+## [1.249.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.3...v1.249.4) (2025-04-04)
+
+### Bug Fixes
+
+- failing tests ([23c967a](https://github.com/bcgov/CONN-CCBC-portal/commit/23c967ac9973047beef0c7ebe6522a2f6dc0eebc))
+- upload save data from template 9 even if cancels ([8dd6288](https://github.com/bcgov/CONN-CCBC-portal/commit/8dd6288d5fd928c6bfa26166106d139aaca5051a))
+
 ## [1.249.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.2...v1.249.3) (2025-04-03)
 
 ### Bug Fixes
