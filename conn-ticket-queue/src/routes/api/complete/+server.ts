@@ -6,10 +6,22 @@ import type { QueueMessage } from '$lib/types';
 
 // api/complete/+server.ts (updated snippet)
 export async function POST({ request }) {
-	const { message_id }: { message_id: string } = await request.json();
-	console.log('Webhook received - message_id:', message_id);
+	const { ref }: { ref: string } = await request.json();
 
-	const taskStatus = await redis.get(`task:${message_id}`);
+	console.log('Webhook received - ref:', ref);
+
+	// Validate that ref is of the form NDT-XXXX
+	const refMatch = /^NDT-\d{3,4}/.exec(ref);
+	if (!refMatch) {
+		console.error('Invalid ref format:', ref);
+		return json({ error: 'Invalid ref format' }, { status: 400 });
+	}
+
+	// Extract the full ref (e.g., NDT-1234)
+	const validRef = refMatch[0];
+	console.log('Validated ref:', validRef);
+
+	const taskStatus = await redis.get(`task:${validRef}`);
 	console.log('taskStatus:', taskStatus);
 
 	try {
@@ -26,17 +38,15 @@ export async function POST({ request }) {
 			const message: QueueMessage = JSON.parse(msg.content.toString());
 			console.log(`Fetched message from queue: ${message.id}`);
 
-			if (message.id === message_id && (taskStatus === 'processing' || taskStatus === 'pending')) {
-				console.log(` [✓] Completing and acknowledging message ${message_id}`);
+			if (message.id === validRef && (taskStatus === 'processing' || taskStatus === 'pending')) {
+				console.log(` [✓] Completing and acknowledging message ${validRef}`);
 				channel.ack(msg);
-				await redis.set(`task:${message_id}`, 'completed');
+				await redis.set(`task:${validRef}`, 'completed');
 			} else {
-				console.log(
-					`Message ${message.id} does not match ${message_id} or not ready, requeueing...`
-				);
+				console.log(`Message ${message.id} does not match ${validRef} or not ready, requeueing...`);
 				channel.nack(msg, true, true);
 				if (taskStatus === 'completed') {
-					console.log(`Message ${message_id} already completed`);
+					console.log(`Message ${validRef} already completed`);
 				}
 				if (!taskStatus) {
 					await channel.close();
@@ -45,7 +55,7 @@ export async function POST({ request }) {
 				}
 			}
 		} else if (taskStatus === 'completed') {
-			console.log(`Message ${message_id} already completed, no action needed`);
+			console.log(`Message ${validRef} already completed, no action needed`);
 		} else {
 			console.log('No messages in queue');
 			await channel.close();
