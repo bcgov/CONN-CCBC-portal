@@ -25,6 +25,7 @@ import {
 import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
 import CbcRecordLock from 'components/Analyst/CBC/CbcRecordLock';
 import useModal from 'lib/helpers/useModal';
+import { useRouter } from 'next/router';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -92,6 +93,8 @@ const RightAlignText = styled('div')`
 const Cbc = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, CbcIdQuery>) => {
+  const router = useRouter();
+  const { recent } = router.query;
   const query = usePreloadedQuery(getCbcQuery, preloadedQuery);
   const isCbcAdmin =
     query.session.authRole === 'cbc_admin' ||
@@ -104,7 +107,7 @@ const Cbc = ({
   const [toggleOverrideEdit, setToggleExpandOrCollapseAllEdit] = useState<
     boolean | undefined
   >(true);
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(recent === 'true');
   const [changeReason, setChangeReason] = useState<null | string>(null);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 

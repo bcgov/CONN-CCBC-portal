@@ -18,7 +18,7 @@ const mockQueryPayload = {
     return {
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-        authRole: 'ccbc_analyst',
+        authRole: 'super_admin',
       },
       totalAvailableApplications: { totalCount: 10 },
       allApplications: {
@@ -1161,6 +1161,87 @@ describe('The index page', () => {
     const downloadButton = screen.getByTestId('download-dashboard-icon');
     await act(async () => {
       fireEvent.keyDown(downloadButton, { key: 'Enter', code: 'Enter' });
+    });
+
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('should open the create cbc modal when the create cbc icon is clicked', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const createCbcIcon = screen.getByTestId('create-cbc-dashboard-icon');
+    await act(async () => {
+      fireEvent.click(createCbcIcon);
+    });
+
+    expect(screen.getByTestId('create-cbc-form-modal')).toBeInTheDocument();
+  });
+
+  it('should open the create cbc modal when the enter key is pressed on the create cbc icon', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const createCbcIcon = screen.getByTestId('create-cbc-dashboard-icon');
+    await act(async () => {
+      fireEvent.keyDown(createCbcIcon, { key: 'Enter', code: 'Enter' });
+    });
+
+    expect(screen.getByTestId('create-cbc-form-modal')).toBeInTheDocument();
+  });
+
+  it('should show errors when the create cbc form is submitted with empty fields', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const createCbcIcon = screen.getByTestId('create-cbc-dashboard-icon');
+    await act(async () => {
+      fireEvent.click(createCbcIcon);
+    });
+
+    const submitButton = screen.getByText('Save and Continue');
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+
+    expect(
+      screen.getByText('Project ID must be a valid number')
+    ).toBeInTheDocument();
+    expect(screen.getByText('Project title is required')).toBeInTheDocument();
+    expect(screen.getByText('External status is required')).toBeInTheDocument();
+    expect(screen.getByText('Project type is required')).toBeInTheDocument();
+  });
+
+  it('should call fetch one time when the create cbc form is submitted with valid data', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const createCbcIcon = screen.getByTestId('create-cbc-dashboard-icon');
+    await act(async () => {
+      fireEvent.click(createCbcIcon);
+    });
+
+    const projectIdInput = screen.getByLabelText('Project ID');
+    const projectTitleInput = screen.getByLabelText('Project Title');
+    const externalStatusInput = screen.getByLabelText('External Status');
+    const projectTypeInput = screen.getByLabelText('Project Type');
+
+    await act(async () => {
+      fireEvent.change(projectIdInput, { target: { value: '1234' } });
+      fireEvent.change(projectTitleInput, {
+        target: { value: 'Test Project' },
+      });
+      fireEvent.change(externalStatusInput, {
+        target: { value: 'conditionally_approved' },
+      });
+      fireEvent.change(projectTypeInput, {
+        target: { value: 'Transport' },
+      });
+    });
+
+    const submitButton = screen.getByText('Save and Continue');
+    await act(async () => {
+      fireEvent.click(submitButton);
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
