@@ -21,11 +21,11 @@ spec:
         - name: REDIS_HOST
           value: {{ .Release.Name }}-redis
         - name: REDIS_PORT
-          value: 6379
+          value: "6379"
         - name: AMQP_HOST
           value: {{ .Release.Name }}-rabbitmq
         - name: AMQP_PORT
-          value: 5672
+          value: "5672"
         ports:
         - containerPort: {{ .Values.sveltekit.port }}
         resources:
