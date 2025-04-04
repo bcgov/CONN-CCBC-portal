@@ -19,17 +19,16 @@ spec:
         image: {{ .Values.sveltekit.image.repository }}:{{ .Values.sveltekit.image.tag }}
         ports:
         - containerPort: {{ .Values.sveltekit.port }}
-        env:
-        - name: REDIS_HOST
-          value: {{ .Release.Name }}-redis
-        - name: REDIS_PORT
-          value: 6379
-        - name: AMQP_HOST
-          value: {{ .Release.Name }}-rabbitmq
-        - name: AMQP_PORT
-          value: 5672
+        - env:
+          - name: REDIS_HOST
+            value: {{ .Release.Name }}-redis
+          - name: REDIS_PORT
+            value: 6379
+          - name: AMQP_HOST
+            value: {{ .Release.Name }}-rabbitmq
+          - name: AMQP_PORT
+            value: 5672
         resources:
           requests:
             memory: {{ .Values.sveltekit.resources.requests.memory }}
             cpu: {{ .Values.sveltekit.resources.requests.cpu }}
-
