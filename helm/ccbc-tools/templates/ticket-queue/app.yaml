@@ -28,12 +28,8 @@ spec:
           value: {{ .Release.Name }}-rabbitmq
         - name: AMQP_PORT
           value: 5672
-        # - name: AMQP_USER
-        #   value: {{ .Values.amqp.user }}
-        # - name: AMQP_PASSWORD
-        #   value: {{ .Values.amqp.password }}
         resources:
           requests:
             memory: {{ .Values.sveltekit.resources.requests.memory }}
             cpu: {{ .Values.sveltekit.resources.requests.cpu }}
-        
+
