@@ -175,15 +175,16 @@ export const getCCBCIntakeNumber = (application): string => {
 
 export const getCCBCFederalFundingSource = (application: any): string => {
   const isedMinisterApproved =
-    application?.conditionalApproval?.jsonData?.decision?.ministerDecision ===
-    'Approved';
-  const applicationApproved =
-    application?.status === 'conditionally_approved' ||
-    application?.status === 'applicant_conditionally_approved' ||
-    application?.status === 'closed';
+    application?.conditionalApproval?.jsonData?.isedDecisionObj
+      ?.isedDecision === 'Approved';
+  const applicationApproved = [
+    'conditionally_approved',
+    'approved',
+    'applicant_approved',
+    'applicant_conditionally_approved',
+    'applicant_complete',
+    'complete',
+  ].includes(application?.status);
 
-  if (applicationApproved && isedMinisterApproved) {
-    return 'ISED-UBF Core';
-  }
-  return '';
+  return applicationApproved && isedMinisterApproved ? 'ISED-UBF Core' : '';
 };
