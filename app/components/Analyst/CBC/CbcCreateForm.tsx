@@ -109,6 +109,7 @@ const CbcCreateForm = ({ formData, errors, isSubmitting, handleChange }) => {
         <StyledLabel htmlFor="external-status">External Status</StyledLabel>
         <StyledSelect
           value={formData.externalStatus}
+          id="external-status"
           onChange={handleChange('externalStatus')}
           error={!!errors.externalStatus}
           required
@@ -129,6 +130,7 @@ const CbcCreateForm = ({ formData, errors, isSubmitting, handleChange }) => {
         <StyledLabel htmlFor="project-type">Project Type</StyledLabel>
         <StyledSelect
           value={formData.projectType}
+          id="project-type"
           onChange={handleChange('projectType')}
           error={!!errors.projectType}
           required
