@@ -3,7 +3,7 @@ export const convertStatus = (status: string): string => {
     case 'conditionally_approved':
       return 'Conditionally Approved';
     case 'approved':
-      return 'Approved';
+      return 'Agreement Signed';
     case 'on_hold':
       return 'On Hold';
     case 'closed':
