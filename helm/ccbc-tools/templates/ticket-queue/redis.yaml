@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-redis
+  labels:
+    app: {{ .Release.Name }}-redis
+spec:
+  replicas: {{ .Values.redis.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-redis
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-redis
+    spec:
+      containers:
+      - name: redis
+        image: {{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
+        command:
+          - "redis-server"
+          - "/etc/redis/redis.conf"
+        ports:
+        - containerPort: 6379
+        resources:
+          requests:
+            memory: {{ .Values.redis.resources.requests.memory }}
+            cpu: {{ .Values.redis.resources.requests.cpu }}
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+        - name: redis-config
+          mountPath: /etc/redis/redis.conf
+          subPath: redis.conf
+        {{- if .Values.redis.passwordSecret.enabled }}
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.redis.passwordSecret.name | default (printf "%s-redis-password" .Release.Name) }}
+              key: {{ .Values.redis.passwordSecret.key }}
+        {{- end }}
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-redis-pvc
+      - name: redis-config
+        configMap:
+          name: {{ .Release.Name }}-redis-config
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-redis-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.redis.storage.size | default "1Gi" }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: redis-secret
+  labels:
+type: Opaque
+data:
+  redis-password: {{ .Values.redis.password | b64enc | quote }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-redis-config
+data:
+  redis.conf: |
+    dir /data
+    save 900 1
+    save 300 10
+    save 60 10000
+    requirepass {{ .Values.redis.password | quote }}

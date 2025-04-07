@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-sveltekit
+  labels:
+    app: {{ .Release.Name }}-sveltekit
+spec:
+  ports:
+  - port: {{ .Values.sveltekit.port }}
+    targetPort: {{ .Values.sveltekit.port }}
+    protocol: TCP
+  selector:
+    app: {{ .Release.Name }}-sveltekit

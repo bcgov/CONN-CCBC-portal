@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-sveltekit
+  labels:
+    app: {{ .Release.Name }}-sveltekit
+spec:
+  replicas: {{ .Values.sveltekit.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-sveltekit
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-sveltekit
+    spec:
+      containers:
+      - name: sveltekit
+        image: {{ .Values.sveltekit.image.repository }}:{{ .Values.sveltekit.image.tag }}
+        env:
+        - name: REDIS_HOST
+          value: {{ .Release.Name }}-redis
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.redis.passwordSecret.name | default (printf "%s-redis-password" .Release.Name) }}
+              key: {{ .Values.redis.passwordSecret.key | default "password" }}
+        - name: GITHUB_WEBHOOK_SECRET
+          value: {{ .Values.sveltekit.secret }}
+        - name: JIRA_WEBHOOK_SECRET
+          value: {{ .Values.sveltekit.secret }}
+        - name: GITHUB_TOKEN
+          value: {{ .Values.sveltekit.githubToken }}
+        - name: AMQP_HOST
+          value: {{ .Release.Name }}-rabbitmq
+        - name: AMQP_PORT
+          value: "5672"
+        ports:
+        - containerPort: {{ .Values.sveltekit.port }}
+        resources:
+          requests:
+            memory: {{ .Values.sveltekit.resources.requests.memory }}
+            cpu: {{ .Values.sveltekit.resources.requests.cpu }}
