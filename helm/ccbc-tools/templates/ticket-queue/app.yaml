@@ -31,6 +31,8 @@ spec:
           value: {{ .Values.sveltekit.secret }}
         - name: JIRA_WEBHOOK_SECRET
           value: {{ .Values.sveltekit.secret }}
+        - name: GITHUB_TOKEN
+          value: {{ .Values.sveltekit.githubToken }}
         - name: AMQP_HOST
           value: {{ .Release.Name }}-rabbitmq
         - name: AMQP_PORT
