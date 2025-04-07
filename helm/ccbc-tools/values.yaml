@@ -20,6 +20,8 @@ redis:
     requests:
       memory: '256Mi'
       cpu: '10m'
+  storage:
+    size: '1Gi'
 
 # RabbitMQ Configuration
 rabbitmq:
