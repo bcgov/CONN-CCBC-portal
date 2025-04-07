@@ -4,6 +4,9 @@ import amqp from 'amqplib';
 import { redis } from '$lib/server/redis';
 import type { QueueMessage } from '$lib/types';
 import { amqpUrl } from '$lib/server/rabbit';
+import { updatePRForRelease } from '$lib/merge';
+
+const JIRA_WEBHOOK_SECRET = process.env.JIRA_WEBHOOK_SECRET || '';
 
 export async function POST({ request }) {
 	const { key } = await request.json();
@@ -16,6 +19,13 @@ export async function POST({ request }) {
 	const data = 'sprint_done';
 
 	try {
+		const secret = request.headers.get('ccbc-jira-header');
+		if (!secret) {
+			return json({ error: 'Missing CCBC-JIRA-Header' }, { status: 400 });
+		}
+		if (secret !== JIRA_WEBHOOK_SECRET) {
+			return json({ error: 'Invalid CCBC-JIRA-Header' }, { status: 403 });
+		}
 		const connection = await amqp.connect(amqpUrl);
 		const channel = await connection.createChannel();
 		const queue = 'task_queue';
@@ -47,6 +57,12 @@ export async function POST({ request }) {
 			await redis.set(`task:${key}`, 'processing');
 			console.log(`Marked task:${key} as processing as queue is empty`);
 			// start release process
+			const repoName = 'CONN-CCBC-portal';
+			const repoOwner = 'bcgov';
+			const branchName = key;
+			const passedHeader = secret;
+			const result = await updatePRForRelease({ repoOwner, repoName, branchName, passedHeader });
+			console.log('Release process result:', result);
 		}
 
 		channel.sendToQueue(queue, messageBuffer, { persistent: true });

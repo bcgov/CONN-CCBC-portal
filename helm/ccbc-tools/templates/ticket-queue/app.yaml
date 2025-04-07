@@ -27,6 +27,10 @@ spec:
             secretKeyRef:
               name: {{ .Values.redis.passwordSecret.name | default (printf "%s-redis-password" .Release.Name) }}
               key: {{ .Values.redis.passwordSecret.key | default "password" }}
+        - name: GITHUB_WEBHOOK_SECRET
+          value: {{ .Values.sveltekit.secret }}
+        - name: JIRA_WEBHOOK_SECRET
+          value: {{ .Values.sveltekit.secret }}
         - name: AMQP_HOST
           value: {{ .Release.Name }}-rabbitmq
         - name: AMQP_PORT
