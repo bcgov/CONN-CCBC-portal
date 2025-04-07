@@ -78,8 +78,4 @@ data:
     save 900 1
     save 300 10
     save 60 10000
-    {{- if .Values.redis.passwordSecret.enabled }}
-    requirepass "$(REDIS_PASSWORD)"  # Will be substituted from the Secret via env
-    {{- else }}
     requirepass {{ .Values.redis.password | quote }}
-    {{- end }}
