@@ -53,3 +53,4 @@ sveltekit:
       memory: '256Mi'
       cpu: '10m'
   secret: '' # The secret must be passed in via the deploy script
+  githubToken: '' # The GitHub token must be passed in via the deploy script
