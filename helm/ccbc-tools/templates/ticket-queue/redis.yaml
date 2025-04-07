@@ -17,6 +17,9 @@ spec:
       containers:
       - name: redis
         image: {{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
+        command:
+          - "redis-server"
+          - "/etc/redis/redis.conf"
         ports:
         - containerPort: 6379
         resources:
