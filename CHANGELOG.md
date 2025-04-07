@@ -1,3 +1,9 @@
+## [1.249.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.4...v1.249.5) (2025-04-07)
+
+### Bug Fixes
+
+- status from approved to Agreement Signed in GCPE ([c7ffbd9](https://github.com/bcgov/CONN-CCBC-portal/commit/c7ffbd997676f4d3d77d108a35f87a12ca425a00))
+
 ## [1.249.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.3...v1.249.4) (2025-04-04)
 
 ### Bug Fixes
