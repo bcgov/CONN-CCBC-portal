@@ -26,10 +26,24 @@ spec:
         volumeMounts:
         - name: redis-data
           mountPath: /data
+        - name: redis-config
+          mountPath: /etc/redis/redis.conf
+          subPath: redis.conf
+        {{- if .Values.redis.passwordSecret.enabled }}
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.redis.passwordSecret.name | default (printf "%s-redis-password" .Release.Name) }}
+              key: {{ .Values.redis.passwordSecret.key }}
+        {{- end }}
       volumes:
       - name: redis-data
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-redis-pvc
+      - name: redis-config
+        configMap:
+          name: {{ .Release.Name }}-redis-config
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -41,3 +55,28 @@ spec:
   resources:
     requests:
       storage: {{ .Values.redis.storage.size | default "1Gi" }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: redis-secret
+  labels:
+type: Opaque
+data:
+  redis-password: {{ .Values.redis.password | b64enc | quote }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-redis-config
+data:
+  redis.conf: |
+    dir /data
+    save 900 1
+    save 300 10
+    save 60 10000
+    {{- if .Values.redis.passwordSecret.enabled }}
+    requirepass "$(REDIS_PASSWORD)"  # Will be substituted from the Secret via env
+    {{- else }}
+    requirepass {{ .Values.redis.password | quote }}
+    {{- end }}
