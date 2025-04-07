@@ -27,4 +27,4 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           insecure_skip_tls_verify: true
       - run: |
-          helm upgrade ccbc-tools helm/ccbc-tools --install --atomic -n ${{ secrets.NAMESPACE_PREFIX }}-tools --set namespacePrefix=${{ secrets.NAMESPACE_PREFIX }} --set deployer.githubToken=${{ secrets.TEKTON_GITHUB}} --set deployer.headerSecret=${{ secrets.JIRA_SECRET }}
+          helm upgrade ccbc-tools helm/ccbc-tools --install --atomic -n ${{ secrets.NAMESPACE_PREFIX }}-tools --set namespacePrefix=${{ secrets.NAMESPACE_PREFIX }} --set deployer.githubToken=${{ secrets.TEKTON_GITHUB}} --set deployer.headerSecret=${{ secrets.JIRA_SECRET }} --set redis.password=${{ secrets.REDIS_PASSWORD}}

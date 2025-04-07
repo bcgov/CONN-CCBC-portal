@@ -22,6 +22,11 @@ spec:
           value: {{ .Release.Name }}-redis
         - name: REDIS_PORT
           value: "6379"
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.redis.passwordSecret.name | default (printf "%s-redis-password" .Release.Name) }}
+              key: {{ .Values.redis.passwordSecret.key | default "password" }}
         - name: AMQP_HOST
           value: {{ .Release.Name }}-rabbitmq
         - name: AMQP_PORT

@@ -22,6 +22,11 @@ redis:
       cpu: '10m'
   storage:
     size: '1Gi'
+  passwordSecret:
+    enabled: true
+    name: 'redis-secret'
+    key: 'redis-password'
+  password: '' # The password must be passed in via the deploy script
 
 # RabbitMQ Configuration
 rabbitmq:
