@@ -52,3 +52,4 @@ sveltekit:
     requests:
       memory: '256Mi'
       cpu: '10m'
+  secret: '' # The secret must be passed in via the deploy script

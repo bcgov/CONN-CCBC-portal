@@ -4,8 +4,11 @@ import amqp from 'amqplib';
 import { redis } from '$lib/server/redis';
 import { amqpUrl } from '$lib/server/rabbit';
 import type { QueueMessage } from '$lib/types';
+import { updatePRForRelease } from '$lib/merge';
+import { verifyGitHubWebhook } from '$lib/server/verifyGithub';
 
-// api/complete/+server.ts (updated snippet)
+const GITHUB_WEBHOOK_SECRET = process.env.GITHUB_WEBHOOK_SECRET || '';
+
 export async function POST({ request }) {
 	const { ref }: { ref: string } = await request.json();
 
@@ -26,6 +29,18 @@ export async function POST({ request }) {
 	console.log('taskStatus:', taskStatus);
 
 	try {
+		const rawBody = await request.text();
+
+		// Get the signature header
+		const signature = request.headers.get('x-hub-signature-256');
+		if (!signature) {
+			return json({ success: false, error: 'Missing X-Hub-Signature-256 header' }, { status: 400 });
+		}
+
+		// Verify the webhook signature
+		if (!verifyGitHubWebhook(rawBody, signature, GITHUB_WEBHOOK_SECRET)) {
+			return json({ success: false, error: 'Invalid webhook signature' }, { status: 403 });
+		}
 		const connection = await amqp.connect(amqpUrl);
 		const channel = await connection.createChannel();
 		const queue = 'task_queue';
@@ -77,6 +92,12 @@ export async function POST({ request }) {
 				await redis.set(`task:${nextMessageId}`, 'processing');
 				console.log(`Marked task:${nextMessageId} as processing`);
 				// Start release process here
+				const repoName = 'CONN-CCBC-portal';
+				const repoOwner = 'bcgov';
+				const branchName = nextMessageId;
+				const passedHeader = GITHUB_WEBHOOK_SECRET;
+				const result = await updatePRForRelease({ repoOwner, repoName, branchName, passedHeader });
+				console.log('Release process result:', result);
 				channel.nack(nextMsg, true, true);
 			} else {
 				console.log(`Next message ${nextMessageId} in ${nextStatus} state, requeueing`);
