@@ -35,6 +35,8 @@ import getConfig from 'next/config';
 import { DateTime } from 'luxon';
 import { useToast } from 'components/AppProvider';
 import { useRouter } from 'next/router';
+import CbcCreateModal from 'components/Analyst/CBC/CbcCreateModal';
+import CbcCreateIcon from 'components/Analyst/CBC/CbcCreateIcon';
 import DownloadIcon from './DownloadIcon';
 import { sortStatus, sortZones } from './AssessmentAssignmentTable';
 import AdditionalFilters, {
@@ -248,6 +250,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             }
           }
         }
+        session {
+          authRole
+        }
       }
     `,
     query
@@ -272,13 +277,15 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     },
     [queryFragment]
   );
-  const { allApplications, allCbcData, allApplicationStatusTypes } =
+  const { allApplications, allCbcData, allApplicationStatusTypes, session } =
     queryFragment;
+  const { authRole } = session;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
   const router = useRouter();
 
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isCreateCbcModalOpen, setIsCreateCbcModalOpen] = useState(false);
   const { showToast, hideToast } = useToast();
 
   const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];
@@ -888,6 +895,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     },
     renderToolbarInternalActions: ({ table }) => (
       <Box>
+        {(authRole === 'super_admin' || authRole === 'cbc_admin') && (
+          <IconButton size="small">
+            <CbcCreateIcon handleClick={() => setIsCreateCbcModalOpen(true)} />
+          </IconButton>
+        )}
         <IconButton size="small">
           <DownloadIcon
             handleClick={() => handleDownload(table.getRowModel().rows)}
@@ -935,6 +947,10 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     <>
       {renderRowCount()}
       <MaterialReactTable table={table} />
+      <CbcCreateModal
+        isOpen={isCreateCbcModalOpen}
+        setIsOpen={setIsCreateCbcModalOpen}
+      />
       {!freezeHeader && renderRowCount()}
     </>
   );
