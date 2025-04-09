@@ -1,3 +1,18 @@
+## [1.249.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.5...v1.249.6) (2025-04-09)
+
+## [1.249.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.4...v1.249.5) (2025-04-07)
+
+### Bug Fixes
+
+- status from approved to Agreement Signed in GCPE ([c7ffbd9](https://github.com/bcgov/CONN-CCBC-portal/commit/c7ffbd997676f4d3d77d108a35f87a12ca425a00))
+
+## [1.249.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.3...v1.249.4) (2025-04-04)
+
+### Bug Fixes
+
+- failing tests ([23c967a](https://github.com/bcgov/CONN-CCBC-portal/commit/23c967ac9973047beef0c7ebe6522a2f6dc0eebc))
+- upload save data from template 9 even if cancels ([8dd6288](https://github.com/bcgov/CONN-CCBC-portal/commit/8dd6288d5fd928c6bfa26166106d139aaca5051a))
+
 ## [1.249.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.2...v1.249.3) (2025-04-03)
 
 ### Bug Fixes

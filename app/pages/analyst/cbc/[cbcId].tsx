@@ -435,6 +435,7 @@ const Cbc = ({
             recordLocked,
             editMode,
             geographicNamesByRegionalDistrict,
+            allCommunitiesSourceData,
             regionalDistrictsByEconomicRegion,
             economicRegions: allEconomicRegions,
             cbcCommunitiesData:
