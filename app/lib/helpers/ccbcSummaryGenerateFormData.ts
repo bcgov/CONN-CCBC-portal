@@ -25,9 +25,10 @@ const getRegionalDistricts = (regionalDistricts) => {
 
 const handleApplicationDateReceived = (applicationData, allIntakes) => {
   // keep blank for hidden intakes
-  if (applicationData.intakeNumber === 99) {
-    return null;
-  }
+  // commenting out for now as per https://connectivitydivision.atlassian.net/browse/NDT-786
+  // if (applicationData.intakeNumber === 99) {
+  //   return null;
+  // }
   // from intake 5 application is immediately submitted, use that date
   if (applicationData.intakeNumber === 5) {
     return applicationData?.applicationStatusesByApplicationId?.nodes[0]

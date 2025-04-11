@@ -1,3 +1,9 @@
+## [1.250.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.250.0...v1.250.1) (2025-04-11)
+
+### Bug Fixes
+
+- status types list for UBF-CORE ([aab0377](https://github.com/bcgov/CONN-CCBC-portal/commit/aab03777049a637bc928e5d7ec6cde7a59977bde))
+
 # [1.250.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.6...v1.250.0) (2025-04-09)
 
 ### Features
