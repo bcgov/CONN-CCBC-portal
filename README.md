@@ -44,53 +44,11 @@
 - [Certificates](#certificates)
 
 ## Setting up a local development environment
-
 #### Database setup
-
-Required dependencies:
-
-- [Postgresql 14](https://www.postgresql.org/download/)
-- [Sqitch](https://sqitch.org/download/)
-
-Have a local instance of postgres running and ensure sqitch can [authenticate](https://sqitch.org/docs/manual/sqitch-authentication/) with postgres. The simplest way to do this is with a [.pgpass](https://www.postgresql.org/docs/current/libpq-pgpass.html) file in your home directory containing the hostname, port, database name, username and password:
-
-`127.0.0.1:5432:postgres:username:password`
-
-Once Postgres 14 and Sqitch are setup run the following in the root directory:
-
-```bash
-make drop_db && make deploy_dev_data
-```
-
-Alternatively you can create the database using `createdb ccbc` and then running `sqitch deploy` in the `/db` directory.
-
 #### Environment variables
-
-This project uses `node-convict` to declare environment variables which can be found in `/app/config/index`. Variables for each environment are declared in `development.json`, `test.json` or `production.json`.
-
-The defaults can be overridden using a `.env` file placed in the `/app` directory.
-
 #### Running the application
 
-Required dependencies:
-
-- [Node.js 20.16.0](https://nodejs.org/en/download/)
-- [yarn classic](https://classic.yarnpkg.com/lang/en/docs/install)
-
-Run the following commands:
-
-```bash
-$ cd app
-$ yarn
-$ yarn build:relay
-$ yarn dev
-```
-
-### Relay information
-
-This project uses react-relay and relay-nextjs. The `yarn build:relay` command above will create the query map schema, create the generated directory to be used by the relay compiler to generate the GraphQl files, and finally build the required persistent operations.
-
-While doing local development you might have to rerun this command when edition previous queries, creating new queries, adding new fragments, etc, otherwise you might notice that query results are not being updated. To do so, simply stop your current development server and run `yarn build:relay && yarn dev`.
+Please refer to [this document](local_setup/README.md).
 
 ### Running PGTap database tests locally
 
@@ -101,13 +59,15 @@ While doing local development you might have to rerun this command when edition 
 ##### Install PGTap:
 
 ```
-$ git clone https://github.com/theory/pgtap.git
-$ cd pgtap
-$ git checkout v1.2.0
-$ git branch
-$ make
-$ sudo make install
-$ psql -c 'CREATE EXTENSION pgtap;'
+git clone https://github.com/theory/pgtap.git &&\
+   cd pgtap &&\
+   git checkout v1.2.0 &&\
+   git branch
+
+make
+make install
+
+psql -U postgres -c 'CREATE EXTENSION pgtap;'
 ```
 
 ##### Run tests:
@@ -122,13 +82,13 @@ Once the test database is created you can test a single file by running:
 
 `pg_prove -d ccbc_test <path to file>`
 
-### Running Jest and end to end tests locally
+### Running Jest and end-to-end tests locally
 
 #### Jest
 
 In `/app` directory run `yarn test`
 
-#### End to end tests:
+#### End-to-end tests:
 
 Cypress and Happo is used for end to end testing. A Happo account and API secret + key is required for Happo testing though it is automatically disabled if no keys exist. Happo is free for open source projects.
 

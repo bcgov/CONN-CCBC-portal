@@ -1,6 +1,10 @@
+# An executable file used during setup
+sqitch
+
 node_modules
 .env
 .vscode
+.idea
 Infrastructure/.terraform/
 
 app/__generated__/
