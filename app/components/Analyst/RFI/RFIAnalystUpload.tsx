@@ -30,6 +30,8 @@ const StyledLink = styled(Link)`
   color: ${(props) => props.theme.color.white};
 `;
 
+type TemplateMap = Record<string, string>;
+
 const RfiAnalystUpload = ({ query }) => {
   const queryFragment = useFragment(
     graphql`
@@ -88,61 +90,56 @@ const RfiAnalystUpload = ({ query }) => {
   const [templateNineData, setTemplateNineData] = useState(null);
   const [excelImportFields, setExcelImportFields] = useState([]);
   const [excelImportFiles, setExcelImportFiles] = useState([]);
+  const [templateFiles, setTemplateFiles] = useState<TemplateMap>({});
   const [hasApplicationFormDataUpdated, setHasApplicationFormDataUpdated] =
     useState(false);
-  const [templatesUpdated, setTemplatesUpdated] = useState({
-    one: false,
-    two: false,
-    nine: false,
-  });
+  const [templatesUpdated, setTemplatesUpdated] = useState<TemplateMap>({});
   const router = useRouter();
   const { notifyHHCountUpdate, notifyDocumentUpload } = useEmailNotification();
   const { notifyRfiCoverageMapKmzUploaded } =
     useRfiCoverageMapKmzUploadedEmail();
 
   useEffect(() => {
-    if (templateData?.templateNumber === 1 && !templateData?.error) {
-      setExcelImportFields([...excelImportFields, 'Template 1']);
-      setExcelImportFiles([...excelImportFiles, templateData?.templateName]);
-      const newFormDataWithTemplateOne = {
-        ...newFormData,
-        benefits: {
-          ...newFormData.benefits,
-          householdsImpactedIndigenous:
-            templateData.data.result.totalNumberHouseholdsImpacted,
-          numberOfHouseholds: templateData.data.result.finalEligibleHouseholds,
-        },
-      };
-      setNewFormData(newFormDataWithTemplateOne);
+    if (templateData?.templateNumber && !templateData?.error) {
+      const { templateNumber, templateName, data } = templateData;
+
+      setExcelImportFields([
+        ...excelImportFields,
+        `Template ${templateNumber}`,
+      ]);
+      setExcelImportFiles([...excelImportFiles, templateName]);
+      setTemplateFiles((prev) => ({
+        ...prev,
+        [templateNumber]: templateName,
+      }));
       setTemplatesUpdated((prevTemplatesUpdated) => {
-        return { ...prevTemplatesUpdated, one: true };
+        return { ...prevTemplatesUpdated, [templateNumber]: true };
       });
-      setTemplateData(null);
-      setHasApplicationFormDataUpdated(true);
-    } else if (templateData?.templateNumber === 2 && !templateData?.error) {
-      setExcelImportFields([...excelImportFields, 'Template 2']);
-      setExcelImportFiles([...excelImportFiles, templateData?.templateName]);
-      const newFormDataWithTemplateTwo = {
-        ...newFormData,
-        budgetDetails: {
-          ...newFormData.budgetDetails,
-          totalEligibleCosts: templateData.data.result.totalEligibleCosts,
-          totalProjectCost: templateData.data.result.totalProjectCosts,
-        },
-      };
-      setNewFormData(newFormDataWithTemplateTwo);
-      setTemplatesUpdated((prevTemplatesUpdated) => {
-        return { ...prevTemplatesUpdated, two: true };
-      });
-      setTemplateData(null);
-      setHasApplicationFormDataUpdated(true);
-    } else if (templateData?.templateNumber === 9 && !templateData?.error) {
-      setExcelImportFields([...excelImportFields, 'Template 9']);
-      setExcelImportFiles([...excelImportFiles, templateData?.templateName]);
-      setTemplateNineData(templateData);
-      setTemplatesUpdated((prevTemplatesUpdated) => {
-        return { ...prevTemplatesUpdated, nine: true };
-      });
+
+      if (templateNumber === 1) {
+        setNewFormData({
+          ...newFormData,
+          benefits: {
+            ...newFormData.benefits,
+            householdsImpactedIndigenous:
+              data.result.totalNumberHouseholdsImpacted,
+            numberOfHouseholds: data.result.finalEligibleHouseholds,
+          },
+        });
+        setHasApplicationFormDataUpdated(true);
+      } else if (templateNumber === 2) {
+        setNewFormData({
+          ...newFormData,
+          budgetDetails: {
+            ...newFormData.budgetDetails,
+            totalEligibleCosts: templateData.data.result.totalEligibleCosts,
+            totalProjectCost: templateData.data.result.totalProjectCosts,
+          },
+        });
+        setHasApplicationFormDataUpdated(true);
+      } else if (templateNumber === 9) {
+        setTemplateNineData(templateData);
+      }
       setTemplateData(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -165,26 +162,69 @@ const RfiAnalystUpload = ({ query }) => {
     </>
   );
 
+  const clearTemplateUpload = (templateNumberToClear: number) => {
+    // Remove template data from excel fields and files on delete
+    const updatedExcelImportFields = excelImportFields.filter(
+      (field) => field !== `Template ${templateNumberToClear}`
+    );
+    const updatedExcelImportFiles = excelImportFiles.filter(
+      (file) => file !== templateFiles[templateNumberToClear]
+    );
+    setExcelImportFields(updatedExcelImportFields);
+    setExcelImportFiles(updatedExcelImportFiles);
+
+    const { [templateNumberToClear]: removedFile, ...updatedTemplateFiles } =
+      templateFiles;
+    const {
+      [templateNumberToClear]: removedTemplate,
+      ...updatedTemplatesUpdated
+    } = templatesUpdated;
+    setTemplateFiles(updatedTemplateFiles);
+    setTemplatesUpdated(updatedTemplatesUpdated);
+
+    // revert form data
+    if (templateNumberToClear === 1) {
+      setNewFormData({
+        ...newFormData,
+        benefits: {
+          ...newFormData?.benefits,
+          householdsImpactedIndigenous:
+            jsonData.benefits?.householdsImpactedIndigenous,
+          numberOfHouseholds: jsonData.benefits?.numberOfHouseholds,
+        },
+      });
+      setHasApplicationFormDataUpdated(false);
+    } else if (templateNumberToClear === 2) {
+      setNewFormData({
+        ...newFormData,
+        budgetDetails: {
+          ...newFormData?.budgetDetails,
+          totalEligibleCosts: jsonData.budgetDetails?.totalEligibleCosts,
+          totalProjectCost: jsonData.budgetDetails?.totalProjectCost,
+        },
+      });
+      setHasApplicationFormDataUpdated(false);
+    } else if (templateNumberToClear === 9) {
+      setTemplateNineData(null);
+    }
+  };
+
   const processUpload = async (mutation, payload) => {
     const successCallback = () => {
       setTemplateData(null);
       // show toast messages for uploaded/updated data
-      if (
-        templatesUpdated?.one ||
-        templatesUpdated?.two ||
-        templatesUpdated?.nine
-      ) {
+      if (Object.keys(templatesUpdated).length > 0) {
         const message = (
           <>
-            {templatesUpdated.nine && (
+            {templatesUpdated[9] && (
               <>
                 Template 9 processing successful, geographic names have been
                 updated for this application.
                 <br />
               </>
             )}
-            {templatesUpdated.one && getToastMessage(1)}
-            {templatesUpdated.two && getToastMessage(2)}
+            {templatesUpdated[1] && getToastMessage(1)}
+            {templatesUpdated[2] && getToastMessage(2)}
           </>
         );
         showToast(message, 'success', 100000000);
@@ -203,7 +243,7 @@ const RfiAnalystUpload = ({ query }) => {
           rfiNumber
         );
       }
-      if (templatesUpdated?.one) {
+      if (templatesUpdated[1]) {
         notifyHHCountUpdate(
           newFormData.benefits,
           jsonData.benefits,
@@ -259,22 +299,23 @@ const RfiAnalystUpload = ({ query }) => {
       _errors: templateNineData?.data?.errors || {},
     };
 
-    if (!hasApplicationFormDataUpdated && !templatesUpdated.nine) {
+    const hasTemplateNine = templatesUpdated?.[9];
+    if (!hasApplicationFormDataUpdated && !hasTemplateNine) {
       // only update rfi
       processUpload(updateRfi, { input: payloadRfi });
-    } else if (!hasApplicationFormDataUpdated && templatesUpdated.nine) {
+    } else if (!hasApplicationFormDataUpdated && hasTemplateNine) {
       // form data not updated but template nine updated, update rfi and create template nine record
       processUpload(updateRfiAndCreateTemplateNineData, {
         rfiInput: payloadRfi,
         templateNineInput: payloadTemplateNine,
       });
-    } else if (hasApplicationFormDataUpdated && !templatesUpdated.nine) {
+    } else if (hasApplicationFormDataUpdated && !hasTemplateNine) {
       // only update rfi and form data since no template nine data
       processUpload(updateRfiAndFormData, {
         formInput: payloadFormData,
         rfiInput: payloadRfi,
       });
-    } else if (hasApplicationFormDataUpdated && templatesUpdated.nine) {
+    } else if (hasApplicationFormDataUpdated && hasTemplateNine) {
       // update rfi, form data, and template nine data (all three)
       processUpload(updateFormRfiAndCreateTemplateNineData, {
         formInput: payloadFormData,
@@ -300,7 +341,11 @@ const RfiAnalystUpload = ({ query }) => {
       </Flex>
       <FormDiv>
         <FormBase
-          formContext={{ setTemplateData, rfiNumber }}
+          formContext={{
+            setTemplateData,
+            rfiNumber,
+            clearTemplateUpload,
+          }}
           theme={RfiTheme}
           schema={rfiSchema}
           uiSchema={rfiAnalystUiSchema}
