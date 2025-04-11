@@ -139,7 +139,7 @@ export const testApplicationData = {
       status: 'applicant_conditionally_approved',
       intakeNumber: 1,
       ccbcNumber: 'CCBC-010001',
-      zone: 6,
+      zones: 6,
       projectName: 'A testy test test',
       program: 'CCBC',
       package: 2,
