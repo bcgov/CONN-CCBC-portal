@@ -3,7 +3,7 @@ export const convertStatus = (status: string): string => {
     case 'conditionally_approved':
       return 'Conditionally Approved';
     case 'approved':
-      return 'Approved';
+      return 'Agreement Signed';
     case 'on_hold':
       return 'On Hold';
     case 'closed':
@@ -166,4 +166,25 @@ export const handleCbcEconomicRegions = (
     return null;
   }
   return regions.join(', ');
+};
+
+export const getCCBCIntakeNumber = (application): string => {
+  if (application?.ccbcNumber?.includes('000074')) return '';
+  return application?.intakeNumber;
+};
+
+export const getCCBCFederalFundingSource = (application: any): string => {
+  const isedMinisterApproved =
+    application?.conditionalApproval?.jsonData?.isedDecisionObj
+      ?.isedDecision === 'Approved';
+  const applicationApproved = [
+    'conditionally_approved',
+    'approved',
+    'applicant_approved',
+    'applicant_conditionally_approved',
+    'applicant_complete',
+    'complete',
+  ].includes(application?.status);
+
+  return applicationApproved && isedMinisterApproved ? 'ISED-UBF Core' : '';
 };

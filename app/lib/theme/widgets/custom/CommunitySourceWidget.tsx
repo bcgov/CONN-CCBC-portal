@@ -131,6 +131,18 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
   const economicRegionOptions = formContext.economicRegions;
   const regionalDistrictOptions = formContext.regionalDistrictsByEconomicRegion;
   const geographicNameOptions = formContext.geographicNamesByRegionalDistrict;
+  const { allCommunitiesSourceData } = formContext;
+
+  const allGeographicNameOptions = useMemo(
+    () =>
+      allCommunitiesSourceData.map((source) => ({
+        ...source,
+        label: source.bcGeographicName,
+        type: source.geographicType,
+        value: source.geographicNameId,
+      })),
+    [allCommunitiesSourceData]
+  );
 
   const isGeographicNameOptionDisabled = (option) => {
     return selectedGeographicNameIdList.includes(option.value);
@@ -138,11 +150,17 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
 
   const getGeographicNameOptions = (selectedRegDis, selEcoReg) => {
     if (!selectedRegDis && !selEcoReg) {
-      return [];
+      return allGeographicNameOptions;
     }
 
-    if (!selectedRegDis && geographicNameOptions[selEcoReg]['null']) {
-      return [...geographicNameOptions[selEcoReg]['null']];
+    if (!selectedRegDis && geographicNameOptions[selEcoReg]) {
+      return Object.entries(geographicNameOptions[selEcoReg]).flatMap(
+        ([key, options]: [string, Set<any>]) =>
+          [...options].map((option) => ({
+            ...option,
+            key,
+          }))
+      );
     }
 
     if (geographicNameOptions[selEcoReg][selectedRegDis]) {
@@ -207,6 +225,7 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
               setSelectedGeographicName({ value: null, label: '', type: '' });
             }
             if (e) {
+              setSelectedGeographicName({ value: null, label: '', type: '' });
               setSelectedRegionalDistrict(val);
             }
           }}
@@ -282,12 +301,17 @@ const CommunitySourceWidget: React.FC<CommunitySourceWidgetProps> = (props) => {
             }
             if (e) {
               setSelectedGeographicName(val);
+              if (!selectedEconomicRegion)
+                setSelectedEconomicRegion(val.economicRegion);
+              if (!selectedRegionalDistrict)
+                setSelectedRegionalDistrict(val.regionalDistrict);
               onChange({
                 bcGeographicName: val.label,
-                economicRegion: selectedEconomicRegion,
-                regionalDistrict: selectedRegionalDistrict,
                 geographicNameId: val.value,
                 geographicType: val.type,
+                economicRegion: selectedEconomicRegion || val.economicRegion,
+                regionalDistrict:
+                  selectedRegionalDistrict || val.regionalDistrict,
               });
             }
           }}

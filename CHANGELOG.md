@@ -1,3 +1,23 @@
+## [1.250.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.250.0...v1.250.1) (2025-04-11)
+
+### Bug Fixes
+
+- status types list for UBF-CORE ([aab0377](https://github.com/bcgov/CONN-CCBC-portal/commit/aab03777049a637bc928e5d7ec6cde7a59977bde))
+
+# [1.250.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.6...v1.250.0) (2025-04-09)
+
+### Features
+
+- create cbc project from dashboard ([6ae6c80](https://github.com/bcgov/CONN-CCBC-portal/commit/6ae6c8069796d6349a3944be78a8132425ad09ec))
+
+## [1.249.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.5...v1.249.6) (2025-04-09)
+
+## [1.249.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.4...v1.249.5) (2025-04-07)
+
+### Bug Fixes
+
+- status from approved to Agreement Signed in GCPE ([c7ffbd9](https://github.com/bcgov/CONN-CCBC-portal/commit/c7ffbd997676f4d3d77d108a35f87a12ca425a00))
+
 ## [1.249.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.249.3...v1.249.4) (2025-04-04)
 
 ### Bug Fixes
