@@ -165,7 +165,7 @@ const FileWidget: React.FC<FileWidgetProps> = ({
   // 104857600 bytes = 100mb
   const maxFileSizeInBytes = 104857600;
   const fileId = isFiles && value[0].id;
-  const { setTemplateData, rfiNumber } = formContext;
+  const { setTemplateData, clearTemplateUpload, rfiNumber } = formContext;
   const { showToast, hideToast } = useToast();
 
   const isApplicantPage = router.pathname.includes('applicant');
@@ -331,7 +331,13 @@ const FileWidget: React.FC<FileWidgetProps> = ({
       errors={errors}
       buttonVariant={buttonVariant}
       handleDelete={(f) =>
-        handleDelete(f, deleteAttachment, setErrors, value, onChange)
+        handleDelete(f, deleteAttachment, setErrors, value, (e) => {
+          onChange(e);
+          // handle template delete
+          if (templateNumber && clearTemplateUpload) {
+            clearTemplateUpload(templateNumber);
+          }
+        })
       }
       handleDownload={handleDownload}
       onChange={handleChange}
