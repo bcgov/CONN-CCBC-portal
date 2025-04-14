@@ -1,4 +1,5 @@
 # Local Environment Setup
+This section describes the steps to set up a local development environment for the CCBC portal.
 
 # Table of Contents
 - [Should I use Docker?](#should-i-use-docker)
@@ -15,7 +16,7 @@
   - [Authentication in the app](#authentication-in-the-app)
   - [Relay information](#relay-information)
   - [Running tests](#running-tests)
-    - [Using Docker]()
+    - Using Docker
       - [Running unit tests](unit_tests/README.md)
       - [Running end-to-end tests](e2e/README.md)
     - [Without Docker](#without-docker)
@@ -24,6 +25,8 @@
       - [Running Jest tests](#running-jest-tests)
       - [End-to-end tests](#end-to-end-tests)
       - [Happo screenshot testing](#happo-screenshot-testing)
+  - [Using object storage](#using-object-storage)
+  - [Pre-Commit Hooks](#pre-commit-hooks)
 
 # Should I use Docker?
 
@@ -120,7 +123,7 @@ Please refer to [Authentication in Sqitch](https://sqitch.org/docs/manual/sqitch
 
 # Set up the Application
 
-## Prerequisite
+## Prerequisites
 - [Node.js 20.16.0](https://nodejs.org/en/download/)
 - [yarn classic](https://classic.yarnpkg.com/lang/en/docs/install)
 
@@ -222,3 +225,37 @@ If you require admin access needed to modify the project or testing thresholds â
 from this project or the [CAS](https://github.com/bcgov/cas-cif) team for access.
 
 
+## Using object storage
+The `resolveFileUpload` middleware is set up to use AWS S3 storage. 
+If no namespace is set and any AWS environment variables are missing the uploads 
+will save to the local system in the `/app/uploads` folder.
+
+### Required environment variables to enable AWS S3 uploads
+These environment variables are required for enabling AWS S3 uploads:
+  - OPENSHIFT_APP_NAMESPACE 
+  - AWS_S3_BUCKET 
+  - AWS_S3_REGION 
+  - AWS_S3_KEY 
+  - AWS_S3_SECRET_KEY 
+  - AWS_ROLE_ARN
+
+To enable logging in the development console:
+```shell
+ENABLE_AWS_LOGS=true
+```
+
+## Pre-Commit Hooks
+
+Required dependencies:
+
+- [Cargo (Rust package manager)](https://www.rust-lang.org/tools/install)
+- [pre-commit](https://pre-commit.com/)
+
+_The following is to be done in the root directory_
+
+Hooks are installed with when running `make install_git_hooks`, installing both the python pre-commit hooks 
+and a commit-msg hook by cocogitto.
+
+Pre-commit hooks will currently catch changes to some files in the helm and .github folder as erroneous, 
+to bypass this commit with no verify, nevertheless it is recommended to commit any files that were modified 
+by the pre-commit hook before committing with no verify.
