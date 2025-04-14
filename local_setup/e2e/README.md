@@ -1,13 +1,33 @@
-# How to use?
+# End-To-End Tests
 
-The script included provides two ways to run it, against a local development environment running using `yarn dev` or against a built image.
+The script included provides two ways to run it, 
+against a local development environment running 
+using `yarn dev` or against a built image.
 
-To use against a local development environment set the variable `USE_LOCAL` to `Y`, otherwise set the variable `SHA` to the SHA of the image you want use from the GitHub repo registry.
+## Prerequisites
 
-Then run:
+If running in a local development environment, it is assumed 
+node and the repository dependencies have been installed. 
+A temporary db used for e2e will be deployed and then destroyed, 
+please stop your development DB before running the script.
 
-`./run_e2e_tests.sh`
+## Running the tests
 
-# Prerequisites
+### 1. Setup Environment variables
+#### 1.1. For local environment
 
-If running in a local development environment, it is assumed node and the repository dependencies have been installed. A temporary db used for e2e will be deployed and then destroyed, please stop your development DB before running the script.
+```shell
+export USE_LOCAL=Y
+```
+
+#### 1.2. For all other environments
+```shell
+# SHA of the image you want use from the GitHub repo registry
+export SHA=<sha>
+```
+
+### 2. Run the tests
+
+```shell
+./run_e2e_tests.sh
+```

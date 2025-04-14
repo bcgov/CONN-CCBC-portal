@@ -131,45 +131,75 @@ To do so, simply stop your current development server and run `yarn build:relay 
 
 ## Running tests
 
-### 1. Setup Environment variables
-To simplify further steps, set an environment variable for the database name:
+### Using Docker
 
+#### Running unit tests
+Please refer to [this document](unit_tests/README.md).
+
+#### Running end-to-end tests
+Please refer to [this document](e2e/README.md).
+
+### Without Docker
+
+#### Installing pgTAP
 ```shell
-export DB_TEST_NAME=ccbc_test
-export DB_USER=postgres
-```
-
-### 2. Configure pgTap
-
-**NOTE**: Run it on the machine you have PostgreSQL installed on.
-
-```shell
+# pg_prove
 sudo cpan TAP::Parser::SourceHandler::pgTAP
 
+# pgTAP
 git clone https://github.com/theory/pgtap.git &&\
    cd pgtap &&\
    git checkout v1.2.0 &&\
    git branch
 
-make && make install
+make
+make install
+
+psql -U postgres -c 'CREATE EXTENSION pgtap;'
 ```
 
-### 3. Configure test database
-#### 3.1. Create database and extension
-```shell
-psql -U $DB_USER -c "CREATE DATABASE \"$DB_TEST_NAME\";"
-psql -U $DB_USER -c 'CREATE EXTENSION pgtap;'
-```
-
-#### 3.2. Run migrations
-##### 3.2.1 Using Docker
-```shell
-PGDATABASE=$DB_TEST_NAME ./sqitch deploy -u postgres --chdir db
-```
-
-### 4. Run unit tests
-**NOTE**: Run it inside the folder of your project.
+#### Running db tests:
+To run the database tests run this command in the project root:
 
 ```shell
-pg_prove -h localhost -U ${DB_USER} --failures -d ${DB_TEST_NAME} db/test/unit/**/*_test.sql
+make db_unit_tests
 ```
+
+Alternatively you can run single tests with `pg_prove`. 
+A test database is required to run which is installed with `make db_unit_tests` or by running `make create_test_db`.
+
+Once the test database is created you can test a single file by running:
+
+```shell
+pg_prove -d ccbc_test <path to file>
+```
+
+#### Running Jest tests
+
+In `/app` directory run `yarn test`
+
+#### End-to-end tests:
+
+Cypress and Happo is used for end-to-end testing. 
+A Happo account and API secret + key is required for Happo testing though it is 
+automatically disabled if no keys exist. Happo is free for open source projects.
+
+To run the end-to-end tests we need to run our development server in one terminal with the command:
+
+```shell
+yarn dev
+```
+
+Once that is running in a second terminal run:
+
+```shell
+yarn test:e2e
+```
+
+#### Happo screenshot testing
+This project uses [Happo](https://happo.io/) for screenshot testing. 
+Everyone who has contributor access to this repository has access to the Happo tests. 
+If you require admin access needed to modify the project or testing thresholds – contact a developer 
+from this project or the [CAS](https://github.com/bcgov/cas-cif) team for access.
+
+
