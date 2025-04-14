@@ -128,7 +128,6 @@ const RenderMarkers = ({ markers, name, expanded }) => (
 const SummaryMap = ({ initialData, height, width, expanded = true }) => {
   const data = initialData;
   const tooltipClass = styles['tooltip-map'];
-  const tooltipTextClass = styles['tooltip-text-map'];
   const mapRef = useRef(null);
   const [mapReady, setMapReady] = useState(false);
   const pathOptions = {
@@ -173,7 +172,7 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
               <LayersControl.Overlay
                 checked
                 // Name does not accept anything but string, but it will render basic HTML
-                name={`<span class='${tooltipClass}'>Geographic Coverage (${geoData?.source})<span class='${tooltipTextClass}'>${geoData?.fileName}</span></span>`}
+                name={`<span class='${tooltipClass}'>Geographic Coverage (${geoData?.source})</span>`}
                 key={`geo-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
@@ -206,7 +205,7 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
             {data?.currentNetworkInfrastructure?.map((geoData) => (
               <LayersControl.Overlay
                 checked={false}
-                name={`<span class='${tooltipClass}'>Current Network Infrastructure (${geoData?.source})<span class='${tooltipTextClass}'>${geoData?.fileName}</span></span>`}
+                name={`<span class='${tooltipClass}'>Current Network Infrastructure (${geoData?.source})</span>`}
                 key={`current-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
@@ -237,7 +236,7 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
             {data?.upgradedNetworkInfrastructure?.map((geoData) => (
               <LayersControl.Overlay
                 checked={false}
-                name={`<span class='${tooltipClass}'>Upgraded Network Infrastructure (${geoData?.source})<span class='${tooltipTextClass}'>${geoData?.fileName}</span></span>`}
+                name={`<span class='${tooltipClass}'>Upgraded Network Infrastructure (${geoData?.source})</span>`}
                 key={`upgraded-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
@@ -268,7 +267,7 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
             {data?.finalizedMapUpload?.map((geoData) => (
               <LayersControl.Overlay
                 checked
-                name={`<span class='${tooltipClass}'>Finalized Map Upload (${geoData?.source})<span class='${tooltipTextClass}'>${geoData?.fileName}</span></span>`}
+                name={`<span class='${tooltipClass}'>Finalized Map Upload (${geoData?.source})</span>`}
                 key={`finalized-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
