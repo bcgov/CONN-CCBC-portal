@@ -3,40 +3,35 @@
 # CONN-CCBC-portal
 
 ## Table of contents
+### General
 
 - [Contributing](docs/CONTRIBUTING.md)
 - [Authentication and authorization](docs/auth.md)
 - [Release process](#release-process)
 - [AWS Infrastructure](docs/AWS_Infrastructure.md)
 - [Database Development](docs/Database_Development.md)
-- [CI/CD Pipeline](docs/CI_CD/.md)
+- [CI/CD Pipeline](docs/CI_CD.md)
 - [SchemaSpy Database documentation](https://bcgov.github.io/CONN-CCBC-portal/schemaspy/)
 - [Growthbook](#growthbook)
 - [Metabase](#metabase)
 - [Intake Updates Guide](docs/Necessary_changes_For_Intake_Update.md)
 
-#### Local development
-
-- [Setting up a local development environment](#setting-up-a-local-development-environment)
+### Local development
+- [Setting up a local development environment](local_setup/README.md)
 - [Setting up a local development environment in wsl](docs/Getting_started_wsl.md)
-- [Running PGTap database tests locally](#running-pgtap-database-tests-locally)
-- [Running Jest and end to end tests locally](#running-jest-and-end-to-end-tests-locally)
 - [Pre-commit hooks](#pre-commit-hooks)
 
-##### Database best practices and disaster recovery
-
+### Database best practices and disaster recovery
 - [Modifying the database](db/README.md)
 - [Database style rules](db/test/style/README.md)
 - [Process to manipulate data in production](docs/process_to_manipulate_data.md)
 - [Database backup with pg_dump](docs/Data_Dump_With_Pg_Dump)
 
-##### Infrastructure
-
+### Infrastructure
 - [Object storage](#object-storage)
 - [CCBC AWS Infrustructure automated setup](Infrastructure/README.md)
 
-##### OpenShift information
-
+### OpenShift information
 - [General Information](#general-information)
 - [Deploying the project](#deploying-the-project)
 - [Disaster recovery information](#disaster-recovery-documentation)
@@ -44,11 +39,6 @@
 - [Certificates](#certificates)
 
 ## Setting up a local development environment
-
-#### Database setup
-#### Environment variables
-#### Running the application
-#### Running tests
 Please refer to [this document](local_setup/README.md).
 
 ### Object storage:
@@ -87,19 +77,19 @@ The process above has been automated and is automatically performed by the ccbc-
 To start a release using the process:
 
 1. Find the PR named "chore:release" created by the ccbc-service-account
-1. Approve the PR and merge it
-1. Monitor the Action run, it will automatically deploy to dev, followed by test.
-1. If a prod deployment is needed, approve the release once required.
+2. Approve the PR and merge it
+3. Monitor the Action run, it will automatically deploy to dev, followed by test.
+4. If a prod deployment is needed, approve the release once required.
 
 #### Manual process
 
 If a manual release is needed, perform the following steps:
 
 1. create a `chore/release` branch
-1. set the upstream with `git push -u origin chore/release`
-1. run `make release` and follow the prompts
-1. create a pull request
-1. once the pull request is approved, merge using merge button on GitHub UI. Only commits that are tagged can be deployed to test and prod.
+2. set the upstream with `git push -u origin chore/release`
+3. run `make release` and follow the prompts
+4. create a pull request
+5. once the pull request is approved, merge using merge button on GitHub UI. Only commits that are tagged can be deployed to test and prod.
 
 If you want to override the version number, which is automatically determined based on the conventional commit messages being relased, you can do so by passing a parameter to the `release-it` command, e.g.
 
@@ -110,7 +100,7 @@ yarn release-it 1.0.0-rc.1
 #### Sqitch migrations guardrails
 
 As mentioned above, the critical part of the release process is to tag the sqitch plan. While tagging the sqitch plan 
-in itself doesn't change the behaviour of our migrations scripts, it is allows us to know which changes are 
+in itself doesn't change the behaviour of our migrations scripts, it allows us to know which changes are 
 deployed to prod (or about to be deployed), and therefore should be considered immutable.
 
 We developed some guardrails (i.e. GitHub actions) to:
@@ -129,7 +119,7 @@ Required dependencies:
 _The following is to be done in the root directory_
 
 Hooks are installed with when running `make install_git_hooks`, installing both the python pre-commit hooks 
-and a commit-msg hook by cocogitto
+and a commit-msg hook by cocogitto.
 
 ## OpenShift information
 
@@ -142,7 +132,9 @@ and a commit-msg hook by cocogitto
 #### Prerequisite
 
 Before you can automate the deployment you will to manually deploy using helm so that the deployer account gets created, 
-refer to the [deployment script](https://github.com/bcgov/CONN-CCBC-portal/blob/main/lib/app_deploy.sh) for the command and to the [app actions](https://github.com/bcgov/CONN-CCBC-portal/blob/main/.github/actions/app/action.yaml) for the environment overrides
+refer to the [deployment script](https://github.com/bcgov/CONN-CCBC-portal/blob/main/lib/app_deploy.sh) 
+for the command and 
+to the [app actions](https://github.com/bcgov/CONN-CCBC-portal/blob/main/.github/actions/app/action.yaml) for the environment overrides.
 
 #### Deploying
 
@@ -229,13 +221,14 @@ and rerun the command from step 2, or use a different name.
 
 Certificates are generated using the standard BC Government process:
 
-Certificates are generated using the standard BC Government process:
-
 1. Create a submission for certificates through MySC.
 2. Generate a CSR or use one already generated and provide it when requested. 
    If a new one is needed, you can use the following command:
-   `openssl req -new -newkey rsa:2048 -nodes -out domain.ca.csr -keyout domain.ca.key -subj "/C=CA/ST=British Columbia/L=Victoria/O=Government of the Province of British Columbia/OU=NetworkBC/CN=domain.ca"` replace `domain.ca` with the domain you are generating a certificate for.
-
+   ```shell
+   # replace `domain.ca` with the domain you are generating a certificate for.
+   openssl req -new -newkey rsa:2048 -nodes -out domain.ca.csr -keyout domain.ca.key \
+       -subj "/C=CA/ST=British Columbia/L=Victoria/O=Government of the Province of British Columbia/OU=NetworkBC/CN=domain.ca"
+   ```
 3. The step above will give you two files, `domain.ca.csr` and `domain.ca.key`. 
    You will _only_ need to share the CSR; the key will be saved in a secret as listed above during deployment.
 4. Once complete, you will receive a certificate and a chain. Use them in the `CERT` and `CERT_CA` fields, respectively. 
@@ -245,7 +238,8 @@ Certificates are generated using the standard BC Government process:
 
 ## Growthbook
 
-GrowthBook is an open-source platform for feature flagging and A/B testing. In the context of our application, we use it as follows:
+GrowthBook is an open-source platform for feature flagging and A/B testing. 
+In the context of our application, we use it as follows:
 
 - **Feature Flagging:** Enables or disables functionality per environment (dev, test, and prod).
 - **Banners:** GrowthBook allows setting values on features to be outside of true and false. 
@@ -271,7 +265,6 @@ Our Metabase is deployed using Helm, it consists of a Docker image as well as a 
 The Metabase repo can be found [here.](https://github.com/bcgov/conn-metabase)
 
 ### More information
-
 For more information on Metabase, [visit the official docs.](https://www.metabase.com/docs/latest/)
 
 For information on queries/questions, [refer to this documentation.](https://www.metabase.com/learn/questions/searching-tables)

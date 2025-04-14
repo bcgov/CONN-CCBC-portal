@@ -1,7 +1,29 @@
 # Local Environment Setup
 
-This folder contains two folders to run e2e and db unit_tests, please refer to the instructions 
-provided inside each folder on how to use.
+# Table of Contents
+- [Should I use Docker?](#should-i-use-docker)
+- [Prerequisite](#prerequisite)
+  - [For all platforms](#for-all-platforms)
+  - [For Windows](#for-windows)
+  - [When using Docker](#when-using-docker)
+  - [When not using Docker](#when-not-using-docker)
+- [Set up a local database](#set-up-a-local-database)
+- [Set up the Application](#set-up-the-application)
+  - [Prerequisites](#prerequisites)
+  - [Environment variables](#environment-variables)
+  - [Running the application](#running-the-application)
+  - [Authentication in the app](#authentication-in-the-app)
+  - [Relay information](#relay-information)
+  - [Running tests](#running-tests)
+    - [Using Docker]()
+      - [Running unit tests](unit_tests/README.md)
+      - [Running end-to-end tests](e2e/README.md)
+    - [Without Docker](#without-docker)
+      - [Installing pgTAP](#installing-pgtap)
+      - [Running db tests](#running-db-tests)
+      - [Running Jest tests](#running-jest-tests)
+      - [End-to-end tests](#end-to-end-tests)
+      - [Happo screenshot testing](#happo-screenshot-testing)
 
 # Should I use Docker?
 
@@ -13,11 +35,12 @@ to your DBs and then run and stop them accordingly.
 In simple words, **Docker is recommended**.
 
 # Prerequisite
-### For all platforms
+## For all platforms
 - `make` installed on your local computer.
-- `node 20` and `yarn` be installed on your computer and perform `yarn` (install dependencies) on the `app` folder.
+- `node 20` and `yarn` be installed on your computer
+- perform `yarn` within the `app` folder to install dependencies.
 
-### For Windows
+## For Windows
 - WSL and a distro (e.g. Ubuntu) of choice.
 
 ## When using Docker
@@ -30,7 +53,7 @@ As of April 10, 2024, the following options are recommended:
 - [Colima](https://github.com/abiosoft/colima)
 
 ## When not using Docker
-- [Postgresql 14](https://www.postgresql.org/download/)
+- [Postgresql 15](https://www.postgresql.org/download/)
 - [Sqitch](https://sqitch.org/download/)
 
 # Set up a local database
@@ -50,11 +73,13 @@ export DB_NAME=ccbc
 ```shell
 export DB_CONTAINER_NAME=$DB_NAME-db
 
-docker run -p 5432:5432 --name $DB_CONTAINER_NAME \
-            -e POSTGRES_PASSWORD=mysecretpassword \
-            -v .:/workspace \
-            -v db-data:/var/lib/postgresql/data \
-            -d postgres:14
+docker run \
+  --platform linux/amd64 \
+  -p 5432:5432 --name $DB_CONTAINER_NAME \
+  -e POSTGRES_PASSWORD=mysecretpassword \
+  -v .:/workspace \
+  -v db-data:/var/lib/postgresql/data \
+  -d postgis/postgis:15-3.5
             
 docker exec -i $DB_CONTAINER_NAME psql -U postgres -c "CREATE DATABASE \"$DB_NAME\";"
 ```
@@ -95,7 +120,7 @@ Please refer to [Authentication in Sqitch](https://sqitch.org/docs/manual/sqitch
 
 # Set up the Application
 
-## Prerequisites
+## Prerequisite
 - [Node.js 20.16.0](https://nodejs.org/en/download/)
 - [yarn classic](https://classic.yarnpkg.com/lang/en/docs/install)
 
@@ -117,6 +142,13 @@ $ yarn build:relay
 $ yarn dev
 ```
 
+### Authentication in the app
+#### As an Applicant
+You need to create an account:
+1. Go to the [this page](https://www.development.bceid.ca).
+2. Click on the "Register for a **Basic** BCeID" link in the "**Register for a BCeID**" section.
+3. On the next page, enter your information and complete the registration.
+
 ### Relay information
 
 This project uses react-relay and relay-nextjs.
@@ -130,17 +162,7 @@ otherwise you might notice that query results are not being updated.
 To do so, simply stop your current development server and run `yarn build:relay && yarn dev`.
 
 ## Running tests
-
-### Using Docker
-
-#### Running unit tests
-Please refer to [this document](unit_tests/README.md).
-
-#### Running end-to-end tests
-Please refer to [this document](e2e/README.md).
-
 ### Without Docker
-
 #### Installing pgTAP
 ```shell
 # pg_prove
@@ -158,7 +180,7 @@ make install
 psql -U postgres -c 'CREATE EXTENSION pgtap;'
 ```
 
-#### Running db tests:
+#### Running db tests
 To run the database tests run this command in the project root:
 
 ```shell
@@ -169,17 +191,14 @@ Alternatively you can run single tests with `pg_prove`.
 A test database is required to run which is installed with `make db_unit_tests` or by running `make create_test_db`.
 
 Once the test database is created you can test a single file by running:
-
 ```shell
 pg_prove -d ccbc_test <path to file>
 ```
 
 #### Running Jest tests
-
 In `/app` directory run `yarn test`
 
-#### End-to-end tests:
-
+#### End-to-end tests
 Cypress and Happo is used for end-to-end testing. 
 A Happo account and API secret + key is required for Happo testing though it is 
 automatically disabled if no keys exist. Happo is free for open source projects.
