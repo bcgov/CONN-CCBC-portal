@@ -10,7 +10,8 @@ import { verifyGitHubWebhook } from '$lib/server/verifyGithub';
 const GITHUB_WEBHOOK_SECRET = process.env.GITHUB_WEBHOOK_SECRET || '';
 
 export async function POST({ request }) {
-	const { ref }: { ref: string } = await request.json();
+	const rawBody = await request.text();
+	const { ref }: { ref: string } = JSON.parse(rawBody);
 
 	console.log('Webhook received - ref:', ref);
 
@@ -29,8 +30,6 @@ export async function POST({ request }) {
 	console.log('taskStatus:', taskStatus);
 
 	try {
-		const rawBody = await request.text();
-
 		// Get the signature header
 		const signature = request.headers.get('x-hub-signature-256');
 		if (!signature) {
