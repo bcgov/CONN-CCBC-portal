@@ -99,7 +99,7 @@ const getApplicationDataQuery = `
       status
       intakeNumber
       ccbcNumber
-      zone
+      zones
       projectName
       program
       package
@@ -286,7 +286,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       // phase
       { value: null },
       // zone
-      { value: data?.applicationByRowId?.zone },
+      { value: data?.applicationByRowId?.zones },
       // intake number
       {
         value: getCCBCIntakeNumber(data?.applicationByRowId),
