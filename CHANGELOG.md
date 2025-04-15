@@ -1,3 +1,9 @@
+## [1.250.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.250.2...v1.250.3) (2025-04-15)
+
+### Bug Fixes
+
+- azure logout ([9ca6755](https://github.com/bcgov/CONN-CCBC-portal/commit/9ca675592c5aabfc2f2c4f51859f34cc1bc53f5b))
+
 ## [1.250.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.250.1...v1.250.2) (2025-04-15)
 
 ## [1.250.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.250.0...v1.250.1) (2025-04-11)
