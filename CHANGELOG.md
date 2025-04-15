@@ -1,3 +1,9 @@
+## [1.250.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.250.3...v1.250.4) (2025-04-15)
+
+### Bug Fixes
+
+- zones in excel download for CCBC ([32b2bbb](https://github.com/bcgov/CONN-CCBC-portal/commit/32b2bbbcf8c588ac9bd4496370c4807a01c18645))
+
 ## [1.250.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.250.2...v1.250.3) (2025-04-15)
 
 ### Bug Fixes
