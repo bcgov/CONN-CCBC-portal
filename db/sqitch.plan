@@ -824,3 +824,4 @@ computed_columns/application_history [computed_columns/application_history@1.246
 computed_columns/application_history [computed_columns/application_history@1.246.11] 2025-04-01T20:34:19Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add application pending change request history
 mutations/update_announcement [mutations/update_announcement@1.246.0] 2025-03-14T20:49:02Z ,,, <ryohani89@NH504670> # update to patch announcement only when neccessary
 @1.249.3 2025-04-03T17:02:00Z CCBC Service Account <ccbc@button.is> # release v1.249.3
+functions/session [functions/session@1.228.0] 2025-01-29T18:15:42Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # handle azureidir as idir
