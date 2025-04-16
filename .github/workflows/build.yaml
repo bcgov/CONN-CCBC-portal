@@ -47,6 +47,11 @@ jobs:
             dockerfile: local_setup/unit_tests/Dockerfile
             name: db-unit-test
             build_only_on_main: true
+          - image: ghcr.io/bcgov/conn-ccbc-portal/conn-ticket-queue
+            context: .
+            dockerfile: conn-ticket-queue/Dockerfile
+            name: conn-ticket-queue
+            build_only_on_main: false
     permissions:
       contents: read
       packages: write
