@@ -67,7 +67,7 @@ const moduleExports = {
       'www2.gov.bc.ca',
     ],
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
     if (!isServer) {
       config.resolve.fallback = { fs: false };
     }
