@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { Profiler, useEffect } from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { useFeature } from '@growthbook/growthbook-react';
@@ -87,7 +87,16 @@ const AnalystDashboard = ({
       <StyledDashboardContainer>
         <DashboardTabs session={session} />
         {showTableTabs && <TableTabs />}
-        <AllDashboardTable query={query} />
+        <Profiler
+          id="AnalystDashboard"
+          onRender={(id, phase, actualDuration) => {
+            if (phase === 'update') {
+              console.log(`AnalystDashboard render time: ${actualDuration}ms`);
+            }
+          }}
+        >
+          <AllDashboardTable query={query} />
+        </Profiler>
       </StyledDashboardContainer>
     </Layout>
   );
