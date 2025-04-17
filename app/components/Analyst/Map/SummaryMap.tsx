@@ -172,7 +172,7 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
               <LayersControl.Overlay
                 checked
                 // Name does not accept anything but string, but it will render basic HTML
-                name={`<span class='${tooltipClass}'>Geographic Coverage (${geoData?.source})</span>`}
+                name={`<span class='${tooltipClass}'>Project Coverage (${geoData?.source})</span>`}
                 key={`geo-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
@@ -267,7 +267,7 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
             {data?.finalizedMapUpload?.map((geoData) => (
               <LayersControl.Overlay
                 checked
-                name={`<span class='${tooltipClass}'>Finalized Map Upload (${geoData?.source})</span>`}
+                name={`<span class='${tooltipClass}'>Project Coverage (${geoData?.source})</span>`}
                 key={`finalized-overlay-${generateUniqueKey()}`}
               >
                 <LayerGroup>
