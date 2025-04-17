@@ -835,7 +835,9 @@ const generateFormData = (
   } else if (
     applicationData.status === 'conditionally_approved' ||
     applicationData.status === 'applicant_conditionally_approved' ||
-    applicationData.status === 'closed'
+    applicationData.status === 'closed' ||
+    applicationData.status === 'applicant_on_hold' ||
+    applicationData.status === 'on_hold'
   ) {
     const applicationFormData = getFormDataFromApplication(
       applicationData,
