@@ -1,6 +1,12 @@
+# An executable file used during setup
+.pgpass
+
 node_modules
 .env
 .vscode
+.idea
+sqitch
+app/sqitch
 Infrastructure/.terraform/
 
 app/__generated__/

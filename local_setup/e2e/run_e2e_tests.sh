@@ -1,6 +1,6 @@
 #!/bin/bash
 PGPASSWORD=mysecretpassword
-SHA=cd639ad899a48cbdc049382b0ed8558cb778f4e5
+SHA="${SHA:-cd639ad899a48cbdc049382b0ed8558cb778f4e5}"
 docker run --rm --name ccbc-e2e -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres:14
 docker pull sqitch/sqitch:latest
 curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch

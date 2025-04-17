@@ -55,7 +55,8 @@ As a part of release process, we add a tag to the sqitch plan, to identify which
 
 ## Building GraphQL schema
 
-After all changes to the database are implemented, GrapghQL schema need to be re-generated. To be able to use Relay. the GraphQL schema need to be Relay-compliant. 
+After all changes to the database are implemented, GrapghQL schema need to be re-generated. 
+To be able to use Relay. the GraphQL schema need to be Relay-compliant. 
 
 To regenerate schema and Replay files (folder `app\__generated__`), next commands should be executed:
 
