@@ -1,3 +1,12 @@
+# [1.251.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.250.6...v1.251.0) (2025-04-16)
+
+### Features
+
+- ticket queue ([c4eb9aa](https://github.com/bcgov/CONN-CCBC-portal/commit/c4eb9aa10b9fa30cf4ead11b7fb9d2afe1d7c191))
+- ticket queue ([5e2b544](https://github.com/bcgov/CONN-CCBC-portal/commit/5e2b544a1f02c16790e92c6c4c3798aae69485af))
+
+## [1.250.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.250.5...v1.250.6) (2025-04-16)
+
 ## [1.250.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.250.3...v1.250.5) (2025-04-15)
 
 ### Bug Fixes

@@ -67,9 +67,13 @@ const moduleExports = {
       'www2.gov.bc.ca',
     ],
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config, { isServer, dev }) => {
     if (!isServer) {
       config.resolve.fallback = { fs: false };
+    }
+    if (!dev) {
+      config.resolve.alias['react-dom$'] = 'react-dom/profiling';
+      config.resolve.alias['scheduler/tracing'] = 'scheduler/tracing-profiling';
     }
     config.resolve.extensions = ['.ts', '.tsx', '.js', '.json'];
     return config;
