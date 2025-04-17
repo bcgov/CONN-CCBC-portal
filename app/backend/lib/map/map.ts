@@ -157,7 +157,7 @@ const extractAllRfiFiles = (data: RfiData[]): Record<string, RfiFile[]> => {
       const files = additionalFiles?.[key];
       if (files && files.length > 0) {
         result[key] = result[key].concat(
-          files.map((file) => ({ ...file, source: rfiNumber }))
+          files.map((file) => ({ ...file, source: `RFI: ${rfiNumber}` }))
         );
       }
     };
