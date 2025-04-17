@@ -1,36 +1,45 @@
 name: Generate Schemaspy Docs
 on:
   push:
-    branches: [ "main" ]
+    branches: ['main']
+  pull_request:
+    branches: [main]
 
 env:
   NODE_ENV: test
-  PGPASSWORD: postgres
+  PGPASSWORD: mysecretpassword
   PGUSER: postgres
   PGDATABASE: ccbc
 
 jobs:
-  install-test-env:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
-      - run: make install_dev_tools
-      - run: make stop_pg # cleanly stop the database, otherwise it will complain in the subsequent jobs
-      - run: yarn install --frozen-lockfile --check-files
-        working-directory: ./app
-
   generate_schemaspy:
-    needs: [install-test-env]
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-      - name: dev env setup
-        uses: ./.github/actions/dev-env-setup
+        with:
+          fetch-depth: 0
       - name: deploy db migrations
-        run: make start_pg && make drop_db && make deploy_db_migrations
+        run: |
+          docker run --name ccbc-db -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres:15
+          # Wait for PostgreSQL to be ready
+          until docker exec ccbc-db pg_isready -U postgres; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 2
+          done
+          # Additional wait to ensure PostgreSQL is fully ready
+          sleep 5
+          # Check PostgreSQL readiness from the host one more time
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for PostgreSQL to be ready from the host..."
+            sleep 2
+          done
+          make drop_db PSQL="psql -h localhost -U postgres"
+          make create_db PSQL="psql -h localhost -U postgres"
+          # Deploy migrations
+          docker pull sqitch/sqitch
+          curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
+          ./sqitch --chdir db deploy
+          ./sqitch --chdir mocks_schema deploy
       - name: Create Output Folder
         run: |
           mkdir output
