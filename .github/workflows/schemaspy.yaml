@@ -45,7 +45,7 @@ jobs:
           mkdir output
           chmod a+rwx -R output
       - name: Run Schemaspy
-        run: docker run --network host -v "$PWD/output:/output" schemaspy/schemaspy:latest -t pgsql -db ccbc -host 127.0.0.1 -port 5432 -u postgres -p postgres -schemas ccbc_public
+        run: docker run --network host -v "$PWD/output:/output" schemaspy/schemaspy:latest -t pgsql -db ccbc -host 127.0.0.1 -port 5432 -u postgres -p mysecretpassword -schemas ccbc_public
       - name: Deploy to Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
