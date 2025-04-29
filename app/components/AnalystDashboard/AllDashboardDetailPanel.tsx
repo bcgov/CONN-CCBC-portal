@@ -74,7 +74,7 @@ const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
         <StyledSpan>N/A</StyledSpan>
       )}
       <StyledSpan>Original Project Number</StyledSpan>
-      <StyledSpan>{row.original.projectNumber || "N/A"}</StyledSpan>
+      <StyledSpan>{row.original.projectNumber ?? "N/A"}</StyledSpan>
     </>
   );
 };
