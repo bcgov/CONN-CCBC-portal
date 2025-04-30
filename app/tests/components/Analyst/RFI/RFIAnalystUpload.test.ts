@@ -753,4 +753,376 @@ describe('The RFIAnalystUpload component', () => {
 
     expect(screen.getByText(/Template 9 validation failed/)).toBeVisible();
   });
+
+  it('should revert formData for Template 1 when deleted', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const dateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dateInput, {
+        target: {
+          value: '2025-07-01',
+        },
+      });
+    });
+
+    const file = new File([new ArrayBuffer(1)], 'template_one.xlsx', {
+      type: 'application/excel',
+    });
+
+    const inputFile = screen.getAllByTestId('file-test')[0];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAttachmentMutation',
+      {
+        input: {
+          attachment: {
+            file: expect.anything(),
+            fileName: 'template_one.xlsx',
+            fileSize: '1 Bytes',
+            fileType: 'application/excel',
+            applicationId: expect.anything(),
+          },
+        },
+      }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.getByText('template_one.xlsx')).toBeInTheDocument();
+
+    // Click delete icon
+    const deleteButton = screen.getAllByTestId('file-delete-btn')[0]; // assume each file has a delete button with testId
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'deleteAttachmentMutation',
+      {
+        input: {
+          attachmentPatch: {
+            archivedAt: expect.anything(),
+          },
+          rowId: 1,
+        },
+      }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          updateAttachmentByRowId: {
+            attachment: {
+              id: 1,
+              rowId: 1,
+            },
+          },
+        },
+      });
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateWithTrackingRfiMutation',
+      {
+        input: {
+          jsonData: {
+            rfiType: [],
+            rfiAdditionalFiles: {
+              detailedBudgetRfi: true,
+              eligibilityAndImpactsCalculatorRfi: true,
+              eligibilityAndImpactsCalculator: expect.anything(),
+              geographicCoverageMapRfi: true,
+              geographicNamesRfi: true,
+              geographicCoverageMap: expect.anything(),
+            },
+          },
+          rfiRowId: 1,
+        },
+      }
+    );
+  });
+
+  it('should revert formData for Template 2 when deleted', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const dateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dateInput, {
+        target: {
+          value: '2025-07-01',
+        },
+      });
+    });
+
+    const file = new File(
+      [new ArrayBuffer(1)],
+      'template_two_to_be_deleted.xlsx',
+      {
+        type: 'application/excel',
+      }
+    );
+
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAttachmentMutation',
+      {
+        input: {
+          attachment: {
+            file: expect.anything(),
+            fileName: 'template_two_to_be_deleted.xlsx',
+            fileSize: '1 Bytes',
+            fileType: 'application/excel',
+            applicationId: expect.anything(),
+          },
+        },
+      }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              id: '1',
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(
+      screen.getByText('template_two_to_be_deleted.xlsx')
+    ).toBeInTheDocument();
+
+    // Click delete icon
+    const deleteButton = screen.getAllByTestId('file-delete-btn')[0]; // assume each file has a delete button with testId
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'deleteAttachmentMutation',
+      {
+        input: {
+          attachmentPatch: {
+            archivedAt: expect.anything(),
+          },
+          rowId: 1,
+        },
+      }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          updateAttachmentByRowId: {
+            attachment: {
+              id: '1',
+              rowId: 1,
+            },
+          },
+        },
+      });
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateWithTrackingRfiMutation',
+      {
+        input: {
+          jsonData: {
+            rfiType: [],
+            rfiAdditionalFiles: {
+              detailedBudgetRfi: true,
+              eligibilityAndImpactsCalculatorRfi: true,
+              geographicCoverageMapRfi: true,
+              geographicNamesRfi: true,
+              geographicCoverageMap: expect.anything(),
+              detailedBudget: null,
+            },
+          },
+          rfiRowId: 1,
+        },
+      }
+    );
+  });
+
+  it('should revert formData for Template 9 when deleted', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const dateInput = screen.getAllByPlaceholderText('YYYY-MM-DD')[0];
+
+    await act(async () => {
+      fireEvent.change(dateInput, {
+        target: {
+          value: '2025-07-01',
+        },
+      });
+    });
+
+    const file = new File(
+      [new ArrayBuffer(1)],
+      'template_nine_to_be_deleted.xlsx',
+      {
+        type: 'application/excel',
+      }
+    );
+
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAttachmentMutation',
+      {
+        input: {
+          attachment: {
+            file: expect.anything(),
+            fileName: 'template_nine_to_be_deleted.xlsx',
+            fileSize: '1 Bytes',
+            fileType: 'application/excel',
+            applicationId: expect.anything(),
+          },
+        },
+      }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              id: '1',
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
+    expect(
+      screen.getByText('template_nine_to_be_deleted.xlsx')
+    ).toBeInTheDocument();
+
+    // Click delete icon
+    const deleteButton = screen.getAllByTestId('file-delete-btn')[0]; // assume each file has a delete button with testId
+    await act(async () => {
+      fireEvent.click(deleteButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'deleteAttachmentMutation',
+      {
+        input: {
+          attachmentPatch: {
+            archivedAt: expect.anything(),
+          },
+          rowId: 1,
+        },
+      }
+    );
+
+    await act(async () => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          updateAttachmentByRowId: {
+            attachment: {
+              id: '1',
+              rowId: 1,
+            },
+          },
+        },
+      });
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateWithTrackingRfiMutation',
+      {
+        input: {
+          jsonData: {
+            rfiType: [],
+            rfiAdditionalFiles: {
+              detailedBudgetRfi: true,
+              eligibilityAndImpactsCalculatorRfi: true,
+              geographicCoverageMapRfi: true,
+              geographicNamesRfi: true,
+              // old existing data only
+              geographicCoverageMap: [
+                {
+                  uuid: 1,
+                  name: '1.kmz',
+                  size: 0,
+                  type: '',
+                  uploadedAt: expect.anything(),
+                },
+                {
+                  uuid: 2,
+                  name: '2.kmz',
+                  size: 0,
+                  type: '',
+                  uploadedAt: expect.anything(),
+                },
+              ],
+              detailedBudget: null,
+            },
+          },
+          rfiRowId: 1,
+        },
+      }
+    );
+  });
 });

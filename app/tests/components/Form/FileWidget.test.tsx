@@ -180,32 +180,32 @@ describe('The FileWidget', () => {
 
     deleteButton.click();
 
-    // componentTestingHelper.expectMutationToBeCalled(
-    //   'deleteAttachmentMutation',
-    //   {
-    //     input: {
-    //       attachmentPatch: {
-    //         archivedAt: expect.any(String),
-    //       },
-    //       rowId: 3,
-    //     },
-    //   }
-    // );
+    componentTestingHelper.expectMutationToBeCalled(
+      'deleteAttachmentMutation',
+      {
+        input: {
+          attachmentPatch: {
+            archivedAt: expect.any(String),
+          },
+          rowId: 3,
+        },
+      }
+    );
 
-    // act(() => {
-    //   componentTestingHelper.environment.mock.resolveMostRecentOperation({
-    //     data: {
-    //       deleteAttachment: {
-    //         attachment: {
-    //           rowId: 3,
-    //         },
-    //       },
-    //     },
-    //   });
-    // });
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          deleteAttachment: {
+            attachment: {
+              rowId: 3,
+            },
+          },
+        },
+      });
+    });
 
-    // expect(screen.queryByText('file-2.kmz')).toBeNull();
-    // expect(screen.queryByText('Replace')).toBeNull();
+    expect(screen.queryByText('file-2.kmz')).toBeNull();
+    expect(screen.queryByText('Replace')).toBeNull();
   });
 
   it('renders multiple files and correct button label', async () => {
@@ -392,15 +392,15 @@ describe('The FileWidget', () => {
 
     deleteButton.click();
 
-    // act(() => {
-    //   componentTestingHelper.environment.mock.rejectMostRecentOperation(
-    //     new Error()
-    //   );
-    // });
+    act(() => {
+      componentTestingHelper.environment.mock.rejectMostRecentOperation(
+        new Error()
+      );
+    });
 
-    // expect(screen.getByText('file-2.kmz')).toBeVisible();
-    // expect(screen.getByText('Replace')).toBeVisible();
-    // expect(screen.getByText(/Delete file failed/)).toBeVisible();
+    expect(screen.getByText('file-2.kmz')).toBeVisible();
+    expect(screen.getByText('Replace')).toBeVisible();
+    expect(screen.getByText(/Delete file failed/)).toBeVisible();
   });
 
   it('File Widget gets application id from url', async () => {
