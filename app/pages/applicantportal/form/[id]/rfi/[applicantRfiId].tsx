@@ -14,12 +14,13 @@ import { IChangeEvent } from '@rjsf/core';
 import { useRouter } from 'next/router';
 import FormDiv from 'components/FormDiv';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useEmailNotification from 'lib/helpers/useEmailNotification';
 import useRfiCoverageMapKmzUploadedEmail from 'lib/helpers/useRfiCoverageMapKmzUploadedEmail';
 import { useUpdateRfiAndCreateTemplateNineDataMutation } from 'schema/mutations/application/updateRfiAndCreateTemplateNineDataMutation';
 import { useUpdateRfiAndFormDataMutation } from 'schema/mutations/application/updateRfiAndFormDataMutation';
 import { useUpdateFormRfiAndCreateTemplateNineDataMutation } from 'schema/mutations/application/updateFormRfiAndCreateTemplateNineDataMutation';
+import useTemplateUpload from 'lib/helpers/useTemplateUpload';
 
 const Flex = styled('header')`
   display: flex;
@@ -86,101 +87,24 @@ const ApplicantRfiPage = ({
   const applicationFormTemplate9DataId =
     applicationByRowId?.applicationFormTemplate9DataByApplicationId?.nodes?.[0]
       ?.rowId;
-  const [newFormData, setNewFormData] = useState(formJsonData);
-  const [hasApplicationFormDataUpdated, setHasApplicationFormDataUpdated] =
-    useState(false);
-  const [templateNineData, setTemplateNineData] = useState(null);
-  const [templateData, setTemplateData] = useState(null);
-  const [templatesUpdated, setTemplatesUpdated] = useState({
-    one: false,
-    two: false,
-    nine: false,
-  });
   const [formData, setFormData] = useState(rfiDataByRowId.jsonData);
   const { notifyHHCountUpdate } = useEmailNotification();
   const { notifyRfiCoverageMapKmzUploaded } =
     useRfiCoverageMapKmzUploadedEmail();
 
-  useEffect(() => {
-    const getFileDetails = (templateNumber) => {
-      if (templateNumber === 1) {
-        return formData?.rfiAdditionalFiles
-          ?.eligibilityAndImpactsCalculator?.[0];
-      }
-      if (templateNumber === 2) {
-        return formData?.rfiAdditionalFiles?.detailedBudget?.[0];
-      }
-      if (templateNumber === 9) {
-        return formData?.rfiAdditionalFiles?.geographicNames?.[0];
-      }
-
-      return null;
-    };
-
-    const fileDetails = getFileDetails(templateData?.templateNumber);
-
-    if (templateData?.templateNumber === 1 && !templateData.error) {
-      const newFormDataWithTemplateOne = {
-        ...newFormData,
-        benefits: {
-          ...newFormData.benefits,
-          householdsImpactedIndigenous:
-            templateData.data.result.totalNumberHouseholdsImpacted,
-          numberOfHouseholds: templateData.data.result.finalEligibleHouseholds,
-        },
-      };
-      setNewFormData(newFormDataWithTemplateOne);
-      setTemplatesUpdated((prevTemplatesUpdated) => {
-        return { ...prevTemplatesUpdated, one: true };
-      });
-      setTemplateData(null);
-      setHasApplicationFormDataUpdated(true);
-    } else if (templateData?.templateNumber === 2 && !templateData.error) {
-      const newFormDataWithTemplateTwo = {
-        ...newFormData,
-        budgetDetails: {
-          ...newFormData.budgetDetails,
-          totalEligibleCosts: templateData.data.result.totalEligibleCosts,
-          totalProjectCost: templateData.data.result.totalProjectCosts,
-        },
-      };
-      setNewFormData(newFormDataWithTemplateTwo);
-      setTemplatesUpdated((prevTemplatesUpdated) => {
-        return { ...prevTemplatesUpdated, two: true };
-      });
-      setHasApplicationFormDataUpdated(true);
-      setTemplateData(null);
-    } else if (templateData?.templateNumber === 9 && !templateData.error) {
-      setTemplatesUpdated((prevTemplatesUpdated) => {
-        return { ...prevTemplatesUpdated, nine: true };
-      });
-      setTemplateNineData({ ...templateData });
-      setTemplateData(null);
-    } else if (
-      fileDetails &&
-      templateData?.error &&
-      (templateData?.templateNumber === 1 ||
-        templateData?.templateNumber === 2 ||
-        templateData?.templateNumber === 9)
-    ) {
-      fetch(`/api/email/notifyFailedReadOfTemplateData`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          applicationId,
-          host: window.location.origin,
-          params: {
-            templateNumber: templateData.templateNumber,
-            uuid: fileDetails.uuid,
-            uploadedAt: fileDetails?.uploadedAt,
-          },
-        }),
-      }).then(() => {
-        setTemplateData(null);
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [templateData, formData]);
+  const {
+    newFormData,
+    templatesUpdated,
+    hasApplicationFormDataUpdated,
+    templateNineData,
+    setTemplateData,
+    clearTemplateUpload,
+  } = useTemplateUpload({
+    formData,
+    formJsonData,
+    applicationId,
+    sendFailedReadWarning: true,
+  });
 
   const handleSubmit = (e: IChangeEvent<any>) => {
     const getTemplateNineUUID = () => {
@@ -203,7 +127,7 @@ const ApplicantRfiPage = ({
     };
 
     const checkAndNotifyHHCount = async () => {
-      if (templatesUpdated?.one) {
+      if (templatesUpdated?.[1]) {
         return notifyHHCountUpdate(
           newFormData.benefits,
           formJsonData.benefits,
@@ -220,7 +144,8 @@ const ApplicantRfiPage = ({
       return Promise.resolve();
     };
 
-    if (!hasApplicationFormDataUpdated && !templatesUpdated.nine) {
+    const hasTemplateNineUpdated = templatesUpdated?.[9];
+    if (!hasApplicationFormDataUpdated && !hasTemplateNineUpdated) {
       // form data not updated and template nine not updated
       // only update rfi
       updateRfi({
@@ -242,7 +167,7 @@ const ApplicantRfiPage = ({
           console.log('Error updating RFI', err);
         },
       });
-    } else if (!hasApplicationFormDataUpdated && templatesUpdated.nine) {
+    } else if (!hasApplicationFormDataUpdated && hasTemplateNineUpdated) {
       // form data not updated but template nine updated, update rfi and create template nine record
       updateRfiAndCreateTemplateNineData({
         variables: {
@@ -276,7 +201,7 @@ const ApplicantRfiPage = ({
           });
         },
       });
-    } else if (hasApplicationFormDataUpdated && !templatesUpdated.nine) {
+    } else if (hasApplicationFormDataUpdated && !hasTemplateNineUpdated) {
       // only update rfi and form data since no template nine data
       updateRfiAndFormData({
         variables: {
@@ -305,7 +230,7 @@ const ApplicantRfiPage = ({
           });
         },
       });
-    } else if (hasApplicationFormDataUpdated && templatesUpdated.nine) {
+    } else if (hasApplicationFormDataUpdated && hasTemplateNineUpdated) {
       // update rfi, form data, and template nine data (all three)
       updateFormRfiAndCreateTemplateNineData({
         variables: {
@@ -383,6 +308,7 @@ const ApplicantRfiPage = ({
               setTemplateData,
               skipUnsavedWarning: true,
               rfiNumber,
+              clearTemplateUpload,
             }}
           >
             <Button>Save</Button>

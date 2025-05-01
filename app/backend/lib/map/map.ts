@@ -356,78 +356,6 @@ map.get('/api/map/:id', limiter, async (req, res) => {
       }
     );
 
-    const processCurrentNetworkInfrastructure =
-      files.currentNetworkInfrastructure.map(
-        async (currentNetworkInfrastructure) => {
-          const fileName =
-            currentNetworkInfrastructure?.fileName ||
-            currentNetworkInfrastructure?.name;
-          if (currentNetworkInfrastructure.uuid && fileName) {
-            const currentNetworkByteArray = await getByteArrayFromS3(
-              currentNetworkInfrastructure.uuid
-            );
-            let data = null;
-            try {
-              if (fileName.toLowerCase().includes('.kmz')) {
-                data = await parseKMZ(
-                  currentNetworkByteArray,
-                  fileName,
-                  currentNetworkInfrastructure.source
-                );
-              } else if (fileName.toLowerCase().includes('.kml')) {
-                data = await parseKMLFromBuffer(
-                  currentNetworkByteArray,
-                  fileName,
-                  currentNetworkInfrastructure.source
-                );
-              }
-              response.currentNetworkInfrastructure.push(data);
-            } catch (error) {
-              errors.push({
-                file: currentNetworkInfrastructure,
-                error: error.message,
-              });
-            }
-          }
-        }
-      );
-
-    const processUpgradedNetworkInfrastructure =
-      files.upgradedNetworkInfrastructure.map(
-        async (upgradedNetworkInfrastructure) => {
-          const fileName =
-            upgradedNetworkInfrastructure?.fileName ||
-            upgradedNetworkInfrastructure?.name;
-          if (upgradedNetworkInfrastructure.uuid && fileName) {
-            const upgradedNetworkByteArray = await getByteArrayFromS3(
-              upgradedNetworkInfrastructure.uuid
-            );
-            let data = null;
-            try {
-              if (fileName.toLowerCase().includes('.kmz')) {
-                data = await parseKMZ(
-                  upgradedNetworkByteArray,
-                  fileName,
-                  upgradedNetworkInfrastructure.source
-                );
-              } else if (fileName.toLowerCase().includes('.kml')) {
-                data = await parseKMLFromBuffer(
-                  upgradedNetworkByteArray,
-                  fileName,
-                  upgradedNetworkInfrastructure.source
-                );
-              }
-              response.upgradedNetworkInfrastructure.push(data);
-            } catch (error) {
-              errors.push({
-                file: upgradedNetworkInfrastructure,
-                error: error.message,
-              });
-            }
-          }
-        }
-      );
-
     const processFinalizedMapUpload = files.finalizedMapUpload.map(
       async (finalizedMapUpload) => {
         const fileName =
@@ -464,8 +392,6 @@ map.get('/api/map/:id', limiter, async (req, res) => {
 
     await Promise.all([
       ...processGeographicCoverageMap,
-      ...processCurrentNetworkInfrastructure,
-      ...processUpgradedNetworkInfrastructure,
       ...processFinalizedMapUpload,
     ]);
 

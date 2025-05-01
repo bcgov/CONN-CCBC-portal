@@ -1,3 +1,11 @@
+## [1.251.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.251.2...v1.251.3) (2025-04-30)
+
+### Bug Fixes
+
+- trmplate 9 file delete to not save data extracted ([608ff43](https://github.com/bcgov/CONN-CCBC-portal/commit/608ff435a33ec049ca59ddef99b28a6b32a97cd8))
+
+## [1.251.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.251.1...v1.251.2) (2025-04-29)
+
 ## [1.251.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.251.0...v1.251.1) (2025-04-17)
 
 # [1.251.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.250.6...v1.251.0) (2025-04-16)
