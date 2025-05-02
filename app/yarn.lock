@@ -3570,10 +3570,10 @@
   resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-2.1.0.tgz#383acd31259d7c9ae8fb1b02d5e18fe613c2a13d"
   integrity sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==
 
-"@rjsf/core@5.24.10":
-  version "5.24.10"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.24.10.tgz#3b6afdd6b7bf8b0db789d650409f214dc1ad5c82"
-  integrity sha512-DJe2OECdDoBHacQKCPOAiuoEydM7ZJUUFqgcO4VswRs13QglRaEAEk4ylWR6f2gQx7wBg0u302n3VvRoHRxegQ==
+"@rjsf/core@5.19.0":
+  version "5.19.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.19.0.tgz#832ff8eedef377faaa52006175b7f5313176c405"
+  integrity sha512-y6Y9e6XEFofCkTkKZma2iZHA8HYT18je7I2JP3BIJvKK6bL2CuPa+gGdceUf9A2JaqcF5J93PXUZ6e3d3Ijjlw==
   dependencies:
     lodash "^4.17.21"
     lodash-es "^4.17.21"
@@ -3581,10 +3581,10 @@
     nanoid "^3.3.7"
     prop-types "^15.8.1"
 
-"@rjsf/utils@5.24.10":
-  version "5.24.10"
-  resolved "https://registry.yarnpkg.com/@rjsf/utils/-/utils-5.24.10.tgz#085501732e7eb9b811dd0adf60fd8bde79dec48e"
-  integrity sha512-afsi+oKNV12p6OnBydJ0R4M87h7SaArqAhqJPqVXbMldnbPnW632THCtod5GG+IYtkqUkx0iQq2xpHw1OBf+3A==
+"@rjsf/utils@5.19.0":
+  version "5.19.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/utils/-/utils-5.19.0.tgz#495eb702a5c44133e90c2a41af0df1e0ba1a8073"
+  integrity sha512-ThfJLpVMBdy4pxASlnjy5IhnTqFu1wvoBRIT2fM0hWVVXTYyKtBwsokpTuN57kNGxiNILzzyE3MMya1r37LLBw==
   dependencies:
     json-schema-merge-allof "^0.8.1"
     jsonpointer "^5.0.1"
@@ -3592,10 +3592,10 @@
     lodash-es "^4.17.21"
     react-is "^18.2.0"
 
-"@rjsf/validator-ajv8@5.24.10":
-  version "5.24.10"
-  resolved "https://registry.yarnpkg.com/@rjsf/validator-ajv8/-/validator-ajv8-5.24.10.tgz#036e183f905f161cb5c2012e111b1c66b56bf75c"
-  integrity sha512-BLMpJNjtRAlp1i/QJBxY4/tchkWpZuJ/dJbjk+75veQ5oScr2YJ0/u2NqSsJNSyT37XxNJ6w49HgxZfB9xkDIQ==
+"@rjsf/validator-ajv8@5.19.0":
+  version "5.19.0"
+  resolved "https://registry.yarnpkg.com/@rjsf/validator-ajv8/-/validator-ajv8-5.19.0.tgz#7dafdc2d0c2a658b444b43a690b70117d1dc4b6c"
+  integrity sha512-nC0KH+OXZv5XIxySmG18REFnCuwSFdGJS8WdqH6nwVN7UXBbjw61e+7za9BneBwveDFhyVSjE5ZUA3E/iF3byg==
   dependencies:
     ajv "^8.12.0"
     ajv-formats "^2.1.1"
