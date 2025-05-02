@@ -14,7 +14,7 @@ import * as Sentry from '@sentry/nextjs';
 import Tabs from 'components/Analyst/GIS/Tabs';
 import checkFileType from 'utils/checkFileType';
 import { useUnsavedChanges } from 'components/UnsavedChangesProvider';
-import GisHistory from 'components/Analyst/GIS/GisHistory';
+import UploadHistory from 'components/Analyst/History/UploadHistory';
 import config from '../../../config';
 
 const getCoveragesQuery = graphql`
@@ -228,7 +228,7 @@ const CoveragesTab = ({ historyList }) => {
           </StyledSuccess>
         )}
       </div>
-      <GisHistory historyTableList={historyTableList} />
+      <UploadHistory historyTableList={historyTableList} />
     </div>
   );
 };
