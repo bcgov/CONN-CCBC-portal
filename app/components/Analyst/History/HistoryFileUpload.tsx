@@ -71,7 +71,7 @@ const dateUploadedCell = ({ cell }) => {
     .toLocaleString(DateTime.DATETIME_FULL);
 };
 
-const UploadHistory = ({ historyTableList }) => {
+const HistoryFileUpload = ({ historyTableList }) => {
   const columns = useMemo<MRT_ColumnDef<any>[]>(() => {
     const uniqueUsers = [
       ...new Set(historyTableList.map((historyItem) => historyItem.name)),
@@ -171,4 +171,4 @@ const UploadHistory = ({ historyTableList }) => {
   );
 };
 
-export default UploadHistory;
+export default HistoryFileUpload;

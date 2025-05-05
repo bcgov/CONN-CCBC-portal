@@ -15,7 +15,7 @@ import * as Sentry from '@sentry/nextjs';
 import Tabs from 'components/Analyst/GIS/Tabs';
 import checkFileType from 'utils/checkFileType';
 import { useUnsavedChanges } from 'components/UnsavedChangesProvider';
-import UploadHistory from 'components/Analyst/History/UploadHistory';
+import HistoryFileUpload from 'components/Analyst/History/HistoryFileUpload';
 
 const getUploadedJsonQuery = graphql`
   query gisUploadedJsonQuery {
@@ -222,7 +222,7 @@ const GisTab = ({ historyList }) => {
             Continue
           </ButtonLink>
         </StyledBtnContainer>
-        <UploadHistory historyTableList={historyTableList} />
+        <HistoryFileUpload historyTableList={historyTableList} />
       </div>
     </div>
   );
