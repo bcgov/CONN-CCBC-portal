@@ -1,3 +1,9 @@
+# [1.252.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.251.4...v1.252.0) (2025-05-05)
+
+### Features
+
+- display on hold on summary and xlsx ([308fb37](https://github.com/bcgov/CONN-CCBC-portal/commit/308fb37ab8ee76f73872820adb5cf9ac5871b8ab))
+
 ## [1.251.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.251.3...v1.251.4) (2025-05-05)
 
 ### Bug Fixes
