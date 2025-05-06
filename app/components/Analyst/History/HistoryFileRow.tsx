@@ -30,13 +30,13 @@ const HistoryFileRow = ({ file, filesDiff }) => {
           <del>
             <DownloadLink
               uuid={file[1].uuid.__old}
-              fileName={file[1].name.__old || file[1].name}
+              fileName={file[1].name?.__old || file[1].name}
             />
           </del>{' '}
           with file{' '}
           <DownloadLink
             uuid={file[1].uuid.__new}
-            fileName={file[1].name.__new || file[1].name}
+            fileName={file[1].name?.__new || file[1].name}
           />
         </div>
       );
@@ -47,16 +47,16 @@ const HistoryFileRow = ({ file, filesDiff }) => {
           Deleted file{' '}
           <del>
             <DownloadLink
-              uuid={file[1].uuid.__old}
-              fileName={file[1].name.__old}
+              uuid={file[1].uuid?.__old}
+              fileName={file[1].name?.__old}
             />
           </del>{' '}
         </div>
         <div key={file[1].uuid}>
           Added file{' '}
           <DownloadLink
-            uuid={file[1].uuid.__new}
-            fileName={file[1].name.__new}
+            uuid={file[1].uuid?.__new}
+            fileName={file[1].name?.__new}
           />{' '}
         </div>
       </>
