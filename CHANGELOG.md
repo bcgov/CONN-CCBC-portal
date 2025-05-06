@@ -1,3 +1,9 @@
+## [1.252.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.0...v1.252.1) (2025-05-06)
+
+### Bug Fixes
+
+- select an intake on cbc dashboard ([d2fd78e](https://github.com/bcgov/CONN-CCBC-portal/commit/d2fd78ea105fa6809dde4408a0f91568d9ccd59f))
+
 # [1.252.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.251.4...v1.252.0) (2025-05-05)
 
 ### Features
