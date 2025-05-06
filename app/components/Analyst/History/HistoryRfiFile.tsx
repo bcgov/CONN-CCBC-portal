@@ -50,7 +50,11 @@ const HistoryRfiFile = ({
 
           const rfiCategoryDiff = diff(
             previousFileArray[sanitizedKey] || [],
-            filesArray[sanitizedKey] || []
+            filesArray[sanitizedKey] || [],
+            {
+              keepUnchangedValues: true,
+              full: true,
+            }
           );
           const hasFileChanges =
             rfiCategoryDiff?.filter(
