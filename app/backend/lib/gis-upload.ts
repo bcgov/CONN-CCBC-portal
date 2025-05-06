@@ -16,8 +16,8 @@ const limiter = RateLimit({
 });
 
 const saveGisDataMutation = `
-  mutation gisUploadMutation($input: JSON) {
-    createGisData(input: {gisData: {jsonData:$input}}) {
+  mutation gisUploadMutation($input: JSON, $fileName: String) {
+    createGisData(input: {gisData: {jsonData:$input, fileName:$fileName}}) {
       gisData {
         id,
         rowId
@@ -92,6 +92,9 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
   const filename = Object.keys(files)[0];
   const uploadedFilesArray = files[filename] as Array<File>;
 
+  const originalFileName =
+    uploadedFilesArray[0].originalFilename || 'GIS_ASSESSMENT_JSON';
+
   const uploaded = uploadedFilesArray?.[0];
   if (!uploaded) {
     return res.status(200).end();
@@ -122,7 +125,7 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
   // time to persist in DB
   const result = await performQuery(
     saveGisDataMutation,
-    { input: data },
+    { input: data, fileName: originalFileName },
     req
   ).catch((e) => {
     return res.status(400).json({ error: e }).end();
