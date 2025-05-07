@@ -1,5 +1,5 @@
 # Base stage to install global dependencies
-FROM node:20-alpine AS base
+FROM node:24-alpine AS base
 
 ENV SUMMARY="An image for the CONN-CCBC-portal app" \
   DESCRIPTION="This image contains the compiled CONN-CCBC-portal node app"
@@ -74,7 +74,7 @@ RUN yarn install --frozen-lockfile --production=true --prefer-offline
 
 # -- FINAL STAGE --
 # Production image to run the application
-FROM node:20-alpine AS runner
+FROM node:24-alpine AS runner
 
 # Env variables for the final image
 ENV APP_HOME=/application
