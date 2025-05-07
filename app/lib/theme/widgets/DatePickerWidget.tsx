@@ -64,12 +64,16 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   const minDate = dayjs(uiOptions?.minDate as number);
 
   const handleChange = (d: Date) => {
-    const originalDate = new Date(d);
-    if (!Number.isNaN(originalDate && originalDate.valueOf() >= 0)) {
-      const newDate = originalDate.toISOString().split('T')[0];
-      return onChange(newDate);
+    const dayjsDate = dayjs(d);
+
+    // if not a valid entry clear the date
+    if (!dayjsDate.isValid()) {
+      onChange(undefined);
+      return;
     }
-    return null;
+
+    const newDate = dayjsDate.format('YYYY-MM-DD');
+    onChange(newDate);
   };
 
   const styles = getStyles(isError);
