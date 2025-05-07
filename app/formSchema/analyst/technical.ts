@@ -20,19 +20,13 @@ const technical: RJSFSchema = {
     decision: {
       title: 'Decision',
       type: 'string',
-      anyOf: [
-        {
-          title: 'No decision',
-          enum: ['No decision'],
-        },
-        {
-          title: 'Pass',
-          enum: ['Pass'],
-        },
-        {
-          title: 'Fail',
-          enum: ['Fail'],
-        },
+      enum: [
+        'No decision',
+        'Eligible',
+        'Ineligible',
+        'Incomplete',
+        'TBD',
+        'Not applicable',
       ],
       default: 'No decision',
     },

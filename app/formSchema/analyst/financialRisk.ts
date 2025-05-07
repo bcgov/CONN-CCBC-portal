@@ -1,9 +1,6 @@
 import { RJSFSchema } from '@rjsf/utils';
 import sharedAssessmentFields from './sharedAssessmentFields';
 
-// when a different label and title is needed
-// decouple the title from the enum, this is a SonarCloud workaround
-// the enum MUST stay as below for data to be maintained
 const noDecision = 'No decision';
 const lowRisk = 'Low risk';
 const lowMediumRisk = 'Low-medium risk';
@@ -28,33 +25,15 @@ const financialRisk: RJSFSchema = {
     decision: {
       title: 'Decision',
       type: 'string',
-      anyOf: [
-        {
-          title: noDecision,
-          enum: [noDecision],
-        },
-        {
-          title: lowRisk,
-          enum: [lowRisk],
-        },
-        {
-          title: lowMediumRisk,
-          enum: [lowMediumRisk],
-        },
-        {
-          title: mediumRisk,
-          enum: [mediumRisk],
-        },
-        {
-          title: mediumHighRisk,
-          enum: [mediumHighRisk],
-        },
-        {
-          title: highRisk,
-          enum: [highRisk],
-        },
+      enum: [
+        noDecision,
+        lowRisk,
+        lowMediumRisk,
+        mediumRisk,
+        mediumHighRisk,
+        highRisk,
       ],
-      default: 'No decision',
+      default: noDecision,
     },
     completedAssessment: {
       title: 'Completed assessment',
