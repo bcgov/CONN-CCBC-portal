@@ -538,8 +538,28 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     const detailsMatch = communitiesString?.includes(filterValue.toLowerCase());
 
     // Match for original project number
-    const originalProjectNumber = row.originalProjectNumber?.toLowerCase();
-    const projectNumberMatch = originalProjectNumber?.includes(filterValue.toLowerCase());
+    const originalProjectNumber = row?.original?.originalProjectNumber;
+    // Ensure both are numbers for comparison, or fallback to string includes if not
+    let projectNumberMatch = false;
+    if (
+      originalProjectNumber !== undefined &&
+      originalProjectNumber !== null &&
+      filterValue !== undefined &&
+      filterValue !== null &&
+      filterValue !== ''
+    ) {
+      // Try numeric comparison if both are numbers or can be parsed as numbers
+      const origNum = Number(originalProjectNumber);
+      const filterNum = Number(filterValue);
+      if (!Number.isNaN(origNum) && !Number.isNaN(filterNum)) {
+        projectNumberMatch = origNum === filterNum;
+      } else {
+        // fallback to string includes for partial match
+        projectNumberMatch = originalProjectNumber
+          .toString()
+          .includes(filterValue.toString());
+      }
+    }
 
     const shouldExpand = detailsMatch || projectNumberMatch;
 
