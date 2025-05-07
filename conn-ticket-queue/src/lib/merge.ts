@@ -26,7 +26,7 @@ const findPrByPartialBranch = async (
 	repoOwner: string,
 	repoName: string,
 	branchName: string
-): Promise<string> => {
+): Promise<{ cleanedItems: Array<any>; prApiUrl: string | null }> => {
 	try {
 		const response = await axios.get<GitHubSearchResponse>(
 			`https://api.github.com/search/issues?q=repo:${repoOwner}/${repoName}+head:${branchName}+is:pr`,
@@ -45,10 +45,13 @@ const findPrByPartialBranch = async (
 
 		const prApiUrl = cleanedResponse.items.at(0)?.url;
 		if (!prApiUrl) {
-			throw new GitHubAPIError('No PR found for the specified branch');
+			return {
+				cleanedItems: [],
+				prApiUrl: null
+			};
 		}
 
-		return prApiUrl;
+		return { cleanedItems: cleanedResponse.items, prApiUrl: prApiUrl };
 	} catch (error) {
 		if (axios.isAxiosError(error)) {
 			throw new GitHubAPIError(
@@ -122,7 +125,8 @@ export const updatePRForRelease = async ({
 		throw new GitHubAPIError('Invalid header secret');
 	}
 
-	const prUrl = await findPrByPartialBranch(repoOwner, repoName, branchName);
+	const pr = await findPrByPartialBranch(repoOwner, repoName, branchName);
+	const prUrl = pr.prApiUrl;
 	await updatePrDescription(prUrl, token);
 
 	const parts = prUrl.split('/');
@@ -130,4 +134,20 @@ export const updatePRForRelease = async ({
 		repoOwner: parts.at(4) ?? repoOwner,
 		repoName: parts.at(5) ?? repoName
 	};
+};
+
+export const isPrOpenAndExists = async (
+	repoOwner: string,
+	repoName: string,
+	branchName: string
+): Promise<boolean> => {
+	const pr = await findPrByPartialBranch(repoOwner, repoName, branchName);
+	if (!pr.cleanedItems.length) {
+		return false;
+	}
+	// Check if any of the PRs are open
+	return pr.cleanedItems.some((item) => {
+		console.log('item,', item);
+		return item.state === 'open';
+	});
 };
