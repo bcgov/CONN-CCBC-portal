@@ -1,5 +1,6 @@
 import headersMiddleware from '../../backend/lib/headers';
-jest.mock('react-relay-network-modern/node8');
+
+jest.mock('react-relay-network-modern');
 
 describe('The headers middleware', () => {
   test('should add necessary headers to response', () => {
@@ -15,7 +16,7 @@ describe('The headers middleware', () => {
     const middleware = headersMiddleware();
     middleware(mockRequest, mockResponse, nextFunction);
 
-    expect(mockResponse.append).toBeCalledWith(
+    expect(mockResponse.append).toHaveBeenCalledWith(
       'Permissions-Policy',
       "display-capture 'none'"
     );

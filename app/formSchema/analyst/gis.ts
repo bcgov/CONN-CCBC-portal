@@ -33,24 +33,7 @@ const gis: RJSFSchema = {
     nextStep: {
       title: 'Progress',
       type: 'string',
-      anyOf: [
-        {
-          title: notStarted,
-          enum: [notStarted],
-        },
-        {
-          title: needsRFI,
-          enum: [needsRFI],
-        },
-        {
-          title: needs2ndReview,
-          enum: [needs2ndReview],
-        },
-        {
-          title: assessmentComplete,
-          enum: [assessmentComplete],
-        },
-      ],
+      enum: [notStarted, needsRFI, needs2ndReview, assessmentComplete],
       default: 'Not started',
     },
     commentsOnCoverageData: {

@@ -1,0 +1,26 @@
+diff --git a/node_modules/react-relay-network-modern/es/middlewares/upload.js b/node_modules/react-relay-network-modern/es/middlewares/upload.js
+index 77fc801..e110286 100644
+--- a/node_modules/react-relay-network-modern/es/middlewares/upload.js
++++ b/node_modules/react-relay-network-modern/es/middlewares/upload.js
+@@ -6,7 +6,7 @@ export default function uploadMiddleware() {
+       throw new Error('RelayRequestBatch is not supported');
+     }
+     const operations = {
+-      query: req.operation.text,
++      id: req.operation.id,
+       variables: req.variables
+     };
+     const {
+diff --git a/node_modules/react-relay-network-modern/lib/middlewares/upload.js b/node_modules/react-relay-network-modern/lib/middlewares/upload.js
+index 7c83dc7..ff8bb4a 100644
+--- a/node_modules/react-relay-network-modern/lib/middlewares/upload.js
++++ b/node_modules/react-relay-network-modern/lib/middlewares/upload.js
+@@ -26,7 +26,7 @@ function uploadMiddleware() {
+               throw new Error('RelayRequestBatch is not supported');
+             case 2:
+               operations = {
+-                query: req.operation.text,
++                id: req.operation.id,
+                 variables: req.variables
+               };
+               _extractFiles = (0, _extractFiles2.extractFiles)(operations), extractedOperations = _extractFiles.clone, files = _extractFiles.files;

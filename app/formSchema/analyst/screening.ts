@@ -27,24 +27,7 @@ const screening: RJSFSchema = {
     decision: {
       title: 'Decision',
       type: 'string',
-      anyOf: [
-        {
-          title: noDecision,
-          enum: [noDecision],
-        },
-        {
-          title: eligible,
-          enum: [eligible],
-        },
-        {
-          title: ineligible,
-          enum: [ineligible],
-        },
-        {
-          title: incomplete,
-          enum: [incomplete],
-        },
-      ],
+      enum: [noDecision, eligible, ineligible, incomplete],
       default: 'No decision',
     },
     contestingMap: {
