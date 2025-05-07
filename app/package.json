@@ -180,7 +180,7 @@
     "prettier": "^3.5.3",
     "react-dom": "^18.3.1",
     "relay-compiler": "17",
-    "relay-test-utils": "^16.2.0",
+    "relay-test-utils": "^19.0.0",
     "supertest": "^7.1.0",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
