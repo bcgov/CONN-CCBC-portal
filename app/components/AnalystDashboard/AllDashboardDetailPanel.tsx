@@ -49,6 +49,7 @@ const HighlightFilterMatch = ({ text, filterValue }) => {
 
 const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
   const communities = (row.original.communities as any[]) || [];
+
   return (
     <>
       <StyledSpan>Communities</StyledSpan>
@@ -72,7 +73,7 @@ const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
         <StyledSpan>N/A</StyledSpan>
       )}
       <StyledSpan>Original Project Number</StyledSpan>
-      <StyledSpan>{row.original.projectNumber ?? "N/A"}</StyledSpan>
+      <StyledSpan>{row.originalProjectNumber ?? "N/A"}</StyledSpan>
     </>
   );
 };
