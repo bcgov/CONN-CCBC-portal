@@ -524,7 +524,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     if (!filterValue) return true;
     if (row.getValue(id) === null) return false;
     const filterMode = globalFilterMode.current || 'contains';
-    let defaultMatch = false;
+    let defaultMatch;
     if (filterMode === 'fuzzy') {
       defaultMatch = MRT_FilterFns.fuzzy(row, id, filterValue, filterMeta);
     } else {
@@ -536,9 +536,16 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       .join(',')
       ?.toLowerCase();
     const detailsMatch = communitiesString?.includes(filterValue.toLowerCase());
-    expandedRowsRef.current[row.id] = detailsMatch;
 
-    return defaultMatch || detailsMatch;
+    // Match for original project number
+    const originalProjectNumber = row.originalProjectNumber?.toLowerCase();
+    const projectNumberMatch = originalProjectNumber?.includes(filterValue.toLowerCase());
+
+    const shouldExpand = detailsMatch || projectNumberMatch;
+
+    expandedRowsRef.current[row.id] = shouldExpand;
+
+    return defaultMatch || shouldExpand;
   };
 
   const getCommunities = (application) => {
