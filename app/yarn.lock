@@ -3570,10 +3570,10 @@
   resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-2.1.0.tgz#383acd31259d7c9ae8fb1b02d5e18fe613c2a13d"
   integrity sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==
 
-"@rjsf/core@5.24.8":
-  version "5.24.8"
-  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.24.8.tgz#47f25892460782ebadaa994f0ff7d31dd1d726fa"
-  integrity sha512-7YdOMl0UylldYR75rnKoQF5etibSwPQHA3rY8LEo28xyYek81ESGuqPTs37P14doBpGRL+SobggR76tYhDYO7A==
+"@rjsf/core@5.24.10":
+  version "5.24.10"
+  resolved "https://registry.yarnpkg.com/@rjsf/core/-/core-5.24.10.tgz#3b6afdd6b7bf8b0db789d650409f214dc1ad5c82"
+  integrity sha512-DJe2OECdDoBHacQKCPOAiuoEydM7ZJUUFqgcO4VswRs13QglRaEAEk4ylWR6f2gQx7wBg0u302n3VvRoHRxegQ==
   dependencies:
     lodash "^4.17.21"
     lodash-es "^4.17.21"
@@ -3581,10 +3581,10 @@
     nanoid "^3.3.7"
     prop-types "^15.8.1"
 
-"@rjsf/utils@5.24.8":
-  version "5.24.8"
-  resolved "https://registry.yarnpkg.com/@rjsf/utils/-/utils-5.24.8.tgz#1a27d021d17f99559f34cc49a5bb778e4f995671"
-  integrity sha512-Y/D1orNsTnIswp23QtWKq7QEme07/nSdnSJoK4gSsm2cDBkSCW+9KUsWSvmE7poqHwCn3zpbIaa3ZWEAQUJEEg==
+"@rjsf/utils@5.24.10":
+  version "5.24.10"
+  resolved "https://registry.yarnpkg.com/@rjsf/utils/-/utils-5.24.10.tgz#085501732e7eb9b811dd0adf60fd8bde79dec48e"
+  integrity sha512-afsi+oKNV12p6OnBydJ0R4M87h7SaArqAhqJPqVXbMldnbPnW632THCtod5GG+IYtkqUkx0iQq2xpHw1OBf+3A==
   dependencies:
     json-schema-merge-allof "^0.8.1"
     jsonpointer "^5.0.1"
@@ -3592,10 +3592,10 @@
     lodash-es "^4.17.21"
     react-is "^18.2.0"
 
-"@rjsf/validator-ajv8@5.24.8":
-  version "5.24.8"
-  resolved "https://registry.yarnpkg.com/@rjsf/validator-ajv8/-/validator-ajv8-5.24.8.tgz#379e9e759cd3f6460638977ebdd21e2f0d997d7d"
-  integrity sha512-0l5/9CL2BhW5tUtP+vKg6o5Wpp5kuee5SPea3STtdBN/xbGf3dUX08jbKcvokTJt5552rFDcNjMZmu+C0H7ezQ==
+"@rjsf/validator-ajv8@5.24.10":
+  version "5.24.10"
+  resolved "https://registry.yarnpkg.com/@rjsf/validator-ajv8/-/validator-ajv8-5.24.10.tgz#036e183f905f161cb5c2012e111b1c66b56bf75c"
+  integrity sha512-BLMpJNjtRAlp1i/QJBxY4/tchkWpZuJ/dJbjk+75veQ5oScr2YJ0/u2NqSsJNSyT37XxNJ6w49HgxZfB9xkDIQ==
   dependencies:
     ajv "^8.12.0"
     ajv-formats "^2.1.1"
