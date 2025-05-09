@@ -73,7 +73,13 @@ const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
         <StyledSpan>N/A</StyledSpan>
       )}
       <StyledSpan>Original Project Number</StyledSpan>
-      <StyledSpan>{row.original.originalProjectNumber ?? 'N/A'}</StyledSpan>
+        <HighlightFilterMatch
+          text={
+            row.original.originalProjectNumber ?
+              row.original.originalProjectNumber : 'N/A'
+        }
+          filterValue={filterValue}
+        />
     </>
   );
 };
