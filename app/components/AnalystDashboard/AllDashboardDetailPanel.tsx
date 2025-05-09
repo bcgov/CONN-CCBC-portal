@@ -73,20 +73,13 @@ const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
         <StyledSpan>N/A</StyledSpan>
       )}
       <StyledSpan>Original Project Number</StyledSpan>
-      {row.original.projectNumber ? (
-        <StyledMapLink
-          href={row.original.projectNumber.mapLink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <HighlightFilterMatch
-            text={row.original.projectNumber.geoName}
-            filterValue={filterValue}
-          />
-        </StyledMapLink>
-      ) : (
-        <StyledSpan>N/A</StyledSpan>
-      )}
+        <HighlightFilterMatch
+          text={
+            row.original.originalProjectNumber ?
+              row.original.originalProjectNumber : 'N/A'
+        }
+          filterValue={filterValue}
+        />
     </>
   );
 };
