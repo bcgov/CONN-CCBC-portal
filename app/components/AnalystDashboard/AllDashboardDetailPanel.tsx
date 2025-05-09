@@ -49,6 +49,7 @@ const HighlightFilterMatch = ({ text, filterValue }) => {
 
 const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
   const communities = (row.original.communities as any[]) || [];
+
   return (
     <>
       <StyledSpan>Communities</StyledSpan>
