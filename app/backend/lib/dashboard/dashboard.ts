@@ -385,7 +385,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // total fnha funding
       {
-        value: summaryData?.formData?.funding?.fhnaFunding,
+        value: summaryData?.formData?.funding?.fnhaFunding,
         format: '$#,##0.00',
         type: Number,
       },
