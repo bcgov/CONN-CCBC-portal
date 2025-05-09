@@ -18,6 +18,8 @@ import {
   handleCcbcEconomicRegions,
 } from './util';
 import toTitleCase from '../../../utils/formatString';
+import { getFundingData } from '../../../lib/helpers/ccbcSummaryGenerateFormData';
+import { getFnhaValue } from '../dashboard/util';
 
 const getCbcDataQuery = `
   query getCbcData {
@@ -131,6 +133,14 @@ const getCcbcQuery = `
             applicationDependenciesByApplicationId(first: 1) {
               nodes {
                 jsonData
+              }
+            }
+            applicationFnhaContributionsByApplicationId {
+              edges {
+                node {
+                  id
+                  fnhaContribution
+                }
               }
             }
             ccbcNumber
@@ -341,6 +351,10 @@ const generateExcelData = async (
 
   ccbcData?.data?.allApplications?.edges?.forEach(async (edges) => {
     const { node } = edges;
+    const fundingData = getFundingData(
+      node,
+      node?.applicationSowDataByApplicationId
+    );
     const row: Row = [
       // program
       { value: 'CCBC' },
@@ -413,18 +427,22 @@ const generateExcelData = async (
       },
       // bc funding request
       {
-        value: node?.formData?.jsonData?.bcFundingRequest,
+        value: fundingData?.bcFundingRequested,
         format: '$#,##0.00',
         type: Number,
       },
       // federal funding
       {
-        value: node?.formData?.jsonData?.projectFunding?.federalFunding,
+        value: fundingData?.federalFunding,
         format: '$#,##0.00',
         type: Number,
       },
       // FNHA funding
-      { value: null },
+      {
+        value: getFnhaValue(fundingData),
+        format: '$#,##0.00',
+        type: Number,
+      },
       // applicant amount
       {
         value:

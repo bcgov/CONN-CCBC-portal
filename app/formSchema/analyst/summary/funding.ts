@@ -10,7 +10,7 @@ const funding: RJSFSchema = {
     'applicantAmount',
     'otherFunding',
     'cibFunding',
-    'fhnaFunding',
+    'fnhaFunding',
     'totalProjectBudget',
   ],
   properties: {
@@ -42,7 +42,7 @@ const funding: RJSFSchema = {
       type: 'number',
       title: 'CIB Funding',
     },
-    fhnaFunding: {
+    fnhaFunding: {
       type: 'number',
       title: 'FNHA Funding',
     },
