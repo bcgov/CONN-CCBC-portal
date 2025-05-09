@@ -35,8 +35,8 @@ const reviewUiSchema = {
       ...fundingUiSchema.cibFunding,
       'ui:widget': 'ReadOnlyMoneyWidget',
     },
-    fhnaFunding: {
-      ...fundingUiSchema.fhnaFunding,
+    fnhaFunding: {
+      ...fundingUiSchema.fnhaFunding,
       'ui:widget': 'ReadOnlyMoneyWidget',
     },
     totalProjectBudget: {

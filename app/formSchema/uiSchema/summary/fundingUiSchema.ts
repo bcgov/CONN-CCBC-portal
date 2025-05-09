@@ -38,7 +38,7 @@ const fundingUiSchema = {
       isSubField: true,
     },
   },
-  fhnaFunding: {
+  fnhaFunding: {
     'ui:widget': 'MoneyWidget',
     'ui:label': 'FNHA Funding',
     'ui:options': {
