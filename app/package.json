@@ -68,6 +68,7 @@
     "cheerio": "^1.0.0",
     "connect-pg-simple": "^10.0.0",
     "convict": "^6.2.4",
+    "cookie": "^0.7.0",
     "cookie-parser": "^1.4.7",
     "dayjs": "^1.11.13",
     "debug": "^4.4.0",
@@ -125,7 +126,7 @@
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
   },
   "devDependencies": {
-    "@aws-sdk/client-s3": "^3.787.0",
+    "@aws-sdk/client-s3": "^3.802.0",
     "@babel/preset-env": "^7.27.1",
     "@microsoft/eslint-formatter-sarif": "^3.1.0",
     "@testing-library/cypress": "^10.0.3",
