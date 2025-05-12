@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { graphql } from 'react-relay';
@@ -15,9 +15,23 @@ import * as Sentry from '@sentry/nextjs';
 import Tabs from 'components/Analyst/GIS/Tabs';
 import checkFileType from 'utils/checkFileType';
 import { useUnsavedChanges } from 'components/UnsavedChangesProvider';
+import HistoryFileUpload from 'components/Analyst/History/HistoryFileUpload';
 
 const getUploadedJsonQuery = graphql`
   query gisUploadedJsonQuery {
+    allGisData(orderBy: ID_DESC) {
+      nodes {
+        jsonData
+        id
+        fileName
+        createdBy
+        createdAt
+        ccbcUserByCreatedBy {
+          familyName
+          givenName
+        }
+      }
+    }
     session {
       sub
       ...DashboardTabs_query
@@ -77,7 +91,7 @@ const validateFile = (file: globalThis.File) => {
   return { isValid: true, error: null };
 };
 
-const GisTab = () => {
+const GisTab = ({ historyList }) => {
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<File>();
   const { updateDirtyState } = useUnsavedChanges();
@@ -105,6 +119,24 @@ const GisTab = () => {
     setError('');
     setSelectedFile(file);
   };
+
+  const historyTableList = useMemo(
+    () =>
+      historyList.map((item) => {
+        const featureType = item?.jsonData?.[0]?.json_featuretype;
+        const fileName =
+          item.fileName ||
+          (featureType ? `${featureType}.json` : 'GIS_ASSESSMENT_JSON.json');
+
+        return {
+          name: `${item.ccbcUserByCreatedBy.givenName} ${item.ccbcUserByCreatedBy.familyName}`,
+          file: fileName,
+          createdAt: item.createdAt,
+          record: item.jsonData || {},
+        };
+      }),
+    [historyList]
+  );
 
   const handleUpload = async () => {
     const formData = new FormData();
@@ -190,6 +222,7 @@ const GisTab = () => {
             Continue
           </ButtonLink>
         </StyledBtnContainer>
+        <HistoryFileUpload historyTableList={historyTableList} />
       </div>
     </div>
   );
@@ -199,12 +232,12 @@ const UploadJSON = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, gisUploadedJsonQuery>) => {
   const query = usePreloadedQuery(getUploadedJsonQuery, preloadedQuery);
-  const { session } = query;
+  const { session, allGisData } = query;
   return (
     <Layout session={session} title="Connecting Communities BC">
       <StyledContainer>
         <DashboardTabs session={session} />
-        <GisTab />
+        <GisTab historyList={allGisData?.nodes || []} />
         <MetabaseEmbed dashboardNumber={87} dashboardNumberTest={91} />
       </StyledContainer>
     </Layout>

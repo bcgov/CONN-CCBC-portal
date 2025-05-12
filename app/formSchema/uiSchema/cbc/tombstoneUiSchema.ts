@@ -16,7 +16,7 @@ const tombstoneUiSchema = {
   },
   intake: {
     'ui:widget': 'SelectWidget',
-    'ui:placeholder': 'Select an intake',
+    'ui:shownull': false,
     'ui:label': 'Intake',
   },
   applicantContractualName: {

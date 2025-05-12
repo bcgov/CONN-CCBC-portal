@@ -28,17 +28,36 @@ const handleDownload = async (uuid, fileName) => {
     });
 };
 
+const downloadJsonFile = (fileName: string, data: any) => {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
 const fileCell = ({ cell }) => {
   return (
     <StyledLink
       data-testid="history-file-link"
       onClick={(e) => {
         e.preventDefault();
-        handleDownload(cell.row.original?.uuid, cell.getValue()).catch(
-          (err) => {
-            Sentry.captureException(err);
-          }
-        );
+        if (cell.row.original?.uuid) {
+          handleDownload(cell.row.original?.uuid, cell.getValue()).catch(
+            (err) => {
+              Sentry.captureException(err);
+            }
+          );
+        } else if (cell.row.original?.record) {
+          downloadJsonFile(cell.getValue(), cell.row.original?.record);
+        }
       }}
     >
       {cell.getValue()}
@@ -52,7 +71,7 @@ const dateUploadedCell = ({ cell }) => {
     .toLocaleString(DateTime.DATETIME_FULL);
 };
 
-const GisHistory = ({ historyTableList }) => {
+const HistoryFileUpload = ({ historyTableList }) => {
   const columns = useMemo<MRT_ColumnDef<any>[]>(() => {
     const uniqueUsers = [
       ...new Set(historyTableList.map((historyItem) => historyItem.name)),
@@ -152,4 +171,4 @@ const GisHistory = ({ historyTableList }) => {
   );
 };
 
-export default GisHistory;
+export default HistoryFileUpload;

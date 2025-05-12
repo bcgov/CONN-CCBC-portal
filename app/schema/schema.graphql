@@ -27382,6 +27382,9 @@ input GisDataFilter {
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
 
+  """Filter by the object’s `fileName` field."""
+  fileName: StringFilter
+
   """Filter by the object’s `applicationGisDataByBatchId` relation."""
   applicationGisDataByBatchId: GisDataToManyApplicationGisDataFilter
 
@@ -41573,6 +41576,7 @@ type GisData implements Node {
 
   """archived at timestamp"""
   archivedAt: Datetime
+  fileName: String
 
   """Reads a single `CcbcUser` that is related to this `GisData`."""
   ccbcUserByCreatedBy: CcbcUser
@@ -49627,6 +49631,8 @@ enum GisDataOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
+  FILE_NAME_ASC
+  FILE_NAME_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -49658,6 +49664,9 @@ input GisDataCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+
+  """Checks for equality with the object’s `fileName` field."""
+  fileName: String
 }
 
 """
@@ -94217,6 +94226,7 @@ input GisDataInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+  fileName: String
 }
 
 """The output of our create `HistoryItem` mutation."""
@@ -100096,6 +100106,7 @@ input GisDataPatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+  fileName: String
 }
 
 """All input for the `updateGisDataByRowId` mutation."""

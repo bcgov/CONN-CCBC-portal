@@ -403,144 +403,99 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   }, [allApplicationStatusTypes?.nodes]);
 
   useEffect(() => {
-    const sortingSession = cookie.get('mrt_sorting_application');
-    if (sortingSession) {
-      setSorting(JSON.parse(sortingSession));
-    }
+    const loadInitialState = () => {
+      const settings = [
+        { key: 'mrt_sorting_application', setter: setSorting },
+        { key: 'mrt_columnFilters_application', setter: setColumnFilters },
+        {
+          key: 'mrt_columnVisibility_application',
+          setter: setColumnVisibility,
+        },
+        { key: 'mrt_density_application', setter: setDensity },
+        {
+          key: 'mrt_showColumnFilters_application',
+          setter: setShowColumnFilters,
+        },
+        { key: 'mrt_columnSizing_application', setter: setColumnSizing },
+      ];
 
-    const columnFiltersSession = cookie.get('mrt_columnFilters_application');
-    if (columnFiltersSession) {
-      setColumnFilters(JSON.parse(columnFiltersSession));
-    }
+      settings.forEach(({ key, setter }) => {
+        const value = cookie.get(key);
+        if (value) setter(JSON.parse(value));
+      });
 
-    const columnVisibilitySession = cookie.get(
-      'mrt_columnVisibility_application'
-    );
-    if (columnVisibilitySession) {
-      setColumnVisibility(JSON.parse(columnVisibilitySession));
-    }
-
-    const densitySession = cookie.get('mrt_density_application');
-    if (densitySession) {
-      setDensity(JSON.parse(densitySession));
-    }
-
-    const showColumnFiltersSession = cookie.get(
-      'mrt_showColumnFilters_application'
-    );
-    if (showColumnFiltersSession) {
-      setShowColumnFilters(JSON.parse(showColumnFiltersSession));
-    }
-
-    const columnSizingSession = cookie.get('mrt_columnSizing_application');
-
-    if (columnSizingSession) {
-      setColumnSizing(JSON.parse(columnSizingSession));
-    }
-
-    const lastVisitedRowCookie = sessionStorage.getItem(
-      'mrt_last_visited_row_application'
-    );
-
-    if (lastVisitedRowCookie) {
-      setLastVisitedRow(JSON.parse(lastVisitedRowCookie));
-    }
-
-    setIsFirstRender(false);
-  }, []);
-
-  useEffect(() => {
-    if (!isFirstRender) {
       const showLeadSession = cookie.get('mrt_show_lead_application');
-      setColumnVisibility((prevColumnVisibilty) => ({
-        ...prevColumnVisibilty,
+      setColumnVisibility((prev) => ({
+        ...prev,
         Lead: showLeadSession
           ? JSON.parse(showLeadSession)
           : showLeadFeatureFlag,
       }));
-    }
-  }, [isFirstRender, showLeadFeatureFlag]);
+
+      const lastVisitedRow = sessionStorage.getItem(
+        'mrt_last_visited_row_application'
+      );
+      if (lastVisitedRow) setLastVisitedRow(JSON.parse(lastVisitedRow));
+
+      setIsFirstRender(false);
+    };
+
+    loadInitialState();
+  }, [showLeadFeatureFlag]);
 
   useEffect(() => {
     if (!isFirstRender) {
-      // warning: will break if we use a virtualized table
+      const saveToCookies = [
+        { key: 'mrt_columnVisibility_application', value: columnVisibility },
+        { key: 'mrt_showColumnFilters_application', value: showColumnFilters },
+        { key: 'mrt_columnFilters_application', value: columnFilters },
+        { key: 'mrt_density_application', value: density },
+        { key: 'mrt_sorting_application', value: sorting },
+        { key: 'mrt_columnSizing_application', value: columnSizing },
+      ];
+
+      saveToCookies.forEach(({ key, value }) => {
+        cookie.set(key, JSON.stringify(value));
+      });
+    }
+  }, [
+    isFirstRender,
+    columnVisibility,
+    showColumnFilters,
+    columnFilters,
+    density,
+    sorting,
+    columnSizing,
+  ]);
+
+  useEffect(() => {
+    if (!isFirstRender && lastVisitedRow) {
       document
         .getElementById(
-          `${lastVisitedRow?.isCcbc ? 'ccbc' : 'cbc'}-${lastVisitedRow?.rowId}`
+          `${lastVisitedRow.isCcbc ? 'ccbc' : 'cbc'}-${lastVisitedRow.rowId}`
         )
         ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-  }, [isFirstRender, lastVisitedRow?.rowId, lastVisitedRow?.isCcbc]);
+  }, [isFirstRender, lastVisitedRow]);
 
-  useEffect(() => {
-    if (!isFirstRender) {
-      cookie.set(
-        'mrt_columnVisibility_application',
-        JSON.stringify(columnVisibility)
-      );
-    }
-  }, [columnVisibility, isFirstRender]);
-
-  useEffect(() => {
-    if (!isFirstRender) {
-      cookie.set(
-        'mrt_showColumnFilters_application',
-        JSON.stringify(showColumnFilters)
-      );
-    }
-  }, [showColumnFilters, isFirstRender]);
-
-  useEffect(() => {
-    if (!isFirstRender) {
-      cookie.set(
-        'mrt_columnFilters_application',
-        JSON.stringify(columnFilters)
-      );
-    }
-  }, [columnFilters, isFirstRender]);
-
-  useEffect(() => {
-    if (!isFirstRender) {
-      cookie.set('mrt_density_application', JSON.stringify(density));
-    }
-  }, [density, isFirstRender]);
-
-  useEffect(() => {
-    if (!isFirstRender) {
-      cookie.set('mrt_sorting_application', JSON.stringify(sorting));
-    }
-  }, [sorting, isFirstRender]);
-
-  useEffect(() => {
-    if (!isFirstRender) {
-      cookie.set('mrt_columnSizing_application', JSON.stringify(columnSizing));
-    }
-  }, [columnSizing, isFirstRender]);
-
-  /**
-   * Wrapping the setColumnVisibility in a separate state to also set the cookies for controlled columns (like Lead)
-   * and to check if user has really changed the visibility preference on controlled columns
-   * and to keep the controlled column visibility cookies clear|empty to prevent overriding feature-flag changes in the future
-   * */
   useEffect(() => {
     if (visibilityPreference) {
-      setColumnVisibility((prev) => {
-        if (visibilityPreference.Lead !== undefined) {
-          cookie.set(
-            'mrt_show_lead_application',
-            JSON.stringify(visibilityPreference.Lead)
-          );
-        }
-        return {
-          ...prev,
-          ...visibilityPreference,
-        };
-      });
+      setColumnVisibility((prev) => ({
+        ...prev,
+        ...visibilityPreference,
+      }));
+      if (visibilityPreference.Lead !== undefined) {
+        cookie.set(
+          'mrt_show_lead_application',
+          JSON.stringify(visibilityPreference.Lead)
+        );
+      }
     }
   }, [visibilityPreference]);
 
   useEffect(() => {
-    setExpanded(globalFilter ? expandedRowsRef.current : {});
+    const newExpanded = globalFilter ? expandedRowsRef.current : {};
+    setExpanded(newExpanded);
     expandedRowsRef.current = {};
   }, [globalFilter]);
 

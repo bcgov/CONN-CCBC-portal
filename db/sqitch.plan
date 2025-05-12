@@ -825,3 +825,4 @@ computed_columns/application_history [computed_columns/application_history@1.246
 mutations/update_announcement [mutations/update_announcement@1.246.0] 2025-03-14T20:49:02Z ,,, <ryohani89@NH504670> # update to patch announcement only when neccessary
 @1.249.3 2025-04-03T17:02:00Z CCBC Service Account <ccbc@button.is> # release v1.249.3
 functions/session [functions/session@1.228.0] 2025-01-29T18:15:42Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # handle azureidir as idir
+tables/gis_data_001_add_file_name 2025-05-02T16:26:59Z ,,, <rranathu@NH504670> # add file name to gis_data table
