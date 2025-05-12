@@ -51,7 +51,7 @@
     "@rjsf/core": "5.18.0",
     "@rjsf/utils": "5.17.1",
     "@rjsf/validator-ajv8": "5.18.0",
-    "@sentry/nextjs": "^8",
+    "@sentry/nextjs": "^9",
     "@smithy/node-http-handler": "^4.0.2",
     "@snowplow/browser-tracker": "^4.5.0",
     "@tmcw/togeojson": "^7.1.0",
