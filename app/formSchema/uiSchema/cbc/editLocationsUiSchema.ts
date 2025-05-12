@@ -3,6 +3,14 @@ const locationsUiSchema = {
   'ui:options': {
     dividers: true,
   },
+  zones: {
+    'ui:widget': 'CheckboxesWidget',
+    'ui:label': 'Project Zone',
+    'ui:hidetitleineditmode': true,
+    'ui:options': {
+      checkboxDirection: 'column',
+    },
+  },
   projectLocations: {
     'ui:widget': 'TextAreaWidget',
     'ui:label': 'Project Locations',

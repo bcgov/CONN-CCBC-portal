@@ -83,6 +83,7 @@ export const createCbcSchemaData = (jsonData) => {
 
   const locations = {
     projectLocations: jsonData.projectLocations,
+    zones: jsonData.zones,
     communitySourceData: [{}, ...jsonData.cbcCommunitiesData],
     geographicNames: getDistinctValues(
       jsonData.cbcCommunitiesData,
