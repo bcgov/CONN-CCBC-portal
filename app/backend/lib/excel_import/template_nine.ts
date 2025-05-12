@@ -1,3 +1,4 @@
+// New endpoint: runs RFI logic, then application logic with update if exists
 import { Router } from 'express';
 import fs from 'fs';
 import XLSX, { WorkBook } from 'xlsx';
@@ -20,6 +21,40 @@ const updateTemplateNineDataMutation = `
   mutation updateTemplateNineData($input: UpdateApplicationFormTemplate9DataByRowIdInput!) {
     updateApplicationFormTemplate9DataByRowId(input: $input) {
       clientMutationId
+    }
+  }
+`;
+
+const getTemplateNineApplicationAndRfiDataQuery = `
+  query getTemplateNineApplicationAndRfiData($applicationId: Int!) {
+    applicationByRowId(rowId: $applicationId) {
+      applicationRfiDataByApplicationId(
+        filter: {
+          rfiDataByRfiDataId: {
+            jsonData: {
+              contains: { rfiAdditionalFiles: { geographicNames: [] } }
+            }
+            archivedAt: { isNull: true }
+          }
+        }
+      ) {
+        nodes {
+          rfiDataByRfiDataId {
+            jsonData
+            rfiNumber
+          }
+          applicationId
+        }
+        totalCount
+      }
+      applicationFormDataByApplicationId {
+        nodes {
+          formDataByFormDataId {
+            jsonData
+          }
+        }
+        totalCount
+      }
     }
   }
 `;
@@ -249,6 +284,376 @@ const handleTemplateNine = async (
 };
 
 const templateNine = Router();
+
+templateNine.post(
+  '/api/template-nine/:applicationId',
+  limiter,
+  async (req, res) => {
+    const authRole = getAuthRole(req);
+    const pgRole = authRole?.pgRole;
+    const isRoleAuthorized =
+      pgRole === 'ccbc_admin' || pgRole === 'super_admin';
+    if (!isRoleAuthorized) {
+      return res.status(404).end();
+    }
+    try {
+      const { applicationId } = req.params;
+      const applicationIdInt = parseInt(applicationId, 10);
+      if (Number.isNaN(applicationIdInt)) {
+        return res.status(400).json({ error: 'Invalid applicationId' });
+      }
+
+      const data = await performQuery(
+        getTemplateNineApplicationAndRfiDataQuery,
+        { applicationId: applicationIdInt },
+        req
+      );
+
+      if (data) {
+        // RFI exists and has a template 9 uploaded
+        if (
+          data.data.applicationByRowId.applicationRfiDataByApplicationId
+            .totalCount > 0
+        ) {
+          const rfiData =
+            data.data.applicationByRowId.applicationRfiDataByApplicationId
+              .nodes[0];
+          const uuid =
+            rfiData.rfiDataByRfiDataId.jsonData?.rfiAdditionalFiles
+              ?.geographicNames?.[0]?.uuid;
+          if (uuid) {
+            const templateNineData = await handleTemplateNine(
+              uuid,
+              applicationIdInt,
+              req,
+              true
+            );
+            if (templateNineData) {
+              const findTemplateNineData = await performQuery(
+                findTemplateNineDataQuery,
+                { applicationId: applicationIdInt },
+                req
+              );
+              // update
+              if (
+                findTemplateNineData.data.allApplicationFormTemplate9Data
+                  .totalCount > 0
+              ) {
+                await performQuery(
+                  updateTemplateNineDataMutation,
+                  {
+                    input: {
+                      rowId:
+                        findTemplateNineData.data
+                          .allApplicationFormTemplate9Data.nodes[0].rowId,
+                      applicationFormTemplate9DataPatch: {
+                        jsonData: templateNineData,
+                        errors: templateNineData.errors || null,
+                        source: {
+                          source: 'rfi',
+                          rfiNumber:
+                            rfiData.rfiDataByRfiDataId.rfiNumber || null,
+                          uuid,
+                        },
+                        applicationId: applicationIdInt,
+                      },
+                    },
+                  },
+                  req
+                );
+              } else {
+                // create new one
+                await performQuery(
+                  createTemplateNineDataMutation,
+                  {
+                    input: {
+                      applicationFormTemplate9Data: {
+                        jsonData: templateNineData,
+                        errors: templateNineData.errors || null,
+                        source: {
+                          source: 'rfi',
+                          rfiNumber:
+                            rfiData.rfiDataByRfiDataId.rfiNumber || null,
+                          uuid,
+                        },
+                        applicationId: applicationIdInt,
+                      },
+                    },
+                  },
+                  req
+                );
+              }
+              return res.status(200).json({ result: 'success' });
+            }
+          }
+          // no other RFI exists, get data from application
+        } else {
+          const applicationData =
+            data.data.applicationByRowId.applicationFormDataByApplicationId
+              .nodes[0].formDataByFormDataId.jsonData?.templateUploads
+              ?.geographicNames?.[0];
+          const uuid = applicationData?.uuid || null;
+          if (uuid) {
+            const templateNineData = await handleTemplateNine(
+              uuid,
+              applicationIdInt,
+              req,
+              true
+            );
+            if (templateNineData) {
+              // update template nine data
+              const findTemplateNineData = await performQuery(
+                findTemplateNineDataQuery,
+                { applicationId: applicationIdInt },
+                req
+              );
+              if (
+                findTemplateNineData.data.allApplicationFormTemplate9Data
+                  .totalCount > 0
+              ) {
+                await performQuery(
+                  updateTemplateNineDataMutation,
+                  {
+                    input: {
+                      rowId:
+                        findTemplateNineData.data
+                          .allApplicationFormTemplate9Data.nodes[0].rowId,
+                      applicationFormTemplate9DataPatch: {
+                        jsonData: templateNineData,
+                        errors: templateNineData.errors || null,
+                        source: { source: 'application', uuid },
+                        applicationId: applicationIdInt,
+                      },
+                    },
+                  },
+                  req
+                );
+              } else {
+                // create new one
+                await performQuery(
+                  createTemplateNineDataMutation,
+                  {
+                    input: {
+                      applicationFormTemplate9Data: {
+                        jsonData: templateNineData,
+                        errors: templateNineData.errors || null,
+                        source: { source: 'application', uuid },
+                        applicationId: applicationIdInt,
+                      },
+                    },
+                  },
+                  req
+                );
+              }
+              return res.status(200).json({ result: 'success' });
+            }
+          }
+        }
+      }
+      return res.status(200).json({ result: 'success' });
+    } catch (e) {
+      return res.status(500).json({ e });
+    }
+  }
+);
+
+// This is a helper endpoint to run all the application logic and RFI logic
+// with the difference that it will update the template nine data if it already exists for applications
+// followed by RFIs, leaving behind the latest non deleted/archived data for all applications
+// order is Application then RFI, due to RFI taking precedence over application data
+// This endpoint is only available to super admin and ccbc admin
+templateNine.get(
+  '/api/template-nine/rfi-then-all/update',
+  limiter,
+  async (req, res) => {
+    const authRole = getAuthRole(req);
+    const pgRole = authRole?.pgRole;
+    const isRoleAuthorized =
+      pgRole === 'ccbc_admin' || pgRole === 'super_admin';
+
+    if (!isRoleAuthorized) {
+      return res.status(404).end();
+    }
+
+    try {
+      // --- Step 1: Application logic (like /api/template-nine/all, but update if exists) ---
+      const allApplicationData = await performQuery(
+        getTemplateNineQuery,
+        {},
+        req
+      );
+      const applicationPromises =
+        allApplicationData.data.allApplications.nodes.map(
+          async (application) => {
+            const applicationId = application.rowId;
+            const applicationData =
+              application?.applicationFormDataByApplicationId?.nodes[0]
+                ?.formDataByFormDataId?.jsonData?.templateUploads
+                ?.geographicNames?.[0];
+            const uuid = applicationData?.uuid || null;
+            if (uuid) {
+              const templateNineData = await handleTemplateNine(
+                uuid,
+                applicationId,
+                req,
+                true // always update if exists
+              );
+              if (templateNineData) {
+                const findTemplateNineData = await performQuery(
+                  findTemplateNineDataQuery,
+                  { applicationId },
+                  req
+                );
+                if (
+                  findTemplateNineData.data.allApplicationFormTemplate9Data
+                    .totalCount > 0
+                ) {
+                  // update
+                  await performQuery(
+                    updateTemplateNineDataMutation,
+                    {
+                      input: {
+                        rowId:
+                          findTemplateNineData.data
+                            .allApplicationFormTemplate9Data.nodes[0].rowId,
+                        applicationFormTemplate9DataPatch: {
+                          jsonData: templateNineData,
+                          errors: templateNineData.errors || null,
+                          source: { source: 'application', uuid },
+                          applicationId,
+                        },
+                      },
+                    },
+                    req
+                  );
+                } else {
+                  await performQuery(
+                    createTemplateNineDataMutation,
+                    {
+                      input: {
+                        applicationFormTemplate9Data: {
+                          jsonData: templateNineData,
+                          errors: templateNineData.errors || null,
+                          source: { source: 'application', uuid },
+                          applicationId,
+                        },
+                      },
+                    },
+                    req
+                  );
+                }
+              }
+            } else {
+              // No uuid found, record this as an error in the database
+              await performQuery(
+                createTemplateNineDataMutation,
+                {
+                  input: {
+                    applicationFormTemplate9Data: {
+                      errors: [
+                        { error: 'No template 9 uploaded, uuid not found' },
+                      ],
+                      source: { source: 'application' },
+                      applicationId,
+                    },
+                  },
+                },
+                req
+              );
+            }
+          }
+        );
+
+      await Promise.all(applicationPromises);
+
+      // --- Step 2: RFI logic (same as /api/template-nine/rfi/all) ---
+      const allApplicationRfiData = await performQuery(
+        getTemplateNineRfiDataQuery,
+        {},
+        req
+      );
+
+      await Promise.all(
+        allApplicationRfiData.data.allApplicationRfiData.nodes.map(
+          async (application) => {
+            const { applicationId } = application;
+            const applicationData = application?.rfiDataByRfiDataId?.jsonData;
+            const uuid =
+              applicationData?.rfiAdditionalFiles?.geographicNames?.[0]?.uuid;
+            if (uuid) {
+              const templateNineData = await handleTemplateNine(
+                uuid,
+                applicationId,
+                req,
+                true
+              );
+              if (templateNineData) {
+                const findTemplateNineData = await performQuery(
+                  findTemplateNineDataQuery,
+                  { applicationId },
+                  req
+                );
+                if (
+                  findTemplateNineData.data.allApplicationFormTemplate9Data
+                    .totalCount > 0
+                ) {
+                  // update
+                  await performQuery(
+                    updateTemplateNineDataMutation,
+                    {
+                      input: {
+                        rowId:
+                          findTemplateNineData.data
+                            .allApplicationFormTemplate9Data.nodes[0].rowId,
+                        applicationFormTemplate9DataPatch: {
+                          jsonData: templateNineData,
+                          errors: templateNineData.errors || null,
+                          source: {
+                            source: 'rfi',
+                            rfiNumber:
+                              application?.rfiDataByRfiDataId?.rfiNumber ||
+                              null,
+                            uuid,
+                          },
+                          applicationId,
+                        },
+                      },
+                    },
+                    req
+                  );
+                } else {
+                  await performQuery(
+                    createTemplateNineDataMutation,
+                    {
+                      input: {
+                        applicationFormTemplate9Data: {
+                          jsonData: templateNineData,
+                          errors: templateNineData.errors || null,
+                          source: {
+                            source: 'rfi',
+                            rfiNumber:
+                              application?.rfiDataByRfiDataId?.rfiNumber,
+                            uuid,
+                          },
+                          applicationId,
+                        },
+                      },
+                    },
+                    req
+                  );
+                }
+              }
+            }
+          }
+        )
+      );
+
+      return res.status(200).json({ result: 'success' });
+    } catch (e) {
+      return res.status(500).json({ e });
+    }
+  }
+);
 
 // Must pass the uuid of the file to be imported
 // into the database, it must be a valid uuid
