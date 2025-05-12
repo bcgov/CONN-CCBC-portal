@@ -115,10 +115,10 @@ const EditCbcSection = ({
       formData.locations?.communitySourceData?.findIndex(
         (community) => community.geographicNameId === communityId
       );
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       locations: {
-        ...formData.locations,
+        ...prevFormData.locations,
         communitySourceData: [
           ...formData.locations.communitySourceData.slice(
             0,
@@ -129,7 +129,7 @@ const EditCbcSection = ({
           ),
         ],
       },
-    });
+    }));
   };
 
   const handleAddClick = (formPayload) => {
@@ -197,7 +197,7 @@ const EditCbcSection = ({
       economicRegions,
       ...updatedLocationsAndCounts
     } = formData.locationsAndCounts;
-    const { projectLocations } = formData.locations;
+    const { projectLocations, zones } = formData.locations;
     updateFormData({
       variables: {
         inputCbcData: {
@@ -208,6 +208,7 @@ const EditCbcSection = ({
               ...jsonData,
               ...formData.tombstone,
               ...formData.projectType,
+              zones,
               projectLocations,
               ...updatedLocationsAndCounts,
               ...formData.funding,

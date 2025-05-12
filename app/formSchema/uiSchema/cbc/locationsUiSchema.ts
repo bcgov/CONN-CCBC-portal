@@ -3,6 +3,10 @@ const locationsUiSchema = {
   'ui:options': {
     dividers: true,
   },
+  zones: {
+    'ui:field': 'InlineArrayField',
+    'ui:label': 'Project Zone',
+  },
   projectLocations: {
     'ui:widget': 'TextAreaWidget',
     'ui:label': 'Project Locations',

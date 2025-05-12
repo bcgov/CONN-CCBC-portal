@@ -93,6 +93,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
           hasError={hasError}
           errorColor={errorColor}
           errorTextColor={errorTextColor}
+          hideColLeft={hideTitleInEditMode}
         >
           {!showTitle && fieldTitle}
           {fallBackField && <StyledSpan>{fallBackField}</StyledSpan>}
