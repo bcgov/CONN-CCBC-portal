@@ -37,6 +37,7 @@ const getTemplateNineApplicationAndRfiDataQuery = `
             archivedAt: { isNull: true }
           }
         }
+        orderBy: RFI_DATA_ID_DESC
       ) {
         nodes {
           rfiDataByRfiDataId {
