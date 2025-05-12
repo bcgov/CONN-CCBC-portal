@@ -106,6 +106,7 @@
     "postgraphile": "^4.14.1",
     "postgraphile-plugin-connection-filter": "^2.3.0",
     "postinstall-postinstall": "^2.1.0",
+    "prismjs": "^1.30.0",
     "react": "^18.3.1",
     "react-currency-input-field": "^3.10.0",
     "react-leaflet": "4.2.1",
