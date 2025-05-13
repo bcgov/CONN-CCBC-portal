@@ -492,7 +492,6 @@ templateNine.post(
       }
       return res.status(200).json({ result: 'success' });
     } catch (e) {
-      console.log('Error in template nine endpoint', e);
       return res.status(500).json({ e });
     }
   }
