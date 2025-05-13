@@ -328,15 +328,15 @@ templateNine.post(
             .totalCount > 0
         ) {
           const rfiData =
-            data.data.applicationByRowId.applicationRfiDataByApplicationId
-              .nodes[0];
+            data.data?.applicationByRowId?.applicationRfiDataByApplicationId
+              ?.nodes?.[0];
           const uuid =
-            rfiData.rfiDataByRfiDataId.jsonData?.rfiAdditionalFiles
+            rfiData?.rfiDataByRfiDataId?.jsonData?.rfiAdditionalFiles
               ?.geographicNames?.[0]?.uuid;
           // if uuid already matches source uuid, do nothing
           if (
-            findTemplateNineData.data.allApplicationFormTemplate9Data.nodes?.[0]
-              .source.uuid !== uuid
+            findTemplateNineData.data?.allApplicationFormTemplate9Data
+              ?.nodes?.[0]?.source?.uuid !== uuid
           ) {
             if (uuid) {
               const templateNineData = await handleTemplateNine(
@@ -405,13 +405,13 @@ templateNine.post(
         } else {
           const applicationData =
             data.data.applicationByRowId.applicationFormDataByApplicationId
-              .nodes[0].formDataByFormDataId.jsonData?.templateUploads
+              ?.nodes[0]?.formDataByFormDataId?.jsonData?.templateUploads
               ?.geographicNames?.[0];
           const uuid = applicationData?.uuid || null;
           // if uuid already matches source uuid, do nothing
           if (
-            findTemplateNineData.data.allApplicationFormTemplate9Data.nodes?.[0]
-              .source.uuid !== uuid
+            findTemplateNineData?.data?.allApplicationFormTemplate9Data
+              ?.nodes?.[0]?.source?.uuid !== uuid
           ) {
             if (uuid) {
               const templateNineData = await handleTemplateNine(
@@ -488,6 +488,7 @@ templateNine.post(
             },
             req
           );
+          return res.status(200).json({ result: 'success' });
         }
       }
       return res.status(200).json({ result: 'success' });
