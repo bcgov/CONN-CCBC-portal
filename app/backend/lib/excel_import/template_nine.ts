@@ -294,7 +294,11 @@ templateNine.post(
     const authRole = getAuthRole(req);
     const pgRole = authRole?.pgRole;
     const isRoleAuthorized =
-      pgRole === 'ccbc_admin' || pgRole === 'super_admin';
+      pgRole === 'ccbc_admin' ||
+      pgRole === 'super_admin' ||
+      pgRole === 'cbc_admin' ||
+      pgRole === 'ccbc_analyst' ||
+      pgRole === 'ccbc_auth_user';
     if (!isRoleAuthorized) {
       return res.status(404).end();
     }
@@ -488,6 +492,7 @@ templateNine.post(
       }
       return res.status(200).json({ result: 'success' });
     } catch (e) {
+      console.log('Error in template nine endpoint', e);
       return res.status(500).json({ e });
     }
   }
