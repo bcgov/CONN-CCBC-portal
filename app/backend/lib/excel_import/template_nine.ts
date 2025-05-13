@@ -99,6 +99,7 @@ const findTemplateNineDataQuery = `
       totalCount
       nodes {
         rowId
+        source
       }
     }
   }
@@ -310,6 +311,12 @@ templateNine.post(
         req
       );
 
+      const findTemplateNineData = await performQuery(
+        findTemplateNineDataQuery,
+        { applicationId: applicationIdInt },
+        req
+      );
+
       if (data) {
         // RFI exists and has a template 9 uploaded
         if (
@@ -322,67 +329,70 @@ templateNine.post(
           const uuid =
             rfiData.rfiDataByRfiDataId.jsonData?.rfiAdditionalFiles
               ?.geographicNames?.[0]?.uuid;
-          if (uuid) {
-            const templateNineData = await handleTemplateNine(
-              uuid,
-              applicationIdInt,
-              req,
-              true
-            );
-            if (templateNineData) {
-              const findTemplateNineData = await performQuery(
-                findTemplateNineDataQuery,
-                { applicationId: applicationIdInt },
-                req
+          // if uuid already matches source uuid, do nothing
+          if (
+            findTemplateNineData.data.allApplicationFormTemplate9Data.nodes?.[0]
+              .source.uuid !== uuid
+          ) {
+            if (uuid) {
+              const templateNineData = await handleTemplateNine(
+                uuid,
+                applicationIdInt,
+                req,
+                true
               );
-              // update
-              if (
-                findTemplateNineData.data.allApplicationFormTemplate9Data
-                  .totalCount > 0
-              ) {
-                await performQuery(
-                  updateTemplateNineDataMutation,
-                  {
-                    input: {
-                      rowId:
-                        findTemplateNineData.data
-                          .allApplicationFormTemplate9Data.nodes[0].rowId,
-                      applicationFormTemplate9DataPatch: {
-                        jsonData: templateNineData,
-                        errors: templateNineData.errors || null,
-                        source: {
-                          source: 'rfi',
-                          rfiNumber:
-                            rfiData.rfiDataByRfiDataId.rfiNumber || null,
-                          uuid,
+              if (templateNineData) {
+                // update
+
+                if (
+                  findTemplateNineData.data.allApplicationFormTemplate9Data
+                    .totalCount > 0
+                ) {
+                  //
+                  await performQuery(
+                    updateTemplateNineDataMutation,
+                    {
+                      input: {
+                        rowId:
+                          findTemplateNineData.data
+                            .allApplicationFormTemplate9Data.nodes[0].rowId,
+                        applicationFormTemplate9DataPatch: {
+                          jsonData: templateNineData,
+                          errors: templateNineData.errors || null,
+                          source: {
+                            source: 'rfi',
+                            rfiNumber:
+                              rfiData.rfiDataByRfiDataId.rfiNumber || null,
+                            uuid,
+                          },
+                          applicationId: applicationIdInt,
                         },
-                        applicationId: applicationIdInt,
                       },
                     },
-                  },
-                  req
-                );
-              } else {
-                // create new one
-                await performQuery(
-                  createTemplateNineDataMutation,
-                  {
-                    input: {
-                      applicationFormTemplate9Data: {
-                        jsonData: templateNineData,
-                        errors: templateNineData.errors || null,
-                        source: {
-                          source: 'rfi',
-                          rfiNumber:
-                            rfiData.rfiDataByRfiDataId.rfiNumber || null,
-                          uuid,
+                    req
+                  );
+                } else {
+                  // create new one
+                  await performQuery(
+                    createTemplateNineDataMutation,
+                    {
+                      input: {
+                        applicationFormTemplate9Data: {
+                          jsonData: templateNineData,
+                          errors: templateNineData.errors || null,
+                          source: {
+                            source: 'rfi',
+                            rfiNumber:
+                              rfiData.rfiDataByRfiDataId.rfiNumber || null,
+                            uuid,
+                          },
+                          applicationId: applicationIdInt,
                         },
-                        applicationId: applicationIdInt,
                       },
                     },
-                  },
-                  req
-                );
+                    req
+                  );
+                }
               }
               return res.status(200).json({ result: 'success' });
             }
@@ -394,61 +404,86 @@ templateNine.post(
               .nodes[0].formDataByFormDataId.jsonData?.templateUploads
               ?.geographicNames?.[0];
           const uuid = applicationData?.uuid || null;
-          if (uuid) {
-            const templateNineData = await handleTemplateNine(
-              uuid,
-              applicationIdInt,
-              req,
-              true
-            );
-            if (templateNineData) {
-              // update template nine data
-              const findTemplateNineData = await performQuery(
-                findTemplateNineDataQuery,
-                { applicationId: applicationIdInt },
-                req
+          // if uuid already matches source uuid, do nothing
+          if (
+            findTemplateNineData.data.allApplicationFormTemplate9Data.nodes?.[0]
+              .source.uuid !== uuid
+          ) {
+            if (uuid) {
+              const templateNineData = await handleTemplateNine(
+                uuid,
+                applicationIdInt,
+                req,
+                true
               );
-              if (
-                findTemplateNineData.data.allApplicationFormTemplate9Data
-                  .totalCount > 0
-              ) {
-                await performQuery(
-                  updateTemplateNineDataMutation,
-                  {
-                    input: {
-                      rowId:
-                        findTemplateNineData.data
-                          .allApplicationFormTemplate9Data.nodes[0].rowId,
-                      applicationFormTemplate9DataPatch: {
-                        jsonData: templateNineData,
-                        errors: templateNineData.errors || null,
-                        source: { source: 'application', uuid },
-                        applicationId: applicationIdInt,
+              if (templateNineData) {
+                // update template nine data
+                if (
+                  findTemplateNineData.data.allApplicationFormTemplate9Data
+                    .totalCount > 0
+                ) {
+                  await performQuery(
+                    updateTemplateNineDataMutation,
+                    {
+                      input: {
+                        rowId:
+                          findTemplateNineData.data
+                            .allApplicationFormTemplate9Data.nodes[0].rowId,
+                        applicationFormTemplate9DataPatch: {
+                          jsonData: templateNineData,
+                          errors: templateNineData.errors || null,
+                          source: { source: 'application', uuid },
+                          applicationId: applicationIdInt,
+                        },
                       },
                     },
-                  },
-                  req
-                );
-              } else {
-                // create new one
-                await performQuery(
-                  createTemplateNineDataMutation,
-                  {
-                    input: {
-                      applicationFormTemplate9Data: {
-                        jsonData: templateNineData,
-                        errors: templateNineData.errors || null,
-                        source: { source: 'application', uuid },
-                        applicationId: applicationIdInt,
+                    req
+                  );
+                } else {
+                  // create new one
+                  await performQuery(
+                    createTemplateNineDataMutation,
+                    {
+                      input: {
+                        applicationFormTemplate9Data: {
+                          jsonData: templateNineData,
+                          errors: templateNineData.errors || null,
+                          source: { source: 'application', uuid },
+                          applicationId: applicationIdInt,
+                        },
                       },
                     },
-                  },
-                  req
-                );
+                    req
+                  );
+                }
+                return res.status(200).json({ result: 'success' });
               }
-              return res.status(200).json({ result: 'success' });
             }
           }
+        }
+        // if we have reached here with no returning, there is no template 9 data
+        // so we need to clear the existing template 9 data if it exists
+        if (
+          findTemplateNineData.data.allApplicationFormTemplate9Data.totalCount >
+          0
+        ) {
+          await performQuery(
+            updateTemplateNineDataMutation,
+            {
+              input: {
+                rowId:
+                  findTemplateNineData.data.allApplicationFormTemplate9Data
+                    .nodes[0].rowId,
+                applicationFormTemplate9DataPatch: {
+                  jsonData: null,
+                  errors: [{ error: 'No template 9 uploaded, uuid not found' }],
+                  source: { source: 'application' },
+                  applicationId: applicationIdInt,
+                },
+              },
+            },
+            req
+          );
         }
       }
       return res.status(200).json({ result: 'success' });
