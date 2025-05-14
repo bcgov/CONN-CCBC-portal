@@ -3,6 +3,9 @@ import MapCaller from './Map/MapCaller';
 
 const StyledAside = styled.aside`
   min-height: 100%;
+  @media (max-width: 975px) {
+    display: none;
+  }
 `;
 
 const StyledMap = styled.div`
