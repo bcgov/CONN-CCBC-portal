@@ -38,9 +38,16 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
   const minDate = uiOptions?.minDate && dayjs(uiOptions?.minDate as number);
 
   const handleChange = (d: Date) => {
-    const dateTime = new Date(d).toISOString();
+    const dayjsDate = dayjs(d);
 
-    return onChange(dateTime);
+    // clear date if invalid
+    if (!dayjsDate.isValid()) {
+      onChange(undefined);
+      return;
+    }
+
+    const isoString = dayjsDate.toISOString();
+    onChange(isoString);
   };
 
   const styles = {
