@@ -17,6 +17,10 @@ const StyledCallout = styled.div`
   padding-bottom: 0;
   border-left: 4px solid ${(props) => props.theme.color.links};
   width: 100%;
+  @media (max-width: 900px) {
+    flex-direction: column;
+    gap: 16px;
+  }
 `;
 
 const StyledH1 = styled.h1`
@@ -31,16 +35,44 @@ const StyledH2 = styled.h2`
 
 const StyledProjectInfo = styled.div`
   width: 100%;
+  @media (max-width: 1200px) {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    margin-left: 60px;
+  }
   @media (max-width: 975px) {
     word-break: break-word;
     overflow-wrap: break-word;
     margin-left: 150px;
+  }
+  @media (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    width: 80vw;
+    max-width: 100vw;
+    box-sizing: border-box;
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
+    left: 70%;
+    right: 30%;
+    transform: translateX(-50%);
+    margin-left: 0;
   }
 `;
 
 const StyledDiv = styled.div`
   display: grid;
   height: fit-content;
+  @media (max-width: 900px) {
+    width: 20vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 
 const StyledLabel = styled.label`
