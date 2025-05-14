@@ -29,7 +29,7 @@ const StyledMain = styled('main')<MainProps>`
   width: 100%;
   flex: 1;
   padding: 1em 2em;
-
+  overflow-x: scroll;
   ${({ theme, provisionRightNav, maxWidthOverride }) => {
     const { pageMaxWidth } = theme.width;
     const dynamicCalc = `calc(${pageMaxWidth} - 4em + ((100vw - ${pageMaxWidth}) / 2))`;
@@ -42,6 +42,15 @@ const StyledMain = styled('main')<MainProps>`
       marginLeft: provisionRightNav ? dynamicMargin : '0',
     };
   }}
+
+  @media (max-width: 975px) {
+    width: max-content;
+    margin-right: 0;
+    padding-top: 1em;
+    padding-left: 2em;
+    padding-right: 0em;
+    padding-bottom: 1em;
+  }
 `;
 
 const StyledDiv = styled('div')`
