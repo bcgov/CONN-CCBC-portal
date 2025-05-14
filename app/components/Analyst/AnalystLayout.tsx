@@ -26,8 +26,6 @@ const StyledFlex = styled.div`
 `;
 
 const StyledFormDiv = styled(FormDiv)`
-  max-width: 900px;
-  width: 100%;
   margin: 0 auto;
   transition:
     max-width 0.2s,
