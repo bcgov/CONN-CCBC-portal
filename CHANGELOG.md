@@ -1,3 +1,10 @@
+## [1.252.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.3...v1.252.4) (2025-05-14)
+
+### Bug Fixes
+
+- date time widget invalid date handling ([b89f32a](https://github.com/bcgov/CONN-CCBC-portal/commit/b89f32ad79d257d80948ff781294d26db44071e9))
+- only process open prs ([7b48dc3](https://github.com/bcgov/CONN-CCBC-portal/commit/7b48dc356f77cf52b3f88e1d843bbd3fd0052669))
+
 ## [1.252.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.2...v1.252.3) (2025-05-06)
 
 ## [1.252.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.1...v1.252.2) (2025-05-06)
