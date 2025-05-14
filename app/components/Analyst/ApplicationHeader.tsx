@@ -31,6 +31,11 @@ const StyledH2 = styled.h2`
 
 const StyledProjectInfo = styled.div`
   width: 100%;
+  @media (max-width: 975px) {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    margin-left: 150px;
+  }
 `;
 
 const StyledDiv = styled.div`

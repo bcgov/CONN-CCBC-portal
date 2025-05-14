@@ -16,6 +16,9 @@ import SideMap from './SideMap';
 
 const StyledAside = styled.aside`
   min-height: 100%;
+  @media (max-width: 975px) {
+    margin-left: 180px;
+  }
 `;
 
 const StyledNav = styled.nav`
