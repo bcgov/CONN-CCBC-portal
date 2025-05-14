@@ -20,6 +20,9 @@ const StyledAside = styled.aside`
   @media (max-width: 975px) {
     width: 100px;
   }
+  @media (max-width: 1450px) {
+    width: 100px;
+  }
 `;
 
 const StyledNav = styled.nav`
