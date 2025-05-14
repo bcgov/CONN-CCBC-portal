@@ -29,7 +29,6 @@ const StyledMain = styled('main')<MainProps>`
   width: 100%;
   flex: 1;
   padding: 1em 2em;
-  overflow-x: scroll;
   ${({ theme, provisionRightNav, maxWidthOverride }) => {
     const { pageMaxWidth } = theme.width;
     const dynamicCalc = `calc(${pageMaxWidth} - 4em + ((100vw - ${pageMaxWidth}) / 2))`;
