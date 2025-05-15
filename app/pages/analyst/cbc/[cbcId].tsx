@@ -115,6 +115,7 @@ const Cbc = ({
   const [formData, setFormData] = useState({
     locations: {
       communitySourceData: [],
+      zones: [],
     },
   } as any);
   const [baseFormData, setBaseFormData] = useState({} as any);
