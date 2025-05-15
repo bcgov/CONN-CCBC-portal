@@ -57,7 +57,7 @@ const handleOtherFundingSourcesApplication = (otherFundingSources) => {
   return otherFundingSourcesTotal;
 };
 
-const getConditionalApprovalDate = (conditionalApprovalData) => {
+export const getConditionalApprovalDate = (conditionalApprovalData) => {
   // get the greater of the two dates
   const provincialDate = conditionalApprovalData?.decision?.ministerDate;
   const isedDate = conditionalApprovalData?.isedDecisionObj?.isedDate;
