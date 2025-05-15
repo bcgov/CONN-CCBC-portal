@@ -82,7 +82,9 @@ const EditCbcSection = ({
   const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
   const [changeReason, setChangeReason] = useState<null | string>(null);
   const [formData, setFormData] = useState<any>(
-    section === 'locations' ? { locations: { communitySourceData: [] } } : null
+    section === 'locations'
+      ? { locations: { communitySourceData: [], zones: [] } }
+      : null
   );
   const [addedCommunities, setAddedCommunities] = useState([]);
   const [removedCommunities, setRemovedCommunities] = useState([]);
