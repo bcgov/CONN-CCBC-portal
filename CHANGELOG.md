@@ -1,3 +1,9 @@
+## [1.252.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.5...v1.252.6) (2025-05-15)
+
+### Bug Fixes
+
+- funding data for CCBC in gcpe report ([dfe94b0](https://github.com/bcgov/CONN-CCBC-portal/commit/dfe94b09959898967eaa3e19c3c3dfc7db55a511))
+
 ## [1.252.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.4...v1.252.5) (2025-05-15)
 
 ## [1.252.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.3...v1.252.4) (2025-05-14)
