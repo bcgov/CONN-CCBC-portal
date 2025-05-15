@@ -15,7 +15,12 @@ logout.post('/api/logout', async (req: any, res) => {
   const idToken = req?.session?.tokenSet?.id_token;
   req.logout(() => {
     const idp = req.claims?.identity_provider;
-    const baseRoute = idp === 'idir' ? '/analyst' : '/';
+    const roles = req.claims?.client_roles || [];
+    const isAnalyst =
+      roles?.includes('analyst') ||
+      roles?.includes('admin') ||
+      roles?.includes('cbc_admin');
+    const baseRoute = isAnalyst ? '/analyst' : '/';
 
     const postLogoutRedirectUri = encodeURIComponent(`${baseUrl}${baseRoute}`);
     const keycloakLogoutUrl = `${authServerUrl}/protocol/openid-connect/logout?id_token_hint=${encodeURIComponent(idToken)}&post_logout_redirect_uri=${postLogoutRedirectUri}`;
