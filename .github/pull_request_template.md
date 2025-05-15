@@ -1,6 +1,6 @@
 <!--
 PR title should follow the `<type>[(optional scope)]: <description>` format.
-See docs/Team_Agreements.md#commit-message-guidelines
+See docs/CONTRIBUTING.md#commit-message-guidelines
 -->
 
 Implements [NDT-]

@@ -4,7 +4,7 @@ import amqp from 'amqplib';
 import { redis } from '$lib/server/redis';
 import type { QueueMessage } from '$lib/types';
 import { amqpUrl } from '$lib/server/rabbit';
-import { updatePRForRelease } from '$lib/merge';
+import { updatePRForRelease, isPrOpenAndExists } from '$lib/merge';
 
 const JIRA_WEBHOOK_SECRET = process.env.JIRA_WEBHOOK_SECRET || '';
 
@@ -14,6 +14,18 @@ export async function POST({ request }) {
 
 	if (!key) {
 		return json({ error: 'Missing key' }, { status: 400 });
+	}
+
+	const repoName = 'CONN-CCBC-portal';
+	const repoOwner = 'bcgov';
+	const branchName = key;
+
+	// check if a pr exists for the key and it is open
+	const prExistsAndOpen = await isPrOpenAndExists(repoOwner, repoName, branchName);
+	console.log('PR exists and is open:', prExistsAndOpen);
+	if (!prExistsAndOpen) {
+		console.log(`No open PR exists for branch ${branchName}`);
+		return json({ error: 'No open PR exists for the specified branch' }, { status: 404 });
 	}
 
 	const data = 'sprint_done';
@@ -57,9 +69,7 @@ export async function POST({ request }) {
 			await redis.set(`task:${key}`, 'processing');
 			console.log(`Marked task:${key} as processing as queue is empty`);
 			// start release process
-			const repoName = 'CONN-CCBC-portal';
-			const repoOwner = 'bcgov';
-			const branchName = key;
+
 			const passedHeader = secret;
 			const result = await updatePRForRelease({ repoOwner, repoName, branchName, passedHeader });
 			console.log('Release process result:', result);
