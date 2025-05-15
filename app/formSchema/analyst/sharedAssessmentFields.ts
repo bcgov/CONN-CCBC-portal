@@ -13,23 +13,11 @@ const sharedAssessmentFields: RJSFSchema = {
     nextStep: {
       title: 'Progress',
       type: 'string',
-      anyOf: [
-        {
-          title: 'Not started',
-          enum: ['Not started'],
-        },
-        {
-          title: 'Needs 2nd review',
-          enum: ['Needs 2nd review'],
-        },
-        {
-          title: 'Needs RFI',
-          enum: ['Needs RFI'],
-        },
-        {
-          title: 'Assessment complete',
-          enum: ['Assessment complete'],
-        },
+      enum: [
+        'Not started',
+        'Needs 2nd review',
+        'Needs RFI',
+        'Assessment complete',
       ],
       default: 'Not started',
     },

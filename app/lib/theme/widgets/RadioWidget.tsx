@@ -58,6 +58,10 @@ const RadioWidget: React.FC<WidgetProps> = ({
       if (choice === 'false') choice = false;
       if (choice === 'Yes') choice = true;
       if (choice === 'No') choice = false;
+      if (choice === 'YES') choice = true;
+      if (choice === 'NO') choice = false;
+      if (choice === 'yes') choice = true;
+      if (choice === 'no') choice = false;
 
       onChange(choice);
     },

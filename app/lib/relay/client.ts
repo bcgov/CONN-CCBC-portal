@@ -6,7 +6,7 @@ import {
   batchMiddleware,
   cacheMiddleware,
   uploadMiddleware,
-} from 'react-relay-network-modern/node8';
+} from 'react-relay-network-modern';
 import debounceMutationMiddleware from './debounceMutationMiddleware';
 
 const oneMinute = 60 * 1000;

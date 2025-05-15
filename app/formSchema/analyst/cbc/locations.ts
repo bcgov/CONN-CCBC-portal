@@ -27,7 +27,6 @@ const locations: RJSFSchema = {
       default: [],
       items: {
         type: 'integer',
-        enum: [],
       },
     },
   },
