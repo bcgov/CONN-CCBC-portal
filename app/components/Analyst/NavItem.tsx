@@ -36,7 +36,6 @@ const StyledLink = styled(Link)`
 
 const StyledLabelContainer = styled.div`
   padding-left: 8px;
-  display: none;
 
   ${(props) => props.theme.breakpoint.largeUp} {
     display: block;

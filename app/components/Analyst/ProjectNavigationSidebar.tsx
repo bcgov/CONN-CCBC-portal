@@ -17,6 +17,12 @@ const StyledAside = styled.aside`
   margin-top: 250px;
   min-height: 100%;
   width: ${(props) => `calc((100vw - ${props.theme.width.pageMaxWidth}) / 2)`};
+  @media (max-width: 975px) {
+    width: 100px;
+  }
+  @media (max-width: 1450px) {
+    width: 100px;
+  }
 `;
 
 const StyledNav = styled.nav`
