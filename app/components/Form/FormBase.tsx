@@ -17,6 +17,7 @@ import {
 import { RJSFValidationError, ValidatorType } from '@rjsf/utils';
 import { useUnsavedChanges } from 'components/UnsavedChangesProvider';
 import getFormState from 'utils/getFormState';
+import isEqual from 'lodash.isequal';
 
 interface FormPropsWithTheme<T> extends Omit<FormProps<T>, 'validator'> {
   theme?: ThemeProps;
@@ -43,17 +44,19 @@ const FormBase = forwardRef<FormBaseRef, FormPropsWithTheme<any>>(
 
     const ThemedForm = useMemo(() => withTheme(theme ?? defaultTheme), [theme]);
     const [isFormTouched, setIsFormTouched] = useState(false);
-    const initialFormData = useRef(
-      getFormState(schema, formData, Ajv8Validator)
-    );
+    const initialFormData = useRef(null);
 
     const { updateDirtyState } = useUnsavedChanges();
     const customValidator = customizeValidator({ customFormats });
     const skipUnsavedWarning = formContext?.skipUnsavedWarning ?? false;
 
     useEffect(() => {
+      if (initialFormData.current === null && formData) {
+        initialFormData.current = getFormState(schema, formData, Ajv8Validator);
+      }
+
       updateDirtyState(
-        JSON.stringify(formData) !== JSON.stringify(initialFormData.current) &&
+        !isEqual(formData, initialFormData.current) &&
           !skipUnsavedWarning &&
           isFormTouched
       );

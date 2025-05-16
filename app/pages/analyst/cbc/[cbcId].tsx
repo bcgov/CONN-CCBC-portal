@@ -112,12 +112,7 @@ const Cbc = ({
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 
   const { rowId } = query.cbcByRowId;
-  const [formData, setFormData] = useState({
-    locations: {
-      communitySourceData: [],
-      zones: [],
-    },
-  } as any);
+  const [formData, setFormData] = useState(null);
   const [baseFormData, setBaseFormData] = useState({} as any);
   const [addedCommunities, setAddedCommunities] = useState([]);
   const [removedCommunities, setRemovedCommunities] = useState([]);
@@ -359,7 +354,10 @@ const Cbc = ({
     return errors;
   };
 
-  const formErrors = useMemo(() => validate(formData, review), [formData]);
+  const formErrors = useMemo(
+    () => validate(formData || {}, review),
+    [formData]
+  );
 
   const handleQuickEditClick = (isEditMode: boolean) => {
     setEditMode(isEditMode);
@@ -436,7 +434,6 @@ const Cbc = ({
             showErrorHint: true,
             recordLocked,
             editMode,
-            reviewMode: true,
             geographicNamesByRegionalDistrict,
             allCommunitiesSourceData,
             regionalDistrictsByEconomicRegion,
