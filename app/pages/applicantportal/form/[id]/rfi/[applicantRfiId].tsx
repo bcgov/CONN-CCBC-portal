@@ -364,6 +364,7 @@ const ApplicantRfiPage = ({
           >
             <Button disabled={!isDirty}>{isDirty ? 'Save' : 'Saved'}</Button>
           </FormBase>
+          {/* Note: leaving this below save to leave space for future cancel */}
           {isSaveSuccess && (
             <SuccessMessage role="status" aria-live="polite">
               <span>Uploads successfully saved. </span>
