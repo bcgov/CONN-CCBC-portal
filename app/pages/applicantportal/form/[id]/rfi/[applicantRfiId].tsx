@@ -21,11 +21,30 @@ import { useUpdateRfiAndCreateTemplateNineDataMutation } from 'schema/mutations/
 import { useUpdateRfiAndFormDataMutation } from 'schema/mutations/application/updateRfiAndFormDataMutation';
 import { useUpdateFormRfiAndCreateTemplateNineDataMutation } from 'schema/mutations/application/updateFormRfiAndCreateTemplateNineDataMutation';
 import useTemplateUpload from 'lib/helpers/useTemplateUpload';
+import { useToast } from 'components/AppProvider';
 
 const Flex = styled('header')`
   display: flex;
   justify-content: space-between;
   width: 100%;
+`;
+
+const SuccessMessage = styled.div`
+  background-color: #388e3c;
+  color: #fff;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const DashboardLink = styled.a`
+  color: #fff;
+  text-decoration: underline;
+  margin-left: 8px;
+  font-weight: 600;
 `;
 
 const getApplicantRfiIdQuery = graphql`
@@ -73,6 +92,7 @@ const ApplicantRfiPage = ({
   const query = usePreloadedQuery(getApplicantRfiIdQuery, preloadedQuery);
   const { session, rfiDataByRowId, applicationByRowId } = query;
   const { rfiNumber } = rfiDataByRowId;
+  const [rfiRowId, setRfiRowId] = useState(rfiDataByRowId.rowId);
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
   const [updateRfiAndCreateTemplateNineData] =
     useUpdateRfiAndCreateTemplateNineDataMutation();
@@ -80,6 +100,7 @@ const ApplicantRfiPage = ({
     useUpdateFormRfiAndCreateTemplateNineDataMutation();
   const [updateRfiAndFormData] = useUpdateRfiAndFormDataMutation();
   const router = useRouter();
+  const { showToast, hideToast } = useToast();
   const formJsonData = applicationByRowId?.formData?.jsonData;
   const applicationId = router.query.id as string;
   const formSchemaId = applicationByRowId?.formData?.formSchemaId;
@@ -88,6 +109,8 @@ const ApplicantRfiPage = ({
     applicationByRowId?.applicationFormTemplate9DataByApplicationId?.nodes?.[0]
       ?.rowId;
   const [formData, setFormData] = useState(rfiDataByRowId.jsonData);
+  const [isDirty, setIsDirty] = useState(false);
+  const [isSaveSuccess, setIsSaveSuccess] = useState(false);
   const { notifyHHCountUpdate } = useEmailNotification();
   const { notifyRfiCoverageMapKmzUploaded } =
     useRfiCoverageMapKmzUploadedEmail();
@@ -107,6 +130,7 @@ const ApplicantRfiPage = ({
   });
 
   const handleSubmit = (e: IChangeEvent<any>) => {
+    hideToast();
     const getTemplateNineUUID = () => {
       // can be wrong source if there are multiple uploads
       return e.formData?.rfiAdditionalFiles?.geographicNames?.[0]?.uuid;
@@ -152,19 +176,32 @@ const ApplicantRfiPage = ({
         variables: {
           input: {
             jsonData: e.formData,
-            rfiRowId: rfiDataByRowId.rowId,
+            rfiRowId,
           },
         },
-        onCompleted: () => {
+        onCompleted: (r) => {
           setTemplateData(null);
           checkAndNotifyRfiCoverage().then(() => {
             // wait until email is sent before redirecting
-            router.push(`/applicantportal/dashboard`);
+            setRfiRowId(r.updateRfi.rfiData.rowId);
+            setIsDirty(false);
+            setIsSaveSuccess(true);
           });
         },
         onError: (err) => {
           // eslint-disable-next-line no-console
           console.log('Error updating RFI', err);
+          showToast(
+            <>
+              Save unsuccessful, please
+              <DashboardLink href="/applicantportal/dashboard">
+                return to dashboard
+              </DashboardLink>{' '}
+              and try again.
+            </>,
+            'error',
+            10000
+          );
         },
       });
     } else if (!hasApplicationFormDataUpdated && hasTemplateNineUpdated) {
@@ -173,7 +210,7 @@ const ApplicantRfiPage = ({
         variables: {
           rfiInput: {
             jsonData: e.formData,
-            rfiRowId: rfiDataByRowId.rowId,
+            rfiRowId,
           },
           templateNineInput: {
             _applicationId: Number(applicationId),
@@ -192,12 +229,26 @@ const ApplicantRfiPage = ({
             'Error updating RFI and creating template nine data',
             err
           );
+          showToast(
+            <>
+              Save unsuccessful, please{' '}
+              <DashboardLink href="/applicantportal/dashboard">
+                return to dashboard
+              </DashboardLink>{' '}
+              and try again.
+            </>,
+            'error',
+            10000
+          );
         },
-        onCompleted: () => {
+        onCompleted: (r) => {
+          console.log(r);
           setTemplateData(null);
           checkAndNotifyRfiCoverage().then(() => {
             // wait until email(s) is sent before redirecting
-            router.push(`/applicantportal/dashboard`);
+            setRfiRowId(r.updateRfi.rfiData.rowId);
+            setIsDirty(false);
+            setIsSaveSuccess(true);
           });
         },
       });
@@ -213,19 +264,32 @@ const ApplicantRfiPage = ({
           },
           rfiInput: {
             jsonData: e.formData,
-            rfiRowId: rfiDataByRowId.rowId,
+            rfiRowId,
           },
         },
         onError: (err) => {
           // eslint-disable-next-line no-console
           console.log('Error creating new form data', err);
+          showToast(
+            <>
+              Save unsuccessful, please{' '}
+              <DashboardLink href="/applicantportal/dashboard">
+                return to dashboard
+              </DashboardLink>{' '}
+              and try again.
+            </>,
+            'error',
+            10000
+          );
         },
-        onCompleted: () => {
+        onCompleted: (r) => {
           setTemplateData(null);
           checkAndNotifyRfiCoverage().then(() => {
             checkAndNotifyHHCount().then(() => {
               // wait until email is sent before redirecting
-              router.push(`/applicantportal/dashboard`);
+              setRfiRowId(r.updateRfi.rfiData.rowId);
+              setIsDirty(false);
+              setIsSaveSuccess(true);
             });
           });
         },
@@ -242,7 +306,7 @@ const ApplicantRfiPage = ({
           },
           rfiInput: {
             jsonData: e.formData,
-            rfiRowId: rfiDataByRowId.rowId,
+            rfiRowId,
           },
           templateNineInput: {
             _applicationId: Number(applicationId),
@@ -261,13 +325,26 @@ const ApplicantRfiPage = ({
             'Error updating RFI, form data, and template nine data',
             err
           );
+          showToast(
+            <>
+              Save unsuccessful, please{' '}
+              <DashboardLink href="/applicantportal/dashboard">
+                return to dashboard
+              </DashboardLink>{' '}
+              and try again.
+            </>,
+            'error',
+            10000
+          );
         },
-        onCompleted: () => {
+        onCompleted: (r) => {
           setTemplateData(null);
           checkAndNotifyHHCount().then(() => {
             checkAndNotifyRfiCoverage().then(() => {
               // wait until email(s) is sent before redirecting
-              router.push(`/applicantportal/dashboard`);
+              setRfiRowId(r.updateRfi.rfiData.rowId);
+              setIsDirty(false);
+              setIsSaveSuccess(true);
             });
           });
         },
@@ -276,6 +353,7 @@ const ApplicantRfiPage = ({
   };
 
   const handleChange = (e: IChangeEvent<any>) => {
+    setIsDirty(true);
     setFormData(e.formData);
   };
 
@@ -311,8 +389,16 @@ const ApplicantRfiPage = ({
               clearTemplateUpload,
             }}
           >
-            <Button>Save</Button>
+            <Button disabled={!isDirty}>{isDirty ? 'Save' : 'Saved'}</Button>
           </FormBase>
+          {isSaveSuccess && (
+            <SuccessMessage role="status" aria-live="polite">
+              <span>Uploads successfully saved. </span>
+              <DashboardLink href="/applicantportal/dashboard">
+                Return to dashboard
+              </DashboardLink>
+            </SuccessMessage>
+          )}
         </FormDiv>
       </div>
     </Layout>
