@@ -142,14 +142,14 @@ describe('Dashboard export functions', () => {
 
     ccbcRowData.forEach((expectedValue, index) => {
       if (!expectedValue) return;
-      const cell = sheet[XLSX.utils.encode_cell({ r: 2, c: index })];
+      const cell = sheet[XLSX.utils.encode_cell({ r: 1, c: index })];
       expect(cell).toBeDefined();
       expect(cell.v).toBe(expectedValue);
     });
 
     cbcRowData.forEach((expectedValue, index) => {
       if (!expectedValue) return;
-      const cell = sheet[XLSX.utils.encode_cell({ r: 3, c: index })];
+      const cell = sheet[XLSX.utils.encode_cell({ r: 2, c: index })];
       expect(cell).toBeDefined();
       expect(cell.v).toBe(expectedValue);
     });
@@ -174,8 +174,8 @@ describe('Dashboard export functions', () => {
     const workbook2 = XLSX.read(arrayBufferEmptyData, { type: 'array' });
 
     const sheet2 = workbook2.Sheets[workbook2.SheetNames[0]];
-    const cellEr = sheet2[XLSX.utils.encode_cell({ r: 2, c: 21 })];
-    const cellRd = sheet2[XLSX.utils.encode_cell({ r: 2, c: 22 })];
+    const cellEr = sheet2[XLSX.utils.encode_cell({ r: 1, c: 21 })];
+    const cellRd = sheet2[XLSX.utils.encode_cell({ r: 1, c: 22 })];
 
     expect(cellEr).not.toBeDefined();
 
