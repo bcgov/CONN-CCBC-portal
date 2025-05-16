@@ -242,7 +242,6 @@ const ApplicantRfiPage = ({
           );
         },
         onCompleted: (r) => {
-          console.log(r);
           setTemplateData(null);
           checkAndNotifyRfiCoverage().then(() => {
             // wait until email(s) is sent before redirecting
