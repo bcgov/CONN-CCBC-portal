@@ -129,6 +129,20 @@ const ApplicantRfiPage = ({
     sendFailedReadWarning: true,
   });
 
+  const showErrorToast = () => {
+    showToast(
+      <>
+        Save unsuccessful, please{' '}
+        <DashboardLink href="/applicantportal/dashboard">
+          return to dashboard
+        </DashboardLink>{' '}
+        and try again.
+      </>,
+      'error',
+      10000
+    );
+  };
+
   const handleSubmit = (e: IChangeEvent<any>) => {
     hideToast();
     const getTemplateNineUUID = () => {
@@ -191,17 +205,7 @@ const ApplicantRfiPage = ({
         onError: (err) => {
           // eslint-disable-next-line no-console
           console.log('Error updating RFI', err);
-          showToast(
-            <>
-              Save unsuccessful, please
-              <DashboardLink href="/applicantportal/dashboard">
-                return to dashboard
-              </DashboardLink>{' '}
-              and try again.
-            </>,
-            'error',
-            10000
-          );
+          showErrorToast();
         },
       });
     } else if (!hasApplicationFormDataUpdated && hasTemplateNineUpdated) {
@@ -229,17 +233,7 @@ const ApplicantRfiPage = ({
             'Error updating RFI and creating template nine data',
             err
           );
-          showToast(
-            <>
-              Save unsuccessful, please{' '}
-              <DashboardLink href="/applicantportal/dashboard">
-                return to dashboard
-              </DashboardLink>{' '}
-              and try again.
-            </>,
-            'error',
-            10000
-          );
+          showErrorToast();
         },
         onCompleted: (r) => {
           setTemplateData(null);
@@ -269,17 +263,7 @@ const ApplicantRfiPage = ({
         onError: (err) => {
           // eslint-disable-next-line no-console
           console.log('Error creating new form data', err);
-          showToast(
-            <>
-              Save unsuccessful, please{' '}
-              <DashboardLink href="/applicantportal/dashboard">
-                return to dashboard
-              </DashboardLink>{' '}
-              and try again.
-            </>,
-            'error',
-            10000
-          );
+          showErrorToast();
         },
         onCompleted: (r) => {
           setTemplateData(null);
@@ -324,17 +308,7 @@ const ApplicantRfiPage = ({
             'Error updating RFI, form data, and template nine data',
             err
           );
-          showToast(
-            <>
-              Save unsuccessful, please{' '}
-              <DashboardLink href="/applicantportal/dashboard">
-                return to dashboard
-              </DashboardLink>{' '}
-              and try again.
-            </>,
-            'error',
-            10000
-          );
+          showErrorToast();
         },
         onCompleted: (r) => {
           setTemplateData(null);
