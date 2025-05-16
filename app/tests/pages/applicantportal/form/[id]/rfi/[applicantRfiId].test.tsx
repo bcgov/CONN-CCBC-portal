@@ -140,7 +140,13 @@ describe('The applicantRfiId Page', () => {
 
     act(() => {
       pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {},
+        data: {
+          updateRfi: {
+            rfiData: {
+              rowId: 1,
+            },
+          },
+        },
       });
     });
   });
