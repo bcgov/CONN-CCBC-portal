@@ -5,6 +5,8 @@ import {
   generateCbcData,
   generateDashboardExport,
 } from './dashboard';
+import sendEmail from '../ches/sendEmail';
+import getAccessToken from '../ches/getAccessToken';
 
 const dashboardExport = Router();
 
@@ -19,8 +21,29 @@ dashboardExport.post('/api/dashboard/export', limiter, async (req, res) => {
   const applicationData = await generateApplicationData(ccbcIds, req);
   const cbcData = await generateCbcData(cbcIds, req);
   const blob = await generateDashboardExport(applicationData, cbcData);
-
-  const buffer = Buffer.from(await blob.arrayBuffer());
+  const arrayBuffer = await blob.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+  // Email functionality
+  const token = await getAccessToken();
+  // Convert blob to base64 string for email attachment
+  const base64String = buffer.toString('base64');
+  await sendEmail(
+    token,
+    'Dashboard export generated',
+    'Dashboard Export',
+    ['nwbc.devinbox@gov.bc.ca'],
+    'ccbc-dashboard-export',
+    [],
+    [
+      {
+        content: base64String,
+        filename: 'dashboard_export.xlsx',
+        encoding: 'base64',
+        contentType:
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      },
+    ]
+  );
   res.send(buffer);
 });
 
