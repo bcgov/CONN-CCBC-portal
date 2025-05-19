@@ -8320,12 +8320,12 @@ eslint-plugin-react@^7.37.0:
     string.prototype.matchall "^4.0.11"
     string.prototype.repeat "^1.0.0"
 
-eslint-plugin-relay@^1.8.3:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-relay/-/eslint-plugin-relay-1.8.3.tgz#3f320b79259c14c8112909568b208a08e7a9ebae"
-  integrity sha512-awyrwntUTZ7Z+lJUnniTCnJdZYr1dY2djQDARMx1P1y2BFMsBjtTljBK0lBEM7yiTHPBwVnE2OSnXxcD4yMb0A==
+eslint-plugin-relay@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-relay/-/eslint-plugin-relay-2.0.0.tgz#b3756656cda5788c135c5443846000a1dde05a90"
+  integrity sha512-H52u+YM72VhBwhKrGSSdsjbeAWbLIgmph3z4Hgfyqm8Jt5pP5g9PbFmBp8kk10D4vZldrbNwa0esHxDRoczprg==
   dependencies:
-    graphql "^14.0.0 || ^15.0.0"
+    graphql "^14.0.0 || ^15.0.0 || ^16.0.0"
 
 eslint-scope@^5.1.1:
   version "5.1.1"
@@ -9453,10 +9453,15 @@ graphql@15.3.0:
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.3.0.tgz#3ad2b0caab0d110e3be4a5a9b2aa281e362b5278"
   integrity sha512-GTCJtzJmkFLWRfFJuoo9RWWa/FfamUHgiFosxi/X1Ani4AVWbeyBenZTNX6dM+7WSbbFfTo/25eh0LLkwHMw2w==
 
-"graphql@>=0.9 <0.14 || ^14.0.2 || ^15.4.0", "graphql@^0.6.0 || ^0.7.0 || ^0.8.0-b || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.2 || ^15.0.0", "graphql@^14.0.0 || ^15.0.0", graphql@^15.6.1:
+"graphql@>=0.9 <0.14 || ^14.0.2 || ^15.4.0", "graphql@^0.6.0 || ^0.7.0 || ^0.8.0-b || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.2 || ^15.0.0", graphql@^15.6.1:
   version "15.8.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.8.0.tgz#33410e96b012fa3bdb1091cc99a94769db212b38"
   integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==
+
+"graphql@^14.0.0 || ^15.0.0 || ^16.0.0":
+  version "16.11.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.11.0.tgz#96d17f66370678027fdf59b2d4c20b4efaa8a633"
+  integrity sha512-mS1lbMsxgQj6hge1XZ6p7GPhbrtFwUFYi3wRzXAC/FmYnyXMTvvI3td3rjmQ2u8ewXueaSvRPWaEcgVVOT9Jnw==
 
 gray-percentage@^2.0.0:
   version "2.0.0"
