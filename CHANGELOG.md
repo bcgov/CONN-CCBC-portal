@@ -1,3 +1,10 @@
+## [1.252.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.6...v1.252.7) (2025-05-20)
+
+### Bug Fixes
+
+- unsaved changed modal falsly poping up ([0474ebb](https://github.com/bcgov/CONN-CCBC-portal/commit/0474ebbf1f73df0d207f9f7ecb23860bfd10acb0))
+- unsaved changes modal, on cbc edits ([8897377](https://github.com/bcgov/CONN-CCBC-portal/commit/8897377a263682df13fc8f6afe6850da5ed14cbf))
+
 ## [1.252.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.5...v1.252.6) (2025-05-15)
 
 ### Bug Fixes
