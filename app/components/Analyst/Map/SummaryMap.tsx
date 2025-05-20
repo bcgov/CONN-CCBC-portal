@@ -21,6 +21,7 @@ import {
   ScaleControl,
 } from 'react-leaflet';
 import { useEffect, useRef, useState } from 'react';
+import { Resizable } from 're-resizable';
 import styled from 'styled-components';
 import styles from './Tooltip.module.css';
 
@@ -31,8 +32,12 @@ interface SummaryMapProps {
 }
 
 const StyledMapContainer = styled(MapContainer)<SummaryMapProps>`
-  height: ${(props) => props.height};
-  width: ${(props) => props.width};
+  height: ${(props) => (!props?.expanded ? props.height : '100%')} !important;
+  width: ${(props) => (!props?.expanded ? props.width : '100%')} !important;
+  .leaflet-container {
+    height: ${(props) => (!props?.expanded ? props.height : '100%')} !important;
+    width: ${(props) => (!props?.expanded ? props.width : '100%')} !important;
+  }
   .leaflet-control-layers {
     visibility: ${(props) => (props.expanded ? 'visible' : 'hidden')};
   }
@@ -140,179 +145,204 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
       map.fitBounds([getBounds(data)]);
     }
   }, [data, mapReady]);
+  // Add resizable wrapper
+  const [size, setSize] = useState({ width, height });
+  useEffect(() => {
+    const map = mapRef.current;
+    if (map) {
+      map.invalidateSize(true);
+    }
+  }, [size]);
   return (
-    <StyledMapContainer
-      preferCanvas
-      attributionControl={false}
-      ref={mapRef}
-      // BC Bounds
-      bounds={[
-        [47.768, -145.59],
-        [60.283, -103.403],
-      ]}
-      // Zoom is automatically set when using bounds
-      // zoom={5}
-      scrollWheelZoom
-      whenReady={() => {
-        setMapReady(true);
+    <Resizable
+      size={size}
+      minWidth={300}
+      minHeight={200}
+      enable={expanded ? { bottomRight: true } : false}
+      onResizeStop={(e, direction, ref) => {
+        setSize({
+          width: ref.style.width,
+          height: ref.style.height,
+        });
       }}
-      height={height}
-      width={width}
-      expanded={expanded}
+      style={{ position: 'relative' }}
     >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <ScaleControl position="bottomleft" imperial={false} />
-      <LayersControl position="topright">
-        {data?.geographicCoverageMap?.length > 0 && (
-          <>
-            {data?.geographicCoverageMap?.map((geoData) => (
-              <LayersControl.Overlay
-                checked
-                // Name does not accept anything but string, but it will render basic HTML
-                name={`<span class='${tooltipClass}'>Project Coverage (${geoData?.source})</span>`}
-                key={`geo-overlay-${generateUniqueKey()}`}
-              >
-                <LayerGroup>
-                  <RenderMarkers
-                    markers={geoData?.markers}
-                    name="geo-marker"
-                    expanded={expanded}
-                  />
-                  {geoData?.polygons?.map((polygon) => (
-                    <Polygon
-                      key={`geo-polygon-${generateUniqueKey()}`}
-                      positions={polygon.coordinates}
-                      color="blue"
-                      pathOptions={pathOptions}
-                    >
-                      <Popup>
-                        {polygon?.balloonData && (
-                          <div>{parse(polygon.balloonData)}</div>
-                        )}
-                      </Popup>
-                    </Polygon>
-                  ))}
-                </LayerGroup>
-              </LayersControl.Overlay>
-            ))}
-          </>
-        )}
-        {data?.currentNetworkInfrastructure?.length > 0 && (
-          <>
-            {data?.currentNetworkInfrastructure?.map((geoData) => (
-              <LayersControl.Overlay
-                checked={false}
-                name={`<span class='${tooltipClass}'>Current Network Infrastructure (${geoData?.source})</span>`}
-                key={`current-overlay-${generateUniqueKey()}`}
-              >
-                <LayerGroup>
-                  <RenderMarkers
-                    markers={geoData?.markers}
-                    name="current-marker"
-                    expanded={expanded}
-                  />
-                  {geoData?.polygons?.map((polygon) => (
-                    <Polygon
-                      key={`current-polygon-${generateUniqueKey()}`}
-                      positions={polygon.coordinates}
-                      color="red"
-                    >
-                      <Popup>
-                        <h4>{polygon?.name}</h4>
-                        <p>{polygon?.description}</p>
-                      </Popup>
-                    </Polygon>
-                  ))}
-                </LayerGroup>
-              </LayersControl.Overlay>
-            ))}
-          </>
-        )}
-        {data?.upgradedNetworkInfrastructure?.length > 0 && (
-          <>
-            {data?.upgradedNetworkInfrastructure?.map((geoData) => (
-              <LayersControl.Overlay
-                checked={false}
-                name={`<span class='${tooltipClass}'>Upgraded Network Infrastructure (${geoData?.source})</span>`}
-                key={`upgraded-overlay-${generateUniqueKey()}`}
-              >
-                <LayerGroup>
-                  <RenderMarkers
-                    markers={geoData.markers}
-                    name="upgraded-marker"
-                    expanded={expanded}
-                  />
-                  {geoData?.polygons?.map((polygon) => (
-                    <Polygon
-                      key={`upgraded-polygon-${generateUniqueKey()}`}
-                      positions={polygon.coordinates}
-                      color="green"
-                    >
-                      <Popup>
-                        <h4>{polygon?.name}</h4>
-                        <p>{polygon?.description}</p>
-                      </Popup>
-                    </Polygon>
-                  ))}
-                </LayerGroup>
-              </LayersControl.Overlay>
-            ))}
-          </>
-        )}
-        {data?.finalizedMapUpload?.length > 0 && (
-          <>
-            {data?.finalizedMapUpload?.map((geoData) => (
-              <LayersControl.Overlay
-                checked
-                name={`<span class='${tooltipClass}'>Project Coverage (${geoData?.source})</span>`}
-                key={`finalized-overlay-${generateUniqueKey()}`}
-              >
-                <LayerGroup>
-                  <RenderMarkers
-                    markers={geoData.markers}
-                    name="finalized-marker"
-                    expanded={expanded}
-                  />
-                  {geoData?.polygons?.map((polygon) => (
-                    <Polygon
-                      key={`finalized-polygon-${polygon?.fileNam}`}
-                      positions={polygon.coordinates}
-                      color="purple"
-                      pathOptions={pathOptions}
-                    >
-                      <Popup>
-                        <h4>{polygon?.name}</h4>
-                        <p>{polygon?.description}</p>
-                      </Popup>
-                    </Polygon>
-                  ))}
-                  {geoData?.lineStrings?.map((line) => (
-                    <Polyline
-                      key={`finalized-line-${line?.fileName}`}
-                      positions={line.coordinates}
-                      color={
-                        convertKmlColorToHex(line?.style?.lineStyle?.color).hex
-                      }
-                      pathOptions={pathOptions}
-                    >
-                      <Popup>
-                        <h4>{line?.name}</h4>
-                        {line?.description && (
-                          <div>{parse(line.description)}</div>
-                        )}
-                      </Popup>
-                    </Polyline>
-                  ))}
-                </LayerGroup>
-              </LayersControl.Overlay>
-            ))}
-          </>
-        )}
-      </LayersControl>
-    </StyledMapContainer>
+      <div style={{ width: '100%', height: '100%' }}>
+        <StyledMapContainer
+          preferCanvas
+          attributionControl={false}
+          ref={mapRef}
+          // BC Bounds
+          bounds={[
+            [47.768, -145.59],
+            [60.283, -103.403],
+          ]}
+          // Zoom is automatically set when using bounds
+          // zoom={5}
+          scrollWheelZoom
+          whenReady={() => {
+            setMapReady(true);
+          }}
+          height={height}
+          width={width}
+          expanded={expanded}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <ScaleControl position="bottomleft" imperial={false} />
+          <LayersControl position="topright">
+            {data?.geographicCoverageMap?.length > 0 && (
+              <>
+                {data?.geographicCoverageMap?.map((geoData) => (
+                  <LayersControl.Overlay
+                    checked
+                    // Name does not accept anything but string, but it will render basic HTML
+                    name={`<span class='${tooltipClass}'>Project Coverage (${geoData?.source})</span>`}
+                    key={`geo-overlay-${generateUniqueKey()}`}
+                  >
+                    <LayerGroup>
+                      <RenderMarkers
+                        markers={geoData?.markers}
+                        name="geo-marker"
+                        expanded={expanded}
+                      />
+                      {geoData?.polygons?.map((polygon) => (
+                        <Polygon
+                          key={`geo-polygon-${generateUniqueKey()}`}
+                          positions={polygon.coordinates}
+                          color="blue"
+                          pathOptions={pathOptions}
+                        >
+                          <Popup>
+                            {polygon?.balloonData && (
+                              <div>{parse(polygon.balloonData)}</div>
+                            )}
+                          </Popup>
+                        </Polygon>
+                      ))}
+                    </LayerGroup>
+                  </LayersControl.Overlay>
+                ))}
+              </>
+            )}
+            {data?.currentNetworkInfrastructure?.length > 0 && (
+              <>
+                {data?.currentNetworkInfrastructure?.map((geoData) => (
+                  <LayersControl.Overlay
+                    checked={false}
+                    name={`<span class='${tooltipClass}'>Current Network Infrastructure (${geoData?.source})</span>`}
+                    key={`current-overlay-${generateUniqueKey()}`}
+                  >
+                    <LayerGroup>
+                      <RenderMarkers
+                        markers={geoData?.markers}
+                        name="current-marker"
+                        expanded={expanded}
+                      />
+                      {geoData?.polygons?.map((polygon) => (
+                        <Polygon
+                          key={`current-polygon-${generateUniqueKey()}`}
+                          positions={polygon.coordinates}
+                          color="red"
+                        >
+                          <Popup>
+                            <h4>{polygon?.name}</h4>
+                            <p>{polygon?.description}</p>
+                          </Popup>
+                        </Polygon>
+                      ))}
+                    </LayerGroup>
+                  </LayersControl.Overlay>
+                ))}
+              </>
+            )}
+            {data?.upgradedNetworkInfrastructure?.length > 0 && (
+              <>
+                {data?.upgradedNetworkInfrastructure?.map((geoData) => (
+                  <LayersControl.Overlay
+                    checked={false}
+                    name={`<span class='${tooltipClass}'>Upgraded Network Infrastructure (${geoData?.source})</span>`}
+                    key={`upgraded-overlay-${generateUniqueKey()}`}
+                  >
+                    <LayerGroup>
+                      <RenderMarkers
+                        markers={geoData.markers}
+                        name="upgraded-marker"
+                        expanded={expanded}
+                      />
+                      {geoData?.polygons?.map((polygon) => (
+                        <Polygon
+                          key={`upgraded-polygon-${generateUniqueKey()}`}
+                          positions={polygon.coordinates}
+                          color="green"
+                        >
+                          <Popup>
+                            <h4>{polygon?.name}</h4>
+                            <p>{polygon?.description}</p>
+                          </Popup>
+                        </Polygon>
+                      ))}
+                    </LayerGroup>
+                  </LayersControl.Overlay>
+                ))}
+              </>
+            )}
+            {data?.finalizedMapUpload?.length > 0 && (
+              <>
+                {data?.finalizedMapUpload?.map((geoData) => (
+                  <LayersControl.Overlay
+                    checked
+                    name={`<span class='${tooltipClass}'>Project Coverage (${geoData?.source})</span>`}
+                    key={`finalized-overlay-${generateUniqueKey()}`}
+                  >
+                    <LayerGroup>
+                      <RenderMarkers
+                        markers={geoData.markers}
+                        name="finalized-marker"
+                        expanded={expanded}
+                      />
+                      {geoData?.polygons?.map((polygon) => (
+                        <Polygon
+                          key={`finalized-polygon-${polygon?.fileNam}`}
+                          positions={polygon.coordinates}
+                          color="purple"
+                          pathOptions={pathOptions}
+                        >
+                          <Popup>
+                            <h4>{polygon?.name}</h4>
+                            <p>{polygon?.description}</p>
+                          </Popup>
+                        </Polygon>
+                      ))}
+                      {geoData?.lineStrings?.map((line) => (
+                        <Polyline
+                          key={`finalized-line-${line?.fileName}`}
+                          positions={line.coordinates}
+                          color={
+                            convertKmlColorToHex(line?.style?.lineStyle?.color)
+                              .hex
+                          }
+                          pathOptions={pathOptions}
+                        >
+                          <Popup>
+                            <h4>{line?.name}</h4>
+                            {line?.description && (
+                              <div>{parse(line.description)}</div>
+                            )}
+                          </Popup>
+                        </Polyline>
+                      ))}
+                    </LayerGroup>
+                  </LayersControl.Overlay>
+                ))}
+              </>
+            )}
+          </LayersControl>
+        </StyledMapContainer>
+      </div>
+    </Resizable>
   );
 };
 
