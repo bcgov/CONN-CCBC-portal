@@ -20,6 +20,7 @@ import {
   TileLayer,
   ScaleControl,
 } from 'react-leaflet';
+import { FullscreenControl } from 'react-leaflet-fullscreen';
 import { useEffect, useRef, useState } from 'react';
 import { Resizable } from 're-resizable';
 import styled from 'styled-components';
@@ -191,6 +192,13 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
+          {expanded && (
+            <FullscreenControl
+              position="bottomright"
+              forceSeparateButton
+              content="⛶"
+            />
+          )}
           <ScaleControl position="bottomleft" imperial={false} />
           <LayersControl position="topright">
             {data?.geographicCoverageMap?.length > 0 && (
