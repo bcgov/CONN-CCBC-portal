@@ -1,5 +1,6 @@
 import { graphql } from 'react-relay';
 import { screen, fireEvent } from '@testing-library/react';
+import * as nextRouter from 'next/router';
 import { ProjectNavigationSidebar } from 'components/Analyst';
 import compiledQuery, {
   ProjectNavigationSidebarTestQuery,
@@ -84,10 +85,43 @@ const componentTestingHelper =
   });
 
 describe('The application navigation bar component', () => {
+  let pushMock;
+  let routerState;
+
+  beforeAll(() => {
+    pushMock = jest.fn();
+    routerState = {
+      push: pushMock,
+      query: {},
+      asPath: '',
+      route: '/analyst/application/[applicationId]',
+      pathname: '/analyst/application/[applicationId]',
+      basePath: '',
+      isLocaleDomain: false,
+      prefetch: jest.fn(),
+      replace: jest.fn(),
+      reload: jest.fn(),
+      back: jest.fn(),
+      beforePopState: jest.fn(),
+      events: {
+        on: jest.fn(),
+        off: jest.fn(),
+        emit: jest.fn(),
+      },
+      isFallback: false,
+      isReady: true,
+      isPreview: false,
+      isMounted: true,
+    };
+    jest.spyOn(nextRouter, 'useRouter').mockImplementation(() => routerState);
+  });
+
   beforeEach(() => {
     componentTestingHelper.reinit();
-    delete (window as any).location;
-    (window as any).location = { href: '' };
+    pushMock.mockClear();
+    // Reset routerState for each test
+    routerState.query = {};
+    routerState.asPath = '';
   });
 
   it('renders project navigation correctly with initial data', () => {
@@ -115,6 +149,9 @@ describe('The application navigation bar component', () => {
       query: { cbcId: '12' },
       asPath: '/analyst/cbc/12',
     });
+    // Update routerState for this test
+    routerState.query = { cbcId: '12' };
+    routerState.asPath = '/analyst/cbc/12';
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -127,6 +164,9 @@ describe('The application navigation bar component', () => {
       query: { cbcId: '6' },
       asPath: '/analyst/application/6',
     });
+    // Update routerState for this test
+    routerState.query = { cbcId: '6' };
+    routerState.asPath = '/analyst/application/6';
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -135,7 +175,11 @@ describe('The application navigation bar component', () => {
 
     fireEvent.click(nextButton);
 
-    expect(window.location.href).toBe('/analyst/application/41');
+    expect(pushMock).toHaveBeenCalledWith(
+      '/analyst/application/41',
+      undefined,
+      { shallow: true }
+    );
   });
 
   it('navigates to the next project on previous button click', async () => {
@@ -143,6 +187,8 @@ describe('The application navigation bar component', () => {
       query: { cbcId: '6' },
       asPath: '/analyst/application/6',
     });
+    routerState.query = { cbcId: '6' };
+    routerState.asPath = '/analyst/application/6';
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -151,7 +197,9 @@ describe('The application navigation bar component', () => {
 
     fireEvent.click(prevButton);
 
-    expect(window.location.href).toBe('/analyst/application/1');
+    expect(pushMock).toHaveBeenCalledWith('/analyst/application/1', undefined, {
+      shallow: true,
+    });
   });
 
   it('renders the autocomplete dropdown and selects an option', async () => {
@@ -159,6 +207,8 @@ describe('The application navigation bar component', () => {
       query: { cbcId: '6' },
       asPath: '/analyst/application/6',
     });
+    routerState.query = { cbcId: '6' };
+    routerState.asPath = '/analyst/application/6';
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -176,7 +226,9 @@ describe('The application navigation bar component', () => {
 
     fireEvent.click(option);
 
-    expect(window.location.href).toBe('/analyst/application/1');
+    expect(pushMock).toHaveBeenCalledWith('/analyst/application/1', undefined, {
+      shallow: true,
+    });
   });
 
   it('reads and loads correct options from last visited list in storage', async () => {
@@ -184,6 +236,9 @@ describe('The application navigation bar component', () => {
       query: { cbcId: '1' },
       asPath: '/analyst/application/1',
     });
+    // Update routerState for this test
+    routerState.query = { cbcId: '1' };
+    routerState.asPath = '/analyst/application/1';
     Storage.prototype.getItem = jest.fn();
     Storage.prototype.setItem = jest.fn();
     Storage.prototype.removeItem = jest.fn();
