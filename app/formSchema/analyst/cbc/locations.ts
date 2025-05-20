@@ -6,6 +6,16 @@ const locations: RJSFSchema = {
   type: 'object',
   required: [],
   properties: {
+    zones: {
+      type: 'array',
+      minItems: 1,
+      items: {
+        type: 'number',
+        enum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      },
+      uniqueItems: true,
+      title: 'Project Zone',
+    },
     projectLocations: {
       type: 'string',
       title: 'Project Locations',

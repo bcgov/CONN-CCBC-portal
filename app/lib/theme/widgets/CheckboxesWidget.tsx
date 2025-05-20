@@ -9,11 +9,13 @@ const StyledLink = styled.a`
   text-decoration-line: underline;
 `;
 
-const StyledDiv = styled('div')`
+const StyledDiv = styled.div<{ direction: 'row' | 'column' }>`
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: ${(props) => props.direction};
+  align-items: ${(props) =>
+    props.direction === 'row' ? 'center' : 'flex-start'};
   margin-top: 8px;
+  margin-right: ${(props) => (props.direction === 'row' ? 'none' : '24px')};
 
   & span {
     border-radius: 2px;
@@ -28,21 +30,33 @@ const StyledDiv = styled('div')`
   }
 `;
 
-const StyledContainer = styled('div')`
+const StyledContainer = styled.div<{ direction: 'row' | 'column' }>`
   margin-top: 8px;
   margin-bottom: 16px;
+  display: ${(props) => (props.direction === 'row' ? 'auto' : 'flex')};
+`;
+
+const StyledRow = styled.div<{ reviewEditMode: false }>`
+  border-top: ${(props) =>
+    props.reviewEditMode ? '1px solid rgba(0, 0, 0, 0.16)' : 'none'};
+  padding: ${(props) =>
+    props.reviewEditMode ? props.theme.spacing.medium : 'inherit'};
 `;
 
 const CheckboxesWidget: React.FC<WidgetProps> = ({
   disabled,
   id,
   onChange,
+  uiSchema,
   label,
   options,
   value,
   required,
   formContext,
 }) => {
+  const reviewEditMode =
+    formContext.reviewMode && uiSchema?.['ui:hidetitleineditmode'];
+
   function selectValue(val: any, selected: any, all: any) {
     const at = all.indexOf(val);
     const updated = selected.slice(0, at).concat(val, selected.slice(at));
@@ -63,7 +77,12 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
 
   const downloadLinks = downloadLinksDict[intakeNumber];
 
-  const { enumOptions, singleSelection, kmzLink }: any = options;
+  const {
+    enumOptions,
+    singleSelection,
+    kmzLink,
+    checkboxDirection = 'row',
+  }: any = options;
 
   const handleCheckboxChange = (option: any, checked: boolean) => {
     if (singleSelection) {
@@ -79,49 +98,53 @@ const CheckboxesWidget: React.FC<WidgetProps> = ({
   };
 
   return (
-    <StyledContainer>
-      {enumOptions?.map(
-        (option: { value: string; label: string }, i: number) => {
-          const checked = value.indexOf(option.value) !== -1;
-          return (
-            <StyledDiv
-              key={option.value}
-              style={{ opacity: disabled && '0.6' }}
-            >
-              <Checkbox
-                id={`${id}-${i}`}
-                onChange={(event: any) =>
-                  handleCheckboxChange(option, event.target.checked)
-                }
-                checked={checked}
-                value={value}
-                required={required}
-                aria-label={label}
-                disabled={disabled}
-              />
-              <div>{option.label}</div>
-              {kmzLink && downloadLinks?.[parseInt(option.value, 10)] && (
-                <div>
-                  <StyledLink
-                    target="_blank"
-                    href={downloadLinks?.[parseInt(option.value, 10)]?.kmz}
-                  >
-                    kmz
-                  </StyledLink>
-                  |
-                  <StyledLink
-                    target="_blank"
-                    href={downloadLinks?.[parseInt(option.value, 10)]?.pdf}
-                  >
-                    pdf
-                  </StyledLink>
-                </div>
-              )}
-            </StyledDiv>
-          );
-        }
-      )}
-    </StyledContainer>
+    <StyledRow reviewEditMode={reviewEditMode}>
+      {reviewEditMode && label}
+      <StyledContainer direction={checkboxDirection}>
+        {enumOptions?.map(
+          (option: { value: string; label: string }, i: number) => {
+            const checked = value.indexOf(option.value) !== -1;
+            return (
+              <StyledDiv
+                key={option.value}
+                direction={checkboxDirection}
+                style={{ opacity: disabled && '0.6' }}
+              >
+                <Checkbox
+                  id={`${id}-${i}`}
+                  onChange={(event: any) =>
+                    handleCheckboxChange(option, event.target.checked)
+                  }
+                  checked={checked}
+                  value={value}
+                  required={required}
+                  aria-label={label}
+                  disabled={disabled}
+                />
+                <div>{option.label}</div>
+                {kmzLink && downloadLinks?.[parseInt(option.value, 10)] && (
+                  <div>
+                    <StyledLink
+                      target="_blank"
+                      href={downloadLinks?.[parseInt(option.value, 10)]?.kmz}
+                    >
+                      kmz
+                    </StyledLink>
+                    |
+                    <StyledLink
+                      target="_blank"
+                      href={downloadLinks?.[parseInt(option.value, 10)]?.pdf}
+                    >
+                      pdf
+                    </StyledLink>
+                  </div>
+                )}
+              </StyledDiv>
+            );
+          }
+        )}
+      </StyledContainer>
+    </StyledRow>
   );
 };
 

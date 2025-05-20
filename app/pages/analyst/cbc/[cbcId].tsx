@@ -112,11 +112,7 @@ const Cbc = ({
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 
   const { rowId } = query.cbcByRowId;
-  const [formData, setFormData] = useState({
-    locations: {
-      communitySourceData: [],
-    },
-  } as any);
+  const [formData, setFormData] = useState(null);
   const [baseFormData, setBaseFormData] = useState({} as any);
   const [addedCommunities, setAddedCommunities] = useState([]);
   const [removedCommunities, setRemovedCommunities] = useState([]);
@@ -132,10 +128,10 @@ const Cbc = ({
       formData.locations.communitySourceData.findIndex(
         (community) => community.geographicNameId === communityId
       );
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       locations: {
-        ...formData.locations,
+        ...prevFormData.locations,
         communitySourceData: [
           ...formData.locations.communitySourceData.slice(
             0,
@@ -146,7 +142,7 @@ const Cbc = ({
           ),
         ],
       },
-    });
+    }));
   };
 
   const handleAddClick = (formPayload) => {
@@ -263,7 +259,7 @@ const Cbc = ({
       economicRegions,
       ...updatedLocationsAndCounts
     } = formData.locationsAndCounts;
-    const { projectLocations } = formData.locations;
+    const { projectLocations, zones } = formData.locations;
     updateFormData({
       variables: {
         inputCbcData: {
@@ -274,6 +270,7 @@ const Cbc = ({
               ...query?.cbcByRowId?.cbcDataByCbcId?.edges[0].node.jsonData,
               ...formData.tombstone,
               ...formData.projectType,
+              zones,
               projectLocations,
               ...updatedLocationsAndCounts,
               ...formData.funding,
@@ -357,7 +354,10 @@ const Cbc = ({
     return errors;
   };
 
-  const formErrors = useMemo(() => validate(formData, review), [formData]);
+  const formErrors = useMemo(
+    () => validate(formData || {}, review),
+    [formData]
+  );
 
   const handleQuickEditClick = (isEditMode: boolean) => {
     setEditMode(isEditMode);

@@ -81,9 +81,7 @@ const EditCbcSection = ({
   const section = router.query.section as string;
   const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
   const [changeReason, setChangeReason] = useState<null | string>(null);
-  const [formData, setFormData] = useState<any>(
-    section === 'locations' ? { locations: { communitySourceData: [] } } : null
-  );
+  const [formData, setFormData] = useState<any>(null);
   const [addedCommunities, setAddedCommunities] = useState([]);
   const [removedCommunities, setRemovedCommunities] = useState([]);
 
@@ -115,10 +113,10 @@ const EditCbcSection = ({
       formData.locations?.communitySourceData?.findIndex(
         (community) => community.geographicNameId === communityId
       );
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       locations: {
-        ...formData.locations,
+        ...prevFormData.locations,
         communitySourceData: [
           ...formData.locations.communitySourceData.slice(
             0,
@@ -129,7 +127,7 @@ const EditCbcSection = ({
           ),
         ],
       },
-    });
+    }));
   };
 
   const handleAddClick = (formPayload) => {
@@ -197,7 +195,7 @@ const EditCbcSection = ({
       economicRegions,
       ...updatedLocationsAndCounts
     } = formData.locationsAndCounts;
-    const { projectLocations } = formData.locations;
+    const { projectLocations, zones } = formData.locations;
     updateFormData({
       variables: {
         inputCbcData: {
@@ -208,6 +206,7 @@ const EditCbcSection = ({
               ...jsonData,
               ...formData.tombstone,
               ...formData.projectType,
+              zones,
               projectLocations,
               ...updatedLocationsAndCounts,
               ...formData.funding,
@@ -268,7 +267,7 @@ const EditCbcSection = ({
     <Layout title="Edit CBC Section" session={session} provisionRightNav>
       <CbcAnalystLayout query={query} isFormEditable>
         <FormBase
-          formData={formData?.[section] ?? {}}
+          formData={formData?.[section]}
           schema={review.properties[section] as RJSFSchema}
           theme={theme}
           uiSchema={editUiSchema[section]}
