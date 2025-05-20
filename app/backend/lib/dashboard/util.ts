@@ -107,3 +107,13 @@ export const handleLastMileSpeed = (status): number => {
   }
   return null;
 };
+
+export const getFnhaValue = (data) => {
+  if (data?.fnhaFunding && data.fnhaFunding !== 0) {
+    return data.fnhaFunding;
+  }
+  if (data?.fnhaContribution && data.fnhaContribution !== '0') {
+    return Number(data.fnhaContribution);
+  }
+  return null;
+};

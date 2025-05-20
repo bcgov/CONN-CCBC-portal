@@ -452,7 +452,7 @@ const getFundingDataFromSow = (sowData) => {
     fundingRequestedCcbc: summaryTable?.totalFundingRequestedCCBC,
     applicantAmount: summaryTable?.totalApplicantContribution,
     cibFunding: summaryTable?.totalInfrastructureBankFunding,
-    fhnaFunding: summaryTable?.totalFNHAFunding,
+    fnhaFunding: summaryTable?.totalFNHAFunding,
     otherFunding: summaryTable?.fundingFromAllOtherSources,
     totalProjectBudget: summaryTable?.totalProjectCost,
   };
@@ -488,7 +488,7 @@ const getFundingDataFromApplication = (applicationData) => {
     cibFunding:
       applicationData?.formData?.jsonData?.otherFundingSources
         ?.totalInfrastructureBankFunding,
-    fhnaFunding: null,
+    fnhaFunding: null,
     otherFunding: handleOtherFundingSourcesApplication(
       applicationData?.formData?.jsonData?.otherFundingSources
     ),
@@ -530,6 +530,7 @@ const getFundingDataFromConditionalApproval = (applicationData) => {
       applicationData?.conditionalApproval?.jsonData?.isedDecisionObj
         ?.federalRequested
     ),
+    fnhaFunding: null,
     fnhaContribution:
       applicationData?.applicationFnhaContributionsByApplicationId?.edges[0]
         ?.node?.fnhaContribution || '0',
@@ -551,7 +552,9 @@ export const getFundingData = (applicationData, sowData) => {
   if (
     applicationData.status === 'conditionally_approved' ||
     applicationData.status === 'applicant_conditionally_approved' ||
-    applicationData.status === 'closed'
+    applicationData.status === 'closed' ||
+    applicationData.status === 'applicant_on_hold' ||
+    applicationData.status === 'on_hold'
   ) {
     return getFundingDataFromConditionalApproval(applicationData);
   }
@@ -641,7 +644,7 @@ const getSowData = (sowData, baseSowData) => {
     fundingRequestedCcbc: 'SOW',
     applicantAmount: 'SOW',
     cibFunding: 'SOW',
-    fhnaFunding: 'SOW',
+    fnhaFunding: 'SOW',
     otherFunding: 'SOW',
     totalProjectBudget: 'SOW',
     effectiveStartDate: 'SOW',
