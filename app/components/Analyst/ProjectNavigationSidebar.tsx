@@ -184,7 +184,7 @@ const ProjectNavigationSidebar = ({ query }) => {
     } else {
       newPath = replacePath(nextNode.type, asPath, id);
     }
-    window.location.href = newPath;
+    router.push(newPath);
   };
 
   return (
