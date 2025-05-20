@@ -1,5 +1,6 @@
 import { WidgetProps } from '@rjsf/utils';
 import MapCaller from 'components/Analyst/Map/MapCaller';
+import cookie from 'js-cookie';
 import styled from 'styled-components';
 
 const StyledLink = styled.a`
@@ -20,6 +21,7 @@ const MapWidget: React.FC<WidgetProps> = ({ value }) => {
         data-testid="collapse-map"
         onClick={(e) => {
           e.preventDefault();
+          cookie.set('map_expanded', 'false');
           value?.setIsMapExpanded(false);
         }}
       >

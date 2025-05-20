@@ -1,3 +1,4 @@
+import cookie from 'js-cookie';
 import styled from 'styled-components';
 import MapCaller from './Map/MapCaller';
 
@@ -39,6 +40,7 @@ const SideMap = ({ mapData, isMapExpanded, setIsMapExpanded }) => {
               data-testid="expand-map"
               onClick={(e) => {
                 e.preventDefault();
+                cookie.set('map_expanded', 'true');
                 setIsMapExpanded(true);
               }}
             >
