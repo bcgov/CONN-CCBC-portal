@@ -8,7 +8,7 @@ import {
   getCCBCIntakeNumber,
   handleProjectType,
 } from '../reporting/util';
-import { generateHeaderInfoRow, HEADER_ROW } from './header';
+import { HEADER_ROW } from './header';
 import {
   convertStatus,
   handleCbcCommunities,
@@ -249,8 +249,7 @@ export const generateCbcData = async (ids: number[], req) => {
 };
 
 export const generateDashboardExport = async (applicationData, cbcData) => {
-  const infoRow = generateHeaderInfoRow();
-  const excelData = [infoRow, HEADER_ROW];
+  const excelData = [HEADER_ROW];
 
   // do application (ccbc and other)
   applicationData?.forEach((app) => {
@@ -619,6 +618,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
     fontSize: 12,
     dateFormat: 'yyyy-mm-dd',
     stickyColumnsCount: 2,
+    stickyRowsCount: 1,
     sheet: 'Export',
     columns: columnOptions,
   });
