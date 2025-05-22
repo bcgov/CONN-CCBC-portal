@@ -21,7 +21,9 @@ import useEmailNotification from 'lib/helpers/useEmailNotification';
 import GenericConfirmationModal from 'lib/theme/widgets/GenericConfirmationModal';
 import useModal from 'lib/helpers/useModal';
 import { formatCurrency } from 'backend/lib/dashboard/util';
+import { useArchiveApplicationChangeRequestMutation } from 'schema/mutations/project/archiveApplicationChangeRequest';
 import ChangeRequestTheme from '../ChangeRequestTheme';
+import DeleteChangeRequestModal from './DeleteChangeRequestModal';
 
 const StyledProjectForm = styled(ProjectForm)`
   .datepicker-widget {
@@ -110,6 +112,8 @@ const ProjectInformationForm: React.FC<Props> = ({
   const router = useRouter();
   const [createProjectInformation] = useCreateProjectInformationMutation();
   const [archiveApplicationSow] = useArchiveApplicationSowMutation();
+  const [archiveApplicationChangeRequest] =
+    useArchiveApplicationChangeRequestMutation();
   const [createChangeRequest] = useCreateChangeRequestMutation();
   const { notifyDocumentUpload } = useEmailNotification();
   const [hasFormSaved, setHasFormSaved] = useState<boolean>(false);
@@ -126,6 +130,8 @@ const ProjectInformationForm: React.FC<Props> = ({
   const [currentChangeRequestData, setCurrentChangeRequestData] =
     useState(null);
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteModalData, setDeleteModalData] = useState(null);
   const fnhaInfoModal = useModal();
 
   const apiPath = `/api/analyst/sow/${rowId}/${ccbcNumber}/${
@@ -414,9 +420,66 @@ const ProjectInformationForm: React.FC<Props> = ({
       });
   };
 
+  const handleChangeRequestDelete = () => {
+    archiveApplicationChangeRequest({
+      variables: {
+        input: {
+          pApplicationId: rowId,
+          pAmendmentNumber: deleteModalData.amendmentNumber,
+        },
+      },
+      onCompleted: () => {
+        setIsModalOpen(false);
+        setDeleteModalData(null);
+      },
+      updater: (store) => {
+        // Remove the deleted change request from the Relay store connection
+        const relayConnectionId = changeRequestDataByApplicationId?.__id;
+        if (!relayConnectionId) return;
+        const connection = store.get(relayConnectionId);
+        if (!connection) return;
+
+        // Find the node to delete by amendment number
+        const edges = connection.getLinkedRecords('edges');
+        if (!edges) return;
+        const edgeToDelete = edges.find(
+          (edge) =>
+            edge &&
+            edge.getLinkedRecord('node')?.getValue('amendmentNumber') ===
+              deleteModalData.amendmentNumber
+        );
+        if (!edgeToDelete) return;
+        const nodeToDelete = edgeToDelete.getLinkedRecord('node');
+        if (!nodeToDelete) return;
+        const nodeId = nodeToDelete.getDataID();
+        store.delete(nodeId);
+        // Remove the node from the connection
+        ConnectionHandler.deleteNode(connection, nodeId);
+      },
+    });
+  };
+
   const isOriginalSowUpload = projectInformation?.jsonData;
   return (
     <>
+      <DeleteChangeRequestModal
+        isOpen={isModalOpen}
+        onSave={() => {
+          setIsModalOpen(false);
+          setFormData({});
+          handleChangeRequestDelete();
+        }}
+        onCancel={() => {
+          setIsModalOpen(false);
+          setFormData({});
+        }}
+        title="Delete Change Request"
+        description="Are you sure you want to delete this change request?"
+        saveLabel="Yes, delete"
+        cancelLabel="No, cancel"
+        saveDisabled={false}
+        changeRequestData={deleteModalData}
+      />
       <StyledProjectForm
         additionalContext={{
           amendmentNumbers,
@@ -534,6 +597,9 @@ const ProjectInformationForm: React.FC<Props> = ({
               maps={updatedMapUpload}
               sow={statementOfWorkUpload?.[0]}
               otherFiles={otherFiles}
+              setDeleteModalOpen={setIsModalOpen}
+              setDeleteModalData={setDeleteModalData}
+              amendmentNumber={amendmentNumber}
             />
           );
         })}
