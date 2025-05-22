@@ -412,6 +412,166 @@ function createObjectFromSchema(schema, data) {
   }, {});
 }
 
+export const generateRawDiff = (
+  data: Record<string, any>,
+  schema: any,
+  excludedKeys: Array<string>,
+  overrideParent: string | null
+) => {
+  const rows = [];
+
+  const traverse = (object: Record<string, any>, objectName: string) => {
+    const entries = Object.entries(object || {});
+
+    entries.forEach(([key, value]) => {
+      if (excludedKeys.some((e) => key.includes(e))) {
+        return;
+      }
+      const fieldKey = key.replace(/(__added|__deleted|__old)/g, '');
+      const parentKey = overrideParent || objectName;
+      const fieldSchema =
+        schema?.[parentKey]?.properties?.[fieldKey || objectName];
+      const type = fieldSchema?.type || 'string';
+      const field = fieldSchema?.title || fieldKey;
+      if (typeof value === 'object' && value !== null) {
+        if (
+          Array.isArray(value) &&
+          Array.isArray(value[0]) &&
+          ['+', '-', '~', '', ' '].includes(value[0][0])
+        ) {
+          const [newValueArr, oldValueArr] = value.reduce(
+            ([newArr, oldArr], [prefix, diffValue]) => {
+              if (prefix === '-') {
+                oldArr.push(diffValue);
+              } else if (prefix === '~') {
+                traverse(diffValue, key);
+              } else {
+                newArr.push(diffValue);
+                if (prefix !== '+') {
+                  oldArr.push(diffValue);
+                }
+              }
+              return [newArr, oldArr];
+            },
+            [[], []]
+          );
+          if (newValueArr.length > 0 || oldValueArr.length > 0) {
+            if (
+              (newValueArr.length > 0 && typeof newValueArr[0] === 'object') ||
+              (oldValueArr.length > 0 && typeof oldValueArr[0] === 'object')
+            ) {
+              rows.push({
+                field,
+                key,
+                newValue: newValueArr,
+                oldValue: oldValueArr,
+              });
+            } else {
+              rows.push({
+                field,
+                key,
+                newValue: newValueArr.join(','),
+                oldValue: oldValueArr.join(','),
+              });
+            }
+          }
+        } else if (key.endsWith('__added') || key === '__new') {
+          const added = Object.values(value);
+          added.forEach((newValue: string | Array<any>, index) => {
+            if (Array.isArray(newValue) && typeof newValue[0] === 'object') {
+              newValue.forEach((n) => {
+                if (typeof n === 'object') {
+                  const a = Object.values(n);
+                  a.forEach((b, j) => {
+                    rows.push({
+                      field,
+                      key: Object.keys(n)[j],
+                      newValue: format(b, type),
+                      oldValue: 'N/A',
+                    });
+                  });
+                }
+              });
+            } else if (
+              !Array.isArray(newValue) &&
+              typeof newValue === 'object' &&
+              newValue
+            ) {
+              const a = Object.values(newValue);
+              a.forEach((b, j) => {
+                rows.push({
+                  field,
+                  key: Object.keys(newValue)[j],
+                  newValue: format(b, type),
+                  oldValue: 'N/A',
+                });
+              });
+            } else {
+              rows.push({
+                field,
+                key: Array.isArray(value)
+                  ? key.replace(/(__added|__deleted)/g, '')
+                  : Object.keys(value)[index],
+                newValue: Array.isArray(newValue)
+                  ? newValue.join(', ')
+                  : newValue,
+                oldValue: 'N/A',
+              });
+            }
+          });
+        } else if (key.endsWith('__deleted')) {
+          const deleted = Object.values(value);
+          deleted.forEach((oldValue: string, index) => {
+            rows.push({
+              field,
+              key: Object.keys(value)[index],
+              newValue: 'N/A',
+              oldValue: format(oldValue, type),
+            });
+          });
+        } else {
+          traverse(value, key);
+        }
+      } else if (
+        typeof value === 'string' ||
+        typeof value === 'boolean' ||
+        typeof value === 'number' ||
+        value === null
+      ) {
+        if (key === '__old') {
+          const oldValue = format(value, type);
+          const newValue = format(object.__new, type);
+          rows.push({
+            field,
+            key: objectName,
+            newValue,
+            oldValue,
+          });
+        } else if (key.endsWith('__added')) {
+          const newValue = format(value, type);
+          rows.push({
+            field,
+            key: field,
+            newValue,
+            oldValue: 'N/A',
+          });
+        } else if (key.endsWith('__deleted')) {
+          const oldValue = format(value, type);
+          rows.push({
+            field,
+            key: field,
+            newValue: 'N/A',
+            oldValue,
+          });
+        }
+      }
+    });
+  };
+
+  traverse(data, '');
+  return rows;
+};
+
 export const processArrayDiff = (changes, schema) => {
   const newArray = [];
   const oldArray = [];

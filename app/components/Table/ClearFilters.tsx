@@ -8,12 +8,14 @@ interface Props {
   table: MRT_TableInstance<any>;
   filters: MRT_ColumnFiltersState;
   defaultFilters?: MRT_ColumnFiltersState;
+  externalFilters?: boolean;
 }
 
 const ClearFilters: React.FC<Props> = ({
   table,
   filters,
   defaultFilters = [],
+  externalFilters = false,
 }) => {
   // Clear all filters except program
   const clearFilters = () => {
@@ -27,6 +29,7 @@ const ClearFilters: React.FC<Props> = ({
       .length > 0;
 
   const isExternalFiltersPresent =
+    externalFilters &&
     filters.filter((f) => f.id === 'program' && (f.value as any[]).length < 3)
       .length > 0;
 
