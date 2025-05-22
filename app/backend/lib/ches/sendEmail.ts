@@ -11,7 +11,13 @@ const sendEmail = async (
   subject: string,
   emailTo: string[],
   tag: string,
-  emailCC: string[] = []
+  emailCC: string[] = [],
+  attachments: {
+    content: string;
+    filename: string;
+    encoding: string;
+    contentType: string;
+  }[] = []
 ) => {
   const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
   const environment = toTitleCase(namespace?.split('-')[1] || '');
@@ -27,7 +33,12 @@ const sendEmail = async (
       subject,
       to: emailTo,
       tag: `ccbc-portal-email-${tag}`,
-      attachments: [],
+      attachments: attachments.map((attachment) => ({
+        content: attachment.content,
+        filename: attachment.filename,
+        encoding: attachment.encoding,
+        contentType: attachment.contentType,
+      })),
     };
     const response = await fetch(`${CHES_API_URL}/api/v1/email`, {
       method: 'POST',

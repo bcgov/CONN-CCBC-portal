@@ -1,3 +1,11 @@
+## [1.253.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.253.0...v1.253.1) (2025-05-22)
+
+# [1.253.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.8...v1.253.0) (2025-05-22)
+
+### Features
+
+- email copy of dashboard export to dev inbox ([906bb7b](https://github.com/bcgov/CONN-CCBC-portal/commit/906bb7be985d38e1aa6cd29e453984fc25b6c4a1))
+
 ## [1.252.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.7...v1.252.8) (2025-05-21)
 
 ## [1.252.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.6...v1.252.7) (2025-05-20)
