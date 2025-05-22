@@ -827,3 +827,4 @@ mutations/update_announcement [mutations/update_announcement@1.246.0] 2025-03-14
 functions/session [functions/session@1.228.0] 2025-01-29T18:15:42Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # handle azureidir as idir
 tables/gis_data_001_add_file_name 2025-05-02T16:26:59Z ,,, <rranathu@NH504670> # add file name to gis_data table
 mutations/archive_application_change_request 2025-05-21T22:20:59Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # archives a given change request for an application and its related sow data
+computed_columns/application_history [computed_columns/application_history@1.249.3] 2025-05-22T18:46:23Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add update to change_request_data
