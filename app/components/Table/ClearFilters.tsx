@@ -15,7 +15,7 @@ const ClearFilters: React.FC<Props> = ({
   table,
   filters,
   defaultFilters = [],
-  externalFilters = false,
+  externalFilters = true,
 }) => {
   // Clear all filters except program
   const clearFilters = () => {
