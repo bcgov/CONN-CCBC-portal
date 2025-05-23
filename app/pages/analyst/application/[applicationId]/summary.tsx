@@ -270,6 +270,7 @@ const Summary = ({
       session={session}
       title="Connecting Communities BC"
       provisionRightNav
+      maxWidthOverride="100%"
     >
       <AnalystLayout
         query={query}
