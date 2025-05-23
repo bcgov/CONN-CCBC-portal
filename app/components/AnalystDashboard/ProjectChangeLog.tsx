@@ -212,7 +212,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
 
   const enableTimeMachine =
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
-  const tableHeightOffset = enableTimeMachine ? '460px' : '360px';
+  const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
   const defaultFilters = [{ id: 'program', value: ['CBC'] }];
   const [columnFilters, setColumnFilters] =
