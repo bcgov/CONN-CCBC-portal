@@ -1,3 +1,10 @@
+# [1.254.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.253.3...v1.254.0) (2025-05-26)
+
+### Features
+
+- do not refresh page on project navigation ([9980ec8](https://github.com/bcgov/CONN-CCBC-portal/commit/9980ec8ce9159649c4c2f98379d2d18893fa427a))
+- remember if map is expanded or collapsed ([5f7868f](https://github.com/bcgov/CONN-CCBC-portal/commit/5f7868f6c1be9384856f9f9efb7785622e08e27b))
+
 ## [1.253.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.253.2...v1.253.3) (2025-05-26)
 
 ## [1.253.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.253.1...v1.253.2) (2025-05-26)
