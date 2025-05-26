@@ -190,7 +190,8 @@ const ProjectNavigationSidebar = ({ query }) => {
     } else {
       newPath = replacePath(nextNode.type, asPath, id);
     }
-    window.location.href = newPath;
+    // Use shallow routing to avoid full page reload and preserve scroll position
+    router.push(newPath, undefined, { shallow: true });
   };
 
   return (
