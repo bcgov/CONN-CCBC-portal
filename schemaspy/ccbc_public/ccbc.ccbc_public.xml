@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="ccbc" schema="ccbc_public" type="PostgreSQL - 15.12 (Debian 15.12-1.pgdg120+1)">
+<database name="ccbc" schema="ccbc_public" type="PostgreSQL - 15.13 (Debian 15.13-1.pgdg120+1)">
    <sequences>
       <sequence increment="1" name="cbc_data_change_reason_id_seq" startValue="1"/>
       <sequence increment="1" name="record_version_id_seq" startValue="1"/>
@@ -1709,6 +1709,7 @@
             <parent column="id" foreignKey="gis_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="6" id="7" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="file_name" nullable="true" remarks="" size="1000" type="varchar" typeCode="12"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="gis_data_pkey" unique="true">
             <column ascending="true" name="id"/>
