@@ -1,3 +1,11 @@
+## [1.253.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.253.2...v1.253.3) (2025-05-26)
+
+## [1.253.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.253.1...v1.253.2) (2025-05-26)
+
+### Bug Fixes
+
+- schema spy ([9a7ba09](https://github.com/bcgov/CONN-CCBC-portal/commit/9a7ba09bd013f86446ed40383271f85dcf84c06e))
+
 ## [1.253.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.253.0...v1.253.1) (2025-05-22)
 
 # [1.253.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.8...v1.253.0) (2025-05-22)
