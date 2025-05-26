@@ -1,3 +1,12 @@
+## [1.255.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.0...v1.255.1) (2025-05-26)
+
+# [1.255.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.254.1...v1.255.0) (2025-05-26)
+
+### Features
+
+- add full screen control to map ([2cc43e6](https://github.com/bcgov/CONN-CCBC-portal/commit/2cc43e6db7ed55f5c9085dea57f9c278dc0a8bdb))
+- allow map resizing when expanded ([5c54ad3](https://github.com/bcgov/CONN-CCBC-portal/commit/5c54ad3d66754f84f61811ac99904878db3da5b1))
+
 ## [1.254.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.254.0...v1.254.1) (2025-05-26)
 
 # [1.254.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.253.3...v1.254.0) (2025-05-26)
