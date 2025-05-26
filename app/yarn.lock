@@ -13220,10 +13220,10 @@ regjsparser@^0.12.0:
   dependencies:
     jsesc "~3.0.2"
 
-relay-compiler@17:
-  version "17.0.0"
-  resolved "https://registry.yarnpkg.com/relay-compiler/-/relay-compiler-17.0.0.tgz#5013e83267f45d78e24232ae7da90ed5ad3c1116"
-  integrity sha512-U2e/R0o40HJOQ13pwkvToqWqk6J3ASMyHmcxixVMZKfcwcpsTTOiKob215ZRh+4bqPwkNy97+V9CuzJ5hJmGtw==
+relay-compiler@19:
+  version "19.0.0"
+  resolved "https://registry.yarnpkg.com/relay-compiler/-/relay-compiler-19.0.0.tgz#3f6d4c030883cbac6472ac185df4c921ff87b659"
+  integrity sha512-DwyNWPUkzdggT3oBuNTS18bL6KCU3Sg/oSW/q+pqOQNHLo+RUZOWAx44ALy5XoBrsXjQVBr0EiNqJ4A8G1skOw==
 
 relay-nextjs@^0.8.0:
   version "0.8.0"
