@@ -4151,7 +4151,7 @@ describe('The filter', () => {
       'Announcement',
       'Application',
       'Application communities',
-      'Application pending change request',
+      'Pending change request',
       'Assessment',
       'Claims & progress report',
       'Community progress report',
