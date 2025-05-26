@@ -159,80 +159,13 @@ union all
         and v.record->>'application_id' = application.id::varchar(10)
 
   union all
-    select id, created_at, op, table_name, record_id, record, old_record, item,
-           family_name, given_name, session_sub, external_analyst, created_by
-    from (
-        WITH change_request_records AS (
-            SELECT
-                application.id,
-                v.created_at,
-                v.op,
-                v.table_name,
-                v.record_id,
-                v.record,
-                v.old_record,
-                v.record->>'history_operation' AS item,
-                u.family_name,
-                u.given_name,
-                u.session_sub,
-                u.external_analyst,
-                v.created_by,
-                v.record->>'amendment_number' AS amendment_number,
-                ROW_NUMBER() OVER (
-                    PARTITION BY application.id, v.record->>'amendment_number'
-                    ORDER BY v.created_at ASC
-                ) AS rn,
-                LAG(v.op) OVER (
-                    PARTITION BY application.id, v.record->>'amendment_number'
-                    ORDER BY v.created_at ASC
-                ) AS prev_op,
-                LAG(v.record) OVER (
-                    PARTITION BY application.id, v.record->>'amendment_number'
-                    ORDER BY v.created_at ASC
-                ) AS prev_record,
-                LEAD(v.op) OVER (
-                    PARTITION BY application.id, v.record->>'amendment_number'
-                    ORDER BY v.created_at ASC
-                ) AS next_op
-            FROM ccbc_public.record_version AS v
-            INNER JOIN ccbc_public.ccbc_user u ON v.created_by = u.id
-            WHERE (v.op = 'INSERT' OR v.op = 'UPDATE')
-              AND v.table_name = 'change_request_data'
-              AND v.record->>'application_id' = application.id::varchar(10)
-        )
-        SELECT
-            id,
-            created_at,
-            CASE
-                WHEN op = 'UPDATE' AND prev_op = 'UPDATE' AND rn = (SELECT MAX(rn) FROM change_request_records cr WHERE cr.amendment_number = change_request_records.amendment_number AND cr.id = change_request_records.id) THEN 'DELETE'
-                WHEN op = 'INSERT' AND prev_op = 'UPDATE' THEN 'UPDATE'
-                WHEN op = 'UPDATE' AND (next_op IS NULL OR next_op NOT IN ('UPDATE', 'INSERT')) THEN 'DELETE'
-                ELSE op
-            END AS op,
-            table_name,
-            record_id,
-            CASE
-                WHEN op = 'UPDATE' AND prev_op = 'UPDATE' AND rn = (SELECT MAX(rn) FROM change_request_records cr WHERE cr.amendment_number = change_request_records.amendment_number AND cr.id = change_request_records.id) THEN record
-                WHEN op = 'INSERT' AND prev_op = 'UPDATE' THEN record
-                ELSE record
-            END AS record,
-            CASE
-                WHEN op = 'UPDATE' AND prev_op = 'UPDATE' AND rn = (SELECT MAX(rn) FROM change_request_records cr WHERE cr.amendment_number = change_request_records.amendment_number AND cr.id = change_request_records.id) THEN prev_record
-                WHEN op = 'INSERT' AND prev_op = 'UPDATE' THEN prev_record
-                ELSE old_record
-            END AS old_record,
-            item,
-            family_name,
-            given_name,
-            session_sub,
-            external_analyst,
-            created_by
-        FROM change_request_records
-        WHERE (op = 'INSERT' AND prev_op IS NULL) -- Standalone INSERT
-           OR (op = 'INSERT' AND prev_op = 'UPDATE') -- UPDATE+INSERT -> UPDATE
-           OR (op = 'UPDATE' AND prev_op = 'UPDATE' AND rn = (SELECT MAX(rn) FROM change_request_records cr WHERE cr.amendment_number = change_request_records.amendment_number AND cr.id = change_request_records.id)) -- UPDATE+UPDATE -> DELETE
-           OR (op = 'UPDATE' AND (next_op IS NULL OR next_op NOT IN ('UPDATE', 'INSERT'))) -- Standalone UPDATE -> DELETE
-    ) AS change_request_subquery
+    select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
+        v.record->>'history_operation' as item,
+        u.family_name, u.given_name, u.session_sub, u.external_analyst, v.created_by
+    from ccbc_public.record_version as v
+        inner join ccbc_public.ccbc_user u on v.created_by=u.id
+    where  (v.op='INSERT' or v.op='UPDATE') and v.table_name='change_request_data' and v.record->>'archived_by' is null
+        and v.record->>'application_id'=application.id::varchar(10)
 
   union all
     select application.id,  v.created_at, v.op, v.table_name, v.record_id, v.record, v.old_record,
