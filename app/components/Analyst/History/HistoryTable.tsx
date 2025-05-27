@@ -236,6 +236,14 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
                       year;
                   return updated;
                 }
+                // change request data must match by amendment number
+                if (previousItem.tableName === 'change_request_data') {
+                  return (
+                    previousItem.tableName === historyItem.tableName &&
+                    previousItem.record.json_data.amendmentNumber ===
+                      historyItem.record.json_data.amendmentNumber
+                  );
+                }
                 return previousItem.tableName === historyItem.tableName;
               });
             }
