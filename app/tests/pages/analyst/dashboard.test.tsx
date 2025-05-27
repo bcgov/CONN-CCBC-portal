@@ -283,6 +283,7 @@ const mockQueryPayload = {
                 projectTitle: 'Project 3',
                 dateAnnounced: '2019-07-02T00:00:00.000Z',
                 projectNumber: 3333,
+                originalProjectNumber: 673829,
                 projectStatus: 'Reporting Complete',
                 federalFundingRequested: 333333,
                 householdCount: null,
@@ -1245,5 +1246,33 @@ describe('The index page', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('filters the applications by original project number', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const originalProjectNumber = 673829;
+
+    const globalSearch = screen.getByPlaceholderText('Search');
+    expect(globalSearch).toBeInTheDocument();
+
+    const searchButton = screen.getByTestId('SearchIcon');
+    expect(searchButton).toBeInTheDocument();
+
+    fireEvent.click(searchButton);
+
+    fireEvent.change(globalSearch, {
+      target: { value: originalProjectNumber },
+    });
+
+
+    await waitFor(() => {
+      expect(screen.getByText(originalProjectNumber.toString())).toBeInTheDocument();
+    });
   });
 });

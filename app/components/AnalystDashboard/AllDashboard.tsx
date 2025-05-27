@@ -539,7 +539,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
     // Match for original project number
     const originalProjectNumber = row?.original?.originalProjectNumber;
-    // Ensure both are numbers for comparison, or fallback to string includes if not
+    // Ensure both are numbers for comparison, or fall back to string includes if not
     let projectNumberMatch = false;
     if (
       originalProjectNumber !== undefined &&
