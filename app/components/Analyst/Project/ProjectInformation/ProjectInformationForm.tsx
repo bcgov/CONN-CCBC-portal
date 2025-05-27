@@ -120,6 +120,7 @@ const ProjectInformationForm: React.FC<Props> = ({
   const [formData, setFormData] = useState(projectInformation?.jsonData);
   const [showToast, setShowToast] = useState(false);
   const [sowFile, setSowFile] = useState(null);
+  const [operation, setOperation] = useState('INSERT');
   const [sowValidationErrors, setSowValidationErrors] = useState([]);
   const [isFormEditMode, setIsFormEditMode] = useState(
     !projectInformation?.jsonData?.hasFundingAgreementBeenSigned
@@ -326,6 +327,7 @@ const ProjectInformationForm: React.FC<Props> = ({
                   currentChangeRequestData?.rowId,
                   10
                 ),
+                _historyOperation: operation,
               },
             },
             onCompleted: () => {
@@ -388,7 +390,11 @@ const ProjectInformationForm: React.FC<Props> = ({
         } else {
           createProjectInformation({
             variables: {
-              input: { _applicationId: rowId, _jsonData: newFormData },
+              input: {
+                _applicationId: rowId,
+                _jsonData: newFormData,
+                _historyOperation: operation,
+              },
             },
             onCompleted: () => {
               handleResetFormData(!formData?.hasFundingAgreementBeenSigned);
@@ -426,6 +432,7 @@ const ProjectInformationForm: React.FC<Props> = ({
         input: {
           pApplicationId: rowId,
           pAmendmentNumber: deleteModalData.amendmentNumber,
+          pHistoryOperation: 'DELETE',
         },
       },
       onCompleted: () => {
@@ -499,6 +506,7 @@ const ProjectInformationForm: React.FC<Props> = ({
                   setFormData({});
                   setShowToast(false);
                   setIsFormEditMode(true);
+                  setOperation('INSERT');
                 }}
                 title="Add change request"
               />
@@ -590,6 +598,7 @@ const ProjectInformationForm: React.FC<Props> = ({
                 setCurrentChangeRequestData(changeRequest.node);
                 setFormData(jsonData);
                 setShowToast(false);
+                setOperation('UPDATE');
               }}
               isChangeRequest
               isFormEditMode={isFormEditMode}
@@ -612,6 +621,7 @@ const ProjectInformationForm: React.FC<Props> = ({
               setFormData(projectInformationData);
               setIsFormEditMode(true);
               setShowToast(false);
+              setOperation('UPDATE');
             }}
             isFormEditMode={isFormEditMode}
             isSowUploadError={projectInformationData?.isSowUploadError}

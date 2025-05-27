@@ -831,3 +831,6 @@ computed_columns/application_history [computed_columns/application_history@1.249
 tables/application_sow_data_003_add_history_operation 2025-05-26T22:25:55Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add history operation to application sow data abd backfill it
 tables/change_request_data_002_add_history_operation 2025-05-26T22:26:45Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add history operation to change request data and backfill it
 tables/project_information_data_001_add_history_operation 2025-05-26T22:28:03Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add history operation to project information data and backfill it
+mutations/create_application_sow_data [mutations/create_application_sow_data@1.249.3] 2025-05-27T20:17:22Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add history op parameter to function
+mutations/create_change_request [mutations/create_change_request@1.249.3] 2025-05-27T20:17:49Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add history op parameter
+mutations/create_project_information [mutations/create_project_information@1.249.3] 2025-05-27T20:18:10Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add history op parameter
