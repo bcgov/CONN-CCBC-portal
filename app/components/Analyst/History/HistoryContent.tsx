@@ -792,13 +792,28 @@ const HistoryContent = ({
   }
 
   if (tableName === 'change_request_data') {
+    const amendmentNumber = record.json_data?.amendmentNumber;
+    // check if key history_operation exists in json_data
+    const historyOperationKeyExists =
+      record &&
+      Object.prototype.hasOwnProperty.call(record, 'history_operation');
+    // if it has history_operation use that as operation, otherwise use op
+    const action = historyOperationKeyExists
+      ? record.history_operation
+      : historyItem.record?.history_operation || op;
+    let operation = 'updated';
+    if (action === 'DELETE') {
+      operation = 'deleted';
+    } else if (action === 'INSERT') {
+      operation = 'created';
+    }
     return (
       <>
         <StyledContent data-testid="history-content-change-request">
           <span>
-            {displayName} {op === 'INSERT' ? 'created' : 'updated'} a{' '}
+            {displayName} {operation} a{' '}
           </span>
-          <b>Change Request</b>
+          <b>Change Request</b> with amendment #{amendmentNumber}
           <span> on {createdAtFormatted}</span>
         </StyledContent>
         <HistoryFile
