@@ -16,6 +16,12 @@ import SideMap from './SideMap';
 
 const StyledAside = styled.aside`
   min-height: 100%;
+  @media (max-width: 1250px) {
+    margin-left: 60px;
+  }
+  @media (max-width: 975px) {
+    margin-left: 180px;
+  }
 `;
 
 const StyledNav = styled.nav`

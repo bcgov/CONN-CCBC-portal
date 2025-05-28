@@ -33,6 +33,13 @@ describe('Dashboard export API', () => {
     (generateCbcData as jest.Mock).mockResolvedValue([mockBlob]);
     (generateDashboardExport as jest.Mock).mockResolvedValue(mockBlob);
 
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ messages: [{ msgId: '123' }] }),
+      })
+    ) as jest.Mock;
+
     const response = await request(app)
       .post('/api/dashboard/export')
       .send({ cbc: [1], ccbc: [1] });

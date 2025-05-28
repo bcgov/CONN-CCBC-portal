@@ -25,5 +25,5 @@ appVersion: '1.16.0'
 
 dependencies:
   - name: crunchy-postgres
-    version: 0.6.4
+    version: 0.6.5
     repository: https://bcgov.github.io/crunchy-postgres/

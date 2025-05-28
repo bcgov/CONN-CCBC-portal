@@ -157,7 +157,13 @@ jobs:
         id: tagVersion
         # Check if one of the commits is associated with a tag
         run: |
-          echo "tagVersion=$( git tag --merged ${{ github.sha  }} --no-merged ${{ github.event.before }} | grep v*)" >>$GITHUB_OUTPUT
+          TAG=$(git tag --merged ${{ github.sha }} --no-merged ${{ github.event.before }} | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1 || echo "invalid")
+          echo "Found tag: ${TAG}"
+          if [ "$TAG" != "invalid" ]; then
+            echo "tagVersion=${TAG}" >>$GITHUB_OUTPUT
+          else
+            echo "tagVersion=none" >>$GITHUB_OUTPUT
+          fi
 
   # sqitch plans will no longer always end in tags, so this is no longer necessary
   # ensure-sqitch-plan-ends-with-tag:

@@ -4,6 +4,7 @@ import { graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { usePreloadedQuery } from 'react-relay/hooks';
 import Layout from 'components/Layout';
+import cookie from 'js-cookie';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
 import { summaryQuery } from '__generated__/summaryQuery.graphql';
 import CbcForm from 'components/Analyst/CBC/CbcForm';
@@ -208,7 +209,9 @@ const Summary = ({
   const { section: toggledSection } = router.query;
   const showMap = useFeature('show_summary_map').value;
   const [mapData, setMapData] = useState(null);
-  const [isMapExpanded, setIsMapExpanded] = useState(false);
+  const [isMapExpanded, setIsMapExpanded] = useState(
+    cookie.get('map_expanded') === 'true'
+  );
   const query = usePreloadedQuery(getSummaryQuery, preloadedQuery);
   const {
     applicationByRowId,
@@ -270,6 +273,7 @@ const Summary = ({
       session={session}
       title="Connecting Communities BC"
       provisionRightNav
+      maxWidthOverride="100%"
     >
       <AnalystLayout
         query={query}
