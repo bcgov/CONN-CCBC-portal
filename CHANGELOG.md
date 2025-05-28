@@ -1,3 +1,9 @@
+## [1.255.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.7...v1.255.8) (2025-05-28)
+
+### Bug Fixes
+
+- tag version ([0f1a93b](https://github.com/bcgov/CONN-CCBC-portal/commit/0f1a93bfe2cf37b9a4ecd21b0f116b02af50905d))
+
 ## [1.255.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.6...v1.255.7) (2025-05-28)
 
 ## [1.255.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.5...v1.255.6) (2025-05-28)
