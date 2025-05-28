@@ -1,3 +1,9 @@
+## [1.255.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.3...v1.255.4) (2025-05-28)
+
+### Bug Fixes
+
+- conditional approval date on gcpe report ([5dbfc3f](https://github.com/bcgov/CONN-CCBC-portal/commit/5dbfc3fd08519ecdee62af3e37fa42d4d2331dd7))
+
 ## [1.255.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.2...v1.255.3) (2025-05-28)
 
 ## [1.255.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.1...v1.255.2) (2025-05-28)
