@@ -1,3 +1,9 @@
+## [1.255.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.1...v1.255.2) (2025-05-28)
+
+### Bug Fixes
+
+- rfi template 9 data fallback ([f858006](https://github.com/bcgov/CONN-CCBC-portal/commit/f858006d57a40660aa3eb02a7d6db131fa64840a))
+
 ## [1.255.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.0...v1.255.1) (2025-05-26)
 
 # [1.255.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.254.1...v1.255.0) (2025-05-26)
