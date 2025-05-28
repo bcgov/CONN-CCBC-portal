@@ -182,6 +182,13 @@ const ApplicantRfiPage = ({
       return Promise.resolve();
     };
 
+    // Helper to set success state after mutation
+    const setSuccessState = (r: any) => {
+      setRfiRowId(r.updateRfi.rfiData.rowId);
+      setIsDirty(false);
+      setIsSaveSuccess(true);
+    };
+
     const hasTemplateNineUpdated = templatesUpdated?.[9];
     if (!hasApplicationFormDataUpdated && !hasTemplateNineUpdated) {
       // form data not updated and template nine not updated
@@ -197,9 +204,7 @@ const ApplicantRfiPage = ({
           setTemplateData(null);
           checkAndNotifyRfiCoverage().then(() => {
             // wait until email is sent before redirecting
-            setRfiRowId(r.updateRfi.rfiData.rowId);
-            setIsDirty(false);
-            setIsSaveSuccess(true);
+            setSuccessState(r);
           });
         },
         onError: (err) => {
@@ -239,9 +244,7 @@ const ApplicantRfiPage = ({
           setTemplateData(null);
           checkAndNotifyRfiCoverage().then(() => {
             // wait until email(s) is sent before redirecting
-            setRfiRowId(r.updateRfi.rfiData.rowId);
-            setIsDirty(false);
-            setIsSaveSuccess(true);
+            setSuccessState(r);
           });
         },
       });
@@ -270,9 +273,7 @@ const ApplicantRfiPage = ({
           checkAndNotifyRfiCoverage().then(() => {
             checkAndNotifyHHCount().then(() => {
               // wait until email is sent before redirecting
-              setRfiRowId(r.updateRfi.rfiData.rowId);
-              setIsDirty(false);
-              setIsSaveSuccess(true);
+              setSuccessState(r);
             });
           });
         },
@@ -315,9 +316,7 @@ const ApplicantRfiPage = ({
           checkAndNotifyHHCount().then(() => {
             checkAndNotifyRfiCoverage().then(() => {
               // wait until email(s) is sent before redirecting
-              setRfiRowId(r.updateRfi.rfiData.rowId);
-              setIsDirty(false);
-              setIsSaveSuccess(true);
+              setSuccessState(r);
             });
           });
         },
