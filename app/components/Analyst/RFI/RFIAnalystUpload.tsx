@@ -276,6 +276,19 @@ const RfiAnalystUpload = ({ query }) => {
           noValidate
         >
           <Button>Save</Button>
+          <Button
+            variant="secondary"
+            style={{ marginLeft: '24px' }}
+            onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+              e.preventDefault();
+              router.push(
+                `/analyst/application/${router.query.applicationId}/rfi`
+              );
+              showToast('File upload cancelled');
+            }}
+          >
+            Cancel
+          </Button>
         </FormBase>
       </FormDiv>
     </div>
