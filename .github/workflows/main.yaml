@@ -157,7 +157,7 @@ jobs:
         id: tagVersion
         # Check if one of the commits is associated with a tag
         run: |
-          TAG=$(git tag --merged a66486862108f1a30f8bbbdab2f885c7d10c2faf --no-merged 360f8efa78b8620110b04b5e9a2550371410dd6d | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1 || echo "invalid")
+          TAG=$(git tag --merged ${{ github.sha }} --no-merged ${{ github.event.before }} | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1 || echo "invalid")
           echo "Found tag: ${TAG}"
           if [ "$TAG" != "invalid" ]; then
             echo "tagVersion=${TAG}" >>$GITHUB_OUTPUT
