@@ -524,7 +524,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     if (!filterValue) return true;
     if (row.getValue(id) === null) return false;
     const filterMode = globalFilterMode.current || 'contains';
-    let defaultMatch = false;
+    let defaultMatch;
     if (filterMode === 'fuzzy') {
       defaultMatch = MRT_FilterFns.fuzzy(row, id, filterValue, filterMeta);
     } else {
@@ -536,9 +536,36 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       .join(',')
       ?.toLowerCase();
     const detailsMatch = communitiesString?.includes(filterValue.toLowerCase());
-    expandedRowsRef.current[row.id] = detailsMatch;
 
-    return defaultMatch || detailsMatch;
+    // Match for original project number
+    const originalProjectNumber = row?.original?.originalProjectNumber;
+    // Ensure both are numbers for comparison, or fall back to string includes if not
+    let projectNumberMatch = false;
+    if (
+      originalProjectNumber !== undefined &&
+      originalProjectNumber !== null &&
+      filterValue !== undefined &&
+      filterValue !== null &&
+      filterValue !== ''
+    ) {
+      // Try numeric comparison if both are numbers or can be parsed as numbers
+      const origNum = Number(originalProjectNumber);
+      const filterNum = Number(filterValue);
+      if (!Number.isNaN(origNum) && !Number.isNaN(filterNum)) {
+        projectNumberMatch = origNum === filterNum;
+      } else {
+        // fallback to string includes for partial match
+        projectNumberMatch = originalProjectNumber
+          .toString()
+          .includes(filterValue.toString());
+      }
+    }
+
+    const shouldExpand = detailsMatch || projectNumberMatch;
+
+    expandedRowsRef.current[row.id] = shouldExpand;
+
+    return defaultMatch || shouldExpand;
   };
 
   const getCommunities = (application) => {

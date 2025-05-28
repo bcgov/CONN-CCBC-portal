@@ -1,3 +1,7 @@
+## [1.255.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.10...v1.255.11) (2025-05-28)
+
+## [1.255.10](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.9...v1.255.10) (2025-05-28)
+
 ## [1.255.9](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.8...v1.255.9) (2025-05-28)
 
 ## [1.255.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.7...v1.255.8) (2025-05-28)

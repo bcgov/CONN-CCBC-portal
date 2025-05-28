@@ -23,20 +23,22 @@ const StyledHighlightSpan = styled.span`
 `;
 
 const HighlightFilterMatch = ({ text, filterValue }) => {
-  if (!filterValue) return text;
+  const safeText = String(text ?? '');
+
+  if (!filterValue) return safeText;
 
   const normalizedFilterValue = filterValue.replace(/\s+/g, '').toLowerCase();
-  const normalizedText = text.replace(/\s+/g, '').toLowerCase();
+  const normalizedText = safeText.replace(/\s+/g, '').toLowerCase();
 
   const matchIndex = normalizedText.indexOf(normalizedFilterValue);
 
   if (matchIndex === -1) {
-    return text;
+    return safeText;
   }
 
-  const beforeMatch = text.slice(0, matchIndex);
-  const match = text.slice(matchIndex, matchIndex + filterValue.length);
-  const afterMatch = text.slice(matchIndex + filterValue.length);
+  const beforeMatch = safeText.slice(0, matchIndex);
+  const match = safeText.slice(matchIndex, matchIndex + filterValue.length);
+  const afterMatch = safeText.slice(matchIndex + filterValue.length);
 
   return (
     <>
@@ -49,6 +51,7 @@ const HighlightFilterMatch = ({ text, filterValue }) => {
 
 const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
   const communities = (row.original.communities as any[]) || [];
+
   return (
     <>
       <StyledSpan>Communities</StyledSpan>
@@ -71,6 +74,14 @@ const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
       ) : (
         <StyledSpan>N/A</StyledSpan>
       )}
+      <StyledSpan>Original Project Number</StyledSpan>
+        <HighlightFilterMatch
+          text={
+            row.original.originalProjectNumber ?
+              row.original.originalProjectNumber : 'N/A'
+        }
+          filterValue={filterValue}
+        />
     </>
   );
 };
