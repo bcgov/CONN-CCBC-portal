@@ -55,7 +55,6 @@ const DeleteChangeRequestModal: React.FC<Props> = ({
   saveLabel = 'Save',
   changeRequestData,
 }) => {
-  console.log('changeRequestData', changeRequestData);
   return (
     <Modal
       id={id}
