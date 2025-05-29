@@ -16,10 +16,28 @@ logout.post('/api/logout', async (req: any, res) => {
   req.logout(() => {
     const idp = req.claims?.identity_provider;
     const roles = req.claims?.client_roles || [];
-    const isAnalyst =
+    let isAnalyst =
       roles?.includes('analyst') ||
       roles?.includes('admin') ||
-      roles?.includes('cbc_admin');
+      roles?.includes('cbc_admin') ||
+      roles?.includes('super_admin');
+    console.log('roles upon logout:', roles);
+    // if no role, check cookie roles
+    // as claims might be cleared by the time of auto logout
+    if (roles.length === 0) {
+      const cookieRoles = req.cookies?.role || null;
+      console.log('cookie roles upon logout:', cookieRoles);
+      if (cookieRoles) {
+        if (
+          cookieRoles === 'analyst' ||
+          cookieRoles === 'admin' ||
+          cookieRoles === 'cbc_admin' ||
+          cookieRoles === 'super_admin'
+        ) {
+          isAnalyst = true;
+        }
+      }
+    }
     const baseRoute = isAnalyst ? '/analyst' : '/';
 
     const postLogoutRedirectUri = encodeURIComponent(`${baseUrl}${baseRoute}`);

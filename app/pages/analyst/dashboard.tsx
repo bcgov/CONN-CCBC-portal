@@ -17,6 +17,7 @@ const getDashboardAnalystQuery = graphql`
   query dashboardAnalystQuery {
     session {
       sub
+      authRole
       ...DashboardTabs_query
     }
     totalAvailableApplications: allApplications {
@@ -38,7 +39,7 @@ const AnalystDashboard = ({
   const { session } = query;
   const showTableTabs = useFeature('show_assessment_assignment_table').value;
   const isMaxWidthOverride = useFeature('max_width_override').value;
-
+  cookie.set('role', session.authRole);
   const scrollHandler = () => {
     sessionStorage.setItem('dashboard_scroll_position', String(window.scrollY));
   };
