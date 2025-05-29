@@ -55,7 +55,7 @@ const SessionExpiryHandler: React.FC = () => {
     if (hasSession)
       return (
         <SessionTimeoutHandler
-          modalDisplaySecondsBeforeLogout={900}
+          modalDisplaySecondsBeforeLogout={120}
           onSessionExpired={handleSessionExpired}
           resetOnChange={[]}
           extendSessionOnEvents={{
