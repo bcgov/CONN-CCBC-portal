@@ -168,6 +168,7 @@ const ConditionalApprovalForm: React.FC<Props> = ({
         }
         resetFormData={handleResetFormData}
         onSubmit={handleSubmit}
+        setFormData={setNewFormData}
         setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
         additionalContext={additionalContext}
         isFormAnimated={false}
