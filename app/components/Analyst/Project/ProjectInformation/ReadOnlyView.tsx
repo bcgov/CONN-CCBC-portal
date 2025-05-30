@@ -11,6 +11,7 @@ import {
   faMap,
   faPen,
   faFileAlt,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import ImportErrorMessage from './ImportErrorMessage';
 
@@ -52,6 +53,21 @@ const StyledIconBtn = styled.button`
 
   & svg {
     color: ${(props) => props.theme.color.links};
+    padding-right: 8px;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+const StyledDeleteBtn = styled.button`
+  border-radius: 0;
+  appearance: none;
+  height: fit-content;
+
+  & svg {
+    color: ${(props) => props.theme.color.error};
     padding-right: 8px;
   }
 
@@ -131,6 +147,14 @@ const IconButton = ({ onClick }) => {
   );
 };
 
+const DeleteButton = ({ onClick }) => {
+  return (
+    <StyledDeleteBtn onClick={onClick} data-testid="project-form-delete-button">
+      <FontAwesomeIcon icon={faTrash} size="xs" />
+    </StyledDeleteBtn>
+  );
+};
+
 interface Props {
   additionalComments?: string;
   changeRequestForm?: any;
@@ -148,6 +172,9 @@ interface Props {
   title: string;
   wirelessSow?: any;
   otherFiles?: Array<any>;
+  setDeleteModalOpen?: (open: boolean) => void;
+  setDeleteModalData?: (data: any) => void;
+  amendmentNumber?: number | string;
 }
 
 const ReadOnlyView: React.FC<Props> = ({
@@ -167,6 +194,9 @@ const ReadOnlyView: React.FC<Props> = ({
   title,
   wirelessSow,
   otherFiles,
+  amendmentNumber,
+  setDeleteModalOpen,
+  setDeleteModalData,
 }) => {
   const [showMore, setShowMore] = useState(false);
 
@@ -178,7 +208,7 @@ const ReadOnlyView: React.FC<Props> = ({
     DateTime.fromISO(dateRequested).toLocaleString(DateTime.DATE_MED);
 
   return (
-    <div>
+    <>
       {isSowUploadError && !isFormEditMode && (
         <ImportErrorMessage
           title="Statement of Work data did not import"
@@ -249,7 +279,34 @@ const ReadOnlyView: React.FC<Props> = ({
         </StyledColumn>
         <div>{formattedDate}</div>
         <StyledHideButton>
-          {!isFormEditMode && <IconButton onClick={onFormEdit} />}
+          {!isFormEditMode && (
+            <>
+              <IconButton onClick={onFormEdit} />
+              {isChangeRequest && (
+                <DeleteButton
+                  onClick={() => {
+                    setDeleteModalOpen(true);
+                    setDeleteModalData({
+                      amendmentNumber,
+                      additionalComments,
+                      changeRequestForm,
+                      dateRequested,
+                      descriptionOfChanges,
+                      fundingAgreement,
+                      levelOfAmendment,
+                      maps,
+                      sow,
+                      title,
+                      wirelessSow,
+                      otherFiles,
+                      date,
+                      isChangeRequest,
+                    });
+                  }}
+                />
+              )}
+            </>
+          )}
         </StyledHideButton>
       </StyledGrid>
       <StyledToggleSection isShowMore={showMore}>
@@ -277,7 +334,7 @@ const ReadOnlyView: React.FC<Props> = ({
           <span>{additionalComments}</span>
         </div>
       </StyledToggleSection>
-    </div>
+    </>
   );
 };
 

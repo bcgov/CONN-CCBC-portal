@@ -434,6 +434,7 @@ describe('The ProjectInformation form', () => {
             ],
           },
           _oldChangeRequestId: expect.anything(),
+          _historyOperation: 'INSERT',
         },
       }
     );
@@ -569,6 +570,7 @@ describe('The ProjectInformation form', () => {
             changeRequestFormUpload: [expect.anything()],
           },
           _oldChangeRequestId: expect.anything(),
+          _historyOperation: 'UPDATE',
         },
       }
     );
@@ -661,6 +663,7 @@ describe('The ProjectInformation form', () => {
         input: {
           _applicationId: 1,
           _jsonData: expect.anything(),
+          _historyOperation: 'UPDATE',
         },
       }
     );
@@ -762,6 +765,7 @@ describe('The ProjectInformation form', () => {
         input: {
           _applicationId: 1,
           _jsonData: expect.anything(),
+          _historyOperation: 'UPDATE',
         },
       }
     );
@@ -857,6 +861,7 @@ describe('The ProjectInformation form', () => {
         input: {
           _applicationId: 1,
           _jsonData: expect.anything(),
+          _historyOperation: 'UPDATE',
         },
       }
     );
@@ -1113,6 +1118,7 @@ describe('The ProjectInformation form', () => {
             ],
           },
           _oldChangeRequestId: expect.anything(),
+          _historyOperation: 'INSERT',
         },
       }
     );
@@ -1232,6 +1238,7 @@ describe('The ProjectInformation form', () => {
             ],
           },
           _oldChangeRequestId: expect.anything(),
+          _historyOperation: 'INSERT',
         },
       }
     );
