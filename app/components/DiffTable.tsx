@@ -226,8 +226,8 @@ const generateDiffTable = (
                   schema,
                   overrideParent || objectName,
                   key,
-                  newValueArr.join(','),
-                  oldValueArr.join(','),
+                  newValueArr.length ? newValueArr.join(',') : 'N/A',
+                  oldValueArr.length ? oldValueArr.join(',') : 'N/A',
                   addedHeadings,
                   excludedKeys
                 )
