@@ -32,6 +32,7 @@ logout.post('/api/logout', async (req: any, res) => {
           cookieRoles === 'analyst' ||
           cookieRoles === 'admin' ||
           cookieRoles === 'cbc_admin' ||
+          cookieRoles === 'ccbc_analyst' ||
           cookieRoles === 'super_admin'
         ) {
           isAnalyst = true;
