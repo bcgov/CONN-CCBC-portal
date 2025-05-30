@@ -24,8 +24,17 @@ export const logoutController =
       secure: true,
     });
 
+    const roles = (req.claims?.client_roles as any) || [];
+    const isAnalyst =
+      roles?.includes('analyst') ||
+      roles?.includes('admin') ||
+      roles?.includes('cbc_admin') ||
+      roles?.includes('super_admin');
+
+    const baseRoute = isAnalyst ? '/analyst' : '/';
+
     if (!isAuthenticated(req)) {
-      res.redirect(client.metadata.post_logout_redirect_uris[0]);
+      res.redirect(baseRoute);
       return;
     }
 
@@ -35,6 +44,7 @@ export const logoutController =
     res.redirect(
       client.endSessionUrl({
         id_token_hint: tokenSet,
+        post_logout_redirect_uri: baseRoute,
       })
     );
   };
