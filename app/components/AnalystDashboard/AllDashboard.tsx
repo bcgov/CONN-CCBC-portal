@@ -21,6 +21,7 @@ import {
   MRT_ShowHideColumnsButton,
   MRT_FilterFns,
   MRT_Row,
+  MRT_RowVirtualizer,
 } from 'material-react-table';
 import RowCount from 'components/Table/RowCount';
 import AssignLead from 'components/Analyst/AssignLead';
@@ -172,9 +173,13 @@ const genericFilterMultiSelect = (row, id, filterValue) => {
 
 interface Props {
   query: any;
+  enableRowVirtualization?: boolean;
 }
 
-const AllDashboardTable: React.FC<Props> = ({ query }) => {
+const AllDashboardTable: React.FC<Props> = ({
+  query,
+  enableRowVirtualization = true,
+}) => {
   const queryFragment = useFragment<AllDashboardTable_query$key>(
     graphql`
       fragment AllDashboardTable_query on Query {
@@ -304,6 +309,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const [visibilityPreference, setVisibilityPreference] =
     useState<MRT_VisibilityState>();
+  const rowVirtualizerInstanceRef = useRef<MRT_RowVirtualizer>(null);
 
   const [density, setDensity] = useState<MRT_DensityState>('comfortable');
   const [showColumnFilters, setShowColumnFilters] = useState(false);
@@ -467,16 +473,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     sorting,
     columnSizing,
   ]);
-
-  useEffect(() => {
-    if (!isFirstRender && lastVisitedRow) {
-      document
-        .getElementById(
-          `${lastVisitedRow.isCcbc ? 'ccbc' : 'cbc'}-${lastVisitedRow.rowId}`
-        )
-        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }, [isFirstRender, lastVisitedRow]);
 
   useEffect(() => {
     if (visibilityPreference) {
@@ -852,6 +848,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       <AllDashboardDetailPanel row={row} filterValue={globalFilter} />
     ),
     globalFilterFn: 'customGlobalFilter',
+    enableRowVirtualization,
+    rowVirtualizerInstanceRef,
+    rowVirtualizerOptions: { overscan: 50 },
     onGlobalFilterChange: setGlobalFilter,
     onExpandedChange: (expanded) => {
       setExpanded(expanded);
@@ -911,6 +910,25 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       </StyledTableHeader>
     ),
   });
+
+  useEffect(() => {
+    if (!isFirstRender && lastVisitedRow) {
+      const targetRowIndex = table
+        .getSortedRowModel()
+        .rows?.findIndex(
+          (row) => row.original.rowId === Number(lastVisitedRow.rowId)
+        );
+
+      if (targetRowIndex !== -1) {
+        setTimeout(() => {
+          // accounting for detail panels hence *2
+          rowVirtualizerInstanceRef.current?.scrollToIndex(targetRowIndex * 2, {
+            align: 'center',
+          });
+        }, 0);
+      }
+    }
+  }, [isFirstRender, lastVisitedRow]);
 
   useEffect(() => {
     const rowModel = table.getRowModel().rows?.map((row) => row.original);

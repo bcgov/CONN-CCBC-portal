@@ -4,12 +4,23 @@ import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import * as moduleApi from '@growthbook/growthbook-react';
 import cookie from 'js-cookie';
 import userEvent from '@testing-library/user-event';
-import Dashboard from '../../../pages/analyst/dashboard';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import PageTestingHelper from '../../utils/pageTestingHelper';
 import compileddashboardQuery, {
   dashboardAnalystQuery,
 } from '../../../__generated__/dashboardAnalystQuery.graphql';
+// mocking AllDashboard import to disable virtualization
+jest.mock('components/AnalystDashboard/AllDashboard', () => {
+  const Actual = jest.requireActual(
+    'components/AnalystDashboard/AllDashboard'
+  ).default;
+  return {
+    __esModule: true,
+    default: (props) => <Actual {...props} enableRowVirtualization={false} />,
+  };
+});
+/* eslint-disable import/first */
+import Dashboard from '../../../pages/analyst/dashboard';
 
 jest.setTimeout(10000);
 
@@ -1270,9 +1281,10 @@ describe('The index page', () => {
       target: { value: originalProjectNumber },
     });
 
-
     await waitFor(() => {
-      expect(screen.getByText(originalProjectNumber.toString())).toBeInTheDocument();
+      expect(
+        screen.getByText(originalProjectNumber.toString())
+      ).toBeInTheDocument();
     });
   });
 });
