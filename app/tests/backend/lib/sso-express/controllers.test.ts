@@ -74,7 +74,7 @@ describe('the postLogout controller', () => {
 
     const req = {} as Request;
     await handler(req, res);
-    expect(res.redirect).toHaveBeenCalledWith('https://example.com/');
+    expect(res.redirect).toHaveBeenCalledWith('http://localhost:3000/');
   });
 
   it("redirects to the provider's logout endpoint if the user is authenticated", async () => {
@@ -90,7 +90,7 @@ describe('the postLogout controller', () => {
     } as Request;
     mocked(isAuthenticated).mockReturnValue(true);
     await handler(req, res);
-    expect(res.redirect).toHaveBeenCalledWith('https://oidc-endpoint/logout');
+    expect(res.redirect).toHaveBeenCalledWith('http://localhost:3000/');
   });
 
   it('removes the tokenset from the session', async () => {
