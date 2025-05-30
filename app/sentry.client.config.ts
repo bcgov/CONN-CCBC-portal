@@ -11,7 +11,7 @@ const { SENTRY_ENVIRONMENT, SENTRY_RELEASE, OPENSHIFT_APP_NAMESPACE } =
 if (
   OPENSHIFT_APP_NAMESPACE &&
   OPENSHIFT_APP_NAMESPACE.includes('ff61fb') &&
-  !OPENSHIFT_APP_NAMESPACE.includes('dev') &&
+  // !OPENSHIFT_APP_NAMESPACE.includes('dev') &&
   !OPENSHIFT_APP_NAMESPACE.includes('test') &&
   !OPENSHIFT_APP_NAMESPACE.includes('prod')
 ) {
