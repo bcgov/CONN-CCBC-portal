@@ -757,14 +757,6 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const columnActions = document.querySelectorAll(
-      '[aria-label="Show/Hide filters"]'
-    )[0];
-
-    await act(async () => {
-      fireEvent.click(columnActions);
-    });
-
     const statusDropdown = screen.getByLabelText(
       'Filter by Internal Status'
     ) as HTMLSelectElement;
@@ -1031,14 +1023,6 @@ describe('The index page', () => {
     expect(screen.getByText('CCBC-010001')).toBeVisible();
     expect(screen.getByText('CCBC-010002')).toBeVisible();
 
-    const columnActions = document.querySelectorAll(
-      '[aria-label="Show/Hide filters"]'
-    )[0];
-
-    await act(async () => {
-      fireEvent.click(columnActions);
-    });
-
     const packageFilter = screen.getAllByText('Filter by Package')[0];
 
     expect(packageFilter).toBeInTheDocument();
@@ -1072,14 +1056,6 @@ describe('The index page', () => {
     expect(screen.getByText('CCBC-010001')).toBeVisible();
     expect(screen.getByText('CCBC-010002')).toBeVisible();
 
-    const columnActions = document.querySelectorAll(
-      '[aria-label="Show/Hide filters"]'
-    )[0];
-
-    await act(async () => {
-      fireEvent.click(columnActions);
-    });
-
     const zoneFilter = screen.getAllByText('Filter by Zone')[0];
 
     expect(zoneFilter).toBeInTheDocument();
@@ -1112,14 +1088,6 @@ describe('The index page', () => {
 
     expect(screen.getByText('4444')).toBeVisible();
     expect(screen.getByText('5555')).toBeVisible();
-
-    const columnActions = document.querySelectorAll(
-      '[aria-label="Show/Hide filters"]'
-    )[0];
-
-    await act(async () => {
-      fireEvent.click(columnActions);
-    });
 
     const internalStatusFilter = screen.getAllByText(
       'Filter by Internal Status'
@@ -1270,9 +1238,10 @@ describe('The index page', () => {
       target: { value: originalProjectNumber },
     });
 
-
     await waitFor(() => {
-      expect(screen.getByText(originalProjectNumber.toString())).toBeInTheDocument();
+      expect(
+        screen.getByText(originalProjectNumber.toString())
+      ).toBeInTheDocument();
     });
   });
 });
