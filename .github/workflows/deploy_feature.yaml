@@ -222,7 +222,7 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{
                   "transition": {
-                      "id": "10"
+                      "id": "12"
                   }
               }' \
             "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY/transitions"
