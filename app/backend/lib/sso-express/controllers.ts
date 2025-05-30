@@ -28,6 +28,7 @@ export const logoutController =
       cookieRoles === 'analyst' ||
       cookieRoles === 'admin' ||
       cookieRoles === 'cbc_admin' ||
+      cookieRoles === 'ccbc_analyst' ||
       cookieRoles === 'super_admin';
 
     // Clear the siteminder session token on logout if we can
