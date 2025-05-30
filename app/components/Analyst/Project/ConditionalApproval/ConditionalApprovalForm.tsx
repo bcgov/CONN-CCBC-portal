@@ -67,7 +67,7 @@ const ConditionalApprovalForm: React.FC<Props> = ({
 
   const [createConditionalApproval] = useCreateConditionalApprovalMutation();
   const [newFormData, setNewFormData] = useState(null);
-  const [oldFormData, setOldFormData] = useState(null);
+  const [oldFormData, setOldFormData] = useState(conditionalApproval?.jsonData);
   const [isFormEditMode, setIsFormEditMode] = useState(
     !conditionalApproval?.jsonData
   );
@@ -75,7 +75,6 @@ const ConditionalApprovalForm: React.FC<Props> = ({
 
   useEffect(() => {
     setNewFormData(conditionalApproval?.jsonData);
-    setOldFormData(conditionalApproval?.jsonData);
   }, [conditionalApproval]);
 
   const oldFormStatus = oldFormData?.response?.statusApplicantSees;
@@ -145,6 +144,7 @@ const ConditionalApprovalForm: React.FC<Props> = ({
         {...conditionalApprovalModal}
       />
       <StyledProjectForm
+        clearFormDataOnEdit={false}
         formData={newFormData}
         handleChange={(e) => {
           setNewFormData({ ...e.formData });
@@ -165,6 +165,8 @@ const ConditionalApprovalForm: React.FC<Props> = ({
         }
         resetFormData={handleResetFormData}
         onSubmit={handleSubmit}
+        onCancelFormData={oldFormData}
+        setFormData={setNewFormData}
         setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
         additionalContext={additionalContext}
         isFormAnimated={false}
