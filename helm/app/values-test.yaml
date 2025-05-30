@@ -2,6 +2,12 @@ metabase:
   prodIngress:
     enable: true
 
+resources:
+  app:
+    requests:
+      cpu: 300m
+      memory: '512Mi'
+
 db:
   postMigrationCommand: |
     sqitch --chdir mocks_schema deploy;
