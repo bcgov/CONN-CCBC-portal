@@ -46,11 +46,12 @@ logout.post('/api/logout', async (req: any, res) => {
     const logoutUrl =
       idp !== 'azureidir'
         ? `${siteminderUrl}?retnow=1&returl=${encodeURIComponent(keycloakLogoutUrl)}`
-        : keycloakLogoutUrl;
+        : `${baseUrl}${baseRoute}`;
 
     req.session.destroy(() => {
       res.clearCookie('analyst.sort');
       res.clearCookie('connect.sid');
+      res.clearCookie('role');
       res.redirect(logoutUrl);
     });
   });
