@@ -31,6 +31,7 @@ const typeLabelMappings: Record<string, string> = {
   application_claims_data: 'Claims & Progress Report',
   application_gis_assessment_hh: 'Assessment',
   application_fnha_contribution: 'FNHA Contribution',
+  application_pending_change_request: 'Pending change request',
 };
 
 const getLabelForType = (type: string) =>
