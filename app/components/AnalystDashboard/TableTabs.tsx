@@ -11,6 +11,7 @@ const TableTabs = () => {
   const router = useRouter();
   const dashboardHref = '/analyst/dashboard';
   const assessmentsHref = '/analyst/assessments';
+  const changeLogHref = '/analyst/change-log';
 
   return (
     <StyledNav>
@@ -26,6 +27,13 @@ const TableTabs = () => {
         selected={router?.pathname.includes(assessmentsHref)}
       >
         Assessments
+      </StyledTab>
+      <StyledTab
+        href={changeLogHref}
+        passHref
+        selected={router?.pathname.includes(changeLogHref)}
+      >
+        Project Change Log
       </StyledTab>
     </StyledNav>
   );
