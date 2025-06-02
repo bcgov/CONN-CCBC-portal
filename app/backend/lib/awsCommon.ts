@@ -25,8 +25,13 @@ const nodeHandler = new NodeHttpHandler({
   connectionTimeout: 30000,
 });
 
+// Only configure AWS credentials if all required env vars are present
+const hasAwsCreds =
+  process.env.AWS_S3_KEY &&
+  process.env.AWS_S3_SECRET_KEY &&
+  process.env.AWS_ROLE_ARN;
 let awsConfig: any;
-try {
+if (hasAwsCreds) {
   awsConfig = {
     region: AWS_S3_REGION,
     requestHandler: nodeHandler,
@@ -40,7 +45,7 @@ try {
       clientConfig: { region: AWS_S3_REGION },
     }),
   };
-} catch (err) {
+} else {
   // eslint-disable-next-line no-console
   console.warn(
     'AWS SDK not configured: missing or invalid credentials. S3/SNS will not be available.'
