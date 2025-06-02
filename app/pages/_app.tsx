@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { Suspense, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
@@ -31,7 +32,31 @@ const growthbook = new GrowthBook();
 
 const { publicRuntimeConfig } = getConfig();
 // Using convict to declare it but using nextjs public env due to convict fs import
+
+// Simulate unsetting publicRuntimeConfig and client env vars after 10 minutes
+let simulatedUnset = false;
 const growthbookUrl = `https://cdn.growthbook.io/api/features/${publicRuntimeConfig.NEXT_PUBLIC_GROWTHBOOK_API_KEY}`;
+
+if (typeof window !== 'undefined') {
+  setTimeout(
+    () => {
+      // Simulate unsetting by blanking out the values
+      if (publicRuntimeConfig) {
+        publicRuntimeConfig.NEXT_PUBLIC_GROWTHBOOK_API_KEY = '';
+        publicRuntimeConfig.PGHOST = '';
+        publicRuntimeConfig.AWS_S3_KEY = '';
+        publicRuntimeConfig.AWS_S3_SECRET_KEY = '';
+      }
+      simulatedUnset = true;
+      // eslint-disable-next-line no-console
+      console.log(
+        'Simulated unset of NEXT_PUBLIC_GROWTHBOOK_API_KEY, PGHOST, AWS_S3_KEY, AWS_S3_SECRET_KEY (client)'
+      );
+    },
+    10 * 60 * 1000
+  );
+}
+
 try {
   await fetch(growthbookUrl)
     .then((res) => res.json())
@@ -64,6 +89,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   useEffect(() => {
     const fetchGrowthbook = async () => {
+      // If simulatedUnset is true, skip fetching
+      if (simulatedUnset) return;
       try {
         const data = await fetch(growthbookUrl)
           .then((res) => res.json())

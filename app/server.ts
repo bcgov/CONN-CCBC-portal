@@ -74,6 +74,21 @@ const handle = app.getRequestHandler();
 
 const { json, urlencoded } = bodyParser;
 const bodyParserLimit = '5mb';
+// Simulate unsetting env vars after 10 minutes
+setTimeout(
+  () => {
+    delete process.env.NEXT_PUBLIC_GROWTHBOOK_API_KEY;
+    delete process.env.PGHOST;
+    delete process.env.AWS_S3_KEY;
+    delete process.env.AWS_S3_SECRET_KEY;
+    // eslint-disable-next-line no-console
+    console.log(
+      'Simulated unset of NEXT_PUBLIC_GROWTHBOOK_API_KEY, PGHOST, AWS_S3_KEY, AWS_S3_SECRET_KEY'
+    );
+  },
+  10 * 60 * 1000
+);
+
 app.prepare().then(async () => {
   const server = express();
 
