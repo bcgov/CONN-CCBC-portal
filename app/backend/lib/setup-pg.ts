@@ -1,3 +1,4 @@
+/* eslint-disable import/no-mutable-exports */
 /* eslint-disable import/extensions */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -28,3 +29,5 @@ try {
   );
   pgPool = undefined as any;
 }
+
+export { pgPool };
