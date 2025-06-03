@@ -599,8 +599,8 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByText('ID')).toBeInTheDocument();
-    expect(screen.getByText('Created At')).toBeInTheDocument();
-    expect(screen.getByText('Created By')).toBeInTheDocument();
+    expect(screen.getByText('Date and Time')).toBeInTheDocument();
+    expect(screen.getByText('User')).toBeInTheDocument();
     expect(screen.getByText('Fields changed')).toBeInTheDocument();
     expect(screen.getByText('New Value')).toBeInTheDocument();
     expect(screen.queryByText('Old Value')).toBeInTheDocument();

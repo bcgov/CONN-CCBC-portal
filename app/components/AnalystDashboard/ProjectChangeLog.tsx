@@ -12,6 +12,7 @@ import {
   MRT_ToggleDensePaddingButton,
   MRT_ToggleFullScreenButton,
   MRT_ShowHideColumnsButton,
+  MRT_ColumnSizingState,
 } from 'material-react-table';
 import { ProjectChangeLog_query$key } from '__generated__/ProjectChangeLog_query.graphql';
 import { diff } from 'json-diff';
@@ -62,18 +63,21 @@ const StyledCommunitiesHeader = styled.th`
 `;
 
 const ProjectIdCell = ({ cell }) => {
-  const applicationId = cell.row.original?.id;
-  return (
-    <>
-      {applicationId ? (
-        <StyledLink href={`/analyst/cbc/${applicationId}/cbcHistory`}>
-          {cell.getValue()}
-        </StyledLink>
-      ) : (
-        cell.getValue()
-      )}
-    </>
-  );
+  const applicationId = cell.getValue();
+  const isVisibleRow = cell.row.original?.isVisibleRow;
+
+  return isVisibleRow ? (
+    <StyledLink href={`/analyst/cbc/${applicationId}/cbcHistory`}>
+      {applicationId}
+    </StyledLink>
+  ) : null;
+};
+
+const MergedCell = ({ cell }) => {
+  const value = cell.getValue();
+  const isVisibleRow = cell.row.original?.isVisibleRow;
+
+  return isVisibleRow ? value : null;
 };
 
 const StyledCommunitiesCell = styled.td<{
@@ -97,7 +101,9 @@ const muiTableBodyRowProps = ({ row }) => ({
   hover: false,
   sx: {
     cursor: 'pointer',
-    borderTop: row.original.rowId ? '1px solid rgba(224, 224, 224, 1)' : 'none',
+    borderTop: row.original.isVisibleRow
+      ? '1px solid rgba(224, 224, 224, 1)'
+      : 'none',
   },
 });
 
@@ -272,9 +278,10 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
 
             const mappedRows = diffRows.map((row, i) => ({
               ...base,
-              rowId: i === 0 ? projectNumber : '',
-              createdAt: i === 0 ? meta.createdAt : '',
-              createdBy: i === 0 ? meta.createdBy : '',
+              rowId: projectNumber,
+              isVisibleRow: i === 0, // For visual use only
+              createdAt: meta.createdAt,
+              createdBy: meta.createdBy,
               field: row.field,
               newValue: row.newValue,
               oldValue: row.oldValue,
@@ -295,9 +302,10 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 ? [
                     {
                       ...base,
-                      rowId: showMeta ? projectNumber : '',
-                      createdAt: showMeta ? meta.createdAt : '',
-                      createdBy: showMeta ? meta.createdBy : '',
+                      rowId: projectNumber,
+                      isVisibleRow: showMeta, // For visual use only
+                      createdAt: meta.createdAt,
+                      createdBy: meta.createdBy,
                       field: label,
                       newValue: values,
                       oldValue: values,
@@ -334,23 +342,38 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     return [
       {
         accessorKey: 'rowId',
+        id: 'rowId',
         Cell: ProjectIdCell,
         header: 'ID',
         filterFn: filterVariant,
       },
       {
-        accessorKey: 'createdAt',
-        header: 'Created At',
-        filterFn: filterVariant,
-      },
-      {
-        accessorKey: 'createdBy',
-        header: 'Created By',
-        filterFn: filterVariant,
-      },
-      {
         accessorKey: 'field',
         header: 'Fields changed',
+        filterFn: filterVariant,
+      },
+      {
+        accessorKey: 'oldValue',
+        header: 'Old Value',
+        Cell: ({ row }) => {
+          const { field, oldValue } = row.original;
+
+          if (
+            (field === 'Communities Added' ||
+              field === 'Communities Removed') &&
+            Array.isArray(oldValue)
+          ) {
+            const isRemoved = field === 'Communities Removed';
+            return CommunitiesCell(
+              'bc_geographic_name',
+              'geographic_type',
+              oldValue,
+              isRemoved
+            );
+          }
+
+          return oldValue;
+        },
         filterFn: filterVariant,
       },
       {
@@ -378,36 +401,32 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         filterFn: filterVariant,
       },
       {
-        accessorKey: 'oldValue',
-        header: 'Old Value',
-        Cell: ({ row }) => {
-          const { field, oldValue } = row.original;
-
-          if (
-            (field === 'Communities Added' ||
-              field === 'Communities Removed') &&
-            Array.isArray(oldValue)
-          ) {
-            const isRemoved = field === 'Communities Removed';
-            return CommunitiesCell(
-              'bc_geographic_name',
-              'geographic_type',
-              oldValue,
-              isRemoved
-            );
-          }
-
-          return oldValue;
-        },
+        accessorKey: 'createdBy',
+        header: 'User',
         filterFn: filterVariant,
+        Cell: MergedCell,
+      },
+      {
+        accessorKey: 'createdAt',
+        header: 'Date and Time',
+        filterFn: filterVariant,
+        Cell: MergedCell,
       },
     ];
   }, [allCbcs]);
+
+  const columnSizing: MRT_ColumnSizingState = {
+    rowId: 50,
+    createdAt: 104,
+    createdBy: 110,
+    field: 108,
+  };
 
   const state = {
     showColumnFilters: true,
     columnFilters,
     showGlobalFilter: true,
+    columnSizing,
   };
 
   const table = useMaterialReactTable({
