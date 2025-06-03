@@ -1,6 +1,8 @@
 import { mocked } from 'jest-mock';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
+import * as moduleApi from '@growthbook/growthbook-react';
+import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import cookie from 'js-cookie';
 import userEvent from '@testing-library/user-event';
 import compiledchangelogQuery, {
@@ -540,6 +542,14 @@ const mockQueryPayload = {
   },
 };
 
+const mockShowTable: FeatureResult<JSONValue> = {
+  value: true,
+  source: 'defaultValue',
+  on: null,
+  off: null,
+  ruleId: 'show_project_change_log_table',
+};
+
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
 
 jest.mock('js-cookie', () => ({
@@ -558,6 +568,10 @@ describe('The index page', () => {
   beforeEach(() => {
     cookie.get.mockImplementation(() => null);
     pageTestingHelper.reinit();
+
+    jest.spyOn(moduleApi, 'useFeature').mockImplementation(() => {
+      return mockShowTable;
+    });
   });
 
   it('should redirect a user logged in with IDIR but not assigned a role', async () => {
