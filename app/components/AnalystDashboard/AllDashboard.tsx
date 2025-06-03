@@ -173,13 +173,9 @@ const genericFilterMultiSelect = (row, id, filterValue) => {
 
 interface Props {
   query: any;
-  enableRowVirtualization?: boolean;
 }
 
-const AllDashboardTable: React.FC<Props> = ({
-  query,
-  enableRowVirtualization = true,
-}) => {
+const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment<AllDashboardTable_query$key>(
     graphql`
       fragment AllDashboardTable_query on Query {
@@ -848,7 +844,7 @@ const AllDashboardTable: React.FC<Props> = ({
       <AllDashboardDetailPanel row={row} filterValue={globalFilter} />
     ),
     globalFilterFn: 'customGlobalFilter',
-    enableRowVirtualization,
+    enableRowVirtualization: true,
     rowVirtualizerInstanceRef,
     rowVirtualizerOptions: { overscan: 50 },
     onGlobalFilterChange: setGlobalFilter,
