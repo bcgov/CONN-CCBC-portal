@@ -28,8 +28,10 @@ const ChangeLog = ({
 }: RelayProps<Record<string, unknown>, changeLogQuery>) => {
   const query = usePreloadedQuery(getChangeLogQuery, preloadedQuery);
   const { session } = query;
-  const showTableTabs = useFeature('show_assessment_assignment_table').value;
   const isMaxWidthOverride = useFeature('max_width_override').value;
+  const showChangeLogTab = useFeature('show_project_change_log_table').value;
+
+  if (!showChangeLogTab) return null;
 
   return (
     <Layout
@@ -39,7 +41,7 @@ const ChangeLog = ({
     >
       <StyledDashboardContainer>
         <DashboardTabs session={session} />
-        {showTableTabs && <TableTabs />}
+        <TableTabs />
         <ProjectChangeLog query={query} />
       </StyledDashboardContainer>
     </Layout>
