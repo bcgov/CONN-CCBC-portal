@@ -1,3 +1,12 @@
+## [1.255.14](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.13...v1.255.14) (2025-06-04)
+
+## [1.255.13](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.12...v1.255.13) (2025-06-04)
+
+### Bug Fixes
+
+- application pending change request filter option on history ([5467460](https://github.com/bcgov/CONN-CCBC-portal/commit/54674605f2b1c03ca0f65fe9208118911838682b))
+- transition id from dev to po review ([bed8183](https://github.com/bcgov/CONN-CCBC-portal/commit/bed81833d3869278222ebb035fdfb19762cb03c0))
+
 ## [1.255.12](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.11...v1.255.12) (2025-05-29)
 
 ## [1.255.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.10...v1.255.11) (2025-05-28)
