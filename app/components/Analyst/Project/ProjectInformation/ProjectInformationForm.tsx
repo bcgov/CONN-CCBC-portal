@@ -299,7 +299,6 @@ const ProjectInformationForm: React.FC<Props> = ({
           input: {
             _amendmentNumber: 0,
             _applicationId: rowId,
-            _historyOperation: operation,
           },
         },
       });
