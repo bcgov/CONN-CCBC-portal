@@ -1,0 +1,37 @@
+name: Auto-fill PR Ticket
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  update-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract ticket ID from branch name
+        id: extract
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          TICKET=$(echo "$BRANCH" | grep -oE '^NDT-[0-9]+')
+          echo "ticket=$TICKET" >> $GITHUB_OUTPUT
+
+      - name: Check if ticket is already in body
+        id: check
+        run: |
+          BODY="${{ github.event.pull_request.body }}"
+          TICKET="${{ steps.extract.outputs.ticket }}"
+          if echo "$BODY" | grep -q "Implements \[$TICKET\]"; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update PR body with ticket reference
+        if: steps.check.outputs.skip == 'false' && steps.extract.outputs.ticket != ''
+        uses: peter-evans/pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            Implements [${{ steps.extract.outputs.ticket }}]
+
+            ${{ github.event.pull_request.body }}
