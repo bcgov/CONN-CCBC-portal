@@ -46,6 +46,20 @@ const format = (value, type) => {
   return value;
 };
 
+const sortIfNumberArray = (
+  arr: any[],
+  arrayItemsType: string | undefined
+): string => {
+  if (!arr || arr.length === 0) return 'N/A';
+
+  const sorted =
+    arrayItemsType === 'number'
+      ? [...arr].sort((a, b) => Number(a) - Number(b))
+      : arr;
+
+  return sorted.join(', ');
+};
+
 const createRow = (
   title,
   newValue,
@@ -221,13 +235,17 @@ const generateDiffTable = (
                 )
               );
             } else {
+              const arrayItemsType =
+                schema[overrideParent || objectName]?.properties[key]?.items
+                  ?.type;
+
               rows.push(
                 ...handleRow(
                   schema,
                   overrideParent || objectName,
                   key,
-                  newValueArr.length ? newValueArr.join(',') : 'N/A',
-                  oldValueArr.length ? oldValueArr.join(',') : 'N/A',
+                  sortIfNumberArray(newValueArr, arrayItemsType),
+                  sortIfNumberArray(oldValueArr, arrayItemsType),
                   addedHeadings,
                   excludedKeys
                 )
