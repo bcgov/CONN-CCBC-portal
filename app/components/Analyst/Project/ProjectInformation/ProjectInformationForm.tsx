@@ -304,7 +304,7 @@ const ProjectInformationForm: React.FC<Props> = ({
       });
     }
 
-    validateSow(sowFile, false)
+    validateSow(sowFile, false, operation)
       .then((response) => {
         const isSowErrors = sowValidationErrors.length > 0;
         const isSowUploaded =
