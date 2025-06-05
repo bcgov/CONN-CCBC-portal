@@ -813,7 +813,7 @@ const HistoryContent = ({
           <span>
             {displayName} {operation} a{' '}
           </span>
-          <b>Change Request</b> with amendment #{amendmentNumber}
+          <b>Change Request</b>&nbsp;with amendment #{amendmentNumber}
           <span> on {createdAtFormatted}</span>
         </StyledContent>
         <HistoryFile
