@@ -36,7 +36,6 @@ const AnalystDashboard = ({
   const query = usePreloadedQuery(getDashboardAnalystQuery, preloadedQuery);
   const router = useRouter();
   const { session } = query;
-  const showTableTabs = useFeature('show_assessment_assignment_table').value;
   const isMaxWidthOverride = useFeature('max_width_override').value;
 
   const scrollHandler = () => {
@@ -86,7 +85,7 @@ const AnalystDashboard = ({
     >
       <StyledDashboardContainer>
         <DashboardTabs session={session} />
-        {showTableTabs && <TableTabs />}
+        <TableTabs />
         <Profiler
           id="AnalystDashboard"
           onRender={(id, phase, actualDuration) => {
