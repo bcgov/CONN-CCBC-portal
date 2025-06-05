@@ -13,7 +13,11 @@ function excelValidateGenerator(
   setExcelFile?: Dispatch<any>,
   setExcelValidationErrors?: Dispatch<Array<any>>
 ) {
-  return async function validate(file, validateOnly = true) {
+  return async function validate(
+    file,
+    validateOnly = true,
+    operation = 'UPDATE'
+  ) {
     const fileFormData = new FormData();
     if (file) {
       fileFormData.append('file', file);
@@ -21,7 +25,7 @@ function excelValidateGenerator(
       if (setExcelValidationErrors) setExcelValidationErrors([]);
       try {
         const response = await fetchWithTimeout(
-          `${apiPath}/?validate=${validateOnly}`,
+          `${apiPath}/?validate=${validateOnly}&operation=${operation}`,
           {
             method: 'POST',
             body: fileFormData,
