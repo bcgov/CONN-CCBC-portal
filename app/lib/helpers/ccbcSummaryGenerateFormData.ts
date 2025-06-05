@@ -30,7 +30,7 @@ const handleApplicationDateReceived = (applicationData, allIntakes) => {
   //   return null;
   // }
   // from intake 5 application is immediately submitted, use that date
-  if (applicationData.intakeNumber === 5) {
+  if (applicationData.intakeNumber >= 5) {
     return applicationData?.applicationStatusesByApplicationId?.nodes[0]
       ?.createdAt;
   }
