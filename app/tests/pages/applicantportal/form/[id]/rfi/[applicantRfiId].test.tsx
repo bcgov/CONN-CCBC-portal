@@ -140,7 +140,13 @@ describe('The applicantRfiId Page', () => {
 
     act(() => {
       pageTestingHelper.environment.mock.resolveMostRecentOperation({
-        data: {},
+        data: {
+          updateRfi: {
+            rfiData: {
+              rowId: 1,
+            },
+          },
+        },
       });
     });
   });
@@ -790,5 +796,53 @@ describe('The applicantRfiId Page', () => {
         },
       }
     );
+  });
+
+  it('shows toast when upload fails', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+    pageTestingHelper.expectMutationToBeCalled(
+      'updateWithTrackingRfiMutation',
+      {
+        input: {
+          jsonData: {
+            rfiType: [],
+            rfiAdditionalFiles: {
+              geographicNamesRfi: true,
+              eligibilityAndImpactsCalculatorRfi: true,
+              detailedBudgetRfi: true,
+              geographicCoverageMapRfi: true,
+              geographicCoverageMap: [
+                {
+                  uuid: 1,
+                  name: '1.kmz',
+                  size: 0,
+                  type: '',
+                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
+                },
+                {
+                  uuid: 2,
+                  name: '2.kmz',
+                  size: 0,
+                  type: '',
+                  uploadedAt: '2024-05-31T14:05:03.509-07:00',
+                },
+              ],
+            },
+            rfiDueBy: '2022-12-22',
+          },
+          rfiRowId: 1,
+        },
+      }
+    );
+
+    act(() => {
+      pageTestingHelper.environment.mock.rejectMostRecentOperation(
+        new Error('Error uploading file')
+      );
+    });
   });
 });

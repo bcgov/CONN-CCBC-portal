@@ -1,3 +1,11 @@
+## [1.256.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.256.0...v1.256.1) (2025-06-05)
+
+# [1.256.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.16...v1.256.0) (2025-06-05)
+
+### Features
+
+- show success/error messages on applicant rfi ([955be97](https://github.com/bcgov/CONN-CCBC-portal/commit/955be978dc96a92d8b9b50658e0cac4b4f70edf0))
+
 ## [1.255.16](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.15...v1.255.16) (2025-06-04)
 
 ## [1.255.15](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.14...v1.255.15) (2025-06-04)
