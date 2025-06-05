@@ -118,6 +118,9 @@ const muiTableHeadCellProps = {
     '&:last-child': {
       paddingRight: '16px',
     },
+    '& .MuiSelect-icon': {
+      display: 'none',
+    },
   },
 };
 
