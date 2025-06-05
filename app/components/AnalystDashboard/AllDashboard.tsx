@@ -15,7 +15,6 @@ import {
   type MRT_SortingState,
   type MRT_VisibilityState,
   type MRT_ColumnSizingState,
-  MRT_ToggleFiltersButton,
   MRT_ToggleDensePaddingButton,
   MRT_ToggleFullScreenButton,
   MRT_ShowHideColumnsButton,
@@ -308,7 +307,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const rowVirtualizerInstanceRef = useRef<MRT_RowVirtualizer>(null);
 
   const [density, setDensity] = useState<MRT_DensityState>('comfortable');
-  const [showColumnFilters, setShowColumnFilters] = useState(false);
 
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
   const [expanded, setExpanded] = useState({});
@@ -414,10 +412,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           setter: setColumnVisibility,
         },
         { key: 'mrt_density_application', setter: setDensity },
-        {
-          key: 'mrt_showColumnFilters_application',
-          setter: setShowColumnFilters,
-        },
         { key: 'mrt_columnSizing_application', setter: setColumnSizing },
       ];
 
@@ -449,7 +443,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     if (!isFirstRender) {
       const saveToCookies = [
         { key: 'mrt_columnVisibility_application', value: columnVisibility },
-        { key: 'mrt_showColumnFilters_application', value: showColumnFilters },
         { key: 'mrt_columnFilters_application', value: columnFilters },
         { key: 'mrt_density_application', value: density },
         { key: 'mrt_sorting_application', value: sorting },
@@ -463,7 +456,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   }, [
     isFirstRender,
     columnVisibility,
-    showColumnFilters,
     columnFilters,
     density,
     sorting,
@@ -493,10 +485,10 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const state = {
     showGlobalFilter: true,
+    showColumnFilters: true,
     columnFilters,
     columnVisibility,
     density,
-    showColumnFilters,
     sorting,
     columnSizing,
     expanded,
@@ -821,7 +813,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       table.setGlobalFilter(null);
     },
     onDensityChange: setDensity,
-    onShowColumnFiltersChange: setShowColumnFilters,
     onColumnSizingChange: setColumnSizing,
     enablePagination: false,
     enableGlobalFilter,
@@ -883,7 +874,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             isLoading={isLoading}
           />
         </IconButton>
-        <MRT_ToggleFiltersButton table={table} />
         <MRT_ShowHideColumnsButton table={table} />
         <MRT_ToggleDensePaddingButton table={table} />
         <MRT_ToggleFullScreenButton table={table} />
