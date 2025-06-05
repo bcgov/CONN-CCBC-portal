@@ -29,17 +29,6 @@ const Flex = styled('header')`
   width: 100%;
 `;
 
-const SuccessMessage = styled.div`
-  background-color: #388e3c;
-  color: #fff;
-  padding: 16px;
-  border-radius: 4px;
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
 const DashboardLink = styled.a`
   color: #fff;
   text-decoration: underline;
@@ -110,7 +99,6 @@ const ApplicantRfiPage = ({
       ?.rowId;
   const [formData, setFormData] = useState(rfiDataByRowId.jsonData);
   const [isDirty, setIsDirty] = useState(false);
-  const [isSaveSuccess, setIsSaveSuccess] = useState(false);
   const { notifyHHCountUpdate } = useEmailNotification();
   const { notifyRfiCoverageMapKmzUploaded } =
     useRfiCoverageMapKmzUploadedEmail();
@@ -139,6 +127,19 @@ const ApplicantRfiPage = ({
         and try again.
       </>,
       'error',
+      10000
+    );
+  };
+
+  const showSuccessToast = () => {
+    showToast(
+      <>
+        Uploads successfully saved.{' '}
+        <DashboardLink href="/applicantportal/dashboard">
+          Return to dashboard
+        </DashboardLink>
+      </>,
+      'success',
       10000
     );
   };
@@ -182,6 +183,12 @@ const ApplicantRfiPage = ({
       return Promise.resolve();
     };
 
+    // Helper to set success state after mutation
+    const setSuccessState = (r: any) => {
+      setRfiRowId(r.updateRfi.rfiData.rowId);
+      setIsDirty(false);
+    };
+
     const hasTemplateNineUpdated = templatesUpdated?.[9];
     if (!hasApplicationFormDataUpdated && !hasTemplateNineUpdated) {
       // form data not updated and template nine not updated
@@ -197,9 +204,8 @@ const ApplicantRfiPage = ({
           setTemplateData(null);
           checkAndNotifyRfiCoverage().then(() => {
             // wait until email is sent before redirecting
-            setRfiRowId(r.updateRfi.rfiData.rowId);
-            setIsDirty(false);
-            setIsSaveSuccess(true);
+            setSuccessState(r);
+            showSuccessToast();
           });
         },
         onError: (err) => {
@@ -239,9 +245,8 @@ const ApplicantRfiPage = ({
           setTemplateData(null);
           checkAndNotifyRfiCoverage().then(() => {
             // wait until email(s) is sent before redirecting
-            setRfiRowId(r.updateRfi.rfiData.rowId);
-            setIsDirty(false);
-            setIsSaveSuccess(true);
+            setSuccessState(r);
+            showSuccessToast();
           });
         },
       });
@@ -270,9 +275,8 @@ const ApplicantRfiPage = ({
           checkAndNotifyRfiCoverage().then(() => {
             checkAndNotifyHHCount().then(() => {
               // wait until email is sent before redirecting
-              setRfiRowId(r.updateRfi.rfiData.rowId);
-              setIsDirty(false);
-              setIsSaveSuccess(true);
+              setSuccessState(r);
+              showSuccessToast();
             });
           });
         },
@@ -315,9 +319,8 @@ const ApplicantRfiPage = ({
           checkAndNotifyHHCount().then(() => {
             checkAndNotifyRfiCoverage().then(() => {
               // wait until email(s) is sent before redirecting
-              setRfiRowId(r.updateRfi.rfiData.rowId);
-              setIsDirty(false);
-              setIsSaveSuccess(true);
+              setSuccessState(r);
+              showSuccessToast();
             });
           });
         },
@@ -376,14 +379,6 @@ const ApplicantRfiPage = ({
             </Button>
           </FormBase>
           {/* Note: leaving this below save to leave space for future cancel */}
-          {isSaveSuccess && (
-            <SuccessMessage role="status" aria-live="polite">
-              <span>Uploads successfully saved. </span>
-              <DashboardLink href="/applicantportal/dashboard">
-                Return to dashboard
-              </DashboardLink>
-            </SuccessMessage>
-          )}
         </FormDiv>
       </div>
     </Layout>

@@ -1,8 +1,12 @@
+import cookie from 'js-cookie';
 import styled from 'styled-components';
 import MapCaller from './Map/MapCaller';
 
 const StyledAside = styled.aside`
   min-height: 100%;
+  @media (max-width: 975px) {
+    display: none;
+  }
 `;
 
 const StyledMap = styled.div`
@@ -36,6 +40,7 @@ const SideMap = ({ mapData, isMapExpanded, setIsMapExpanded }) => {
               data-testid="expand-map"
               onClick={(e) => {
                 e.preventDefault();
+                cookie.set('map_expanded', 'true');
                 setIsMapExpanded(true);
               }}
             >

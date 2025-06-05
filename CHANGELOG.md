@@ -1,3 +1,88 @@
+## [1.256.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.256.0...v1.256.1) (2025-06-05)
+
+# [1.256.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.16...v1.256.0) (2025-06-05)
+
+### Features
+
+- show success/error messages on applicant rfi ([955be97](https://github.com/bcgov/CONN-CCBC-portal/commit/955be978dc96a92d8b9b50658e0cac4b4f70edf0))
+
+## [1.255.16](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.15...v1.255.16) (2025-06-04)
+
+## [1.255.15](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.14...v1.255.15) (2025-06-04)
+
+## [1.255.14](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.13...v1.255.14) (2025-06-04)
+
+## [1.255.13](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.12...v1.255.13) (2025-06-04)
+
+### Bug Fixes
+
+- application pending change request filter option on history ([5467460](https://github.com/bcgov/CONN-CCBC-portal/commit/54674605f2b1c03ca0f65fe9208118911838682b))
+- transition id from dev to po review ([bed8183](https://github.com/bcgov/CONN-CCBC-portal/commit/bed81833d3869278222ebb035fdfb19762cb03c0))
+
+## [1.255.12](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.11...v1.255.12) (2025-05-29)
+
+## [1.255.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.10...v1.255.11) (2025-05-28)
+
+## [1.255.10](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.9...v1.255.10) (2025-05-28)
+
+## [1.255.9](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.8...v1.255.9) (2025-05-28)
+
+## [1.255.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.7...v1.255.8) (2025-05-28)
+
+### Bug Fixes
+
+- tag version ([0f1a93b](https://github.com/bcgov/CONN-CCBC-portal/commit/0f1a93bfe2cf37b9a4ecd21b0f116b02af50905d))
+
+## [1.255.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.6...v1.255.7) (2025-05-28)
+
+## [1.255.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.5...v1.255.6) (2025-05-28)
+
+### Bug Fixes
+
+- tag version ([28ff858](https://github.com/bcgov/CONN-CCBC-portal/commit/28ff8583671478d814df637f93886d3134594170))
+
+## [1.255.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.4...v1.255.5) (2025-05-28)
+
+## [1.255.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.3...v1.255.4) (2025-05-28)
+
+### Bug Fixes
+
+- conditional approval date on gcpe report ([5dbfc3f](https://github.com/bcgov/CONN-CCBC-portal/commit/5dbfc3fd08519ecdee62af3e37fa42d4d2331dd7))
+
+## [1.255.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.2...v1.255.3) (2025-05-28)
+
+## [1.255.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.1...v1.255.2) (2025-05-28)
+
+### Bug Fixes
+
+- rfi template 9 data fallback ([f858006](https://github.com/bcgov/CONN-CCBC-portal/commit/f858006d57a40660aa3eb02a7d6db131fa64840a))
+
+## [1.255.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.0...v1.255.1) (2025-05-26)
+
+# [1.255.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.254.1...v1.255.0) (2025-05-26)
+
+### Features
+
+- add full screen control to map ([2cc43e6](https://github.com/bcgov/CONN-CCBC-portal/commit/2cc43e6db7ed55f5c9085dea57f9c278dc0a8bdb))
+- allow map resizing when expanded ([5c54ad3](https://github.com/bcgov/CONN-CCBC-portal/commit/5c54ad3d66754f84f61811ac99904878db3da5b1))
+
+## [1.254.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.254.0...v1.254.1) (2025-05-26)
+
+# [1.254.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.253.3...v1.254.0) (2025-05-26)
+
+### Features
+
+- do not refresh page on project navigation ([9980ec8](https://github.com/bcgov/CONN-CCBC-portal/commit/9980ec8ce9159649c4c2f98379d2d18893fa427a))
+- remember if map is expanded or collapsed ([5f7868f](https://github.com/bcgov/CONN-CCBC-portal/commit/5f7868f6c1be9384856f9f9efb7785622e08e27b))
+
+## [1.253.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.253.2...v1.253.3) (2025-05-26)
+
+## [1.253.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.253.1...v1.253.2) (2025-05-26)
+
+### Bug Fixes
+
+- schema spy ([9a7ba09](https://github.com/bcgov/CONN-CCBC-portal/commit/9a7ba09bd013f86446ed40383271f85dcf84c06e))
+
 ## [1.253.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.253.0...v1.253.1) (2025-05-22)
 
 # [1.253.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.252.8...v1.253.0) (2025-05-22)

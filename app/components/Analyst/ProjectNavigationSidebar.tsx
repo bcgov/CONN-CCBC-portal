@@ -17,6 +17,12 @@ const StyledAside = styled.aside`
   margin-top: 250px;
   min-height: 100%;
   width: ${(props) => `calc((100vw - ${props.theme.width.pageMaxWidth}) / 2)`};
+  @media (max-width: 975px) {
+    width: 100px;
+  }
+  @media (max-width: 1450px) {
+    width: 100px;
+  }
 `;
 
 const StyledNav = styled.nav`
@@ -184,7 +190,8 @@ const ProjectNavigationSidebar = ({ query }) => {
     } else {
       newPath = replacePath(nextNode.type, asPath, id);
     }
-    window.location.href = newPath;
+    // Use shallow routing to avoid full page reload and preserve scroll position
+    router.push(newPath, undefined, { shallow: true });
   };
 
   return (

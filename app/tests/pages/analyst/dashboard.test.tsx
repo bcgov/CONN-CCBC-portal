@@ -4,12 +4,12 @@ import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import * as moduleApi from '@growthbook/growthbook-react';
 import cookie from 'js-cookie';
 import userEvent from '@testing-library/user-event';
-import Dashboard from '../../../pages/analyst/dashboard';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import PageTestingHelper from '../../utils/pageTestingHelper';
 import compileddashboardQuery, {
   dashboardAnalystQuery,
 } from '../../../__generated__/dashboardAnalystQuery.graphql';
+import Dashboard from '../../../pages/analyst/dashboard';
 
 jest.setTimeout(10000);
 
@@ -283,6 +283,7 @@ const mockQueryPayload = {
                 projectTitle: 'Project 3',
                 dateAnnounced: '2019-07-02T00:00:00.000Z',
                 projectNumber: 3333,
+                originalProjectNumber: 673829,
                 projectStatus: 'Reporting Complete',
                 federalFundingRequested: 333333,
                 householdCount: null,
@@ -398,6 +399,28 @@ describe('The index page', () => {
     jest
       .spyOn(moduleApi, 'useFeature')
       .mockReturnValue(mockShowLeadColumn(false));
+    // MRT Virtualization
+    Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+      configurable: true,
+      value: 500,
+    });
+
+    Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+      configurable: true,
+      value: 1000,
+    });
+
+    HTMLElement.prototype.getBoundingClientRect = () => {
+      return {
+        width: 1000,
+        height: 500,
+        top: 0,
+        left: 0,
+        bottom: 500,
+        right: 1000,
+      } as DOMRect;
+    };
+
     pageTestingHelper.reinit();
   });
 
@@ -716,6 +739,34 @@ describe('The index page', () => {
     );
 
     expect(sesstionStorage).toBe('300');
+  });
+
+  it('last visited row visible with virtualization', async () => {
+    window.sessionStorage.setItem(
+      'mrt_last_visited_row_application',
+      JSON.stringify({ rowId: 4, isCcbc: true })
+    );
+
+    Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+      configurable: true,
+      value: 80, // ~40px per row, fits only 2
+    });
+    HTMLElement.prototype.getBoundingClientRect = () => ({
+      width: 1000,
+      height: 80,
+      top: 0,
+      left: 0,
+      bottom: 80,
+      right: 1000,
+      x: 0,
+      y: 0,
+      toJSON: () => {},
+    });
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getByText('CCBC-010004')).toBeInTheDocument();
   });
 
   it('save the user preference on column visibility on toggle', async () => {
@@ -1245,5 +1296,34 @@ describe('The index page', () => {
     });
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('filters the applications by original project number', async () => {
+    jest
+      .spyOn(moduleApi, 'useFeature')
+      .mockReturnValue(mockShowCbcProjects(true));
+
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const originalProjectNumber = 673829;
+
+    const globalSearch = screen.getByPlaceholderText('Search');
+    expect(globalSearch).toBeInTheDocument();
+
+    const searchButton = screen.getByTestId('SearchIcon');
+    expect(searchButton).toBeInTheDocument();
+
+    fireEvent.click(searchButton);
+
+    fireEvent.change(globalSearch, {
+      target: { value: originalProjectNumber },
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(originalProjectNumber.toString())
+      ).toBeInTheDocument();
+    });
   });
 });

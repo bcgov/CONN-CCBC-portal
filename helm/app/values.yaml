@@ -163,7 +163,7 @@ crunchy-postgres:
       storage: 2Gi
       storageClassName: netapp-block-standard
     requests:
-      cpu: 1m
+      cpu: 300m
       memory: 512Mi
     replicaCertCopy:
       requests:

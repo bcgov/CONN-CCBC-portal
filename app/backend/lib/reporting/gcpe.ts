@@ -1,5 +1,6 @@
 import writeXlsxFile, { Row } from 'write-excel-file';
 import { DateTime } from 'luxon';
+import { getConditionalApprovalDate } from '../../../lib/helpers/ccbcSummaryGenerateFormData';
 import { performQuery } from '../graphql';
 import { HEADER_ROW, generateHeaderInfoRow } from './header';
 import columnOptions from './column_options';
@@ -499,7 +500,9 @@ const generateExcelData = async (
       // proposed start date
       { value: node?.formData?.jsonData?.projectPlan?.projectStartDate },
       // date conditionally approved
-      { value: node?.conditionalApproval?.jsonData?.decision?.ministerDate },
+      {
+        value: getConditionalApprovalDate(node?.conditionalApproval?.jsonData),
+      },
       // proposed project milestone completion date
       {
         value: null,
