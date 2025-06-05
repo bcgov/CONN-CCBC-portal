@@ -15,7 +15,31 @@ logout.post('/api/logout', async (req: any, res) => {
   const idToken = req?.session?.tokenSet?.id_token;
   req.logout(() => {
     const idp = req.claims?.identity_provider;
-    const baseRoute = idp === 'idir' ? '/analyst' : '/';
+    const roles = req.claims?.client_roles || [];
+    let isAnalyst =
+      roles?.includes('analyst') ||
+      roles?.includes('admin') ||
+      roles?.includes('cbc_admin') ||
+      roles?.includes('super_admin');
+    console.log('roles upon logout:', roles);
+    // if no role, check cookie roles
+    // as claims might be cleared by the time of auto logout
+    if (roles.length === 0) {
+      const cookieRoles = req.cookies?.role || null;
+      console.log('cookie roles upon logout:', cookieRoles);
+      if (cookieRoles) {
+        if (
+          cookieRoles === 'analyst' ||
+          cookieRoles === 'admin' ||
+          cookieRoles === 'cbc_admin' ||
+          cookieRoles === 'ccbc_analyst' ||
+          cookieRoles === 'super_admin'
+        ) {
+          isAnalyst = true;
+        }
+      }
+    }
+    const baseRoute = isAnalyst ? '/analyst' : '/';
 
     const postLogoutRedirectUri = encodeURIComponent(`${baseUrl}${baseRoute}`);
     const keycloakLogoutUrl = `${authServerUrl}/protocol/openid-connect/logout?id_token_hint=${encodeURIComponent(idToken)}&post_logout_redirect_uri=${postLogoutRedirectUri}`;
@@ -23,11 +47,12 @@ logout.post('/api/logout', async (req: any, res) => {
     const logoutUrl =
       idp !== 'azureidir'
         ? `${siteminderUrl}?retnow=1&returl=${encodeURIComponent(keycloakLogoutUrl)}`
-        : keycloakLogoutUrl;
+        : `${baseUrl}${baseRoute}`;
 
     req.session.destroy(() => {
       res.clearCookie('analyst.sort');
       res.clearCookie('connect.sid');
+      res.clearCookie('role');
       res.redirect(logoutUrl);
     });
   });
