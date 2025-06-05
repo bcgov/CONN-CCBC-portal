@@ -68,9 +68,7 @@ const ConditionalApprovalForm: React.FC<Props> = ({
   const [createConditionalApproval] = useCreateConditionalApprovalMutation();
   const [newFormData, setNewFormData] = useState(null);
   const [oldFormData, setOldFormData] = useState(null);
-  const [isFormEditMode, setIsFormEditMode] = useState(
-    !conditionalApproval?.jsonData
-  );
+  const [isFormEditMode, setIsFormEditMode] = useState(false);
   const conditionalApprovalModal = useModal();
 
   useEffect(() => {
@@ -145,6 +143,11 @@ const ConditionalApprovalForm: React.FC<Props> = ({
         {...conditionalApprovalModal}
       />
       <StyledProjectForm
+        key={
+          isFormEditMode
+            ? 'conditional-approval-form-edit'
+            : 'conditional-approval-form-read'
+        }
         formData={newFormData}
         handleChange={(e) => {
           setNewFormData({ ...e.formData });
