@@ -159,7 +159,7 @@ const filterMultiSelectZones = (row, id, filterValue) => {
   const rowZones = row.getValue(id) ?? [];
   // find full subArray in the row.getValue
   // if requirements change for any in the zones should be met change to some
-  return filterValue.every((zone) => rowZones.includes(Number(zone)));
+  return filterValue.some((zone) => rowZones.includes(Number(zone)));
 };
 
 const genericFilterMultiSelect = (row, id, filterValue) => {
