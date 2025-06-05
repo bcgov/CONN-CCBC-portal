@@ -8,6 +8,7 @@ import compiledQuery, {
 import useEmailNotification from 'lib/helpers/useEmailNotification';
 import useRfiCoverageMapKmzUploadedEmail from 'lib/helpers/useRfiCoverageMapKmzUploadedEmail';
 import { mocked } from 'jest-mock';
+import { useRouter } from 'next/router';
 
 jest.mock('lib/helpers/useEmailNotification');
 jest.mock('lib/helpers/useRfiCoverageMapKmzUploadedEmail');
@@ -23,6 +24,32 @@ const mockNotifyRfiCoverageMapKmzUploaded = jest.fn();
 mocked(useRfiCoverageMapKmzUploadedEmail).mockReturnValue({
   notifyRfiCoverageMapKmzUploaded: mockNotifyRfiCoverageMapKmzUploaded,
 });
+
+jest.mock('@sentry/nextjs', () => ({
+  init: jest.fn(),
+  captureException: jest.fn(),
+  withSentry: (handler: any) => handler,
+}));
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
+
+const routerPush = jest.fn();
+
+mocked(useRouter).mockReturnValue({
+  push: routerPush,
+  events: {
+    on: jest.fn(),
+    off: jest.fn(),
+  },
+  pathname: '/',
+  route: '/',
+  query: {
+    applicationId: '123',
+    rfiId: '920',
+  },
+} as any);
 
 const testQuery = graphql`
   query RFIAnalystUploadTestQuery($rowId: Int!, $rfiId: Int!)
@@ -1124,5 +1151,22 @@ describe('The RFIAnalystUpload component', () => {
         },
       }
     );
+  });
+
+  it('when cancelled user should get redirected to rfi page with toast', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const cancelButton = screen.getByRole('button', {
+      name: 'Cancel',
+    });
+
+    await act(async () => {
+      fireEvent.click(cancelButton);
+    });
+
+    expect(routerPush).toHaveBeenCalledWith('/analyst/application/123/rfi');
+
+    expect(screen.getByText(/File upload cancelled/)).toBeVisible();
   });
 });
