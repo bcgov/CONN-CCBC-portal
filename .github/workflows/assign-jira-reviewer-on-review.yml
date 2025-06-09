@@ -1,37 +1,49 @@
-name: Auto-fill PR Ticket
+name: Assign Jira Reviewer Based on PR Approval
 
 on:
-  pull_request:
-    types: [opened, edited, synchronize]
+  pull_request_review:
+    types: [submitted]
 
 jobs:
-  update-pr:
+  assign-reviewer:
+    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
+
     steps:
-      - name: Extract ticket ID from branch name
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Extract Jira issue key and reviewer
         id: extract
         run: |
-          BRANCH="${{ github.head_ref }}"
-          TICKET=$(echo "$BRANCH" | grep -oE '^NDT-[0-9]+')
-          echo "ticket=$TICKET" >> $GITHUB_OUTPUT
+          BRANCH="${{ github.event.pull_request.head.ref }}"
+          echo "Branch name: $BRANCH"
+          ISSUE_KEY=$(echo "$BRANCH" | grep -oE 'NDT-[0-9]+')
+          echo "Extracted issue key: $ISSUE_KEY"
 
-      - name: Check if ticket is already in body
-        id: check
-        run: |
-          BODY="${{ github.event.pull_request.body }}"
-          TICKET="${{ steps.extract.outputs.ticket }}"
-          if echo "$BODY" | grep -q "Implements \[$TICKET\]"; then
-            echo "skip=true" >> $GITHUB_OUTPUT
-          else
-            echo "skip=false" >> $GITHUB_OUTPUT
+          REVIEWER_GITHUB="${{ github.event.review.user.login }}"
+          echo "GitHub reviewer: $REVIEWER_GITHUB"
+
+          JIRA_ID=$(jq -r --arg reviewer "$REVIEWER_GITHUB" '.[$reviewer]' .github/jira-reviewers.json)
+
+          if [ "$JIRA_ID" == "null" ] || [ -z "$JIRA_ID" ]; then
+            echo "No Jira ID found for GitHub user $REVIEWER_GITHUB"
+            exit 1
           fi
 
-      - name: Update PR body with ticket reference
-        if: steps.check.outputs.skip == 'false' && steps.extract.outputs.ticket != ''
-        uses: peter-evans/pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          body: |
-            Implements [${{ steps.extract.outputs.ticket }}]
+          echo "Reviewer Jira ID: $JIRA_ID"
+          echo "issue_key=$ISSUE_KEY" >> $GITHUB_OUTPUT
+          echo "jira_id=$JIRA_ID" >> $GITHUB_OUTPUT
 
-            ${{ github.event.pull_request.body }}
+      - name: Assign Jira reviewer
+        env:
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+        run: |
+          echo "Assigning Jira reviewer to ticket ${{ steps.extract.outputs.issue_key }}"
+          curl -X PUT \
+            --url "$JIRA_BASE_URL/rest/api/3/issue/${{ steps.extract.outputs.issue_key }}/assignee" \
+            --user "$JIRA_EMAIL:$JIRA_API_TOKEN" \
+            --header 'Content-Type: application/json' \
+            --data "{\"accountId\": \"${{ steps.extract.outputs.jira_id }}\"}"
