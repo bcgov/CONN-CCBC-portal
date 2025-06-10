@@ -13228,10 +13228,10 @@ relay-compiler@17:
   resolved "https://registry.yarnpkg.com/relay-compiler/-/relay-compiler-17.0.0.tgz#5013e83267f45d78e24232ae7da90ed5ad3c1116"
   integrity sha512-U2e/R0o40HJOQ13pwkvToqWqk6J3ASMyHmcxixVMZKfcwcpsTTOiKob215ZRh+4bqPwkNy97+V9CuzJ5hJmGtw==
 
-relay-nextjs@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/relay-nextjs/-/relay-nextjs-0.9.0.tgz#4d7aa0be222ca810dfbb41e29876cf475a175c2f"
-  integrity sha512-MYGpxka2Nz/ViXFKpoD7qEk7jzZHQXm2KoZBR626uUwTyDfkpX5KJ4OT4RuUU3voL60JGka7ZcoAjMLQ0PSnDA==
+relay-nextjs@^0.10.0:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/relay-nextjs/-/relay-nextjs-0.10.1.tgz#41db646dbae5474c81c43811e69c63c7ad15d8e5"
+  integrity sha512-5n2+A196mqNymMMD0jA7nMw975gcBbGzFnMJIcoWG+woB40f8fjFfjSa0+Na1X6dm2Cv2S4AYuQ+CHvGE6DhHQ==
   dependencies:
     serialize-javascript "^5.0.1"
 
