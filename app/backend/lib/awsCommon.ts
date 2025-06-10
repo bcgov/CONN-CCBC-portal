@@ -25,20 +25,37 @@ const nodeHandler = new NodeHttpHandler({
   connectionTimeout: 30000,
 });
 
-const awsConfig: any = {
-  region: AWS_S3_REGION,
-  requestHandler: nodeHandler,
-  credentials: fromTemporaryCredentials({
-    masterCredentials: fromEnv(),
-    params: {
-      RoleArn: AWS_ROLE_ARN,
-      RoleSessionName: `s3-v3-role-session-${Date.now()}`,
-      // we confirmed that when the temporary credentials expire this factory is documented to use the master credentials to refresh the temporary
-      DurationSeconds: 3600,
-    },
-    clientConfig: { region: AWS_S3_REGION },
-  }),
-};
+// Only configure AWS credentials if all required env vars are present
+const hasAwsCreds =
+  process.env.AWS_S3_KEY &&
+  process.env.AWS_S3_SECRET_KEY &&
+  process.env.AWS_ROLE_ARN;
+let awsConfig: any;
+if (hasAwsCreds) {
+  awsConfig = {
+    region: AWS_S3_REGION,
+    requestHandler: nodeHandler,
+    credentials: fromTemporaryCredentials({
+      masterCredentials: fromEnv(),
+      params: {
+        RoleArn: AWS_ROLE_ARN,
+        RoleSessionName: `s3-v3-role-session-${Date.now()}`,
+        DurationSeconds: 3600,
+      },
+      clientConfig: { region: AWS_S3_REGION },
+    }),
+  };
+} else {
+  // eslint-disable-next-line no-console
+  console.warn(
+    'AWS SDK not configured: missing or invalid credentials. S3/SNS will not be available.'
+  );
+  awsConfig = {
+    region: AWS_S3_REGION,
+    requestHandler: nodeHandler,
+    credentials: undefined,
+  };
+}
 
 export const awsS3Config: S3ClientConfig = {
   ...awsConfig,

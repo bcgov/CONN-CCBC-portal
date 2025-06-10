@@ -1,3 +1,7 @@
+/* eslint-disable import/no-mutable-exports */
+/* eslint-disable import/extensions */
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import pg from 'pg';
 import config from '../../config/index.js';
 
@@ -15,4 +19,15 @@ export const getDatabaseUrl = () => {
   return databaseURL;
 };
 
-export const pgPool = new pg.Pool({ connectionString: getDatabaseUrl() });
+let pgPool: pg.Pool;
+try {
+  pgPool = new pg.Pool({ connectionString: getDatabaseUrl() });
+} catch (err) {
+  // eslint-disable-next-line no-console
+  console.warn(
+    'Postgres not configured: missing or invalid credentials. DB will not be available.'
+  );
+  pgPool = undefined as any;
+}
+
+export { pgPool };
