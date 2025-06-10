@@ -38,7 +38,7 @@ jobs:
       - name: Assign Jira reviewer
         env:
           JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_AUTH }}
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
         run: |
           echo "Assigning Jira reviewer to ticket ${{ steps.extract.outputs.issue_key }}"
