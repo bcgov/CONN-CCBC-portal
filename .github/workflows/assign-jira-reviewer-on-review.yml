@@ -36,14 +36,10 @@ jobs:
           echo "jira_id=$JIRA_ID" >> $GITHUB_OUTPUT
 
       - name: Assign Jira reviewer
-        env:
-          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_AUTH }}
-          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
         run: |
           echo "Assigning Jira reviewer to ticket ${{ steps.extract.outputs.issue_key }}"
           curl -X PUT \
-            --url "$JIRA_BASE_URL/rest/api/3/issue/${{ steps.extract.outputs.issue_key }}/assignee" \
-            --user "$JIRA_EMAIL:$JIRA_API_TOKEN" \
-            --header 'Content-Type: application/json' \
+            --url "${{ secrets.JIRA_BASE_URL }}/rest/api/3/issue/${{ steps.extract.outputs.issue_key }}/assignee" \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H 'Content-Type: application/json' \
             --data "{\"accountId\": \"${{ steps.extract.outputs.jira_id }}\"}"
