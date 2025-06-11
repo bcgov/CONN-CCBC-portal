@@ -1,3 +1,11 @@
+## [1.257.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.257.0...v1.257.1) (2025-06-11)
+
+# [1.257.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.256.5...v1.257.0) (2025-06-11)
+
+### Features
+
+- logout redirect based on roles ([959e5cc](https://github.com/bcgov/CONN-CCBC-portal/commit/959e5cca2b1255925e1168235d4d48002b68b314))
+
 ## [1.256.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.256.4...v1.256.5) (2025-06-11)
 
 ## [1.256.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.256.3...v1.256.4) (2025-06-11)

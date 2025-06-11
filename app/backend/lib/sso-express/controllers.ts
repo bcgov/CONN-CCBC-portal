@@ -4,6 +4,7 @@ import { URL } from 'whatwg-url';
 import * as Sentry from '@sentry/nextjs';
 import { getSessionRemainingTime, isAuthenticated } from './helpers';
 import { SSOExpressOptions } from './types';
+import config from '../../../config';
 
 const shouldBypassAuthentication = (bypassConfig, routeKey) => {
   return (
@@ -16,6 +17,20 @@ const shouldBypassAuthentication = (bypassConfig, routeKey) => {
 export const logoutController =
   (client: BaseClient, options: SSOExpressOptions) =>
   (req: Request, res: Response) => {
+    // needed for dev
+    const baseUrl =
+      config.get('NODE_ENV') === 'production'
+        ? `https://${config.get('HOST')}`
+        : `http://${config.get('HOST')}:${config.get('PORT') || 3000}`;
+
+    const cookieRoles = req.cookies?.role || null;
+    const isAnalyst =
+      cookieRoles === 'analyst' ||
+      cookieRoles === 'admin' ||
+      cookieRoles === 'cbc_admin' ||
+      cookieRoles === 'ccbc_analyst' ||
+      cookieRoles === 'super_admin';
+
     // Clear the siteminder session token on logout if we can
     // This will be ignored by the user agent unless we're
     // currently deployed to a subdomain of gov.bc.ca
@@ -24,19 +39,30 @@ export const logoutController =
       secure: true,
     });
 
+    res.clearCookie('role', {
+      domain: options.applicationDomain,
+      secure: false,
+    });
+
+    const baseRoute = isAnalyst ? '/analyst' : '/';
+    const postLogoutRedirectUri = `${baseUrl}${baseRoute}`;
+
     if (!isAuthenticated(req)) {
-      res.redirect(client.metadata.post_logout_redirect_uris[0]);
+      res.redirect(postLogoutRedirectUri);
       return;
     }
 
-    const tokenSet = new TokenSet(req.session.tokenSet);
     delete req.session.tokenSet;
 
-    res.redirect(
-      client.endSessionUrl({
-        id_token_hint: tokenSet,
-      })
-    );
+    // adding this will take the user to azure logout page
+    // bypassing the end session url so users do not get stuck
+    // res.redirect(
+    //   client.endSessionUrl({
+    //     id_token_hint: tokenSet,
+    //     post_logout_redirect_uri: postLogoutRedirectUri,
+    //   })
+    // );
+    res.redirect(postLogoutRedirectUri);
   };
 
 export const tokenSetController =
