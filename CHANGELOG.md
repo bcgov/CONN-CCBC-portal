@@ -1,3 +1,9 @@
+## [1.256.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.256.1...v1.256.2) (2025-06-11)
+
+### Bug Fixes
+
+- zone filter to some ([572254b](https://github.com/bcgov/CONN-CCBC-portal/commit/572254b9bb38990500a9c39a52fd0bcd80de6923))
+
 ## [1.256.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.256.0...v1.256.1) (2025-06-05)
 
 # [1.256.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.255.16...v1.256.0) (2025-06-05)
