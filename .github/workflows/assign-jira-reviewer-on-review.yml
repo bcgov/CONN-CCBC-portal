@@ -15,13 +15,13 @@ jobs:
 
       - name: Extract Jira issue key and reviewer
         id: extract
+        env:
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+          REVIEWER_GITHUB: ${{ github.event.review.user.login }}
         run: |
-          BRANCH="${{ github.event.pull_request.head.ref }}"
           echo "Branch name: $BRANCH"
           ISSUE_KEY=$(echo "$BRANCH" | grep -oE 'NDT-[0-9]+')
           echo "Extracted issue key: $ISSUE_KEY"
-
-          REVIEWER_GITHUB="${{ github.event.review.user.login }}"
           echo "GitHub reviewer: $REVIEWER_GITHUB"
 
           JIRA_ID=$(jq -r --arg reviewer "$REVIEWER_GITHUB" '.[$reviewer]' .github/jira-reviewers.json)
