@@ -1,3 +1,11 @@
+## [1.256.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.256.4...v1.256.5) (2025-06-11)
+
+## [1.256.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.256.3...v1.256.4) (2025-06-11)
+
+### Bug Fixes
+
+- remove unresponsive caret icon in all dashboard ([6e955eb](https://github.com/bcgov/CONN-CCBC-portal/commit/6e955eb4ad69fe51ca1ddcc2f29552800e6a8aea))
+
 ## [1.256.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.256.2...v1.256.3) (2025-06-11)
 
 ## [1.256.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.256.1...v1.256.2) (2025-06-11)
