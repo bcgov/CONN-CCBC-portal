@@ -1,3 +1,11 @@
+## [1.257.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.257.4...v1.257.5) (2025-06-12)
+
+## [1.257.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.257.3...v1.257.4) (2025-06-12)
+
+### Bug Fixes
+
+- intakes greater than 5 are rolling ([eab01a0](https://github.com/bcgov/CONN-CCBC-portal/commit/eab01a0e4f9ede1d9180835033d32150234f9d5f))
+
 ## [1.257.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.257.2...v1.257.3) (2025-06-12)
 
 ## [1.257.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.257.1...v1.257.2) (2025-06-12)
