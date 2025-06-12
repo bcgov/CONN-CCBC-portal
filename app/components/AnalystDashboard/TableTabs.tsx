@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import { useFeature } from '@growthbook/growthbook-react';
 import { StyledTab } from 'components/Admin/AdminTabs';
 
 const StyledNav = styled.nav`
@@ -11,6 +12,12 @@ const TableTabs = () => {
   const router = useRouter();
   const dashboardHref = '/analyst/dashboard';
   const assessmentsHref = '/analyst/assessments';
+  const changeLogHref = '/analyst/change-log';
+
+  const showAssessmentsTab = useFeature(
+    'show_assessment_assignment_table'
+  ).value;
+  const showChangeLogTab = useFeature('show_project_change_log_table').value;
 
   return (
     <StyledNav>
@@ -20,13 +27,26 @@ const TableTabs = () => {
       >
         All
       </StyledTab>
-      <StyledTab
-        href={assessmentsHref}
-        passHref
-        selected={router?.pathname.includes(assessmentsHref)}
-      >
-        Assessments
-      </StyledTab>
+
+      {showAssessmentsTab && (
+        <StyledTab
+          href={assessmentsHref}
+          passHref
+          selected={router?.pathname.includes(assessmentsHref)}
+        >
+          Assessments
+        </StyledTab>
+      )}
+
+      {showChangeLogTab && (
+        <StyledTab
+          href={changeLogHref}
+          passHref
+          selected={router?.pathname.includes(changeLogHref)}
+        >
+          Project Change Log
+        </StyledTab>
+      )}
     </StyledNav>
   );
 };
