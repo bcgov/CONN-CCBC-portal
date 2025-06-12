@@ -64,6 +64,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   additionalContext,
   before,
   children,
+  clearFormDataOnEdit = true,
   formData,
   formHeader,
   handleChange,
@@ -80,6 +81,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   saveBtnText,
   schema,
   setFormData = () => {},
+  onCancelFormData = {},
   setIsFormEditMode,
   submitting = false,
   submittingText,
@@ -117,7 +119,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
                 variant="secondary"
                 disabled={cancelBtnDisabled}
                 onClick={() => {
-                  setFormData({});
+                  setFormData(onCancelFormData);
                   setIsFormEditMode(false);
                   formRef.current?.resetFormState({});
                 }}
@@ -130,7 +132,9 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
               {showEditBtn && (
                 <StyledIconBtn
                   onClick={() => {
-                    setFormData({});
+                    if (clearFormDataOnEdit) {
+                      setFormData({});
+                    }
                     setIsFormEditMode(true);
                   }}
                   data-testid="project-form-edit-button"
