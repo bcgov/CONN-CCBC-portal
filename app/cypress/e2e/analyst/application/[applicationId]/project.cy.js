@@ -61,6 +61,12 @@ describe('The analyst application view', () => {
 
         cy.wait(500);
 
+        // Open accordion
+        cy.get('[data-testid=accordion-icon]').parent().eq(0).click();
+        cy.get('body').click();
+
+        cy.get('[id="project-form-edit-button"]').first().click();
+
         cy.get('body').happoScreenshot({
           component: `Conditional approval form - ${role}`,
         });
