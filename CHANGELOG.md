@@ -1,3 +1,10 @@
+# [1.258.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.257.5...v1.258.0) (2025-06-13)
+
+### Features
+
+- add history operation to sow, change request, and project information data ([856e364](https://github.com/bcgov/CONN-CCBC-portal/commit/856e36483ad4c569c5f3c999f6cee5ab98296088))
+- change request deletion ([3524425](https://github.com/bcgov/CONN-CCBC-portal/commit/3524425f5cb095d24caa4412e541f655129f21ce))
+
 ## [1.257.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.257.4...v1.257.5) (2025-06-12)
 
 ## [1.257.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.257.3...v1.257.4) (2025-06-12)
