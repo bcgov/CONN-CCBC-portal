@@ -4,42 +4,47 @@ on:
   pull_request_review:
     types: [submitted]
 
+env:
+  FEATURE_NAME: ${{ github.event.pull_request.head.ref }}
+
 jobs:
   assign-reviewer:
     if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
+    environment:
+      name: development
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+      - name: Get JIRA Issue Key
+        id: extract_jira_key
+        run: |
+          echo "FEATURE: "${{ env.FEATURE_NAME }}
+          echo "JIRA_KEY=$(echo "$FEATURE_NAME" | grep -oE 'NDT-[0-9]+')" >> $GITHUB_ENV
 
       - name: Extract Jira issue key and reviewer
         id: extract
         env:
-          BRANCH: ${{ github.event.pull_request.head.ref }}
           REVIEWER_GITHUB: ${{ github.event.review.user.login }}
         run: |
-          echo "Branch name: $BRANCH"
-          ISSUE_KEY=$(echo "$BRANCH" | grep -oE 'NDT-[0-9]+')
-          echo "Extracted issue key: $ISSUE_KEY"
           echo "GitHub reviewer: $REVIEWER_GITHUB"
+          echo "JIRA ticket: ${{env.JIRA_KEY}}"
 
           JIRA_ID=$(jq -r --arg reviewer "$REVIEWER_GITHUB" '.[$reviewer]' .github/jira-reviewers.json)
 
-          if [ "$JIRA_ID" == "null" ] || [ -z "$JIRA_ID" ]; then
-            echo "No Jira ID found for GitHub user $REVIEWER_GITHUB"
-            exit 1
-          fi
-
           echo "Reviewer Jira ID: $JIRA_ID"
-          echo "issue_key=$ISSUE_KEY" >> $GITHUB_OUTPUT
-          echo "jira_id=$JIRA_ID" >> $GITHUB_OUTPUT
+          echo "JIRA_ID=$JIRA_ID" >> $GITHUB_ENV
 
       - name: Assign Jira reviewer
         run: |
-          echo "Assigning Jira reviewer to ticket ${{ steps.extract.outputs.issue_key }}"
+          echo "Assigning Jira reviewer to ticket ${{ env.JIRA_KEY }}"
+          
+          QUERY="{\"fields\": {\"customfield_10076\": [{\"id\": \"${{ env.JIRA_ID }}\"}]}}"
+          echo "Query: $QUERY"
+          
           curl -X PUT \
-            --url "${{ secrets.JIRA_BASE_URL }}/rest/api/3/issue/${{ steps.extract.outputs.issue_key }}/assignee" \
             -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
-            -H 'Content-Type: application/json' \
-            --data "{\"accountId\": \"${{ steps.extract.outputs.jira_id }}\"}"
+            -H "Content-Type: application/json" \
+            https://connectivitydivision.atlassian.net/rest/api/3/issue/${{ env.JIRA_KEY }} \
+            -d "$QUERY"
