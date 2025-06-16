@@ -197,6 +197,7 @@ const ValidateData = (data) => {
 const LoadSummaryData = async (wb, sheet_name, req) => {
   const { applicationId, ccbcNumber, amendmentNumber } = req.params;
   const validate = req.query?.validate === 'true';
+  const operation = req.query?.operation || 'UPDATE';
 
   const data = await readSummary(
     wb,
@@ -227,6 +228,7 @@ const LoadSummaryData = async (wb, sheet_name, req) => {
         _applicationId: data._applicationId,
         _jsonData: data._jsonData,
         _amendmentNumber: data._amendmentNumber,
+        _historyOperation: operation,
       },
     },
     req

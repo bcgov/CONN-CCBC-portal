@@ -2,7 +2,7 @@
 
 begin;
 
-drop function if exists ccbc_public.create_application_sow_data;
+drop function if exists ccbc_public.create_application_sow_data(int, jsonb, int);
 
 create or replace function ccbc_public.create_application_sow_data(_application_id int, _json_data jsonb, _amendment_number int)
 returns ccbc_public.application_sow_data as $$
