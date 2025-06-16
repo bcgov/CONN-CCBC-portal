@@ -1,3 +1,9 @@
+## [1.259.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.3...v1.259.4) (2025-06-16)
+
+### Bug Fixes
+
+- clear conditional approval form data on cancel ([103d471](https://github.com/bcgov/CONN-CCBC-portal/commit/103d471f94422d272dfdce8ed9ace87931e064b8))
+
 ## [1.259.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.2...v1.259.3) (2025-06-16)
 
 ## [1.259.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.1...v1.259.2) (2025-06-16)
