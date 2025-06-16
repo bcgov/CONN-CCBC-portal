@@ -1,3 +1,11 @@
+# [1.259.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.258.3...v1.259.0) (2025-06-16)
+
+### Features
+
+- add a cancel button to uplocad pages in RFI ([37ab60e](https://github.com/bcgov/CONN-CCBC-portal/commit/37ab60e92f9e24f190c9123e96c371f17fd040da))
+- add a cancel button to uplocad pages in RFI ([43a9cde](https://github.com/bcgov/CONN-CCBC-portal/commit/43a9cde3a63f2a56c3d14ecfb2062cc3656c826c))
+- show success/error messages on applicant rfi ([6adfe95](https://github.com/bcgov/CONN-CCBC-portal/commit/6adfe950f0ab96589f4e76bc76e5fd8521459673))
+
 ## [1.258.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.258.2...v1.258.3) (2025-06-16)
 
 ## [1.258.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.258.1...v1.258.2) (2025-06-16)
