@@ -1,3 +1,9 @@
+## [1.259.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.1...v1.259.2) (2025-06-16)
+
+### Bug Fixes
+
+- failing e2e tests for project page ([87f1b70](https://github.com/bcgov/CONN-CCBC-portal/commit/87f1b70b659655309a34302577d8b5c1daaef50a))
+
 ## [1.259.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.0...v1.259.1) (2025-06-16)
 
 # [1.259.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.258.3...v1.259.0) (2025-06-16)
