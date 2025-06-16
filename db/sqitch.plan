@@ -835,3 +835,4 @@ mutations/create_application_sow_data [mutations/create_application_sow_data@1.2
 mutations/create_change_request [mutations/create_change_request@1.249.3] 2025-05-27T20:17:49Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add history op parameter
 mutations/create_project_information [mutations/create_project_information@1.249.3] 2025-05-27T20:18:10Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add history op parameter
 @1.259.0 2025-06-16T17:35:47Z CCBC Service Account <ccbc@button.is> # release v1.259.0
+@1.259.1 2025-06-16T17:37:21Z CCBC Service Account <ccbc@button.is> # release v1.259.1
