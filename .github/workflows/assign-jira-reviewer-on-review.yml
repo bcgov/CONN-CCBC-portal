@@ -27,20 +27,13 @@ jobs:
         env:
           REVIEWER_GITHUB: ${{ github.event.review.user.login }}
         run: |
-          echo "GitHub reviewer: $REVIEWER_GITHUB"
-          echo "JIRA ticket: ${{env.JIRA_KEY}}"
-
           JIRA_ID=$(jq -r --arg reviewer "$REVIEWER_GITHUB" '.[$reviewer]' .github/jira-reviewers.json)
-
           echo "JIRA_ID=$JIRA_ID" >> $GITHUB_ENV
 
       - name: Assign Jira reviewer
         run: |
           echo "Assigning Jira reviewer to ticket ${{ env.JIRA_KEY }}"
-          
           QUERY="{\"fields\": {\"customfield_10076\": [{\"id\": \"${{ env.JIRA_ID }}\"}]}}"
-          echo "Query: $QUERY"
-          
           curl -X PUT \
             -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
             -H "Content-Type: application/json" \
