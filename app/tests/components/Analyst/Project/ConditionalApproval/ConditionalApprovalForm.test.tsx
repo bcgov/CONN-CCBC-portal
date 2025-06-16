@@ -109,6 +109,11 @@ describe('The Conditional Approval form', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
+    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
     expect(screen.getByText(`Minister's decision`)).toBeInTheDocument();
     expect(screen.getByText('BC')).toBeInTheDocument();
     expect(screen.getByText('ISED')).toBeInTheDocument();
@@ -135,6 +140,11 @@ describe('The Conditional Approval form', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
+    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
     expect(
       screen.getByTestId('root_response_statusApplicantSees')
     ).toBeDisabled();
@@ -143,6 +153,11 @@ describe('The Conditional Approval form', () => {
   it('applicant status select should be enabled when the correct options are selected', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
+
+    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
 
     const ministerDecision = screen.getByTestId(
       'root_decision_ministerDecision'
@@ -165,6 +180,11 @@ describe('The Conditional Approval form', () => {
   it('calls the mutation on form save', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
+
+    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
 
     const saveButton = screen.getByText('Save');
 
@@ -205,6 +225,11 @@ describe('The Conditional Approval form', () => {
   it('should show the modal when applicant status select is enabled and json data is saved', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
+
+    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
 
     const ministerDecision = screen.getByTestId(
       'root_decision_ministerDecision'
