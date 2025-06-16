@@ -2,7 +2,7 @@
 
 begin;
 
-drop function if exists ccbc_public.create_project_information;
+drop function if exists ccbc_public.create_project_information(int, jsonb);
 
 create or replace function ccbc_public.create_project_information(_application_id int, _json_data jsonb)
 returns ccbc_public.project_information_data as $$
