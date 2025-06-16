@@ -65,9 +65,10 @@ const StyledCommunitiesHeader = styled.th`
 const ProjectIdCell = ({ cell }) => {
   const applicationId = cell.getValue();
   const isVisibleRow = cell.row.original?.isVisibleRow;
+  const rowId = cell.row.original?.id;
 
   return isVisibleRow ? (
-    <StyledLink href={`/analyst/cbc/${applicationId}/cbcHistory`}>
+    <StyledLink href={`/analyst/cbc/${rowId}/cbcHistory`}>
       {applicationId}
     </StyledLink>
   ) : null;
