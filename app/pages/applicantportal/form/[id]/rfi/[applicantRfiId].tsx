@@ -366,6 +366,17 @@ const ApplicantRfiPage = ({
             }}
           >
             <Button disabled={!isDirty}>{isDirty ? 'Save' : 'Saved'}</Button>
+            <Button
+              variant="secondary"
+              style={{ marginLeft: '24px' }}
+              onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+                e.preventDefault();
+                router.push(`/applicantportal/dashboard`);
+                showToast('File upload cancelled');
+              }}
+            >
+              Cancel
+            </Button>
           </FormBase>
           {/* Note: leaving this below save to leave space for future cancel */}
         </FormDiv>
