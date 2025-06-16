@@ -874,6 +874,7 @@
          <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
          <column autoUpdated="false" defaultValue="0" digits="0" id="9" name="amendment_number" nullable="true" remarks="The amendment number" size="10" type="int4" typeCode="4"/>
          <column autoUpdated="false" defaultValue="false" digits="0" id="10" name="is_amendment" nullable="true" remarks="Column identifying if the record is an amendment" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="history_operation" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="application_sow_data_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -1453,6 +1454,7 @@
          </column>
          <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="amendment_number" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="history_operation" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="change_request_data_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -1878,6 +1880,7 @@
             <parent column="id" foreignKey="project_information_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="6" id="8" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="history_operation" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="project_information_data_pkey" unique="true">
             <column ascending="true" name="id"/>
