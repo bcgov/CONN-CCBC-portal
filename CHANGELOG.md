@@ -1,3 +1,9 @@
+## [1.259.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.5...v1.259.6) (2025-06-16)
+
+### Bug Fixes
+
+- cbc header not changing on page navigation ([3ea8613](https://github.com/bcgov/CONN-CCBC-portal/commit/3ea86132d990fc31d4a9413528ac1a1243af3a2c))
+
 ## [1.259.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.4...v1.259.5) (2025-06-16)
 
 ## [1.259.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.3...v1.259.4) (2025-06-16)
