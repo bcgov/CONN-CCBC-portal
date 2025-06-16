@@ -20,7 +20,6 @@ jobs:
       - name: Get JIRA Issue Key
         id: extract_jira_key
         run: |
-          echo "FEATURE: "${{ env.FEATURE_NAME }}
           echo "JIRA_KEY=$(echo "$FEATURE_NAME" | grep -oE 'NDT-[0-9]+')" >> $GITHUB_ENV
 
       - name: Extract Jira issue key and reviewer
@@ -33,7 +32,6 @@ jobs:
 
           JIRA_ID=$(jq -r --arg reviewer "$REVIEWER_GITHUB" '.[$reviewer]' .github/jira-reviewers.json)
 
-          echo "Reviewer Jira ID: $JIRA_ID"
           echo "JIRA_ID=$JIRA_ID" >> $GITHUB_ENV
 
       - name: Assign Jira reviewer
