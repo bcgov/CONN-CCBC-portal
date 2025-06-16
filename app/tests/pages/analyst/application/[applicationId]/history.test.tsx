@@ -2213,6 +2213,7 @@ const mockQueryPayload = {
                       name: 'CR Statement of Work.xlsx',
                     },
                   ],
+                  amendmentNumber: 1,
                 },
                 updated_by: 3,
                 archived_at: null,
@@ -2240,6 +2241,7 @@ const mockQueryPayload = {
                       name: 'CR Statement of Work.xlsx',
                     },
                   ],
+                  amendmentNumber: 1,
                 },
                 updated_by: 3,
                 updated_at: '2023-06-22T07:57:08.820373-08:00',
@@ -3882,7 +3884,7 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-change-request')[1]
     ).toHaveTextContent(
-      'Jimbo Brown created a Change Request on Jun 22, 2023, 8:57 a.m.'
+      'Jimbo Brown created a Change Request with amendment #1 on Jun 22, 2023, 8:57 a.m.'
     );
   });
 
@@ -3893,7 +3895,7 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-change-request')[0]
     ).toHaveTextContent(
-      'Jimbo Bob updated a Change Request on Jun 22, 2023, 8:57 a.m.'
+      'Jimbo Bob updated a Change Request with amendment #1 on Jun 22, 2023, 8:57 a.m.'
     );
   });
 
