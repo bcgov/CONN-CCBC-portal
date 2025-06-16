@@ -52,6 +52,7 @@ const HistoryContent = ({
         );
 
   if (tableName === 'cbc_data') {
+    const normalizedCbcPrevJson = { zones: [], ...prevJson };
     return (
       <>
         <StyledContent data-testid="cbc-data-updater-and-timestamp">
@@ -63,7 +64,7 @@ const HistoryContent = ({
         <HistoryDetails
           data-testid="cbc-data-history-details"
           json={json}
-          prevJson={prevJson}
+          prevJson={normalizedCbcPrevJson}
           excludedKeys={[
             'id',
             'created_at',

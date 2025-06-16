@@ -84,28 +84,9 @@ spec:
                 grant pg_read_all_data to $(PGUSER_READONLY);
                 alter role $(PGUSER_READONLY) BYPASSRLS;
               EOF
-        - env:
+        - env: {{ include "ccbc.postgresPgEnv" . | nindent 8 }}
           - name: SQITCH_TARGET
             value: "db:pg:"
-          - name: PGUSER
-            value: {{ template "ccbc.fullname" . }}
-          - name: PGPASSWORD
-            valueFrom:
-              secretKeyRef:
-                key: password
-                name: ccbc-pguser-ccbc
-          - name: PGDATABASE
-            value: {{ template "ccbc.fullname" . }}
-          - name: PGPORT
-            valueFrom:
-              secretKeyRef:
-                key: port
-                name: ccbc-pguser-ccbc
-          - name: PGHOST
-            valueFrom:
-              secretKeyRef:
-                key: pgbouncer-host
-                name: ccbc-pguser-ccbc
           - name: NAMESPACE
             valueFrom:
               fieldRef:
