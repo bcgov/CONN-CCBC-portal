@@ -1,3 +1,15 @@
+## [1.260.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.0...v1.260.1) (2025-06-17)
+
+# [1.260.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.7...v1.260.0) (2025-06-17)
+
+### Bug Fixes
+
+- failing tests ([2732fd9](https://github.com/bcgov/CONN-CCBC-portal/commit/2732fd9c5aca4b8b5c38025c0fd573818395931d))
+
+### Features
+
+- add cbc change log to analyst dashboard ([0224401](https://github.com/bcgov/CONN-CCBC-portal/commit/02244010e518e7a5b120fce1f6c36eb206d35601))
+
 ## [1.259.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.6...v1.259.7) (2025-06-16)
 
 ## [1.259.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.5...v1.259.6) (2025-06-16)

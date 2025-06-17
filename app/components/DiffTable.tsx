@@ -181,6 +181,38 @@ const handleArrays = (arr1, arr2, schema, objectName, key, excludedKeys) => {
   return rows;
 };
 
+const isStructuredArray = (value) =>
+  Array.isArray(value) &&
+  Array.isArray(value[0]) &&
+  ['+', '-', '~', '', ' '].includes(value[0][0]);
+
+const splitStructuredArrayDiff = (
+  value: [string, any][],
+  traverseNested: (val: any, key: string) => void,
+  key: string
+): [any[], any[]] => {
+  const newArr: any[] = [];
+  const oldArr: any[] = [];
+
+  value.forEach(([prefix, diffValue]) => {
+    if (prefix === '-') {
+      oldArr.push(diffValue);
+    } else if (prefix === '~') {
+      traverseNested(diffValue, key);
+    } else {
+      newArr.push(diffValue);
+      if (prefix !== '+') {
+        oldArr.push(diffValue);
+      }
+    }
+  });
+
+  return [newArr, oldArr];
+};
+
+const sanitizedKey = (key: string): string =>
+  key.replace(/(__added|__deleted|__old)/g, '');
+
 const generateDiffTable = (
   data: Record<string, any>,
   schema: any,
@@ -198,26 +230,11 @@ const generateDiffTable = (
         return;
       }
       if (typeof value === 'object' && value !== null) {
-        if (
-          Array.isArray(value) &&
-          Array.isArray(value[0]) &&
-          ['+', '-', '~', '', ' '].includes(value[0][0])
-        ) {
-          const [newValueArr, oldValueArr] = value.reduce(
-            ([newArr, oldArr], [prefix, diffValue]) => {
-              if (prefix === '-') {
-                oldArr.push(diffValue);
-              } else if (prefix === '~') {
-                traverse(diffValue, key);
-              } else {
-                newArr.push(diffValue);
-                if (prefix !== '+') {
-                  oldArr.push(diffValue);
-                }
-              }
-              return [newArr, oldArr];
-            },
-            [[], []]
+        if (isStructuredArray(value)) {
+          const [newValueArr, oldValueArr] = splitStructuredArrayDiff(
+            value,
+            traverse,
+            key
           );
           if (newValueArr.length > 0 || oldValueArr.length > 0) {
             if (
@@ -255,8 +272,7 @@ const generateDiffTable = (
         } else if (key.endsWith('__added') || key === '__new') {
           const added = Object.values(value);
           added.forEach((newValue: string | Array<any>, index) => {
-            const parent =
-              overrideParent || key.replace(/(__added|__deleted)/g, '');
+            const parent = overrideParent || sanitizedKey(key);
             if (Array.isArray(newValue) && typeof newValue[0] === 'object') {
               newValue.forEach((n) => {
                 if (typeof n === 'object') {
@@ -301,7 +317,7 @@ const generateDiffTable = (
                   schema,
                   parent,
                   Array.isArray(value)
-                    ? key.replace(/(__added|__deleted)/g, '')
+                    ? sanitizedKey(key)
                     : Object.keys(value)[index],
                   Array.isArray(newValue) ? newValue.join(', ') : newValue,
                   'N/A',
@@ -314,9 +330,7 @@ const generateDiffTable = (
         } else if (key.endsWith('__deleted')) {
           const deleted = Object.values(value);
           deleted.forEach((oldValue: string, index) => {
-            const parent = overrideParent || [
-              key.replace(/(__added|__deleted)/g, ''),
-            ];
+            const parent = overrideParent || [sanitizedKey(key)];
             rows.push(
               handleRow(
                 schema,
@@ -357,7 +371,7 @@ const generateDiffTable = (
           );
         } else if (key.endsWith('__added')) {
           const newValue = value;
-          const field = key.replace(/(__added|__deleted)/g, '');
+          const field = sanitizedKey(key);
           rows.push(
             handleRow(
               schema,
@@ -371,7 +385,7 @@ const generateDiffTable = (
           );
         } else if (key.endsWith('__deleted')) {
           const oldValue = value;
-          const field = key.replace(/(__added|__deleted)/g, '');
+          const field = sanitizedKey(key);
           rows.push(
             handleRow(
               schema,
@@ -411,6 +425,151 @@ function createObjectFromSchema(schema, data) {
     return acc;
   }, {});
 }
+
+export const generateRawDiff = (
+  data: Record<string, any>,
+  schema: any,
+  excludedKeys: Array<string>,
+  overrideParent: string | null
+) => {
+  const rows = [];
+
+  const traverse = (object: Record<string, any>, objectName: string) => {
+    const entries = Object.entries(object || {});
+
+    entries.forEach(([key, value]) => {
+      if (excludedKeys.some((e) => key.includes(e))) {
+        return;
+      }
+      const fieldKey = key.replace(/(__added|__deleted|__old)/g, '');
+      const parentKey = overrideParent || objectName;
+      const fieldSchema =
+        schema?.[parentKey]?.properties?.[fieldKey || objectName];
+      const type = fieldSchema?.type || 'string';
+      const field = fieldSchema?.title || fieldKey;
+      if (typeof value === 'object' && value !== null) {
+        if (isStructuredArray(value)) {
+          const [newValueArr, oldValueArr] = splitStructuredArrayDiff(
+            value,
+            traverse,
+            key
+          );
+          if (newValueArr.length > 0 || oldValueArr.length > 0) {
+            if (
+              (newValueArr.length > 0 && typeof newValueArr[0] === 'object') ||
+              (oldValueArr.length > 0 && typeof oldValueArr[0] === 'object')
+            ) {
+              rows.push({
+                field,
+                key,
+                newValue: newValueArr,
+                oldValue: oldValueArr,
+              });
+            } else {
+              rows.push({
+                field,
+                key,
+                newValue: newValueArr.join(','),
+                oldValue: oldValueArr.join(','),
+              });
+            }
+          }
+        } else if (key.endsWith('__added') || key === '__new') {
+          const added = Object.values(value);
+          added.forEach((newValue: string | Array<any>, index) => {
+            if (Array.isArray(newValue) && typeof newValue[0] === 'object') {
+              newValue.forEach((n) => {
+                if (typeof n === 'object') {
+                  const a = Object.values(n);
+                  a.forEach((b, j) => {
+                    rows.push({
+                      field,
+                      key: Object.keys(n)[j],
+                      newValue: format(b, type),
+                      oldValue: 'N/A',
+                    });
+                  });
+                }
+              });
+            } else if (
+              !Array.isArray(newValue) &&
+              typeof newValue === 'object' &&
+              newValue
+            ) {
+              const a = Object.values(newValue);
+              a.forEach((b, j) => {
+                rows.push({
+                  field,
+                  key: Object.keys(newValue)[j],
+                  newValue: format(b, type),
+                  oldValue: 'N/A',
+                });
+              });
+            } else {
+              rows.push({
+                field,
+                key: Array.isArray(value)
+                  ? sanitizedKey(key)
+                  : Object.keys(value)[index],
+                newValue: Array.isArray(newValue)
+                  ? newValue.join(', ')
+                  : newValue,
+                oldValue: 'N/A',
+              });
+            }
+          });
+        } else if (key.endsWith('__deleted')) {
+          const deleted = Object.values(value);
+          deleted.forEach((oldValue: string, index) => {
+            rows.push({
+              field,
+              key: Object.keys(value)[index],
+              newValue: 'N/A',
+              oldValue: format(oldValue, type),
+            });
+          });
+        } else {
+          traverse(value, key);
+        }
+      } else if (
+        typeof value === 'string' ||
+        typeof value === 'boolean' ||
+        typeof value === 'number' ||
+        value === null
+      ) {
+        if (key === '__old') {
+          const oldValue = format(value, type);
+          const newValue = format(object.__new, type);
+          rows.push({
+            field,
+            key: objectName,
+            newValue,
+            oldValue,
+          });
+        } else if (key.endsWith('__added')) {
+          const newValue = format(value, type);
+          rows.push({
+            field,
+            key: field,
+            newValue,
+            oldValue: 'N/A',
+          });
+        } else if (key.endsWith('__deleted')) {
+          const oldValue = format(value, type);
+          rows.push({
+            field,
+            key: field,
+            newValue: 'N/A',
+            oldValue,
+          });
+        }
+      }
+    });
+  };
+
+  traverse(data, '');
+  return rows;
+};
 
 export const processArrayDiff = (changes, schema) => {
   const newArray = [];
