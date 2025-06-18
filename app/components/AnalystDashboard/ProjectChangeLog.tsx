@@ -266,6 +266,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 'locations',
                 'errorLog',
                 'error_log',
+                'projectNumber',
               ],
               'cbcData'
             );
