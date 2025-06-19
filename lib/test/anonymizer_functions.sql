@@ -250,7 +250,7 @@ BEGIN
     END IF;
 
     -- Generate a hash of the phone number with a salt, with fallback for NULL
-    hash_text := MD5(COALESCE(phone_text, 'unknown') || 'some_salt');
+    hash_text := MD5(COALESCE(phone_text, 'unknown') || 'ccbc_salt_test');
 
     -- Convert hash to numeric digits (0-9)
     FOR i IN 1..LENGTH(hash_text) LOOP
