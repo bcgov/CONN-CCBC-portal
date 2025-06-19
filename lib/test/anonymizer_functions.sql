@@ -142,6 +142,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Anonymize email addresses deterministically, even for invalid inputs
 CREATE OR REPLACE FUNCTION ccbc_public.anonymize_email(email_text TEXT) RETURNS TEXT AS $$
 DECLARE
     hash_text TEXT;
@@ -158,21 +159,22 @@ BEGIN
         RETURN '';
     END IF;
 
-    -- Validate input email (case-insensitive, supports multi-level TLDs)
-	IF TRIM(email_text) !~* '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$' THEN
-    	RAISE EXCEPTION 'Invalid email format: %', email_text;
-	END IF;
+    -- Generate a hash of the input with a salt for deterministic output
+    hash_text := MD5(email_text || 'ccbc_salt_test');
 
-    -- Generate a hash of the email with a salt for security
-    hash_text := MD5(email_text || 'some_salt');
-
-    -- Split email into local part and domain
-    at_pos := POSITION('@' IN email_text);
-    local_part := SUBSTRING(email_text FROM 1 FOR at_pos - 1);
-    domain_part := SUBSTRING(email_text FROM at_pos + 1);
+    -- Check for @ symbol to split into local part and domain
+    at_pos := POSITION('@' IN TRIM(email_text));
+    IF at_pos > 0 THEN
+        local_part := SUBSTRING(TRIM(email_text) FROM 1 FOR at_pos - 1);
+        domain_part := SUBSTRING(TRIM(email_text) FROM at_pos + 1);
+    ELSE
+        -- Treat entire input as local part, use default domain
+        local_part := TRIM(email_text);
+        domain_part := 'example.com';
+    END IF;
 
     -- Generate fake local part (up to 16 characters, alphanumeric)
-    FOR i IN 1..LEAST(16, LENGTH(local_part)) LOOP
+    FOR i IN 1..LEAST(16, GREATEST(1, LENGTH(local_part))) LOOP
         hash_char := SUBSTRING(hash_text FROM i FOR 1);
         fake_local := fake_local || (
             CASE
@@ -183,8 +185,8 @@ BEGIN
         );
     END LOOP;
 
-    -- Generate fake domain (before the last dot, alphanumeric; keep TLD)
-    FOR i IN 1..LEAST(15, LENGTH(domain_part) - LENGTH(SPLIT_PART(domain_part, '.', -1)) - 1) LOOP
+    -- Generate fake domain (before the last dot, up to 15 characters, alphanumeric)
+    FOR i IN 1..LEAST(15, GREATEST(1, LENGTH(domain_part) - LENGTH(SPLIT_PART(domain_part, '.', -1)) - 1)) LOOP
         hash_char := SUBSTRING(hash_text FROM (i + 16) FOR 1);
         fake_domain := fake_domain || (
             CASE
@@ -195,8 +197,8 @@ BEGIN
         );
     END LOOP;
 
-    -- Combine fake local part, domain, and original TLD
-    RETURN fake_local || '@' || fake_domain || '.' || SPLIT_PART(domain_part, '.', -1);
+    -- Use original TLD if available, else default to .ca
+    RETURN fake_local || '@' || fake_domain || '.' || COALESCE(SPLIT_PART(domain_part, '.', -1), 'ca');
 END;
 $$ LANGUAGE plpgsql;
 
