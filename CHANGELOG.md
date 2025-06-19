@@ -1,3 +1,57 @@
+## [1.260.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.4...v1.260.5) (2025-06-18)
+
+## [1.260.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.3...v1.260.4) (2025-06-18)
+
+## [1.260.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.2...v1.260.3) (2025-06-17)
+
+## [1.260.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.1...v1.260.2) (2025-06-17)
+
+## [1.260.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.0...v1.260.1) (2025-06-17)
+
+# [1.260.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.7...v1.260.0) (2025-06-17)
+
+### Bug Fixes
+
+- failing tests ([2732fd9](https://github.com/bcgov/CONN-CCBC-portal/commit/2732fd9c5aca4b8b5c38025c0fd573818395931d))
+
+### Features
+
+- add cbc change log to analyst dashboard ([0224401](https://github.com/bcgov/CONN-CCBC-portal/commit/02244010e518e7a5b120fce1f6c36eb206d35601))
+
+## [1.259.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.6...v1.259.7) (2025-06-16)
+
+## [1.259.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.5...v1.259.6) (2025-06-16)
+
+### Bug Fixes
+
+- cbc header not changing on page navigation ([3ea8613](https://github.com/bcgov/CONN-CCBC-portal/commit/3ea86132d990fc31d4a9413528ac1a1243af3a2c))
+
+## [1.259.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.4...v1.259.5) (2025-06-16)
+
+## [1.259.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.3...v1.259.4) (2025-06-16)
+
+### Bug Fixes
+
+- clear conditional approval form data on cancel ([103d471](https://github.com/bcgov/CONN-CCBC-portal/commit/103d471f94422d272dfdce8ed9ace87931e064b8))
+
+## [1.259.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.2...v1.259.3) (2025-06-16)
+
+## [1.259.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.1...v1.259.2) (2025-06-16)
+
+### Bug Fixes
+
+- failing e2e tests for project page ([87f1b70](https://github.com/bcgov/CONN-CCBC-portal/commit/87f1b70b659655309a34302577d8b5c1daaef50a))
+
+## [1.259.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.259.0...v1.259.1) (2025-06-16)
+
+# [1.259.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.258.3...v1.259.0) (2025-06-16)
+
+### Features
+
+- add a cancel button to uplocad pages in RFI ([37ab60e](https://github.com/bcgov/CONN-CCBC-portal/commit/37ab60e92f9e24f190c9123e96c371f17fd040da))
+- add a cancel button to uplocad pages in RFI ([43a9cde](https://github.com/bcgov/CONN-CCBC-portal/commit/43a9cde3a63f2a56c3d14ecfb2062cc3656c826c))
+- show success/error messages on applicant rfi ([6adfe95](https://github.com/bcgov/CONN-CCBC-portal/commit/6adfe950f0ab96589f4e76bc76e5fd8521459673))
+
 ## [1.258.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.258.2...v1.258.3) (2025-06-16)
 
 ## [1.258.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.258.1...v1.258.2) (2025-06-16)
