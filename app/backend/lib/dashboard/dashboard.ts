@@ -428,6 +428,14 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
           ) || ''
         }`,
       },
+      // proposed completion date
+      {
+        value: `${
+          cleanDateTime(
+            summaryData?.formData?.eventsAndDates?.proposedCompletionDate
+          ) || ''
+        }`,
+      },
       // % project milestone completion
       {
         value: `${summaryData?.formData?.milestone?.percentProjectMilestoneComplete || ''}`,
@@ -599,6 +607,8 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       { value: cleanDateTime(cbcDataByCbcId?.dateAgreementSigned) },
       // proposed start date
       { value: cleanDateTime(cbcDataByCbcId?.proposedStartDate) },
+      // proposed completion date
+      { value: cleanDateTime(cbcDataByCbcId?.proposedCompletionDate) },
       // % project milestone completion
       {
         value: cbcDataByCbcId?.projectMilestoneCompleted
