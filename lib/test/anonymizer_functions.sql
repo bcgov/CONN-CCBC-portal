@@ -290,3 +290,35 @@ EXCEPTION
         RETURN '+1 (XXX) XXX-XXXX';
 END;
 $$ LANGUAGE plpgsql;
+
+-- Anonymize project titles deterministically
+CREATE OR REPLACE FUNCTION ccbc_public.anonymize_project_title(project_title TEXT) RETURNS TEXT AS $$
+DECLARE
+    hash_text TEXT;
+    fake_title TEXT := 'Connecting ';
+    i INTEGER;
+    hash_char CHAR;
+BEGIN
+    -- Return empty string for NULL or empty input
+    IF project_title IS NULL OR TRIM(project_title) = '' THEN
+        RETURN '';
+    END IF;
+
+    -- Generate a hash of the input with a salt for deterministic output
+    hash_text := MD5(project_title || 'ccbc_salt_test');
+
+    -- Generate fake title suffix (up to 15 characters, alphanumeric)
+    FOR i IN 1..LEAST(15, GREATEST(1, LENGTH(project_title))) LOOP
+        hash_char := SUBSTRING(hash_text FROM i FOR 1);
+        fake_title := fake_title || (
+            CASE
+                WHEN hash_char ~ '[0-9]' THEN hash_char
+                WHEN hash_char ~ '[a-f]' THEN CHR(ASCII('A') + (ASCII(hash_char) - ASCII('a')) % 26)
+                ELSE CHR(ASCII('A') + (ASCII(hash_char) % 26))
+            END
+        );
+    END LOOP;
+
+    RETURN fake_title;
+END;
+$$ LANGUAGE plpgsql;
