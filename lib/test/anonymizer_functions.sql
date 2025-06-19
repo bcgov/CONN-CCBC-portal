@@ -1,10 +1,11 @@
+-- Anonymize website URLs deterministically, even for invalid inputs
 CREATE OR REPLACE FUNCTION ccbc_public.anonymize_website(website_text TEXT) RETURNS TEXT AS $$
 DECLARE
     hash_text TEXT;
     protocol TEXT := '';
     subdomain TEXT := '';
     domain TEXT := '';
-    tld TEXT := '';
+    tld TEXT := 'com'; -- Default TLD
     path TEXT := '';
     fake_subdomain TEXT := '';
     fake_domain TEXT := '';
@@ -24,13 +25,8 @@ BEGIN
     -- Trim leading/trailing whitespace
     website_text := TRIM(website_text);
 
-    -- Validate input URL
-    IF website_text !~ '^((https?)://)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(/.*)?$' THEN
-        RAISE EXCEPTION 'Invalid URL format: %', website_text;
-    END IF;
-
-    -- Generate a hash of the URL with a salt
-    hash_text := MD5(website_text || 'some_salt');
+    -- Generate a hash of the URL with a salt for deterministic output
+    hash_text := MD5(website_text || 'ccbc_salt_test');
 
     -- Extract protocol if present
     IF website_text ~ '^https?://' THEN
@@ -55,27 +51,30 @@ BEGIN
     -- Extract full domain (between protocol and path)
     full_domain := SUBSTRING(website_text FROM domain_start FOR path_start - domain_start);
 
-    -- Split domain into parts
+    -- Split domain into parts (if possible)
     domain_parts := string_to_array(full_domain, '.');
 
-    IF array_length(domain_parts, 1) < 2 THEN
-        RAISE EXCEPTION 'Invalid domain in URL: %', website_text;
-    END IF;
-
-    -- TLD is the last part
-    tld := domain_parts[array_upper(domain_parts, 1)];
-
-    -- Domain is the second-last part
-    domain := domain_parts[array_upper(domain_parts, 1) - 1];
-
-    -- Subdomain is everything before that (if present)
-    IF array_length(domain_parts, 1) > 2 THEN
-        subdomain := array_to_string(domain_parts[1:array_upper(domain_parts, 1) - 2], '.');
+    -- Handle domain parts
+    IF array_length(domain_parts, 1) >= 2 THEN
+        -- TLD is the last part
+        tld := domain_parts[array_upper(domain_parts, 1)];
+        -- Domain is the second-last part
+        domain := domain_parts[array_upper(domain_parts, 1) - 1];
+        -- Subdomain is everything before that (if present)
+        IF array_length(domain_parts, 1) > 2 THEN
+            subdomain := array_to_string(domain_parts[1:array_upper(domain_parts, 1) - 2], '.');
+        END IF;
+    ELSE
+        -- Invalid or single-part domain (e.g., "localhost", "example")
+        domain := full_domain;
+        IF LENGTH(domain) = 0 THEN
+            domain := 'domain';
+        END IF;
     END IF;
 
     -- Generate fake subdomain (up to 10 characters)
     IF LENGTH(subdomain) > 0 THEN
-        FOR i IN 1..LEAST(10, LENGTH(subdomain)) LOOP
+        FOR i IN 1..LEAST(10, GREATEST(1, LENGTH(subdomain))) LOOP
             hash_char := SUBSTRING(hash_text FROM i FOR 1);
             fake_subdomain := fake_subdomain || (
                 CASE
@@ -89,7 +88,7 @@ BEGIN
     END IF;
 
     -- Generate fake domain (up to 15 characters)
-    FOR i IN 1..LEAST(15, LENGTH(domain)) LOOP
+    FOR i IN 1..LEAST(15, GREATEST(1, LENGTH(domain))) LOOP
         hash_char := SUBSTRING(hash_text FROM (i + 10) FOR 1);
         fake_domain := fake_domain || (
             CASE
@@ -170,7 +169,7 @@ BEGIN
     ELSE
         -- Treat entire input as local part, use default domain
         local_part := TRIM(email_text);
-        domain_part := 'example.com';
+        domain_part := 'domain.ca';
     END IF;
 
     -- Generate fake local part (up to 16 characters, alphanumeric)
