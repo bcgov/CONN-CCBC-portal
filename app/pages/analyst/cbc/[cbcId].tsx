@@ -390,7 +390,7 @@ const Cbc = ({
       title="Connecting Communities BC"
       provisionRightNav
     >
-      <CbcAnalystLayout query={query} isFormEditable={allowEdit}>
+      <CbcAnalystLayout query={query} isFormEditable={allowEdit} key={rowId}>
         <RightAlignText>
           <>
             <StyledButton

@@ -1,0 +1,41 @@
+name: Assign Jira Reviewer Based on PR Approval
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+env:
+  FEATURE_NAME: ${{ github.event.pull_request.head.ref }}
+
+jobs:
+  assign-reviewer:
+    if: github.event.review.state == 'approved'
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Get JIRA Issue Key
+        id: extract_jira_key
+        run: |
+          echo "JIRA_KEY=$(echo "$FEATURE_NAME" | grep -oE 'NDT-[0-9]+')" >> $GITHUB_ENV
+
+      - name: Extract Jira issue key and reviewer
+        id: extract
+        env:
+          REVIEWER_GITHUB: ${{ github.event.review.user.login }}
+        run: |
+          JIRA_ID=$(jq -r --arg reviewer "$REVIEWER_GITHUB" '.[$reviewer]' .github/jira-reviewers.json)
+          echo "JIRA_ID=$JIRA_ID" >> $GITHUB_ENV
+
+      - name: Assign Jira reviewer
+        run: |
+          echo "Assigning Jira reviewer to ticket ${{ env.JIRA_KEY }}"
+          QUERY="{\"fields\": {\"customfield_10076\": [{\"id\": \"${{ env.JIRA_ID }}\"}]}}"
+          curl -X PUT \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H "Content-Type: application/json" \
+            https://connectivitydivision.atlassian.net/rest/api/3/issue/${{ env.JIRA_KEY }} \
+            -d "$QUERY"

@@ -4,6 +4,7 @@ export interface ProjectFormProps {
   additionalContext?: any;
   before?: React.ReactNode;
   children?: React.ReactNode;
+  clearFormDataOnEdit?: boolean;
   formAnimationHeight?: number;
   formAnimationHeightOffset?: number;
   formData: any;
@@ -17,6 +18,7 @@ export interface ProjectFormProps {
   isFormEditMode: boolean;
   isFormAnimated?: boolean;
   liveValidate?: boolean;
+  onCancelFormData?: any;
   onSubmit: any;
   resetFormData: any;
   saveBtnText?: string;

@@ -74,8 +74,6 @@ const RfiAnalystUpload = ({ query }) => {
   const { showToast, hideToast } = useToast();
 
   const { rfiNumber } = rfiDataByRowId;
-  const hasTemplateNineRfi =
-    rfiDataByRowId?.jsonData?.rfiAdditionalFiles?.geographicNamesRfi;
   const applicationFormTemplate9DataId =
     applicationFormTemplate9DataByApplicationId?.nodes?.[0]?.rowId;
 
@@ -123,7 +121,7 @@ const RfiAnalystUpload = ({ query }) => {
   );
 
   const processUpload = async (mutation, payload) => {
-    const successCallback = async () => {
+    const successCallback = () => {
       setTemplateData(null);
       // show toast messages for uploaded/updated data
       if (Object.keys(templatesUpdated).length > 0) {
@@ -168,11 +166,6 @@ const RfiAnalystUpload = ({ query }) => {
             rfiNumber,
           }
         );
-      }
-      if (hasTemplateNineRfi) {
-        await fetch(`/api/template-nine/${applicationId}`, {
-          method: 'POST',
-        });
       }
       router.push(`/analyst/application/${router.query.applicationId}/rfi`);
     };
@@ -276,6 +269,19 @@ const RfiAnalystUpload = ({ query }) => {
           noValidate
         >
           <Button>Save</Button>
+          <Button
+            variant="secondary"
+            style={{ marginLeft: '24px' }}
+            onClick={(e: React.MouseEvent<HTMLInputElement>) => {
+              e.preventDefault();
+              router.push(
+                `/analyst/application/${router.query.applicationId}/rfi`
+              );
+              showToast('File upload cancelled');
+            }}
+          >
+            Cancel
+          </Button>
         </FormBase>
       </FormDiv>
     </div>
