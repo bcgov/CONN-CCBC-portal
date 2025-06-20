@@ -4,6 +4,7 @@
 
 ## Table of contents
 ### General
+- [FAQ](docs/FAQs/index.md)
 - [Contributing](docs/CONTRIBUTING.md)
 - [Authentication and authorization](docs/auth.md)
 - [Release process](docs/Release_Process.md)
