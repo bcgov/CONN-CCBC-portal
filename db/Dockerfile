@@ -25,6 +25,7 @@ RUN apt-get update \
 
 COPY db/ ${HOME}
 COPY mocks_schema/ ${HOME}/mocks_schema
+COPY lib/test/ ${HOME}/test
 
 RUN chown -R ${USER_ID}:0 ${HOME} && chmod -R g+rwX ${HOME}
 
