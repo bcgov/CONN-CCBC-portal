@@ -4,7 +4,19 @@
 
 When a new application is added to the CCBC Portal, the summary page needs to be updated.
 
-## Steps
+# Solutions
+
+## Solution 1
+
+The modern way is to call the robust API endpoint:
+
+```
+GET /api/template-nine/all
+```
+
+## Solution 2
+
+This approach works as well but requires some manual steps to find the necessary IDs.
 
 1. Go to Metabase
    1. In the left panel, click on "Databases" and select the production database.
