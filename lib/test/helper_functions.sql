@@ -99,6 +99,7 @@ BEGIN
     WHEN 'projectInformation' THEN
       result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'geographicAreaDescription', 'ccbc_public.generate_lorem_ipsum');
       result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'projectDescription', 'ccbc_public.generate_lorem_ipsum');
+      result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'projectTitle', 'ccbc_public.anonymize_project_title');
     WHEN 'organizationProfile' THEN
       result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'organizationName', 'ccbc_public.obfuscate_company_name');
       result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'operatingName', 'ccbc_public.obfuscate_company_name');
