@@ -73,7 +73,7 @@ BEGIN
       result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'systemDesign', 'ccbc_public.generate_lorem_ipsum');
       result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'scalability', 'ccbc_public.generate_lorem_ipsum');
     WHEN 'organizationLocation' THEN
-      result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'streetNumber', 'ccbc_public.generate_lorem_ipsum');
+      -- result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'streetNumber', 'ccbc_public.generate_lorem_ipsum');
       result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'streetName', 'ccbc_public.generate_lorem_ipsum');
       result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'POBox', 'ccbc_public.generate_lorem_ipsum');
       result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'city', 'ccbc_public.generate_lorem_ipsum');
