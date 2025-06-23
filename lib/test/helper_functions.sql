@@ -134,3 +134,25 @@ BEGIN
   RETURN result_jsonb;
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- Function to anonymize specific fields in cbc_data json_data
+CREATE OR REPLACE FUNCTION ccbc_public.anonymize_cbc_data(
+  input_jsonb jsonb
+) RETURNS jsonb AS $$
+DECLARE
+  result_jsonb jsonb := input_jsonb;
+BEGIN
+  -- Anonymize fields as specified in the CSV
+  result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'applicantContractualName', 'obfuscate_company_name');
+  result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'currentOperatingName', 'obfuscate_company_name');
+  result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'reviewNotes', 'generate_lorem_ipsum');
+  result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'milestoneComments', 'generate_lorem_ipsum');
+  result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'primaryNewsRelease', 'anonymize_website');
+  result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'secondaryNewsRelease', 'anonymize_website');
+  result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'notes', 'generate_lorem_ipsum');
+  result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'projectTitle', 'anonymize_project_title');
+
+  RETURN result_jsonb;
+END;
+$$ LANGUAGE plpgsql;
