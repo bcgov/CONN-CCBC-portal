@@ -44,7 +44,7 @@ const TableTabs = () => {
           passHref
           selected={router?.pathname.includes(changeLogHref)}
         >
-          Project Change Log
+          Change Log
         </StyledTab>
       )}
     </StyledNav>
