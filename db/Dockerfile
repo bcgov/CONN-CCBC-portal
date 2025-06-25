@@ -1,5 +1,5 @@
 # Docker build should be run from parent directory
-FROM postgres:15-bookworm
+FROM postgres:17-bookworm
 
 ENV SUMMARY="DB Schema for bcgov/CONN-CCBC-portal" \
   DESCRIPTION="Sqitch migrations for the accompanying app container image"
