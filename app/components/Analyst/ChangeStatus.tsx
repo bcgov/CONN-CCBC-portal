@@ -210,6 +210,13 @@ const ChangeStatus: React.FC<Props> = ({
         setCurrentStatus(draftStatus);
         internalChangeModal.close();
         // Send email notification for status changes
+        if (newStatus === 'approved' && !isExternalStatus) {
+          sendEmailNotification(
+            'notifyAgreementSignedDataTeam',
+            {},
+            'Email sending Agreement Signed Data Team failed'
+          );
+        }
         if (newStatus === 'conditionally_approved' && !isExternalStatus) {
           const requiredFields = ['Project Description', 'Project Type'].filter(
             (field) => {
