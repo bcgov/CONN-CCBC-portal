@@ -446,6 +446,8 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     muiTableHeadCellProps,
     muiTableBodyRowProps,
     enableColumnResizing: true,
+    enableRowVirtualization: true,
+    rowVirtualizerOptions: { overscan: 50 },
     columnResizeMode: 'onChange',
     enableStickyHeader: true,
     autoResetAll: false,

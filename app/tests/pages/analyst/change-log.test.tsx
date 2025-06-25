@@ -558,6 +558,28 @@ jest.mock('js-cookie', () => ({
   set: jest.fn(),
 }));
 
+// MRT Virtualization
+Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+  configurable: true,
+  value: 500,
+});
+
+Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+  configurable: true,
+  value: 1000,
+});
+
+HTMLElement.prototype.getBoundingClientRect = () => {
+  return {
+    width: 1000,
+    height: 500,
+    top: 0,
+    left: 0,
+    bottom: 500,
+    right: 1000,
+  } as DOMRect;
+};
+
 const pageTestingHelper = new PageTestingHelper<changeLogQuery>({
   pageComponent: ChangeLog,
   compiledQuery: compiledchangelogQuery,
