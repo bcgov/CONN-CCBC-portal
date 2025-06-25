@@ -78,7 +78,9 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
     formData?.jsonData?.organizationProfile?.organizationName;
 
   const applicationHistory = useMemo(() => {
-    return [...history.nodes]?.sort((a, b) => {
+    return [...history.nodes]?.filter(
+      node => node.tableName !== "application_dependencies"
+    ).sort((a, b) => {
       // sort by updated at if the record was delete
       const aDeleted = a.op === 'UPDATE';
       const bDeleted = b.op === 'UPDATE';
