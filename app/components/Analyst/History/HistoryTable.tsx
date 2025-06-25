@@ -84,7 +84,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
         node.oldRecord === null
       )
     ).sort((a, b) => {
-      // sort by updated at if the record was delete
+      // sort by updated at if the record was deleted
       const aDeleted = a.op === 'UPDATE';
       const bDeleted = b.op === 'UPDATE';
       const aDate = aDeleted ? a.record.updated_at : a.createdAt;
