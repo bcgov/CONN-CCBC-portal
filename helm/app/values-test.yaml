@@ -8,6 +8,10 @@ resources:
       cpu: 300m
       memory: '512Mi'
 
+crunchy-postgres:
+  postgresVersion: 17
+  postGISVersion: 3.4
+
 db:
   postMigrationCommand: |
     sqitch --chdir mocks_schema deploy;

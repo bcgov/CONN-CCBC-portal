@@ -15,6 +15,8 @@ db:
     done;
 
 crunchy-postgres:
+  postgresVersion: 17
+  postGISVersion: 3.4
   pgBackRest:
     retention: '1'
     volume:
