@@ -1,5 +1,10 @@
 import sendEmail from 'backend/lib/ches/sendEmail';
 
+jest.mock('backend/lib/emails/utils/emailRecord', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
 describe('getAccessToken', () => {
   it('should return a token when the request is successful', async () => {
     // Mock the fetch response
