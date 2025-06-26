@@ -209,6 +209,40 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             }
           }
         }
+        allApplications {
+          nodes {
+            history {
+              nodes {
+                op
+                createdAt
+                createdBy
+                  
+                record
+                oldRecord
+                tableName
+                  
+              }
+              edges {
+                node {
+                  applicationId
+                  createdAt
+                  op
+                  tableName
+                  recordId
+                  record
+                  oldRecord
+                  item
+                  familyName
+                  givenName
+                  sessionSub
+                  externalAnalyst
+                  createdBy
+                }
+              }
+            }
+            rowId
+          }
+        }
         session {
           authRole
         }
@@ -473,7 +507,6 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         <AdditionalFilters
           filters={columnFilters}
           setFilters={setColumnFilters}
-          disabledFilters={[{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]}
         />
       </StyledTableHeader>
     ),
