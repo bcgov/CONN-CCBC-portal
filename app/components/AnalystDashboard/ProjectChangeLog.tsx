@@ -24,6 +24,7 @@ import { Box, Link, TableCellProps } from '@mui/material';
 import { DateTime } from 'luxon';
 import ClearFilters from 'components/Table/ClearFilters';
 import AdditionalFilters from './AdditionalFilters';
+import { useFeature } from '@growthbook/growthbook-react';
 
 interface Props {
   query: any;
@@ -465,6 +466,8 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     columnSizing,
   };
 
+  const enableProjectTypeFilters = useFeature('filter_by_project').value || 0;
+
   const table = useMaterialReactTable({
     columns,
     data: tableData,
@@ -507,6 +510,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         <AdditionalFilters
           filters={columnFilters}
           setFilters={setColumnFilters}
+          disabledFilters={enableProjectTypeFilters?[] : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]}
         />
       </StyledTableHeader>
     ),
