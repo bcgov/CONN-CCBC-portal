@@ -78,12 +78,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
     formData?.jsonData?.organizationProfile?.organizationName;
 
   const applicationHistory = useMemo(() => {
-    return [...history.nodes]?.filter(
-      node => (
-        node.tableName !== "application_dependencies" ||
-        node.tableName === "application_dependencies" && node.oldRecord === null
-      )
-    ).sort((a, b) => {
+    return [...history.nodes]?.sort((a, b) => {
       // sort by updated at if the record was deleted
       const aDeleted = a.op === 'UPDATE';
       const bDeleted = b.op === 'UPDATE';
@@ -178,7 +173,13 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
       />
       <StyledTable cellSpacing="0" cellPadding="0">
         <tbody>
-          {filteredHistory?.map((historyItem, index, array) => {
+          {filteredHistory?.filter(
+            (historyItem) =>
+                !(
+                  historyItem.tableName === 'application_dependencies' &&
+                  historyItem.user === 'The applicant'
+                )
+          ).map((historyItem, index, array) => {
             const { recordId } = historyItem;
             const a = array.slice(index + 1);
             let prevItems;

@@ -2939,6 +2939,36 @@ const mockQueryPayload = {
               tableName: 'application_announced',
             },
             {
+              createdBy: 2,
+              applicationId: 1,
+              createdAt: '2024-11-12T00:00:43.851664+00:00',
+              externalAnalyst: null,
+              familyName: null,
+              givenName: null,
+              item: null,
+              oldRecord: null,
+              op: 'INSERT',
+              record: {
+                id: 1,
+                json_data: {
+                  crtcProjectDependent: 'TBD',
+                  connectedCoastNetworkDependent: 'TBD',
+                },
+                created_at: '2024-11-12T00:00:43.851664+00:00',
+                created_by: null,
+                updated_at: '2024-11-12T00:00:43.851664+00:00',
+                updated_by: null,
+                archived_at: null,
+                archived_by: null,
+                application_id: 1,
+                reason_for_change:
+                  '',
+              },
+              recordId: 'b01aa98e-a7c1-5431-931d-130a53a16c61',
+              sessionSub: '54f0aa1ad196497fff9321c20a1ef@bceidbasic',
+              tableName: 'application_dependencies',
+            },
+            {
               createdBy: 1,
               applicationId: 1,
               createdAt: '2024-11-13T22:51:43.851664+00:00',
@@ -3848,11 +3878,20 @@ describe('The index page', () => {
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(32);
+    expect(diffTables.length).toBe(33);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
     });
+  });
+
+  it('does not display initial history change for application dependencies', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.queryByText('The applicant updated the Technical Assessment')
+    ).not.toBeInTheDocument();
   });
 
   it('shows the correct history for uploading gis analysis', async () => {
