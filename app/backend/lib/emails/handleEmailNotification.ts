@@ -118,7 +118,8 @@ const sendEmailSingle = async (
   res: any,
   subject: any,
   body: any,
-  tag: string
+  tag: string,
+  delayTs: number = 0
 ) => {
   try {
     const token = await getAccessToken();
@@ -130,7 +131,9 @@ const sendEmailSingle = async (
       subject,
       emailToList,
       tag,
-      emailCCList
+      emailCCList,
+      [],
+      delayTs
     );
     if (emailResult) {
       return res.status(200).json(emailResult).end();
@@ -146,7 +149,8 @@ const handleEmailNotification = async (
   res,
   template: EmailTemplateProvider,
   params: any = {},
-  isMailMerge = false
+  isMailMerge = false,
+  delayTs = 0
 ) => {
   if (!isAuthorized(getAuthRole(req))) {
     return res.status(404).end();
@@ -166,7 +170,16 @@ const handleEmailNotification = async (
   if (isMailMerge) {
     return handleEmailBatch(res, subject, body, tag, contexts, details);
   }
-  return sendEmailSingle(emailTo, emailCC, req, res, subject, body, tag);
+  return sendEmailSingle(
+    emailTo,
+    emailCC,
+    req,
+    res,
+    subject,
+    body,
+    tag,
+    delayTs
+  );
 };
 
 export default handleEmailNotification;
