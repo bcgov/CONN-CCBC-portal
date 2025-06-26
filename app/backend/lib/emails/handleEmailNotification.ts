@@ -119,6 +119,7 @@ const sendEmailSingle = async (
   subject: any,
   body: any,
   tag: string,
+  applicationId: number,
   delayTs: number = 0
 ) => {
   try {
@@ -133,7 +134,9 @@ const sendEmailSingle = async (
       tag,
       emailCCList,
       [],
-      delayTs
+      delayTs,
+      req,
+      applicationId
     );
     if (emailResult) {
       return res.status(200).json(emailResult).end();
@@ -178,6 +181,7 @@ const handleEmailNotification = async (
     subject,
     body,
     tag,
+    applicationId,
     delayTs
   );
 };
