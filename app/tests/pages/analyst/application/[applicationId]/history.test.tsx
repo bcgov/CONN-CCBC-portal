@@ -3890,8 +3890,8 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     expect(
-      screen.queryByText('The applicant updated the Technical Assessment')
-    ).not.toBeInTheDocument();
+      screen.getAllByTestId('history-content-dependencies')
+    ).toHaveLength(2);
   });
 
   it('shows the correct history for uploading gis analysis', async () => {
