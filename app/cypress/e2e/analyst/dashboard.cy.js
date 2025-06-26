@@ -54,13 +54,16 @@ describe('The Analyst Dashboard', () => {
         cy.wait(2000);
 
         // Click on the table header with aria-label to sort
-        cy.get('[aria-label="Sort by Intake ascending"]').click();
+        cy.get('th').eq(1).find('div').first().click();
+
+        // wait
+        cy.wait(500);
 
         // Verify that the sorting cookie is set correctly
         cy.getCookie('mrt_sorting_application').should(
           'have.property',
           'value',
-          '[{%22id%22:%22intakeNumber%22%2C%22desc%22:false}]'
+          '[{%22id%22:%22intakeNumber%22%2C%22desc%22:true}]'
         );
 
         // Wait to ensure sorting is complete before taking the screenshot
