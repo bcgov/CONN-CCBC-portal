@@ -340,6 +340,15 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       );
   }, [allCbcs]);
 
+  // Collect unique createdBy values for the multi-select filter
+  const createdByOptions = useMemo(() => {
+    const set = new Set<string>();
+    tableData.forEach((row) => {
+      if (row.createdBy) set.add(row.createdBy);
+    });
+    return Array.from(set).sort();
+  }, [tableData]);
+
   const columns = useMemo<MRT_ColumnDef<any>[]>(() => {
     return [
       {
@@ -406,6 +415,8 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         accessorKey: 'createdBy',
         header: 'User',
         filterFn: filterVariant,
+        filterVariant: 'multi-select',
+        filterSelectOptions: createdByOptions,
         Cell: MergedCell,
       },
       {
