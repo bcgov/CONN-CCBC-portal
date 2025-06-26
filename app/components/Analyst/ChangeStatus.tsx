@@ -212,6 +212,11 @@ const ChangeStatus: React.FC<Props> = ({
         // Send email notification for status changes
         if (newStatus === 'approved' && !isExternalStatus) {
           sendEmailNotification(
+            'notifyAgreementSigned',
+            {},
+            'Email sending Agreement Signed Analyst failed'
+          );
+          sendEmailNotification(
             'notifyAgreementSignedDataTeam',
             {},
             'Email sending Agreement Signed Data Team failed'

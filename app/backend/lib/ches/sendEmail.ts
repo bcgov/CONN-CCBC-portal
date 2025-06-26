@@ -17,16 +17,20 @@ const sendEmail = async (
     filename: string;
     encoding: string;
     contentType: string;
-  }[] = []
+  }[] = [],
+  delayTs: number = 0
 ) => {
   const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
   const environment = toTitleCase(namespace?.split('-')[1] || '');
+  console.log(
+    `Sending email in ${environment} environment with tag: ${tag} and delay: ${delayTs} ms`
+  );
   try {
     const request = {
       bodyType: 'html',
       body,
       cc: emailCC,
-      delayTs: 0,
+      delayTS: delayTs,
       encoding: 'utf-8',
       from: `CCBC Portal ${environment} <noreply-ccbc-portal@gov.bc.ca>`,
       priority: 'normal',
@@ -52,6 +56,7 @@ const sendEmail = async (
       throw new Error(`Error sending email with status: ${response.status}`);
     }
     const sendEmailResult = await response.json();
+    console.log(sendEmailResult);
     return sendEmailResult.messages[0].msgId;
   } catch (error: any) {
     Sentry.captureException(new Error(error.message));

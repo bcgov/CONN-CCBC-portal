@@ -12,6 +12,7 @@ import notifyApplicationSubmission from './templates/notifyApplicationSubmission
 import notifyFailedReadOfTemplateData from './templates/notifyFailedReadOfTemplateData';
 import notifySowUpload from './templates/notifySowUpload';
 import notifyDocumentUpload from './templates/notifyDocumentUpload';
+import calculateDelayTs from './utils/delayCalculator';
 
 const email = Router();
 
@@ -22,9 +23,22 @@ const limiter = RateLimit({
 
 email.post('/api/email/notifyAgreementSigned', limiter, (req, res) => {
   const { ccbcNumber } = req.body;
-  return handleEmailNotification(req, res, agreementSignedStatusChange, {
-    ccbcNumber,
-  });
+  const delay = calculateDelayTs(
+    new Date(),
+    48 // Delay in hours
+  );
+  console.log(`Delay for agreement signed email: ${delay} ms`);
+  // If the delay is more than
+  return handleEmailNotification(
+    req,
+    res,
+    agreementSignedStatusChange,
+    {
+      ccbcNumber,
+    },
+    false,
+    delay
+  );
 });
 
 email.post('/api/email/notifyAgreementSignedDataTeam', limiter, (req, res) => {
