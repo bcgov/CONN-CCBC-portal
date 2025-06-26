@@ -466,7 +466,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     columnSizing,
   };
 
-  const enableProjectTypeFilters = useFeature('filter_by_project').value || 0;
+  const enableProjectTypeFilters = useFeature('filter_changelog_by_project_type').value || 0;
 
   const table = useMaterialReactTable({
     columns,
