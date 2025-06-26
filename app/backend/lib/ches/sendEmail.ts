@@ -25,8 +25,6 @@ const sendEmail = async (
 ) => {
   const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
   const environment = toTitleCase(namespace?.split('-')[1] || '');
-  console.log('req', req);
-  console.log('applicationId', applicationId);
   try {
     const request = {
       bodyType: 'html',
