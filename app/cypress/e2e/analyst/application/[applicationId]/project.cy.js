@@ -16,7 +16,7 @@ describe('The analyst application view', () => {
 
         cy.intercept(
           'POST',
-          '/api/analyst/sow/1/CCBC-010001/*/?validate=true',
+          '/api/analyst/sow/1/CCBC-010001/*/?validate=true*',
           {
             statusCode: 200,
             body: {},
@@ -25,7 +25,7 @@ describe('The analyst application view', () => {
 
         cy.intercept(
           'POST',
-          '/api/analyst/community-report/1/*/?validate=true',
+          '/api/analyst/community-report/1/*/?validate=true*',
           {
             statusCode: 200,
             body: {},
@@ -34,7 +34,7 @@ describe('The analyst application view', () => {
 
         cy.intercept(
           'POST',
-          '/api/analyst/milestone/1/CCBC-010001/*/?validate=true',
+          '/api/analyst/milestone/1/CCBC-010001/*/?validate=true*',
           {
             statusCode: 200,
             body: {},
