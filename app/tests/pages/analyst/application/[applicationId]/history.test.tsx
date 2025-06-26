@@ -3848,7 +3848,7 @@ describe('The index page', () => {
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(33);
+    expect(diffTables.length).toBe(32);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();

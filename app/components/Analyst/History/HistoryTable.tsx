@@ -80,8 +80,8 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
   const applicationHistory = useMemo(() => {
     return [...history.nodes]?.filter(
       node => (
-        node.tableName !== "application_dependencies" &&
-        node.oldRecord === null
+        node.tableName !== "application_dependencies" ||
+        node.tableName === "application_dependencies" && node.oldRecord === null
       )
     ).sort((a, b) => {
       // sort by updated at if the record was deleted
