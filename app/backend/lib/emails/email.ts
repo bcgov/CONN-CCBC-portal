@@ -27,7 +27,6 @@ email.post('/api/email/notifyAgreementSigned', limiter, (req, res) => {
     new Date(),
     48 // Delay in hours
   );
-  console.log(`Delay for agreement signed email: ${delay} ms`);
   // If the delay is more than
   return handleEmailNotification(
     req,

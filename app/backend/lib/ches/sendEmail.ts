@@ -25,9 +25,6 @@ const sendEmail = async (
 ) => {
   const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
   const environment = toTitleCase(namespace?.split('-')[1] || '');
-  console.log(
-    `Sending email in ${environment} environment with tag: ${tag} and delay: ${delayTs} ms`
-  );
   try {
     const request = {
       bodyType: 'html',
@@ -59,7 +56,6 @@ const sendEmail = async (
       throw new Error(`Error sending email with status: ${response.status}`);
     }
     const sendEmailResult = await response.json();
-    console.log(sendEmailResult);
     // if a req has been passed, we can log the email record
     if (req && applicationId) {
       const input = {
