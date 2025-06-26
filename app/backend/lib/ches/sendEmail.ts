@@ -12,7 +12,7 @@ const sendEmail = async (
   subject: string,
   emailTo: string[] | string,
   tag: string,
-  emailCC: string[] = [],
+  emailCC: string[] | string = [],
   attachments: {
     content: string;
     filename: string;
@@ -25,6 +25,8 @@ const sendEmail = async (
 ) => {
   const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
   const environment = toTitleCase(namespace?.split('-')[1] || '');
+  console.log('req', req);
+  console.log('applicationId', applicationId);
   try {
     const request = {
       bodyType: 'html',
@@ -57,11 +59,11 @@ const sendEmail = async (
     }
     const sendEmailResult = await response.json();
     // if a req has been passed, we can log the email record
-    if (req && applicationId) {
+    if (req !== null && applicationId !== null) {
       const input = {
         emailRecord: {
-          ccEmail: emailCC.join(','),
-          toEmail: emailTo.join(','),
+          ccEmail: typeof emailCC === 'string' ? emailCC : emailCC.join(','),
+          toEmail: typeof emailTo === 'string' ? emailTo : emailTo.join(','),
           subject,
           body,
           messageId: sendEmailResult.messages[0].msgId,
