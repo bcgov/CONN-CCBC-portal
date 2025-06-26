@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/nextjs';
 import getConfig from 'next/config';
 import config from '../../../config';
 import toTitleCase from '../../../utils/formatString';
-import recordEmailRecord from '../emails/utils/emailRecord';
+import { recordEmailRecord } from '../emails/utils/emailRecord';
 
 const CHES_API_URL = config.get('CHES_API_URL');
 
@@ -69,6 +69,8 @@ const sendEmail = async (
             tag,
             applicationId,
             fullResult: sendEmailResult,
+            isDelayed: delayTs > 0,
+            isCancelled: false,
           },
         },
       };
