@@ -14,7 +14,7 @@ describe('agreementSignedStatusChange template', () => {
 
     expect(emailTemplate).toEqual(
       expect.objectContaining({
-        emailTo: [72],
+        emailTo: [147],
         emailCC: [],
         tag: 'agreement-signed-status-change',
         subject: 'Action Required - Upload SOW for CCBC-101',
