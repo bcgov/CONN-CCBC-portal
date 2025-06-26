@@ -184,6 +184,25 @@ const CommunitiesCell = (
   );
 };
 
+// OldValueCell moved out of ProjectChangeLog to avoid defining components during render
+const OldValueCell = ({ row }) => {
+  const { field, oldValue } = row.original;
+  if (
+    (field === 'Communities Added' || field === 'Communities Removed') &&
+    Array.isArray(oldValue)
+  ) {
+    // Always show strikethrough for oldValue in CommunitiesCell
+    return CommunitiesCell(
+      'bc_geographic_name',
+      'geographic_type',
+      oldValue,
+      true // force strikethrough
+    );
+  }
+  // For all other values, wrap in a span with strikethrough
+  return <span style={{ textDecoration: 'line-through' }}>{oldValue}</span>;
+};
+
 const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment<ProjectChangeLog_query$key>(
     graphql`
@@ -349,84 +368,61 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     return Array.from(set).sort();
   }, [tableData]);
 
-  const columns = useMemo<MRT_ColumnDef<any>[]>(() => {
-    return [
-      {
-        accessorKey: 'rowId',
-        id: 'rowId',
-        Cell: ProjectIdCell,
-        header: 'ID',
-        filterFn: filterVariant,
+  const columns: MRT_ColumnDef<any>[] = [
+    {
+      accessorKey: 'rowId',
+      id: 'rowId',
+      Cell: ProjectIdCell,
+      header: 'ID',
+      filterFn: filterVariant,
+    },
+    {
+      accessorKey: 'field',
+      header: 'Fields changed',
+      filterFn: filterVariant,
+    },
+    {
+      accessorKey: 'oldValue',
+      header: 'Old Value',
+      Cell: OldValueCell,
+      filterFn: filterVariant,
+    },
+    {
+      accessorKey: 'newValue',
+      header: 'New Value',
+      Cell: ({ row }) => {
+        const { field, newValue } = row.original;
+        if (
+          (field === 'Communities Added' || field === 'Communities Removed') &&
+          Array.isArray(newValue)
+        ) {
+          const isRemoved = field === 'Communities Removed';
+          return CommunitiesCell(
+            'economic_region',
+            'regional_district',
+            newValue,
+            isRemoved
+          );
+        }
+        return newValue;
       },
-      {
-        accessorKey: 'field',
-        header: 'Fields changed',
-        filterFn: filterVariant,
-      },
-      {
-        accessorKey: 'oldValue',
-        header: 'Old Value',
-        Cell: ({ row }) => {
-          const { field, oldValue } = row.original;
-
-          if (
-            (field === 'Communities Added' ||
-              field === 'Communities Removed') &&
-            Array.isArray(oldValue)
-          ) {
-            const isRemoved = field === 'Communities Removed';
-            return CommunitiesCell(
-              'bc_geographic_name',
-              'geographic_type',
-              oldValue,
-              isRemoved
-            );
-          }
-
-          return oldValue;
-        },
-        filterFn: filterVariant,
-      },
-      {
-        accessorKey: 'newValue',
-        header: 'New Value',
-        Cell: ({ row }) => {
-          const { field, newValue } = row.original;
-
-          if (
-            (field === 'Communities Added' ||
-              field === 'Communities Removed') &&
-            Array.isArray(newValue)
-          ) {
-            const isRemoved = field === 'Communities Removed';
-            return CommunitiesCell(
-              'economic_region',
-              'regional_district',
-              newValue,
-              isRemoved
-            );
-          }
-
-          return newValue;
-        },
-        filterFn: filterVariant,
-      },
-      {
-        accessorKey: 'createdBy',
-        header: 'User',
-        filterFn: filterVariant,
-        filterVariant: 'multi-select',
-        filterSelectOptions: createdByOptions,
-        Cell: MergedCell,
-      },
-      {
-        accessorKey: 'createdAt',
-        header: 'Date and Time',
-        filterFn: filterVariant,
-        Cell: MergedCell,
-      },
-    ];
-  }, [allCbcs]);
+      filterFn: filterVariant,
+    },
+    {
+      accessorKey: 'createdBy',
+      header: 'User',
+      filterFn: filterVariant,
+      filterVariant: 'multi-select',
+      filterSelectOptions: createdByOptions,
+      Cell: MergedCell,
+    },
+    {
+      accessorKey: 'createdAt',
+      header: 'Date and Time',
+      filterFn: filterVariant,
+      Cell: MergedCell,
+    },
+  ];
 
   const columnSizing: MRT_ColumnSizingState = {
     rowId: 50,
