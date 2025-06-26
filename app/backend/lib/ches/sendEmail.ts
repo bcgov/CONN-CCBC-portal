@@ -10,7 +10,7 @@ const sendEmail = async (
   token: string,
   body: string,
   subject: string,
-  emailTo: string[],
+  emailTo: string[] | string,
   tag: string,
   emailCC: string[] = [],
   attachments: {

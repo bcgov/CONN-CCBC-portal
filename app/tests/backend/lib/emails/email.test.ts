@@ -47,7 +47,9 @@ describe('Email API Endpoints', () => {
       expect.anything(),
       expect.anything(),
       agreementSignedStatusChange,
-      { ccbcNumber: reqBody.ccbcNumber }
+      { ccbcNumber: reqBody.ccbcNumber },
+      false,
+      expect.anything()
     );
   });
 
