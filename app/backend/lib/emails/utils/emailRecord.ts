@@ -14,7 +14,6 @@ const emailRecordMutation = `
 const recordEmailRecord = async (input, req) => {
   try {
     const result = await performQuery(emailRecordMutation, { input }, req);
-    console.log('Email record result:', result);
     return result;
   } catch (error) {
     // eslint-disable-next-line no-console
