@@ -15,7 +15,7 @@ const StyledMapLink = styled.a`
 
 const StyledSpan = styled.span`
   color: ${(props) => props.theme.color.darkGrey};
-  display: block;
+  display: inline;
 `;
 
 const StyledHighlightSpan = styled.span`
@@ -53,8 +53,9 @@ const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
   const communities = (row.original.communities as any[]) || [];
 
   return (
-    <>
+    <div>
       <StyledSpan>Communities</StyledSpan>
+      {/* Add space between label and data */}{' '}
       {communities.length > 0 ? (
         communities.map((item, index) => (
           <>
@@ -74,15 +75,19 @@ const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
       ) : (
         <StyledSpan>N/A</StyledSpan>
       )}
+      {/* Add a new line between Communities and Original Project Number */}
+      <br />
       <StyledSpan>Original Project Number</StyledSpan>
-        <HighlightFilterMatch
-          text={
-            row.original.originalProjectNumber ?
-              row.original.originalProjectNumber : 'N/A'
+      {/* Add space between label and data */}{' '}
+      <HighlightFilterMatch
+        text={
+          row.original.originalProjectNumber
+            ? row.original.originalProjectNumber
+            : 'N/A'
         }
-          filterValue={filterValue}
-        />
-    </>
+        filterValue={filterValue}
+      />
+    </div>
   );
 };
 
