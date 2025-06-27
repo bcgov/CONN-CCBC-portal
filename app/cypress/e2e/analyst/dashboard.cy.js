@@ -53,8 +53,11 @@ describe('The Analyst Dashboard', () => {
         // Wait to ensure elements are loaded
         cy.wait(2000);
 
-        // Click on the second table header to sort
-        cy.get('tr > th').eq(1).click();
+        // Click on the table header with aria-label to sort
+        cy.get('th').eq(1).find('div').first().click();
+
+        // wait
+        cy.wait(500);
 
         // Verify that the sorting cookie is set correctly
         cy.getCookie('mrt_sorting_application').should(
