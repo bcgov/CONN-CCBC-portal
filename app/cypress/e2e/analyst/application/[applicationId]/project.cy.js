@@ -16,7 +16,7 @@ describe('The analyst application view', () => {
 
         cy.intercept(
           'POST',
-          '/api/analyst/sow/1/CCBC-010001/*/?validate=true',
+          '/api/analyst/sow/1/CCBC-010001/*/?validate=true*',
           {
             statusCode: 200,
             body: {},
@@ -25,7 +25,7 @@ describe('The analyst application view', () => {
 
         cy.intercept(
           'POST',
-          '/api/analyst/community-report/1/*/?validate=true',
+          '/api/analyst/community-report/1/*/?validate=true*',
           {
             statusCode: 200,
             body: {},
@@ -34,7 +34,7 @@ describe('The analyst application view', () => {
 
         cy.intercept(
           'POST',
-          '/api/analyst/milestone/1/CCBC-010001/*/?validate=true',
+          '/api/analyst/milestone/1/CCBC-010001/*/?validate=true*',
           {
             statusCode: 200,
             body: {},
@@ -61,11 +61,7 @@ describe('The analyst application view', () => {
 
         cy.wait(500);
 
-        // Open accordion
-        cy.get('[data-testid=accordion-icon]').parent().eq(0).click();
-        cy.get('body').click();
-
-        cy.get('[id="project-form-edit-button"]').first().click();
+        cy.get('[data-testid="project-form-edit-button"]').first().click();
 
         cy.get('body').happoScreenshot({
           component: `Conditional approval form - ${role}`,
