@@ -90,6 +90,7 @@ describe('Dashboard export functions', () => {
       '2023-10-10',
       null,
       '2023-02-01',
+      '2028-03-31',
       null,
       null,
     ];
@@ -136,6 +137,7 @@ describe('Dashboard export functions', () => {
       '2018-03-07',
       '2020-03-12',
       '2018-02-05',
+      '2023-12-31',
       0.009899999999999999,
       null,
     ];
