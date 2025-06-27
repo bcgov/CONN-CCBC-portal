@@ -1,3 +1,11 @@
+## [1.261.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.0...v1.261.1) (2025-06-27)
+
+# [1.261.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.13...v1.261.0) (2025-06-27)
+
+### Features
+
+- user drop down to change log ([00cfd13](https://github.com/bcgov/CONN-CCBC-portal/commit/00cfd139ef2c02820a3390243969d2f70bfb9cad))
+
 ## [1.260.13](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.12...v1.260.13) (2025-06-27)
 
 ## [1.260.12](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.11...v1.260.12) (2025-06-27)
