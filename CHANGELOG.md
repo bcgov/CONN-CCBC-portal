@@ -1,3 +1,10 @@
+## [1.260.12](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.11...v1.260.12) (2025-06-27)
+
+### Bug Fixes
+
+- all dashboard detail panel display ([cbacef8](https://github.com/bcgov/CONN-CCBC-portal/commit/cbacef8f35e85e8c0c843cefdcbbcacae1a92998))
+- dashboard sort e2e ([27b67e3](https://github.com/bcgov/CONN-CCBC-portal/commit/27b67e3792d61a66ed9163b22695ff82843b28e8))
+
 ## [1.260.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.10...v1.260.11) (2025-06-27)
 
 ## [1.260.10](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.9...v1.260.10) (2025-06-27)
