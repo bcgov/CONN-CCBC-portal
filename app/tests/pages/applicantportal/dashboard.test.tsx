@@ -406,7 +406,7 @@ describe('The index page', () => {
     ).not.toBeInTheDocument();
     expect(
       screen.getByText(
-        /Intake 6 is now open until June 30, 2025. If you are interested in submitting an application, or for any questions about connectivity projects in your area, please email/
+        /Intake 6 is now open until October 15, 2025. If you are interested in submitting an application, or for any questions about connectivity projects in your area, please email/
       )
     ).toBeInTheDocument();
   });
