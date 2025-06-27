@@ -167,7 +167,7 @@ const Dashboard = ({
             <p>
               {isRollingIntake ? (
                 <>
-                  Intake 6 is now open until June 30, 2025. If you are
+                  Intake 6 is now open until October 15, 2025. If you are
                   interested in submitting an application, or for any questions
                   about connectivity projects in your area, please email{' '}
                   <a href="mailto:connectingcommunitiesbc@gov.bc.ca">
