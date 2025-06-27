@@ -256,7 +256,8 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
-  const defaultFilters = [{ id: 'program', value: ['CBC'] }];
+  const enableProjectTypeFilters = useFeature('filter_changelog_by_project_type').value || 0;
+  const defaultFilters = enableProjectTypeFilters?[{ id: 'program', value: ['CCBC', 'CBC'] }] : [{ id: 'program', value: ['CBC'] }];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const { allCbcs } = queryFragment;
@@ -465,8 +466,6 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     showGlobalFilter: true,
     columnSizing,
   };
-
-  const enableProjectTypeFilters = useFeature('filter_changelog_by_project_type').value || 0;
 
   const table = useMaterialReactTable({
     columns,
