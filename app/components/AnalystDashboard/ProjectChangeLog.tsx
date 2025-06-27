@@ -196,7 +196,7 @@ const OldValueCell = ({ row }) => {
       'bc_geographic_name',
       'geographic_type',
       oldValue,
-      true // force strikethrough
+      false // force strikethrough
     );
   }
   // For all other values, wrap in a span with strikethrough
