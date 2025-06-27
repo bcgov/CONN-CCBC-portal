@@ -192,11 +192,12 @@ const OldValueCell = ({ row }) => {
     Array.isArray(oldValue)
   ) {
     // Always show strikethrough for oldValue in CommunitiesCell
+    const isRemoved = field === 'Communities Removed';
     return CommunitiesCell(
       'bc_geographic_name',
       'geographic_type',
       oldValue,
-      false // force strikethrough
+      isRemoved
     );
   }
   // For all other values, wrap in a span with strikethrough
