@@ -38,6 +38,14 @@ const getApplicationDataQuery = `
           jsonData
         }
       }
+      applicationFnhaContributionsByApplicationId {
+        edges {
+          node {
+            id
+            fnhaContribution
+          }
+        }
+      }
       applicationStatusesByApplicationId(
         filter: { status: { equalTo: "submitted" } }
       ) {
@@ -385,7 +393,9 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // total fnha funding
       {
-        value: summaryData?.formData?.funding?.fnhaFunding,
+        value:
+          Number(summaryData?.formData?.funding?.fnhaContribution ?? 0) +
+          Number(summaryData?.formData?.funding?.fnhaFunding ?? 0),
         format: '$#,##0.00',
         type: Number,
       },
