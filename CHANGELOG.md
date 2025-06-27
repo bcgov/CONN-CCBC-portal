@@ -1,3 +1,9 @@
+## [1.260.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.7...v1.260.8) (2025-06-27)
+
+### Bug Fixes
+
+- project e2e ([3b22acf](https://github.com/bcgov/CONN-CCBC-portal/commit/3b22acf8373770910f3e754f12751e598428a43e))
+
 ## [1.260.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.6...v1.260.7) (2025-06-23)
 
 ## [1.260.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.260.5...v1.260.6) (2025-06-23)
