@@ -19,12 +19,13 @@ import { diff } from 'json-diff';
 import { generateRawDiff } from 'components/DiffTable';
 import getConfig from 'next/config';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
+import ccbcData from 'formSchema/uiSchema/history/ccbcData';
 import styled from 'styled-components';
 import { Box, Link, TableCellProps } from '@mui/material';
 import { DateTime } from 'luxon';
 import ClearFilters from 'components/Table/ClearFilters';
-import AdditionalFilters from './AdditionalFilters';
 import { useFeature } from '@growthbook/growthbook-react';
+import AdditionalFilters from './AdditionalFilters';
 
 interface Props {
   query: any;
@@ -212,18 +213,23 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         }
         allApplications {
           nodes {
+            rowId
+            ccbcNumber
             history {
               nodes {
                 op
                 createdAt
                 createdBy
-                  
                 record
                 oldRecord
                 tableName
+                recordId
               }
             }
-            rowId
+            ccbcUserByCreatedBy {
+              familyName
+              givenName
+            }
           }
         }
         session {
@@ -238,18 +244,58 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
-  const enableProjectTypeFilters = useFeature('filter_changelog_by_project_type').value || 1;
-  const defaultFilters = enableProjectTypeFilters?[{ id: 'program', value: ['CCBC', 'CBC'] }] : [{ id: 'program', value: ['CBC'] }];
+  const enableProjectTypeFilters = useFeature('filter_changelog_by_project_type').value || 0;
+  const defaultFilters = enableProjectTypeFilters?[{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }] : [{ id: 'program', value: ['CBC'] }];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const { allCbcs, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
   const tableData = useMemo(() => {
-    const cbcEntries =
-      allCbcs.nodes?.flatMap(
-        ({ projectNumber, rowId, history }) =>
-          history.nodes.map((item) => {
+
+    const Program = {
+      CBC: 'CBC',
+      CCBC: 'CCBC'
+    };
+
+    const historyDiffParams = {
+      [Program.CBC]: {
+        schema: cbcData,
+        excludedKeys: [
+          'id',
+          'created_at',
+          'updated_at',
+          'change_reason',
+          'cbc_data_id',
+          'locations',
+          'errorLog',
+          'error_log',
+          'projectNumber',
+        ],
+        overrideParent: 'cbcData'
+      },
+      [Program.CCBC]: {
+        schema: ccbcData,
+        excludedKeys: [
+          'id',
+          'created_at',
+          'updated_at',
+          'reason_for_change',
+        ],
+        overrideParent: 'ccbcData'
+      }
+    }
+
+    const getRecordJson = (record, program) => {
+      return {
+        ...record?.json_data,
+        project_number: program === Program.CBC
+          ? record?.project_number
+          : record?.ccbc_number
+      };
+    }
+
+    const transformHistoryData = (item, projectNumber, rowId, program) => {
             const { record, oldRecord, createdAt, op } = item;
             const effectiveDate =
               op === 'UPDATE'
@@ -260,33 +306,19 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               changeId: `${projectNumber}-${createdAt}`,
               id: rowId,
               _sortDate: effectiveDate,
-              program: 'CBC',
+              program,
             };
 
-            const json = {
-              ...record?.json_data,
-              project_number: record?.project_number,
-            };
-            const prevJson = {
-              ...oldRecord?.json_data,
-              project_number: oldRecord?.project_number,
-            };
+            const json = getRecordJson(record, program)
+            const prevJson = getRecordJson(oldRecord, program);
+
+            const { schema, excludedKeys, overrideParent } = historyDiffParams[program];
 
             const diffRows = generateRawDiff(
               diff(prevJson, json, { keepUnchangedValues: true }),
-              cbcData,
-              [
-                'id',
-                'created_at',
-                'updated_at',
-                'change_reason',
-                'cbc_data_id',
-                'locations',
-                'errorLog',
-                'error_log',
-                'projectNumber',
-              ],
-              'cbcData'
+              schema,
+              excludedKeys,
+              overrideParent
             );
 
             const meta = {
@@ -345,67 +377,30 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 ),
               ],
             };
-          }) || []
+          };
+
+    const cbcEntries =
+      allCbcs.nodes?.flatMap(
+        ({ projectNumber, rowId, history }) =>
+          history.nodes.map((item) =>
+            transformHistoryData(item, projectNumber, rowId, Program.CBC)
+          ) || []
       ) || [];
 
-    const applicationEntries =
+    const ccbcEntries =
       allApplications.nodes?.flatMap(
-        ({ rowId, history }) =>
-          history.nodes.map((item) => {
-            const { record, oldRecord, createdAt, op } = item;
-            const effectiveDate =
-              op === 'UPDATE'
-                ? new Date(record?.updated_at)
-                : new Date(createdAt);
-
-            const base = {
-              changeId: `${rowId}-${createdAt}`,
-              id: rowId,
-              _sortDate: effectiveDate,
-              program: 'CCBC',
-            };
-
-            const json = record?.json_data || {};
-            const prevJson = oldRecord?.json_data || {};
-
-            const diffRows = generateRawDiff(
-              diff(prevJson, json, { keepUnchangedValues: true }),
-              cbcData,
-              [
-                'id',
-                'created_at',
-                'updated_at',
-                'change_reason',
-                'cbc_data_id',
-                'locations',
-                'errorLog',
-                'error_log',
-                'projectNumber',
-              ],
-              'cbcData'
-            );
-
-            const meta = {
-              createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
-                DateTime.DATETIME_MED
-              ),
-              createdBy: formatUser(item),
-            };
-
-            return diffRows.map((row) => ({
-              ...base,
-              rowId,
-              isVisibleRow: true, // For visual use only
-              createdAt: meta.createdAt,
-              createdBy: meta.createdBy,
-              field: row.field,
-              newValue: row.newValue,
-              oldValue: row.oldValue,
-            }));
-          }) || []
+        ({ ccbcNumber, rowId, history, ccbcUserByCreatedBy }) =>
+          history.nodes.map((historyItem) => {
+            const item = {
+              ...historyItem,
+              ccbcUserByCreatedBy
+            }
+              return transformHistoryData(item, ccbcNumber, rowId, Program.CCBC);
+          }
+          ) || []
       ) || [];
 
-    return [...cbcEntries, ...applicationEntries]
+    return [...Array.from(ccbcEntries)]
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
       .flatMap((entry, i) =>
         entry.group.map((row) => ({
@@ -490,7 +485,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         Cell: MergedCell,
       },
     ];
-  }, [allCbcs]);
+  }, [allCbcs, allApplications]);
 
   const columnSizing: MRT_ColumnSizingState = {
     rowId: 50,
