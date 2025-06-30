@@ -12,6 +12,13 @@ import notifyApplicationSubmission from './templates/notifyApplicationSubmission
 import notifyFailedReadOfTemplateData from './templates/notifyFailedReadOfTemplateData';
 import notifySowUpload from './templates/notifySowUpload';
 import notifyDocumentUpload from './templates/notifyDocumentUpload';
+import calculateDelayTs from './utils/delayCalculator';
+import {
+  getDelayedAndNonCancelledEmailRecord,
+  setIsCancelledEmailRecord,
+} from './utils/emailRecord';
+import getAccessToken from '../ches/getAccessToken';
+import { cancelDelayedMessageByMsgId } from '../ches/cancelDelayedMessage';
 
 const email = Router();
 
@@ -22,11 +29,86 @@ const limiter = RateLimit({
 
 email.post('/api/email/notifyAgreementSigned', limiter, (req, res) => {
   const { ccbcNumber } = req.body;
-  return handleEmailNotification(req, res, agreementSignedStatusChange, {
-    ccbcNumber,
-  });
+  const delay = calculateDelayTs(
+    new Date(),
+    48 // Delay in hours
+  );
+  return handleEmailNotification(
+    req,
+    res,
+    agreementSignedStatusChange,
+    {
+      ccbcNumber,
+    },
+    false,
+    delay
+  );
 });
 
+email.post(
+  '/api/email/notifyAgreementSignedCancel',
+  limiter,
+  async (req, res) => {
+    try {
+      const { applicationId } = req.body;
+      if (!applicationId) {
+        return res
+          .status(400)
+          .json({ error: 'applicationId is required' })
+          .end();
+      }
+      const applicationIdNumber = parseInt(applicationId, 10);
+      if (Number.isNaN(applicationIdNumber)) {
+        return res
+          .status(400)
+          .json({ error: 'applicationId must be a valid number' })
+          .end();
+      }
+      const recordsToCancel = await getDelayedAndNonCancelledEmailRecord(
+        applicationIdNumber,
+        'agreement-signed-status-change',
+        req
+      );
+      if (
+        !recordsToCancel ||
+        !recordsToCancel.data ||
+        !recordsToCancel.data.allEmailRecords ||
+        recordsToCancel.data.allEmailRecords.edges.length === 0
+      ) {
+        return res.status(200).json({ message: 'No records to cancel' }).end();
+      }
+      // there are records to cancel
+      // get a ches token
+      const token = await getAccessToken();
+      // cancel the records and record the cancellation
+      await Promise.all(
+        recordsToCancel.data.allEmailRecords.edges.map(async (record) => {
+          const chesCancelResult = await cancelDelayedMessageByMsgId(
+            token,
+            record.node.messageId
+          );
+          if (
+            chesCancelResult.status === 'conflict' ||
+            chesCancelResult.status === 'accepted'
+          ) {
+            // now record the cancellation in the database
+            await setIsCancelledEmailRecord(
+              record.node.rowId,
+              record.node.jsonData,
+              req
+            );
+          }
+        })
+      );
+    } catch (error: any) {
+      // eslint-disable-next-line no-console
+      console.error('Error cancelling email records:', error);
+      return res.status(500).json({ error: 'Internal server error' }).end();
+    }
+    // if we reach here, all records have been cancelled
+    return res.status(200).json({ message: 'Email records cancelled' }).end();
+  }
+);
 email.post('/api/email/notifyAgreementSignedDataTeam', limiter, (req, res) => {
   const { ccbcNumber } = req.body;
   handleEmailNotification(req, res, agreementSignedStatusChangeDataTeam, {

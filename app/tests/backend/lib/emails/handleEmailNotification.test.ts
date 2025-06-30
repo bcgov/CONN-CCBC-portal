@@ -107,7 +107,11 @@ describe('The Email', () => {
       'Mock Subject',
       ['test@mail.com'],
       'test-tag',
-      ['test@mail.com']
+      ['test@mail.com'],
+      [],
+      0,
+      expect.anything(),
+      '1'
     );
   });
 

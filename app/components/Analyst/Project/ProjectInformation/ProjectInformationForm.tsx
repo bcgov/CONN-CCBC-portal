@@ -226,6 +226,24 @@ const ProjectInformationForm: React.FC<Props> = ({
     setIsSubmitAttempted(false);
   };
 
+  const cancelNotifyAgreementSignedEmail = () => {
+    fetch('/api/email/notifyAgreementSignedCancel', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        applicationId: rowId,
+      }),
+    }).then((response) => {
+      if (!response.ok) {
+        Sentry.captureException({
+          name: 'Error cancelling agreement signed email',
+          message: response,
+        });
+      }
+      return response.json();
+    });
+  };
+
   const notifySowUpload = (params = {}) => {
     fetch('/api/email/notifySowUpload', {
       method: 'POST',
@@ -403,7 +421,10 @@ const ProjectInformationForm: React.FC<Props> = ({
               handleResetFormData(!formData?.hasFundingAgreementBeenSigned);
               setHasFormSaved(true);
               if (isSowUploaded && response?.status === 200) {
-                if (!latestAmendment) notifySowUpload();
+                if (!latestAmendment) {
+                  notifySowUpload();
+                  cancelNotifyAgreementSignedEmail();
+                }
                 setShowToast(true);
                 if (!fnhaFunding) fnhaInfoModal.open();
               }
