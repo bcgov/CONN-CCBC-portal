@@ -322,3 +322,81 @@ BEGIN
     RETURN fake_title;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Function to anonymize filenames in arrays under specific keys
+CREATE OR REPLACE FUNCTION ccbc_public.anonymize_filenames(
+  input_jsonb jsonb
+) RETURNS jsonb AS $$
+DECLARE
+  result_jsonb jsonb := input_jsonb;
+  key_name text;
+  array_name text;
+  array_element jsonb;
+  new_array jsonb;
+  index int;
+BEGIN
+  -- Process only the specified top-level keys
+  FOREACH key_name IN ARRAY ARRAY['coverage', 'templateUploads', 'supportingDocuments'] LOOP
+    IF input_jsonb ? key_name THEN
+      -- Case 1: Key contains an array of objects
+      IF jsonb_typeof(input_jsonb->key_name) = 'array' THEN
+        new_array := '[]'::jsonb;
+        FOR index, array_element IN
+          SELECT idx, elem
+          FROM jsonb_array_elements(input_jsonb->key_name) WITH ORDINALITY AS t(elem, idx)
+        LOOP
+          -- Update the name field to key_name-(index+1) if it exists
+          IF array_element ? 'name' THEN
+            new_array := new_array || jsonb_set(
+              array_element,
+              ARRAY['name'],
+              to_jsonb(key_name || '-' || (index)::text)
+            );
+          ELSE
+            new_array := new_array || array_element;
+          END IF;
+        END LOOP;
+        result_jsonb := jsonb_set(
+          result_jsonb,
+          ARRAY[key_name],
+          new_array
+        );
+      -- Case 2: Key contains an object with arrays
+      ELSIF jsonb_typeof(input_jsonb->key_name) = 'object' THEN
+        new_array := input_jsonb->key_name;
+        -- Iterate over keys in the nested object
+        FOR array_name IN SELECT jsonb_object_keys(input_jsonb->key_name) LOOP
+          IF jsonb_typeof(input_jsonb->key_name->array_name) = 'array' THEN
+            new_array := '[]'::jsonb;
+            FOR index, array_element IN
+              SELECT idx, elem
+              FROM jsonb_array_elements(input_jsonb->key_name->array_name) WITH ORDINALITY AS t(elem, idx)
+            LOOP
+              IF array_element ? 'name' THEN
+                new_array := new_array || jsonb_set(
+                  array_element,
+                  ARRAY['name'],
+                  to_jsonb(array_name || '-' || (index)::text)
+                );
+              ELSE
+                new_array := new_array || array_element;
+              END IF;
+            END LOOP;
+            new_array := jsonb_set(
+              input_jsonb->key_name,
+              ARRAY[array_name],
+              new_array
+            );
+          END IF;
+        END LOOP;
+        result_jsonb := jsonb_set(
+          result_jsonb,
+          ARRAY[key_name],
+          new_array
+        );
+      END IF;
+    END IF;
+  END LOOP;
+  RETURN result_jsonb;
+END;
+$$ LANGUAGE plpgsql;
