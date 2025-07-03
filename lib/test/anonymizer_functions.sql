@@ -323,21 +323,22 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function to anonymize filenames in arrays under specific keys
+-- Function to anonymize filenames in arrays under specific keys, preserving other keys
 CREATE OR REPLACE FUNCTION ccbc_public.anonymize_filenames(
   input_jsonb jsonb
 ) RETURNS jsonb AS $$
 DECLARE
-  result_jsonb jsonb := input_jsonb;
+  result_jsonb jsonb := '{}'::jsonb;
   key_name text;
   array_name text;
   array_element jsonb;
   new_array jsonb;
+  nested_object jsonb;
   index int;
 BEGIN
-  -- Process only the specified top-level keys
-  FOREACH key_name IN ARRAY ARRAY['coverage', 'templateUploads', 'supportingDocuments'] LOOP
-    IF input_jsonb ? key_name THEN
+  -- Copy all keys, processing only target keys
+  FOR key_name IN SELECT jsonb_object_keys(input_jsonb) LOOP
+    IF key_name IN ('coverage', 'templateUploads', 'supportingDocuments') THEN
       -- Case 1: Key contains an array of objects
       IF jsonb_typeof(input_jsonb->key_name) = 'array' THEN
         new_array := '[]'::jsonb;
@@ -345,7 +346,6 @@ BEGIN
           SELECT idx, elem
           FROM jsonb_array_elements(input_jsonb->key_name) WITH ORDINALITY AS t(elem, idx)
         LOOP
-          -- Update the name field to key_name-(index+1) if it exists
           IF array_element ? 'name' THEN
             new_array := new_array || jsonb_set(
               array_element,
@@ -363,7 +363,7 @@ BEGIN
         );
       -- Case 2: Key contains an object with arrays
       ELSIF jsonb_typeof(input_jsonb->key_name) = 'object' THEN
-        new_array := input_jsonb->key_name;
+        nested_object := '{}'::jsonb;
         -- Iterate over keys in the nested object
         FOR array_name IN SELECT jsonb_object_keys(input_jsonb->key_name) LOOP
           IF jsonb_typeof(input_jsonb->key_name->array_name) = 'array' THEN
@@ -382,19 +382,40 @@ BEGIN
                 new_array := new_array || array_element;
               END IF;
             END LOOP;
-            new_array := jsonb_set(
-              input_jsonb->key_name,
+            nested_object := jsonb_set(
+              nested_object,
               ARRAY[array_name],
               new_array
+            );
+          ELSE
+            -- Copy non-array keys unchanged
+            nested_object := jsonb_set(
+              nested_object,
+              ARRAY[array_name],
+              input_jsonb->key_name->array_name
             );
           END IF;
         END LOOP;
         result_jsonb := jsonb_set(
           result_jsonb,
           ARRAY[key_name],
-          new_array
+          nested_object
+        );
+      ELSE
+        -- Copy non-array/object target keys unchanged
+        result_jsonb := jsonb_set(
+          result_jsonb,
+          ARRAY[key_name],
+          input_jsonb->key_name
         );
       END IF;
+    ELSE
+      -- Copy non-target keys unchanged
+      result_jsonb := jsonb_set(
+        result_jsonb,
+        ARRAY[key_name],
+        input_jsonb->key_name
+      );
     END IF;
   END LOOP;
   RETURN result_jsonb;
