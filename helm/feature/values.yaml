@@ -96,6 +96,8 @@ db:
     psql -f test/anonymize_application_sow_data_history.sql;
     psql -f test/anonymize_cbc_data.sql;
     psql -f test/anonymize_cbc_data_history.sql;
+    psql -f test/anonymize_form_data_attachments.sql;
+    psql -f test/anonymize_form_data_attachments_history.sql;
 
   # A bash script to run after the migrations are deployed, in a psql container
   # The script will be run by the postgres user, allowing to deploy test data, bypassing RLS
