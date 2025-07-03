@@ -690,6 +690,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       .map(toLabelValuePair)
       .toSorted((a, b) => Number(a.value) - Number(b.value));
 
+    const sortedZones = (zones?: number[] | null) =>
+      Array.isArray(zones)
+        ? [...zones].sort((a, b) => a - b).join(', ')
+        : zones;
+
     return [
       {
         accessorKey: 'intakeNumber',
@@ -705,7 +710,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       {
         accessorKey: 'zones',
         header: 'Zone',
-        Cell: ({ cell }) => (cell.getValue() as number[]).join(', ') ?? [],
+        Cell: ({ cell }) => sortedZones(cell.getValue() as number[]),
         filterVariant: 'multi-select',
         filterSelectOptions: uniqueZones,
         filterFn: filterMultiSelectZones,
