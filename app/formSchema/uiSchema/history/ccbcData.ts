@@ -1,7 +1,10 @@
-// TODO(olek): UPDATE this schema with relevant fields
+import applicationDiffSchema from 'formSchema/uiSchema/history/application';
+
 const ccbcData = {
   ccbcData: {
-    properties: {}
+    properties: {
+      ...applicationDiffSchema,
+    }
     }
 };
 

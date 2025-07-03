@@ -400,7 +400,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           ) || []
       ) || [];
 
-    return [...Array.from(ccbcEntries)]
+    return [...Array.from(cbcEntries), ...Array.from(ccbcEntries)]
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
       .flatMap((entry, i) =>
         entry.group.map((row) => ({
@@ -408,7 +408,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           isEvenGroup: i % 2 === 0,
         }))
       );
-  }, [allCbcs, allApplications]);
+  }, [allApplications.nodes, allCbcs.nodes]);
 
   const columns = useMemo<MRT_ColumnDef<any>[]>(() => {
     return [
