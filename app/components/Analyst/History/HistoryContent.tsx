@@ -22,6 +22,7 @@ import HistoryAttachment from './HistoryAttachment';
 import HistoryFile from './HistoryFile';
 import CommunitiesHistoryTable from './CommunitiesHistoryTable';
 import HistoryRfiFile from './HistoryRfiFile';
+import { historyDetailsExcludedkeys } from 'app/components/Analyst/History/constants';
 
 const StyledContent = styled.span`
   display: flex;
@@ -167,39 +168,7 @@ const HistoryContent = ({
             <HistoryDetails
               json={record?.json_data || {}}
               prevJson={prevHistoryItem?.record?.json_data || {}}
-              excludedKeys={[
-                'id',
-                'createdAt',
-                'updatedAt',
-                'applicationId',
-                'name',
-                'size',
-                'type',
-                'rfiEmailCorrespondance',
-                'fileDate',
-                'uploadedAt',
-                'eligibilityAndImpactsCalculator',
-                'detailedBudget',
-                'financialForecast',
-                'lastMileIspOffering',
-                'popWholesalePricing',
-                'communityRuralDevelopmentBenefitsTemplate',
-                'wirelessAddendum',
-                'supportingConnectivityEvidence',
-                'geographicNames',
-                'equipmentDetails',
-                'copiesOfRegistration',
-                'preparedFinancialStatements',
-                'logicalNetworkDiagram',
-                'projectSchedule',
-                'communityRuralDevelopmentBenefits',
-                'otherSupportingMaterials',
-                'geographicCoverageMap',
-                'coverageAssessmentStatistics',
-                'currentNetworkInfastructure',
-                'upgradedNetworkInfrastructure',
-                'uuid',
-              ]}
+              excludedKeys={historyDetailsExcludedkeys}
               diffSchema={rfiDiffSchema}
               overrideParent="rfi"
             />

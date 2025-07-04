@@ -26,6 +26,7 @@ import { DateTime } from 'luxon';
 import ClearFilters from 'components/Table/ClearFilters';
 import { useFeature } from '@growthbook/growthbook-react';
 import AdditionalFilters, { additionalFilterColumns } from './AdditionalFilters';
+import { historyDetailsExcludedkeys } from 'app/components/Analyst/History/constants';
 
 interface Props {
   query: any;
@@ -281,6 +282,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           'created_at',
           'updated_at',
           'reason_for_change',
+          ...historyDetailsExcludedkeys,
         ],
         overrideParent: 'ccbcData'
       }
@@ -400,7 +402,11 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           ) || []
       ) || [];
 
-    const result = [...Array.from(cbcEntries), ...Array.from(ccbcEntries)]
+    console.log("APPS_CCBC", ccbcEntries);
+    console.log("APPS", ccbcEntries.length);
+    console.log("CBC", cbcEntries.length);
+
+    const result = [...Array.from(ccbcEntries)]
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
       .flatMap((entry, i) =>
         entry.group.map((row) => ({
@@ -409,7 +415,15 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         }))
       );
     console.log("RESULT", result) // total of 57k
-    return result;
+
+    return [...Array.from(cbcEntries)]
+      .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
+      .flatMap((entry, i) =>
+        entry.group.map((row) => ({
+          ...row,
+          isEvenGroup: i % 2 === 0,
+        }))
+      );
   }, [allApplications.nodes, allCbcs.nodes]);
 
   const columns = useMemo<MRT_ColumnDef<any>[]>(() => {
@@ -452,8 +466,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               'finalizedMapUpload',
               'sowWirelessUpload',
               'otherFiles',
-              'rfiEmailCorrespondance',
-              "",
+              // "",
             ].includes(field) &&
             (typeof oldValue === 'object')
           )
