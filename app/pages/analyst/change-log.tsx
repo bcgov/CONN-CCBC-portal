@@ -8,14 +8,24 @@ import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { Layout } from 'components';
 import ProjectChangeLog from 'components/AnalystDashboard/ProjectChangeLog';
 import { changeLogQuery } from '__generated__/changeLogQuery.graphql';
+import { ProjectChangeLog_cbcs$key } from '__generated__/ProjectChangeLog_cbcs.graphql';
+import { ProjectChangeLog_applications$key } from '__generated__/ProjectChangeLog_applications.graphql';
+
 
 const getChangeLogQuery = graphql`
-  query changeLogQuery {
+  query changeLogQuery (
+    $cbcCount: Int!
+    $cbcCursor: Cursor
+    $appCount: Int!
+    $appCursor: Cursor
+  ) {
     session {
       sub
+      authRole
       ...DashboardTabs_query
     }
-    ...ProjectChangeLog_query
+    ...ProjectChangeLog_cbcs @arguments(count: $cbcCount, cursor: $cbcCursor)
+    ...ProjectChangeLog_applications @arguments(count: $appCount, cursor: $appCursor)
   }
 `;
 
@@ -42,7 +52,10 @@ const ChangeLog = ({
       <StyledDashboardContainer>
         <DashboardTabs session={session} />
         <TableTabs />
-        <ProjectChangeLog query={query} />
+        <ProjectChangeLog
+            cbcsQuery={query as ProjectChangeLog_cbcs$key}
+            appsQuery={query as ProjectChangeLog_applications$key}
+        />
       </StyledDashboardContainer>
     </Layout>
   );
@@ -54,6 +67,10 @@ export default withRelay(ChangeLog, getChangeLogQuery, {
     const variables = defaultRelayOptions.variablesFromContext(ctx);
     return {
       ...variables,
+      cbcCount: 10,
+      cbcCursor: null,
+      appCount: 10,
+      appCursor: null,
     };
   },
 });

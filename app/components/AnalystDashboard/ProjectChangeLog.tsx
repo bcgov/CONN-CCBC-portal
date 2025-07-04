@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-pascal-case */
 import { useMemo, useState } from 'react';
-import { graphql, useFragment } from 'react-relay';
+import { graphql, useFragment, usePaginationFragment } from 'react-relay';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   MaterialReactTable,
@@ -21,15 +21,16 @@ import getConfig from 'next/config';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
 import ccbcData from 'formSchema/uiSchema/history/ccbcData';
 import styled from 'styled-components';
-import { Box, Link, TableCellProps } from '@mui/material';
+import { Box, Button, Link, TableCellProps } from '@mui/material';
 import { DateTime } from 'luxon';
 import ClearFilters from 'components/Table/ClearFilters';
 import { useFeature } from '@growthbook/growthbook-react';
 import AdditionalFilters, { additionalFilterColumns } from './AdditionalFilters';
 
 interface Props {
-  query: any;
-}
+  cbcsQuery: ProjectChangeLog_cbcs$key;
+  appsQuery: ProjectChangeLog_applications$key;
+};
 
 const StyledTableHeader = styled.div`
   display: flex;
@@ -186,59 +187,90 @@ const CommunitiesCell = (
   );
 };
 
-const ProjectChangeLog: React.FC<Props> = ({ query }) => {
-  const queryFragment = useFragment<ProjectChangeLog_query$key>(
+const ProjectChangeLog: React.FC<Props> = ({ cbcsQuery, appsQuery }) => {
+
+  const cbcsFragment = usePaginationFragment(
     graphql`
-      fragment ProjectChangeLog_query on Query {
-        allCbcs {
-          nodes {
-            rowId
-            projectNumber
-            history {
-              nodes {
-                op
-                createdAt
-                createdBy
-                id
-                record
-                oldRecord
-                tableName
-                ccbcUserByCreatedBy {
-                  givenName
-                  familyName
+      fragment ProjectChangeLog_cbcs on Query
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "Cursor" }
+      )
+      @refetchable(queryName: "ProjectChangeLogCbcsPaginationQuery") {
+        allCbcs(first: $count, after: $cursor)
+          @connection(key: "ProjectChangeLog_cbcs_allCbcs") {
+          edges {
+            node {
+              rowId
+              projectNumber
+              history {
+                nodes {
+                  op
+                  createdAt
+                  createdBy
+                  id
+                  record
+                  oldRecord
+                  tableName
+                  ccbcUserByCreatedBy {
+                    givenName
+                    familyName
+                  }
                 }
               }
             }
           }
-        }
-        allApplications {
-          nodes {
-            rowId
-            ccbcNumber
-            history {
-              nodes {
-                op
-                createdAt
-                createdBy
-                record
-                oldRecord
-                tableName
-                recordId
-              }
-            }
-            ccbcUserByCreatedBy {
-              familyName
-              givenName
-            }
+          pageInfo {
+            endCursor
+            hasNextPage
           }
-        }
-        session {
-          authRole
         }
       }
     `,
-    query
+    cbcsQuery
   );
+
+  const appsFragment = usePaginationFragment(
+      graphql`
+        fragment ProjectChangeLog_applications on Query
+        @argumentDefinitions(
+          count: { type: "Int", defaultValue: 10 }
+          cursor: { type: "Cursor" }
+        )
+        @refetchable(queryName: "ProjectChangeLogApplicationsPaginationQuery") {
+          allApplications(first: $count, after: $cursor)
+            @connection(key: "ProjectChangeLog_applications_allApplications") {
+            edges {
+              node {
+                rowId
+                ccbcNumber
+                history {
+                  nodes {
+                    op
+                    createdAt
+                    createdBy
+                    record
+                    oldRecord
+                    tableName
+                    recordId
+                  }
+                }
+                ccbcUserByCreatedBy {
+                  familyName
+                  givenName
+                }
+              }
+            }
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+          }
+        }
+      `,
+      appsQuery
+    );
+
 
   const enableTimeMachine =
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
@@ -248,7 +280,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const defaultFilters = enableProjectTypeFilters?[{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }] : [{ id: 'program', value: ['CBC'] }];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
-  const { allCbcs, allApplications } = queryFragment;
+  // const { allCbcs, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
   const tableData = useMemo(() => {
@@ -379,16 +411,19 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             };
           };
 
+    console.log("BBCM", cbcsFragment)
+    console.log("AAAP", appsFragment)
+
     const cbcEntries =
-      allCbcs.nodes?.flatMap(
+      cbcsFragment.data?.allCbcs.edges?.map(e => e.node).flatMap(
         ({ projectNumber, rowId, history }) =>
           history.nodes.map((item) =>
             transformHistoryData(item, projectNumber, rowId, Program.CBC)
           ) || []
-      ) || [];
+      ) ?? [];
 
     const ccbcEntries =
-      allApplications.nodes?.flatMap(
+      appsFragment.data?.allApplications.edges?.map(e => e.node).flatMap(
         ({ ccbcNumber, rowId, history, ccbcUserByCreatedBy }) =>
           history.nodes.map((historyItem) => {
             const item = {
@@ -398,7 +433,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               return transformHistoryData(item, ccbcNumber, rowId, Program.CCBC);
           }
           ) || []
-      ) || [];
+      ) ?? [];
 
     const result = [...Array.from(cbcEntries), ...Array.from(ccbcEntries)]
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
@@ -410,7 +445,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       );
     console.log("RESULT", result) // total of 57k
     return result;
-  }, [allApplications.nodes, allCbcs.nodes]);
+  }, [appsFragment.data?.allApplications, cbcsFragment.data?.allCbcs]);
 
   const columns = useMemo<MRT_ColumnDef<any>[]>(() => {
     return [
@@ -514,7 +549,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       },
       ...additionalFilterColumns,
     ];
-  }, [allCbcs, allApplications]);
+  }, []);
 
   const columnSizing: MRT_ColumnSizingState = {
     rowId: 50,
@@ -572,8 +607,28 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         <AdditionalFilters
           filters={columnFilters}
           setFilters={setColumnFilters}
-          disabledFilters={enableProjectTypeFilters?[] : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]}
+          disabledFilters={
+            enableProjectTypeFilters
+              ? []
+              : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
+          }
         />
+        <Box display="flex" gap={2} mt={2}>
+          <Button
+            variant="outlined"
+            onClick={() => cbcsFragment.loadNext(10)}
+            disabled={!cbcsFragment.hasNext || cbcsFragment.isLoadingNext}
+          >
+            {cbcsFragment.isLoadingNext ? 'Loading CBCs...' : 'Load CBCs'}
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => appsFragment.loadNext(10)}
+            disabled={!appsFragment.hasNext || appsFragment.isLoadingNext}
+          >
+            {appsFragment.isLoadingNext ? 'Loading CCBCs...' : 'Load CCBCs'}
+          </Button>
+        </Box>
       </StyledTableHeader>
     ),
   });
