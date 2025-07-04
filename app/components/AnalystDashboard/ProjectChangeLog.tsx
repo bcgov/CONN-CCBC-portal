@@ -25,7 +25,7 @@ import { Box, Link, TableCellProps } from '@mui/material';
 import { DateTime } from 'luxon';
 import ClearFilters from 'components/Table/ClearFilters';
 import { useFeature } from '@growthbook/growthbook-react';
-import AdditionalFilters from './AdditionalFilters';
+import AdditionalFilters, { additionalFilterColumns } from './AdditionalFilters';
 
 interface Props {
   query: any;
@@ -400,7 +400,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           ) || []
       ) || [];
 
-    return [...Array.from(cbcEntries), ...Array.from(ccbcEntries)]
+    const result = [...Array.from(cbcEntries), ...Array.from(ccbcEntries)]
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
       .flatMap((entry, i) =>
         entry.group.map((row) => ({
@@ -408,6 +408,8 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           isEvenGroup: i % 2 === 0,
         }))
       );
+    console.log("RESULT", result) // total of 57k
+    return result;
   }, [allApplications.nodes, allCbcs.nodes]);
 
   const columns = useMemo<MRT_ColumnDef<any>[]>(() => {
@@ -444,6 +446,19 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             );
           }
 
+          if (
+            ['statementOfWorkUpload',
+              'fundingAgreementUpload',
+              'finalizedMapUpload',
+              'sowWirelessUpload',
+              'otherFiles',
+              'rfiEmailCorrespondance',
+              "",
+            ].includes(field) &&
+            (typeof oldValue === 'object')
+          )
+            return JSON.stringify(oldValue);
+
           return oldValue;
         },
         filterFn: filterVariant,
@@ -468,6 +483,19 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             );
           }
 
+          if (
+            ['statementOfWorkUpload',
+              'fundingAgreementUpload',
+              'finalizedMapUpload',
+              'sowWirelessUpload',
+              'otherFiles',
+              'rfiEmailCorrespondance',
+              "",
+            ].includes(field) &&
+            (typeof newValue === 'object')
+          )
+            return JSON.stringify(newValue);
+
           return newValue;
         },
         filterFn: filterVariant,
@@ -484,6 +512,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         filterFn: filterVariant,
         Cell: MergedCell,
       },
+      ...additionalFilterColumns,
     ];
   }, [allCbcs, allApplications]);
 
