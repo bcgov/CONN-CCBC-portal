@@ -27,23 +27,22 @@ const HighlightFilterMatch = ({ text, filterValue }) => {
 
   if (!filterValue) return safeText;
 
-  const normalizedFilterValue = filterValue.replace(/\s+/g, '').toLowerCase();
-  const normalizedText = safeText.replace(/\s+/g, '').toLowerCase();
+  const pattern = filterValue.trim().replace(/\s+/g, '\\s*');
+  const regex = new RegExp(pattern, 'i');
 
-  const matchIndex = normalizedText.indexOf(normalizedFilterValue);
+  const match = safeText.match(regex);
 
-  if (matchIndex === -1) {
+  if (!match || match.index === undefined) {
     return safeText;
   }
-
-  const beforeMatch = safeText.slice(0, matchIndex);
-  const match = safeText.slice(matchIndex, matchIndex + filterValue.length);
-  const afterMatch = safeText.slice(matchIndex + filterValue.length);
+  const matchText = match[0];
+  const beforeMatch = safeText.slice(0, match.index);
+  const afterMatch = safeText.slice(match.index + matchText.length);
 
   return (
     <>
       {beforeMatch}
-      <StyledHighlightSpan>{match}</StyledHighlightSpan>
+      <StyledHighlightSpan>{matchText}</StyledHighlightSpan>
       {afterMatch}
     </>
   );
