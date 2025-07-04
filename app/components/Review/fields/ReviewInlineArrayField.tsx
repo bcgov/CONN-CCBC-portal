@@ -6,6 +6,7 @@ const ReviewInlineArrayField: React.FC<FieldProps> = ({
   idSchema,
   formData,
   schema,
+  uiSchema,
   formContext,
 }) => {
   const id = idSchema.$id;
@@ -14,6 +15,11 @@ const ReviewInlineArrayField: React.FC<FieldProps> = ({
   const formErrorSchema = formContext?.errors ?? formContext.formErrorSchema;
   const hasError =
     formErrorSchema?.[pageName]?.[fieldName]?.__errors?.length > 0;
+  const sortArray =
+    (uiSchema?.['ui:options']?.sort as JSX.Element) && Array.isArray(formData);
+  const sortedArray = sortArray
+    ? [...formData].sort((a, b) => a - b)
+    : formData;
   return (
     <tr>
       <StyledColLeft id={id}>{schema.title}</StyledColLeft>
@@ -23,11 +29,11 @@ const ReviewInlineArrayField: React.FC<FieldProps> = ({
       >
         {hasError
           ? null
-          : formData?.map((el, index) => (
+          : sortedArray?.map((el, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <React.Fragment key={`${id}_${index}`}>
                 {el.toString()}
-                {index < formData.length - 1 && (
+                {index < sortedArray.length - 1 && (
                   <>
                     ,<br />
                   </>
