@@ -212,10 +212,11 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allApplications(first: 10) {
+        allApplications(first:10, filter:{program:{equalTo:"OTHER"}}) {
           nodes {
             rowId
             ccbcNumber
+            program
             history {
               nodes {
                 op
@@ -258,35 +259,6 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       CBC: 'CBC',
       CCBC: 'CCBC'
     };
-
-    const historyDiffParams = {
-      [Program.CBC]: {
-        schema: cbcData,
-        excludedKeys: [
-          'id',
-          'created_at',
-          'updated_at',
-          'change_reason',
-          'cbc_data_id',
-          'locations',
-          'errorLog',
-          'error_log',
-          'projectNumber',
-        ],
-        overrideParent: 'cbcData'
-      },
-      [Program.CCBC]: {
-        schema: ccbcData,
-        excludedKeys: [
-          'id',
-          'created_at',
-          'updated_at',
-          'reason_for_change',
-          ...historyDetailsExcludedkeys,
-        ],
-        overrideParent: 'ccbcData'
-      }
-    }
 
     const getRecordJson = (record, program) => {
       return {
@@ -390,15 +362,17 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           ) || []
       ) || [];
 
+    console.log("APPS", allApplications.nodes);
+
     const ccbcEntries =
       allApplications.nodes?.flatMap(
-        ({ ccbcNumber, rowId, history, ccbcUserByCreatedBy }) =>
+        ({ ccbcNumber, rowId, history, ccbcUserByCreatedBy, program }) =>
           history.nodes.map((historyItem) => {
             const item = {
               ...historyItem,
               ccbcUserByCreatedBy
             }
-              return transformHistoryData(item, ccbcNumber, rowId, Program.CCBC);
+              return transformHistoryData(item, ccbcNumber, rowId, program);
           }
           ) || []
       ).filter(
@@ -579,7 +553,10 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         <AdditionalFilters
           filters={columnFilters}
           setFilters={setColumnFilters}
-          disabledFilters={enableProjectTypeFilters?[] : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]}
+          disabledFilters={
+            enableProjectTypeFilters ?
+              [] : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
+          }
         />
       </StyledTableHeader>
     ),
