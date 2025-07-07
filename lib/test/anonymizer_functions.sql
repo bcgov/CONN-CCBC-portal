@@ -421,3 +421,113 @@ BEGIN
   RETURN result_jsonb;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Function to hash a string and map to a decimal value
+CREATE OR REPLACE FUNCTION ccbc_public.hash_string(
+  input_text text
+) RETURNS numeric AS $$
+DECLARE
+  hash_value numeric;
+BEGIN
+  IF input_text IS NULL THEN
+    RETURN ROUND(0.1 * 12345.67, 2); -- Default value if input is NULL
+  END IF;
+  -- Use md5, take first 8 characters, convert hex to int, modulo 5, map to 0.1 to 0.5, multiply by 12345.67, round to 2 decimals
+  SELECT ROUND((
+    CASE (('x' || substring(md5(input_text) FROM 1 FOR 8))::bit(32)::int % 5)
+      WHEN 0 THEN 0.1
+      WHEN 1 THEN 0.2
+      WHEN 2 THEN 0.3
+      WHEN 3 THEN 0.4
+      WHEN 4 THEN 0.5
+    END
+  ) * 12345.67, 2) INTO hash_value;
+  RETURN hash_value;
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
+-- Generic function to anonymize numeric fields by adding a hash-derived value
+CREATE OR REPLACE FUNCTION ccbc_public.anonymize_numeric_fields(
+  input_jsonb jsonb,
+  target_fields text[]
+) RETURNS jsonb AS $$
+DECLARE
+  result_jsonb jsonb := input_jsonb;
+  hash_value numeric;
+  field_path text;
+  array_path text[];
+  field_name text;
+  array_element jsonb;
+  new_array jsonb;
+  index int;
+BEGIN
+  -- Return input unchanged if NULL or missing projectInformation/projectTitle
+  IF input_jsonb IS NULL OR NOT (input_jsonb ? 'projectInformation') OR NOT (input_jsonb->'projectInformation' ? 'projectTitle') THEN
+    RETURN input_jsonb;
+  END IF;
+
+  -- Get hash value from projectTitle
+  hash_value := ccbc_public.hash_string(input_jsonb->'projectInformation'->>'projectTitle');
+
+  -- Process each target field path
+  FOREACH field_path IN ARRAY target_fields LOOP
+    -- Split path into components
+    array_path := string_to_array(field_path, ',');
+    field_name := array_path[array_length(array_path, 1)];
+
+    -- Case 1: Field is in an array (otherFundingSources->otherFundingSourcesArray->field)
+    IF array_path[1] = 'otherFundingSources' AND array_path[2] = 'otherFundingSourcesArray' THEN
+      IF input_jsonb ? 'otherFundingSources' AND input_jsonb->'otherFundingSources' ? 'otherFundingSourcesArray' AND input_jsonb->'otherFundingSources'->>'otherFundingSources' = 'true' THEN
+        new_array := '[]'::jsonb;
+        FOR index, array_element IN
+          SELECT idx, elem
+          FROM jsonb_array_elements(input_jsonb->'otherFundingSources'->'otherFundingSourcesArray') WITH ORDINALITY AS t(elem, idx)
+        LOOP
+          IF array_element ? field_name AND jsonb_typeof(array_element->field_name) = 'number' THEN
+            new_array := new_array || jsonb_set(
+              array_element,
+              ARRAY[field_name],
+              to_jsonb((array_element->>field_name)::numeric + hash_value),
+              false
+            );
+          ELSE
+            new_array := new_array || array_element;
+          END IF;
+        END LOOP;
+        result_jsonb := jsonb_set(
+          result_jsonb,
+          ARRAY['otherFundingSources', 'otherFundingSourcesArray'],
+          new_array,
+          false
+        );
+      END IF;
+    -- Case 2: Field is a direct numeric field
+    ELSE
+      IF array_path[1] = 'otherFundingSources' AND input_jsonb ? 'otherFundingSources' AND input_jsonb->'otherFundingSources' ? field_name AND jsonb_typeof(input_jsonb->'otherFundingSources'->field_name) = 'number' THEN
+        result_jsonb := jsonb_set(
+          result_jsonb,
+          ARRAY['otherFundingSources', field_name],
+          to_jsonb((input_jsonb->'otherFundingSources'->>field_name)::numeric + hash_value),
+          false
+        );
+      ELSIF array_path[1] = 'projectFunding' AND input_jsonb ? 'projectFunding' AND input_jsonb->'projectFunding' ? field_name AND jsonb_typeof(input_jsonb->'projectFunding'->field_name) = 'number' THEN
+        result_jsonb := jsonb_set(
+          result_jsonb,
+          ARRAY['projectFunding', field_name],
+          to_jsonb((input_jsonb->'projectFunding'->>field_name)::numeric + hash_value),
+          false
+        );
+      ELSIF array_path[1] = 'budgetDetails' AND input_jsonb ? 'budgetDetails' AND input_jsonb->'budgetDetails' ? field_name AND jsonb_typeof(input_jsonb->'budgetDetails'->field_name) = 'number' THEN
+        result_jsonb := jsonb_set(
+          result_jsonb,
+          ARRAY['budgetDetails', field_name],
+          to_jsonb((input_jsonb->'budgetDetails'->>field_name)::numeric + hash_value),
+          false
+        );
+      END IF;
+    END IF;
+  END LOOP;
+
+  RETURN result_jsonb;
+END;
+$$ LANGUAGE plpgsql;
