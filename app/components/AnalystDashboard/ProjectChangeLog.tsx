@@ -19,7 +19,7 @@ import { diff } from 'json-diff';
 import { generateRawDiff } from 'components/DiffTable';
 import getConfig from 'next/config';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
-import ccbcData from 'formSchema/uiSchema/history/ccbcData';
+import ccbcData, { ccbcSch } from 'formSchema/uiSchema/history/ccbcData';
 import styled from 'styled-components';
 import { Box, Link, TableCellProps } from '@mui/material';
 import { DateTime } from 'luxon';
@@ -212,7 +212,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allApplications {
+        allApplications(first: 10) {
           nodes {
             rowId
             ccbcNumber
@@ -314,11 +314,12 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             const json = getRecordJson(record, program)
             const prevJson = getRecordJson(oldRecord, program);
 
-            const { schema, excludedKeys, overrideParent } = historyDiffParams[program];
+            // const { schema, excludedKeys, overrideParent } = historyDiffParams[program];
+            const { diffSchema = null, excludedKeys = [], overrideParent = false } = ccbcSch[item.tableName] || {};
 
             const diffRows = generateRawDiff(
               diff(prevJson, json, { keepUnchangedValues: true }),
-              schema,
+              diffSchema,
               excludedKeys,
               overrideParent
             );
@@ -400,13 +401,13 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               return transformHistoryData(item, ccbcNumber, rowId, Program.CCBC);
           }
           ) || []
+      ).filter(
+        (item) => item.group.length > 0
       ) || [];
 
-    console.log("APPS_CCBC", ccbcEntries);
-    console.log("APPS", ccbcEntries.length);
-    console.log("CBC", cbcEntries.length);
+    console.log("CCBC Entries", ccbcEntries);
 
-    const result = [...Array.from(ccbcEntries)]
+    const result = [...Array.from(cbcEntries), ...Array.from(ccbcEntries)]
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
       .flatMap((entry, i) =>
         entry.group.map((row) => ({
@@ -414,16 +415,9 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           isEvenGroup: i % 2 === 0,
         }))
       );
-    console.log("RESULT", result) // total of 57k
+    console.log("FINAL OUTPUT TO THE TABLE", result) // last total is 27k
 
-    return [...Array.from(cbcEntries)]
-      .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
-      .flatMap((entry, i) =>
-        entry.group.map((row) => ({
-          ...row,
-          isEvenGroup: i % 2 === 0,
-        }))
-      );
+    return result;
   }, [allApplications.nodes, allCbcs.nodes]);
 
   const columns = useMemo<MRT_ColumnDef<any>[]>(() => {
