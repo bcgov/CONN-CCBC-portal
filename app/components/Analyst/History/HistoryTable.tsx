@@ -173,13 +173,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
       />
       <StyledTable cellSpacing="0" cellPadding="0">
         <tbody>
-          {filteredHistory?.filter(
-            (historyItem) =>
-                !(
-                  historyItem.tableName === 'application_dependencies' &&
-                  historyItem.user === 'The applicant'
-                )
-          ).map((historyItem, index, array) => {
+          {filteredHistory?.map((historyItem, index, array) => {
             const { recordId } = historyItem;
             const a = array.slice(index + 1);
             let prevItems;
