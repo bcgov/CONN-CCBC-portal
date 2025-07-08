@@ -429,19 +429,25 @@ CREATE OR REPLACE FUNCTION ccbc_public.hash_string(
 DECLARE
   hash_value numeric;
 BEGIN
-  IF input_text IS NULL THEN
-    RETURN ROUND(0.1 * 12345.67, 2); -- Default value if input is NULL
+  IF input_text IS NULL OR input_text = '' THEN
+    RAISE NOTICE 'hash_string: input_text is NULL or empty, returning default value';
+    RETURN ROUND(0.1 * 12345.67, 2); -- Default value if input is NULL or empty
   END IF;
   -- Use md5, take first 8 characters, convert hex to int, modulo 5, map to 0.1 to 0.5, multiply by 12345.67, round to 2 decimals
-  SELECT ROUND((
-    CASE (('x' || substring(md5(input_text) FROM 1 FOR 8))::bit(32)::int % 5)
-      WHEN 0 THEN 0.1
-      WHEN 1 THEN 0.2
-      WHEN 2 THEN 0.3
-      WHEN 3 THEN 0.4
-      WHEN 4 THEN 0.5
-    END
-  ) * 12345.67, 2) INTO hash_value;
+  BEGIN
+    SELECT ROUND((
+      CASE (('x' || substring(md5(input_text) FROM 1 FOR 8))::bit(32)::int % 5)
+        WHEN 0 THEN 0.1
+        WHEN 1 THEN 0.2
+        WHEN 2 THEN 0.3
+        WHEN 3 THEN 0.4
+        WHEN 4 THEN 0.5
+      END
+    ) * 12345.67, 2) INTO hash_value;
+  EXCEPTION WHEN OTHERS THEN
+    RAISE NOTICE 'hash_string: error processing input_text, returning default value: %', SQLERRM;
+    RETURN ROUND(0.1 * 12345.67, 2); -- Default value on error
+  END;
   RETURN hash_value;
 END;
 $$ LANGUAGE plpgsql IMMUTABLE;
@@ -460,20 +466,30 @@ DECLARE
   array_element jsonb;
   new_array jsonb;
   index int;
+  field_value numeric;
 BEGIN
   -- Return input unchanged if NULL or missing projectInformation/projectTitle
   IF input_jsonb IS NULL OR NOT (input_jsonb ? 'projectInformation') OR NOT (input_jsonb->'projectInformation' ? 'projectTitle') THEN
+    RAISE NOTICE 'Skipping row: input_jsonb is NULL or missing projectInformation/projectTitle';
     RETURN input_jsonb;
   END IF;
 
   -- Get hash value from projectTitle
   hash_value := ccbc_public.hash_string(input_jsonb->'projectInformation'->>'projectTitle');
+  RAISE NOTICE 'Hash value for projectTitle: %', hash_value;
+
+  -- Skip processing if hash_value is NULL
+  IF hash_value IS NULL THEN
+    RAISE NOTICE 'Skipping row: hash_value is NULL';
+    RETURN input_jsonb;
+  END IF;
 
   -- Process each target field path
   FOREACH field_path IN ARRAY target_fields LOOP
     -- Split path into components
     array_path := string_to_array(field_path, ',');
     field_name := array_path[array_length(array_path, 1)];
+    RAISE NOTICE 'Processing field path: %', field_path;
 
     -- Case 1: Field is in an array (otherFundingSources->otherFundingSourcesArray->field)
     IF array_path[1] = 'otherFundingSources' AND array_path[2] = 'otherFundingSourcesArray' THEN
@@ -484,14 +500,22 @@ BEGIN
           FROM jsonb_array_elements(input_jsonb->'otherFundingSources'->'otherFundingSourcesArray') WITH ORDINALITY AS t(elem, idx)
         LOOP
           IF array_element ? field_name AND jsonb_typeof(array_element->field_name) = 'number' THEN
-            new_array := new_array || jsonb_set(
-              array_element,
-              ARRAY[field_name],
-              to_jsonb((array_element->>field_name)::numeric + hash_value),
-              false
-            );
+            BEGIN
+              field_value := (array_element->>field_name)::numeric;
+              new_array := new_array || jsonb_set(
+                array_element,
+                ARRAY[field_name],
+                to_jsonb(field_value + hash_value),
+                false
+              );
+              RAISE NOTICE 'Updated array field %: % + % = %', field_name, field_value, hash_value, field_value + hash_value;
+            EXCEPTION WHEN OTHERS THEN
+              RAISE NOTICE 'Skipping array field % due to error: %', field_name, SQLERRM;
+              new_array := new_array || array_element;
+            END;
           ELSE
             new_array := new_array || array_element;
+            RAISE NOTICE 'Skipping array field %: not present or not numeric', field_name;
           END IF;
         END LOOP;
         result_jsonb := jsonb_set(
@@ -504,29 +528,55 @@ BEGIN
     -- Case 2: Field is a direct numeric field
     ELSE
       IF array_path[1] = 'otherFundingSources' AND input_jsonb ? 'otherFundingSources' AND input_jsonb->'otherFundingSources' ? field_name AND jsonb_typeof(input_jsonb->'otherFundingSources'->field_name) = 'number' THEN
-        result_jsonb := jsonb_set(
-          result_jsonb,
-          ARRAY['otherFundingSources', field_name],
-          to_jsonb((input_jsonb->'otherFundingSources'->>field_name)::numeric + hash_value),
-          false
-        );
+        BEGIN
+          field_value := (input_jsonb->'otherFundingSources'->>field_name)::numeric;
+          result_jsonb := jsonb_set(
+            result_jsonb,
+            ARRAY['otherFundingSources', field_name],
+            to_jsonb(field_value + hash_value),
+            false
+          );
+          RAISE NOTICE 'Updated field %: % + % = %', field_name, field_value, hash_value, field_value + hash_value;
+        EXCEPTION WHEN OTHERS THEN
+          RAISE NOTICE 'Skipping field % due to error: %', field_name, SQLERRM;
+        END;
       ELSIF array_path[1] = 'projectFunding' AND input_jsonb ? 'projectFunding' AND input_jsonb->'projectFunding' ? field_name AND jsonb_typeof(input_jsonb->'projectFunding'->field_name) = 'number' THEN
-        result_jsonb := jsonb_set(
-          result_jsonb,
-          ARRAY['projectFunding', field_name],
-          to_jsonb((input_jsonb->'projectFunding'->>field_name)::numeric + hash_value),
-          false
-        );
+        BEGIN
+          field_value := (input_jsonb->'projectFunding'->>field_name)::numeric;
+          result_jsonb := jsonb_set(
+            result_jsonb,
+            ARRAY['projectFunding', field_name],
+            to_jsonb(field_value + hash_value),
+            false
+          );
+          RAISE NOTICE 'Updated field %: % + % = %', field_name, field_value, hash_value, field_value + hash_value;
+        EXCEPTION WHEN OTHERS THEN
+          RAISE NOTICE 'Skipping field % due to error: %', field_name, SQLERRM;
+        END;
       ELSIF array_path[1] = 'budgetDetails' AND input_jsonb ? 'budgetDetails' AND input_jsonb->'budgetDetails' ? field_name AND jsonb_typeof(input_jsonb->'budgetDetails'->field_name) = 'number' THEN
-        result_jsonb := jsonb_set(
-          result_jsonb,
-          ARRAY['budgetDetails', field_name],
-          to_jsonb((input_jsonb->'budgetDetails'->>field_name)::numeric + hash_value),
-          false
-        );
+        BEGIN
+          field_value := (input_jsonb->'budgetDetails'->>field_name)::numeric;
+          result_jsonb := jsonb_set(
+            result_jsonb,
+            ARRAY['budgetDetails', field_name],
+            to_jsonb(field_value + hash_value),
+            false
+          );
+          RAISE NOTICE 'Updated field %: % + % = %', field_name, field_value, hash_value, field_value + hash_value;
+        EXCEPTION WHEN OTHERS THEN
+          RAISE NOTICE 'Skipping field % due to error: %', field_name, SQLERRM;
+        END;
+      ELSE
+        RAISE NOTICE 'Skipping field %: not present or not numeric', field_name;
       END IF;
     END IF;
   END LOOP;
+
+  -- Ensure result is not NULL
+  IF result_jsonb IS NULL THEN
+    RAISE NOTICE 'result_jsonb is NULL, returning input_jsonb';
+    RETURN input_jsonb;
+  END IF;
 
   RETURN result_jsonb;
 END;
