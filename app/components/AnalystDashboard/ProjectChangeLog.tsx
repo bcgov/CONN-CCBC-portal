@@ -19,14 +19,13 @@ import { diff } from 'json-diff';
 import { generateRawDiff } from 'components/DiffTable';
 import getConfig from 'next/config';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
-import ccbcData, { ccbcSch } from 'formSchema/uiSchema/history/ccbcData';
+import ccbcData from 'formSchema/uiSchema/history/ccbcData';
 import styled from 'styled-components';
 import { Box, Link, TableCellProps } from '@mui/material';
 import { DateTime } from 'luxon';
 import ClearFilters from 'components/Table/ClearFilters';
 import { useFeature } from '@growthbook/growthbook-react';
 import AdditionalFilters, { additionalFilterColumns } from './AdditionalFilters';
-import { historyDetailsExcludedkeys } from 'app/components/Analyst/History/constants';
 
 interface Props {
   query: any;
@@ -286,8 +285,8 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             const json = getRecordJson(record, program)
             const prevJson = getRecordJson(oldRecord, program);
 
-            // const { schema, excludedKeys, overrideParent } = historyDiffParams[program];
-            const { diffSchema = null, excludedKeys = [], overrideParent = false } = ccbcSch[item.tableName] || {};
+            const { diffSchema = null, excludedKeys = [], overrideParent = false } = program === Program.CBC ?
+              cbcData : ccbcData[item.tableName];
 
             const diffRows = generateRawDiff(
               diff(prevJson, json, { keepUnchangedValues: true }),

@@ -12,93 +12,6 @@ import rfiDiffSchema from './rfi';
 import screeningSchema from './screening';
 import changeRequest from 'formSchema/analyst/changeRequest';
 
-const ccbcData = {
-  ccbcData: {
-    type: "object",
-    properties: {
-      statementOfWorkUpload: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            id: { type: "integer" },
-            name: { type: "string" },
-            size: { type: "integer" },
-            type: "string",
-            uuid: { type: "string", format: "uuid" }
-          },
-          required: ["id", "name", "size", "type", "uuid"]
-        }
-      },
-      fundingAgreementUpload: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            id: { type: "integer" },
-            name: { type: "string" },
-            size: { type: "integer" },
-            type: "string",
-            uuid: { type: "string", format: "uuid" },
-            uploadedAt: { type: "string", format: "date-time" }
-          },
-          required: ["id", "name", "size", "type", "uuid", "uploadedAt"]
-        }
-      },
-      finalizedMapUpload: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            id: { type: "integer" },
-            name: { type: "string" },
-            size: { type: "integer" },
-            type: "string",
-            uuid: { type: "string", format: "uuid" }
-          }
-        }
-      },
-      sowWirelessUpload: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            id: { type: "integer" },
-            name: { type: "string" },
-            size: { type: "integer" },
-            type: "string",
-            uuid: { type: "string", format: "uuid" }
-          }
-        }
-      },
-      isSowUploadError: {
-        type: "boolean"
-      },
-      otherFiles: {
-        type: "array",
-        items: {
-          type: "object",
-          properties: {
-            id: { type: "integer" },
-            name: { type: "string" },
-            size: { type: "integer" },
-            type: "string",
-            uuid: { type: "string", format: "uuid" }
-          }
-        }
-      },
-      dateFundingAgreementSigned: {
-        type: "string",
-        format: "date"
-      },
-      hasFundingAgreementBeenSigned: {
-        type: "boolean"
-      }
-    }
-  }
-};
-
-
 const communityReportSchema = {
   communityReport: {
     properties: {
@@ -123,7 +36,8 @@ const pendingChangeRequestSchema = {
     },
   },
 };
-export const ccbcSch = {
+
+const ccbcData = {
   application_community_progress_report_data: {
     diffSchema: communityReportSchema,
     excludedKeys: ['ccbc_number', 'progressReportFile'],
@@ -364,4 +278,5 @@ export const ccbcSch = {
     overrideParent: 'change_request_data',
   }
 };
+
 export default ccbcData;
