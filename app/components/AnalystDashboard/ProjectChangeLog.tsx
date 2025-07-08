@@ -34,6 +34,8 @@ import communities from 'formSchema/uiSchema/history/communities';
 import styled from 'styled-components';
 import { Box, Link, TableCellProps } from '@mui/material';
 import { DateTime } from 'luxon';
+import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
+import isEqual from 'lodash.isequal';
 import ClearFilters from 'components/Table/ClearFilters';
 import AdditionalFilters from './AdditionalFilters';
 import { HighlightFilterMatch } from './AllDashboardDetailPanel';
@@ -402,6 +404,125 @@ const getTableConfig = (tableName: string, assessmentType?: string) => {
   return configs[tableName] || null;
 };
 
+// Preprocessing function to match HistoryTable logic
+const preprocessApplicationHistory = (applicationHistory: readonly any[]) => {
+  // Sort history items like HistoryTable does
+  const sortedHistory = [...applicationHistory].sort((a, b) => {
+    const aDeleted = a.op === 'UPDATE';
+    const bDeleted = b.op === 'UPDATE';
+    const aDate = aDeleted ? a.record.updated_at : a.createdAt;
+    const bDate = bDeleted ? b.record.updated_at : b.createdAt;
+    return new Date(aDate).getTime() - new Date(bDate).getTime();
+  });
+
+  // Find received index like HistoryTable does
+  const receivedIndex = sortedHistory
+    .map((historyItem) => historyItem.item)
+    .indexOf('received');
+
+  // Get history from received onwards, reversed like HistoryTable
+  const historyList = sortedHistory
+    .slice(receivedIndex >= 0 ? receivedIndex : 0)
+    .reverse();
+
+  // Process each history item with previous item matching logic from HistoryTable
+  const processedHistory = historyList
+    .map((historyItem, index, array) => {
+      const a = array.slice(index + 1);
+      let prevItems;
+
+      if (historyItem.op === 'UPDATE') {
+        prevItems = [{ record: historyItem.oldRecord }];
+      } else {
+        prevItems = a.filter((previousItem) => {
+          // assessment data must match by item type
+          if (previousItem.tableName === 'assessment_data') {
+            return (
+              previousItem.tableName === historyItem.tableName &&
+              previousItem.item === historyItem.item
+            );
+          }
+          // rfis must match by rfi_number
+          if (previousItem.tableName === 'rfi_data') {
+            return (
+              previousItem.tableName === historyItem.tableName &&
+              previousItem.record?.rfi_number ===
+                historyItem.record?.rfi_number &&
+              previousItem.op === 'INSERT'
+            );
+          }
+          // community reports must match by quarter
+          if (
+            previousItem.tableName ===
+              'application_community_progress_report_data' &&
+            previousItem.tableName === historyItem.tableName
+          ) {
+            const quarter =
+              historyItem.record?.json_data?.dueDate &&
+              getFiscalQuarter(historyItem.record.json_data.dueDate);
+            const year =
+              historyItem.record?.json_data?.dueDate &&
+              getFiscalYear(historyItem.record.json_data.dueDate);
+            const updated =
+              previousItem.op === 'INSERT' &&
+              getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
+                quarter &&
+              getFiscalYear(previousItem.record?.json_data?.dueDate) === year;
+            return updated;
+          }
+          // application milestone needs to match by quarter
+          if (
+            previousItem.tableName === 'application_milestone_data' &&
+            previousItem.tableName === historyItem.tableName
+          ) {
+            const quarter =
+              historyItem.record?.json_data?.dueDate &&
+              getFiscalQuarter(historyItem.record.json_data.dueDate);
+            const year =
+              historyItem.record?.json_data?.dueDate &&
+              getFiscalYear(historyItem.record.json_data.dueDate);
+            const updated =
+              previousItem.op === 'INSERT' &&
+              getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
+                quarter &&
+              getFiscalYear(previousItem.record?.json_data?.dueDate) === year;
+            return updated;
+          }
+          // change request data must match by amendment number
+          if (previousItem.tableName === 'change_request_data') {
+            return (
+              previousItem.tableName === historyItem.tableName &&
+              previousItem.record?.json_data?.amendmentNumber ===
+                historyItem.record?.json_data?.amendmentNumber
+            );
+          }
+          return previousItem.tableName === historyItem.tableName;
+        });
+      }
+
+      const prevHistoryItem = prevItems.length > 0 ? prevItems[0] : {};
+
+      // Skip duplicate history items for communities like HistoryTable does
+      if (
+        historyItem?.tableName === 'application_communities' &&
+        isEqual(
+          prevHistoryItem.record?.application_rd,
+          historyItem.record?.application_rd
+        )
+      ) {
+        return null;
+      }
+
+      return {
+        historyItem,
+        prevHistoryItem,
+      };
+    })
+    .filter(Boolean); // Remove null entries
+
+  return processedHistory;
+};
+
 const CommunitiesCell = (
   key1: string,
   key2: string,
@@ -494,7 +615,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment<ProjectChangeLog_query$key>(
     graphql`
       fragment ProjectChangeLog_query on Query {
-        allCbcs {
+        allCbcs(first: 1) {
           nodes {
             rowId
             projectNumber
@@ -515,24 +636,29 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allApplications {
+        allApplications(first: 1) {
           nodes {
             rowId
             ccbcNumber
             program
+            formData {
+              jsonData
+            }
             history {
               nodes {
-                op
+                applicationId
                 createdAt
                 createdBy
+                externalAnalyst
+                familyName
+                item
+                givenName
+                op
                 record
                 oldRecord
-                tableName
                 recordId
-                ccbcUserByCreatedBy {
-                  givenName
-                  familyName
-                }
+                sessionSub
+                tableName
               }
             }
             ccbcUserByCreatedBy {
@@ -674,19 +800,25 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
 
     const allApplicationsFlatMap =
       allApplications?.nodes?.flatMap(
-        ({ ccbcNumber, rowId, history, program }) =>
-          history.nodes
-            .filter((item) => {
+        ({ ccbcNumber, rowId, history, program }) => {
+          // Apply HistoryTable preprocessing logic
+          const processedHistory = preprocessApplicationHistory(history.nodes);
+
+          return processedHistory
+            .filter(({ historyItem }) => {
               // Exclude attachment table and tables without proper schema config
-              const assessmentType = item.record?.json_data?.assessmentType;
+              const assessmentType =
+                historyItem.record?.json_data?.assessmentType;
               const tableConfig = getTableConfig(
-                item.tableName,
+                historyItem.tableName,
                 assessmentType
               );
-              return item.tableName !== 'attachment' && tableConfig !== null;
+              return (
+                historyItem.tableName !== 'attachment' && tableConfig !== null
+              );
             })
-            .map((item) => {
-              const { record, oldRecord, createdAt, op, tableName } = item;
+            .map(({ historyItem, prevHistoryItem }) => {
+              const { record, createdAt, op, tableName } = historyItem;
               const effectiveDate =
                 op === 'UPDATE'
                   ? new Date(record?.updated_at)
@@ -708,7 +840,10 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
 
               // Special handling for application_communities
               if (tableName === 'application_communities') {
-                const changes = diff(oldRecord || {}, record || {});
+                const changes = diff(
+                  prevHistoryItem?.record || {},
+                  record || {}
+                );
                 const [newArray, oldArray] = processArrayDiff(
                   changes,
                   communities.applicationCommunities
@@ -755,11 +890,11 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                   tableName === 'application_dependencies'
                 ) {
                   json = record?.json_data || {};
-                  prevJson = oldRecord?.json_data || {};
+                  prevJson = prevHistoryItem?.record?.json_data || {};
                 } else {
                   // For other tables, use the record directly
                   json = record || {};
-                  prevJson = oldRecord || {};
+                  prevJson = prevHistoryItem?.record || {};
                 }
 
                 diffRows = generateRawDiff(
@@ -774,7 +909,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
                   DateTime.DATETIME_MED
                 ),
-                createdBy: formatUser(item),
+                createdBy: formatUser(historyItem),
               };
 
               const mappedRows = diffRows.map((row, i) => ({
@@ -793,7 +928,8 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 group: mappedRows,
               };
             })
-            .filter((item) => item.group.length > 0) // Only include items with actual changes
+            .filter((item) => item.group.length > 0); // Only include items with actual changes
+        }
       ) || [];
 
     const entries = [...allCbcsFlatMap, ...allApplicationsFlatMap];
