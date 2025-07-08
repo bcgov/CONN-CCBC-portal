@@ -16,9 +16,21 @@ import {
 } from 'material-react-table';
 import { ProjectChangeLog_query$key } from '__generated__/ProjectChangeLog_query.graphql';
 import { diff } from 'json-diff';
-import { generateRawDiff } from 'components/DiffTable';
+import { generateRawDiff, processArrayDiff } from 'components/DiffTable';
 import getConfig from 'next/config';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
+import applicationDiffSchema from 'formSchema/uiSchema/history/application';
+import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
+import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
+import projectInformationSchema from 'formSchema/uiSchema/history/projectInformation';
+import conditionalApprovalSchema from 'formSchema/uiSchema/history/conditionalApproval';
+import screeningSchema from 'formSchema/uiSchema/history/screening';
+import gis from 'formSchema/uiSchema/history/gis';
+import gisAssessmentHhSchema from 'formSchema/uiSchema/history/gisAssessmentHh';
+import applicationSowDataSchema from 'formSchema/uiSchema/history/applicationSowData';
+import applicationAnnounced from 'formSchema/uiSchema/history/applicationAnnounced';
+import fnhaContribution from 'formSchema/uiSchema/history/fnhaContribution';
+import communities from 'formSchema/uiSchema/history/communities';
 import styled from 'styled-components';
 import { Box, Link, TableCellProps } from '@mui/material';
 import { DateTime } from 'luxon';
@@ -66,12 +78,15 @@ const StyledCommunitiesHeader = styled.th`
 const ProjectIdCell = ({ cell, renderedCellValue }) => {
   const isVisibleRow = cell.row.original?.isVisibleRow;
   const rowId = cell.row.original?.id;
+  const isCbcProject = cell.row.original?.isCbcProject;
 
-  return isVisibleRow ? (
-    <StyledLink href={`/analyst/cbc/${rowId}/cbcHistory`}>
-      {renderedCellValue}
-    </StyledLink>
-  ) : null;
+  if (!isVisibleRow) return null;
+
+  const href = isCbcProject
+    ? `/analyst/cbc/${rowId}/cbcHistory`
+    : `/analyst/application/${rowId}/history`;
+
+  return <StyledLink href={href}>{renderedCellValue}</StyledLink>;
 };
 
 const MergedCell = ({ cell, renderedCellValue }) => {
@@ -144,6 +159,248 @@ const communityArrayToHistoryString = (
   keys: string[]
 ) =>
   communitiesArray.map((obj) => keys.map((key) => obj?.[key] ?? '').join(' '));
+// Define inline schemas for simple cases
+const communityReportSchema = {
+  communityReport: {
+    properties: {
+      dueDate: {
+        title: 'Due date',
+        type: 'string',
+      },
+      dateReceived: {
+        title: 'Date received',
+        type: 'string',
+      },
+    },
+  },
+};
+
+const pendingChangeRequestSchema = {
+  pendingChangeRequest: {
+    properties: {
+      comment: {
+        title: 'Comments:',
+        type: 'string',
+      },
+    },
+  },
+};
+
+const applicationDependenciesSchema = {
+  applicationDependencies: {
+    properties: {
+      crtcProjectDependent: { title: 'CRTC Project Dependent' },
+      connectedCoastNetworkDependent: {
+        title: 'Connected Coast Network Dependent',
+      },
+    },
+  },
+};
+
+// Map table names to their schemas and excluded keys
+const getTableConfig = (tableName: string, assessmentType?: string) => {
+  const configs = {
+    rfi_data: {
+      schema: rfiDiffSchema,
+      excludedKeys: [
+        'id',
+        'createdAt',
+        'updatedAt',
+        'applicationId',
+        'name',
+        'size',
+        'type',
+        'rfiEmailCorrespondance',
+        'fileDate',
+        'uploadedAt',
+        'eligibilityAndImpactsCalculator',
+        'detailedBudget',
+        'financialForecast',
+        'lastMileIspOffering',
+        'popWholesalePricing',
+        'communityRuralDevelopmentBenefitsTemplate',
+        'wirelessAddendum',
+        'supportingConnectivityEvidence',
+        'geographicNames',
+        'equipmentDetails',
+        'copiesOfRegistration',
+        'preparedFinancialStatements',
+        'logicalNetworkDiagram',
+        'projectSchedule',
+        'communityRuralDevelopmentBenefits',
+        'otherSupportingMaterials',
+        'geographicCoverageMap',
+        'coverageAssessmentStatistics',
+        'currentNetworkInfastructure',
+        'upgradedNetworkInfrastructure',
+        'uuid',
+      ],
+      overrideParent: 'rfi',
+    },
+    application_announced: {
+      schema: applicationAnnounced,
+      excludedKeys: [
+        'id',
+        'updated_at',
+        'created_at',
+        'created_by',
+        'updated_by',
+        'archived_at',
+        'archived_by',
+      ],
+      overrideParent: 'applicationAnnounced',
+    },
+    form_data: {
+      schema: applicationDiffSchema,
+      excludedKeys: [
+        'id',
+        'createdAt',
+        'updatedAt',
+        'applicationId',
+        'acknowledgements',
+        'supportingDocuments',
+        'coverage',
+        'templateUploads',
+      ],
+    },
+    application_dependencies: {
+      schema: applicationDependenciesSchema,
+      excludedKeys: ['id', 'createdAt', 'updatedAt', 'applicationId'],
+      overrideParent: 'applicationDependencies',
+    },
+    assessment_data: {
+      schema: (() => {
+        if (assessmentType === 'screening') return screeningSchema;
+        if (assessmentType === 'gis') return gis;
+        return {};
+      })(),
+      excludedKeys: [
+        'id',
+        'name',
+        'size',
+        'type',
+        'uuid',
+        'uploadedAt',
+        'otherFiles',
+        'assessmentTemplate',
+      ],
+      overrideParent: assessmentType,
+    },
+    conditional_approval_data: {
+      schema: conditionalApprovalSchema,
+      excludedKeys: [
+        'id',
+        'createdAt',
+        'updatedAt',
+        'uploadedAt',
+        'size',
+        'name',
+        'uuid',
+        'type',
+        'letterOfApprovalUpload',
+      ],
+      overrideParent: 'conditionalApproval',
+    },
+    application_gis_data: {
+      schema: applicationGisDataSchema,
+      excludedKeys: ['ccbc_number'],
+      overrideParent: 'gis',
+    },
+    application_gis_assessment_hh: {
+      schema: gisAssessmentHhSchema,
+      excludedKeys: [
+        'id',
+        'updated_at',
+        'created_at',
+        'created_by',
+        'updated_by',
+        'archived_at',
+        'archived_by',
+      ],
+      overrideParent: 'gis',
+    },
+    project_information_data: {
+      schema: projectInformationSchema,
+      excludedKeys: [
+        'statementOfWorkUpload',
+        'sowWirelessUpload',
+        'fundingAgreementUpload',
+        'finalizedMapUpload',
+        'otherFiles',
+      ],
+      overrideParent: 'projectInformation',
+    },
+    application_sow_data: {
+      schema: applicationSowDataSchema,
+      excludedKeys: [
+        'province',
+        'ccbc_number',
+        'effectiveStartDate',
+        'projectStartDate',
+        'projectCompletionDate',
+        'backboneFibre',
+        'backboneMicrowave',
+        'backboneSatellite',
+        'lastMileFibre',
+        'lastMileCable',
+        'lastMileDSL',
+        'lastMileMobileWireless',
+        'lastMileFixedWireless',
+        'lastMileSatellite',
+      ],
+      overrideParent: 'application_sow_data',
+    },
+    application_community_progress_report_data: {
+      schema: communityReportSchema,
+      excludedKeys: ['ccbc_number', 'progressReportFile'],
+      overrideParent: 'communityReport',
+    },
+    application_milestone_data: {
+      schema: communityReportSchema,
+      excludedKeys: [
+        'ccbc_number',
+        'milestoneFile',
+        'evidenceOfCompletionFile',
+      ],
+      overrideParent: 'communityReport',
+    },
+    application_pending_change_request: {
+      schema: pendingChangeRequestSchema,
+      excludedKeys: [
+        'id',
+        'created_at',
+        'updated_at',
+        'created_by',
+        'updated_by',
+        'archived_at',
+        'archived_by',
+        'is_pending',
+      ],
+      overrideParent: 'pendingChangeRequest',
+    },
+    application_fnha_contribution: {
+      schema: fnhaContribution,
+      excludedKeys: [
+        'id',
+        'updated_at',
+        'created_at',
+        'created_by',
+        'updated_by',
+        'archived_at',
+        'archived_by',
+        'reason_for_change',
+      ],
+      overrideParent: 'fnhaContribution',
+    },
+    application_communities: {
+      schema: communities.applicationCommunities,
+      excludedKeys: [],
+      overrideParent: 'applicationCommunities',
+    },
+  };
+
+  return configs[tableName] || null;
+};
 
 const CommunitiesCell = (
   key1: string,
@@ -258,6 +515,32 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             }
           }
         }
+        allApplications {
+          nodes {
+            rowId
+            ccbcNumber
+            program
+            history {
+              nodes {
+                op
+                createdAt
+                createdBy
+                record
+                oldRecord
+                tableName
+                recordId
+                ccbcUserByCreatedBy {
+                  givenName
+                  familyName
+                }
+              }
+            }
+            ccbcUserByCreatedBy {
+              familyName
+              givenName
+            }
+          }
+        }
         session {
           authRole
         }
@@ -270,15 +553,15 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
-  const defaultFilters = [{ id: 'program', value: ['CBC'] }];
+  const defaultFilters = [{ id: 'program', value: ['CBC', 'CCBC', 'OTHER'] }];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
-  const { allCbcs } = queryFragment;
+  const { allCbcs, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
   const tableData = useMemo(() => {
-    const entries =
-      allCbcs.nodes?.flatMap(
+    const allCbcsFlatMap =
+      allCbcs?.nodes?.flatMap(
         ({ projectNumber, rowId, history }) =>
           history.nodes.map((item) => {
             const { record, oldRecord, createdAt, op } = item;
@@ -292,6 +575,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               id: rowId,
               _sortDate: effectiveDate,
               program: 'CBC',
+              isCbcProject: true,
             };
 
             const json = {
@@ -388,6 +672,132 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           }) || []
       ) || [];
 
+    const allApplicationsFlatMap =
+      allApplications?.nodes?.flatMap(
+        ({ ccbcNumber, rowId, history, program }) =>
+          history.nodes
+            .filter((item) => {
+              // Exclude attachment table and tables without proper schema config
+              const assessmentType = item.record?.json_data?.assessmentType;
+              const tableConfig = getTableConfig(
+                item.tableName,
+                assessmentType
+              );
+              return item.tableName !== 'attachment' && tableConfig !== null;
+            })
+            .map((item) => {
+              const { record, oldRecord, createdAt, op, tableName } = item;
+              const effectiveDate =
+                op === 'UPDATE'
+                  ? new Date(record?.updated_at)
+                  : new Date(createdAt);
+
+              const base = {
+                changeId: `${ccbcNumber}-${createdAt}-${tableName}`,
+                id: rowId,
+                _sortDate: effectiveDate,
+                program: program || 'CCBC',
+                isCbcProject: false,
+              };
+
+              // Get table configuration
+              const assessmentType = record?.json_data?.assessmentType;
+              const tableConfig = getTableConfig(tableName, assessmentType);
+
+              let diffRows = [];
+
+              // Special handling for application_communities
+              if (tableName === 'application_communities') {
+                const changes = diff(oldRecord || {}, record || {});
+                const [newArray, oldArray] = processArrayDiff(
+                  changes,
+                  communities.applicationCommunities
+                );
+
+                const processCommunity = (values) => {
+                  return values?.map((community) => ({
+                    economic_region: community.er,
+                    regional_district: community.rd,
+                  }));
+                };
+
+                if (newArray.length > 0) {
+                  diffRows.push({
+                    field: 'Communities Added',
+                    newValue: processCommunity(newArray),
+                    oldValue: 'N/A',
+                  });
+                }
+
+                if (oldArray.length > 0) {
+                  diffRows.push({
+                    field: 'Communities Removed',
+                    newValue: 'N/A',
+                    oldValue: processCommunity(oldArray),
+                  });
+                }
+              } else {
+                // Standard processing for other tables
+                let json = {};
+                let prevJson = {};
+
+                // Handle different data sources based on table type
+                if (
+                  tableName === 'form_data' ||
+                  tableName === 'rfi_data' ||
+                  tableName === 'assessment_data' ||
+                  tableName === 'conditional_approval_data' ||
+                  tableName === 'application_gis_data' ||
+                  tableName === 'project_information_data' ||
+                  tableName === 'application_sow_data' ||
+                  tableName === 'application_community_progress_report_data' ||
+                  tableName === 'application_milestone_data' ||
+                  tableName === 'application_dependencies'
+                ) {
+                  json = record?.json_data || {};
+                  prevJson = oldRecord?.json_data || {};
+                } else {
+                  // For other tables, use the record directly
+                  json = record || {};
+                  prevJson = oldRecord || {};
+                }
+
+                diffRows = generateRawDiff(
+                  diff(prevJson, json, { keepUnchangedValues: true }),
+                  tableConfig.schema,
+                  tableConfig.excludedKeys,
+                  tableConfig.overrideParent || tableName
+                );
+              }
+
+              const meta = {
+                createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
+                  DateTime.DATETIME_MED
+                ),
+                createdBy: formatUser(item),
+              };
+
+              const mappedRows = diffRows.map((row, i) => ({
+                ...base,
+                rowId: ccbcNumber,
+                isVisibleRow: i === 0, // For visual use only
+                createdAt: meta.createdAt,
+                createdBy: meta.createdBy,
+                field: row.field,
+                newValue: row.newValue,
+                oldValue: row.oldValue,
+              }));
+
+              return {
+                _sortDate: effectiveDate,
+                group: mappedRows,
+              };
+            })
+            .filter((item) => item.group.length > 0) // Only include items with actual changes
+      ) || [];
+
+    const entries = [...allCbcsFlatMap, ...allApplicationsFlatMap];
+
     return entries
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
       .flatMap((entry, i) =>
@@ -396,13 +806,22 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           isEvenGroup: i % 2 === 0,
         }))
       );
-  }, [allCbcs]);
+  }, [allCbcs, allApplications]);
 
   // Collect unique createdBy values for the multi-select filter
   const createdByOptions = useMemo(() => {
     const set = new Set<string>();
     tableData.forEach((row) => {
       if (row.createdBy) set.add(row.createdBy);
+    });
+    return Array.from(set).sort();
+  }, [tableData]);
+
+  // Collect unique program values for the multi-select filter
+  const programOptions = useMemo(() => {
+    const set = new Set<string>();
+    tableData.forEach((row) => {
+      if (row.program) set.add(row.program);
     });
     return Array.from(set).sort();
   }, [tableData]);
@@ -414,6 +833,14 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       Cell: ProjectIdCell,
       header: 'ID',
       filterFn: filterVariant,
+    },
+    {
+      accessorKey: 'program',
+      header: 'Program',
+      filterFn: filterVariant,
+      filterVariant: 'multi-select',
+      filterSelectOptions: programOptions,
+      Cell: MergedCell,
     },
     {
       accessorKey: 'field',
@@ -450,6 +877,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
 
   const columnSizing: MRT_ColumnSizingState = {
     rowId: 50,
+    program: 80,
     createdAt: 104,
     createdBy: 110,
     field: 108,
