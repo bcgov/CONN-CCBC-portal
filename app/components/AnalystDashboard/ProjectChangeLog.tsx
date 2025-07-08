@@ -19,11 +19,14 @@ import { diff } from 'json-diff';
 import { generateRawDiff } from 'components/DiffTable';
 import getConfig from 'next/config';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
+import ccbcData, { ccbcSch } from 'formSchema/uiSchema/history/ccbcData';
 import styled from 'styled-components';
 import { Box, Link, TableCellProps } from '@mui/material';
 import { DateTime } from 'luxon';
 import ClearFilters from 'components/Table/ClearFilters';
-import AdditionalFilters from './AdditionalFilters';
+import { useFeature } from '@growthbook/growthbook-react';
+import AdditionalFilters, { additionalFilterColumns } from './AdditionalFilters';
+import { historyDetailsExcludedkeys } from 'app/components/Analyst/History/constants';
 
 interface Props {
   query: any;
@@ -209,6 +212,28 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             }
           }
         }
+        allApplications(first:10, filter:{program:{equalTo:"OTHER"}}) {
+          nodes {
+            rowId
+            ccbcNumber
+            program
+            history {
+              nodes {
+                op
+                createdAt
+                createdBy
+                record
+                oldRecord
+                tableName
+                recordId
+              }
+            }
+            ccbcUserByCreatedBy {
+              familyName
+              givenName
+            }
+          }
+        }
         session {
           authRole
         }
@@ -221,17 +246,30 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
-  const defaultFilters = [{ id: 'program', value: ['CBC'] }];
+  const enableProjectTypeFilters = useFeature('filter_changelog_by_project_type').value || 0;
+  const defaultFilters = enableProjectTypeFilters?[{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }] : [{ id: 'program', value: ['CBC'] }];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
-  const { allCbcs } = queryFragment;
+  const { allCbcs, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
   const tableData = useMemo(() => {
-    const entries =
-      allCbcs.nodes?.flatMap(
-        ({ projectNumber, rowId, history }) =>
-          history.nodes.map((item) => {
+
+    const Program = {
+      CBC: 'CBC',
+      CCBC: 'CCBC'
+    };
+
+    const getRecordJson = (record, program) => {
+      return {
+        ...record?.json_data,
+        project_number: program === Program.CBC
+          ? record?.project_number
+          : record?.ccbc_number
+      };
+    }
+
+    const transformHistoryData = (item, projectNumber, rowId, program) => {
             const { record, oldRecord, createdAt, op } = item;
             const effectiveDate =
               op === 'UPDATE'
@@ -242,33 +280,20 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               changeId: `${projectNumber}-${createdAt}`,
               id: rowId,
               _sortDate: effectiveDate,
-              program: 'CBC',
+              program,
             };
 
-            const json = {
-              ...record?.json_data,
-              project_number: record?.project_number,
-            };
-            const prevJson = {
-              ...oldRecord?.json_data,
-              project_number: oldRecord?.project_number,
-            };
+            const json = getRecordJson(record, program)
+            const prevJson = getRecordJson(oldRecord, program);
+
+            // const { schema, excludedKeys, overrideParent } = historyDiffParams[program];
+            const { diffSchema = null, excludedKeys = [], overrideParent = false } = ccbcSch[item.tableName] || {};
 
             const diffRows = generateRawDiff(
               diff(prevJson, json, { keepUnchangedValues: true }),
-              cbcData,
-              [
-                'id',
-                'created_at',
-                'updated_at',
-                'change_reason',
-                'cbc_data_id',
-                'locations',
-                'errorLog',
-                'error_log',
-                'projectNumber',
-              ],
-              'cbcData'
+              diffSchema,
+              excludedKeys,
+              overrideParent
             );
 
             const meta = {
@@ -327,10 +352,36 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 ),
               ],
             };
-          }) || []
+          };
+
+    const cbcEntries =
+      allCbcs.nodes?.flatMap(
+        ({ projectNumber, rowId, history }) =>
+          history.nodes.map((item) =>
+            transformHistoryData(item, projectNumber, rowId, Program.CBC)
+          ) || []
       ) || [];
 
-    return entries
+    console.log("APPS", allApplications.nodes);
+
+    const ccbcEntries =
+      allApplications.nodes?.flatMap(
+        ({ ccbcNumber, rowId, history, ccbcUserByCreatedBy, program }) =>
+          history.nodes.map((historyItem) => {
+            const item = {
+              ...historyItem,
+              ccbcUserByCreatedBy
+            }
+              return transformHistoryData(item, ccbcNumber, rowId, program);
+          }
+          ) || []
+      ).filter(
+        (item) => item.group.length > 0
+      ) || [];
+
+    console.log("CCBC Entries", ccbcEntries);
+
+    const result = [...Array.from(cbcEntries), ...Array.from(ccbcEntries)]
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
       .flatMap((entry, i) =>
         entry.group.map((row) => ({
@@ -338,7 +389,10 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           isEvenGroup: i % 2 === 0,
         }))
       );
-  }, [allCbcs]);
+    console.log("FINAL OUTPUT TO THE TABLE", result) // last total is 27k
+
+    return result;
+  }, [allApplications.nodes, allCbcs.nodes]);
 
   // Collect unique createdBy values for the multi-select filter
   const createdByOptions = useMemo(() => {
@@ -383,6 +437,18 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             );
           }
 
+          if (
+            ['statementOfWorkUpload',
+              'fundingAgreementUpload',
+              'finalizedMapUpload',
+              'sowWirelessUpload',
+              'otherFiles',
+              // "",
+            ].includes(field) &&
+            (typeof oldValue === 'object')
+          )
+            return JSON.stringify(oldValue);
+
           return oldValue;
         },
         filterFn: filterVariant,
@@ -407,6 +473,19 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             );
           }
 
+          if (
+            ['statementOfWorkUpload',
+              'fundingAgreementUpload',
+              'finalizedMapUpload',
+              'sowWirelessUpload',
+              'otherFiles',
+              'rfiEmailCorrespondance',
+              "",
+            ].includes(field) &&
+            (typeof newValue === 'object')
+          )
+            return JSON.stringify(newValue);
+
           return newValue;
         },
         filterFn: filterVariant,
@@ -425,8 +504,9 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         filterFn: filterVariant,
         Cell: MergedCell,
       },
+      ...additionalFilterColumns,
     ];
-  }, [allCbcs]);
+  }, [allCbcs, allApplications]);
 
   const columnSizing: MRT_ColumnSizingState = {
     rowId: 50,
@@ -486,7 +566,10 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         <AdditionalFilters
           filters={columnFilters}
           setFilters={setColumnFilters}
-          disabledFilters={[{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]}
+          disabledFilters={
+            enableProjectTypeFilters ?
+              [] : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
+          }
         />
       </StyledTableHeader>
     ),
