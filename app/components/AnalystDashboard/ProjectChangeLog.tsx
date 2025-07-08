@@ -685,6 +685,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const { allCbcs, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
+  let totalLength = 0;
   const tableData = useMemo(() => {
     const allCbcsFlatMap =
       allCbcs?.nodes?.flatMap(
@@ -818,6 +819,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               );
             })
             .map(({ historyItem, prevHistoryItem }) => {
+              totalLength++;
               const { record, createdAt, op, tableName } = historyItem;
               const effectiveDate =
                 op === 'UPDATE'
@@ -1076,7 +1078,12 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     ),
   });
 
-  return <MaterialReactTable table={table} />;
+  return (
+    <>
+      <div>TOTAL LENGTH: {totalLength}</div>
+      <MaterialReactTable table={table} />
+    </>
+  );
 };
 
 export default ProjectChangeLog;
