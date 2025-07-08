@@ -1,3 +1,9 @@
+## [1.261.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.1...v1.261.3) (2025-07-08)
+
+### Bug Fixes
+
+- failing intake tests ([5e9e22b](https://github.com/bcgov/CONN-CCBC-portal/commit/5e9e22b76168ba7927cd67c9cc8d89ba40b86acb))
+
 ## [1.261.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.1...v1.261.2) (2025-07-07)
 
 ## [1.261.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.0...v1.261.1) (2025-06-27)
