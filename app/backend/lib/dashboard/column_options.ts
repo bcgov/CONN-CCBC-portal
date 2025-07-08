@@ -83,9 +83,13 @@ const columnOptions: Columns = [
   {},
   // column 41 (Proposed start date)
   {},
-  // column 42 (% Project milestone completion)
+  // column 42 (Proposed completion date)
+  // TODO: review all comments in this list to be consistent
+  // with columnList and columnMap
   {},
-  // column 43 (Construction completed on)
+  // column 43 (% Project milestone completion)
+  {},
+  // column 44 (Construction completed on)
   {},
 ];
 
