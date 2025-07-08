@@ -4,6 +4,7 @@ import compiledApplicationIntakesQuery, {
   applicationIntakesQuery,
 } from '__generated__/applicationIntakesQuery.graphql';
 import cookie from 'js-cookie';
+import { DateTime } from 'luxon';
 import PageTestingHelper from '../../../utils/pageTestingHelper';
 import { checkTabStyles, checkRouteAuthorization } from './shared-admin-tests';
 
@@ -253,10 +254,13 @@ describe('The Application intakes admin page', () => {
     expect(endDateInput).toBeVisible();
     expect(descriptionInput).toBeVisible();
 
+    const startDate = DateTime.now().plus({ days: 1 }).startOf('hour');
+    const endDate = DateTime.now().plus({ days: 2 }).startOf('hour');
+
     await act(async () => {
       fireEvent.change(startDateInput, {
         target: {
-          value: '2025-07-01 00:00 AM',
+          value: startDate.setLocale('en-US').toFormat('yyyy-MM-dd hh:mm a'),
         },
       });
     });
@@ -264,7 +268,7 @@ describe('The Application intakes admin page', () => {
     await act(async () => {
       fireEvent.change(endDateInput, {
         target: {
-          value: '2025-07-02 00:00 AM',
+          value: endDate.setLocale('en-US').toFormat('yyyy-MM-dd hh:mm a'),
         },
       });
     });
@@ -291,8 +295,8 @@ describe('The Application intakes admin page', () => {
       ],
       input: {
         intakeDescription: 'Test description',
-        endTime: '2025-07-02T07:00:00.000Z',
-        startTime: '2025-07-01T07:00:00.000Z',
+        startTime: startDate.toUTC().toISO(),
+        endTime: endDate.toUTC().toISO(),
       },
     });
 
