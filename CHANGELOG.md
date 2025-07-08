@@ -1,3 +1,5 @@
+## [1.261.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.5...v1.261.6) (2025-07-08)
+
 ## [1.261.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.4...v1.261.5) (2025-07-08)
 
 ### Bug Fixes
