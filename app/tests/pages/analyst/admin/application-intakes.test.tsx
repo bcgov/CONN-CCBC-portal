@@ -260,7 +260,7 @@ describe('The Application intakes admin page', () => {
     await act(async () => {
       fireEvent.change(startDateInput, {
         target: {
-          value: startDate.setLocale('en-US').toFormat('yyyy-MM-dd hh:mm a'),
+          value: startDate.setLocale('en-US').toFormat('yyyy-MM-dd HH:mm a'),
         },
       });
     });
@@ -268,7 +268,7 @@ describe('The Application intakes admin page', () => {
     await act(async () => {
       fireEvent.change(endDateInput, {
         target: {
-          value: endDate.setLocale('en-US').toFormat('yyyy-MM-dd hh:mm a'),
+          value: endDate.setLocale('en-US').toFormat('yyyy-MM-dd HH:mm a'),
         },
       });
     });
