@@ -162,6 +162,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
     )?.recordId;
   }, [chronologicalFilteredHistory, originalOrganizationName]);
 
+  let totalLength = filteredHistory.length;
   return (
     <>
       <HistoryFilter
@@ -171,12 +172,16 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
           setFilters(data);
         }}
       />
+
       <StyledTable cellSpacing="0" cellPadding="0">
         <tbody>
           {filteredHistory?.map((historyItem, index, array) => {
             const { recordId } = historyItem;
             const a = array.slice(index + 1);
             let prevItems;
+            if (historyItem.tableName === 'attachment') {
+              totalLength--;
+            }
             if (historyItem.op === 'UPDATE') {
               prevItems = [{ record: historyItem.oldRecord }];
             } else {
@@ -257,6 +262,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
                 historyItem.record?.application_rd
               )
             ) {
+              totalLength--;
               return null;
             }
             // using index + recordId for key as just recordId was causing strange duplicate record bug for delete history item until page refresh
@@ -275,6 +281,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
           })}
         </tbody>
       </StyledTable>
+      <div>TOTAL LENGTH: {totalLength}</div>
     </>
   );
 };
