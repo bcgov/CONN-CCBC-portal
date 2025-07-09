@@ -117,3 +117,6 @@ export const getFnhaValue = (data) => {
   }
   return null;
 };
+
+export const getSortedZones = (zones?: number[] | null) =>
+  Array.isArray(zones) ? [...zones].sort((a, b) => a - b) : zones;

@@ -6,6 +6,9 @@ const locationsUiSchema = {
   zones: {
     'ui:field': 'InlineArrayField',
     'ui:label': 'Project Zone',
+    'ui:options': {
+      sort: true,
+    },
   },
   projectLocations: {
     'ui:widget': 'TextAreaWidget',

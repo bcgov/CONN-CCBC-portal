@@ -1,3 +1,11 @@
+## [1.262.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.2...v1.262.3) (2025-07-09)
+
+## [1.262.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.1...v1.262.2) (2025-07-09)
+
+### Bug Fixes
+
+- zone order for cbc ([e195dba](https://github.com/bcgov/CONN-CCBC-portal/commit/e195dba5de3c7ce39faae7b0e6aac5f60c364628))
+
 ## [1.262.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.0...v1.262.1) (2025-07-09)
 
 # [1.262.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.8...v1.262.0) (2025-07-09)

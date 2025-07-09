@@ -11,6 +11,7 @@ import {
 import { HEADER_ROW } from './header';
 import {
   convertStatus,
+  getSortedZones,
   handleCbcCommunities,
   handleCcbcCommunities,
   handleLastMileSpeed,
@@ -469,7 +470,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
         type: Number,
       },
       // zone
-      { value: cbcDataByCbcId?.zones },
+      { value: getSortedZones(cbcDataByCbcId?.zones) },
       // intake number
       {
         value: cbcDataByCbcId?.intake,
