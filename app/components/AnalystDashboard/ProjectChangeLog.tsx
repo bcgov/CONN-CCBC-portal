@@ -275,7 +275,7 @@ const getTableConfig = (tableName: string, assessmentType?: string) => {
       schema: (() => {
         if (assessmentType === 'screening') return screeningSchema;
         if (assessmentType === 'gis') return gis;
-        return {};
+        return null;
       })(),
       excludedKeys: [
         'id',
@@ -817,7 +817,9 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 assessmentType
               );
               return (
-                historyItem.tableName !== 'attachment' && tableConfig !== null
+                historyItem.tableName !== 'attachment' &&
+                tableConfig !== null &&
+                tableConfig.schema !== null
               );
             })
             .map(({ historyItem, prevHistoryItem }) => {
