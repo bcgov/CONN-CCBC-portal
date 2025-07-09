@@ -31,10 +31,13 @@ const HistoryRow = ({
   recordWithOrgChange,
   recordWithTitleChange,
 }) => {
-  const { tableName } = historyItem;
+  const { tableName, user } = historyItem;
 
   return (
-    tableName !== 'attachment' && (
+    !(
+      (tableName === 'attachment') ||
+      (tableName === 'application_dependencies' && user === 'The applicant')
+    ) && (
       <tr>
         <StyledIconCell>
           <HistoryIcon type={tableName} />

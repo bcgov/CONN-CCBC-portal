@@ -1,3 +1,17 @@
+## [1.262.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.4...v1.262.5) (2025-07-09)
+
+## [1.262.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.3...v1.262.4) (2025-07-09)
+
+### Bug Fixes
+
+- added filtering for internal history changes ([755db90](https://github.com/bcgov/CONN-CCBC-portal/commit/755db908177e59917e18866c4140ae08a5f572d8))
+- adjusted filtering for history ([71883db](https://github.com/bcgov/CONN-CCBC-portal/commit/71883db25755cf6f92841a5a2e84a52c1fe3d520))
+- adjusted logic and test ([76b692e](https://github.com/bcgov/CONN-CCBC-portal/commit/76b692e361e663fe9eaadec9228b3b4c269aa89e))
+- moved the logic into HistoryRow ([2c5cc2e](https://github.com/bcgov/CONN-CCBC-portal/commit/2c5cc2e52f88b25bacbb4d98bce066551045346a))
+- typo ([dd46c05](https://github.com/bcgov/CONN-CCBC-portal/commit/dd46c05a5ec988acf3a7387290149e563d7db4d9))
+- updated logic and added tests ([f10057d](https://github.com/bcgov/CONN-CCBC-portal/commit/f10057db1146db3ddf774dea5f1a18c2c62f35d0))
+- updated test ([3f0da9a](https://github.com/bcgov/CONN-CCBC-portal/commit/3f0da9adda0955ef027a648a1d312d09721d0035))
+
 ## [1.262.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.2...v1.262.3) (2025-07-09)
 
 ## [1.262.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.1...v1.262.2) (2025-07-09)
