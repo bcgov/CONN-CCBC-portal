@@ -3,13 +3,6 @@ import { DateTime } from 'luxon';
 import statusStyles from 'data/statusStyles';
 import { useFeature } from '@growthbook/growthbook-react';
 import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
-import conditionalApprovalSchema from 'formSchema/uiSchema/history/conditionalApproval';
-import screeningSchema from 'formSchema/uiSchema/history/screening';
-import gis from 'formSchema/uiSchema/history/gis';
-import gisAssessmentHhSchema from 'formSchema/uiSchema/history/gisAssessmentHh';
-import applicationSowDataSchema from 'formSchema/uiSchema/history/applicationSowData';
-import projectInformationSchema from 'formSchema/uiSchema/history/projectInformation';
-import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
 import { diff } from 'json-diff';
 import { processArrayDiff } from 'components/DiffTable';
 import communities from 'formSchema/uiSchema/history/communities';
@@ -412,12 +405,6 @@ const HistoryContent = ({
     const [assessmentFilesArray, prevAssessmentFilesArray, arrayTitle] =
       getAsessmentSpecificFilesArray(assessmentType);
 
-    const assessmentSchema = (assessmentName) => {
-      if (assessmentName === 'screening') return screeningSchema;
-      if (assessmentName === 'gis') return gis;
-      return {};
-    };
-
     const showOtherFilesDiff = !!otherFilesDiff;
     const showAssessmentFilesDiff = !!diff(
       assessmentFilesArray,
@@ -438,18 +425,16 @@ const HistoryContent = ({
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record?.json_data || {}}
-            diffSchema={assessmentSchema(assessmentType)}
-            excludedKeys={[
-              'id',
-              'name',
-              'size',
-              'type',
-              'uuid',
-              'uploadedAt',
-              'otherFiles',
-              'assessmentTemplate',
-            ]}
-            overrideParent={assessmentType}
+            diffSchema={
+              getTableConfig(`assessment_data`, assessmentType)?.schema
+            }
+            excludedKeys={
+              getTableConfig(`assessment_data`, assessmentType)?.excludedKeys ||
+              []
+            }
+            overrideParent={
+              getTableConfig(`assessment_data`, assessmentType)?.overrideParent
+            }
           />
         )}
         {showOtherFilesDiff && isDetailedAssessment && (
@@ -483,19 +468,13 @@ const HistoryContent = ({
         <HistoryDetails
           json={record.json_data}
           prevJson={prevHistoryItem?.record?.json_data || {}}
-          excludedKeys={[
-            'id',
-            'createdAt',
-            'updatedAt',
-            'uploadedAt',
-            'size',
-            'name',
-            'uuid',
-            'type',
-            'letterOfApprovalUpload',
-          ]}
-          diffSchema={conditionalApprovalSchema}
-          overrideParent="conditionalApproval"
+          excludedKeys={
+            getTableConfig('conditional_approval_data')?.excludedKeys || []
+          }
+          diffSchema={getTableConfig('conditional_approval_data')?.schema}
+          overrideParent={
+            getTableConfig('conditional_approval_data')?.overrideParent
+          }
         />
         <HistoryFile
           filesArray={
@@ -526,9 +505,13 @@ const HistoryContent = ({
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record?.json_data || {}}
-            excludedKeys={['ccbc_number']}
-            diffSchema={applicationGisDataSchema}
-            overrideParent="gis"
+            excludedKeys={
+              getTableConfig('application_gis_data')?.excludedKeys || []
+            }
+            diffSchema={getTableConfig('application_gis_data')?.schema}
+            overrideParent={
+              getTableConfig('application_gis_data')?.overrideParent
+            }
           />
         )}
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
@@ -551,17 +534,14 @@ const HistoryContent = ({
           <HistoryDetails
             json={record}
             prevJson={prevHistoryItem?.record || {}}
-            excludedKeys={[
-              'id',
-              'updated_at',
-              'created_at',
-              'created_by',
-              'updated_by',
-              'archived_at',
-              'archived_by',
-            ]}
-            diffSchema={gisAssessmentHhSchema}
-            overrideParent="gis"
+            excludedKeys={
+              getTableConfig(`application_gis_assessment_hh`)?.excludedKeys ||
+              []
+            }
+            diffSchema={getTableConfig(`application_gis_assessment_hh`)?.schema}
+            overrideParent={
+              getTableConfig(`application_gis_assessment_hh`)?.overrideParent
+            }
           />
         )}
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
@@ -610,15 +590,10 @@ const HistoryContent = ({
             <HistoryDetails
               json={record.json_data}
               prevJson={prevHistoryItem?.record?.json_data || {}}
-              excludedKeys={[
-                'upload',
-                'sowWirelessUpload',
-                'statementOfWorkUpload',
-                'finalizedMapUpload',
-                'fundingAgreementUpload',
-                'otherFiles',
-              ]}
-              diffSchema={projectInformationSchema}
+              excludedKeys={
+                getTableConfig('project_information_data')?.excludedKeys || []
+              }
+              diffSchema={getTableConfig('project_information_data')?.schema}
               overrideParent="projectInformation"
             />
             {/* Only show if changes, set show hide title depending on previous one showing */}
@@ -702,23 +677,10 @@ const HistoryContent = ({
           json={record.json_data}
           prevJson={formattedApplicationData || {}}
           overrideParent="application_sow_data"
-          excludedKeys={[
-            'province',
-            'ccbc_number',
-            'effectiveStartDate',
-            'projectStartDate',
-            'projectCompletionDate',
-            'backboneFibre',
-            'backboneMicrowave',
-            'backboneSatellite',
-            'lastMileFibre',
-            'lastMileCable',
-            'lastMileDSL',
-            'lastMileMobileWireless',
-            'lastMileFixedWireless',
-            'lastMileSatellite',
-          ]}
-          diffSchema={applicationSowDataSchema}
+          excludedKeys={
+            getTableConfig('application_sow_data')?.excludedKeys || []
+          }
+          diffSchema={getTableConfig('application_sow_data')?.schema}
         />
       </>
     );
