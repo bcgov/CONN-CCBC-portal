@@ -11,13 +11,13 @@ const agreementSignedStatusChange: EmailTemplateProvider = (
 ): EmailTemplate => {
   const { ccbcNumber } = params;
   return {
-    emailTo: [72], // Temporary IDs to handle email recipients
+    emailTo: [147], // Temporary IDs to handle email recipients
     emailCC: [],
     tag: 'agreement-signed-status-change',
     subject: `Action Required - Upload SOW for ${ccbcNumber}`,
     body: `
-      <h1>${initiator.givenName} has changed the status for ${ccbcNumber} to 'Agreement Signed'</h1>
-      <p>Please upload the SOW <a href='${url}/analyst/application/${applicationId}/project'>here</a><p>
+      <h1>${initiator.givenName} has updated the status for ${ccbcNumber} to 'Agreement Signed' 2 days ago</h1>
+      <p><b>This is a reminder to upload the SOW <a href='${url}/analyst/application/${applicationId}/project'>here</a></b></p>
     `,
   };
 };

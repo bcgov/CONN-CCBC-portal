@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/nextjs';
 import getConfig from 'next/config';
 import config from '../../../config';
 import toTitleCase from '../../../utils/formatString';
+import { recordEmailRecord } from '../emails/utils/emailRecord';
 
 const CHES_API_URL = config.get('CHES_API_URL');
 
@@ -9,15 +10,18 @@ const sendEmail = async (
   token: string,
   body: string,
   subject: string,
-  emailTo: string[],
+  emailTo: string[] | string,
   tag: string,
-  emailCC: string[] = [],
+  emailCC: string[] | string = [],
   attachments: {
     content: string;
     filename: string;
     encoding: string;
     contentType: string;
-  }[] = []
+  }[] = [],
+  delayTs: number = 0,
+  req: any = null,
+  applicationId: number | null = null
 ) => {
   const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
   const environment = toTitleCase(namespace?.split('-')[1] || '');
@@ -26,7 +30,7 @@ const sendEmail = async (
       bodyType: 'html',
       body,
       cc: emailCC,
-      delayTs: 0,
+      delayTS: delayTs,
       encoding: 'utf-8',
       from: `CCBC Portal ${environment} <noreply-ccbc-portal@gov.bc.ca>`,
       priority: 'normal',
@@ -52,6 +56,26 @@ const sendEmail = async (
       throw new Error(`Error sending email with status: ${response.status}`);
     }
     const sendEmailResult = await response.json();
+    // if a req has been passed, we can log the email record
+    if (req !== null && applicationId !== null) {
+      const input = {
+        emailRecord: {
+          ccEmail: typeof emailCC === 'string' ? emailCC : emailCC.join(','),
+          toEmail: typeof emailTo === 'string' ? emailTo : emailTo.join(','),
+          subject,
+          body,
+          messageId: sendEmailResult.messages[0].msgId,
+          jsonData: {
+            tag,
+            applicationId,
+            fullResult: sendEmailResult,
+            isDelayed: delayTs > 0,
+            isCancelled: false,
+          },
+        },
+      };
+      await recordEmailRecord(input, req);
+    }
     return sendEmailResult.messages[0].msgId;
   } catch (error: any) {
     Sentry.captureException(new Error(error.message));

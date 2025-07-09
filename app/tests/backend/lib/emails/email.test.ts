@@ -18,8 +18,19 @@ import notifyApplicationSubmission from 'backend/lib/emails/templates/notifyAppl
 import notifyFailedReadOfTemplateData from 'backend/lib/emails/templates/notifyFailedReadOfTemplateData';
 import notifySowUpload from 'backend/lib/emails/templates/notifySowUpload';
 import notifyDocumentUpload from 'backend/lib/emails/templates/notifyDocumentUpload';
+import * as emailRecordUtils from 'backend/lib/emails/utils/emailRecord';
+import * as ches from 'backend/lib/ches/cancelDelayedMessage';
+import getAccessToken from 'backend/lib/ches/getAccessToken';
 
+jest.mock('backend/lib/emails/utils/emailRecord', () => ({
+  __esModule: true,
+  recordEmailRecord: jest.fn(),
+  getDelayedAndNonCancelledEmailRecord: jest.fn(),
+  setIsCancelledEmailRecord: jest.fn(),
+}));
 jest.mock('backend/lib/emails/handleEmailNotification');
+jest.mock('backend/lib/ches/cancelDelayedMessage');
+jest.mock('backend/lib/ches/getAccessToken');
 
 describe('Email API Endpoints', () => {
   let app;
@@ -47,8 +58,80 @@ describe('Email API Endpoints', () => {
       expect.anything(),
       expect.anything(),
       agreementSignedStatusChange,
-      { ccbcNumber: reqBody.ccbcNumber }
+      { ccbcNumber: reqBody.ccbcNumber },
+      false,
+      expect.anything()
     );
+  });
+
+  it('notifyAgreementSignedCancel returns 400 if applicationId is missing', async () => {
+    const res = await request(app)
+      .post('/api/email/notifyAgreementSignedCancel')
+      .send({});
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('applicationId is required');
+  });
+
+  it('notifyAgreementSignedCancel returns 400 if applicationId is not a number', async () => {
+    const res = await request(app)
+      .post('/api/email/notifyAgreementSignedCancel')
+      .send({ applicationId: 'not-a-number' });
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('applicationId must be a valid number');
+  });
+
+  it('notifyAgreementSignedCancel cancels records and returns 200', async () => {
+    jest
+      .spyOn(emailRecordUtils, 'getDelayedAndNonCancelledEmailRecord')
+      .mockResolvedValue({
+        data: {
+          allEmailRecords: {
+            edges: [
+              {
+                node: {
+                  messageId: 'msg-1',
+                  rowId: 1,
+                  jsonData: {},
+                },
+              },
+            ],
+          },
+        },
+      });
+    jest
+      .spyOn(ches, 'cancelDelayedMessageByMsgId')
+      .mockResolvedValue({ message: '', status: 'accepted' });
+    const setIsCancelledSpy = jest
+      .spyOn(emailRecordUtils, 'setIsCancelledEmailRecord')
+      .mockResolvedValue(undefined);
+
+    // Mock getAccessToken to return 'mock-token'
+    (getAccessToken as jest.Mock).mockResolvedValue('mock-token');
+
+    const res = await request(app)
+      .post('/api/email/notifyAgreementSignedCancel')
+      .send({ applicationId: '123' });
+
+    expect(res.status).toBe(200);
+    expect(res.body.message).toBe('Email records cancelled');
+    expect(ches.cancelDelayedMessageByMsgId).toHaveBeenCalledWith(
+      'mock-token',
+      'msg-1'
+    );
+    expect(setIsCancelledSpy).toHaveBeenCalledWith(1, {}, expect.anything());
+  });
+
+  it('notifyAgreementSignedCancel returns 500 on error', async () => {
+    (
+      emailRecordUtils.getDelayedAndNonCancelledEmailRecord as jest.Mock
+    ).mockImplementation(() => {
+      throw new Error('Test error');
+    });
+    const res = await request(app)
+      .post('/api/email/notifyAgreementSignedCancel')
+      .send({ applicationId: '123' });
+    expect(res.status).toBe(500);
+    expect(res.body.error).toBe('Internal server error');
   });
 
   it('calls handleEmailNotification with correct parameters once notifyAgreementSignedDataTeam called', async () => {
