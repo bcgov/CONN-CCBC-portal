@@ -1,3 +1,11 @@
+# [1.262.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.8...v1.262.0) (2025-07-09)
+
+### Features
+
+- cancel sow reminder when uploaded before 48 hours ([3ac4fad](https://github.com/bcgov/CONN-CCBC-portal/commit/3ac4fad1fae8eb7aca1d2af02b1f9fc15a6a0dba))
+- delayed email reminder for sow ([6669bf7](https://github.com/bcgov/CONN-CCBC-portal/commit/6669bf70c13b37107b558f584a6d380e902c7b89))
+- record all single emails ([52d4a45](https://github.com/bcgov/CONN-CCBC-portal/commit/52d4a453c3cb2556d24037db7e7a49faaeccb8a8))
+
 ## [1.261.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.7...v1.261.8) (2025-07-09)
 
 ## [1.261.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.6...v1.261.7) (2025-07-09)
