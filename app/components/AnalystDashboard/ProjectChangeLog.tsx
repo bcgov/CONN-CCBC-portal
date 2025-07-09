@@ -27,6 +27,7 @@ import { processHistoryItems, formatUserName } from 'utils/historyProcessing';
 import { getTableConfig } from 'utils/historyTableConfig';
 import ClearFilters from 'components/Table/ClearFilters';
 import { getLabelForType } from 'components/Analyst/History/HistoryFilter';
+import { convertStatus } from 'backend/lib/dashboard/util';
 import AdditionalFilters from './AdditionalFilters';
 import { HighlightFilterMatch } from './AllDashboardDetailPanel';
 
@@ -597,12 +598,27 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                     oldValue: processCommunity(oldArray),
                   });
                 }
+              } else if (tableName === 'application_status') {
+                diffRows = generateRawDiff(
+                  diff(
+                    {
+                      status:
+                        convertStatus(prevHistoryItem?.record?.status) || null,
+                    },
+                    { status: convertStatus(record?.status) || null },
+                    { keepUnchangedValues: true }
+                  ),
+                  tableConfig.schema,
+                  tableConfig.excludedKeys,
+                  tableConfig.overrideParent || tableName
+                );
               } else {
                 // Standard processing for other tables
                 let json = {};
                 let prevJson = {};
 
                 // Handle different data sources based on table type
+                // these are the tables we are processing everything else is getting ignored
                 if (
                   tableName === 'form_data' ||
                   tableName === 'rfi_data' ||
