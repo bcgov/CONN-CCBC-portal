@@ -61,6 +61,8 @@ export const convertStatus = (status: string): string => {
       return 'Received';
     case 'submitted':
       return 'Submitted';
+    case 'screening':
+      return 'Screening';
     case 'withdrawn':
       return 'Withdrawn';
     case 'conditionally_approved':
