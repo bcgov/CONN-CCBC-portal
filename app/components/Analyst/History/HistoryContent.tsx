@@ -2,20 +2,18 @@ import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import statusStyles from 'data/statusStyles';
 import { useFeature } from '@growthbook/growthbook-react';
-import applicationDiffSchema from 'formSchema/uiSchema/history/application';
-import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
 import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
-import projectInformationSchema from 'formSchema/uiSchema/history/projectInformation';
-import { diff } from 'json-diff';
 import conditionalApprovalSchema from 'formSchema/uiSchema/history/conditionalApproval';
 import screeningSchema from 'formSchema/uiSchema/history/screening';
 import gis from 'formSchema/uiSchema/history/gis';
 import gisAssessmentHhSchema from 'formSchema/uiSchema/history/gisAssessmentHh';
 import applicationSowDataSchema from 'formSchema/uiSchema/history/applicationSowData';
-import applicationAnnounced from 'formSchema/uiSchema/history/applicationAnnounced';
+import projectInformationSchema from 'formSchema/uiSchema/history/projectInformation';
+import applicationGisDataSchema from 'formSchema/uiSchema/history/applicationGisData';
+import { diff } from 'json-diff';
 import { processArrayDiff } from 'components/DiffTable';
 import communities from 'formSchema/uiSchema/history/communities';
-import fnhaContribution from 'formSchema/uiSchema/history/fnhaContribution';
+import { getTableConfig } from 'utils/historyTableConfig';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -49,21 +47,6 @@ const ChangeReason = ({ reason }) => {
       <b>Reason for change:</b> {reason}
     </StyledChange>
   );
-};
-
-const communityReportSchema = {
-  communityReport: {
-    properties: {
-      dueDate: {
-        title: 'Due date',
-        type: 'string',
-      },
-      dateReceived: {
-        title: 'Date received',
-        type: 'string',
-      },
-    },
-  },
 };
 
 const filterArrays = (obj: Record<string, any>): Record<string, any> => {
@@ -167,41 +150,9 @@ const HistoryContent = ({
             <HistoryDetails
               json={record?.json_data || {}}
               prevJson={prevHistoryItem?.record?.json_data || {}}
-              excludedKeys={[
-                'id',
-                'createdAt',
-                'updatedAt',
-                'applicationId',
-                'name',
-                'size',
-                'type',
-                'rfiEmailCorrespondance',
-                'fileDate',
-                'uploadedAt',
-                'eligibilityAndImpactsCalculator',
-                'detailedBudget',
-                'financialForecast',
-                'lastMileIspOffering',
-                'popWholesalePricing',
-                'communityRuralDevelopmentBenefitsTemplate',
-                'wirelessAddendum',
-                'supportingConnectivityEvidence',
-                'geographicNames',
-                'equipmentDetails',
-                'copiesOfRegistration',
-                'preparedFinancialStatements',
-                'logicalNetworkDiagram',
-                'projectSchedule',
-                'communityRuralDevelopmentBenefits',
-                'otherSupportingMaterials',
-                'geographicCoverageMap',
-                'coverageAssessmentStatistics',
-                'currentNetworkInfastructure',
-                'upgradedNetworkInfrastructure',
-                'uuid',
-              ]}
-              diffSchema={rfiDiffSchema}
-              overrideParent="rfi"
+              excludedKeys={getTableConfig('rfi_data')?.excludedKeys || []}
+              diffSchema={getTableConfig('rfi_data')?.schema}
+              overrideParent={getTableConfig('rfi_data')?.overrideParent}
             />
             {/* Email files can be an update or insert, but will never occur at the same time as additional files */}
             {showEmailFiles && !showAdditionalFiles && (
@@ -268,17 +219,13 @@ const HistoryContent = ({
           <HistoryDetails
             json={record}
             prevJson={prevHistoryItem?.record || {}}
-            excludedKeys={[
-              'id',
-              'updated_at',
-              'created_at',
-              'created_by',
-              'updated_by',
-              'archived_at',
-              'archived_by',
-            ]}
-            diffSchema={applicationAnnounced}
-            overrideParent="applicationAnnounced"
+            excludedKeys={
+              getTableConfig('application_announced')?.excludedKeys || []
+            }
+            diffSchema={getTableConfig('application_announced')?.schema}
+            overrideParent={
+              getTableConfig('application_announced')?.overrideParent
+            }
           />
         )}
       </StyledContent>
@@ -353,17 +300,8 @@ const HistoryContent = ({
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record?.json_data || {}}
-            excludedKeys={[
-              'id',
-              'createdAt',
-              'updatedAt',
-              'applicationId',
-              'acknowledgements',
-              'supportingDocuments',
-              'coverage',
-              'templateUploads',
-            ]}
-            diffSchema={applicationDiffSchema}
+            excludedKeys={getTableConfig('form_data')?.excludedKeys || []}
+            diffSchema={getTableConfig('form_data')?.schema}
           />
         )}
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
@@ -430,18 +368,13 @@ const HistoryContent = ({
         <HistoryDetails
           json={record.json_data}
           prevJson={prevHistoryItem?.record?.json_data || {}}
-          excludedKeys={['id', 'createdAt', 'updatedAt', 'applicationId']}
-          diffSchema={{
-            applicationDependencies: {
-              properties: {
-                crtcProjectDependent: { title: 'CRTC Project Dependent' },
-                connectedCoastNetworkDependent: {
-                  title: 'Connected Coast Network Dependent',
-                },
-              },
-            },
-          }}
-          overrideParent="applicationDependencies"
+          excludedKeys={
+            getTableConfig('application_dependencies')?.excludedKeys || []
+          }
+          diffSchema={getTableConfig('application_dependencies')?.schema}
+          overrideParent={
+            getTableConfig('application_dependencies')?.overrideParent
+          }
         />
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
       </>
@@ -859,9 +792,18 @@ const HistoryContent = ({
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record?.json_data || {}}
-            excludedKeys={['ccbc_number', 'progressReportFile']}
-            diffSchema={communityReportSchema}
-            overrideParent="communityReport"
+            excludedKeys={
+              getTableConfig('application_community_progress_report_data')
+                ?.excludedKeys || []
+            }
+            diffSchema={
+              getTableConfig('application_community_progress_report_data')
+                ?.schema
+            }
+            overrideParent={
+              getTableConfig('application_community_progress_report_data')
+                ?.overrideParent
+            }
           />
         )}
       </>
@@ -949,13 +891,13 @@ const HistoryContent = ({
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record?.json_data || {}}
-            excludedKeys={[
-              'ccbc_number',
-              'milestoneFile',
-              'evidenceOfCompletionFile',
-            ]}
-            diffSchema={communityReportSchema}
-            overrideParent="communityReport"
+            excludedKeys={
+              getTableConfig('application_milestone_data')?.excludedKeys || []
+            }
+            diffSchema={getTableConfig('application_milestone_data')?.schema}
+            overrideParent={
+              getTableConfig('application_milestone_data')?.overrideParent
+            }
           />
         )}
         {op === 'UPDATE' &&
@@ -964,13 +906,13 @@ const HistoryContent = ({
             <HistoryDetails
               json={{}}
               prevJson={record.json_data}
-              excludedKeys={[
-                'ccbc_number',
-                'milestoneFile',
-                'evidenceOfCompletionFile',
-              ]}
-              diffSchema={communityReportSchema}
-              overrideParent="communityReport"
+              excludedKeys={
+                getTableConfig('application_milestone_data')?.excludedKeys || []
+              }
+              diffSchema={getTableConfig('application_milestone_data')?.schema}
+              overrideParent={
+                getTableConfig('application_milestone_data')?.overrideParent
+              }
             />
           )}
         {op === 'INSERT' && changedMilestoneFile && (
@@ -1122,18 +1064,14 @@ const HistoryContent = ({
           <HistoryDetails
             json={record}
             prevJson={prevHistoryItem?.record || {}}
-            excludedKeys={[
-              'id',
-              'updated_at',
-              'created_at',
-              'created_by',
-              'updated_by',
-              'archived_at',
-              'archived_by',
-              'reason_for_change',
-            ]}
-            diffSchema={fnhaContribution}
-            overrideParent="fnhaContribution"
+            excludedKeys={
+              getTableConfig('application_fnha_contribution')?.excludedKeys ||
+              []
+            }
+            diffSchema={getTableConfig('application_fnha_contribution')?.schema}
+            overrideParent={
+              getTableConfig('application_fnha_contribution')?.overrideParent
+            }
           />
         )}
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
