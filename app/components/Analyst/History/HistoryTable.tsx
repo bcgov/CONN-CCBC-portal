@@ -36,6 +36,20 @@ interface Props {
   query: any;
 }
 
+export const formatUserName = (historyItem: any) => {
+  const isAnalyst =
+    historyItem.sessionSub.includes('idir') || historyItem.externalAnalyst;
+
+  const fullName = isAnalyst
+    ? `${historyItem.givenName} ${historyItem.familyName}`
+    : 'The applicant';
+  const isSystem = historyItem.createdBy === 1 && historyItem.op === 'INSERT';
+  return {
+    ...historyItem,
+    user: isSystem ? 'The system' : fullName,
+  };
+};
+
 const HistoryTable: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment<HistoryTable_query$key>(
     graphql`
@@ -95,20 +109,6 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
         .indexOf('received'),
     [applicationHistory]
   );
-
-  const formatUserName = (historyItem: any) => {
-    const isAnalyst =
-      historyItem.sessionSub.includes('idir') || historyItem.externalAnalyst;
-
-    const fullName = isAnalyst
-      ? `${historyItem.givenName} ${historyItem.familyName}`
-      : 'The applicant';
-    const isSystem = historyItem.createdBy === 1 && historyItem.op === 'INSERT';
-    return {
-      ...historyItem,
-      user: isSystem ? 'The system' : fullName,
-    };
-  };
 
   const historyList = useMemo(() => {
     return applicationHistory
