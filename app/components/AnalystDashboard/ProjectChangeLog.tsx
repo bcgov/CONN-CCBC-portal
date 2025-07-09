@@ -370,8 +370,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const { allCbcs, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
-  const { tableData, totalLength } = useMemo(() => {
-    let totalLength = 0;
+  const { tableData } = useMemo(() => {
     const allCbcsFlatMap =
       allCbcs?.nodes?.flatMap(
         ({ projectNumber, rowId, history }) =>
@@ -493,8 +492,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           return processedHistory
             .filter(({ historyItem }) => {
               // Exclude attachment table and tables without proper schema config
-              const assessmentType =
-                historyItem.record?.json_data?.assessmentType;
+              const assessmentType = historyItem.item;
               const tableConfig = getTableConfig(
                 historyItem.tableName,
                 assessmentType
@@ -506,8 +504,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               );
             })
             .map(({ historyItem, prevHistoryItem }) => {
-              totalLength++;
-              const { record, createdAt, op, tableName } = historyItem;
+              const { record, createdAt, op, tableName, item } = historyItem;
               const effectiveDate =
                 op === 'UPDATE'
                   ? new Date(record?.updated_at)
@@ -523,7 +520,8 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               };
 
               // Get table configuration
-              const assessmentType = record?.json_data?.assessmentType;
+              const assessmentType = item;
+
               const tableConfig = getTableConfig(tableName, assessmentType);
 
               let diffRows = [];
@@ -633,7 +631,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         }))
       );
 
-    return { tableData, totalLength };
+    return { tableData };
   }, [allCbcs, allApplications]);
 
   // Collect unique createdBy values for the multi-select filter
@@ -799,12 +797,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     ),
   });
 
-  return (
-    <>
-      <div>TOTAL LENGTH: {totalLength}</div>
-      <MaterialReactTable table={table} />
-    </>
-  );
+  return <MaterialReactTable table={table} />;
 };
 
 export default ProjectChangeLog;
