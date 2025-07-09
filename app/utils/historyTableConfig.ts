@@ -103,6 +103,20 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       ],
       overrideParent: 'applicationAnnounced',
     },
+    application_status: {
+      schema: {
+        applicationStatus: {
+          properties: {
+            status: {
+              title: 'Status',
+              type: 'string',
+            },
+          },
+        },
+      },
+      excludedKeys: ['id', 'createdAt', 'updatedAt', 'applicationId'],
+      overrideParent: 'applicationStatus',
+    },
     form_data: {
       schema: applicationDiffSchema,
       excludedKeys: [
