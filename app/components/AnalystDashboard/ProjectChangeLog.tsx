@@ -37,6 +37,7 @@ import { DateTime } from 'luxon';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import isEqual from 'lodash.isequal';
 import ClearFilters from 'components/Table/ClearFilters';
+import { formatUserName } from 'components/Analyst/History/HistoryTable';
 import AdditionalFilters from './AdditionalFilters';
 
 interface Props {
@@ -676,8 +677,9 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
   const defaultFilters = [{ id: 'program', value: ['CBC', 'CCBC', 'OTHER'] }];
-  const [columnFilters, setColumnFilters] =
-    useState<MRT_ColumnFiltersState>(defaultFilters);
+  const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
+    []
+  );
   const { allCbcs, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
@@ -898,7 +900,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
                   DateTime.DATETIME_MED
                 ),
-                createdBy: formatUser(historyItem),
+                createdBy: formatUserName(historyItem).user,
               };
 
               const mappedRows = diffRows.map((row, i) => ({
