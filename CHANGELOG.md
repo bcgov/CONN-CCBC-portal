@@ -1,3 +1,12 @@
+## [1.261.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.7...v1.261.8) (2025-07-09)
+
+## [1.261.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.6...v1.261.7) (2025-07-09)
+
+### Bug Fixes
+
+- failing intake tests to get 24 hr format ([b13d606](https://github.com/bcgov/CONN-CCBC-portal/commit/b13d606a15a8a0cf50e44fc1d3c2639fb605327b))
+- removed archived CBC projects ([554f18f](https://github.com/bcgov/CONN-CCBC-portal/commit/554f18fbdc772eeffd599a75beb0e6588b7cd13a))
+
 ## [1.261.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.5...v1.261.6) (2025-07-08)
 
 ## [1.261.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.261.4...v1.261.5) (2025-07-08)

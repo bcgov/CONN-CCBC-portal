@@ -24,7 +24,9 @@ import { getFnhaValue } from '../dashboard/util';
 
 const getCbcDataQuery = `
   query getCbcData {
-    allCbcData {
+    allCbcData (
+      filter: {cbcByCbcId: {archivedAt: {isNull: true}}}
+    ) {
       edges {
         node {
           projectNumber
