@@ -34,10 +34,9 @@ import communities from 'formSchema/uiSchema/history/communities';
 import styled from 'styled-components';
 import { Box, Link, TableCellProps } from '@mui/material';
 import { DateTime } from 'luxon';
-import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
-import isEqual from 'lodash.isequal';
+import { processHistoryItems, formatUserName } from 'utils/historyProcessing';
 import ClearFilters from 'components/Table/ClearFilters';
-import { formatUserName } from 'components/Analyst/History/HistoryTable';
+import { getLabelForType } from 'components/Analyst/History/HistoryFilter';
 import AdditionalFilters from './AdditionalFilters';
 import { HighlightFilterMatch } from './AllDashboardDetailPanel';
 
@@ -405,125 +404,6 @@ const getTableConfig = (tableName: string, assessmentType?: string) => {
   return configs[tableName] || null;
 };
 
-// Preprocessing function to match HistoryTable logic
-const preprocessApplicationHistory = (applicationHistory: readonly any[]) => {
-  // Sort history items like HistoryTable does
-  const sortedHistory = [...applicationHistory].sort((a, b) => {
-    const aDeleted = a.op === 'UPDATE';
-    const bDeleted = b.op === 'UPDATE';
-    const aDate = aDeleted ? a.record.updated_at : a.createdAt;
-    const bDate = bDeleted ? b.record.updated_at : b.createdAt;
-    return new Date(aDate).getTime() - new Date(bDate).getTime();
-  });
-
-  // Find received index like HistoryTable does
-  const receivedIndex = sortedHistory
-    .map((historyItem) => historyItem.item)
-    .indexOf('received');
-
-  // Get history from received onwards, reversed like HistoryTable
-  const historyList = sortedHistory
-    .slice(receivedIndex >= 0 ? receivedIndex : 0)
-    .reverse();
-
-  // Process each history item with previous item matching logic from HistoryTable
-  const processedHistory = historyList
-    .map((historyItem, index, array) => {
-      const a = array.slice(index + 1);
-      let prevItems;
-
-      if (historyItem.op === 'UPDATE') {
-        prevItems = [{ record: historyItem.oldRecord }];
-      } else {
-        prevItems = a.filter((previousItem) => {
-          // assessment data must match by item type
-          if (previousItem.tableName === 'assessment_data') {
-            return (
-              previousItem.tableName === historyItem.tableName &&
-              previousItem.item === historyItem.item
-            );
-          }
-          // rfis must match by rfi_number
-          if (previousItem.tableName === 'rfi_data') {
-            return (
-              previousItem.tableName === historyItem.tableName &&
-              previousItem.record?.rfi_number ===
-                historyItem.record?.rfi_number &&
-              previousItem.op === 'INSERT'
-            );
-          }
-          // community reports must match by quarter
-          if (
-            previousItem.tableName ===
-              'application_community_progress_report_data' &&
-            previousItem.tableName === historyItem.tableName
-          ) {
-            const quarter =
-              historyItem.record?.json_data?.dueDate &&
-              getFiscalQuarter(historyItem.record.json_data.dueDate);
-            const year =
-              historyItem.record?.json_data?.dueDate &&
-              getFiscalYear(historyItem.record.json_data.dueDate);
-            const updated =
-              previousItem.op === 'INSERT' &&
-              getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
-                quarter &&
-              getFiscalYear(previousItem.record?.json_data?.dueDate) === year;
-            return updated;
-          }
-          // application milestone needs to match by quarter
-          if (
-            previousItem.tableName === 'application_milestone_data' &&
-            previousItem.tableName === historyItem.tableName
-          ) {
-            const quarter =
-              historyItem.record?.json_data?.dueDate &&
-              getFiscalQuarter(historyItem.record.json_data.dueDate);
-            const year =
-              historyItem.record?.json_data?.dueDate &&
-              getFiscalYear(historyItem.record.json_data.dueDate);
-            const updated =
-              previousItem.op === 'INSERT' &&
-              getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
-                quarter &&
-              getFiscalYear(previousItem.record?.json_data?.dueDate) === year;
-            return updated;
-          }
-          // change request data must match by amendment number
-          if (previousItem.tableName === 'change_request_data') {
-            return (
-              previousItem.tableName === historyItem.tableName &&
-              previousItem.record?.json_data?.amendmentNumber ===
-                historyItem.record?.json_data?.amendmentNumber
-            );
-          }
-          return previousItem.tableName === historyItem.tableName;
-        });
-      }
-
-      const prevHistoryItem = prevItems.length > 0 ? prevItems[0] : {};
-
-      // Skip duplicate history items for communities like HistoryTable does
-      if (
-        historyItem?.tableName === 'application_communities' &&
-        isEqual(
-          prevHistoryItem.record?.application_rd,
-          historyItem.record?.application_rd
-        )
-      ) {
-        return null;
-      }
-
-      return {
-        historyItem,
-        prevHistoryItem,
-      };
-    })
-    .filter(Boolean); // Remove null entries
-
-  return processedHistory;
-};
-
 const CommunitiesCell = (
   key1: string,
   key2: string,
@@ -687,8 +567,8 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const { allCbcs, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
-  let totalLength = 0;
-  const tableData = useMemo(() => {
+  const { tableData, totalLength } = useMemo(() => {
+    let totalLength = 0;
     const allCbcsFlatMap =
       allCbcs?.nodes?.flatMap(
         ({ projectNumber, rowId, history }) =>
@@ -704,6 +584,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               id: rowId,
               _sortDate: effectiveDate,
               program: 'CBC',
+              section: 'Section',
               isCbcProject: true,
             };
 
@@ -805,7 +686,10 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       allApplications?.nodes?.flatMap(
         ({ ccbcNumber, rowId, history, program }) => {
           // Apply HistoryTable preprocessing logic
-          const processedHistory = preprocessApplicationHistory(history.nodes);
+          const processedHistory = processHistoryItems(history.nodes, {
+            includeAttachments: false,
+            applyUserFormatting: false,
+          });
 
           return processedHistory
             .filter(({ historyItem }) => {
@@ -835,6 +719,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 id: rowId,
                 _sortDate: effectiveDate,
                 program: program || 'CCBC',
+                section: getLabelForType(tableName),
                 isCbcProject: false,
               };
 
@@ -940,7 +825,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
 
     const entries = [...allCbcsFlatMap, ...allApplicationsFlatMap];
 
-    return entries
+    const tableData = entries
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
       .flatMap((entry, i) =>
         entry.group.map((row) => ({
@@ -948,6 +833,8 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           isEvenGroup: i % 2 === 0,
         }))
       );
+
+    return { tableData, totalLength };
   }, [allCbcs, allApplications]);
 
   // Collect unique createdBy values for the multi-select filter
@@ -968,6 +855,15 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     return Array.from(set).sort();
   }, [tableData]);
 
+  // Collect unique section values for the multi-select filter
+  const sectionOptions = useMemo(() => {
+    const set = new Set<string>();
+    tableData.forEach((row) => {
+      if (row.section) set.add(row.section);
+    });
+    return Array.from(set).sort();
+  }, [tableData]);
+
   const columns: MRT_ColumnDef<any>[] = [
     {
       accessorKey: 'rowId',
@@ -983,6 +879,13 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       filterVariant: 'multi-select',
       filterSelectOptions: programOptions,
       Cell: MergedCell,
+    },
+    {
+      accessorKey: 'section',
+      header: 'Section',
+      filterFn: filterVariant,
+      filterVariant: 'multi-select',
+      filterSelectOptions: sectionOptions,
     },
     {
       accessorKey: 'field',
