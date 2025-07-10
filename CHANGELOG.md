@@ -1,3 +1,9 @@
+## [1.262.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.5...v1.262.6) (2025-07-10)
+
+### Bug Fixes
+
+- fnha funding on dashboard export ([c8e51e8](https://github.com/bcgov/CONN-CCBC-portal/commit/c8e51e81834bc4dedc9a612118e0102260a282f5))
+
 ## [1.262.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.4...v1.262.5) (2025-07-09)
 
 ## [1.262.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.3...v1.262.4) (2025-07-09)
