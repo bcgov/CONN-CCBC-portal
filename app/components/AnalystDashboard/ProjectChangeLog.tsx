@@ -598,6 +598,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                     oldValue: processCommunity(oldArray),
                   });
                 }
+                // special handling for application status
               } else if (tableName === 'application_status') {
                 diffRows = generateRawDiff(
                   diff(
@@ -606,6 +607,21 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                         convertStatus(prevHistoryItem?.record?.status) || null,
                     },
                     { status: convertStatus(record?.status) || null },
+                    { keepUnchangedValues: true }
+                  ),
+                  tableConfig.schema,
+                  tableConfig.excludedKeys,
+                  tableConfig.overrideParent || tableName
+                );
+              } else if (tableName === 'application_analyst_lead') {
+                diffRows = generateRawDiff(
+                  diff(
+                    {
+                      analyst_lead: prevHistoryItem?.item || null,
+                    },
+                    {
+                      analyst_lead: item || null,
+                    },
                     { keepUnchangedValues: true }
                   ),
                   tableConfig.schema,
