@@ -575,6 +575,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                   tableConfig.excludedKeys,
                   tableConfig.overrideParent || tableName
                 );
+                // special handling for analyst lead
               } else if (tableName === 'application_analyst_lead') {
                 diffRows = generateRawDiff(
                   diff(
@@ -583,6 +584,21 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                     },
                     {
                       analyst_lead: item || null,
+                    },
+                    { keepUnchangedValues: true }
+                  ),
+                  tableConfig.schema,
+                  tableConfig.excludedKeys,
+                  tableConfig.overrideParent || tableName
+                );
+              } else if (tableName === 'application_package') {
+                diffRows = generateRawDiff(
+                  diff(
+                    {
+                      package: prevHistoryItem?.record?.package || null,
+                    },
+                    {
+                      package: record?.package || null,
                     },
                     { keepUnchangedValues: true }
                   ),
