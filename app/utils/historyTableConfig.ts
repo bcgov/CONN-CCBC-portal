@@ -131,6 +131,20 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       excludedKeys: ['id', 'createdAt', 'updatedAt', 'applicationId'],
       overrideParent: 'applicationAnalystLead',
     },
+    application_package: {
+      schema: {
+        applicationPackage: {
+          properties: {
+            package: {
+              title: 'Package',
+              type: 'string',
+            },
+          },
+        },
+      },
+      excludedKeys: ['id', 'createdAt', 'updatedAt', 'applicationId'],
+      overrideParent: 'applicationPackage',
+    },
     form_data: {
       schema: applicationDiffSchema,
       excludedKeys: [
