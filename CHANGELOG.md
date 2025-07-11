@@ -1,3 +1,9 @@
+## [1.262.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.7...v1.262.8) (2025-07-11)
+
+### Bug Fixes
+
+- highlight issue when spaces present on communities ([1b6bde0](https://github.com/bcgov/CONN-CCBC-portal/commit/1b6bde02a459f468ee708a5352fca05f4d22dc95))
+
 ## [1.262.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.6...v1.262.7) (2025-07-10)
 
 ## [1.262.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.5...v1.262.6) (2025-07-10)
