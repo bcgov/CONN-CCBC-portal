@@ -21600,55 +21600,30 @@ export const cbcDataQueryResult = {
               bindingAgreementSignedNditRecipient: true,
             },
             cbcByCbcId: {
-              communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId:
-                {
-                  edges: [
-                    {
-                      cbcProjectCommunitiesByCommunitiesSourceDataId: {
-                        nodes: [
-                          {
-                            communitiesSourceDataByCommunitiesSourceDataId: {
-                              economicRegion: 'Northeast / Nord-est',
-                            },
-                          },
-                        ],
-                      },
+              cbcProjectCommunitiesByCbcId: {
+                nodes: [
+                  {
+                    cbcProjectCommunitiesByCommunitiesSourceDataId: {
+                      economicRegion: 'Northeast / Nord-est',
                     },
-                    {
-                      cbcProjectCommunitiesByCommunitiesSourceDataId: {
-                        nodes: [
-                          {
-                            communitiesSourceDataByCommunitiesSourceDataId: {
-                              economicRegion: 'Northeast / Nord-est',
-                            },
-                          },
-                        ],
-                      },
+                  },
+                  {
+                    cbcProjectCommunitiesByCommunitiesSourceDataId: {
+                      economicRegion: 'Northeast / Nord-est',
                     },
-                    {
-                      cbcProjectCommunitiesByCommunitiesSourceDataId: {
-                        nodes: [
-                          {
-                            communitiesSourceDataByCommunitiesSourceDataId: {
-                              economicRegion: 'Thompson--Okanagan',
-                            },
-                          },
-                        ],
-                      },
+                  },
+                  {
+                    cbcProjectCommunitiesByCommunitiesSourceDataId: {
+                      economicRegion: 'Thompson--Okanagan',
                     },
-                    {
-                      cbcProjectCommunitiesByCommunitiesSourceDataId: {
-                        nodes: [
-                          {
-                            communitiesSourceDataByCommunitiesSourceDataId: {
-                              economicRegion: 'Northeast / Nord-est',
-                            },
-                          },
-                        ],
-                      },
+                  },
+                  {
+                    cbcProjectCommunitiesByCommunitiesSourceDataId: {
+                      economicRegion: 'Northeast / Nord-est',
                     },
-                  ],
-                },
+                  },
+                ],
+              },
             },
           },
         },
