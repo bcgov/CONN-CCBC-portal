@@ -24,6 +24,7 @@ import { Box, Link, TableCellProps } from '@mui/material';
 import { DateTime } from 'luxon';
 import ClearFilters from 'components/Table/ClearFilters';
 import AdditionalFilters from './AdditionalFilters';
+import { HighlightFilterMatch } from './AllDashboardDetailPanel';
 
 interface Props {
   query: any;
@@ -62,23 +63,21 @@ const StyledCommunitiesHeader = styled.th`
   border-bottom: 1px solid #999;
 `;
 
-const ProjectIdCell = ({ cell }) => {
-  const applicationId = cell.getValue();
+const ProjectIdCell = ({ cell, renderedCellValue }) => {
   const isVisibleRow = cell.row.original?.isVisibleRow;
   const rowId = cell.row.original?.id;
 
   return isVisibleRow ? (
     <StyledLink href={`/analyst/cbc/${rowId}/cbcHistory`}>
-      {applicationId}
+      {renderedCellValue}
     </StyledLink>
   ) : null;
 };
 
-const MergedCell = ({ cell }) => {
-  const value = cell.getValue();
+const MergedCell = ({ cell, renderedCellValue }) => {
   const isVisibleRow = cell.row.original?.isVisibleRow;
 
-  return isVisibleRow ? value : null;
+  return isVisibleRow ? renderedCellValue : null;
 };
 
 const StyledCommunitiesCell = styled.td<{
@@ -140,11 +139,18 @@ const formatUser = (item) => {
     : `${item.ccbcUserByCreatedBy?.givenName} ${item.ccbcUserByCreatedBy?.familyName}`;
 };
 
+const communityArrayToHistoryString = (
+  communitiesArray: any[],
+  keys: string[]
+) =>
+  communitiesArray.map((obj) => keys.map((key) => obj?.[key] ?? '').join(' '));
+
 const CommunitiesCell = (
   key1: string,
   key2: string,
   value: any[],
-  isRemoved: boolean
+  isRemoved: boolean,
+  filters: string[]
 ) => {
   const headers = {
     bc_geographic_name: 'Geographic Name',
@@ -168,14 +174,20 @@ const CommunitiesCell = (
               isRemoved={isRemoved}
               title={loc[key1]}
             >
-              {loc[key1]}
+              {HighlightFilterMatch({
+                text: loc[key1],
+                filters,
+              })}
             </StyledCommunitiesCell>
             <StyledCommunitiesCell
               addBorder={i < value.length - 1}
               isRemoved={isRemoved}
               title={loc[key2]}
             >
-              {loc[key2]}
+              {HighlightFilterMatch({
+                text: loc[key2],
+                filters,
+              })}
             </StyledCommunitiesCell>
           </tr>
         ))}
@@ -185,24 +197,41 @@ const CommunitiesCell = (
 };
 
 // OldValueCell moved out of ProjectChangeLog to avoid defining components during render
-const OldValueCell = ({ row }) => {
-  const { field, oldValue } = row.original;
+const HistoryValueCell = ({
+  row,
+  column,
+  renderedCellValue,
+  table,
+  historyType = 'new',
+}) => {
+  const { field, oldValue, newValue } = row.original;
+  const value = historyType === 'old' ? oldValue : newValue;
+  const filterValue = column.getFilterValue();
+  const globalFilter = table.getState()?.globalFilter;
+
   if (
-    (field === 'Communities Added' || field === 'Communities Removed') &&
-    Array.isArray(oldValue)
+    ['Communities Added', 'Communities Removed'].includes(field) &&
+    Array.isArray(value)
   ) {
-    // Always show strikethrough for oldValue in CommunitiesCell
     const isRemoved = field === 'Communities Removed';
     return CommunitiesCell(
-      'bc_geographic_name',
-      'geographic_type',
-      oldValue,
-      isRemoved
+      historyType === 'old' ? 'bc_geographic_name' : 'economic_region',
+      historyType === 'old' ? 'geographic_type' : 'regional_district',
+      value,
+      isRemoved,
+      [filterValue, globalFilter]
     );
   }
-  // For all other values, wrap in a span with strikethrough
-  return <span style={{ textDecoration: 'line-through' }}>{oldValue}</span>;
+  return historyType === 'old' ? (
+    <span style={{ textDecoration: 'line-through' }}>{renderedCellValue}</span>
+  ) : (
+    renderedCellValue
+  );
 };
+
+const OldValueCell = (props) => (
+  <HistoryValueCell {...props} historyType="old" />
+);
 
 const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment<ProjectChangeLog_query$key>(
@@ -331,6 +360,15 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                       field: label,
                       newValue: values,
                       oldValue: values,
+                      // passing a string of values for communities for filtering purpose
+                      oldValueString: communityArrayToHistoryString(values, [
+                        'bc_geographic_name',
+                        'geographic_type',
+                      ]),
+                      newValueString: communityArrayToHistoryString(values, [
+                        'economic_region',
+                        'regional_district',
+                      ]),
                     },
                   ]
                 : [];
@@ -383,30 +421,15 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       filterFn: filterVariant,
     },
     {
-      accessorKey: 'oldValue',
+      accessorFn: (row) => row.oldValueString ?? row.oldValue,
       header: 'Old Value',
       Cell: OldValueCell,
       filterFn: filterVariant,
     },
     {
-      accessorKey: 'newValue',
+      accessorFn: (row) => row.newValueString ?? row.newValue,
       header: 'New Value',
-      Cell: ({ row }) => {
-        const { field, newValue } = row.original;
-        if (
-          (field === 'Communities Added' || field === 'Communities Removed') &&
-          Array.isArray(newValue)
-        ) {
-          const isRemoved = field === 'Communities Removed';
-          return CommunitiesCell(
-            'economic_region',
-            'regional_district',
-            newValue,
-            isRemoved
-          );
-        }
-        return newValue;
-      },
+      Cell: HistoryValueCell,
       filterFn: filterVariant,
     },
     {
