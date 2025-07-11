@@ -22,23 +22,34 @@ const StyledHighlightSpan = styled.span`
   background-color: ${(props) => props.theme.color.primaryYellow};
 `;
 
-const HighlightFilterMatch = ({ text, filterValue }) => {
+export const HighlightFilterMatch = ({ text, filters = [] }) => {
   const safeText = String(text ?? '');
+  const validFilters = filters.filter(Boolean);
 
-  if (!filterValue) return safeText;
+  if (validFilters.length === 0) return safeText;
 
-  const pattern = filterValue.trim().replace(/\s+/g, '\\s*');
-  const regex = new RegExp(pattern, 'i');
+  let matchResult = null;
+  validFilters.some((filter) => {
+    const pattern = filter.trim().replace(/\s+/g, '\\s*');
+    const regex = new RegExp(pattern, 'i');
+    const match = safeText.match(regex);
 
-  const match = safeText.match(regex);
+    if (match?.index !== undefined) {
+      const [matchText] = match;
+      matchResult = {
+        beforeMatch: safeText.slice(0, match.index),
+        matchText,
+        afterMatch: safeText.slice(match.index + matchText.length),
+      };
+      return true;
+    }
 
-  if (!match || match.index === undefined) {
-    return safeText;
-  }
-  const matchText = match[0];
-  const beforeMatch = safeText.slice(0, match.index);
-  const afterMatch = safeText.slice(match.index + matchText.length);
+    return false;
+  });
 
+  if (!matchResult) return safeText;
+
+  const { beforeMatch, matchText, afterMatch } = matchResult;
   return (
     <>
       {beforeMatch}
@@ -65,7 +76,7 @@ const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
             >
               <HighlightFilterMatch
                 text={item.geoName}
-                filterValue={filterValue}
+                filters={[filterValue]}
               />
             </StyledMapLink>
             {index < communities.length - 1 && ', '}
@@ -84,7 +95,7 @@ const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
             ? row.original.originalProjectNumber
             : 'N/A'
         }
-        filterValue={filterValue}
+        filters={[filterValue]}
       />
     </div>
   );
