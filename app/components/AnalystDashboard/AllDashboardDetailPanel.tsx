@@ -28,14 +28,15 @@ export const HighlightFilterMatch = ({ text, filters = [] }) => {
 
   if (validFilters.length === 0) return safeText;
 
-  const matched = validFilters.find((filter) => {
+  let matchResult = null;
+  validFilters.some((filter) => {
     const pattern = filter.trim().replace(/\s+/g, '\\s*');
     const regex = new RegExp(pattern, 'i');
     const match = safeText.match(regex);
 
-    if (match && match.index !== undefined) {
+    if (match?.index !== undefined) {
       const [matchText] = match;
-      matched.result = {
+      matchResult = {
         beforeMatch: safeText.slice(0, match.index),
         matchText,
         afterMatch: safeText.slice(match.index + matchText.length),
@@ -46,9 +47,9 @@ export const HighlightFilterMatch = ({ text, filters = [] }) => {
     return false;
   });
 
-  if (!matched?.result) return safeText;
+  if (!matchResult) return safeText;
 
-  const { beforeMatch, matchText, afterMatch } = matched.result;
+  const { beforeMatch, matchText, afterMatch } = matchResult;
   return (
     <>
       {beforeMatch}
