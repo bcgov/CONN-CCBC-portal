@@ -1,6 +1,9 @@
 import writeXlsxFile, { Row } from 'write-excel-file';
 import { DateTime } from 'luxon';
-import { getConditionalApprovalDate } from '../../../lib/helpers/ccbcSummaryGenerateFormData';
+import {
+  getConditionalApprovalDate,
+  getFundingData,
+} from '../../../lib/helpers/ccbcSummaryGenerateFormData';
 import { performQuery } from '../graphql';
 import { HEADER_ROW, generateHeaderInfoRow } from './header';
 import columnOptions from './column_options';
@@ -19,7 +22,6 @@ import {
   handleCcbcEconomicRegions,
 } from './util';
 import toTitleCase from '../../../utils/formatString';
-import { getFundingData } from '../../../lib/helpers/ccbcSummaryGenerateFormData';
 import { getFnhaValue } from '../dashboard/util';
 
 const getCbcDataQuery = `
@@ -32,14 +34,12 @@ const getCbcDataQuery = `
           projectNumber
           jsonData
           cbcByCbcId {
-            communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId {
-              edges {
-                cbcProjectCommunitiesByCommunitiesSourceDataId {
-                  nodes {
-                    communitiesSourceDataByCommunitiesSourceDataId {
-                      economicRegion
-                    }
-                  }
+            cbcProjectCommunitiesByCbcId(
+              filter: { archivedAt: { isNull: true } }
+            ) {
+              nodes {
+                communitiesSourceDataByCommunitiesSourceDataId {
+                  economicRegion
                 }
               }
             }
@@ -253,9 +253,7 @@ const generateExcelData = async (
       // economic region
       {
         value: handleCbcEconomicRegions(
-          node?.cbcByCbcId
-            ?.communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId
-            ?.edges
+          node?.cbcByCbcId?.cbcProjectCommunitiesByCbcId?.nodes
         ),
       },
       // federal funding source
