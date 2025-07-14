@@ -242,7 +242,7 @@ const HEADER_ROW: Row = [
     wrap: true,
   },
   {
-    value: 'Proposed Project Milestone Completion Date',
+    value: 'Proposed Completion Date',
     fontWeight: 'bold',
     type: String,
     height: 95,
