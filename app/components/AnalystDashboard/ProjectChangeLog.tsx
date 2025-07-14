@@ -690,7 +690,9 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                   diff(prevJson, json, { keepUnchangedValues: true }),
                   tableConfig.schema,
                   tableConfig.excludedKeys,
-                  tableConfig.overrideParent || tableName
+                  tableName === 'form_data'
+                    ? null
+                    : tableConfig.overrideParent || tableName
                 );
               }
 
