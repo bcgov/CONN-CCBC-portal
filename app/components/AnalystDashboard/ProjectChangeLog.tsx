@@ -28,6 +28,8 @@ import {
   getFileFieldsForTable,
 } from 'utils/historyFileUtils';
 import { Box, Link, TableCellProps } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTime } from 'luxon';
 import { processHistoryItems, formatUserName } from 'utils/historyProcessing';
 import { getTableConfig } from 'utils/historyTableConfig';
@@ -344,7 +346,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment<ProjectChangeLog_query$key>(
     graphql`
       fragment ProjectChangeLog_query on Query {
-        allCbcs {
+        allCbcs(first: 1) {
           nodes {
             rowId
             projectNumber
@@ -365,7 +367,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allApplications {
+        allApplications(first: 1) {
           nodes {
             rowId
             ccbcNumber
@@ -465,6 +467,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
                 DateTime.DATETIME_MED
               ),
+              createdAtDate: effectiveDate, // Raw date for filtering
               createdBy: formatUser(item),
             };
 
@@ -473,6 +476,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               rowId: projectNumber,
               isVisibleRow: i === 0, // For visual use only
               createdAt: meta.createdAt,
+              createdAtDate: meta.createdAtDate,
               createdBy: meta.createdBy,
               field: row.field,
               newValue: row.newValue,
@@ -498,6 +502,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                       rowId: projectNumber,
                       isVisibleRow: showMeta, // For visual use only
                       createdAt: meta.createdAt,
+                      createdAtDate: meta.createdAtDate,
                       createdBy: meta.createdBy,
                       field: label,
                       newValue: values,
@@ -702,6 +707,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
                   DateTime.DATETIME_MED
                 ),
+                createdAtDate: effectiveDate,
                 createdBy: formatUserName(historyItem).user,
               };
 
@@ -711,6 +717,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 isVisibleRow: i === 0, // For visual use only
                 createdAt: meta.createdAt,
                 createdBy: meta.createdBy,
+                createdAtDate: meta.createdAtDate,
                 field: row.field,
                 newValue: row.newValue,
                 oldValue: row.oldValue,
@@ -741,6 +748,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                   isVisibleRow: changeIndex === 0 && mappedRows.length === 0,
                   createdAt: meta.createdAt,
                   createdBy: meta.createdBy,
+                  createdAtDate: meta.createdAtDate,
                   field: change.field,
                   newValue: change.type === 'deleted' ? 'N/A' : change,
                   oldValue: change.type === 'added' ? 'N/A' : change,
@@ -849,15 +857,36 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     {
       accessorKey: 'createdAt',
       header: 'Date and Time',
-      filterFn: filterVariant,
+      filterVariant: 'date-range',
+      filterFn: (row, _columnId, filterValues) => {
+        const { createdAtDate } = row.original;
+        const [startDate, endDate] = filterValues;
+        console.log('createdAtDate', createdAtDate);
+        if (!createdAtDate) return false;
+        if (!startDate && !endDate) return true;
+
+        const rowDate = new Date(createdAtDate);
+        const start = startDate ? new Date(startDate) : null;
+        const end = endDate ? new Date(endDate) : null;
+
+        if (start && end) {
+          return rowDate >= start && rowDate <= end;
+        }
+        if (start) {
+          return rowDate >= start;
+        }
+        if (end) {
+          return rowDate <= end;
+        }
+        return true;
+      },
       Cell: MergedCell,
     },
   ];
 
   const columnSizing: MRT_ColumnSizingState = {
     rowId: 50,
-    program: 80,
-    createdAt: 104,
+    createdAt: 250,
     createdBy: 110,
     field: 108,
   };
@@ -926,7 +955,11 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     ),
   });
 
-  return <MaterialReactTable table={table} />;
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <MaterialReactTable table={table} />
+    </LocalizationProvider>
+  );
 };
 
 export default ProjectChangeLog;
