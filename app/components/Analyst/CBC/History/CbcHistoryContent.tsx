@@ -72,6 +72,7 @@ const HistoryContent = ({
             'change_reason',
             'cbc_data_id',
             'locations',
+            'projectNumber', // prevent duplicate by project_number from outside
           ]}
           diffSchema={cbcData}
           overrideParent="cbcData"
