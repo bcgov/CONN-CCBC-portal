@@ -193,6 +193,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
         'uuid',
         'type',
         'letterOfApprovalUpload',
+        'letterOfApproval',
       ],
       overrideParent: 'conditionalApproval',
     },

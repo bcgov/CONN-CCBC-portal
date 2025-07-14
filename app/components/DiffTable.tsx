@@ -442,6 +442,11 @@ export const generateRawDiff = (
         return;
       }
       const fieldKey = key.replace(/(__added|__deleted|__old)/g, '');
+
+      // extra exclude for some keys
+      if (excludedKeys.includes(fieldKey)) {
+        return;
+      }
       const parentKey = overrideParent || objectName;
       const fieldSchema =
         schema?.[parentKey]?.properties?.[fieldKey || objectName];
@@ -467,7 +472,6 @@ export const generateRawDiff = (
       // currently checking for rfiAdditionalFiles but might need for others
       if (
         fieldSchema?.type === 'object' &&
-        fieldKey === 'rfiAdditionalFiles' &&
         typeof value === 'object' &&
         value !== null
       ) {
