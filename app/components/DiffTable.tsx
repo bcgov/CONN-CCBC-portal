@@ -447,9 +447,13 @@ export const generateRawDiff = (
       if (excludedKeys.includes(fieldKey)) {
         return;
       }
+
       const parentKey = overrideParent || objectName;
-      const fieldSchema =
+      let fieldSchema =
         schema?.[parentKey]?.properties?.[fieldKey || objectName];
+      if (!parentKey) {
+        fieldSchema = schema?.[fieldKey];
+      }
       const type = fieldSchema?.type || 'string';
       let field;
       if (fieldSchema?.title) {
@@ -457,19 +461,19 @@ export const generateRawDiff = (
       } else if (fieldSchema?.type === 'object') {
         field = fieldKey; // Fallback to key if no title is provided
       }
-
-      // Helper function to get field info for a specific key
-      const getFieldInfo = (specificKey: string) => {
-        const specificFieldSchema =
+      const getFieldInfo = (specificKey: string, fs: any = null) => {
+        let specificFieldSchema =
           schema?.[parentKey]?.properties?.[specificKey];
+        if (overrideParent === null) {
+          specificFieldSchema = fs?.properties?.[specificKey];
+        }
         return {
           field: specificFieldSchema?.title || specificKey,
           type: specificFieldSchema?.type || 'string',
         };
       };
 
-      // Special handling for rfiAdditionalFiles and other object types
-      // currently checking for rfiAdditionalFiles but might need for others
+      // Special handling for object types
       if (
         fieldSchema?.type === 'object' &&
         typeof value === 'object' &&
@@ -478,7 +482,14 @@ export const generateRawDiff = (
         // Process each file key separately
         Object.keys(value).forEach((fileKey) => {
           const fileValue = value[fileKey];
-          const { field: fileField, type: fileType } = getFieldInfo(fileKey);
+          let overrideFieldInfoSchema = null;
+          if (overrideParent === null) {
+            overrideFieldInfoSchema = fieldSchema;
+          }
+          const { field: fileField, type: fileType } = getFieldInfo(
+            fileKey,
+            overrideFieldInfoSchema
+          );
 
           if (key.endsWith('__added') || key === '__new') {
             rows.push({
