@@ -1,3 +1,11 @@
+## [1.262.10](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.9...v1.262.10) (2025-07-14)
+
+## [1.262.9](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.8...v1.262.9) (2025-07-14)
+
+### Bug Fixes
+
+- assessment page data update with project navigation ([c959442](https://github.com/bcgov/CONN-CCBC-portal/commit/c95944291789cfead55a3778adc792b798c275c7))
+
 ## [1.262.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.7...v1.262.8) (2025-07-11)
 
 ### Bug Fixes
