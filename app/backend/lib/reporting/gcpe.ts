@@ -340,7 +340,7 @@ const generateExcelData = async (
       { value: cleanDateTime(node?.jsonData?.proposedStartDate) },
       // date approved
       { value: cleanDateTime(node?.jsonData?.dateConditionallyApproved) },
-      // proposed project milestone completion date
+      // proposed completion date
       { value: cleanDateTime(node?.jsonData?.proposedCompletionDate) },
       // date announced
       { value: cleanDateTime(node?.jsonData?.dateAnnounced) },
@@ -505,9 +505,9 @@ const generateExcelData = async (
       {
         value: getConditionalApprovalDate(node?.conditionalApproval?.jsonData),
       },
-      // proposed project milestone completion date
+      // proposed completion date
       {
-        value: null,
+        value: cleanDateTime(node?.formData?.jsonData?.projectPlan?.projectCompletionDate),
       },
       // date announced
       {
