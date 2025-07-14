@@ -651,6 +651,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
 
                 // Handle different data sources based on table type
                 // these are the tables we are processing everything else is getting ignored
+                // or needs special handling
                 if (
                   tableName === 'form_data' ||
                   tableName === 'rfi_data' ||
