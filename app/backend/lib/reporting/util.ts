@@ -140,24 +140,17 @@ export const handleCcbcEconomicRegions = (
   return match?.er || null;
 };
 
-export const handleCbcEconomicRegions = (
-  economicRegionEdges: any[]
-): string => {
+export const handleCbcEconomicRegions = (communityNodes: any[]): string => {
   const regions = [];
-  economicRegionEdges?.forEach((edge) => {
-    if (
-      edge?.cbcProjectCommunitiesByCommunitiesSourceDataId?.nodes?.[0]
-        ?.communitiesSourceDataByCommunitiesSourceDataId?.economicRegion
-    ) {
+  communityNodes?.forEach((node) => {
+    if (node?.communitiesSourceDataByCommunitiesSourceDataId?.economicRegion) {
       if (
         !regions.includes(
-          edge?.cbcProjectCommunitiesByCommunitiesSourceDataId?.nodes?.[0]
-            ?.communitiesSourceDataByCommunitiesSourceDataId?.economicRegion
+          node?.communitiesSourceDataByCommunitiesSourceDataId?.economicRegion
         )
       ) {
         regions.push(
-          edge?.cbcProjectCommunitiesByCommunitiesSourceDataId?.nodes?.[0]
-            ?.communitiesSourceDataByCommunitiesSourceDataId?.economicRegion
+          node?.communitiesSourceDataByCommunitiesSourceDataId?.economicRegion
         );
       }
     }

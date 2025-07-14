@@ -243,10 +243,14 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
               projectNumber
               cbcId
               cbcByCbcId {
-                communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId {
+                cbcProjectCommunitiesByCbcId(
+                  filter: { archivedAt: { isNull: true } }
+                ) {
                   nodes {
-                    bcGeographicName
-                    mapLink
+                    communitiesSourceDataByCommunitiesSourceDataId {
+                      bcGeographicName
+                      mapLink
+                    }
                   }
                 }
               }
@@ -570,11 +574,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const getCbcCommunities = (project) => {
     const communityDataSource =
-      project.node.cbcByCbcId
-        ?.communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId;
+      project.node.cbcByCbcId?.cbcProjectCommunitiesByCbcId;
     return communityDataSource?.nodes?.map((item) => ({
-      geoName: item.bcGeographicName,
-      mapLink: item.mapLink,
+      geoName:
+        item.communitiesSourceDataByCommunitiesSourceDataId.bcGeographicName,
+      mapLink: item.communitiesSourceDataByCommunitiesSourceDataId.mapLink,
     }));
   };
 

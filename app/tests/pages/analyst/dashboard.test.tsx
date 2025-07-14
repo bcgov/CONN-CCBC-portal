@@ -318,16 +318,17 @@ const mockQueryPayload = {
               },
               projectNumber: 3333,
               cbcByCbcId: {
-                communitiesSourceDataByCbcProjectCommunityCbcIdAndCommunitiesSourceDataId:
-                  {
-                    nodes: [
-                      {
+                cbcProjectCommunitiesByCbcId: {
+                  nodes: [
+                    {
+                      communitiesSourceDataByCommunitiesSourceDataId: {
                         bcGeographicName: 'Old Silver Valley',
                         mapLink:
                           'https://apps.gov.bc.ca/pub/bcgnws/names/24757.html',
                       },
-                    ],
-                  },
+                    },
+                  ],
+                },
               },
             },
           },
