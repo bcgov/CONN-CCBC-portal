@@ -446,7 +446,63 @@ export const generateRawDiff = (
       const fieldSchema =
         schema?.[parentKey]?.properties?.[fieldKey || objectName];
       const type = fieldSchema?.type || 'string';
-      const field = fieldSchema?.title || fieldKey;
+      let field;
+      if (fieldSchema?.title) {
+        field = fieldSchema.title;
+      } else if (fieldSchema?.type === 'object') {
+        field = fieldKey; // Fallback to key if no title is provided
+      }
+
+      // Helper function to get field info for a specific key
+      const getFieldInfo = (specificKey: string) => {
+        const specificFieldSchema =
+          schema?.[parentKey]?.properties?.[specificKey];
+        return {
+          field: specificFieldSchema?.title || specificKey,
+          type: specificFieldSchema?.type || 'string',
+        };
+      };
+
+      // Special handling for rfiAdditionalFiles and other object types
+      // currently checking for rfiAdditionalFiles but might need for others
+      if (
+        fieldSchema?.type === 'object' &&
+        fieldKey === 'rfiAdditionalFiles' &&
+        typeof value === 'object' &&
+        value !== null
+      ) {
+        // Process each file key separately
+        Object.keys(value).forEach((fileKey) => {
+          const fileValue = value[fileKey];
+          const { field: fileField, type: fileType } = getFieldInfo(fileKey);
+
+          if (key.endsWith('__added') || key === '__new') {
+            rows.push({
+              field: fileField,
+              key: fileKey,
+              newValue: format(fileValue, fileType),
+              oldValue: 'N/A',
+            });
+          } else if (key.endsWith('__deleted')) {
+            rows.push({
+              field: fileField,
+              key: fileKey,
+              newValue: 'N/A',
+              oldValue: format(fileValue, fileType),
+            });
+          } else if (typeof fileValue === 'object' && fileValue !== null) {
+            if (fileValue.__old !== undefined) {
+              rows.push({
+                field: fileField,
+                key: fileKey,
+                newValue: format(fileValue.__new, fileType),
+                oldValue: format(fileValue.__old, fileType),
+              });
+            }
+          }
+        });
+        return; // Skip the rest of the processing for this key
+      }
       if (typeof value === 'object' && value !== null) {
         if (isStructuredArray(value)) {
           const [newValueArr, oldValueArr] = splitStructuredArrayDiff(
