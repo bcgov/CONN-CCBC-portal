@@ -21,6 +21,12 @@ import getConfig from 'next/config';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
 import communities from 'formSchema/uiSchema/history/communities';
 import styled from 'styled-components';
+import {
+  generateFileChanges,
+  renderFileChange,
+  getFileArraysFromRecord,
+  getFileFieldsForTable,
+} from 'utils/historyFileUtils';
 import { Box, Link, TableCellProps } from '@mui/material';
 import { DateTime } from 'luxon';
 import { processHistoryItems, formatUserName } from 'utils/historyProcessing';
@@ -296,10 +302,18 @@ const HistoryValueCell = ({
   table,
   historyType = 'new',
 }) => {
-  const { field, oldValue, newValue } = row.original;
+  const { field, oldValue, newValue, isFileChange } = row.original;
   const value = historyType === 'old' ? oldValue : newValue;
   const filterValue = column.getFilterValue();
   const globalFilter = table.getState()?.globalFilter;
+
+  // Handle file changes
+  if (isFileChange) {
+    if (oldValue === 'N/A') {
+      return 'N/A';
+    }
+    return renderFileChange(oldValue, true);
+  }
 
   if (
     ['Communities Added', 'Communities Removed'].includes(field) &&
@@ -350,7 +364,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allApplications(first: 1) {
+        allApplications(first: 1, offset: 9) {
           nodes {
             rowId
             ccbcNumber
@@ -698,9 +712,41 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 oldValue: row.oldValue,
               }));
 
+              // Process file changes for tables that have file support
+              const fileFields = getFileFieldsForTable(
+                tableName,
+                assessmentType
+              );
+              const fileRows = fileFields.flatMap((fileField) => {
+                const [currentFiles, previousFiles] = getFileArraysFromRecord(
+                  record,
+                  prevHistoryItem?.record,
+                  tableName,
+                  fileField.field
+                );
+
+                const fileChanges = generateFileChanges(
+                  currentFiles,
+                  fileField.title,
+                  previousFiles
+                );
+
+                return fileChanges.map((change, changeIndex) => ({
+                  ...base,
+                  rowId: ccbcNumber,
+                  isVisibleRow: changeIndex === 0 && mappedRows.length === 0,
+                  createdAt: meta.createdAt,
+                  createdBy: meta.createdBy,
+                  field: change.field,
+                  newValue: change.type === 'deleted' ? 'N/A' : change,
+                  oldValue: change.type === 'added' ? 'N/A' : change,
+                  isFileChange: true,
+                }));
+              });
+
               return {
                 _sortDate: effectiveDate,
-                group: mappedRows,
+                group: [...mappedRows, ...fileRows],
               };
             })
             .filter((item) => item.group.length > 0); // Only include items with actual changes
