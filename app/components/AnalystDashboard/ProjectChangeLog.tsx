@@ -34,6 +34,7 @@ import { getTableConfig } from 'utils/historyTableConfig';
 import ClearFilters from 'components/Table/ClearFilters';
 import { getLabelForType } from 'components/Analyst/History/HistoryFilter';
 import { convertStatus } from 'backend/lib/dashboard/util';
+import { useFeature } from '@growthbook/growthbook-react';
 import AdditionalFilters from './AdditionalFilters';
 import { HighlightFilterMatch } from './AllDashboardDetailPanel';
 
@@ -343,7 +344,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment<ProjectChangeLog_query$key>(
     graphql`
       fragment ProjectChangeLog_query on Query {
-        allCbcs(first: 1) {
+        allCbcs {
           nodes {
             rowId
             projectNumber
@@ -364,7 +365,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allApplications(first: 1, offset: 9) {
+        allApplications {
           nodes {
             rowId
             ccbcNumber
@@ -407,10 +408,11 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
+  const enableProjectTypeFilters =
+    useFeature('filter_changelog_by_project_type').value || false;
   const defaultFilters = [{ id: 'program', value: ['CBC', 'CCBC', 'OTHER'] }];
-  const [columnFilters, setColumnFilters] = useState<MRT_ColumnFiltersState>(
-    []
-  );
+  const [columnFilters, setColumnFilters] =
+    useState<MRT_ColumnFiltersState>(defaultFilters);
   const { allCbcs, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
@@ -807,7 +809,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     {
       accessorKey: 'program',
       header: 'Program',
-      filterFn: filterVariant,
+      filterFn: 'arrIncludesSome',
       filterVariant: 'multi-select',
       filterSelectOptions: programOptions,
       Cell: MergedCell,
@@ -865,6 +867,9 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     columnFilters,
     showGlobalFilter: true,
     columnSizing,
+    columnVisibility: {
+      program: false,
+    },
   };
 
   const table = useMaterialReactTable({
@@ -911,7 +916,11 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         <AdditionalFilters
           filters={columnFilters}
           setFilters={setColumnFilters}
-          disabledFilters={[{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]}
+          disabledFilters={
+            enableProjectTypeFilters
+              ? []
+              : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
+          }
         />
       </StyledTableHeader>
     ),
