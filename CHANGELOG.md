@@ -1,3 +1,9 @@
+## [1.262.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.10...v1.262.11) (2025-07-14)
+
+### Bug Fixes
+
+- communities list shows archived data ([eb040f5](https://github.com/bcgov/CONN-CCBC-portal/commit/eb040f5668006ec791a09b81dd761059e601578e))
+
 ## [1.262.10](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.9...v1.262.10) (2025-07-14)
 
 ## [1.262.9](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.8...v1.262.9) (2025-07-14)
