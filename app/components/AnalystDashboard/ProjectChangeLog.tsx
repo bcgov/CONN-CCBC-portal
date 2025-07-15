@@ -159,7 +159,7 @@ const formatUser = (item) => {
     item.createdBy === 1 &&
     (!item.ccbcUserByCreatedBy || !item.ccbcUserByCreatedBy?.givenName);
   return isSystem
-    ? 'The System'
+    ? 'The system'
     : `${item.ccbcUserByCreatedBy?.givenName} ${item.ccbcUserByCreatedBy?.familyName}`;
 };
 
