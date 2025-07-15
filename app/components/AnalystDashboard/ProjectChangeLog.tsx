@@ -304,7 +304,6 @@ const CommunitiesCell = (
   );
 };
 
-// OldValueCell moved out of ProjectChangeLog to avoid defining components during render
 const HistoryValueCell = ({
   row,
   column,
@@ -341,10 +340,16 @@ const HistoryValueCell = ({
   // For all other values, wrap in a span with strikethrough
   // Ensure we never return an object as a React child
   const displayValue =
-    typeof oldValue === 'object' && oldValue !== null
-      ? JSON.stringify(oldValue)
-      : oldValue;
-  return <span style={{ textDecoration: 'line-through' }}>{displayValue}</span>;
+    typeof renderedCellValue === 'object' && renderedCellValue !== null
+      ? JSON.stringify(renderedCellValue)
+      : renderedCellValue;
+  return (
+    <span
+      style={historyType === 'old' ? { textDecoration: 'line-through' } : {}}
+    >
+      {displayValue}
+    </span>
+  );
 };
 
 const OldValueCell = (props) => (
