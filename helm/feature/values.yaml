@@ -69,6 +69,8 @@ db:
   readonlyUser: ccbc_readonly
   test:
     password: '' # The value must be passed in via the deploy script
+  prod:
+    password: '' # The value must be passed in via the deploy script
 
   # A bash script to run in a pre-upgrade hook, in a psql container
   # The script will be run by the postgres user,
@@ -83,7 +85,7 @@ db:
     EOF
     psql -f deploy/create_roles.sql;
     PGPASSWORD=$TEST_PG_PASSWORD
-    pg_dump -h ccbc-replicas.ff61fb-test.svc.cluster.local -d ccbc > /tmp/ccbc.sql;
+    pg_dump -h ccbc-replicas.ff61fb-prod.svc.cluster.local -d ccbc > /tmp/ccbc.sql;
     PGPASSWORD=$PGPASSWORD_DEV
     psql -f /tmp/ccbc.sql;
 
