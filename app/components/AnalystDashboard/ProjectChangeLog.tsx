@@ -346,7 +346,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const queryFragment = useFragment<ProjectChangeLog_query$key>(
     graphql`
       fragment ProjectChangeLog_query on Query {
-        allCbcs(first: 1) {
+        allCbcs {
           nodes {
             rowId
             projectNumber
@@ -367,7 +367,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allApplications(first: 1) {
+        allApplications {
           nodes {
             rowId
             ccbcNumber
