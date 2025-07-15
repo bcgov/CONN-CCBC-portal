@@ -20,6 +20,7 @@ import {
   handleProjectType,
   handleCbcEconomicRegions,
   handleCcbcEconomicRegions,
+  getCCBCFederalFundingSource,
 } from './util';
 import toTitleCase from '../../../utils/formatString';
 import { getFnhaValue } from '../dashboard/util';
@@ -155,6 +156,7 @@ const getCcbcQuery = `
             analystStatus
             intakeNumber
             organizationName
+            program
             rowId
           }
         }
@@ -358,7 +360,7 @@ const generateExcelData = async (
     );
     const row: Row = [
       // program
-      { value: 'CCBC' },
+      { value: node?.program },
       // announced by province
       {
         value: node?.applicationAnnouncedsByApplicationId?.nodes[0]?.announced
@@ -394,7 +396,7 @@ const generateExcelData = async (
         ),
       },
       // federal funding source
-      { value: 'ISED-UBF Core' },
+      { value: getCCBCFederalFundingSource(node) },
       // status
       { value: convertStatus(node?.analystStatus) },
       // project milestone complete percent
