@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-pascal-case */
 import { useMemo, useState } from 'react';
+import * as React from 'react';
 import { graphql, useFragment } from 'react-relay';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
@@ -97,6 +98,11 @@ const MergedCell = ({ cell, renderedCellValue }) => {
   if (!isVisibleRow) return null;
 
   // Ensure we never return an object as a React child
+  // Check if it's a React element first
+  if (React.isValidElement(renderedCellValue)) {
+    return renderedCellValue;
+  }
+
   const displayValue =
     typeof renderedCellValue === 'object' && renderedCellValue !== null
       ? JSON.stringify(renderedCellValue)
@@ -339,6 +345,17 @@ const HistoryValueCell = ({
   }
   // For all other values, wrap in a span with strikethrough
   // Ensure we never return an object as a React child
+  // Check if it's a React element first
+  if (React.isValidElement(renderedCellValue)) {
+    return (
+      <span
+        style={historyType === 'old' ? { textDecoration: 'line-through' } : {}}
+      >
+        {renderedCellValue}
+      </span>
+    );
+  }
+
   const displayValue =
     typeof renderedCellValue === 'object' && renderedCellValue !== null
       ? JSON.stringify(renderedCellValue)
