@@ -94,7 +94,14 @@ const ProjectIdCell = ({ cell, renderedCellValue }) => {
 const MergedCell = ({ cell, renderedCellValue }) => {
   const isVisibleRow = cell.row.original?.isVisibleRow;
 
-  return isVisibleRow ? renderedCellValue : null;
+  if (!isVisibleRow) return null;
+
+  // Ensure we never return an object as a React child
+  const displayValue =
+    typeof renderedCellValue === 'object' && renderedCellValue !== null
+      ? JSON.stringify(renderedCellValue)
+      : renderedCellValue;
+  return displayValue;
 };
 
 const StyledCommunitiesCell = styled.td<{
@@ -331,11 +338,13 @@ const HistoryValueCell = ({
       [filterValue, globalFilter]
     );
   }
-  return historyType === 'old' ? (
-    <span style={{ textDecoration: 'line-through' }}>{renderedCellValue}</span>
-  ) : (
-    renderedCellValue
-  );
+  // For all other values, wrap in a span with strikethrough
+  // Ensure we never return an object as a React child
+  const displayValue =
+    typeof oldValue === 'object' && oldValue !== null
+      ? JSON.stringify(oldValue)
+      : oldValue;
+  return <span style={{ textDecoration: 'line-through' }}>{displayValue}</span>;
 };
 
 const OldValueCell = (props) => (
@@ -861,7 +870,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       filterFn: (row, _columnId, filterValues) => {
         const { createdAtDate } = row.original;
         const [startDate, endDate] = filterValues;
-        console.log('createdAtDate', createdAtDate);
+
         if (!createdAtDate) return false;
         if (!startDate && !endDate) return true;
 
