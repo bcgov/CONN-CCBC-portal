@@ -433,6 +433,11 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
   const { tableData } = useMemo(() => {
+    // Return empty data if data is not available
+    if (!allCbcs || !allApplications) {
+      return { tableData: [] };
+    }
+
     const allCbcsFlatMap =
       allCbcs?.nodes?.flatMap(
         ({ projectNumber, rowId, history }) =>
