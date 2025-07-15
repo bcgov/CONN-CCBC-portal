@@ -67,9 +67,9 @@ const AssessementsRow: React.FC<Props> = ({ assessment, name }) => {
   const dateString =
     date &&
     DateTime.fromISO(date).toLocaleString({
-      weekday: 'short',
       month: 'short',
       day: '2-digit',
+      year: 'numeric',
     });
 
   const handleClick = () => {
