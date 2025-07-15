@@ -2,13 +2,23 @@ import type { NextPageContext } from 'next';
 import { WiredOptions } from 'relay-nextjs/wired/component';
 import { NextRouter } from 'next/router';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
+import { CircularProgress, Box } from '@mui/material';
 import safeJsonParse from 'lib/helpers/safeJsonParse';
 import { DEFAULT_PAGE_SIZE } from 'components/Table/Pagination';
 import { getClientEnvironment } from './client';
 import isRouteAuthorized from '../../utils/isRouteAuthorized';
 
 const withRelayOptions: WiredOptions<any> = {
-  fallback: <div>Loading...</div>,
+  fallback: (
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      minHeight="400px"
+    >
+      <CircularProgress size={40} />
+    </Box>
+  ),
   ErrorComponent: (props) => {
     throw props.error;
   },
