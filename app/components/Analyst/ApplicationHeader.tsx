@@ -163,7 +163,6 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
   );
 
   const { allApplicationStatusTypes, applicationByRowId } = queryFragment;
-  console.log('applicationByRowId', applicationByRowId);
   const {
     analystLead,
     analystStatus,
