@@ -318,10 +318,10 @@ const HistoryValueCell = ({
 
   // Handle file changes
   if (isFileChange) {
-    if (oldValue === 'N/A') {
+    if (value === 'N/A') {
       return 'N/A';
     }
-    return renderFileChange(oldValue, true);
+    return renderFileChange(value, historyType === 'old');
   }
 
   if (
