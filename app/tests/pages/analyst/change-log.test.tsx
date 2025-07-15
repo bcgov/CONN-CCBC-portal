@@ -634,7 +634,7 @@ describe('The index page', () => {
 
     expect(screen.getByText('5070')).toBeInTheDocument();
     expect(screen.getByText('Feb 26, 2025, 2:37 p.m.')).toBeInTheDocument();
-    expect(screen.getByText('The System')).toBeInTheDocument();
+    expect(screen.getByText('The system')).toBeInTheDocument();
     expect(screen.getByText(/Project Zone/)).toBeInTheDocument();
     expect(screen.getByText('11')).toBeInTheDocument();
     expect(screen.getByText('N/A')).toBeInTheDocument();
