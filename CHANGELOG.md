@@ -1,3 +1,9 @@
+## [1.262.13](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.12...v1.262.13) (2025-07-15)
+
+### Bug Fixes
+
+- gcpe report showing wrong program and funding source ([588df72](https://github.com/bcgov/CONN-CCBC-portal/commit/588df7273bd1a84ce6289c385c6e61ba4507e25e))
+
 ## [1.262.12](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.11...v1.262.12) (2025-07-14)
 
 ## [1.262.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.10...v1.262.11) (2025-07-14)
