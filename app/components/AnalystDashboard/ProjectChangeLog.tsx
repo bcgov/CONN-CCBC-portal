@@ -242,7 +242,15 @@ const HistoryValueCell = ({
   // Handle file changes
   if (isFileChange) {
     if (value === 'N/A') {
-      return 'N/A';
+      return (
+        <span
+          style={
+            historyType === 'old' ? { textDecoration: 'line-through' } : {}
+          }
+        >
+          N/A
+        </span>
+      );
     }
     return renderFileChange(value, historyType === 'old');
   }
