@@ -328,9 +328,6 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             rowId
             ccbcNumber
             program
-            formData {
-              jsonData
-            }
             history {
               nodes {
                 applicationId
