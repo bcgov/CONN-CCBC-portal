@@ -36,7 +36,6 @@ import {
   Typography,
   Button,
   Alert,
-  LinearProgress,
 } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -475,26 +474,86 @@ const OldValueCell = (props) => (
 
 const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const [refreshKey, setRefreshKey] = useState(0);
+  const [projectLimit, setProjectLimit] = useState(50);
+  const [historyLimit, setHistoryLimit] = useState(20);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasReachedEnd, setHasReachedEnd] = useState(false);
 
-  const {
-    projectLimit,
-    isLoading,
-    hasReachedEnd,
-    expandedEntries,
-    loadMoreProjects,
-    loadMoreHistory,
-    loadAll,
-    reset,
-  } = useIncrementalLoading(50, 20, () => setRefreshKey((prev) => prev + 1));
+  // Incremental loading functions
+  const loadMoreProjects = useCallback(async () => {
+    if (isLoading || hasReachedEnd) return;
+
+    setIsLoading(true);
+    // Simulate network delay
+    await new Promise<void>((resolve) => {
+      setTimeout(() => resolve(), 500);
+    });
+
+    const newLimit = Math.min(projectLimit + 25, 500);
+    setProjectLimit(newLimit);
+
+    if (newLimit >= 500) {
+      setHasReachedEnd(true);
+    }
+
+    setIsLoading(false);
+    setRefreshKey((prev) => prev + 1);
+  }, [projectLimit, isLoading, hasReachedEnd]);
+
+  const loadMoreHistory = useCallback(async () => {
+    if (isLoading || hasReachedEnd) return;
+
+    setIsLoading(true);
+    await new Promise<void>((resolve) => {
+      setTimeout(() => resolve(), 300);
+    });
+
+    const newLimit = Math.min(historyLimit + 10, 100);
+    setHistoryLimit(newLimit);
+
+    if (newLimit >= 100) {
+      setHasReachedEnd(true);
+    }
+
+    setIsLoading(false);
+    setRefreshKey((prev) => prev + 1);
+  }, [historyLimit, isLoading, hasReachedEnd]);
+
+  const loadAll = useCallback(async () => {
+    if (isLoading || hasReachedEnd) return;
+
+    setIsLoading(true);
+    await new Promise<void>((resolve) => {
+      setTimeout(() => resolve(), 1000);
+    });
+
+    setProjectLimit(500);
+    setHistoryLimit(100);
+    setHasReachedEnd(true);
+    setIsLoading(false);
+    setRefreshKey((prev) => prev + 1);
+  }, [isLoading, hasReachedEnd]);
+
+  const reset = useCallback(() => {
+    setProjectLimit(50);
+    setHistoryLimit(20);
+    setIsLoading(false);
+    setHasReachedEnd(false);
+    setRefreshKey((prev) => prev + 1);
+  }, []);
+
+  const { expandedEntries } = useIncrementalLoading(50, 20, () =>
+    setRefreshKey((prev) => prev + 1)
+  );
 
   const queryFragment = useFragment<ProjectChangeLog_query$key>(
     graphql`
       fragment ProjectChangeLog_query on Query {
-        allCbcs(first: 50, orderBy: [UPDATED_AT_DESC]) {
+        allCbcs(first: 500, orderBy: [UPDATED_AT_DESC]) {
           nodes {
             rowId
             projectNumber
-            history(first: 20) {
+            history(first: 100) {
               nodes {
                 op
                 createdAt
@@ -511,7 +570,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allApplications(first: 50, orderBy: [UPDATED_AT_DESC]) {
+        allApplications(first: 500, orderBy: [UPDATED_AT_DESC]) {
           nodes {
             rowId
             ccbcNumber
@@ -519,7 +578,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             formData {
               jsonData
             }
-            history(first: 20) {
+            history(first: 100) {
               nodes {
                 applicationId
                 createdAt
@@ -575,133 +634,142 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       return { tableData: [], totalAvailableProjects: 0 };
     }
 
-    // Process all available data first
+    // Process all available data first, but limit based on our incremental loading state
+    const cbcNodesToProcess = allCbcs?.nodes?.slice(0, projectLimit) || [];
+    const applicationNodesToProcess =
+      allApplications?.nodes?.slice(0, projectLimit) || [];
+
     const allCbcsFlatMap =
-      allCbcs?.nodes?.flatMap(
-        ({ projectNumber, rowId, history }) =>
-          history.nodes.map((item) => {
-            const { record, oldRecord, createdAt, op } = item;
-            const effectiveDate =
-              op === 'UPDATE'
-                ? new Date(record?.updated_at)
-                : new Date(createdAt);
+      cbcNodesToProcess.flatMap(({ projectNumber, rowId, history }) => {
+        // Limit history items based on historyLimit
+        const historyNodesToProcess = history.nodes.slice(0, historyLimit);
 
-            const base = {
-              changeId: `${projectNumber}-${createdAt}`,
-              id: rowId,
-              _sortDate: effectiveDate,
-              program: 'CBC',
-              isCbcProject: true,
-            };
+        return historyNodesToProcess.map((item) => {
+          const { record, oldRecord, createdAt, op } = item;
+          const effectiveDate =
+            op === 'UPDATE'
+              ? new Date(record?.updated_at)
+              : new Date(createdAt);
 
-            const json = {
-              ...record?.json_data,
-              project_number: record?.project_number,
-            };
-            const prevJson = {
-              ...oldRecord?.json_data,
-              project_number: oldRecord?.project_number,
-            };
+          const base = {
+            changeId: `${projectNumber}-${createdAt}`,
+            id: rowId,
+            _sortDate: effectiveDate,
+            program: 'CBC',
+            isCbcProject: true,
+          };
 
-            const diffRows = generateRawDiff(
-              diff(prevJson, json, { keepUnchangedValues: true }),
-              cbcData,
-              [
-                'id',
-                'created_at',
-                'updated_at',
-                'change_reason',
-                'cbc_data_id',
-                'locations',
-                'errorLog',
-                'error_log',
-                'projectNumber',
-              ],
-              'cbcData'
-            );
+          const json = {
+            ...record?.json_data,
+            project_number: record?.project_number,
+          };
+          const prevJson = {
+            ...oldRecord?.json_data,
+            project_number: oldRecord?.project_number,
+          };
 
-            const meta = {
-              createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
-                DateTime.DATETIME_MED
+          const diffRows = generateRawDiff(
+            diff(prevJson, json, { keepUnchangedValues: true }),
+            cbcData,
+            [
+              'id',
+              'created_at',
+              'updated_at',
+              'change_reason',
+              'cbc_data_id',
+              'locations',
+              'errorLog',
+              'error_log',
+              'projectNumber',
+            ],
+            'cbcData'
+          );
+
+          const meta = {
+            createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
+              DateTime.DATETIME_MED
+            ),
+            createdAtDate: effectiveDate, // Raw date for filtering
+            createdBy: formatUser(item),
+          };
+
+          const mappedRows = diffRows.map((row, i) => ({
+            ...base,
+            rowId: projectNumber,
+            isVisibleRow: i === 0, // For visual use only
+            createdAt: meta.createdAt,
+            createdAtDate: meta.createdAtDate,
+            createdBy: meta.createdBy,
+            field: row.field,
+            newValue: row.newValue,
+            oldValue: row.oldValue,
+            section: getCbcSectionFromKey(row.key || row.field),
+          }));
+
+          const added = record?.added_communities ?? [];
+          const removed = record?.deleted_communities ?? [];
+
+          const hasMappedRows = mappedRows.length > 0;
+          const showMetaForRemoved = !hasMappedRows && !added.length;
+
+          const communityRow = (
+            label: string,
+            values: any[],
+            showMeta: boolean
+          ) =>
+            values.length
+              ? [
+                  {
+                    ...base,
+                    rowId: projectNumber,
+                    isVisibleRow: showMeta, // For visual use only
+                    createdAt: meta.createdAt,
+                    createdAtDate: meta.createdAtDate,
+                    createdBy: meta.createdBy,
+                    field: label,
+                    newValue: values,
+                    oldValue: values,
+                    // passing a string of values for communities for filtering purpose
+                    oldValueString: communityArrayToHistoryString(values, [
+                      'bc_geographic_name',
+                      'geographic_type',
+                    ]),
+                    newValueString: communityArrayToHistoryString(values, [
+                      'economic_region',
+                      'regional_district',
+                    ]),
+                    section: getCbcSectionFromKey(
+                      label === 'Communities Added'
+                        ? 'added_communities'
+                        : 'deleted_communities'
+                    ),
+                  },
+                ]
+              : [];
+
+          return {
+            _sortDate: effectiveDate,
+            group: [
+              ...mappedRows,
+              ...communityRow('Communities Added', added, !hasMappedRows),
+              ...communityRow(
+                'Communities Removed',
+                removed,
+                showMetaForRemoved
               ),
-              createdAtDate: effectiveDate, // Raw date for filtering
-              createdBy: formatUser(item),
-            };
-
-            const mappedRows = diffRows.map((row, i) => ({
-              ...base,
-              rowId: projectNumber,
-              isVisibleRow: i === 0, // For visual use only
-              createdAt: meta.createdAt,
-              createdAtDate: meta.createdAtDate,
-              createdBy: meta.createdBy,
-              field: row.field,
-              newValue: row.newValue,
-              oldValue: row.oldValue,
-              section: getCbcSectionFromKey(row.key || row.field),
-            }));
-
-            const added = record?.added_communities ?? [];
-            const removed = record?.deleted_communities ?? [];
-
-            const hasMappedRows = mappedRows.length > 0;
-            const showMetaForRemoved = !hasMappedRows && !added.length;
-
-            const communityRow = (
-              label: string,
-              values: any[],
-              showMeta: boolean
-            ) =>
-              values.length
-                ? [
-                    {
-                      ...base,
-                      rowId: projectNumber,
-                      isVisibleRow: showMeta, // For visual use only
-                      createdAt: meta.createdAt,
-                      createdAtDate: meta.createdAtDate,
-                      createdBy: meta.createdBy,
-                      field: label,
-                      newValue: values,
-                      oldValue: values,
-                      // passing a string of values for communities for filtering purpose
-                      oldValueString: communityArrayToHistoryString(values, [
-                        'bc_geographic_name',
-                        'geographic_type',
-                      ]),
-                      newValueString: communityArrayToHistoryString(values, [
-                        'economic_region',
-                        'regional_district',
-                      ]),
-                      section: getCbcSectionFromKey(
-                        label === 'Communities Added'
-                          ? 'added_communities'
-                          : 'deleted_communities'
-                      ),
-                    },
-                  ]
-                : [];
-
-            return {
-              _sortDate: effectiveDate,
-              group: [
-                ...mappedRows,
-                ...communityRow('Communities Added', added, !hasMappedRows),
-                ...communityRow(
-                  'Communities Removed',
-                  removed,
-                  showMetaForRemoved
-                ),
-              ],
-            };
-          }) || []
-      ) || [];
+            ],
+          };
+        });
+      }) || [];
 
     const allApplicationsFlatMap =
-      allApplications?.nodes?.flatMap(
+      applicationNodesToProcess.flatMap(
         ({ ccbcNumber, rowId, history, program }) => {
+          // Limit history items based on historyLimit
+          const historyNodesToProcess = history.nodes.slice(0, historyLimit);
+
           // Apply HistoryTable preprocessing logic
-          const processedHistory = processHistoryItems(history.nodes, {
+          const processedHistory = processHistoryItems(historyNodesToProcess, {
             includeAttachments: false,
             applyUserFormatting: false,
           });
@@ -940,7 +1008,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     );
 
     return { tableData, totalAvailableProjects };
-  }, [allCbcs, allApplications, expandedEntries]);
+  }, [allCbcs, allApplications, projectLimit, historyLimit, expandedEntries]);
 
   // Collect unique createdBy values for the multi-select filter
   const createdByOptions = useMemo(() => {
@@ -1145,13 +1213,14 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                   {totalAvailableProjects} total projects)
                 </Typography>
               )}
-              {expandedEntries < 1.0 && (
+              {(projectLimit < 500 || historyLimit < 100) && (
                 <Typography
                   variant="caption"
                   display="block"
                   sx={{ color: 'warning.main' }}
                 >
-                  ({Math.round(expandedEntries * 100)}% of data loaded)
+                  (showing {projectLimit} projects with {historyLimit} history
+                  items each)
                 </Typography>
               )}
             </Box>
@@ -1177,32 +1246,36 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       >
         <Button
           onClick={loadMoreProjects}
-          disabled={isLoading || hasReachedEnd}
+          disabled={isLoading || hasReachedEnd || projectLimit >= 500}
           variant="outlined"
           size="small"
           startIcon={isLoading ? <CircularProgress size={16} /> : null}
         >
-          Load More Projects
+          Load More Projects ({projectLimit}/500)
         </Button>
         <Button
           onClick={loadMoreHistory}
-          disabled={isLoading || hasReachedEnd}
+          disabled={isLoading || hasReachedEnd || historyLimit >= 100}
           variant="outlined"
           size="small"
           startIcon={isLoading ? <CircularProgress size={16} /> : null}
         >
-          Load More History
+          Load More History ({historyLimit}/100)
         </Button>
         <Button
           onClick={loadAll}
-          disabled={isLoading || hasReachedEnd}
+          disabled={
+            isLoading ||
+            hasReachedEnd ||
+            (projectLimit >= 500 && historyLimit >= 100)
+          }
           variant="contained"
           size="small"
           startIcon={isLoading ? <CircularProgress size={16} /> : null}
         >
           Load All Data
         </Button>
-        {projectLimit > 50 && (
+        {(projectLimit > 50 || historyLimit > 20) && (
           <Button
             onClick={reset}
             disabled={isLoading}
@@ -1217,15 +1290,10 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             All available data has been loaded
           </Alert>
         )}
-        {!hasReachedEnd && expandedEntries < 1.0 && (
+        {(projectLimit < 500 || historyLimit < 100) && !hasReachedEnd && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <LinearProgress
-              variant="determinate"
-              value={expandedEntries * 100}
-              sx={{ width: 100 }}
-            />
-            <Typography variant="caption">
-              {Math.round(expandedEntries * 100)}%
+            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+              Projects: {projectLimit}/500, History: {historyLimit}/100
             </Typography>
           </Box>
         )}
