@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-pascal-case */
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState, useCallback, useEffect } from 'react';
 import * as React from 'react';
 import { graphql, useFragment } from 'react-relay';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -57,7 +57,8 @@ interface Props {
 // Hook for managing incremental loading state
 const useIncrementalLoading = (
   initialProjectLimit = 50,
-  initialHistoryLimit = 20
+  initialHistoryLimit = 20,
+  onDataChange?: () => void
 ) => {
   const [projectLimit, setProjectLimit] = useState(initialProjectLimit);
   const [historyLimit, setHistoryLimit] = useState(initialHistoryLimit);
@@ -83,7 +84,8 @@ const useIncrementalLoading = (
     }
 
     setIsLoading(false);
-  }, [projectLimit, isLoading, hasReachedEnd]);
+    onDataChange?.();
+  }, [projectLimit, isLoading, hasReachedEnd, onDataChange]);
 
   const loadMoreHistory = useCallback(async () => {
     if (isLoading || hasReachedEnd) return;
@@ -102,7 +104,8 @@ const useIncrementalLoading = (
     }
 
     setIsLoading(false);
-  }, [historyLimit, isLoading, hasReachedEnd]);
+    onDataChange?.();
+  }, [historyLimit, isLoading, hasReachedEnd, onDataChange]);
 
   const loadAll = useCallback(async () => {
     if (isLoading || hasReachedEnd) return;
@@ -117,7 +120,8 @@ const useIncrementalLoading = (
     setExpandedEntries(1.0);
     setHasReachedEnd(true);
     setIsLoading(false);
-  }, [isLoading, hasReachedEnd]);
+    onDataChange?.();
+  }, [isLoading, hasReachedEnd, onDataChange]);
 
   const reset = useCallback(() => {
     setProjectLimit(initialProjectLimit);
@@ -125,7 +129,8 @@ const useIncrementalLoading = (
     setExpandedEntries(1.0);
     setIsLoading(false);
     setHasReachedEnd(false);
-  }, [initialProjectLimit, initialHistoryLimit]);
+    onDataChange?.();
+  }, [initialProjectLimit, initialHistoryLimit, onDataChange]);
 
   return {
     projectLimit,
@@ -469,6 +474,8 @@ const OldValueCell = (props) => (
 );
 
 const ProjectChangeLog: React.FC<Props> = ({ query }) => {
+  const [refreshKey, setRefreshKey] = useState(0);
+
   const {
     projectLimit,
     isLoading,
@@ -478,7 +485,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     loadMoreHistory,
     loadAll,
     reset,
-  } = useIncrementalLoading();
+  } = useIncrementalLoading(50, 20, () => setRefreshKey((prev) => prev + 1));
 
   const queryFragment = useFragment<ProjectChangeLog_query$key>(
     graphql`
@@ -554,6 +561,12 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const { allCbcs, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
+
+  // Force table refresh when data changes
+  useEffect(() => {
+    // This will trigger a re-render and force the virtualized table to update
+    setRefreshKey((prev) => prev + 1);
+  }, [expandedEntries]);
 
   // Prioritize recent changes for better perceived performance
   const { tableData, totalAvailableProjects } = useMemo(() => {
@@ -1049,6 +1062,9 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     columnVisibility: {
       program: false,
     },
+    // Force re-render when data changes
+    refreshKey,
+    isLoading: false, // Disable internal loading state to prevent conflicts
   };
 
   const table = useMaterialReactTable({
@@ -1068,19 +1084,19 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     enableColumnResizing: true,
     enableRowVirtualization: true,
     rowVirtualizerOptions: {
-      overscan: 10, // Reduced from 50 to improve performance
-      estimateSize: () => 50, // Estimate row height for better virtualization
+      overscan: 10,
+      estimateSize: () => 50,
     },
     columnResizeMode: 'onChange',
     enableStickyHeader: true,
-    autoResetAll: false,
+    autoResetAll: true, // Enable auto-reset to force re-render when data changes
     enablePagination: false,
     enableGlobalFilter: true,
     globalFilterFn: filterVariant,
     enableBottomToolbar: true,
     onColumnFiltersChange: setColumnFilters,
-    // Add memoization for better performance with large datasets
-    memoMode: 'table-body',
+    // Disable memoization to ensure filters update properly
+    memoMode: 'cells',
     renderToolbarInternalActions: ({ table }) => (
       <Box>
         <MRT_ToggleGlobalFilterButton table={table} />
@@ -1089,47 +1105,66 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
         <MRT_ToggleFullScreenButton table={table} />
       </Box>
     ),
-    renderTopToolbarCustomActions: () => (
-      <StyledTableHeader>
-        <ClearFilters
-          table={table}
-          filters={table.getState().columnFilters}
-          defaultFilters={defaultFilters}
-          externalFilters={false}
-        />
-        <AdditionalFilters
-          filters={columnFilters}
-          setFilters={setColumnFilters}
-          disabledFilters={
-            enableProjectTypeFilters
-              ? []
-              : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
-          }
-        />
-        {/* Data status and loading controls */}
-        <Box sx={{ ml: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Box sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
-            Showing {tableData.length} changes from {totalAvailableProjects}{' '}
-            projects available
-            {expandedEntries < 1.0 && (
-              <Typography
-                variant="caption"
-                display="block"
-                sx={{ color: 'warning.main' }}
-              >
-                ({Math.round(expandedEntries * 100)}% of data loaded)
-              </Typography>
+    renderTopToolbarCustomActions: () => {
+      // Get the actual filtered data from the table
+      const filteredRows = table.getFilteredRowModel().rows;
+      const filteredData = filteredRows.map((row) => row.original);
+
+      // Count unique projects in filtered data
+      const uniqueProjects = new Set(filteredData.map((row) => row.rowId)).size;
+
+      return (
+        <StyledTableHeader>
+          <ClearFilters
+            table={table}
+            filters={table.getState().columnFilters}
+            defaultFilters={defaultFilters}
+            externalFilters={false}
+          />
+          <AdditionalFilters
+            filters={columnFilters}
+            setFilters={setColumnFilters}
+            disabledFilters={
+              enableProjectTypeFilters
+                ? []
+                : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
+            }
+          />
+          {/* Data status and loading controls */}
+          <Box sx={{ ml: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Box sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
+              Showing {filteredData.length} changes from {uniqueProjects}{' '}
+              projects
+              {filteredData.length !== tableData.length && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  sx={{ color: 'info.main' }}
+                >
+                  (filtered from {tableData.length} total changes,{' '}
+                  {totalAvailableProjects} total projects)
+                </Typography>
+              )}
+              {expandedEntries < 1.0 && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  sx={{ color: 'warning.main' }}
+                >
+                  ({Math.round(expandedEntries * 100)}% of data loaded)
+                </Typography>
+              )}
+            </Box>
+            {isLoading && (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <CircularProgress size={16} />
+                <Typography variant="body2">Loading...</Typography>
+              </Box>
             )}
           </Box>
-          {isLoading && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <CircularProgress size={16} />
-              <Typography variant="body2">Loading...</Typography>
-            </Box>
-          )}
-        </Box>
-      </StyledTableHeader>
-    ),
+        </StyledTableHeader>
+      );
+    },
     renderBottomToolbarCustomActions: () => (
       <Box
         sx={{
@@ -1251,7 +1286,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <MaterialReactTable table={table} />
+      <MaterialReactTable key={refreshKey} table={table} />
     </LocalizationProvider>
   );
 };
