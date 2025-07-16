@@ -844,14 +844,14 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
 
   const columns: MRT_ColumnDef<any>[] = [
     {
-      accessorKey: 'rowId',
+      accessorFn: (row) => row.rowId ?? '',
       id: 'rowId',
       Cell: ProjectIdCell,
       header: 'ID',
       filterFn: filterVariant,
     },
     {
-      accessorKey: 'program',
+      accessorFn: (row) => row.program ?? '',
       header: 'Program',
       filterFn: 'arrIncludesSome',
       filterVariant: 'multi-select',
@@ -859,31 +859,59 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       Cell: MergedCell,
     },
     {
-      accessorKey: 'section',
+      accessorFn: (row) => row.section ?? '',
       header: 'Section',
       filterFn: filterVariant,
       filterVariant: 'multi-select',
       filterSelectOptions: sectionOptions,
     },
     {
-      accessorKey: 'field',
+      accessorFn: (row) => row.field ?? '',
       header: 'Fields changed',
       filterFn: filterVariant,
     },
     {
-      accessorFn: (row) => row.oldValueString ?? row.oldValue,
+      accessorFn: (row) => {
+        const value = row.oldValueString ?? row.oldValue;
+        if (value === null || value === undefined) return '';
+        if (typeof value === 'string') return value;
+        if (typeof value === 'number' || typeof value === 'boolean')
+          return String(value);
+        if (Array.isArray(value))
+          return value
+            .map((item) =>
+              typeof item === 'object' ? JSON.stringify(item) : String(item)
+            )
+            .join(' ');
+        if (typeof value === 'object') return JSON.stringify(value);
+        return String(value);
+      },
       header: 'Old Value',
       Cell: OldValueCell,
       filterFn: filterVariant,
     },
     {
-      accessorFn: (row) => row.newValueString ?? row.newValue,
+      accessorFn: (row) => {
+        const value = row.newValueString ?? row.newValue;
+        if (value === null || value === undefined) return '';
+        if (typeof value === 'string') return value;
+        if (typeof value === 'number' || typeof value === 'boolean')
+          return String(value);
+        if (Array.isArray(value))
+          return value
+            .map((item) =>
+              typeof item === 'object' ? JSON.stringify(item) : String(item)
+            )
+            .join(' ');
+        if (typeof value === 'object') return JSON.stringify(value);
+        return String(value);
+      },
       header: 'New Value',
       Cell: HistoryValueCell,
       filterFn: filterVariant,
     },
     {
-      accessorKey: 'createdBy',
+      accessorFn: (row) => row.createdBy ?? '',
       header: 'User',
       filterFn: filterVariant,
       filterVariant: 'multi-select',
@@ -891,7 +919,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       Cell: MergedCell,
     },
     {
-      accessorKey: 'createdAt',
+      accessorFn: (row) => row.createdAt ?? '',
       header: 'Date and Time',
       filterVariant: 'date-range',
       filterFn: (row, _columnId, filterValues) => {
