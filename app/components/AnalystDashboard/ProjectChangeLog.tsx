@@ -37,7 +37,8 @@ import { getTableConfig } from 'utils/historyTableConfig';
 import ClearFilters from 'components/Table/ClearFilters';
 import { getLabelForType } from 'components/Analyst/History/HistoryFilter';
 import { convertStatus } from 'backend/lib/dashboard/util';
-import { useFeature } from '@growthbook/growthbook-react';
+// import { useFeature } from '@growthbook/growthbook-react';
+import getCbcSectionFromKey from 'utils/historyCbcSection';
 import AdditionalFilters from './AdditionalFilters';
 import { HighlightFilterMatch } from './AllDashboardDetailPanel';
 
@@ -174,90 +175,6 @@ const communityArrayToHistoryString = (
   keys: string[]
 ) =>
   communitiesArray.map((obj) => keys.map((key) => obj?.[key] ?? '').join(' '));
-
-// Function to map CBC record keys to their sections based on createCbcSchemaData structure
-const getCbcSectionFromKey = (key: string): string => {
-  // Mapping based on createCbcSchemaData function in utils/schemaUtils.ts
-  const sectionMapping = {
-    // Tombstone section
-    projectNumber: 'Tombstone',
-    originalProjectNumber: 'Tombstone',
-    phase: 'Tombstone',
-    intake: 'Tombstone',
-    projectStatus: 'Tombstone',
-    changeRequestPending: 'Tombstone',
-    projectTitle: 'Tombstone',
-    projectDescription: 'Tombstone',
-    applicantContractualName: 'Tombstone',
-    currentOperatingName: 'Tombstone',
-    eightThirtyMillionFunding: 'Tombstone',
-    federalFundingSource: 'Tombstone',
-    federalProjectNumber: 'Tombstone',
-
-    // Project Type section
-    projectType: 'Project Type',
-    transportProjectType: 'Project Type',
-    highwayProjectType: 'Project Type',
-    lastMileProjectType: 'Project Type',
-    lastMileMinimumSpeed: 'Project Type',
-    connectedCoastNetworkDependant: 'Project Type',
-
-    // Locations section
-    projectLocations: 'Locations',
-    zones: 'Locations',
-    communitySourceData: 'Locations',
-    geographicNames: 'Locations',
-    regionalDistricts: 'Locations',
-    economicRegions: 'Locations',
-    cbcCommunitiesData: 'Locations',
-
-    // Locations and Counts section
-    communitiesAndLocalesCount: 'Locations and Counts',
-    indigenousCommunities: 'Locations and Counts',
-    householdCount: 'Locations and Counts',
-    transportKm: 'Locations and Counts',
-    highwayKm: 'Locations and Counts',
-    restAreas: 'Locations and Counts',
-
-    // Funding section
-    bcFundingRequested: 'Funding',
-    federalFundingRequested: 'Funding',
-    applicantAmount: 'Funding',
-    otherFundingRequested: 'Funding',
-    totalProjectBudget: 'Funding',
-
-    // Events and Dates section
-    conditionalApprovalLetterSent: 'Events and Dates',
-    agreementSigned: 'Events and Dates',
-    announcedByProvince: 'Events and Dates',
-    dateApplicationReceived: 'Events and Dates',
-    dateConditionallyApproved: 'Events and Dates',
-    dateAgreementSigned: 'Events and Dates',
-    proposedStartDate: 'Events and Dates',
-    proposedCompletionDate: 'Events and Dates',
-    reportingCompletionDate: 'Events and Dates',
-    dateAnnounced: 'Events and Dates',
-
-    // Miscellaneous section
-    projectMilestoneCompleted: 'Miscellaneous',
-    constructionCompletedOn: 'Miscellaneous',
-    milestoneComments: 'Miscellaneous',
-    primaryNewsRelease: 'Miscellaneous',
-    secondaryNewsRelease: 'Miscellaneous',
-    notes: 'Miscellaneous',
-
-    // Project Data Reviews section
-    locked: 'Project Data Reviews',
-    lastReviewed: 'Project Data Reviews',
-    reviewNotes: 'Project Data Reviews',
-
-    // Community data (for added/removed communities)
-    added_communities: 'Locations',
-    deleted_communities: 'Locations',
-  };
-
-  return sectionMapping[key] || 'General';
-};
 
 const CommunitiesCell = (
   key1: string,
@@ -441,9 +358,8 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
-  const enableProjectTypeFilters =
-    useFeature('filter_changelog_by_project_type').value || false;
-  const defaultFilters = [{ id: 'program', value: ['CBC', 'CCBC', 'OTHER'] }];
+  const enableProjectTypeFilters = true;
+  const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const { allCbcs, allApplications } = queryFragment;
@@ -754,7 +670,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                 createdAt: meta.createdAt,
                 createdBy: meta.createdBy,
                 createdAtDate: meta.createdAtDate,
-                field: row.field,
+                field: row?.field || '',
                 newValue: row.newValue,
                 oldValue: row.oldValue,
               }));
@@ -785,7 +701,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                   createdAt: meta.createdAt,
                   createdBy: meta.createdBy,
                   createdAtDate: meta.createdAtDate,
-                  field: change.field,
+                  field: change?.field || '',
                   newValue: change.type === 'deleted' ? 'N/A' : change,
                   oldValue: change.type === 'added' ? 'N/A' : change,
                   isFileChange: true,
@@ -842,76 +758,64 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     return Array.from(set).sort();
   }, [tableData]);
 
+  // Custom filter function for program
+  const programFilterFn = (row, columnId, filterValues) => {
+    const rowValue = row.getValue(columnId);
+
+    // If no filter values are selected, show nothing
+    if (!filterValues || filterValues.length === 0) {
+      return false;
+    }
+
+    // If all program options are selected, show everything
+    if (filterValues.length === programOptions.length) {
+      return true;
+    }
+
+    // Check if the row's program value is included in the selected filter values
+    return filterValues.includes(rowValue);
+  };
+
   const columns: MRT_ColumnDef<any>[] = [
     {
-      accessorFn: (row) => row.rowId ?? '',
+      accessorKey: 'rowId',
       id: 'rowId',
       Cell: ProjectIdCell,
       header: 'ID',
       filterFn: filterVariant,
     },
     {
-      accessorFn: (row) => row.program ?? '',
+      accessorKey: 'program',
+      filterFn: programFilterFn,
       header: 'Program',
-      filterFn: 'arrIncludesSome',
-      filterVariant: 'multi-select',
-      filterSelectOptions: programOptions,
       Cell: MergedCell,
     },
     {
-      accessorFn: (row) => row.section ?? '',
+      accessorKey: 'section',
       header: 'Section',
       filterFn: filterVariant,
       filterVariant: 'multi-select',
       filterSelectOptions: sectionOptions,
     },
     {
-      accessorFn: (row) => row.field ?? '',
+      accessorKey: 'field',
       header: 'Fields changed',
       filterFn: filterVariant,
     },
     {
-      accessorFn: (row) => {
-        const value = row.oldValueString ?? row.oldValue;
-        if (value === null || value === undefined) return '';
-        if (typeof value === 'string') return value;
-        if (typeof value === 'number' || typeof value === 'boolean')
-          return String(value);
-        if (Array.isArray(value))
-          return value
-            .map((item) =>
-              typeof item === 'object' ? JSON.stringify(item) : String(item)
-            )
-            .join(' ');
-        if (typeof value === 'object') return JSON.stringify(value);
-        return String(value);
-      },
+      accessorKey: 'oldValue',
       header: 'Old Value',
       Cell: OldValueCell,
       filterFn: filterVariant,
     },
     {
-      accessorFn: (row) => {
-        const value = row.newValueString ?? row.newValue;
-        if (value === null || value === undefined) return '';
-        if (typeof value === 'string') return value;
-        if (typeof value === 'number' || typeof value === 'boolean')
-          return String(value);
-        if (Array.isArray(value))
-          return value
-            .map((item) =>
-              typeof item === 'object' ? JSON.stringify(item) : String(item)
-            )
-            .join(' ');
-        if (typeof value === 'object') return JSON.stringify(value);
-        return String(value);
-      },
+      accessorKey: 'newValue',
       header: 'New Value',
       Cell: HistoryValueCell,
       filterFn: filterVariant,
     },
     {
-      accessorFn: (row) => row.createdBy ?? '',
+      accessorKey: 'createdBy',
       header: 'User',
       filterFn: filterVariant,
       filterVariant: 'multi-select',
@@ -919,7 +823,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       Cell: MergedCell,
     },
     {
-      accessorFn: (row) => row.createdAt ?? '',
+      accessorKey: 'createdAt',
       header: 'Date and Time',
       filterVariant: 'date-range',
       filterFn: (row, _columnId, filterValues) => {
@@ -965,6 +869,8 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     },
   };
 
+  console.log('tableData', tableData);
+
   const table = useMaterialReactTable({
     columns,
     data: tableData,
@@ -1004,7 +910,6 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           table={table}
           filters={table.getState().columnFilters}
           defaultFilters={defaultFilters}
-          externalFilters={false}
         />
         <AdditionalFilters
           filters={columnFilters}
