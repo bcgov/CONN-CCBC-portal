@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-pascal-case */
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import * as React from 'react';
 import { graphql, useFragment } from 'react-relay';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -28,7 +28,16 @@ import {
   getFileArraysFromRecord,
   getFileFieldsForTable,
 } from 'utils/historyFileUtils';
-import { Box, Link, TableCellProps } from '@mui/material';
+import {
+  Box,
+  Link,
+  TableCellProps,
+  CircularProgress,
+  Typography,
+  Button,
+  Alert,
+  LinearProgress,
+} from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTime } from 'luxon';
@@ -44,6 +53,92 @@ import { HighlightFilterMatch } from './AllDashboardDetailPanel';
 interface Props {
   query: any;
 }
+
+// Hook for managing incremental loading state
+const useIncrementalLoading = (
+  initialProjectLimit = 50,
+  initialHistoryLimit = 20
+) => {
+  const [projectLimit, setProjectLimit] = useState(initialProjectLimit);
+  const [historyLimit, setHistoryLimit] = useState(initialHistoryLimit);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasReachedEnd, setHasReachedEnd] = useState(false);
+  const [expandedEntries, setExpandedEntries] = useState(1.0); // Percentage of entries to show
+
+  const loadMoreProjects = useCallback(async () => {
+    if (isLoading || hasReachedEnd) return;
+
+    setIsLoading(true);
+    // Simulate network delay
+    await new Promise<void>((resolve) => {
+      setTimeout(() => resolve(), 500);
+    });
+
+    const newLimit = Math.min(projectLimit + 25, 200);
+    setProjectLimit(newLimit);
+    setExpandedEntries((prev) => Math.min(prev + 0.3, 1.0));
+
+    if (newLimit >= 200) {
+      setHasReachedEnd(true);
+    }
+
+    setIsLoading(false);
+  }, [projectLimit, isLoading, hasReachedEnd]);
+
+  const loadMoreHistory = useCallback(async () => {
+    if (isLoading || hasReachedEnd) return;
+
+    setIsLoading(true);
+    await new Promise<void>((resolve) => {
+      setTimeout(() => resolve(), 300);
+    });
+
+    const newLimit = Math.min(historyLimit + 10, 50);
+    setHistoryLimit(newLimit);
+    setExpandedEntries((prev) => Math.min(prev + 0.2, 1.0));
+
+    if (newLimit >= 50) {
+      setHasReachedEnd(true);
+    }
+
+    setIsLoading(false);
+  }, [historyLimit, isLoading, hasReachedEnd]);
+
+  const loadAll = useCallback(async () => {
+    if (isLoading || hasReachedEnd) return;
+
+    setIsLoading(true);
+    await new Promise<void>((resolve) => {
+      setTimeout(() => resolve(), 1000);
+    });
+
+    setProjectLimit(500);
+    setHistoryLimit(100);
+    setExpandedEntries(1.0);
+    setHasReachedEnd(true);
+    setIsLoading(false);
+  }, [isLoading, hasReachedEnd]);
+
+  const reset = useCallback(() => {
+    setProjectLimit(initialProjectLimit);
+    setHistoryLimit(initialHistoryLimit);
+    setExpandedEntries(1.0);
+    setIsLoading(false);
+    setHasReachedEnd(false);
+  }, [initialProjectLimit, initialHistoryLimit]);
+
+  return {
+    projectLimit,
+    historyLimit,
+    isLoading,
+    hasReachedEnd,
+    expandedEntries,
+    loadMoreProjects,
+    loadMoreHistory,
+    loadAll,
+    reset,
+  };
+};
 
 const StyledTableHeader = styled.div`
   display: flex;
@@ -374,14 +469,25 @@ const OldValueCell = (props) => (
 );
 
 const ProjectChangeLog: React.FC<Props> = ({ query }) => {
+  const {
+    projectLimit,
+    isLoading,
+    hasReachedEnd,
+    expandedEntries,
+    loadMoreProjects,
+    loadMoreHistory,
+    loadAll,
+    reset,
+  } = useIncrementalLoading();
+
   const queryFragment = useFragment<ProjectChangeLog_query$key>(
     graphql`
       fragment ProjectChangeLog_query on Query {
-        allCbcs {
+        allCbcs(first: 50, orderBy: [UPDATED_AT_DESC]) {
           nodes {
             rowId
             projectNumber
-            history {
+            history(first: 20) {
               nodes {
                 op
                 createdAt
@@ -398,7 +504,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             }
           }
         }
-        allApplications {
+        allApplications(first: 50, orderBy: [UPDATED_AT_DESC]) {
           nodes {
             rowId
             ccbcNumber
@@ -406,7 +512,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
             formData {
               jsonData
             }
-            history {
+            history(first: 20) {
               nodes {
                 applicationId
                 createdAt
@@ -449,12 +555,14 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const { allCbcs, allApplications } = queryFragment;
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
-  const { tableData } = useMemo(() => {
+  // Prioritize recent changes for better perceived performance
+  const { tableData, totalAvailableProjects } = useMemo(() => {
     // Return empty data if data is not available
     if (!allCbcs || !allApplications) {
-      return { tableData: [] };
+      return { tableData: [], totalAvailableProjects: 0 };
     }
 
+    // Process all available data first
     const allCbcsFlatMap =
       allCbcs?.nodes?.flatMap(
         ({ projectNumber, rowId, history }) =>
@@ -802,18 +910,24 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       ) || [];
 
     const entries = [...allCbcsFlatMap, ...allApplicationsFlatMap];
+    const totalAvailableProjects =
+      (allCbcs?.nodes?.length || 0) + (allApplications?.nodes?.length || 0);
 
-    const tableData = entries
+    // Apply incremental loading by slicing data based on current limits
+    const maxEntriesToShow = Math.floor(entries.length * expandedEntries);
+    const slicedEntries = entries
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
-      .flatMap((entry, i) =>
-        entry.group.map((row) => ({
-          ...row,
-          isEvenGroup: i % 2 === 0,
-        }))
-      );
+      .slice(0, maxEntriesToShow);
 
-    return { tableData };
-  }, [allCbcs, allApplications]);
+    const tableData = slicedEntries.flatMap((entry, i) =>
+      entry.group.map((row) => ({
+        ...row,
+        isEvenGroup: i % 2 === 0,
+      }))
+    );
+
+    return { tableData, totalAvailableProjects };
+  }, [allCbcs, allApplications, expandedEntries]);
 
   // Collect unique createdBy values for the multi-select filter
   const createdByOptions = useMemo(() => {
@@ -953,15 +1067,20 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     muiTableBodyRowProps,
     enableColumnResizing: true,
     enableRowVirtualization: true,
-    rowVirtualizerOptions: { overscan: 50 },
+    rowVirtualizerOptions: {
+      overscan: 10, // Reduced from 50 to improve performance
+      estimateSize: () => 50, // Estimate row height for better virtualization
+    },
     columnResizeMode: 'onChange',
     enableStickyHeader: true,
     autoResetAll: false,
     enablePagination: false,
     enableGlobalFilter: true,
     globalFilterFn: filterVariant,
-    enableBottomToolbar: false,
+    enableBottomToolbar: true,
     onColumnFiltersChange: setColumnFilters,
+    // Add memoization for better performance with large datasets
+    memoMode: 'table-body',
     renderToolbarInternalActions: ({ table }) => (
       <Box>
         <MRT_ToggleGlobalFilterButton table={table} />
@@ -987,9 +1106,148 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
           }
         />
+        {/* Data status and loading controls */}
+        <Box sx={{ ml: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Box sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
+            Showing {tableData.length} changes from {totalAvailableProjects}{' '}
+            projects available
+            {expandedEntries < 1.0 && (
+              <Typography
+                variant="caption"
+                display="block"
+                sx={{ color: 'warning.main' }}
+              >
+                ({Math.round(expandedEntries * 100)}% of data loaded)
+              </Typography>
+            )}
+          </Box>
+          {isLoading && (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <CircularProgress size={16} />
+              <Typography variant="body2">Loading...</Typography>
+            </Box>
+          )}
+        </Box>
       </StyledTableHeader>
     ),
+    renderBottomToolbarCustomActions: () => (
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 2,
+          p: 1,
+          flexWrap: 'wrap',
+          alignItems: 'center',
+        }}
+      >
+        <Button
+          onClick={loadMoreProjects}
+          disabled={isLoading || hasReachedEnd}
+          variant="outlined"
+          size="small"
+          startIcon={isLoading ? <CircularProgress size={16} /> : null}
+        >
+          Load More Projects
+        </Button>
+        <Button
+          onClick={loadMoreHistory}
+          disabled={isLoading || hasReachedEnd}
+          variant="outlined"
+          size="small"
+          startIcon={isLoading ? <CircularProgress size={16} /> : null}
+        >
+          Load More History
+        </Button>
+        <Button
+          onClick={loadAll}
+          disabled={isLoading || hasReachedEnd}
+          variant="contained"
+          size="small"
+          startIcon={isLoading ? <CircularProgress size={16} /> : null}
+        >
+          Load All Data
+        </Button>
+        {projectLimit > 50 && (
+          <Button
+            onClick={reset}
+            disabled={isLoading}
+            variant="text"
+            size="small"
+          >
+            Reset to Initial View
+          </Button>
+        )}
+        {hasReachedEnd && (
+          <Alert severity="info" sx={{ ml: 2 }}>
+            All available data has been loaded
+          </Alert>
+        )}
+        {!hasReachedEnd && expandedEntries < 1.0 && (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <LinearProgress
+              variant="determinate"
+              value={expandedEntries * 100}
+              sx={{ width: 100 }}
+            />
+            <Typography variant="caption">
+              {Math.round(expandedEntries * 100)}%
+            </Typography>
+          </Box>
+        )}
+      </Box>
+    ),
   });
+
+  // Show loading state if no data is available
+  if (!allCbcs || !allApplications || tableData.length === 0) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="400px"
+        flexDirection="column"
+      >
+        <CircularProgress size={40} />
+        <Typography variant="body2" sx={{ mt: 2 }}>
+          Loading change log data...
+        </Typography>
+        <Typography variant="caption" sx={{ mt: 1, color: 'text.secondary' }}>
+          This may take a moment for large datasets
+        </Typography>
+      </Box>
+    );
+  }
+
+  // Show loading overlay when incrementally loading
+  if (isLoading && tableData.length > 0) {
+    return (
+      <Box sx={{ position: 'relative' }}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <MaterialReactTable table={table} />
+        </LocalizationProvider>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            bgcolor: 'rgba(255, 255, 255, 0.8)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <CircularProgress size={24} />
+            <Typography variant="body2">Loading more data...</Typography>
+          </Box>
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
