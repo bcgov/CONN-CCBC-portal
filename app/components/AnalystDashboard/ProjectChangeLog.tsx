@@ -874,8 +874,6 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     },
   };
 
-  console.log('tableData', tableData);
-
   const table = useMaterialReactTable({
     columns,
     data: tableData,
