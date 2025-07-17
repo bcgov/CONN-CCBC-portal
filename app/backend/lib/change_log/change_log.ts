@@ -78,7 +78,8 @@ const generateQuery = (
 changeLog.get('/api/change-log', limiter, async (req, res) => {
   const flag = 'change_log_variables';
   try {
-    // Get feature value from GrowthBook
+    // refresh and get feature value from GrowthBook
+    await gbClient.refreshFeatures();
     const featureValue: any = gbClient.getFeatureValue(flag, false, {});
 
     // generate the query based on the feature flag
