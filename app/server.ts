@@ -10,7 +10,10 @@ import * as Sentry from '@sentry/nextjs';
 // eslint-disable-next-line import/extensions
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 import morgan from 'morgan';
-import { initializeGrowthBook } from './backend/lib/growthbook-client';
+import {
+  gbClient,
+  initializeGrowthBook,
+} from './backend/lib/growthbook-client';
 import reporting from './backend/lib/reporting/reporting';
 import validation from './backend/lib/validation';
 import email from './backend/lib/emails/email';
@@ -118,6 +121,8 @@ app.prepare().then(async () => {
 
   // Initialize growthbook client from the shared module
   await initializeGrowthBook();
+  // Refresh once every 1 minute
+  setInterval(() => gbClient.refreshFeatures(), 1 * 60 * 1000);
 
   const { middleware: sessionMiddleware } = session();
 
