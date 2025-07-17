@@ -36,7 +36,7 @@ import ClearFilters from 'components/Table/ClearFilters';
 import { getLabelForType } from 'components/Analyst/History/HistoryFilter';
 import { convertStatus } from 'backend/lib/dashboard/util';
 import * as Sentry from '@sentry/nextjs';
-// import { useFeature } from '@growthbook/growthbook-react';
+import { useFeature } from '@growthbook/growthbook-react';
 import getCbcSectionFromKey from 'utils/historyCbcSection';
 import AdditionalFilters from './AdditionalFilters';
 import { HighlightFilterMatch } from './AllDashboardDetailPanel';
@@ -302,7 +302,8 @@ const ProjectChangeLog: React.FC<Props> = () => {
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
-  const enableProjectTypeFilters = true;
+  const enableProjectTypeFilters =
+    useFeature('filter_changelog_by_project_type').value || false;
   const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
