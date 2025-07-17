@@ -490,12 +490,25 @@ const ProjectChangeLog: React.FC<Props> = () => {
                   ? new Date(record?.updated_at)
                   : new Date(createdAt);
 
+              // Determine section name - for assessment_data, include the assessment type
+              let sectionName = getLabelForType(tableName);
+              if (tableName === 'assessment_data' && item) {
+                // Capitalize the first letter of assessment type
+                const capitalizedType =
+                  item.charAt(0).toUpperCase() + item.slice(1);
+                sectionName = `${capitalizedType} Assessment`;
+              }
+              // override section for application dependencies
+              if (tableName === 'application_dependencies' && item) {
+                sectionName = 'Technical Assessment';
+              }
+
               const base = {
                 changeId: `${ccbcNumber}-${createdAt}-${tableName}`,
                 id: rowId,
                 _sortDate: effectiveDate,
                 program: program || 'CCBC',
-                section: getLabelForType(tableName),
+                section: sectionName,
                 isCbcProject: false,
               };
 
