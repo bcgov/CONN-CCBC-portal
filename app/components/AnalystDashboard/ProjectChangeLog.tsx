@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-pascal-case */
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import * as React from 'react';
-import { graphql, useFragment } from 'react-relay';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   MaterialReactTable,
@@ -15,7 +14,6 @@ import {
   MRT_ShowHideColumnsButton,
   MRT_ColumnSizingState,
 } from 'material-react-table';
-import { ProjectChangeLog_query$key } from '__generated__/ProjectChangeLog_query.graphql';
 import { diff } from 'json-diff';
 import { generateRawDiff, processArrayDiff } from 'components/DiffTable';
 import getConfig from 'next/config';
@@ -37,6 +35,7 @@ import { getTableConfig } from 'utils/historyTableConfig';
 import ClearFilters from 'components/Table/ClearFilters';
 import { getLabelForType } from 'components/Analyst/History/HistoryFilter';
 import { convertStatus } from 'backend/lib/dashboard/util';
+import * as Sentry from '@sentry/nextjs';
 // import { useFeature } from '@growthbook/growthbook-react';
 import getCbcSectionFromKey from 'utils/historyCbcSection';
 import AdditionalFilters from './AdditionalFilters';
@@ -298,67 +297,7 @@ const OldValueCell = (props) => (
   <HistoryValueCell {...props} historyType="old" />
 );
 
-const ProjectChangeLog: React.FC<Props> = ({ query }) => {
-  const queryFragment = useFragment<ProjectChangeLog_query$key>(
-    graphql`
-      fragment ProjectChangeLog_query on Query {
-        allCbcs {
-          nodes {
-            rowId
-            projectNumber
-            history {
-              nodes {
-                op
-                createdAt
-                createdBy
-                id
-                record
-                oldRecord
-                tableName
-                ccbcUserByCreatedBy {
-                  givenName
-                  familyName
-                }
-              }
-            }
-          }
-        }
-        allApplications {
-          nodes {
-            rowId
-            ccbcNumber
-            program
-            history {
-              nodes {
-                applicationId
-                createdAt
-                createdBy
-                externalAnalyst
-                familyName
-                item
-                givenName
-                op
-                record
-                oldRecord
-                recordId
-                sessionSub
-                tableName
-              }
-            }
-            ccbcUserByCreatedBy {
-              familyName
-              givenName
-            }
-          }
-        }
-        session {
-          authRole
-        }
-      }
-    `,
-    query
-  );
-
+const ProjectChangeLog: React.FC<Props> = () => {
   const enableTimeMachine =
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
@@ -367,17 +306,40 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
-  const { allCbcs, allApplications } = queryFragment;
+  const [allData, setAllData] = useState({
+    allCbcs: { nodes: [] },
+    allApplications: { nodes: [] },
+  });
+  const [isLoading, setIsLoading] = useState(true);
   const isLargeUp = useMediaQuery('(min-width:1007px)');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/change-log');
+        const data = await response.json();
+        setAllData(data.data);
+      } catch (error) {
+        Sentry.captureException({
+          name: 'Error getting change log data',
+          message: error,
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const { tableData } = useMemo(() => {
     // Return empty data if data is not available
-    if (!allCbcs || !allApplications) {
+    if (!allData.allCbcs || !allData.allApplications) {
       return { tableData: [] };
     }
 
     const allCbcsFlatMap =
-      allCbcs?.nodes?.flatMap(
+      allData.allCbcs?.nodes?.flatMap(
         ({ projectNumber, rowId, history }) =>
           history.nodes.map((item) => {
             const { record, oldRecord, createdAt, op } = item;
@@ -498,7 +460,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       ) || [];
 
     const allApplicationsFlatMap =
-      allApplications?.nodes?.flatMap(
+      allData.allApplications?.nodes?.flatMap(
         ({ ccbcNumber, rowId, history, program }) => {
           // Apply HistoryTable preprocessing logic
           const processedHistory = processHistoryItems(history.nodes, {
@@ -734,7 +696,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       );
 
     return { tableData };
-  }, [allCbcs, allApplications]);
+  }, [allData]);
 
   // Collect unique createdBy values for the multi-select filter
   const createdByOptions = useMemo(() => {
@@ -867,6 +829,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const state = {
     showColumnFilters: true,
     columnFilters,
+    isLoading,
     showGlobalFilter: true,
     columnSizing,
     columnVisibility: {
@@ -918,7 +881,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           filters={columnFilters}
           setFilters={setColumnFilters}
           disabledFilters={
-            enableProjectTypeFilters
+            !isLoading && enableProjectTypeFilters
               ? []
               : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
           }

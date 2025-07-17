@@ -10,6 +10,7 @@ import * as Sentry from '@sentry/nextjs';
 // eslint-disable-next-line import/extensions
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 import morgan from 'morgan';
+import { initializeGrowthBook } from './backend/lib/growthbook-client';
 import reporting from './backend/lib/reporting/reporting';
 import validation from './backend/lib/validation';
 import email from './backend/lib/emails/email';
@@ -42,6 +43,7 @@ import map from './backend/lib/map/map';
 import dashboardExport from './backend/lib/dashboard/dashboard_export';
 import intake from './backend/lib/intake';
 import cbc from './backend/lib/cbc/cbc';
+import changeLog from './backend/lib/change_log/change_log';
 
 // Function to exclude middleware from certain routes
 // The paths argument takes an array of strings containing routes to exclude from the middleware
@@ -114,6 +116,9 @@ app.prepare().then(async () => {
   // passport needed to use req.logout() and req.session.destroy() in login.ts and logout.ts
   server.use(passport.initialize());
 
+  // Initialize growthbook client from the shared module
+  await initializeGrowthBook();
+
   const { middleware: sessionMiddleware } = session();
 
   server.use(sessionMiddleware);
@@ -163,6 +168,7 @@ app.prepare().then(async () => {
   server.use('/', dashboardExport);
   server.use('/', intake);
   server.use('/', cbc);
+  server.use('/', changeLog);
 
   server.all('*', async (req, res) => handle(req, res));
 
