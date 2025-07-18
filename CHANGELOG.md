@@ -1,3 +1,35 @@
+## [1.262.18](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.17...v1.262.18) (2025-07-15)
+
+## [1.262.17](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.16...v1.262.17) (2025-07-15)
+
+## [1.262.16](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.15...v1.262.16) (2025-07-15)
+
+## [1.262.15](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.14...v1.262.15) (2025-07-15)
+
+## [1.262.14](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.13...v1.262.14) (2025-07-15)
+
+## [1.262.13](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.12...v1.262.13) (2025-07-15)
+
+### Bug Fixes
+
+- gcpe report showing wrong program and funding source ([588df72](https://github.com/bcgov/CONN-CCBC-portal/commit/588df7273bd1a84ce6289c385c6e61ba4507e25e))
+
+## [1.262.12](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.11...v1.262.12) (2025-07-14)
+
+## [1.262.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.10...v1.262.11) (2025-07-14)
+
+### Bug Fixes
+
+- communities list shows archived data ([eb040f5](https://github.com/bcgov/CONN-CCBC-portal/commit/eb040f5668006ec791a09b81dd761059e601578e))
+
+## [1.262.10](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.9...v1.262.10) (2025-07-14)
+
+## [1.262.9](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.8...v1.262.9) (2025-07-14)
+
+### Bug Fixes
+
+- assessment page data update with project navigation ([c959442](https://github.com/bcgov/CONN-CCBC-portal/commit/c95944291789cfead55a3778adc792b798c275c7))
+
 ## [1.262.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.7...v1.262.8) (2025-07-11)
 
 ### Bug Fixes

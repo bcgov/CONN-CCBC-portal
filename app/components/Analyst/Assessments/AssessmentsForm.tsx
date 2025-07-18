@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { FormBase } from 'components/Form';
 import Button from '@button-inc/bcgov-theme/Button';
@@ -71,6 +71,16 @@ const AssessmentsForm: React.FC<Props> = ({
   >('idle');
   const formRef = useRef<FormBaseRef>(null);
 
+  const resetFormState = (data: any) => {
+    setIsFormSaved(true);
+    formRef.current?.resetFormState(data);
+  };
+
+  useEffect(() => {
+    setNewFormData(formData);
+    resetFormState(formData);
+  }, [formData]);
+
   const getDependenciesData = (data: any) => {
     const newDependencies = {
       connectedCoastNetworkDependent: data?.connectedCoastNetworkDependent,
@@ -121,8 +131,7 @@ const AssessmentsForm: React.FC<Props> = ({
           connections: [],
         },
         onCompleted: () => {
-          setIsFormSaved(true);
-          formRef.current?.resetFormState(e.formData);
+          resetFormState(e.formData);
         },
         optimisticResponse: {
           jsonData: e.formData,

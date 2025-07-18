@@ -117,7 +117,7 @@ describe('The index page', () => {
 
     expect(screen.getAllByText('Screening')[1]).toBeInTheDocument();
     expect(screen.getByText('Rachel Greenspan')).toBeInTheDocument();
-    expect(screen.getByText('Tue, Jan 10')).toBeInTheDocument();
+    expect(screen.getByText('Jan 10, 2023')).toBeInTheDocument();
     expect(screen.getByText('Incomplete')).toBeInTheDocument();
     expect(screen.getAllByText('Not started')[0]).toBeInTheDocument();
   });
