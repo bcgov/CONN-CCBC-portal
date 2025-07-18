@@ -507,7 +507,7 @@ const generateExcelData = async (
       },
       // proposed completion date
       {
-        value: cleanDateTime(node?.formData?.jsonData?.projectPlan?.projectCompletionDate),
+        value: cleanDateTime(node?.applicationSowDataByApplicationId.nodes[0]?.jsonData?.projectCompletionDate),
       },
       // date announced
       {
