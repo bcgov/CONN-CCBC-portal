@@ -442,11 +442,82 @@ export const generateRawDiff = (
         return;
       }
       const fieldKey = key.replace(/(__added|__deleted|__old)/g, '');
+
+      // extra exclude for some keys
+      if (excludedKeys.includes(fieldKey)) {
+        return;
+      }
+
       const parentKey = overrideParent || objectName;
-      const fieldSchema =
+      let fieldSchema =
         schema?.[parentKey]?.properties?.[fieldKey || objectName];
+      if (!parentKey) {
+        fieldSchema = schema?.[fieldKey];
+      }
       const type = fieldSchema?.type || 'string';
-      const field = fieldSchema?.title || fieldKey;
+      let field;
+      if (fieldSchema?.title) {
+        field = fieldSchema.title;
+      } else if (fieldSchema?.type === 'object') {
+        field = fieldKey; // Fallback to key if no title is provided
+      }
+      const getFieldInfo = (specificKey: string, fs: any = null) => {
+        let specificFieldSchema =
+          schema?.[parentKey]?.properties?.[specificKey];
+        if (overrideParent === null) {
+          specificFieldSchema = fs?.properties?.[specificKey];
+        }
+        return {
+          field: specificFieldSchema?.title || specificKey,
+          type: specificFieldSchema?.type || 'string',
+        };
+      };
+
+      // Special handling for object types
+      if (
+        fieldSchema?.type === 'object' &&
+        typeof value === 'object' &&
+        value !== null
+      ) {
+        // Process each file key separately
+        Object.keys(value).forEach((fileKey) => {
+          const fileValue = value[fileKey];
+          let overrideFieldInfoSchema = null;
+          if (overrideParent === null) {
+            overrideFieldInfoSchema = fieldSchema;
+          }
+          const { field: fileField, type: fileType } = getFieldInfo(
+            fileKey,
+            overrideFieldInfoSchema
+          );
+
+          if (key.endsWith('__added') || key === '__new') {
+            rows.push({
+              field: fileField,
+              key: fileKey,
+              newValue: format(fileValue, fileType),
+              oldValue: 'N/A',
+            });
+          } else if (key.endsWith('__deleted')) {
+            rows.push({
+              field: fileField,
+              key: fileKey,
+              newValue: 'N/A',
+              oldValue: format(fileValue, fileType),
+            });
+          } else if (typeof fileValue === 'object' && fileValue !== null) {
+            if (fileValue.__old !== undefined) {
+              rows.push({
+                field: fileField,
+                key: fileKey,
+                newValue: format(fileValue.__new, fileType),
+                oldValue: format(fileValue.__old, fileType),
+              });
+            }
+          }
+        });
+        return; // Skip the rest of the processing for this key
+      }
       if (typeof value === 'object' && value !== null) {
         if (isStructuredArray(value)) {
           const [newValueArr, oldValueArr] = splitStructuredArrayDiff(

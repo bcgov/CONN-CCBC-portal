@@ -34,7 +34,7 @@ const typeLabelMappings: Record<string, string> = {
   application_pending_change_request: 'Pending change request',
 };
 
-const getLabelForType = (type: string) =>
+export const getLabelForType = (type: string) =>
   typeLabelMappings[type] || toTitleCase(type, '_');
 
 export const filterByType = (historyItem: any, filters: any) => {

@@ -15,7 +15,6 @@ const getChangeLogQuery = graphql`
       sub
       ...DashboardTabs_query
     }
-    ...ProjectChangeLog_query
   }
 `;
 

@@ -52,7 +52,8 @@ const DashboardTabs = ({ session }) => {
         isAdmin={isAdmin}
         selected={
           router?.pathname.startsWith('/analyst/dashboard') ||
-          router?.pathname.startsWith('/analyst/assessments')
+          router?.pathname.startsWith('/analyst/assessments') ||
+          router?.pathname.startsWith('/analyst/change-log')
         }
       >
         Dashboard
