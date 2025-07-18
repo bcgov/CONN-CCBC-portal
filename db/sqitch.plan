@@ -838,3 +838,4 @@ mutations/create_project_information [mutations/create_project_information@1.249
 @1.259.1 2025-06-16T17:37:21Z CCBC Service Account <ccbc@button.is> # release v1.259.1
 mutations/create_application_sow_data [mutations/create_application_sow_data@1.259.0] 2025-07-15T22:21:59Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # only archive non-archived records for sow
 @1.262.19 2025-07-18T23:24:22Z CCBC Service Account <ccbc@button.is> # release v1.262.19
+@1.262.20 2025-07-18T23:26:01Z CCBC Service Account <ccbc@button.is> # release v1.262.20
