@@ -192,11 +192,14 @@ const getReportingGcpeQuery = `
 `;
 
 const getProjectCompletionDate = (applicationData) => {
+  if(!applicationData)
+    return null;
+
   if (
     applicationData.status === 'approved' ||
     applicationData.status === 'applicant_approved'
   ) {
-    return cleanDateTime(applicationData?.applicationSowDataByApplicationId.nodes[0]?.jsonData?.projectCompletionDate);
+    return cleanDateTime(applicationData?.applicationSowDataByApplicationId?.nodes[0]?.jsonData?.projectCompletionDate);
   }
   if (
     applicationData.status === 'received' ||
