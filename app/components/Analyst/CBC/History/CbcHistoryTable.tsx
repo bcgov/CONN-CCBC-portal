@@ -123,7 +123,11 @@ const CbcHistoryTable: React.FC<Props> = ({ query }) => {
               }}
               prevJson={{
                 ...historyItem.oldRecord?.json_data,
-                project_number: historyItem.oldRecord?.project_number,
+                project_number: (
+                  historyItem.record?.change_reason === 'System: cleanup of unused project id' ?
+                    historyItem.record?.json_data?.originalProjectNumber :
+                    historyItem.oldRecord?.project_number
+                ),
               }}
               changeReason={historyItem.record?.change_reason}
               tableName={historyItem.tableName}
