@@ -1,3 +1,11 @@
+## [1.262.20](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.19...v1.262.20) (2025-07-18)
+
+## [1.262.19](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.18...v1.262.19) (2025-07-18)
+
+### Bug Fixes
+
+- sow replacements not importing data ([6b553af](https://github.com/bcgov/CONN-CCBC-portal/commit/6b553af15504ae05394821c23d65aea585cdde41))
+
 ## [1.262.18](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.17...v1.262.18) (2025-07-15)
 
 ## [1.262.17](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.16...v1.262.17) (2025-07-15)
