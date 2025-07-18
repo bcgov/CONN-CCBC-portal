@@ -232,7 +232,7 @@ export const regenerateGcpeReportQueryResult = {
           },
           {
             wrap: true,
-            value: 'Proposed Project Milestone Completion Date',
+            value: 'Proposed Completion Date',
             height: 95,
             fontWeight: 'bold',
           },

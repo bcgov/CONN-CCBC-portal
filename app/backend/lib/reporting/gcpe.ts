@@ -191,6 +191,38 @@ const getReportingGcpeQuery = `
   }
 `;
 
+const getProjectCompletionDate = (applicationData) => {
+  if(!applicationData)
+    return null;
+
+  if (
+    applicationData.status === 'approved' ||
+    applicationData.status === 'applicant_approved'
+  ) {
+    return cleanDateTime(applicationData?.applicationSowDataByApplicationId?.nodes[0]?.jsonData?.projectCompletionDate);
+  }
+  if (
+    applicationData.status === 'received' ||
+    applicationData.status === 'screening' ||
+    applicationData.status === 'assessment' ||
+    applicationData.status === 'recommendation' ||
+    applicationData.status === 'closed' ||
+    applicationData.status === 'analyst_withdrawn' ||
+    applicationData.status === 'withdrawn' ||
+    applicationData.status === 'applicant_received' ||
+    applicationData.status === 'applicant_closed' ||
+    applicationData.status === 'conditionally_approved' ||
+    applicationData.status === 'applicant_conditionally_approved' ||
+    applicationData.status === 'closed' ||
+    applicationData.status === 'applicant_on_hold' ||
+    applicationData.status === 'on_hold'
+  ) {
+    return cleanDateTime(applicationData?.formData?.jsonData?.projectPlan?.projectCompletionDate);
+  }
+  return null;
+
+};
+
 export const regenerateGcpeReport = async (rowId, req) => {
   const queryResult = await performQuery(
     getReportingGcpeQuery,
@@ -340,7 +372,7 @@ const generateExcelData = async (
       { value: cleanDateTime(node?.jsonData?.proposedStartDate) },
       // date approved
       { value: cleanDateTime(node?.jsonData?.dateConditionallyApproved) },
-      // proposed project milestone completion date
+      // proposed completion date
       { value: cleanDateTime(node?.jsonData?.proposedCompletionDate) },
       // date announced
       { value: cleanDateTime(node?.jsonData?.dateAnnounced) },
@@ -505,9 +537,9 @@ const generateExcelData = async (
       {
         value: getConditionalApprovalDate(node?.conditionalApproval?.jsonData),
       },
-      // proposed project milestone completion date
+      // proposed completion date
       {
-        value: null,
+        value: getProjectCompletionDate(node),
       },
       // date announced
       {
