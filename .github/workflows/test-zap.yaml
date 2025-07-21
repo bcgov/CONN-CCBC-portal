@@ -21,7 +21,8 @@ jobs:
       - name: run app locally
         uses: ./.github/actions/local-app-run
       - name: ZAP Full Scan
-        run: |
+        uses: Wandalen/wretry.action@master
+        command: |
           docker run --rm \
             -v "$GITHUB_WORKSPACE:/zap/wrk" \
             --user root \
@@ -34,3 +35,5 @@ jobs:
               -a -d -T 5 -m 2 \
               -n -I \
               -c .zap/rules.tsv
+        attempt_limit: 3
+        attempt_delay: 2000
