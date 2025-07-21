@@ -22,12 +22,12 @@ jobs:
         uses: ./.github/actions/local-app-run
       - name: Create and set permissions for ZAP working directory
         run: |
-          mkdir -p /zap/wrk
-          chmod -R 777 /zap/wrk
+          mkdir -p ~/zap/wrk
+          chmod -R 777 ~/zap/wrk
       - name: Debug directory permissions
         run: |
-          ls -ld /zap/wrk || echo "/zap/wrk does not exist"
-          ls -ld /github/workspace
+          ls -ld ~/zap/wrk || echo "~/zap/wrk does not exist"
+          ls -ld ~/github/workspace
           whoami
       - name: ZAP Full Scan
         uses: Wandalen/wretry.action@master
