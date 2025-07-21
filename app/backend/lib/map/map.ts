@@ -89,7 +89,7 @@ query getAppDataQuery($rowId: Int!) {
       jsonData
     }
     projectInformationDataByApplicationId(
-      filter: { jsonData: { contains: { finalizedMapUpload: [] } } }
+      filter: { jsonData: { contains: { finalizedMapUpload: [] } }, archivedAt: {isNull: true} }
       orderBy: UPDATED_AT_DESC
       first: 1
     ) {
@@ -176,7 +176,7 @@ const handleQueryResult = (rfiData, formData, projectInformationData) => {
   const upgradedNetworkInfrastructure = [];
   const finalizedMapUpload = [
     {
-      ...projectInformationData?.nodes[0]?.jsonData?.finalizedMapUpload?.[0],
+      ...projectInformationData?.nodes[0]?.jsonData?.finalizedMapUpload?.at(-1),
       source: 'SOW',
     },
   ];
@@ -258,7 +258,7 @@ map.get('/api/map/:id', limiter, async (req, res) => {
     return res.status(400).end();
   }
   try {
-    const force = req?.query?.force === 'true';
+    const force = true;
     const queryResult = await performQuery(
       getAppDataQuery,
       { rowId: applicationId },
