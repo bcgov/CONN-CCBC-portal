@@ -21,15 +21,6 @@ jobs:
       #   uses: ./.github/actions/dev-env-setup
       - name: run app locally
         uses: ./.github/actions/local-app-run
-      - name: Create ZAP working directory
-        run: |
-          mkdir -p $GITHUB_WORKSPACE/zap/wrk
-          chmod -R 777 $GITHUB_WORKSPACE/zap/wrk
-      - name: Debug directory permissions
-        run: |
-          ls -ld $GITHUB_WORKSPACE/zap/wrk || echo "$GITHUB_WORKSPACE/zap/wrk does not exist"
-          ls -ld $GITHUB_WORKSPACE
-          whoami
       - name: ZAP Full Scan
         uses: Wandalen/wretry.action@master
         with:
@@ -42,5 +33,5 @@ jobs:
             cmd_options: '-a -d -T 5 -m 2 -J ./report_json.json'
             issue_title: OWASP Full Scan
             fail_action: true
-          attempt_limit: 1
+          attempt_limit: 3
           attempt_delay: 2000
