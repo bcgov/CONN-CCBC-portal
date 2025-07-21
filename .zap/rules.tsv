@@ -17,3 +17,4 @@
 40039	IGNORE	(Web Cache Deception)
 110009	IGNORE	(Full Path Disclosure)
 90004	IGNORE	(Insufficient Site Isolation Against Spectre Vulnerability)
+10003	IGNORE	(Vulnerable JS Library)
