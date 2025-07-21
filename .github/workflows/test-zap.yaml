@@ -22,18 +22,19 @@ jobs:
         uses: ./.github/actions/local-app-run
       - name: ZAP Full Scan
         uses: Wandalen/wretry.action@master
-        command: |
-          docker run --rm \
-            -v "$GITHUB_WORKSPACE:/zap/wrk" \
-            --user root \
-            --network="host" \
-            ghcr.io/zaproxy/zaproxy:latest \
-            zap-full-scan.py \
-              -t http://localhost:3000/applicantportal \
-              -J report_json.json \
-              -r report_html.html \
-              -a -d -T 5 -m 2 \
-              -n -I \
-              -c .zap/rules.tsv
-        attempt_limit: 3
-        attempt_delay: 2000
+        with:
+          attempt_limit: 3
+          attempt_delay: 2000
+          command: |
+            docker run --rm \
+              -v "$GITHUB_WORKSPACE:/zap/wrk" \
+              --user root \
+              --network="host" \
+              ghcr.io/zaproxy/zaproxy:latest \
+              zap-full-scan.py \
+                -t http://localhost:3000/applicantportal \
+                -J report_json.json \
+                -r report_html.html \
+                -a -d -T 5 -m 2 \
+                -n -I \
+                -c .zap/rules.tsv
