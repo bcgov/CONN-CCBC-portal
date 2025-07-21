@@ -41,5 +41,5 @@ jobs:
             cmd_options: '-a -d -T 5 -m 2 -r $GITHUB_WORKSPACE/zap/wrk/report_json.json'
             issue_title: OWASP Full Scan
             fail_action: true
-          attempt_limit: 3
+          attempt_limit: 1
           attempt_delay: 2000
