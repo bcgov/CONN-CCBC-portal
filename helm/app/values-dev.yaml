@@ -7,6 +7,9 @@ deploy:
 cronsp:
   schedule: '0 0 15 10 *' # dev run once a year on October 15
 
+cronshp:
+  enabled: false
+
 db:
   postMigrationCommand: |
     sqitch --chdir mocks_schema deploy;
