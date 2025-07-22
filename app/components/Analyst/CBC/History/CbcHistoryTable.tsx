@@ -1,6 +1,7 @@
 import { CbcHistoryTable_query$key } from '__generated__/CbcHistoryTable_query.graphql';
+import { CbcHistoryTableOriginalProjectQuery } from '__generated__/CbcHistoryTableOriginalProjectQuery.graphql';
 import React, { useMemo, useState } from 'react';
-import { useFragment, graphql } from 'react-relay';
+import { useFragment, useLazyLoadQuery, graphql } from 'react-relay';
 import styled from 'styled-components';
 import HistoryFilter, {
   filterByType,
@@ -54,14 +55,54 @@ const CbcHistoryTable: React.FC<Props> = ({ query }) => {
               }
             }
           }
+        
+        cbcDataByCbcId(first: 500) {
+            edges {
+              node {
+                jsonData
+              }
+            }
+          }
         }
       }
     `,
     query
   );
 
-  const { history } = cbcByRowId;
+  const { history, cbcDataByCbcId } = cbcByRowId;
   const [filters, setFilters] = useState({ types: [], users: [] });
+
+  const originalProjectNumber = cbcDataByCbcId?.edges?.[0]?.node?.jsonData?.originalProjectNumber;
+
+  const originalProjectHistory = useLazyLoadQuery<CbcHistoryTableOriginalProjectQuery>(
+    graphql`
+      query CbcHistoryTableOriginalProjectQuery($originalProjectNumber: Int!) {
+        allCbcs(condition: { projectNumber: $originalProjectNumber }) {
+          nodes {
+            history {
+              nodes {
+                rowId
+                record
+                oldRecord
+                op
+                tableName
+                createdBy
+                createdAt
+                ccbcUserByCreatedBy {
+                  givenName
+                  familyName
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    { originalProjectNumber: originalProjectNumber || 0 },
+    {
+      fetchPolicy: originalProjectNumber ? 'store-or-network' : 'store-only',
+    }
+  );
 
   const formatUser = (item) => {
     const isSystem =
@@ -72,13 +113,28 @@ const CbcHistoryTable: React.FC<Props> = ({ query }) => {
       : `${item.ccbcUserByCreatedBy?.givenName} ${item.ccbcUserByCreatedBy?.familyName}`;
   };
 
+  const mergedHistory = useMemo(() => {
+    let allHistoryNodes = [...(history?.nodes || [])];
+
+    // Add original project history if available
+    if (originalProjectHistory?.allCbcs?.nodes?.[0]?.history?.nodes) {
+      const originalHistoryNodes = originalProjectHistory.allCbcs.nodes[0].history.nodes;
+      allHistoryNodes = [...allHistoryNodes, ...originalHistoryNodes];
+    }
+
+    // Sort by createdAt timestamp (most recent first)
+    allHistoryNodes.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+    return { nodes: allHistoryNodes };
+  }, [history?.nodes, originalProjectHistory]);
+
   const historyItems = useMemo(
     () =>
-      history?.nodes?.map((item) => ({
+      mergedHistory?.nodes?.map((item) => ({
         ...item,
         user: formatUser(item),
       })) ?? [],
-    [history?.nodes]
+    [mergedHistory?.nodes]
   );
 
   const typeOptions = useMemo(
