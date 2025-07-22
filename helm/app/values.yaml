@@ -41,6 +41,7 @@ cronsp:
   keycloakHost: '' # keycloakHost must be passed in via deploy script
 
 cronshp:
+  enabled: true
   schedule: '0 23 * * 1-5' #trigger 11pm on weekdays
   erFile: '' # The value must be passed in via the deploy script
   rdFile: '' # The value must be passed in via the deploy script
