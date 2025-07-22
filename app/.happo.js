@@ -12,19 +12,25 @@ module.exports = {
     chrome: new RemoteBrowserTarget('chrome', {
       viewport: VIEWPORT,
       maxHeight: MAXHEIGHT,
+      freezeAnimations: 'last-frame',
+      prefersReducedMotion: true,
     }),
     edge: new RemoteBrowserTarget('edge', {
       viewport: VIEWPORT,
       maxHeight: MAXHEIGHT,
+      freezeAnimations: 'last-frame',
+      prefersReducedMotion: true,
     }),
     firefox: new RemoteBrowserTarget('firefox', {
       viewport: VIEWPORT,
       maxHeight: MAXHEIGHT,
+      freezeAnimations: 'last-frame',
+      prefersReducedMotion: true,
     }),
-    safari: new RemoteBrowserTarget('safari', {
-      viewport: VIEWPORT,
-      maxHeight: MAXHEIGHT,
-      scrollStitch: true,
-    }),
+    // safari: new RemoteBrowserTarget('safari', {
+    //   viewport: VIEWPORT,
+    //   maxHeight: MAXHEIGHT,
+    //   scrollStitch: true,
+    // }),
   },
 };
