@@ -175,7 +175,7 @@ jobs:
   #     - run: ./.bin/sqitch-last-change-is-tag.sh db
 
   deploy:
-    # if: github.event.ref == 'refs/heads/main'
+    if: github.event.ref == 'refs/heads/main'
     needs: [build]
     uses: ./.github/workflows/deploy.yaml
     secrets:
