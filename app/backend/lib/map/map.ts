@@ -174,9 +174,16 @@ const handleQueryResult = (rfiData, formData, projectInformationData) => {
   const geographicCoverageMap = [];
   const currentNetworkInfrastructure = [];
   const upgradedNetworkInfrastructure = [];
+  const latestFinalizedMapUpload =
+    projectInformationData?.nodes[0]?.jsonData?.finalizedMapUpload
+      ?.slice()
+      ?.sort(
+        (a, b) =>
+          new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+      )[0];
   const finalizedMapUpload = [
     {
-      ...projectInformationData?.nodes[0]?.jsonData?.finalizedMapUpload?.at(-1),
+      ...latestFinalizedMapUpload,
       source: 'SOW',
     },
   ];
@@ -258,7 +265,7 @@ map.get('/api/map/:id', limiter, async (req, res) => {
     return res.status(400).end();
   }
   try {
-    const force = true;
+    const force = req?.query?.force === 'true';
     const queryResult = await performQuery(
       getAppDataQuery,
       { rowId: applicationId },
