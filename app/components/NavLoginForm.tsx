@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
@@ -23,16 +24,25 @@ type Props = {
   action: string;
 };
 
-const LoginForm: React.FC<Props> = ({ linkText, action }) => (
-  <StyledForm action={action} method="POST">
-    <StyledButton
-      type="submit"
-      data-button-id={`${linkText}-button`}
-      onClick={() => sessionStorage.removeItem('dashboard_scroll_position')}
-    >
-      {linkText}
-    </StyledButton>
-  </StyledForm>
-);
+const LoginForm: React.FC<Props> = ({ linkText, action }) => {
+  const [disabled, setDisabled] = useState(false);
+
+  const handleSubmit = () => {
+    setDisabled(true);
+    sessionStorage.removeItem('dashboard_scroll_position');
+    // do not call e.preventDefault(); unless you want to stop submission/login/logout
+  };
+  return (
+    <StyledForm action={action} method="POST" onSubmit={handleSubmit}>
+      <StyledButton
+        type="submit"
+        data-button-id={`${linkText}-button`}
+        disabled={disabled}
+      >
+        {linkText}
+      </StyledButton>
+    </StyledForm>
+  );
+};
 
 export default LoginForm;

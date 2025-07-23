@@ -1,3 +1,11 @@
+## [1.262.24](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.23...v1.262.24) (2025-07-23)
+
+## [1.262.23](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.22...v1.262.23) (2025-07-23)
+
+### Bug Fixes
+
+- prevent double login/logout ([2d011d2](https://github.com/bcgov/CONN-CCBC-portal/commit/2d011d2ce0a2d7c98b6dde8539bbe2cb5d7aaeb0))
+
 ## [1.262.22](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.21...v1.262.22) (2025-07-23)
 
 ## [1.262.21](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.20...v1.262.21) (2025-07-23)
