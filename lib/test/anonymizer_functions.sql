@@ -776,3 +776,82 @@ BEGIN
   RETURN result_jsonb;
 END;
 $$ LANGUAGE plpgsql;
+
+-- Function to anonymize conditional_approval_data numeric fields in JSON data
+CREATE OR REPLACE FUNCTION ccbc_public.anonymize_conditional_approval_data_numeric_fields(
+  input_jsonb JSONB,
+  record_id INTEGER,
+  field_paths TEXT[]
+) RETURNS JSONB AS $$
+DECLARE
+  result_jsonb JSONB;
+  field_path TEXT;
+  array_path TEXT[];
+  hash_value DECIMAL;
+  field_value DECIMAL;
+  field_name TEXT;
+BEGIN
+  -- Initialize result with input
+  result_jsonb := input_jsonb;
+
+  -- Return input if NULL
+  IF input_jsonb IS NULL THEN
+    -- RAISE NOTICE 'Input JSONB is NULL, returning NULL';
+    RETURN input_jsonb;
+  END IF;
+
+  -- RAISE NOTICE 'Starting anonymization for conditional_approval_data record ID: %', record_id;
+
+  -- Process each field path
+  FOREACH field_path IN ARRAY field_paths
+  LOOP
+    -- RAISE NOTICE 'Processing field path: %', field_path;
+
+    -- Split the field path by commas
+    array_path := string_to_array(field_path, ',');
+
+    -- Handle different nesting levels
+    IF array_length(array_path, 1) = 2 THEN
+      -- Two-level nesting: level1,field
+      field_name := array_path[2];
+
+      IF result_jsonb ? array_path[1] AND
+         (result_jsonb -> array_path[1]) ? field_name AND
+         jsonb_typeof(result_jsonb -> array_path[1] -> field_name) = 'number' THEN
+
+        BEGIN
+          field_value := (result_jsonb -> array_path[1] ->> field_name)::DECIMAL;
+
+          -- Skip ratios (values between 0 and 1)
+          IF field_value >= 0 AND field_value <= 1 THEN
+            -- RAISE NOTICE 'Skipping field %.%: value % appears to be a ratio', array_path[1], field_name, field_value;
+          ELSE
+            hash_value := ccbc_public.hash_string('Conditional Approval ID ' || record_id::TEXT || field_path || field_value::TEXT);
+            result_jsonb := jsonb_set(
+              result_jsonb,
+              ARRAY[array_path[1], field_name],
+              to_jsonb(field_value + hash_value),
+              false
+            );
+            -- RAISE NOTICE 'Updated field %.%: % + % = %', array_path[1], field_name, field_value, hash_value, field_value + hash_value;
+          END IF;
+        EXCEPTION WHEN OTHERS THEN
+          -- RAISE NOTICE 'Skipping field %.% due to error: %', array_path[1], field_name, SQLERRM;
+        END;
+      ELSE
+        -- RAISE NOTICE 'Skipping field %.%: not present or not numeric', array_path[1], field_name;
+      END IF;
+    ELSE
+      -- RAISE NOTICE 'Skipping field %: unsupported nesting level for conditional_approval_data', field_path;
+    END IF;
+  END LOOP;
+
+  -- Ensure result is not NULL
+  IF result_jsonb IS NULL THEN
+    -- RAISE NOTICE 'result_jsonb is NULL, returning input_jsonb';
+    RETURN input_jsonb;
+  END IF;
+
+  RETURN result_jsonb;
+END;
+$$ LANGUAGE plpgsql;
