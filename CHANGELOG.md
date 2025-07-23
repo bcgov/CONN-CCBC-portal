@@ -1,3 +1,12 @@
+## [1.262.22](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.21...v1.262.22) (2025-07-23)
+
+## [1.262.21](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.20...v1.262.21) (2025-07-23)
+
+### Bug Fixes
+
+- enable deploy for milestone and community ([7d01fd9](https://github.com/bcgov/CONN-CCBC-portal/commit/7d01fd9af630850bac19954befe4ad19af54fb74))
+- zap scan permission isse ([c7213ec](https://github.com/bcgov/CONN-CCBC-portal/commit/c7213ececc6ffcf40ad98e25cca22ec64c604394))
+
 ## [1.262.20](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.19...v1.262.20) (2025-07-18)
 
 ## [1.262.19](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.18...v1.262.19) (2025-07-18)
