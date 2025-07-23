@@ -435,7 +435,7 @@ BEGIN
   END IF;
   -- Use md5, take first 8 characters, convert hex to int, modulo 5, map to 0.1 to 0.5, multiply by 12345.67, round to 2 decimals
   BEGIN
-    SELECT ROUND((
+    hash_value := ROUND((
       CASE (('x' || substring(md5(input_text) FROM 1 FOR 8))::bit(32)::int % 5)
         WHEN 0 THEN 0.1
         WHEN 1 THEN 0.2
@@ -443,11 +443,17 @@ BEGIN
         WHEN 3 THEN 0.4
         WHEN 4 THEN 0.5
       END
-    ) * 12345.67, 2) INTO hash_value;
+    ) * 12345.67, 2);
+
+    -- Check if hash_value is NULL and assign default if needed
+    IF hash_value IS NULL THEN
+      hash_value := ROUND(0.1 * 12345.67, 2);
+    END IF;
   EXCEPTION WHEN OTHERS THEN
-    -- RAISE NOTICE 'hash_string: error processing input_text, returning default value: %', SQLERRM;
+    -- RAISE NOTICE 'hash_string: error processing input_text "%", returning default value: %', input_text, SQLERRM;
     RETURN ROUND(0.1 * 12345.67, 2); -- Default value on error
   END;
+  -- RAISE NOTICE 'hash_string: successfully processed "%", returning %', input_text, hash_value;
   RETURN hash_value;
 END;
 $$ LANGUAGE plpgsql IMMUTABLE;
@@ -845,6 +851,118 @@ BEGIN
       -- RAISE NOTICE 'Skipping field %: unsupported nesting level for conditional_approval_data', field_path;
     END IF;
   END LOOP;
+
+  -- Ensure result is not NULL
+  IF result_jsonb IS NULL THEN
+    -- RAISE NOTICE 'result_jsonb is NULL, returning input_jsonb';
+    RETURN input_jsonb;
+  END IF;
+
+  RETURN result_jsonb;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to anonymize cbc_data numeric fields in JSON data
+CREATE OR REPLACE FUNCTION ccbc_public.anonymize_cbc_data_numeric_fields(
+  input_jsonb JSONB,
+  record_id INTEGER,
+  field_paths TEXT[]
+) RETURNS JSONB AS $$
+DECLARE
+  result_jsonb JSONB;
+  field_path TEXT;
+  hash_value DECIMAL;
+  field_value DECIMAL;
+BEGIN
+  -- Initialize result with input
+  result_jsonb := input_jsonb;
+
+  -- Return input if NULL
+  IF input_jsonb IS NULL THEN
+    -- RAISE NOTICE 'Input JSONB is NULL, returning NULL';
+    RETURN input_jsonb;
+  END IF;
+
+  -- RAISE NOTICE 'Starting anonymization for cbc_data record ID: %', record_id;
+
+  -- Process each field path
+  FOREACH field_path IN ARRAY field_paths
+  LOOP
+    -- RAISE NOTICE 'Processing field path: %', field_path;
+
+    -- Handle top-level fields
+    IF result_jsonb ? field_path AND
+       jsonb_typeof(result_jsonb -> field_path) = 'number' THEN
+
+      BEGIN
+        field_value := (result_jsonb ->> field_path)::DECIMAL;
+
+        -- Skip ratios (values between 0 and 1)
+        IF field_value >= 0 AND field_value <= 1 THEN
+          -- RAISE NOTICE 'Skipping field %: value % appears to be a ratio', field_path, field_value;
+        ELSE
+          DECLARE
+            hash_input TEXT;
+          BEGIN
+            hash_input := 'CBC Data ID ' || COALESCE(record_id::TEXT, '0') || field_path || COALESCE(field_value::TEXT, '0');
+            -- RAISE NOTICE 'Calling hash_string with input: "%"', hash_input;
+            hash_value := ccbc_public.hash_string(hash_input);
+            -- RAISE NOTICE 'Hash value for CBC Data ID % field % value %: %', record_id, field_path, field_value, hash_value;
+          END;
+          result_jsonb := jsonb_set(
+            result_jsonb,
+            ARRAY[field_path],
+            to_jsonb(field_value + hash_value),
+            false
+          );
+          -- RAISE NOTICE 'Updated field %: % + % = %', field_path, field_value, hash_value, field_value + hash_value;
+        END IF;
+      EXCEPTION WHEN OTHERS THEN
+        -- RAISE NOTICE 'Skipping field % due to error: %', field_path, SQLERRM;
+      END;
+    ELSE
+      -- RAISE NOTICE 'Skipping field %: not present or not numeric', field_path;
+    END IF;
+  END LOOP;
+
+  -- Calculate totalProjectBudget as sum of other fields
+  DECLARE
+    bc_funding DECIMAL := 0;
+    federal_funding DECIMAL := 0;
+    applicant_amount DECIMAL := 0;
+    other_funding DECIMAL := 0;
+    total_budget DECIMAL;
+  BEGIN
+    -- Get anonymized values, treating NULL as 0
+    IF result_jsonb ? 'bcFundingRequested' AND jsonb_typeof(result_jsonb -> 'bcFundingRequested') = 'number' THEN
+      bc_funding := COALESCE((result_jsonb ->> 'bcFundingRequested')::DECIMAL, 0);
+    END IF;
+
+    IF result_jsonb ? 'federalFundingRequested' AND jsonb_typeof(result_jsonb -> 'federalFundingRequested') = 'number' THEN
+      federal_funding := COALESCE((result_jsonb ->> 'federalFundingRequested')::DECIMAL, 0);
+    END IF;
+
+    IF result_jsonb ? 'applicantAmount' AND jsonb_typeof(result_jsonb -> 'applicantAmount') = 'number' THEN
+      applicant_amount := COALESCE((result_jsonb ->> 'applicantAmount')::DECIMAL, 0);
+    END IF;
+
+    IF result_jsonb ? 'otherFundingRequested' AND jsonb_typeof(result_jsonb -> 'otherFundingRequested') = 'number' THEN
+      other_funding := COALESCE((result_jsonb ->> 'otherFundingRequested')::DECIMAL, 0);
+    END IF;
+
+    -- Calculate total
+    total_budget := bc_funding + federal_funding + applicant_amount + other_funding;
+
+    -- Set totalProjectBudget to the calculated sum
+    result_jsonb := jsonb_set(
+      result_jsonb,
+      ARRAY['totalProjectBudget'],
+      to_jsonb(total_budget),
+      true
+    );
+
+    -- RAISE NOTICE 'Calculated totalProjectBudget: % + % + % + % = %', bc_funding, federal_funding, applicant_amount, other_funding, total_budget;
+  END;
 
   -- Ensure result is not NULL
   IF result_jsonb IS NULL THEN
