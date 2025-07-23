@@ -49,7 +49,7 @@ const getStatus = (status) => {
   if (status === 'Agreement Signed') {
     return 'approved';
   }
-  return status;
+  return status.toLowerCase();
 };
 
 const convertToCbcStatus = (status) => {
@@ -62,7 +62,7 @@ const convertToCbcStatus = (status) => {
   if (status === 'approved') {
     return 'Agreement Signed';
   }
-  return status;
+  return status.toLowerCase();
 };
 
 interface Props {
