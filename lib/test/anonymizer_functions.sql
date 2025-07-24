@@ -338,7 +338,7 @@ DECLARE
 BEGIN
   -- Copy all keys, processing only target keys
   FOR key_name IN SELECT jsonb_object_keys(input_jsonb) LOOP
-    IF key_name IN ('coverage', 'templateUploads', 'supportingDocuments') THEN
+    IF key_name IN ('coverage', 'templateUploads', 'supportingDocuments', 'rfiAdditionalFiles', 'rfiEmailCorrespondance') THEN
       -- Case 1: Key contains an array of objects
       IF jsonb_typeof(input_jsonb->key_name) = 'array' THEN
         new_array := '[]'::jsonb;
