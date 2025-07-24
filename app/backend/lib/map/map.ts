@@ -89,11 +89,22 @@ query getAppDataQuery($rowId: Int!) {
       jsonData
     }
     projectInformationDataByApplicationId(
-      filter: { jsonData: { contains: { finalizedMapUpload: [] } } }
+      filter: { jsonData: { contains: { finalizedMapUpload: [] } }, archivedAt: {isNull: true} }
       orderBy: UPDATED_AT_DESC
       first: 1
     ) {
       nodes {
+        jsonData
+        updatedAt
+      }
+    }
+    changeRequestDataByApplicationId(
+      filter: { jsonData: { contains: { updatedMapUpload: [] } }, archivedAt: {isNull: true} }
+      orderBy: UPDATED_AT_DESC
+      first: 1
+    ) {
+      nodes {
+        amendmentNumber
         jsonData
         updatedAt
       }
@@ -170,13 +181,37 @@ const extractAllRfiFiles = (data: RfiData[]): Record<string, RfiFile[]> => {
   return result;
 };
 
-const handleQueryResult = (rfiData, formData, projectInformationData) => {
+const extractLastestFinalizedMapUpload = (
+  projectInformationData,
+  changeRequestData
+) => {
+  const finalizedMapUploads = [
+    ...(projectInformationData?.nodes?.[0]?.jsonData?.finalizedMapUpload ?? []),
+    ...(changeRequestData?.nodes?.[0]?.jsonData?.updatedMapUpload ?? []),
+  ];
+  return finalizedMapUploads
+    .slice()
+    .sort(
+      (a, b) =>
+        new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+    )[0];
+};
+
+const handleQueryResult = (
+  rfiData,
+  formData,
+  projectInformationData,
+  changeRequestData
+) => {
   const geographicCoverageMap = [];
   const currentNetworkInfrastructure = [];
   const upgradedNetworkInfrastructure = [];
   const finalizedMapUpload = [
     {
-      ...projectInformationData?.nodes[0]?.jsonData?.finalizedMapUpload?.[0],
+      ...extractLastestFinalizedMapUpload(
+        projectInformationData,
+        changeRequestData
+      ),
       source: 'SOW',
     },
   ];
@@ -270,12 +305,14 @@ map.get('/api/map/:id', limiter, async (req, res) => {
       formData,
       projectInformationDataByApplicationId,
       applicationMapDataByApplicationId,
+      changeRequestDataByApplicationId,
     } = queryResult.data.applicationByRowId;
 
     files = handleQueryResult(
       applicationRfiDataByApplicationId,
       formData,
-      projectInformationDataByApplicationId
+      projectInformationDataByApplicationId,
+      changeRequestDataByApplicationId
     );
 
     // check if there is any data for application map data
