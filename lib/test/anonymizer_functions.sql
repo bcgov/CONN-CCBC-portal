@@ -338,7 +338,7 @@ DECLARE
 BEGIN
   -- Copy all keys, processing only target keys
   FOR key_name IN SELECT jsonb_object_keys(input_jsonb) LOOP
-    IF key_name IN ('coverage', 'templateUploads', 'supportingDocuments', 'rfiAdditionalFiles', 'rfiEmailCorrespondance', 'progressReportFile', 'milestoneFile', 'claimsFile','letterOfApproval', 'sowWirelessUpload', 'finalizedMapUpload', 'fundingAgreementUpload', 'statementOfWorkUpload') THEN
+    IF key_name IN ('coverage', 'templateUploads', 'supportingDocuments', 'rfiAdditionalFiles', 'rfiEmailCorrespondance', 'progressReportFile', 'milestoneFile', 'claimsFile','letterOfApproval', 'sowWirelessUpload', 'finalizedMapUpload', 'fundingAgreementUpload', 'statementOfWorkUpload', 'completedAssessment', 'assessmentTemplate', 'otherFiles') THEN
       -- Case 1: Key contains an array of objects
       IF jsonb_typeof(input_jsonb->key_name) = 'array' THEN
         new_array := '[]'::jsonb;
@@ -969,6 +969,75 @@ BEGIN
     -- RAISE NOTICE 'result_jsonb is NULL, returning input_jsonb';
     RETURN input_jsonb;
   END IF;
+
+  RETURN result_jsonb;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to anonymize assessment_data json_data
+CREATE OR REPLACE FUNCTION ccbc_public.anonymize_assessment_data_json(
+  input_jsonb JSONB
+) RETURNS JSONB AS $$
+DECLARE
+  result_jsonb JSONB;
+BEGIN
+  -- Initialize result with input
+  result_jsonb := input_jsonb;
+
+  -- Return input if NULL
+  IF input_jsonb IS NULL THEN
+    RETURN input_jsonb;
+  END IF;
+
+  -- Anonymize text fields using generate_lorem_ipsum
+  IF result_jsonb ? 'notesAndConsiderations' AND result_jsonb->>'notesAndConsiderations' IS NOT NULL THEN
+    result_jsonb := jsonb_set(
+      result_jsonb,
+      '{notesAndConsiderations}',
+      to_jsonb(ccbc_public.generate_lorem_ipsum(result_jsonb->>'notesAndConsiderations')),
+      false
+    );
+  END IF;
+
+  IF result_jsonb ? 'commentsOnCoverageData' AND result_jsonb->>'commentsOnCoverageData' IS NOT NULL THEN
+    result_jsonb := jsonb_set(
+      result_jsonb,
+      '{commentsOnCoverageData}',
+      to_jsonb(ccbc_public.generate_lorem_ipsum(result_jsonb->>'commentsOnCoverageData')),
+      false
+    );
+  END IF;
+
+  IF result_jsonb ? 'commentsOnHouseholdCounts' AND result_jsonb->>'commentsOnHouseholdCounts' IS NOT NULL THEN
+    result_jsonb := jsonb_set(
+      result_jsonb,
+      '{commentsOnHouseholdCounts}',
+      to_jsonb(ccbc_public.generate_lorem_ipsum(result_jsonb->>'commentsOnHouseholdCounts')),
+      false
+    );
+  END IF;
+
+  IF result_jsonb ? 'commentsOnOverbuild' AND result_jsonb->>'commentsOnOverbuild' IS NOT NULL THEN
+    result_jsonb := jsonb_set(
+      result_jsonb,
+      '{commentsOnOverbuild}',
+      to_jsonb(ccbc_public.generate_lorem_ipsum(result_jsonb->>'commentsOnOverbuild')),
+      false
+    );
+  END IF;
+
+  IF result_jsonb ? 'commentsOnOverlap' AND result_jsonb->>'commentsOnOverlap' IS NOT NULL THEN
+    result_jsonb := jsonb_set(
+      result_jsonb,
+      '{commentsOnOverlap}',
+      to_jsonb(ccbc_public.generate_lorem_ipsum(result_jsonb->>'commentsOnOverlap')),
+      false
+    );
+  END IF;
+
+  -- Anonymize file fields using anonymize_filenames
+  -- This will handle completedAssessment, assessmentTemplate, and otherFiles
+  result_jsonb := ccbc_public.anonymize_filenames(result_jsonb);
 
   RETURN result_jsonb;
 END;
