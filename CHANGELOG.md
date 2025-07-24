@@ -1,3 +1,9 @@
+## [1.262.25](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.24...v1.262.25) (2025-07-24)
+
+### Bug Fixes
+
+- kml not showing on map ([dd857bc](https://github.com/bcgov/CONN-CCBC-portal/commit/dd857bcefa12bfe4c1a1d007bb9cb06fad64b4c1))
+
 ## [1.262.24](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.23...v1.262.24) (2025-07-23)
 
 ## [1.262.23](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.22...v1.262.23) (2025-07-23)
