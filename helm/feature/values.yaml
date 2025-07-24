@@ -106,6 +106,8 @@ db:
     psql -f test/anonymize_conditional_approval_data_numbers_history.sql;
     psql -f test/anonymize_application_internal_description.sql;
     psql -f test/anonymize_application_internal_description_history.sql;
+    psql -f test/anonymize_rfi_data.sql;
+    psql -f test/anonymize_rfi_data_history.sql;
 
   # A bash script to run after the migrations are deployed, in a psql container
   # The script will be run by the postgres user, allowing to deploy test data, bypassing RLS
