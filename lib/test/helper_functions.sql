@@ -147,6 +147,7 @@ BEGIN
   result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'applicantContractualName', 'obfuscate_company_name');
   result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'currentOperatingName', 'obfuscate_company_name');
   result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'reviewNotes', 'generate_lorem_ipsum');
+  result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'projectDescription', 'generate_lorem_ipsum');
   result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'milestoneComments', 'generate_lorem_ipsum');
   result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'primaryNewsRelease', 'anonymize_website');
   result_jsonb := ccbc_public.anonymize_jsonb_field(result_jsonb, 'secondaryNewsRelease', 'anonymize_website');
