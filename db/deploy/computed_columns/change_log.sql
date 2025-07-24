@@ -22,12 +22,12 @@ returns setof ccbc_public.record_version as $$
   union all
 
   -- Attachment (INSERT only, not archived)
-  select r.id, r.record_id, r.old_record_id, r.op, r.ts, r.table_oid, r.table_schema, r.table_name,
-         r.created_by, r.created_at, r.record, r.old_record
-  from ccbc_public.record_version as r
-  where r.op='INSERT' and r.table_name='attachment' and r.record->>'archived_by' is null
+--   select r.id, r.record_id, r.old_record_id, r.op, r.ts, r.table_oid, r.table_schema, r.table_name,
+--          r.created_by, r.created_at, r.record, r.old_record
+--   from ccbc_public.record_version as r
+--   where r.op='INSERT' and r.table_name='attachment' and r.record->>'archived_by' is null
 
-  union all
+--   union all
 
   -- Assessment data (INSERT only, not archived)
   select r.id, r.record_id, r.old_record_id, r.op, r.ts, r.table_oid, r.table_schema, r.table_name,
@@ -312,9 +312,7 @@ returns setof ccbc_public.record_version as $$
   where r.table_name = 'cbc_data'
 
   -- Order by newest modifications first
-  order by
-    COALESCE(record->>'updated_at', created_at::text, ts::text) desc,
-    id desc;
+  order by id desc;
 
 $$ language sql stable;
 
