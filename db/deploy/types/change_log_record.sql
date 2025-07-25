@@ -15,6 +15,7 @@ create type ccbc_public.change_log_record as (
     created_at     timestamptz,
     ccbc_number    varchar(12),
     application_id int,
+    program        text,
     record         jsonb,
     old_record     jsonb
 );

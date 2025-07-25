@@ -29,9 +29,17 @@ returns setof ccbc_public.change_log_record as $$
       else null
     end as ccbc_number,
     case
-      when r.table_name = 'rfi_data' then rfi_app.application_id
+      when r.table_name != 'cbc_data' then
+        case
+          when r.table_name = 'rfi_data' then rfi_app.application_id
+          else app.id
+        end
       else null
     end as application_id,
+    case
+      when r.table_name != 'cbc_data' then app.program
+      else null
+    end as program,
     -- Enhanced record for CBC data, regular record for others, all with user info
     case
       when r.table_name = 'cbc_data' then
@@ -135,6 +143,10 @@ returns setof ccbc_public.change_log_record as $$
           (r.record->>'id')::int in (
             select af.form_data_id from ccbc_public.application_form_data af where af.application_id = app.id
           )
+        when r.table_name = 'rfi_data' then
+          (r.record->>'id')::int in (
+            select arf.rfi_data_id from ccbc_public.application_rfi_data arf where arf.application_id = app.id
+          )
         else false
       end
     )
@@ -229,7 +241,7 @@ returns setof ccbc_public.change_log_record as $$
     or
     -- CBC data (all operations)
     (r.table_name = 'cbc_data')
-  group by r.id, r.record_id, r.old_record_id, r.op, r.ts, r.table_oid, r.table_schema, r.table_name, r.created_by, r.created_at, r.record, r.old_record, u.family_name, u.given_name, u.session_sub, u.external_analyst, app.ccbc_number, rfi_app.application_id
+  group by r.id, r.record_id, r.old_record_id, r.op, r.ts, r.table_oid, r.table_schema, r.table_name, r.created_by, r.created_at, r.record, r.old_record, u.family_name, u.given_name, u.session_sub, u.external_analyst, app.ccbc_number, app.id, app.program, rfi_app.application_id
   order by r.id desc
   limit coalesce(limit_count, 2147483647)
   offset offset_count;
