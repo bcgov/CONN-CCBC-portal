@@ -308,8 +308,8 @@ const ProjectChangeLog: React.FC<Props> = () => {
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const [allData, setAllData] = useState({
-    allCbcs: { nodes: [] },
-    allApplications: { nodes: [] },
+    allCbcs: [],
+    allApplications: [],
   });
   const [isLoading, setIsLoading] = useState(true);
   const isLargeUp = useMediaQuery('(min-width:1007px)');
@@ -338,130 +338,125 @@ const ProjectChangeLog: React.FC<Props> = () => {
     if (!allData.allCbcs || !allData.allApplications) {
       return { tableData: [] };
     }
-
     const allCbcsFlatMap =
-      allData.allCbcs?.nodes?.flatMap(
-        ({ projectNumber, rowId, history }) =>
-          history.nodes.map((item) => {
-            const { record, oldRecord, createdAt, op } = item;
-            const effectiveDate =
-              op === 'UPDATE'
-                ? new Date(record?.updated_at)
-                : new Date(createdAt);
+      allData.allCbcs?.map((item) => {
+        const { record, oldRecord, createdAt, op, ts } = item;
+        const projectNumber = record?.project_number;
+        const rowId = record?.cbc_id;
+        const effectiveDate =
+          op === 'UPDATE'
+            ? new Date(record?.updated_at || ts)
+            : new Date(createdAt);
 
-            const base = {
-              changeId: `${projectNumber}-${createdAt}`,
-              id: rowId,
-              _sortDate: effectiveDate,
-              program: 'CBC',
-              isCbcProject: true,
-            };
+        const base = {
+          changeId: `${projectNumber}-${createdAt}`,
+          id: rowId,
+          _sortDate: effectiveDate,
+          program: 'CBC',
+          isCbcProject: true,
+        };
 
-            const json = {
-              ...record?.json_data,
-              project_number: record?.project_number,
-            };
-            const prevJson = {
-              ...oldRecord?.json_data,
-              project_number: oldRecord?.project_number,
-            };
+        const json = {
+          ...record?.json_data,
+          project_number: record?.project_number,
+        };
+        const prevJson = {
+          ...oldRecord?.json_data,
+          project_number: oldRecord?.project_number,
+        };
 
-            const diffRows = generateRawDiff(
-              diff(prevJson, json, { keepUnchangedValues: true }),
-              cbcData,
-              [
-                'id',
-                'created_at',
-                'updated_at',
-                'change_reason',
-                'cbc_data_id',
-                'locations',
-                'errorLog',
-                'error_log',
-                'projectNumber',
-              ],
-              'cbcData'
-            );
+        const diffRows = generateRawDiff(
+          diff(prevJson, json, { keepUnchangedValues: true }),
+          cbcData,
+          [
+            'id',
+            'created_at',
+            'updated_at',
+            'change_reason',
+            'cbc_data_id',
+            'locations',
+            'errorLog',
+            'error_log',
+            'projectNumber',
+          ],
+          'cbcData'
+        );
 
-            const meta = {
-              createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
-                DateTime.DATETIME_MED
-              ),
-              createdAtDate: effectiveDate, // Raw date for filtering
-              createdBy: formatUser(item),
-            };
+        const meta = {
+          createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
+            DateTime.DATETIME_MED
+          ),
+          createdAtDate: effectiveDate, // Raw date for filtering
+          createdBy: formatUser(item),
+        };
 
-            const mappedRows = diffRows.map((row, i) => ({
-              ...base,
-              rowId: projectNumber,
-              isVisibleRow: i === 0, // For visual use only
-              createdAt: meta.createdAt,
-              createdAtDate: meta.createdAtDate,
-              createdBy: meta.createdBy,
-              field: row.field,
-              newValue: row.newValue,
-              oldValue: row.oldValue,
-              section: getCbcSectionFromKey(row.key || row.field),
-            }));
+        const mappedRows = diffRows.map((row, i) => ({
+          ...base,
+          rowId: projectNumber,
+          isVisibleRow: i === 0, // For visual use only
+          createdAt: meta.createdAt,
+          createdAtDate: meta.createdAtDate,
+          createdBy: meta.createdBy,
+          field: row.field,
+          newValue: row.newValue,
+          oldValue: row.oldValue,
+          section: getCbcSectionFromKey(row.key || row.field),
+        }));
 
-            const added = record?.added_communities ?? [];
-            const removed = record?.deleted_communities ?? [];
+        const added = record?.added_communities ?? [];
+        const removed = record?.deleted_communities ?? [];
 
-            const hasMappedRows = mappedRows.length > 0;
-            const showMetaForRemoved = !hasMappedRows && !added.length;
+        const hasMappedRows = mappedRows.length > 0;
+        const showMetaForRemoved = !hasMappedRows && !added.length;
 
-            const communityRow = (
-              label: string,
-              values: any[],
-              showMeta: boolean
-            ) =>
-              values.length
-                ? [
-                    {
-                      ...base,
-                      rowId: projectNumber,
-                      isVisibleRow: showMeta, // For visual use only
-                      createdAt: meta.createdAt,
-                      createdAtDate: meta.createdAtDate,
-                      createdBy: meta.createdBy,
-                      field: label,
-                      newValue: values,
-                      oldValue: values,
-                      // passing a string of values for communities for filtering purpose
-                      oldValueString: communityArrayToHistoryString(values, [
-                        'bc_geographic_name',
-                        'geographic_type',
-                      ]),
-                      newValueString: communityArrayToHistoryString(values, [
-                        'economic_region',
-                        'regional_district',
-                      ]),
-                      section: getCbcSectionFromKey(
-                        label === 'Communities Added'
-                          ? 'added_communities'
-                          : 'deleted_communities'
-                      ),
-                    },
-                  ]
-                : [];
+        const communityRow = (
+          label: string,
+          values: any[],
+          showMeta: boolean
+        ) =>
+          values.length
+            ? [
+                {
+                  ...base,
+                  rowId: projectNumber,
+                  isVisibleRow: showMeta, // For visual use only
+                  createdAt: meta.createdAt,
+                  createdAtDate: meta.createdAtDate,
+                  createdBy: meta.createdBy,
+                  field: label,
+                  newValue: values,
+                  oldValue: values,
+                  // passing a string of values for communities for filtering purpose
+                  oldValueString: communityArrayToHistoryString(values, [
+                    'bc_geographic_name',
+                    'geographic_type',
+                  ]),
+                  newValueString: communityArrayToHistoryString(values, [
+                    'economic_region',
+                    'regional_district',
+                  ]),
+                  section: getCbcSectionFromKey(
+                    label === 'Communities Added'
+                      ? 'added_communities'
+                      : 'deleted_communities'
+                  ),
+                },
+              ]
+            : [];
 
-            return {
-              _sortDate: effectiveDate,
-              group: [
-                ...mappedRows,
-                ...communityRow('Communities Added', added, !hasMappedRows),
-                ...communityRow(
-                  'Communities Removed',
-                  removed,
-                  showMetaForRemoved
-                ),
-              ],
-            };
-          }) || []
-      ) || [];
+        return {
+          _sortDate: effectiveDate,
+          group: [
+            ...mappedRows,
+            ...communityRow('Communities Added', added, !hasMappedRows),
+            ...communityRow('Communities Removed', removed, showMetaForRemoved),
+          ],
+        };
+      }) || [];
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const allApplicationsFlatMap =
-      allData.allApplications?.nodes?.flatMap(
+      allData.allApplications?.flatMap(
         ({ ccbcNumber, rowId, history, program }) => {
           // Apply HistoryTable preprocessing logic
           const processedHistory = processHistoryItems(history.nodes, {
@@ -698,7 +693,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
         }
       ) || [];
 
-    const entries = [...allCbcsFlatMap, ...allApplicationsFlatMap];
+    const entries = [...allCbcsFlatMap];
 
     const tableData = entries
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
