@@ -1,3 +1,9 @@
+## [1.262.29](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.28...v1.262.29) (2025-07-25)
+
+### Bug Fixes
+
+- sow update/delete failing due to missing history_operation ([c08cf2f](https://github.com/bcgov/CONN-CCBC-portal/commit/c08cf2fea49ecf586f0a5fe516678a8e9e8d4d2c))
+
 ## [1.262.28](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.27...v1.262.28) (2025-07-25)
 
 ## [1.262.27](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.26...v1.262.27) (2025-07-25)
