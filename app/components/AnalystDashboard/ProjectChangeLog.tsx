@@ -160,12 +160,12 @@ const muiTableHeadCellProps = {
 };
 
 const formatUser = (item) => {
-  const isSystem =
-    item.createdBy === 1 &&
-    (!item.ccbcUserByCreatedBy || !item.ccbcUserByCreatedBy?.givenName);
+  console.log('Item createdBy:', item.createdBy);
+  console.log('Item record user_info:', item.record.user_info);
+  const isSystem = item.createdBy === 1;
   return isSystem
     ? 'The system'
-    : `${item.ccbcUserByCreatedBy?.givenName} ${item.ccbcUserByCreatedBy?.familyName}`;
+    : `${item.record?.user_info?.given_name} ${item.record?.user_info?.family_name}`;
 };
 
 const communityArrayToHistoryString = (
@@ -468,6 +468,27 @@ const ProjectChangeLog: React.FC<Props> = () => {
             item.ccbcNumber !== null
           );
         })
+        // Join step: Find previous records for INSERT operations with null oldRecord
+        ?.map((item, index, array) => {
+          if (item.op === 'INSERT' && item.oldRecord === null) {
+            // Look for the next item with same table_name and ccbc_number
+            const matchingItem = array
+              .slice(index + 1)
+              .find(
+                (nextItem) =>
+                  nextItem.tableName === item.tableName &&
+                  nextItem.ccbcNumber === item.ccbcNumber
+              );
+
+            if (matchingItem) {
+              return {
+                ...item,
+                oldRecord: matchingItem.record,
+              };
+            }
+          }
+          return item;
+        })
         ?.map((item) => {
           const {
             record,
@@ -614,8 +635,6 @@ const ProjectChangeLog: React.FC<Props> = () => {
               prevJson = oldRecord || {};
             }
 
-            console.log('Table name:', tableName);
-
             diffRows = generateRawDiff(
               diff(prevJson, json, { keepUnchangedValues: true }),
               tableConfig?.schema || {},
@@ -656,11 +675,6 @@ const ProjectChangeLog: React.FC<Props> = () => {
               tableName,
               fileField.field
             );
-
-            console.log('Table name in fileRows:', tableName);
-            console.log('File field:', fileField.title);
-            console.log('Current files:', currentFiles);
-            console.log('Previous files:', previousFiles);
             const fileChanges = generateFileChanges(
               currentFiles,
               fileField.title,
@@ -680,11 +694,6 @@ const ProjectChangeLog: React.FC<Props> = () => {
               isFileChange: true,
             }));
           });
-
-          if (tableName === 'change_request_data') {
-            console.log('Change Request Data:');
-            console.log({ group: [...mappedRows, ...fileRows] });
-          }
 
           return {
             _sortDate: effectiveDate,
