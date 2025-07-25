@@ -149,7 +149,8 @@ const ChangeStatus: React.FC<Props> = ({
   const isAllowedConditionalApproval =
     isExternalStatus &&
     analystStatus === 'conditionally_approved' &&
-    conditionalApprovalData?.decision?.ministerDecision === 'Approved' &&
+    (conditionalApprovalData?.decision?.ministerDecision === 'Approved' ||
+      conditionalApprovalData?.isedDecisionObj?.isedDecision === 'Approved') &&
     conditionalApprovalData?.response?.applicantResponse === 'Accepted';
 
   const disabledStatuses =
