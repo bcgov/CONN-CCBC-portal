@@ -1,3 +1,11 @@
+## [1.262.34](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.33...v1.262.34) (2025-07-25)
+
+## [1.262.33](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.32...v1.262.33) (2025-07-25)
+
+### Bug Fixes
+
+- change status logic to accept either misister decision when conditionally approving ([436a65c](https://github.com/bcgov/CONN-CCBC-portal/commit/436a65c3e52cb30759da628060968d812a17ed90))
+
 ## [1.262.32](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.31...v1.262.32) (2025-07-25)
 
 ## [1.262.31](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.30...v1.262.31) (2025-07-25)
