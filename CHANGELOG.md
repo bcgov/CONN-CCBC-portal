@@ -1,3 +1,11 @@
+## [1.262.32](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.31...v1.262.32) (2025-07-25)
+
+## [1.262.31](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.30...v1.262.31) (2025-07-25)
+
+### Bug Fixes
+
+- status match for withdrawn ([7cbfb24](https://github.com/bcgov/CONN-CCBC-portal/commit/7cbfb24f80506adcd85f53560fff188c17349f3c))
+
 ## [1.262.30](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.29...v1.262.30) (2025-07-25)
 
 ## [1.262.29](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.28...v1.262.29) (2025-07-25)
