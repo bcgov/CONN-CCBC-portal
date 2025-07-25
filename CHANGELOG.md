@@ -1,3 +1,9 @@
+## [1.262.27](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.26...v1.262.27) (2025-07-25)
+
+### Bug Fixes
+
+- formatting zones in history page ([2dd8eda](https://github.com/bcgov/CONN-CCBC-portal/commit/2dd8edabd8b582a406e6786a6467961f4cc9a849))
+
 ## [1.262.26](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.25...v1.262.26) (2025-07-24)
 
 ## [1.262.25](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.24...v1.262.25) (2025-07-24)
