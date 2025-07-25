@@ -30,7 +30,6 @@ import { Box, Link, TableCellProps } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTime } from 'luxon';
-import { processHistoryItems, formatUserName } from 'utils/historyProcessing';
 import { getTableConfig } from 'utils/historyTableConfig';
 import ClearFilters from 'components/Table/ClearFilters';
 import { getLabelForType } from 'components/Analyst/History/HistoryFilter';
@@ -456,244 +455,273 @@ const ProjectChangeLog: React.FC<Props> = () => {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const allApplicationsFlatMap =
-      allData.allApplications?.flatMap(
-        ({ ccbcNumber, rowId, history, program }) => {
-          // Apply HistoryTable preprocessing logic
-          const processedHistory = processHistoryItems(history.nodes, {
-            includeAttachments: false,
-            applyUserFormatting: false,
+      allData.allApplications
+        ?.filter((item) => {
+          // Exclude attachment table and tables without proper schema config
+          const assessmentType =
+            item.record?.json_data?.assessmentType || item.record?.item;
+          const tableConfig = getTableConfig(item.tableName, assessmentType);
+          return (
+            item.tableName !== 'attachment' &&
+            tableConfig !== null &&
+            tableConfig?.schema !== null &&
+            item.ccbcNumber !== null
+          );
+        })
+        ?.map((item) => {
+          const {
+            record,
+            oldRecord,
+            createdAt,
+            op,
+            ts,
+            tableName,
+            ccbcNumber,
+            applicationId,
+            program,
+          } = item;
+          const effectiveDate =
+            op === 'UPDATE'
+              ? new Date(record?.updated_at || ts)
+              : new Date(createdAt);
+
+          const base = {
+            changeId: `${ccbcNumber}-${createdAt}-${tableName}`,
+            id: applicationId,
+            _sortDate: effectiveDate,
+            program: program || 'CCBC',
+            isCbcProject: false,
+          };
+
+          // Determine section name - for assessment_data, include the assessment type
+          let sectionName = getLabelForType(tableName);
+          const assessmentType =
+            record?.json_data?.assessmentType || record?.item;
+          if (tableName === 'assessment_data' && assessmentType) {
+            // Capitalize the first letter of assessment type
+            const capitalizedType =
+              assessmentType.charAt(0).toUpperCase() + assessmentType.slice(1);
+            sectionName = `${capitalizedType} Assessment`;
+          }
+          // override section for application dependencies
+          if (tableName === 'application_dependencies' && assessmentType) {
+            sectionName = 'Technical Assessment';
+          }
+
+          // Get table configuration
+          const tableConfig = getTableConfig(tableName, assessmentType);
+
+          let diffRows = [];
+
+          // Special handling for application_communities
+          if (tableName === 'application_communities') {
+            const changes = diff(oldRecord || {}, record || {});
+            const [newArray, oldArray] = processArrayDiff(
+              changes,
+              communities.applicationCommunities
+            );
+
+            const processCommunity = (values) => {
+              return values?.map((community) => ({
+                economic_region: community.er,
+                regional_district: community.rd,
+              }));
+            };
+
+            if (newArray.length > 0) {
+              diffRows.push({
+                field: 'Communities Added',
+                newValue: processCommunity(newArray),
+                oldValue: 'N/A',
+              });
+            }
+
+            if (oldArray.length > 0) {
+              diffRows.push({
+                field: 'Communities Removed',
+                newValue: 'N/A',
+                oldValue: processCommunity(oldArray),
+              });
+            }
+            // special handling for application status
+          } else if (tableName === 'application_status') {
+            diffRows = generateRawDiff(
+              diff(
+                {
+                  status: convertStatus(oldRecord?.status) || null,
+                },
+                { status: convertStatus(record?.status) || null },
+                { keepUnchangedValues: true }
+              ),
+              tableConfig.schema,
+              tableConfig.excludedKeys,
+              tableConfig.overrideParent || tableName
+            );
+            // special handling for analyst lead
+          } else if (tableName === 'application_analyst_lead') {
+            diffRows = generateRawDiff(
+              diff(
+                {
+                  analyst_lead: oldRecord?.item || null,
+                },
+                {
+                  analyst_lead: record?.item || assessmentType || null,
+                },
+                { keepUnchangedValues: true }
+              ),
+              tableConfig.schema,
+              tableConfig.excludedKeys,
+              tableConfig.overrideParent || tableName
+            );
+          } else if (tableName === 'application_package') {
+            diffRows = generateRawDiff(
+              diff(
+                {
+                  package: oldRecord?.package || null,
+                },
+                {
+                  package: record?.package || null,
+                },
+                { keepUnchangedValues: true }
+              ),
+              tableConfig.schema,
+              tableConfig.excludedKeys,
+              tableConfig.overrideParent || tableName
+            );
+          } else {
+            // Standard processing for other tables
+            let json = {};
+            let prevJson = {};
+
+            // Handle different data sources based on table type
+            if (
+              tableName === 'form_data' ||
+              tableName === 'rfi_data' ||
+              tableName === 'assessment_data' ||
+              tableName === 'conditional_approval_data' ||
+              tableName === 'application_gis_data' ||
+              tableName === 'project_information_data' ||
+              tableName === 'application_sow_data' ||
+              tableName === 'application_community_progress_report_data' ||
+              tableName === 'application_milestone_data' ||
+              tableName === 'application_dependencies'
+            ) {
+              json = record?.json_data || {};
+              prevJson = oldRecord?.json_data || {};
+            } else {
+              // For other tables, use the record directly
+              json = record || {};
+              prevJson = oldRecord || {};
+            }
+
+            console.log('Table name:', tableName);
+
+            diffRows = generateRawDiff(
+              diff(prevJson, json, { keepUnchangedValues: true }),
+              tableConfig?.schema || {},
+              tableConfig?.excludedKeys || [],
+              tableName === 'form_data'
+                ? null
+                : tableConfig?.overrideParent || tableName
+            );
+          }
+
+          const meta = {
+            createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
+              DateTime.DATETIME_MED
+            ),
+            createdAtDate: effectiveDate,
+            createdBy: formatUser(item),
+          };
+
+          const mappedRows = diffRows.map((row, i) => ({
+            ...base,
+            rowId: ccbcNumber,
+            isVisibleRow: i === 0, // For visual use only
+            createdAt: meta.createdAt,
+            createdBy: meta.createdBy,
+            createdAtDate: meta.createdAtDate,
+            field: row?.field || '',
+            newValue: row.newValue,
+            oldValue: row.oldValue,
+            section: sectionName,
+          }));
+
+          // Process file changes for tables that have file support
+          const fileFields = getFileFieldsForTable(tableName, assessmentType);
+          const fileRows = fileFields.flatMap((fileField) => {
+            const [currentFiles, previousFiles] = getFileArraysFromRecord(
+              record,
+              oldRecord,
+              tableName,
+              fileField.field
+            );
+
+            console.log('Table name in fileRows:', tableName);
+            console.log('File field:', fileField.title);
+            console.log('Current files:', currentFiles);
+            console.log('Previous files:', previousFiles);
+            const fileChanges = generateFileChanges(
+              currentFiles,
+              fileField.title,
+              previousFiles
+            );
+
+            return fileChanges.map((change, changeIndex) => ({
+              ...base,
+              rowId: ccbcNumber,
+              isVisibleRow: changeIndex === 0 && mappedRows.length === 0,
+              createdAt: meta.createdAt,
+              createdBy: meta.createdBy,
+              createdAtDate: meta.createdAtDate,
+              field: change?.field || '',
+              newValue: change.type === 'deleted' ? 'N/A' : change,
+              oldValue: change.type === 'added' ? 'N/A' : change,
+              isFileChange: true,
+            }));
           });
 
-          return processedHistory
-            .filter(({ historyItem }) => {
-              // Exclude attachment table and tables without proper schema config
-              const assessmentType = historyItem.item;
-              const tableConfig = getTableConfig(
-                historyItem.tableName,
-                assessmentType
-              );
-              return (
-                historyItem.tableName !== 'attachment' &&
-                tableConfig !== null &&
-                tableConfig.schema !== null
-              );
-            })
-            .map(({ historyItem, prevHistoryItem }) => {
-              const { record, createdAt, op, tableName, item } = historyItem;
-              const effectiveDate =
-                op === 'UPDATE'
-                  ? new Date(record?.updated_at)
-                  : new Date(createdAt);
+          if (tableName === 'change_request_data') {
+            console.log('Change Request Data:');
+            console.log({ group: [...mappedRows, ...fileRows] });
+          }
 
-              // Determine section name - for assessment_data, include the assessment type
-              let sectionName = getLabelForType(tableName);
-              if (tableName === 'assessment_data' && item) {
-                // Capitalize the first letter of assessment type
-                const capitalizedType =
-                  item.charAt(0).toUpperCase() + item.slice(1);
-                sectionName = `${capitalizedType} Assessment`;
-              }
-              // override section for application dependencies
-              if (tableName === 'application_dependencies' && item) {
-                sectionName = 'Technical Assessment';
-              }
+          return {
+            _sortDate: effectiveDate,
+            group: [...mappedRows, ...fileRows],
+          };
+        })
+        .filter((item) => item.group.length > 0) || []; // Only include items with actual changes
 
-              const base = {
-                changeId: `${ccbcNumber}-${createdAt}-${tableName}`,
-                id: rowId,
-                _sortDate: effectiveDate,
-                program: program || 'CCBC',
-                section: sectionName,
-                isCbcProject: false,
-              };
+    // console.log('allCbcsFlatMap', allCbcsFlatMap);
+    // console.log('allApplicationsFlatMap', allApplicationsFlatMap);
+    // figure out which fields of the allApplicationsFlatMap have undefined values
+    // allApplicationsFlatMap.forEach((item) => {
+    //   item.group.forEach((row) => {
+    //     Object.keys(row).forEach((key) => {
+    //       if (row[key] === undefined) {
+    //         console.log(`Undefined value found in row with id for key ${key}`);
+    //       }
+    //       // check for null
+    //       if (row[key] === null) {
+    //         console.log(`Null value found in row with id for key ${key}`);
+    //       }
+    //       // check if value can be converted to a string
+    //       if (row[key] !== null && row[key] !== undefined) {
+    //         try {
+    //           String(row[key]);
+    //         } catch (error) {
+    //           console.error(
+    //             `Value for key ${key} in row with id ${row.rowId} cannot be converted to string:`,
+    //             row[key]
+    //           );
+    //         }
+    //       }
+    //     });
+    //   });
+    // });
 
-              // Get table configuration
-              const assessmentType = item;
-
-              const tableConfig = getTableConfig(tableName, assessmentType);
-
-              let diffRows = [];
-
-              // Special handling for application_communities
-              if (tableName === 'application_communities') {
-                const changes = diff(
-                  prevHistoryItem?.record || {},
-                  record || {}
-                );
-                const [newArray, oldArray] = processArrayDiff(
-                  changes,
-                  communities.applicationCommunities
-                );
-
-                const processCommunity = (values) => {
-                  return values?.map((community) => ({
-                    economic_region: community.er,
-                    regional_district: community.rd,
-                  }));
-                };
-
-                if (newArray.length > 0) {
-                  diffRows.push({
-                    field: 'Communities Added',
-                    newValue: processCommunity(newArray),
-                    oldValue: 'N/A',
-                  });
-                }
-
-                if (oldArray.length > 0) {
-                  diffRows.push({
-                    field: 'Communities Removed',
-                    newValue: 'N/A',
-                    oldValue: processCommunity(oldArray),
-                  });
-                }
-                // special handling for application status
-              } else if (tableName === 'application_status') {
-                diffRows = generateRawDiff(
-                  diff(
-                    {
-                      status:
-                        convertStatus(prevHistoryItem?.record?.status) || null,
-                    },
-                    { status: convertStatus(record?.status) || null },
-                    { keepUnchangedValues: true }
-                  ),
-                  tableConfig.schema,
-                  tableConfig.excludedKeys,
-                  tableConfig.overrideParent || tableName
-                );
-                // special handling for analyst lead
-              } else if (tableName === 'application_analyst_lead') {
-                diffRows = generateRawDiff(
-                  diff(
-                    {
-                      analyst_lead: prevHistoryItem?.item || null,
-                    },
-                    {
-                      analyst_lead: item || null,
-                    },
-                    { keepUnchangedValues: true }
-                  ),
-                  tableConfig.schema,
-                  tableConfig.excludedKeys,
-                  tableConfig.overrideParent || tableName
-                );
-              } else if (tableName === 'application_package') {
-                diffRows = generateRawDiff(
-                  diff(
-                    {
-                      package: prevHistoryItem?.record?.package || null,
-                    },
-                    {
-                      package: record?.package || null,
-                    },
-                    { keepUnchangedValues: true }
-                  ),
-                  tableConfig.schema,
-                  tableConfig.excludedKeys,
-                  tableConfig.overrideParent || tableName
-                );
-              } else {
-                // Standard processing for other tables
-                let json = {};
-                let prevJson = {};
-
-                // Handle different data sources based on table type
-                // these are the tables we are processing everything else is getting ignored
-                // or needs special handling
-                if (
-                  tableName === 'form_data' ||
-                  tableName === 'rfi_data' ||
-                  tableName === 'assessment_data' ||
-                  tableName === 'conditional_approval_data' ||
-                  tableName === 'application_gis_data' ||
-                  tableName === 'project_information_data' ||
-                  tableName === 'application_sow_data' ||
-                  tableName === 'application_community_progress_report_data' ||
-                  tableName === 'application_milestone_data' ||
-                  tableName === 'application_dependencies'
-                ) {
-                  json = record?.json_data || {};
-                  prevJson = prevHistoryItem?.record?.json_data || {};
-                } else {
-                  // For other tables, use the record directly
-                  json = record || {};
-                  prevJson = prevHistoryItem?.record || {};
-                }
-
-                diffRows = generateRawDiff(
-                  diff(prevJson, json, { keepUnchangedValues: true }),
-                  tableConfig.schema,
-                  tableConfig.excludedKeys,
-                  tableName === 'form_data'
-                    ? null
-                    : tableConfig.overrideParent || tableName
-                );
-              }
-
-              const meta = {
-                createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
-                  DateTime.DATETIME_MED
-                ),
-                createdAtDate: effectiveDate,
-                createdBy: formatUserName(historyItem).user,
-              };
-
-              const mappedRows = diffRows.map((row, i) => ({
-                ...base,
-                rowId: ccbcNumber,
-                isVisibleRow: i === 0, // For visual use only
-                createdAt: meta.createdAt,
-                createdBy: meta.createdBy,
-                createdAtDate: meta.createdAtDate,
-                field: row?.field || '',
-                newValue: row.newValue,
-                oldValue: row.oldValue,
-              }));
-
-              // Process file changes for tables that have file support
-              const fileFields = getFileFieldsForTable(
-                tableName,
-                assessmentType
-              );
-              const fileRows = fileFields.flatMap((fileField) => {
-                const [currentFiles, previousFiles] = getFileArraysFromRecord(
-                  record,
-                  prevHistoryItem?.record,
-                  tableName,
-                  fileField.field
-                );
-
-                const fileChanges = generateFileChanges(
-                  currentFiles,
-                  fileField.title,
-                  previousFiles
-                );
-
-                return fileChanges.map((change, changeIndex) => ({
-                  ...base,
-                  rowId: ccbcNumber,
-                  isVisibleRow: changeIndex === 0 && mappedRows.length === 0,
-                  createdAt: meta.createdAt,
-                  createdBy: meta.createdBy,
-                  createdAtDate: meta.createdAtDate,
-                  field: change?.field || '',
-                  newValue: change.type === 'deleted' ? 'N/A' : change,
-                  oldValue: change.type === 'added' ? 'N/A' : change,
-                  isFileChange: true,
-                }));
-              });
-
-              return {
-                _sortDate: effectiveDate,
-                group: [...mappedRows, ...fileRows],
-              };
-            })
-            .filter((item) => item.group.length > 0); // Only include items with actual changes
-        }
-      ) || [];
-
-    const entries = [...allCbcsFlatMap];
+    const entries = [...allCbcsFlatMap, ...allApplicationsFlatMap];
 
     const tableData = entries
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
@@ -728,7 +756,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
   // Collect unique section values for the multi-select filter
   const sectionOptions = useMemo(() => {
     const set = new Set<string>();
-    tableData.forEach((row) => {
+    tableData.forEach((row: any) => {
       if (row.section) set.add(row.section);
     });
     return Array.from(set).sort();
@@ -767,7 +795,8 @@ const ProjectChangeLog: React.FC<Props> = () => {
       Cell: MergedCell,
     },
     {
-      accessorKey: 'section',
+      // accessorKey: 'section',
+      accessorFn: (row) => row?.section || 'N/A',
       header: 'Section',
       filterFn: filterVariant,
       filterVariant: 'multi-select',
