@@ -28,19 +28,19 @@ begin
       returning id into _sow_id;
 
     if exists (select * from ccbc_public.sow_tab_1 where sow_id = _sow_id and archived_at is null)
-      then update ccbc_public.sow_tab_1 set archived_at = now(), history_operation = _history_operation where sow_id = _sow_id and archived_at is null;
+      then update ccbc_public.sow_tab_1 set archived_at = now() where sow_id = _sow_id and archived_at is null;
     end if;
 
     if exists (select * from ccbc_public.sow_tab_2 where sow_id = _sow_id and archived_at is null)
-      then update ccbc_public.sow_tab_2 set archived_at = now(), history_operation = _history_operation where sow_id = _sow_id and archived_at is null;
+      then update ccbc_public.sow_tab_2 set archived_at = now() where sow_id = _sow_id and archived_at is null;
     end if;
 
     if exists (select * from ccbc_public.sow_tab_7 where sow_id = _sow_id and archived_at is null)
-      then update ccbc_public.sow_tab_7 set archived_at = now(), history_operation = _history_operation where sow_id = _sow_id and archived_at is null;
+      then update ccbc_public.sow_tab_7 set archived_at = now() where sow_id = _sow_id and archived_at is null;
     end if;
 
     if exists (select * from ccbc_public.sow_tab_8 where sow_id = _sow_id and archived_at is null)
-      then update ccbc_public.sow_tab_8 set archived_at = now(), history_operation = _history_operation where sow_id = _sow_id and archived_at is null;
+      then update ccbc_public.sow_tab_8 set archived_at = now() where sow_id = _sow_id and archived_at is null;
     end if;
 
   end if;
