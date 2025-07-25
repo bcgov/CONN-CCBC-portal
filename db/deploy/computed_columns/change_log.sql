@@ -3,7 +3,7 @@
 begin;
 
 create or replace function ccbc_public.change_log(limit_count integer default null, offset_count integer default 0)
-returns setof ccbc_public.record_version as $$
+returns setof ccbc_public.change_log_record as $$
 
   select
     r.id,
@@ -23,7 +23,16 @@ returns setof ccbc_public.record_version as $$
       else r.created_by
     end as created_by,
     r.created_at,
-    -- Enhanced record for CBC data, regular record for others
+    -- Add CCBC number and application ID for non-CBC data
+    case
+      when r.table_name != 'cbc_data' then app.ccbc_number
+      else null
+    end as ccbc_number,
+    case
+      when r.table_name = 'rfi_data' then rfi_app.application_id
+      else null
+    end as application_id,
+    -- Enhanced record for CBC data, regular record for others, all with user info
     case
       when r.table_name = 'cbc_data' then
         r.record || jsonb_build_object(
@@ -54,14 +63,86 @@ returns setof ccbc_public.record_version as $$
               and community.created_by = r.created_by
               and community.table_name = 'cbc_project_communities'
               and community.op = 'UPDATE'
+          ),
+          'user_info', jsonb_build_object(
+            'family_name', COALESCE(u.family_name, 'Automated process'),
+            'given_name', COALESCE(u.given_name, ''),
+            'session_sub', COALESCE(u.session_sub, 'robot@idir'),
+            'external_analyst', u.external_analyst
           )
         )
       when r.table_name = 'application_rd' then
-        jsonb_build_object('application_rd', jsonb_agg(jsonb_build_object('er', r.record->'er', 'rd', r.record->'rd')))
-      else r.record
+        jsonb_build_object(
+          'application_rd', jsonb_agg(jsonb_build_object('er', r.record->'er', 'rd', r.record->'rd')),
+          'user_info', jsonb_build_object(
+            'family_name', COALESCE(u.family_name, 'Automated process'),
+            'given_name', COALESCE(u.given_name, ''),
+            'session_sub', COALESCE(u.session_sub, 'robot@idir'),
+            'external_analyst', u.external_analyst
+          )
+        )
+      else r.record || jsonb_build_object(
+        'user_info', jsonb_build_object(
+          'family_name', COALESCE(u.family_name, 'Automated process'),
+          'given_name', COALESCE(u.given_name, ''),
+          'session_sub', COALESCE(u.session_sub, 'robot@idir'),
+          'external_analyst', u.external_analyst
+        )
+      )
     end as record,
     r.old_record
   from ccbc_public.record_version as r
+  -- Join with ccbc_user based on the attribution logic
+  left join ccbc_public.ccbc_user u on u.id = (
+    case
+      when (r.op='UPDATE' and r.table_name in ('rfi_data', 'application_announcement', 'application_community_progress_report_data', 'application_claims_data', 'application_milestone_data', 'application_dependencies'))
+           or (r.table_name='application_announcement' and r.record->>'history_operation'='deleted')
+           or (r.op = 'UPDATE' and r.table_name = 'cbc_data')
+      then COALESCE((r.record->>'updated_by')::int, r.created_by)
+      else r.created_by
+    end
+  )
+  -- Join with application for CCBC number (not for cbc_data)
+  left join ccbc_public.application app on (
+    r.table_name != 'cbc_data' and (
+      -- Direct application_id reference
+      (r.record->>'application_id')::int = app.id
+      or
+      -- For tables that reference application through other means
+      case
+        when r.table_name = 'application' then (r.record->>'id')::int = app.id
+        when r.table_name = 'application_status' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'assessment_data' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_analyst_lead' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_package' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'conditional_approval_data' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_gis_data' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_gis_assessment_hh' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_announced' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_announcement' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'project_information_data' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_sow_data' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'change_request_data' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_community_progress_report_data' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_claims_data' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_milestone_data' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_project_type' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_dependencies' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_rd' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_fnha_contribution' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_pending_change_request' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'form_data' then
+          (r.record->>'id')::int in (
+            select af.form_data_id from ccbc_public.application_form_data af where af.application_id = app.id
+          )
+        else false
+      end
+    )
+  )
+  -- Special join for rfi_data to get application_id through application_rfi_data
+  left join ccbc_public.application_rfi_data rfi_app on (
+    r.table_name = 'rfi_data' and rfi_app.rfi_data_id = (r.record->>'id')::int
+  )
   where
     -- Application table (INSERT only)
     (r.op='INSERT' and r.table_name='application')
@@ -148,7 +229,7 @@ returns setof ccbc_public.record_version as $$
     or
     -- CBC data (all operations)
     (r.table_name = 'cbc_data')
-  group by r.id, r.record_id, r.old_record_id, r.op, r.ts, r.table_oid, r.table_schema, r.table_name, r.created_by, r.created_at, r.record, r.old_record
+  group by r.id, r.record_id, r.old_record_id, r.op, r.ts, r.table_oid, r.table_schema, r.table_name, r.created_by, r.created_at, r.record, r.old_record, u.family_name, u.given_name, u.session_sub, u.external_analyst, app.ccbc_number, rfi_app.application_id
   order by r.id desc
   limit coalesce(limit_count, 2147483647)
   offset offset_count;

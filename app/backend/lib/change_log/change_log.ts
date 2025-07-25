@@ -18,9 +18,12 @@ const generateQuery = (
   ccbc_to_show = 100,
   ccbc_order = 'UPDATED_AT_DESC',
   ccbc_offset = 0,
-  history_items_per_ccbc = 100
+  history_items_per_ccbc = 100,
+  limitCount = 100,
+  offsetCount = 0
 ) => {
-  return `
+  return {
+    old_query: `
   query allChangeLog {
       allCbcs(first: ${cbc_to_show}, orderBy: ${cbc_order}, offset: ${cbc_offset}) {
     nodes {
@@ -72,7 +75,34 @@ const generateQuery = (
     }
   }
 }
-`;
+`,
+    new_query: `
+    query allChangeLog {
+      changeLog(limitCount: ${limitCount}, offsetCount: ${offsetCount}) {
+        nodes {
+          id
+          recordId
+          oldRecordId
+          op
+          ts
+          tableOid
+          tableSchema
+          tableName
+          createdBy
+          createdAt
+          record
+          oldRecord
+          ccbcUserByCreatedBy {
+            familyName
+            givenName
+            sessionSub
+            externalAnalyst
+          }
+        }
+      }
+    }
+`,
+  };
 };
 
 changeLog.get('/api/change-log', limiter, async (req, res) => {
@@ -94,14 +124,27 @@ changeLog.get('/api/change-log', limiter, async (req, res) => {
       featureValue.history_items_per_ccbc
     );
 
-    const changeLogData = await performQuery(query, {}, req);
+    const changeLogData = await performQuery(query.new_query, {}, req);
+    console.log('Change Log Data:', changeLogData);
+
+    // Separate the change log data into cbc and ccbc based on table_name
+    const allCbcs: any[] = [];
+    const allApplications: any[] = [];
+
+    changeLogData.data.changeLog.nodes.forEach((node: any) => {
+      if (node.tableName === 'cbc_data') {
+        allCbcs.push(node);
+      } else {
+        allApplications.push(node);
+      }
+    });
 
     // Return the feature value
     res.json({
       feature: flag,
       value: featureValue,
       query,
-      data: changeLogData.data,
+      data: { allCbcs, allApplications },
       success: true,
     });
   } catch (error) {

@@ -844,4 +844,5 @@ mutations/create_change_request [mutations/create_change_request@1.262.19] 2025-
 @1.262.29 2025-07-25T15:04:12Z CCBC Service Account <ccbc@button.is> # release v1.262.29
 @1.262.30 2025-07-25T15:07:31Z CCBC Service Account <ccbc@button.is> # release v1.262.30
 computed_columns/application_history [computed_columns/application_history@1.259.0] 2025-07-15T16:15:18Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # remove attachments
-computed_columns/change_log 2025-07-24T20:22:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # query to return history for the change log
+types/change_log_record 2025-07-24T20:22:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # type for change log records with ccbc_number and application_id
+computed_columns/change_log [types/change_log_record] 2025-07-24T20:22:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # query to return history for the change log
