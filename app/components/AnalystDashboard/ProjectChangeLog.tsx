@@ -163,9 +163,17 @@ const formatUser = (item) => {
   console.log('Item createdBy:', item.createdBy);
   console.log('Item record user_info:', item.record.user_info);
   const isSystem = item.createdBy === 1;
-  return isSystem
-    ? 'The system'
-    : `${item.record?.user_info?.given_name} ${item.record?.user_info?.family_name}`;
+  const isApplicant =
+    item.record?.user_info?.session_sub.includes('bceid') &&
+    item.record?.user_info?.external_analyst !== true;
+  if (isSystem) {
+    return 'The system';
+  }
+  if (isApplicant) {
+    return `The applicant`;
+  }
+
+  return `${item.record?.user_info?.given_name} ${item.record?.user_info?.family_name}`;
 };
 
 const communityArrayToHistoryString = (
@@ -506,14 +514,6 @@ const ProjectChangeLog: React.FC<Props> = () => {
               ? new Date(record?.updated_at || ts)
               : new Date(createdAt);
 
-          const base = {
-            changeId: `${ccbcNumber}-${createdAt}-${tableName}`,
-            id: applicationId,
-            _sortDate: effectiveDate,
-            program: program || 'CCBC',
-            isCbcProject: false,
-          };
-
           // Determine section name - for assessment_data, include the assessment type
           let sectionName = getLabelForType(tableName);
           const assessmentType =
@@ -528,6 +528,15 @@ const ProjectChangeLog: React.FC<Props> = () => {
           if (tableName === 'application_dependencies' && assessmentType) {
             sectionName = 'Technical Assessment';
           }
+
+          const base = {
+            changeId: `${ccbcNumber}-${createdAt}-${tableName}`,
+            id: applicationId,
+            _sortDate: effectiveDate,
+            program: program || 'CCBC',
+            isCbcProject: false,
+            section: sectionName,
+          };
 
           // Get table configuration
           const tableConfig = getTableConfig(tableName, assessmentType);
@@ -694,6 +703,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
               isFileChange: true,
             }));
           });
+          console.log('fileRows', fileRows);
 
           return {
             _sortDate: effectiveDate,
