@@ -80,7 +80,6 @@ const generateQuery = (
     query allChangeLog {
       changeLog(limitCount: ${limitCount}, offsetCount: ${offsetCount}) {
         nodes {
-          id
           recordId
           oldRecordId
           op
@@ -92,12 +91,9 @@ const generateQuery = (
           createdAt
           record
           oldRecord
-          ccbcUserByCreatedBy {
-            familyName
-            givenName
-            sessionSub
-            externalAnalyst
-          }
+          program
+          applicationId
+          ccbcNumber
         }
       }
     }
