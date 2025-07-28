@@ -475,6 +475,10 @@ const ProjectChangeLog: React.FC<Props> = () => {
             item.ccbcNumber !== null
           );
         })
+        // This is to remove any status changes by the applicant as well as
+        // remove the dependencies from showing and the form history
+        // might need to rework to find the index to ignore per applications
+        // but might slow down more
         ?.filter((item) => {
           // Exclude changes made by 'The applicant' except for rfi_data
           const isApplicant =
