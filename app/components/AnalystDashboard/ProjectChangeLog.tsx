@@ -19,6 +19,7 @@ import { generateRawDiff, processArrayDiff } from 'components/DiffTable';
 import getConfig from 'next/config';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
 import communities from 'formSchema/uiSchema/history/communities';
+import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import styled from 'styled-components';
 import {
   generateFileChanges,
@@ -160,8 +161,6 @@ const muiTableHeadCellProps = {
 };
 
 const formatUser = (item) => {
-  console.log('Item createdBy:', item.createdBy);
-  console.log('Item record user_info:', item.record.user_info);
   const isSystem = item.createdBy === 1;
   const isApplicant =
     item.record?.user_info?.session_sub.includes('bceid') &&
@@ -476,17 +475,95 @@ const ProjectChangeLog: React.FC<Props> = () => {
             item.ccbcNumber !== null
           );
         })
+        ?.filter((item) => {
+          // Exclude changes made by 'The applicant' except for rfi_data
+          const isApplicant =
+            item.record?.user_info?.session_sub?.includes('bceid') &&
+            item.record?.user_info?.external_analyst !== true;
+
+          // If it's an applicant change, only allow it for rfi_data
+          if (isApplicant) {
+            return item.tableName === 'rfi_data';
+          }
+
+          // For non-applicant changes, allow all
+          return true;
+        })
         // Join step: Find previous records for INSERT operations with null oldRecord
         ?.map((item, index, array) => {
           if (item.op === 'INSERT' && item.oldRecord === null) {
-            // Look for the next item with same table_name and ccbc_number
-            const matchingItem = array
-              .slice(index + 1)
-              .find(
-                (nextItem) =>
-                  nextItem.tableName === item.tableName &&
-                  nextItem.ccbcNumber === item.ccbcNumber
-              );
+            // Look for the next item with matching criteria based on table type
+            const matchingItem = array.slice(index + 1).find((previousItem) => {
+              // Basic table and ccbc_number match
+              if (previousItem.ccbcNumber !== item.ccbcNumber) {
+                return false;
+              }
+
+              // assessment data must match by item type
+              if (previousItem.tableName === 'assessment_data') {
+                return (
+                  previousItem.tableName === item.tableName &&
+                  previousItem.record?.item === item.record?.item
+                );
+              }
+              // rfis must match by rfi_number
+              if (previousItem.tableName === 'rfi_data') {
+                return (
+                  previousItem.tableName === item.tableName &&
+                  previousItem.record?.rfi_number === item.record?.rfi_number &&
+                  previousItem.op === 'INSERT'
+                );
+              }
+              // community reports must match by quarter
+              if (
+                previousItem.tableName ===
+                  'application_community_progress_report_data' &&
+                previousItem.tableName === item.tableName
+              ) {
+                const quarter =
+                  item.record?.json_data?.dueDate &&
+                  getFiscalQuarter(item.record.json_data.dueDate);
+                const year =
+                  item.record?.json_data?.dueDate &&
+                  getFiscalYear(item.record.json_data.dueDate);
+                const updated =
+                  previousItem.op === 'INSERT' &&
+                  getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
+                    quarter &&
+                  getFiscalYear(previousItem.record?.json_data?.dueDate) ===
+                    year;
+                return updated;
+              }
+              // application milestone needs to match by quarter
+              if (
+                previousItem.tableName === 'application_milestone_data' &&
+                previousItem.tableName === item.tableName
+              ) {
+                const quarter =
+                  item.record?.json_data?.dueDate &&
+                  getFiscalQuarter(item.record.json_data.dueDate);
+                const year =
+                  item.record?.json_data?.dueDate &&
+                  getFiscalYear(item.record.json_data.dueDate);
+                const updated =
+                  previousItem.op === 'INSERT' &&
+                  getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
+                    quarter &&
+                  getFiscalYear(previousItem.record?.json_data?.dueDate) ===
+                    year;
+                return updated;
+              }
+              // change request data must match by amendment number
+              if (previousItem.tableName === 'change_request_data') {
+                return (
+                  previousItem.tableName === item.tableName &&
+                  previousItem.record?.json_data?.amendmentNumber ===
+                    item.record?.json_data?.amendmentNumber
+                );
+              }
+              // Default: match by table name
+              return previousItem.tableName === item.tableName;
+            });
 
             if (matchingItem) {
               return {
@@ -703,7 +780,6 @@ const ProjectChangeLog: React.FC<Props> = () => {
               isFileChange: true,
             }));
           });
-          console.log('fileRows', fileRows);
 
           return {
             _sortDate: effectiveDate,
