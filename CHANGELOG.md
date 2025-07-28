@@ -1,3 +1,9 @@
+# [1.263.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.34...v1.263.0) (2025-07-28)
+
+### Features
+
+- proposed completion date for ccbc in gcpe report ([b1b8c26](https://github.com/bcgov/CONN-CCBC-portal/commit/b1b8c260f1ce3b8475216e2f4e1b7e81ce87a1d4))
+
 ## [1.262.34](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.33...v1.262.34) (2025-07-25)
 
 ## [1.262.33](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.32...v1.262.33) (2025-07-25)

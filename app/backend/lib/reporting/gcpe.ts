@@ -1,6 +1,6 @@
 import writeXlsxFile, { Row } from 'write-excel-file';
 import { DateTime } from 'luxon';
-import {
+import generateFormData, {
   getConditionalApprovalDate,
   getFundingData,
 } from '../../../lib/helpers/ccbcSummaryGenerateFormData';
@@ -340,7 +340,7 @@ const generateExcelData = async (
       { value: cleanDateTime(node?.jsonData?.proposedStartDate) },
       // date approved
       { value: cleanDateTime(node?.jsonData?.dateConditionallyApproved) },
-      // proposed project milestone completion date
+      // proposed completion date
       { value: cleanDateTime(node?.jsonData?.proposedCompletionDate) },
       // date announced
       { value: cleanDateTime(node?.jsonData?.dateAnnounced) },
@@ -354,6 +354,27 @@ const generateExcelData = async (
 
   ccbcData?.data?.allApplications?.edges?.forEach(async (edges) => {
     const { node } = edges;
+
+    const applicationByRowId = node;
+    const allApplicationSowData = {
+      nodes: node.applicationSowDataByApplicationId?.nodes || []
+    };
+    const allIntakes = ccbcData?.data?.allIntakes || { nodes: [] };
+    const allApplicationErs = {
+      edges: ccbcData?.data?.allApplicationErs?.nodes
+        ?.filter(er => er.applicationId === node.rowId)
+        ?.map(er => ({ node: er })) || []
+    };
+    const allApplicationRds = { edges: [] }; // Not available in current query
+
+    const summaryData = generateFormData(
+      applicationByRowId,
+      allApplicationSowData,
+      allIntakes,
+      allApplicationErs,
+      allApplicationRds,
+    );
+
     const fundingData = getFundingData(
       node,
       node?.applicationSowDataByApplicationId
@@ -505,9 +526,9 @@ const generateExcelData = async (
       {
         value: getConditionalApprovalDate(node?.conditionalApproval?.jsonData),
       },
-      // proposed project milestone completion date
+      // proposed completion date
       {
-        value: null,
+        value: cleanDateTime(summaryData.formData.eventsAndDates.proposedCompletionDate),
       },
       // date announced
       {
