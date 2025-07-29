@@ -358,10 +358,17 @@ const parseKMZ = async (buffer, fileName, source) => {
   return parseKML(kmlContent, fileName, source); // Parse the extracted KML
 };
 
-const parseKMLFromBuffer = (buffer, fileName, source): ParsedKML => {
-  // Convert buffer to string
-  const kmlContent = buffer.toString('utf-8');
-
+const parseKMLFromBuffer = (
+  buffer: Buffer | Uint8Array,
+  fileName: string,
+  source: string
+): ParsedKML => {
+  let kmlContent: string;
+  if (Buffer.isBuffer(buffer)) {
+    kmlContent = buffer.toString('utf-8');
+  } else if (buffer instanceof Uint8Array) {
+    kmlContent = new TextDecoder('utf-8').decode(buffer);
+  }
   // Reuse the existing parseKML function
   return parseKML(kmlContent, fileName, source);
 };

@@ -1,3 +1,75 @@
+## [1.264.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.264.0...v1.264.1) (2025-07-29)
+
+# [1.264.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.263.0...v1.264.0) (2025-07-29)
+
+### Features
+
+- enable ccbcs and other on change log ([875146b](https://github.com/bcgov/CONN-CCBC-portal/commit/875146b45b24cdbd645fc00695321db5f6310d20))
+- use backend change log with growthbook parameters ([4f1684e](https://github.com/bcgov/CONN-CCBC-portal/commit/4f1684efafc3f4b926540859886107b1cf351b2a))
+
+# [1.263.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.34...v1.263.0) (2025-07-28)
+
+### Features
+
+- proposed completion date for ccbc in gcpe report ([b1b8c26](https://github.com/bcgov/CONN-CCBC-portal/commit/b1b8c260f1ce3b8475216e2f4e1b7e81ce87a1d4))
+
+## [1.262.34](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.33...v1.262.34) (2025-07-25)
+
+## [1.262.33](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.32...v1.262.33) (2025-07-25)
+
+### Bug Fixes
+
+- change status logic to accept either misister decision when conditionally approving ([436a65c](https://github.com/bcgov/CONN-CCBC-portal/commit/436a65c3e52cb30759da628060968d812a17ed90))
+
+## [1.262.32](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.31...v1.262.32) (2025-07-25)
+
+## [1.262.31](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.30...v1.262.31) (2025-07-25)
+
+### Bug Fixes
+
+- status match for withdrawn ([7cbfb24](https://github.com/bcgov/CONN-CCBC-portal/commit/7cbfb24f80506adcd85f53560fff188c17349f3c))
+
+## [1.262.30](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.29...v1.262.30) (2025-07-25)
+
+## [1.262.29](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.28...v1.262.29) (2025-07-25)
+
+### Bug Fixes
+
+- sow update/delete failing due to missing history_operation ([c08cf2f](https://github.com/bcgov/CONN-CCBC-portal/commit/c08cf2fea49ecf586f0a5fe516678a8e9e8d4d2c))
+
+## [1.262.28](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.27...v1.262.28) (2025-07-25)
+
+## [1.262.27](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.26...v1.262.27) (2025-07-25)
+
+### Bug Fixes
+
+- formatting zones in history page ([2dd8eda](https://github.com/bcgov/CONN-CCBC-portal/commit/2dd8edabd8b582a406e6786a6467961f4cc9a849))
+
+## [1.262.26](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.25...v1.262.26) (2025-07-24)
+
+## [1.262.25](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.24...v1.262.25) (2025-07-24)
+
+### Bug Fixes
+
+- kml not showing on map ([dd857bc](https://github.com/bcgov/CONN-CCBC-portal/commit/dd857bcefa12bfe4c1a1d007bb9cb06fad64b4c1))
+
+## [1.262.24](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.23...v1.262.24) (2025-07-23)
+
+## [1.262.23](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.22...v1.262.23) (2025-07-23)
+
+### Bug Fixes
+
+- prevent double login/logout ([2d011d2](https://github.com/bcgov/CONN-CCBC-portal/commit/2d011d2ce0a2d7c98b6dde8539bbe2cb5d7aaeb0))
+
+## [1.262.22](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.21...v1.262.22) (2025-07-23)
+
+## [1.262.21](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.20...v1.262.21) (2025-07-23)
+
+### Bug Fixes
+
+- enable deploy for milestone and community ([7d01fd9](https://github.com/bcgov/CONN-CCBC-portal/commit/7d01fd9af630850bac19954befe4ad19af54fb74))
+- zap scan permission isse ([c7213ec](https://github.com/bcgov/CONN-CCBC-portal/commit/c7213ececc6ffcf40ad98e25cca22ec64c604394))
+
 ## [1.262.20](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.19...v1.262.20) (2025-07-18)
 
 ## [1.262.19](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.18...v1.262.19) (2025-07-18)

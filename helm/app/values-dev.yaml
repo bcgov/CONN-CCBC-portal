@@ -10,6 +10,14 @@ cronsp:
 cronshp:
   enabled: false
 
+croncommunity:
+  deploy:
+    enabled: false
+
+cronmilestone:
+  deploy:
+    enabled: false
+
 db:
   postMigrationCommand: |
     sqitch --chdir mocks_schema deploy;

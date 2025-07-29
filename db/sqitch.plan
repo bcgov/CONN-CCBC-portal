@@ -839,3 +839,8 @@ mutations/create_project_information [mutations/create_project_information@1.249
 mutations/create_application_sow_data [mutations/create_application_sow_data@1.259.0] 2025-07-15T22:21:59Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # only archive non-archived records for sow
 @1.262.19 2025-07-18T23:24:22Z CCBC Service Account <ccbc@button.is> # release v1.262.19
 @1.262.20 2025-07-18T23:26:01Z CCBC Service Account <ccbc@button.is> # release v1.262.20
+mutations/create_project_information [mutations/create_project_information@1.262.19] 2025-07-23T15:17:32Z ,,, <rranathu@NH504670> # remove history_operation from unused tables
+mutations/create_change_request [mutations/create_change_request@1.262.19] 2025-07-23T15:49:34Z ,,, <rranathu@NH504670> # remove history_operation from unused tables
+@1.262.29 2025-07-25T15:04:12Z CCBC Service Account <ccbc@button.is> # release v1.262.29
+@1.262.30 2025-07-25T15:07:31Z CCBC Service Account <ccbc@button.is> # release v1.262.30
+computed_columns/application_history [computed_columns/application_history@1.259.0] 2025-07-15T16:15:18Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # remove attachments

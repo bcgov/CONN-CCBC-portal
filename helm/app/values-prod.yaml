@@ -18,6 +18,14 @@ instances:
   requests:
     cpu: 100m
 
+crunchy-postgres:
+  pgBackRest:
+    volume:
+      storage: 20Gi
+  instances:
+    dataVolumeClaimSpec:
+      storage: 5Gi
+
 autoscaling:
   enabled: true
   minReplicas: 3
