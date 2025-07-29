@@ -165,7 +165,6 @@ runs:
           --set certbot.certbot.server=${{ inputs.certbot_server }} \
           --set loadTest.enable=${{ inputs.enable_load_test }} \
           --set db.test.password="${{ inputs.test_pg_password }}" \
-          --set db.prod.password="${{ inputs.prod_pg_password }}" \
           --set sharepoint.spSite="${{ inputs.sp_site }}" \
           --set sharepoint.spSaUser="${{ inputs.sp_sa_user }}" \
           --set sharepoint.spSaPassword="${{ inputs.sp_sa_password }}" \
