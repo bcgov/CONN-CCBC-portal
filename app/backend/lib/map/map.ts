@@ -100,8 +100,7 @@ query getAppDataQuery($rowId: Int!) {
     }
     changeRequestDataByApplicationId(
       filter: { jsonData: { contains: { updatedMapUpload: [] } }, archivedAt: {isNull: true} }
-      orderBy: UPDATED_AT_DESC
-      first: 1
+      orderBy: AMENDMENT_NUMBER_DESC
     ) {
       nodes {
         amendmentNumber
@@ -181,20 +180,31 @@ const extractAllRfiFiles = (data: RfiData[]): Record<string, RfiFile[]> => {
   return result;
 };
 
-const extractLastestFinalizedMapUpload = (
+const extractFinalizedMapUploads = (
   projectInformationData,
   changeRequestData
 ) => {
-  const finalizedMapUploads = [
-    ...(projectInformationData?.nodes?.[0]?.jsonData?.finalizedMapUpload ?? []),
-    ...(changeRequestData?.nodes?.[0]?.jsonData?.updatedMapUpload ?? []),
-  ];
-  return finalizedMapUploads
-    .slice()
-    .sort(
-      (a, b) =>
-        new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
-    )[0];
+  const mapUploads = [];
+  // Amendment uploads
+  changeRequestData?.nodes?.forEach((changeRequest) => {
+    const updatedUploads = changeRequest?.jsonData?.updatedMapUpload || [];
+    updatedUploads.forEach((file) => {
+      mapUploads.push({
+        ...file,
+        source: `Amendment #${changeRequest.amendmentNumber}`,
+      });
+    });
+  });
+  // Original SOW uploads
+  const finalizedUploads =
+    projectInformationData?.nodes?.[0]?.jsonData?.finalizedMapUpload || [];
+  finalizedUploads.forEach((file) => {
+    mapUploads.push({
+      ...file,
+      source: 'Original SOW',
+    });
+  });
+  return mapUploads;
 };
 
 const handleQueryResult = (
@@ -206,15 +216,10 @@ const handleQueryResult = (
   const geographicCoverageMap = [];
   const currentNetworkInfrastructure = [];
   const upgradedNetworkInfrastructure = [];
-  const finalizedMapUpload = [
-    {
-      ...extractLastestFinalizedMapUpload(
-        projectInformationData,
-        changeRequestData
-      ),
-      source: 'SOW',
-    },
-  ];
+  const finalizedMapUpload = extractFinalizedMapUploads(
+    projectInformationData,
+    changeRequestData
+  );
 
   const formMapFiles = {
     geographicCoverageMap: [],
