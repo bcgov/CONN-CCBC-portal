@@ -346,23 +346,15 @@ BEGIN
           SELECT idx, elem
           FROM jsonb_array_elements(input_jsonb->key_name) WITH ORDINALITY AS t(elem, idx)
         LOOP
-          -- Anonymize filename
           IF array_element ? 'name' THEN
-            array_element := jsonb_set(
+            new_array := new_array || jsonb_set(
               array_element,
               ARRAY['name'],
               to_jsonb(key_name || '-' || (index)::text)
             );
+          ELSE
+            new_array := new_array || array_element;
           END IF;
-          -- Anonymize UUID
-          IF array_element ? 'uuid' THEN
-            array_element := jsonb_set(
-              array_element,
-              ARRAY['uuid'],
-              to_jsonb('dddddddd-dddd-dddd-dddd-dddddddddddd')
-            );
-          END IF;
-          new_array := new_array || array_element;
         END LOOP;
         result_jsonb := jsonb_set(
           result_jsonb,
@@ -380,23 +372,15 @@ BEGIN
               SELECT idx, elem
               FROM jsonb_array_elements(input_jsonb->key_name->array_name) WITH ORDINALITY AS t(elem, idx)
             LOOP
-              -- Anonymize filename
               IF array_element ? 'name' THEN
-                array_element := jsonb_set(
+                new_array := new_array || jsonb_set(
                   array_element,
                   ARRAY['name'],
                   to_jsonb(array_name || '-' || (index)::text)
                 );
+              ELSE
+                new_array := new_array || array_element;
               END IF;
-              -- Anonymize UUID
-              IF array_element ? 'uuid' THEN
-                array_element := jsonb_set(
-                  array_element,
-                  ARRAY['uuid'],
-                  to_jsonb('dddddddd-dddd-dddd-dddd-dddddddddddd')
-                );
-              END IF;
-              new_array := new_array || array_element;
             END LOOP;
             nested_object := jsonb_set(
               nested_object,
