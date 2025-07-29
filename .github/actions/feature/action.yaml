@@ -103,9 +103,6 @@ inputs:
   test_pg_password:
     description: 'Test password for postgres'
     required: true
-  prod_pg_password:
-    description: 'Production password for postgres'
-    required: true
 
 runs:
   using: composite

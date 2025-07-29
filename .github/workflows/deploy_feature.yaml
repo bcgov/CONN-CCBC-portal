@@ -37,7 +37,6 @@ on:
       CHES_KEYCLOAK_HOST: { required: true }
       TEST_PG_PASSWORD: { required: true }
       JIRA_AUTH: { required: true }
-      PROD_PG_PASSWORD: { required: true }
       AWS_S3_FEAT_BUCKET: { required: true }
       AWS_S3_FEAT_CLAM_BUCKET: { required: true }
       AWS_FEAT_ARN: { required: true }
@@ -127,7 +126,6 @@ jobs:
           ches_to: ${{ secrets.CHES_TO_EMAIL }}
           ches_keycloak_host: ${{ secrets.CHES_KEYCLOAK_HOST }}
           test_pg_password: ${{ secrets.TEST_PG_PASSWORD }}
-          prod_pg_password: ${{ secrets.PROD_PG_PASSWORD }}
           environment: dev
   update-jira-issue:
     runs-on: ubuntu-latest
