@@ -597,6 +597,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
 
           // Determine section name - for assessment_data, include the assessment type
           let sectionName = getLabelForType(tableName);
+          let overrideField = null;
           const assessmentType =
             record?.json_data?.assessmentType || record?.item;
           if (tableName === 'assessment_data' && assessmentType) {
@@ -671,7 +672,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
               tableConfig.excludedKeys,
               tableConfig.overrideParent || tableName
             );
-            sectionName = isExternal ? 'External Status' : 'Internal Status';
+            overrideField = isExternal ? 'External Status' : 'Internal Status';
             // special handling for analyst lead
           } else if (tableName === 'application_analyst_lead') {
             diffRows = generateRawDiff(
@@ -754,7 +755,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
             createdAt: meta.createdAt,
             createdBy: meta.createdBy,
             createdAtDate: meta.createdAtDate,
-            field: row?.field || '',
+            field: overrideField || row?.field || '',
             newValue:
               tableName === 'application_status'
                 ? convertStatus(row.newValue)
