@@ -656,18 +656,22 @@ const ProjectChangeLog: React.FC<Props> = () => {
             }
             // special handling for application status
           } else if (tableName === 'application_status') {
+            const isExternal =
+              record?.status?.includes('applicant_') ||
+              record?.status === 'withdrawn';
             diffRows = generateRawDiff(
               diff(
                 {
-                  status: convertStatus(oldRecord?.status) || null,
+                  status: oldRecord?.status || null,
                 },
-                { status: convertStatus(record?.status) || null },
+                { status: record?.status || null },
                 { keepUnchangedValues: true }
               ),
               tableConfig.schema,
               tableConfig.excludedKeys,
               tableConfig.overrideParent || tableName
             );
+            sectionName = isExternal ? 'External Status' : 'Internal Status';
             // special handling for analyst lead
           } else if (tableName === 'application_analyst_lead') {
             diffRows = generateRawDiff(
@@ -751,8 +755,14 @@ const ProjectChangeLog: React.FC<Props> = () => {
             createdBy: meta.createdBy,
             createdAtDate: meta.createdAtDate,
             field: row?.field || '',
-            newValue: row.newValue,
-            oldValue: row.oldValue,
+            newValue:
+              tableName === 'application_status'
+                ? convertStatus(row.newValue)
+                : row.newValue,
+            oldValue:
+              tableName === 'application_status'
+                ? convertStatus(row.oldValue)
+                : row.oldValue,
             section: sectionName,
           }));
 
