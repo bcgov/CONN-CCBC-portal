@@ -1,3 +1,10 @@
+# [1.264.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.263.0...v1.264.0) (2025-07-29)
+
+### Features
+
+- enable ccbcs and other on change log ([875146b](https://github.com/bcgov/CONN-CCBC-portal/commit/875146b45b24cdbd645fc00695321db5f6310d20))
+- use backend change log with growthbook parameters ([4f1684e](https://github.com/bcgov/CONN-CCBC-portal/commit/4f1684efafc3f4b926540859886107b1cf351b2a))
+
 # [1.263.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.262.34...v1.263.0) (2025-07-28)
 
 ### Features
