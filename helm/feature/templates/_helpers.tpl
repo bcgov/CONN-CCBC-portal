@@ -40,7 +40,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
   - name: TEST_PG_PASSWORD
     valueFrom:
       secretKeyRef:
-        key: database-prod-password
+        key: database-test-password
         name: {{ template "ccbc.fullname" . }}
   - name: PGDATABASE
     value: {{ template "ccbc.fullname" . }}
