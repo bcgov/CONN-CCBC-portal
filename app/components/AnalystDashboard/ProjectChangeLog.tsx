@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-pascal-case */
-import { useMemo, useState } from 'react';
-import { graphql, useFragment } from 'react-relay';
+import { useEffect, useMemo, useState } from 'react';
+import * as React from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   MaterialReactTable,
@@ -14,15 +14,30 @@ import {
   MRT_ShowHideColumnsButton,
   MRT_ColumnSizingState,
 } from 'material-react-table';
-import { ProjectChangeLog_query$key } from '__generated__/ProjectChangeLog_query.graphql';
 import { diff } from 'json-diff';
-import { generateRawDiff } from 'components/DiffTable';
+import { generateRawDiff, processArrayDiff } from 'components/DiffTable';
 import getConfig from 'next/config';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
+import communities from 'formSchema/uiSchema/history/communities';
 import styled from 'styled-components';
+import {
+  generateFileChanges,
+  renderFileChange,
+  getFileArraysFromRecord,
+  getFileFieldsForTable,
+} from 'utils/historyFileUtils';
 import { Box, Link, TableCellProps } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTime } from 'luxon';
+import { processHistoryItems, formatUserName } from 'utils/historyProcessing';
+import { getTableConfig } from 'utils/historyTableConfig';
 import ClearFilters from 'components/Table/ClearFilters';
+import { getLabelForType } from 'components/Analyst/History/HistoryFilter';
+import { convertStatus } from 'backend/lib/dashboard/util';
+import * as Sentry from '@sentry/nextjs';
+import { useFeature } from '@growthbook/growthbook-react';
+import getCbcSectionFromKey from 'utils/historyCbcSection';
 import AdditionalFilters from './AdditionalFilters';
 import { HighlightFilterMatch } from './AllDashboardDetailPanel';
 
@@ -66,18 +81,33 @@ const StyledCommunitiesHeader = styled.th`
 const ProjectIdCell = ({ cell, renderedCellValue }) => {
   const isVisibleRow = cell.row.original?.isVisibleRow;
   const rowId = cell.row.original?.id;
+  const isCbcProject = cell.row.original?.isCbcProject;
 
-  return isVisibleRow ? (
-    <StyledLink href={`/analyst/cbc/${rowId}/cbcHistory`}>
-      {renderedCellValue}
-    </StyledLink>
-  ) : null;
+  if (!isVisibleRow) return null;
+
+  const href = isCbcProject
+    ? `/analyst/cbc/${rowId}/cbcHistory`
+    : `/analyst/application/${rowId}/history`;
+
+  return <StyledLink href={href}>{renderedCellValue}</StyledLink>;
 };
 
 const MergedCell = ({ cell, renderedCellValue }) => {
   const isVisibleRow = cell.row.original?.isVisibleRow;
 
-  return isVisibleRow ? renderedCellValue : null;
+  if (!isVisibleRow) return null;
+
+  // Ensure we never return an object as a React child
+  // Check if it's a React element first
+  if (React.isValidElement(renderedCellValue)) {
+    return renderedCellValue;
+  }
+
+  const displayValue =
+    typeof renderedCellValue === 'object' && renderedCellValue !== null
+      ? JSON.stringify(renderedCellValue)
+      : renderedCellValue;
+  return displayValue;
 };
 
 const StyledCommunitiesCell = styled.td<{
@@ -135,7 +165,7 @@ const formatUser = (item) => {
     item.createdBy === 1 &&
     (!item.ccbcUserByCreatedBy || !item.ccbcUserByCreatedBy?.givenName);
   return isSystem
-    ? 'The System'
+    ? 'The system'
     : `${item.ccbcUserByCreatedBy?.givenName} ${item.ccbcUserByCreatedBy?.familyName}`;
 };
 
@@ -196,7 +226,6 @@ const CommunitiesCell = (
   );
 };
 
-// OldValueCell moved out of ProjectChangeLog to avoid defining components during render
 const HistoryValueCell = ({
   row,
   column,
@@ -204,10 +233,26 @@ const HistoryValueCell = ({
   table,
   historyType = 'new',
 }) => {
-  const { field, oldValue, newValue } = row.original;
+  const { field, oldValue, newValue, isFileChange } = row.original;
   const value = historyType === 'old' ? oldValue : newValue;
   const filterValue = column.getFilterValue();
   const globalFilter = table.getState()?.globalFilter;
+
+  // Handle file changes
+  if (isFileChange) {
+    if (value === 'N/A') {
+      return (
+        <span
+          style={
+            historyType === 'old' ? { textDecoration: 'line-through' } : {}
+          }
+        >
+          N/A
+        </span>
+      );
+    }
+    return renderFileChange(value, historyType === 'old');
+  }
 
   if (
     ['Communities Added', 'Communities Removed'].includes(field) &&
@@ -222,10 +267,29 @@ const HistoryValueCell = ({
       [filterValue, globalFilter]
     );
   }
-  return historyType === 'old' ? (
-    <span style={{ textDecoration: 'line-through' }}>{renderedCellValue}</span>
-  ) : (
-    renderedCellValue
+  // For all other values, wrap in a span with strikethrough
+  // Ensure we never return an object as a React child
+  // Check if it's a React element first
+  if (React.isValidElement(renderedCellValue)) {
+    return (
+      <span
+        style={historyType === 'old' ? { textDecoration: 'line-through' } : {}}
+      >
+        {renderedCellValue}
+      </span>
+    );
+  }
+
+  const displayValue =
+    typeof renderedCellValue === 'object' && renderedCellValue !== null
+      ? JSON.stringify(renderedCellValue)
+      : renderedCellValue;
+  return (
+    <span
+      style={historyType === 'old' ? { textDecoration: 'line-through' } : {}}
+    >
+      {displayValue}
+    </span>
   );
 };
 
@@ -233,52 +297,50 @@ const OldValueCell = (props) => (
   <HistoryValueCell {...props} historyType="old" />
 );
 
-const ProjectChangeLog: React.FC<Props> = ({ query }) => {
-  const queryFragment = useFragment<ProjectChangeLog_query$key>(
-    graphql`
-      fragment ProjectChangeLog_query on Query {
-        allCbcs {
-          nodes {
-            rowId
-            projectNumber
-            history {
-              nodes {
-                op
-                createdAt
-                createdBy
-                id
-                record
-                oldRecord
-                tableName
-                ccbcUserByCreatedBy {
-                  givenName
-                  familyName
-                }
-              }
-            }
-          }
-        }
-        session {
-          authRole
-        }
-      }
-    `,
-    query
-  );
-
+const ProjectChangeLog: React.FC<Props> = () => {
   const enableTimeMachine =
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
-  const defaultFilters = [{ id: 'program', value: ['CBC'] }];
+  const enableProjectTypeFilters =
+    useFeature('filter_changelog_by_project_type').value || false;
+  const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
-  const { allCbcs } = queryFragment;
+  const [allData, setAllData] = useState({
+    allCbcs: { nodes: [] },
+    allApplications: { nodes: [] },
+  });
+  const [isLoading, setIsLoading] = useState(true);
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
-  const tableData = useMemo(() => {
-    const entries =
-      allCbcs.nodes?.flatMap(
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('/api/change-log');
+        const data = await response.json();
+        setAllData(data.data);
+      } catch (error) {
+        Sentry.captureException({
+          name: 'Error getting change log data',
+          message: error,
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const { tableData } = useMemo(() => {
+    // Return empty data if data is not available
+    if (!allData.allCbcs || !allData.allApplications) {
+      return { tableData: [] };
+    }
+
+    const allCbcsFlatMap =
+      allData.allCbcs?.nodes?.flatMap(
         ({ projectNumber, rowId, history }) =>
           history.nodes.map((item) => {
             const { record, oldRecord, createdAt, op } = item;
@@ -292,6 +354,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               id: rowId,
               _sortDate: effectiveDate,
               program: 'CBC',
+              isCbcProject: true,
             };
 
             const json = {
@@ -324,6 +387,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
                 DateTime.DATETIME_MED
               ),
+              createdAtDate: effectiveDate, // Raw date for filtering
               createdBy: formatUser(item),
             };
 
@@ -332,10 +396,12 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
               rowId: projectNumber,
               isVisibleRow: i === 0, // For visual use only
               createdAt: meta.createdAt,
+              createdAtDate: meta.createdAtDate,
               createdBy: meta.createdBy,
               field: row.field,
               newValue: row.newValue,
               oldValue: row.oldValue,
+              section: getCbcSectionFromKey(row.key || row.field),
             }));
 
             const added = record?.added_communities ?? [];
@@ -356,6 +422,7 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                       rowId: projectNumber,
                       isVisibleRow: showMeta, // For visual use only
                       createdAt: meta.createdAt,
+                      createdAtDate: meta.createdAtDate,
                       createdBy: meta.createdBy,
                       field: label,
                       newValue: values,
@@ -369,6 +436,11 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
                         'economic_region',
                         'regional_district',
                       ]),
+                      section: getCbcSectionFromKey(
+                        label === 'Communities Added'
+                          ? 'added_communities'
+                          : 'deleted_communities'
+                      ),
                     },
                   ]
                 : [];
@@ -388,7 +460,247 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           }) || []
       ) || [];
 
-    return entries
+    const allApplicationsFlatMap =
+      allData.allApplications?.nodes?.flatMap(
+        ({ ccbcNumber, rowId, history, program }) => {
+          // Apply HistoryTable preprocessing logic
+          const processedHistory = processHistoryItems(history.nodes, {
+            includeAttachments: false,
+            applyUserFormatting: false,
+          });
+
+          return processedHistory
+            .filter(({ historyItem }) => {
+              // Exclude attachment table and tables without proper schema config
+              const assessmentType = historyItem.item;
+              const tableConfig = getTableConfig(
+                historyItem.tableName,
+                assessmentType
+              );
+              return (
+                historyItem.tableName !== 'attachment' &&
+                tableConfig !== null &&
+                tableConfig.schema !== null
+              );
+            })
+            .map(({ historyItem, prevHistoryItem }) => {
+              const { record, createdAt, op, tableName, item } = historyItem;
+              const effectiveDate =
+                op === 'UPDATE'
+                  ? new Date(record?.updated_at)
+                  : new Date(createdAt);
+
+              // Determine section name - for assessment_data, include the assessment type
+              let sectionName = getLabelForType(tableName);
+              if (tableName === 'assessment_data' && item) {
+                // Capitalize the first letter of assessment type
+                const capitalizedType =
+                  item.charAt(0).toUpperCase() + item.slice(1);
+                sectionName = `${capitalizedType} Assessment`;
+              }
+              // override section for application dependencies
+              if (tableName === 'application_dependencies' && item) {
+                sectionName = 'Technical Assessment';
+              }
+
+              const base = {
+                changeId: `${ccbcNumber}-${createdAt}-${tableName}`,
+                id: rowId,
+                _sortDate: effectiveDate,
+                program: program || 'CCBC',
+                section: sectionName,
+                isCbcProject: false,
+              };
+
+              // Get table configuration
+              const assessmentType = item;
+
+              const tableConfig = getTableConfig(tableName, assessmentType);
+
+              let diffRows = [];
+
+              // Special handling for application_communities
+              if (tableName === 'application_communities') {
+                const changes = diff(
+                  prevHistoryItem?.record || {},
+                  record || {}
+                );
+                const [newArray, oldArray] = processArrayDiff(
+                  changes,
+                  communities.applicationCommunities
+                );
+
+                const processCommunity = (values) => {
+                  return values?.map((community) => ({
+                    economic_region: community.er,
+                    regional_district: community.rd,
+                  }));
+                };
+
+                if (newArray.length > 0) {
+                  diffRows.push({
+                    field: 'Communities Added',
+                    newValue: processCommunity(newArray),
+                    oldValue: 'N/A',
+                  });
+                }
+
+                if (oldArray.length > 0) {
+                  diffRows.push({
+                    field: 'Communities Removed',
+                    newValue: 'N/A',
+                    oldValue: processCommunity(oldArray),
+                  });
+                }
+                // special handling for application status
+              } else if (tableName === 'application_status') {
+                diffRows = generateRawDiff(
+                  diff(
+                    {
+                      status:
+                        convertStatus(prevHistoryItem?.record?.status) || null,
+                    },
+                    { status: convertStatus(record?.status) || null },
+                    { keepUnchangedValues: true }
+                  ),
+                  tableConfig.schema,
+                  tableConfig.excludedKeys,
+                  tableConfig.overrideParent || tableName
+                );
+                // special handling for analyst lead
+              } else if (tableName === 'application_analyst_lead') {
+                diffRows = generateRawDiff(
+                  diff(
+                    {
+                      analyst_lead: prevHistoryItem?.item || null,
+                    },
+                    {
+                      analyst_lead: item || null,
+                    },
+                    { keepUnchangedValues: true }
+                  ),
+                  tableConfig.schema,
+                  tableConfig.excludedKeys,
+                  tableConfig.overrideParent || tableName
+                );
+              } else if (tableName === 'application_package') {
+                diffRows = generateRawDiff(
+                  diff(
+                    {
+                      package: prevHistoryItem?.record?.package || null,
+                    },
+                    {
+                      package: record?.package || null,
+                    },
+                    { keepUnchangedValues: true }
+                  ),
+                  tableConfig.schema,
+                  tableConfig.excludedKeys,
+                  tableConfig.overrideParent || tableName
+                );
+              } else {
+                // Standard processing for other tables
+                let json = {};
+                let prevJson = {};
+
+                // Handle different data sources based on table type
+                // these are the tables we are processing everything else is getting ignored
+                // or needs special handling
+                if (
+                  tableName === 'form_data' ||
+                  tableName === 'rfi_data' ||
+                  tableName === 'assessment_data' ||
+                  tableName === 'conditional_approval_data' ||
+                  tableName === 'application_gis_data' ||
+                  tableName === 'project_information_data' ||
+                  tableName === 'application_sow_data' ||
+                  tableName === 'application_community_progress_report_data' ||
+                  tableName === 'application_milestone_data' ||
+                  tableName === 'application_dependencies'
+                ) {
+                  json = record?.json_data || {};
+                  prevJson = prevHistoryItem?.record?.json_data || {};
+                } else {
+                  // For other tables, use the record directly
+                  json = record || {};
+                  prevJson = prevHistoryItem?.record || {};
+                }
+
+                diffRows = generateRawDiff(
+                  diff(prevJson, json, { keepUnchangedValues: true }),
+                  tableConfig.schema,
+                  tableConfig.excludedKeys,
+                  tableName === 'form_data'
+                    ? null
+                    : tableConfig.overrideParent || tableName
+                );
+              }
+
+              const meta = {
+                createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
+                  DateTime.DATETIME_MED
+                ),
+                createdAtDate: effectiveDate,
+                createdBy: formatUserName(historyItem).user,
+              };
+
+              const mappedRows = diffRows.map((row, i) => ({
+                ...base,
+                rowId: ccbcNumber,
+                isVisibleRow: i === 0, // For visual use only
+                createdAt: meta.createdAt,
+                createdBy: meta.createdBy,
+                createdAtDate: meta.createdAtDate,
+                field: row?.field || '',
+                newValue: row.newValue,
+                oldValue: row.oldValue,
+              }));
+
+              // Process file changes for tables that have file support
+              const fileFields = getFileFieldsForTable(
+                tableName,
+                assessmentType
+              );
+              const fileRows = fileFields.flatMap((fileField) => {
+                const [currentFiles, previousFiles] = getFileArraysFromRecord(
+                  record,
+                  prevHistoryItem?.record,
+                  tableName,
+                  fileField.field
+                );
+
+                const fileChanges = generateFileChanges(
+                  currentFiles,
+                  fileField.title,
+                  previousFiles
+                );
+
+                return fileChanges.map((change, changeIndex) => ({
+                  ...base,
+                  rowId: ccbcNumber,
+                  isVisibleRow: changeIndex === 0 && mappedRows.length === 0,
+                  createdAt: meta.createdAt,
+                  createdBy: meta.createdBy,
+                  createdAtDate: meta.createdAtDate,
+                  field: change?.field || '',
+                  newValue: change.type === 'deleted' ? 'N/A' : change,
+                  oldValue: change.type === 'added' ? 'N/A' : change,
+                  isFileChange: true,
+                }));
+              });
+
+              return {
+                _sortDate: effectiveDate,
+                group: [...mappedRows, ...fileRows],
+              };
+            })
+            .filter((item) => item.group.length > 0); // Only include items with actual changes
+        }
+      ) || [];
+
+    const entries = [...allCbcsFlatMap, ...allApplicationsFlatMap];
+
+    const tableData = entries
       .sort((a, b) => b._sortDate.getTime() - a._sortDate.getTime())
       .flatMap((entry, i) =>
         entry.group.map((row) => ({
@@ -396,7 +708,9 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           isEvenGroup: i % 2 === 0,
         }))
       );
-  }, [allCbcs]);
+
+    return { tableData };
+  }, [allData]);
 
   // Collect unique createdBy values for the multi-select filter
   const createdByOptions = useMemo(() => {
@@ -407,6 +721,42 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     return Array.from(set).sort();
   }, [tableData]);
 
+  // Collect unique program values for the multi-select filter
+  const programOptions = useMemo(() => {
+    const set = new Set<string>();
+    tableData.forEach((row) => {
+      if (row.program) set.add(row.program);
+    });
+    return Array.from(set).sort();
+  }, [tableData]);
+
+  // Collect unique section values for the multi-select filter
+  const sectionOptions = useMemo(() => {
+    const set = new Set<string>();
+    tableData.forEach((row) => {
+      if (row.section) set.add(row.section);
+    });
+    return Array.from(set).sort();
+  }, [tableData]);
+
+  // Custom filter function for program
+  const programFilterFn = (row, columnId, filterValues) => {
+    const rowValue = row.getValue(columnId);
+
+    // If no filter values are selected, show nothing
+    if (!filterValues || filterValues.length === 0) {
+      return false;
+    }
+
+    // If all program options are selected, show everything
+    if (filterValues.length === programOptions.length) {
+      return true;
+    }
+
+    // Check if the row's program value is included in the selected filter values
+    return filterValues.includes(rowValue);
+  };
+
   const columns: MRT_ColumnDef<any>[] = [
     {
       accessorKey: 'rowId',
@@ -416,18 +766,31 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
       filterFn: filterVariant,
     },
     {
+      accessorKey: 'program',
+      filterFn: programFilterFn,
+      header: 'Program',
+      Cell: MergedCell,
+    },
+    {
+      accessorKey: 'section',
+      header: 'Section',
+      filterFn: filterVariant,
+      filterVariant: 'multi-select',
+      filterSelectOptions: sectionOptions,
+    },
+    {
       accessorKey: 'field',
       header: 'Fields changed',
       filterFn: filterVariant,
     },
     {
-      accessorFn: (row) => row.oldValueString ?? row.oldValue,
+      accessorKey: 'oldValue',
       header: 'Old Value',
       Cell: OldValueCell,
       filterFn: filterVariant,
     },
     {
-      accessorFn: (row) => row.newValueString ?? row.newValue,
+      accessorKey: 'newValue',
       header: 'New Value',
       Cell: HistoryValueCell,
       filterFn: filterVariant,
@@ -443,14 +806,36 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
     {
       accessorKey: 'createdAt',
       header: 'Date and Time',
-      filterFn: filterVariant,
+      filterVariant: 'date-range',
+      filterFn: (row, _columnId, filterValues) => {
+        const { createdAtDate } = row.original;
+        const [startDate, endDate] = filterValues;
+
+        if (!createdAtDate) return false;
+        if (!startDate && !endDate) return true;
+
+        const rowDate = new Date(createdAtDate);
+        const start = startDate ? new Date(startDate) : null;
+        const end = endDate ? new Date(endDate) : null;
+
+        if (start && end) {
+          return rowDate >= start && rowDate <= end;
+        }
+        if (start) {
+          return rowDate >= start;
+        }
+        if (end) {
+          return rowDate <= end;
+        }
+        return true;
+      },
       Cell: MergedCell,
     },
   ];
 
   const columnSizing: MRT_ColumnSizingState = {
     rowId: 50,
-    createdAt: 104,
+    createdAt: 250,
     createdBy: 110,
     field: 108,
   };
@@ -458,8 +843,12 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
   const state = {
     showColumnFilters: true,
     columnFilters,
+    isLoading,
     showGlobalFilter: true,
     columnSizing,
+    columnVisibility: {
+      program: false,
+    },
   };
 
   const table = useMaterialReactTable({
@@ -501,18 +890,25 @@ const ProjectChangeLog: React.FC<Props> = ({ query }) => {
           table={table}
           filters={table.getState().columnFilters}
           defaultFilters={defaultFilters}
-          externalFilters={false}
         />
         <AdditionalFilters
           filters={columnFilters}
           setFilters={setColumnFilters}
-          disabledFilters={[{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]}
+          disabledFilters={
+            !isLoading && enableProjectTypeFilters
+              ? []
+              : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
+          }
         />
       </StyledTableHeader>
     ),
   });
 
-  return <MaterialReactTable table={table} />;
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <MaterialReactTable table={table} />
+    </LocalizationProvider>
+  );
 };
 
 export default ProjectChangeLog;

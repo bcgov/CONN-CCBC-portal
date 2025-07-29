@@ -40,7 +40,6 @@ const AdditionalFilters = ({ filters, setFilters, disabledFilters = [] }) => {
     const newFilters = programFilters.includes(program)
       ? programFilters.filter((v) => v !== program)
       : [...programFilters, program];
-
     setFilters([
       ...filters.filter((f) => f.id !== 'program'),
       { id: 'program', value: newFilters },

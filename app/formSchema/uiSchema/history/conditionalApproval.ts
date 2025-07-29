@@ -1,32 +1,50 @@
+const decisionFields = {
+  ministerDecision: {
+    title: 'Minister decision',
+  },
+  ministerDate: {
+    title: 'Minister decision date',
+  },
+  ministerAnnouncement: {
+    title: 'Minister announcement',
+  },
+  provincialRequested: {
+    type: 'number',
+    title: 'Provincial requested',
+  },
+};
+
+const isedDecisionFields = {
+  isedDecision: {
+    title: 'ISED decision',
+  },
+  isedDate: {
+    title: 'ISED decision date',
+  },
+  isedAnnouncement: {
+    title: 'ISED announcement',
+  },
+  federalRequested: {
+    type: 'number',
+    title: 'Federal requested',
+  },
+};
+
+const responseFields = {
+  applicantResponse: {
+    title: 'Applicant response',
+  },
+  statusApplicantSees: {
+    title: 'Status applicant sees',
+  },
+};
+
 const conditionalApprovalSchema = {
   conditionalApproval: {
     properties: {
-      ministerDecision: {
-        title: 'Minister decision',
-      },
-      ministerDate: {
-        title: 'Minister decision date',
-      },
-      ministerAnnouncement: {
-        title: 'Minister announcement',
-      },
-      provincialRequested: {
-        type: 'number',
-        title: 'Provincial requested',
-      },
-      isedDecision: {
-        title: 'ISED decision',
-      },
-      isedDate: {
-        title: 'ISED decision date',
-      },
-      isedAnnouncement: {
-        title: 'ISED announcement',
-      },
-      federalRequested: {
-        type: 'number',
-        title: 'Federal requested',
-      },
+      ...decisionFields,
+      ...isedDecisionFields,
+      ...responseFields,
       letterOfApprovalUpload: {
         title: ' ',
         type: 'string',
@@ -34,11 +52,23 @@ const conditionalApprovalSchema = {
       letterOfApprovalDateSent: {
         title: 'Letter of approval date sent',
       },
-      applicantResponse: {
-        title: 'Applicant response',
+      response: {
+        type: 'object',
+        properties: {
+          ...responseFields,
+        },
       },
-      statusApplicantSees: {
-        title: 'Status applicant sees',
+      decision: {
+        type: 'object',
+        properties: {
+          ...decisionFields,
+        },
+      },
+      isedDecisionObj: {
+        type: 'object',
+        properties: {
+          ...isedDecisionFields,
+        },
       },
     },
   },
