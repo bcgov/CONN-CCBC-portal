@@ -553,4 +553,54 @@ describe('The Map API', () => {
       { rowId: 2, responseCode: 500 },
     ]);
   });
+
+  it('should return finalized map uploads from both amendment and original SOW', async () => {
+    const mockResponse = {
+      applicationByRowId: {
+        projectInformationDataByApplicationId: {
+          nodes: [
+            {
+              jsonData: {
+                finalizedMapUpload: [
+                  { uuid: '888', name: 'sow.kml' },
+                  { uuid: '999', name: 'another_sow.kml' },
+                ],
+              },
+            },
+          ],
+        },
+        changeRequestDataByApplicationId: {
+          nodes: [
+            {
+              amendmentNumber: 2,
+              jsonData: {
+                updatedMapUpload: [{ uuid: '123', name: 'map1.kml' }],
+              },
+            },
+            {
+              amendmentNumber: 3,
+              jsonData: {
+                updatedMapUpload: [{ uuid: '223', name: 'map2.kml' }],
+              },
+            },
+          ],
+        },
+      },
+    };
+    mocked(performQuery).mockResolvedValueOnce({
+      data: mockResponse,
+    });
+
+    const response = await request(app).get('/api/map/1');
+    expect(response.status).toBe(200);
+
+    expect(response.body.finalizedMapUpload.length).toBe(4);
+    expect(response.body.finalizedMapUpload).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          fakeParsedKML: expect.any(Object),
+        }),
+      ])
+    );
+  });
 });
