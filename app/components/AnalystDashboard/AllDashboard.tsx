@@ -231,7 +231,6 @@ const getFundingSource = (application) => {
   if (postAgreementStatuses.includes(internalStatus)) {
     // Check if SOW is uploaded
     const hasSowData = applicationSowDataByApplicationId?.totalCount > 0;
-    console.log('hasSowData', hasSowData);
     if (!hasSowData) {
       return 'TBD';
     }
@@ -240,7 +239,6 @@ const getFundingSource = (application) => {
     const sowData =
       applicationSowDataByApplicationId?.nodes[0]?.sowTab7SBySowId?.nodes[0]
         ?.jsonData?.summaryTable;
-    console.log('sowData', sowData);
     const bcFunding = sowData?.amountRequestedFromProvince || 0;
     const federalFunding = sowData?.amountRequestedFromFederalGovernment || 0;
 
