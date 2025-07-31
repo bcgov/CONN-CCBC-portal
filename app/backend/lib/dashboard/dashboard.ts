@@ -379,6 +379,12 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
         format: '$#,##0.00',
         type: Number,
       },
+      // federal funding requested
+      {
+        value: summaryData?.formData?.funding?.federalFunding,
+        format: '$#,##0.00',
+        type: Number,
+      },
       // applicant amount
       {
         value: summaryData?.formData?.funding?.applicantAmount,
