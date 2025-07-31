@@ -10,11 +10,16 @@ const limiter = RateLimit({
   max: 2000,
 });
 
-const generateQuery = (limitCount = 9999, offsetCount = 0) => {
+const generateQuery = (
+  limitCount = 99999,
+  offsetCount = 0,
+  exclude_ccbc = false
+) => {
   return `
     query allChangeLog {
-      changeLog(limitCount: ${limitCount}, offsetCount: ${offsetCount}, filter: {tableName: {notIn: "cbc_data"}}) {
+      changeLog(limitCount: ${limitCount}, offsetCount: ${offsetCount}, ${exclude_ccbc ? 'filter: {tableName: {in: "cbc_data"}}' : ''}) {
         nodes {
+          rowId
           recordId
           oldRecordId
           op
@@ -41,12 +46,14 @@ changeLog.get('/api/change-log', limiter, async (req, res) => {
     // refresh and get feature value from GrowthBook
     await gbClient.refreshFeatures();
     const featureValue: any = gbClient.getFeatureValue(flag, false, {});
-
     // generate the query based on the feature flag
-    const query = generateQuery();
+    const query = generateQuery(
+      featureValue?.limitCount,
+      featureValue?.offsetCount,
+      featureValue?.exclude_ccbc
+    );
 
     const changeLogData = await performQuery(query, {}, req);
-
     // Separate the change log data into cbc and ccbc based on table_name
     const allCbcs: any[] = [];
     const allApplications: any[] = [];
