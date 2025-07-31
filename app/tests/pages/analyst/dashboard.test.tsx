@@ -104,157 +104,6 @@ const mockQueryPayload = {
                               amountRequestedFromFederalGovernment: 1234.57,
                               targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity: true,
                             },
-                            detailedBudget: {
-                              federalSharingRatio: 1234.57,
-                              provincialSharingRatio: 0.8148998528514808,
-                            },
-                            summaryOfEstimatedProjectCosts: {
-                              projectCosts: {
-                                totalProjectCost: {
-                                  '2324': 153660.57,
-                                  '2425': 9627038.57,
-                                  '2526': 1234.57,
-                                  '2627': 1234.57,
-                                  total: 9779464.57,
-                                },
-                                totalEligibleCosts: {
-                                  '2324': 139803.57,
-                                  '2425': 9508022.57,
-                                  '2526': 1234.57,
-                                  '2627': 1234.57,
-                                  total: 9646591.57,
-                                },
-                                totalIneligibleCosts: {
-                                  '2324': 15091.57,
-                                  '2425': 120250.57,
-                                  '2526': 1234.57,
-                                  '2627': 1234.57,
-                                  total: 134107.57,
-                                },
-                              },
-                              estimatedProjectCosts: {
-                                eligibleMobile: 1234.57,
-                                totalProjectCost: 9779464.57,
-                                totalEligibleCosts: 9646591.57,
-                                totalIneligibleCosts: 134107.57,
-                                eligibleRuralBroadband: 1234.57,
-                                eligibleVeryRemoteSatelliteIndigenousBroadband: 9646591.57,
-                              },
-                              totalCostsPerCostCategory: {
-                                directOther: {
-                                  cost: 7686281.57,
-                                  percentOfTotalEligibleCosts: 0.796761281101363,
-                                },
-                                directLabour: {
-                                  cost: 303430.57,
-                                  percentOfTotalEligibleCosts: 0.03133072212879212,
-                                },
-                                directTravel: {
-                                  cost: 39886.57,
-                                  percentOfTotalEligibleCosts: 0.004007316680968885,
-                                },
-                                totalEligible: {
-                                  cost: 9646591.57,
-                                  percentOfTotalEligibleCosts: 1235.57,
-                                },
-                                directEquipment: {
-                                  cost: 457945.57,
-                                  percentOfTotalEligibleCosts: 0.04735034690784384,
-                                },
-                                directMaterials: {
-                                  cost: 1163985.57,
-                                  percentOfTotalEligibleCosts: 0.12055033318103207,
-                                },
-                                directSatellite: {
-                                  cost: 1234.57,
-                                  percentOfTotalEligibleCosts: 1234.57,
-                                },
-                              },
-                              thirtyPercentOfTotalEligibleCosts: 2894841.67,
-                            },
-                            summaryOfEstimatedProjectFunding: {
-                              fnhaFunding: {
-                                '2324': 0,
-                                '2425': 0,
-                                '2526': 0,
-                                '2627': 0,
-                                total: 0,
-                              },
-                              federalContribution: {
-                                '2324': 1234.57,
-                                '2425': 1234.57,
-                                '2526': 1234.57,
-                                '2627': 1234.57,
-                                total: 1234.57,
-                              },
-                              otherFundingPartners: [],
-                              provincialContribution: {
-                                '2324': 139803.57,
-                                '2425': 7722665.57,
-                                '2526': 1234.57,
-                                '2627': 1234.57,
-                                total: 7861234.57,
-                              },
-                              applicationContribution: {
-                                '2324': 15091.57,
-                                '2425': 1905607.57,
-                                '2526': 1234.57,
-                                '2627': 1234.57,
-                                total: 1919464.57,
-                              },
-                              infrastructureBankFunding: {
-                                '2324': 1234.57,
-                                '2425': 1234.57,
-                                '2526': 1234.57,
-                                '2627': 1234.57,
-                                total: 1234.57,
-                              },
-                              totalFinancialContribution: {
-                                '2324': 153660.57,
-                                '2425': 9627038.57,
-                                '2526': 1234.57,
-                                '2627': 1234.57,
-                                total: 9779464.57,
-                              },
-                            },
-                            currentFiscalProvincialContributionForecastByQuarter:
-                              {
-                                aprilToJune: {
-                                  '2324': 1234.57,
-                                  '2425': 2001234.57,
-                                  '2526': 1234.57,
-                                  '2627': 1234.57,
-                                  total: 2001234.57,
-                                },
-                                januaryToMarch: {
-                                  '2324': 139803.57,
-                                  '2425': 622665.57,
-                                  '2526': 1234.57,
-                                  '2627': 1234.57,
-                                  total: 761234.57,
-                                },
-                                fiscalYearTotal: {
-                                  '2324': 139803.57,
-                                  '2425': 7722665.57,
-                                  '2526': 1234.57,
-                                  '2627': 1234.57,
-                                  total: 7861234.57,
-                                },
-                                julyToSeptember: {
-                                  '2324': 1234.57,
-                                  '2425': 3301234.57,
-                                  '2526': 1234.57,
-                                  '2627': 1234.57,
-                                  total: 3301234.57,
-                                },
-                                octoberToDecember: {
-                                  '2324': 1234.57,
-                                  '2425': 1801234.57,
-                                  '2526': 1234.57,
-                                  '2627': 1234.57,
-                                  total: 1801234.57,
-                                },
-                              },
                           },
                           sowId: 147,
                         },
@@ -1467,6 +1316,808 @@ describe('The index page', () => {
       expect(
         screen.getByText(originalProjectNumber.toString())
       ).toBeInTheDocument();
+    });
+  });
+
+  describe('Funding Source Column Tests', () => {
+    it('displays funding source column in the table', async () => {
+      pageTestingHelper.loadQuery();
+      pageTestingHelper.renderPage();
+
+      expect(screen.getByText('Funding Source')).toBeInTheDocument();
+    });
+
+    it('shows BC funding source for CBC projects with BC funding only', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allCbcData: {
+              edges: [
+                {
+                  node: {
+                    jsonData: {
+                      projectStatus: 'Agreement Signed',
+                      bcFundingRequested: 100000,
+                      federalFundingRequested: 0,
+                      currentOperatingName: 'Test CBC Company',
+                      projectTitle: 'Test CBC Project',
+                    },
+                    projectNumber: 1001,
+                    cbcId: 1,
+                    cbcByCbcId: {
+                      cbcProjectCommunitiesByCbcId: {
+                        nodes: [],
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      jest
+        .spyOn(moduleApi, 'useFeature')
+        .mockReturnValue(mockShowCbcProjects(true));
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getByText('BC')).toBeInTheDocument();
+    });
+
+    it('shows ISED funding source for CBC projects with federal funding only', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allCbcData: {
+              edges: [
+                {
+                  node: {
+                    jsonData: {
+                      projectStatus: 'Agreement Signed',
+                      bcFundingRequested: 0,
+                      federalFundingRequested: 100000,
+                      currentOperatingName: 'Test CBC Company',
+                      projectTitle: 'Test CBC Project',
+                    },
+                    projectNumber: 1001,
+                    cbcId: 1,
+                    cbcByCbcId: {
+                      cbcProjectCommunitiesByCbcId: {
+                        nodes: [],
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      jest
+        .spyOn(moduleApi, 'useFeature')
+        .mockReturnValue(mockShowCbcProjects(true));
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getByText('ISED')).toBeInTheDocument();
+    });
+
+    it('shows BC & ISED funding source for CBC projects with both funding sources', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allCbcData: {
+              edges: [
+                {
+                  node: {
+                    jsonData: {
+                      projectStatus: 'Agreement Signed',
+                      bcFundingRequested: 50000,
+                      federalFundingRequested: 50000,
+                      currentOperatingName: 'Test CBC Company',
+                      projectTitle: 'Test CBC Project',
+                    },
+                    projectNumber: 1001,
+                    cbcId: 1,
+                    cbcByCbcId: {
+                      cbcProjectCommunitiesByCbcId: {
+                        nodes: [],
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      jest
+        .spyOn(moduleApi, 'useFeature')
+        .mockReturnValue(mockShowCbcProjects(true));
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getByText('BC & ISED')).toBeInTheDocument();
+    });
+
+    it('shows N/A funding source for withdrawn CBC projects', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allApplications: {
+              edges: [],
+            },
+            allCbcData: {
+              edges: [
+                {
+                  node: {
+                    jsonData: {
+                      projectStatus: 'Withdrawn',
+                      bcFundingRequested: 50000,
+                      federalFundingRequested: 50000,
+                      currentOperatingName: 'Test CBC Company',
+                      projectTitle: 'Test CBC Project',
+                    },
+                    projectNumber: 1001,
+                    cbcId: 1,
+                    cbcByCbcId: {
+                      cbcProjectCommunitiesByCbcId: {
+                        nodes: [],
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      jest
+        .spyOn(moduleApi, 'useFeature')
+        .mockReturnValue(mockShowCbcProjects(true));
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getAllByText('N/A')[0]).toBeInTheDocument();
+    });
+
+    it('shows TBD funding source for conditionally approved CBC projects', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allCbcData: {
+              edges: [
+                {
+                  node: {
+                    jsonData: {
+                      projectStatus: 'Conditionally Approved',
+                      bcFundingRequested: 50000,
+                      federalFundingRequested: 50000,
+                      currentOperatingName: 'Test CBC Company',
+                      projectTitle: 'Test CBC Project',
+                    },
+                    projectNumber: 1001,
+                    cbcId: 1,
+                    cbcByCbcId: {
+                      cbcProjectCommunitiesByCbcId: {
+                        nodes: [],
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      jest
+        .spyOn(moduleApi, 'useFeature')
+        .mockReturnValue(mockShowCbcProjects(true));
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getAllByText('TBD')[0]).toBeInTheDocument();
+    });
+
+    it('shows TBD funding source for CBC projects with no funding amounts', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allCbcData: {
+              edges: [
+                {
+                  node: {
+                    jsonData: {
+                      projectStatus: 'Agreement Signed',
+                      bcFundingRequested: 0,
+                      federalFundingRequested: 0,
+                      currentOperatingName: 'Test CBC Company',
+                      projectTitle: 'Test CBC Project',
+                    },
+                    projectNumber: 1001,
+                    cbcId: 1,
+                    cbcByCbcId: {
+                      cbcProjectCommunitiesByCbcId: {
+                        nodes: [],
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      jest
+        .spyOn(moduleApi, 'useFeature')
+        .mockReturnValue(mockShowCbcProjects(true));
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getAllByText('TBD')[0]).toBeInTheDocument();
+    });
+
+    it('shows N/A funding source for withdrawn CCBC applications', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allApplications: {
+              edges: [
+                {
+                  node: {
+                    id: '1',
+                    rowId: 1,
+                    analystStatus: 'withdrawn',
+                    externalStatus: 'closed',
+                    projectName: 'Test Withdrawn Project',
+                    ccbcNumber: 'CCBC-010001',
+                    organizationName: 'Test Org',
+                    intakeNumber: 1,
+                    zones: [1],
+                    program: 'CCBC',
+                    status: 'withdrawn',
+                    package: '1',
+                    applicationSowDataByApplicationId: {
+                      totalCount: 0,
+                      nodes: [],
+                    },
+                    applicationFormTemplate9DataByApplicationId: {
+                      nodes: [],
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getByText('N/A')).toBeInTheDocument();
+    });
+
+    it('shows TBD funding source for early stage CCBC applications', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allApplications: {
+              edges: [
+                {
+                  node: {
+                    id: '1',
+                    rowId: 1,
+                    analystStatus: 'received',
+                    externalStatus: 'closed',
+                    projectName: 'Test Early Stage Project',
+                    ccbcNumber: 'CCBC-010001',
+                    organizationName: 'Test Org',
+                    intakeNumber: 1,
+                    zones: [1],
+                    program: 'CCBC',
+                    status: 'received',
+                    package: '1',
+                    applicationSowDataByApplicationId: {
+                      totalCount: 0,
+                      nodes: [],
+                    },
+                    applicationFormTemplate9DataByApplicationId: {
+                      nodes: [],
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getByText('TBD')).toBeInTheDocument();
+    });
+
+    it('shows TBD funding source for CCBC applications without SOW data', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allApplications: {
+              edges: [
+                {
+                  node: {
+                    id: '1',
+                    rowId: 1,
+                    analystStatus: 'approved',
+                    externalStatus: 'closed',
+                    projectName: 'Test No SOW Project',
+                    ccbcNumber: 'CCBC-010001',
+                    organizationName: 'Test Org',
+                    intakeNumber: 1,
+                    zones: [1],
+                    program: 'CCBC',
+                    status: 'approved',
+                    package: '1',
+                    applicationSowDataByApplicationId: {
+                      totalCount: 0,
+                      nodes: [],
+                    },
+                    applicationFormTemplate9DataByApplicationId: {
+                      nodes: [],
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getByText('TBD')).toBeInTheDocument();
+    });
+
+    it('shows BC funding source for CCBC applications with BC funding only', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allApplications: {
+              edges: [
+                {
+                  node: {
+                    id: '1',
+                    rowId: 1,
+                    analystStatus: 'approved',
+                    externalStatus: 'closed',
+                    projectName: 'Test BC Funding Project',
+                    ccbcNumber: 'CCBC-010001',
+                    organizationName: 'Test Org',
+                    intakeNumber: 1,
+                    zones: [1],
+                    program: 'CCBC',
+                    status: 'approved',
+                    package: '1',
+                    applicationSowDataByApplicationId: {
+                      totalCount: 1,
+                      nodes: [
+                        {
+                          id: '1',
+                          jsonData: {},
+                          rowId: 1,
+                          sowTab7SBySowId: {
+                            nodes: [
+                              {
+                                rowId: 1,
+                                jsonData: {
+                                  summaryTable: {
+                                    amountRequestedFromProvince: 100000,
+                                    amountRequestedFromFederalGovernment: 0,
+                                  },
+                                },
+                                sowId: 1,
+                              },
+                            ],
+                          },
+                          sowTab8SBySowId: {
+                            nodes: [],
+                          },
+                        },
+                      ],
+                    },
+                    applicationFormTemplate9DataByApplicationId: {
+                      nodes: [],
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getByText('BC')).toBeInTheDocument();
+    });
+
+    it('shows ISED funding source for CCBC applications with federal funding only', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allApplications: {
+              edges: [
+                {
+                  node: {
+                    id: '1',
+                    rowId: 1,
+                    analystStatus: 'approved',
+                    externalStatus: 'closed',
+                    projectName: 'Test Federal Funding Project',
+                    ccbcNumber: 'CCBC-010001',
+                    organizationName: 'Test Org',
+                    intakeNumber: 1,
+                    zones: [1],
+                    program: 'CCBC',
+                    status: 'approved',
+                    package: '1',
+                    applicationSowDataByApplicationId: {
+                      totalCount: 1,
+                      nodes: [
+                        {
+                          id: '1',
+                          jsonData: {},
+                          rowId: 1,
+                          sowTab7SBySowId: {
+                            nodes: [
+                              {
+                                rowId: 1,
+                                jsonData: {
+                                  summaryTable: {
+                                    amountRequestedFromProvince: 0,
+                                    amountRequestedFromFederalGovernment: 100000,
+                                  },
+                                },
+                                sowId: 1,
+                              },
+                            ],
+                          },
+                          sowTab8SBySowId: {
+                            nodes: [],
+                          },
+                        },
+                      ],
+                    },
+                    applicationFormTemplate9DataByApplicationId: {
+                      nodes: [],
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getByText('ISED')).toBeInTheDocument();
+    });
+
+    it('shows BC & ISED funding source for CCBC applications with both funding sources', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allApplications: {
+              edges: [
+                {
+                  node: {
+                    id: '1',
+                    rowId: 1,
+                    analystStatus: 'approved',
+                    externalStatus: 'closed',
+                    projectName: 'Test Both Funding Project',
+                    ccbcNumber: 'CCBC-010001',
+                    organizationName: 'Test Org',
+                    intakeNumber: 1,
+                    zones: [1],
+                    program: 'CCBC',
+                    status: 'approved',
+                    package: '1',
+                    applicationSowDataByApplicationId: {
+                      totalCount: 1,
+                      nodes: [
+                        {
+                          id: '1',
+                          jsonData: {},
+                          rowId: 1,
+                          sowTab7SBySowId: {
+                            nodes: [
+                              {
+                                rowId: 1,
+                                jsonData: {
+                                  summaryTable: {
+                                    amountRequestedFromProvince: 50000,
+                                    amountRequestedFromFederalGovernment: 50000,
+                                  },
+                                },
+                                sowId: 1,
+                              },
+                            ],
+                          },
+                          sowTab8SBySowId: {
+                            nodes: [],
+                          },
+                        },
+                      ],
+                    },
+                    applicationFormTemplate9DataByApplicationId: {
+                      nodes: [],
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getByText('BC & ISED')).toBeInTheDocument();
+    });
+
+    it('shows TBD funding source for CCBC applications with no funding amounts in SOW', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allApplications: {
+              edges: [
+                {
+                  node: {
+                    id: '1',
+                    rowId: 1,
+                    analystStatus: 'approved',
+                    externalStatus: 'closed',
+                    projectName: 'Test No Funding Project',
+                    ccbcNumber: 'CCBC-010001',
+                    organizationName: 'Test Org',
+                    intakeNumber: 1,
+                    zones: [1],
+                    program: 'CCBC',
+                    status: 'approved',
+                    package: '1',
+                    applicationSowDataByApplicationId: {
+                      totalCount: 1,
+                      nodes: [
+                        {
+                          id: '1',
+                          jsonData: {},
+                          rowId: 1,
+                          sowTab7SBySowId: {
+                            nodes: [
+                              {
+                                rowId: 1,
+                                jsonData: {
+                                  summaryTable: {
+                                    amountRequestedFromProvince: 0,
+                                    amountRequestedFromFederalGovernment: 0,
+                                  },
+                                },
+                                sowId: 1,
+                              },
+                            ],
+                          },
+                          sowTab8SBySowId: {
+                            nodes: [],
+                          },
+                        },
+                      ],
+                    },
+                    applicationFormTemplate9DataByApplicationId: {
+                      nodes: [],
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getByText('TBD')).toBeInTheDocument();
+    });
+
+    it('can filter by funding source', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allApplications: {
+              edges: [
+                {
+                  node: {
+                    id: '1',
+                    rowId: 1,
+                    analystStatus: 'approved',
+                    externalStatus: 'closed',
+                    projectName: 'BC Funded Project',
+                    ccbcNumber: 'CCBC-010001',
+                    organizationName: 'Test Org 1',
+                    intakeNumber: 1,
+                    zones: [1],
+                    program: 'CCBC',
+                    status: 'approved',
+                    package: '1',
+                    applicationSowDataByApplicationId: {
+                      totalCount: 1,
+                      nodes: [
+                        {
+                          id: '1',
+                          jsonData: {},
+                          rowId: 1,
+                          sowTab7SBySowId: {
+                            nodes: [
+                              {
+                                rowId: 1,
+                                jsonData: {
+                                  summaryTable: {
+                                    amountRequestedFromProvince: 100000,
+                                    amountRequestedFromFederalGovernment: 0,
+                                  },
+                                },
+                                sowId: 1,
+                              },
+                            ],
+                          },
+                          sowTab8SBySowId: {
+                            nodes: [],
+                          },
+                        },
+                      ],
+                    },
+                    applicationFormTemplate9DataByApplicationId: {
+                      nodes: [],
+                    },
+                  },
+                },
+                {
+                  node: {
+                    id: '2',
+                    rowId: 2,
+                    analystStatus: 'approved',
+                    externalStatus: 'closed',
+                    projectName: 'ISED Funded Project',
+                    ccbcNumber: 'CCBC-010002',
+                    organizationName: 'Test Org 2',
+                    intakeNumber: 1,
+                    zones: [1],
+                    program: 'CCBC',
+                    status: 'approved',
+                    package: '1',
+                    applicationSowDataByApplicationId: {
+                      totalCount: 1,
+                      nodes: [
+                        {
+                          id: '2',
+                          jsonData: {},
+                          rowId: 2,
+                          sowTab7SBySowId: {
+                            nodes: [
+                              {
+                                rowId: 2,
+                                jsonData: {
+                                  summaryTable: {
+                                    amountRequestedFromProvince: 0,
+                                    amountRequestedFromFederalGovernment: 100000,
+                                  },
+                                },
+                                sowId: 2,
+                              },
+                            ],
+                          },
+                          sowTab8SBySowId: {
+                            nodes: [],
+                          },
+                        },
+                      ],
+                    },
+                    applicationFormTemplate9DataByApplicationId: {
+                      nodes: [],
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      // Initially both projects should be visible
+      expect(screen.getByText('BC Funded Project')).toBeInTheDocument();
+      expect(screen.getByText('ISED Funded Project')).toBeInTheDocument();
+
+      // Filter by BC funding
+      const fundingSourceFilter = screen.getByLabelText(
+        'Filter by Funding Source'
+      );
+      await act(async () => {
+        fireEvent.mouseDown(fundingSourceFilter);
+      });
+
+      await waitFor(() => {
+        const bcOption = screen.getByRole('option', { name: 'BC' });
+        expect(bcOption).toBeInTheDocument();
+      });
+
+      const bcOption = screen.getByRole('option', { name: 'BC' });
+      await act(async () => {
+        fireEvent.click(bcOption);
+      });
+
+      // Click away to close the dropdown
+      await act(async () => {
+        fireEvent.click(document.body);
+      });
+
+      // Only BC funded project should be visible
+      await waitFor(() => {
+        expect(screen.getByText('BC Funded Project')).toBeInTheDocument();
+        expect(
+          screen.queryByText('ISED Funded Project')
+        ).not.toBeInTheDocument();
+      });
     });
   });
 });
