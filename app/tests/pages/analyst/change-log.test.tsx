@@ -11,6 +11,7 @@ import compiledchangelogQuery, {
 import ChangeLog from '../../../pages/analyst/change-log';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
 import PageTestingHelper from '../../utils/pageTestingHelper';
+import { useChangeLogCache } from '../../../hooks/useChangeLogCache';
 
 jest.setTimeout(10000);
 
@@ -6935,6 +6936,10 @@ jest.mock('js-cookie', () => ({
   set: jest.fn(),
 }));
 
+jest.mock('hooks/useChangeLogCache', () => ({
+  useChangeLogCache: jest.fn(),
+}));
+
 // MRT Virtualization
 Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
   configurable: true,
@@ -6967,11 +6972,15 @@ describe('The index page', () => {
   beforeEach(() => {
     cookie.get.mockImplementation(() => null);
     pageTestingHelper.reinit();
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(mockData),
-      })
-    ) as jest.Mock;
+
+    // Mock the useChangeLogCache hook
+    (useChangeLogCache as jest.Mock).mockReturnValue({
+      data: mockData.data,
+      isLoading: false,
+      error: null,
+      refreshData: jest.fn(),
+      clearCache: jest.fn(),
+    });
 
     jest.spyOn(moduleApi, 'useFeature').mockImplementation(() => {
       return mockShowTable;
