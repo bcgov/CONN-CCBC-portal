@@ -75,13 +75,6 @@ returns setof ccbc_public.change_log_record as $$
             )
             from ccbc_public.record_version as community
             where community.ts = r.ts
-              and community.created_by = (
-                case
-                  when r.op = 'UPDATE'::audit.operation
-                  then COALESCE((r.record->>'updated_by')::int, r.created_by)
-                  else r.created_by
-                end
-              )
               and community.table_name = 'cbc_project_communities'
               and community.op = 'UPDATE'
               and (community.record->>'cbc_id')::int = (r.record->>'cbc_id')::int
