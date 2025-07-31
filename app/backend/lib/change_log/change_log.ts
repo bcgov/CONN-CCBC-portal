@@ -66,16 +66,38 @@ changeLog.get('/api/change-log', limiter, async (req, res) => {
       }
     });
 
-    // Return the feature value
-    res.json({
+    const responseData = {
       feature: flag,
       value: featureValue,
       query,
       data: { allCbcs, allApplications },
       success: true,
+    };
+
+    // Generate ETag based on data content
+    const crypto = await import('crypto');
+    const etag = crypto
+      .createHash('md5')
+      .update(JSON.stringify(responseData.data))
+      .digest('hex');
+
+    // Check if client has the same ETag
+    const clientETag = req.headers['if-none-match'];
+    if (clientETag === etag) {
+      return res.status(304).end();
+    }
+
+    // Set cache headers
+    res.set({
+      ETag: etag,
+      'Cache-Control': 'private, max-age=300', // Cache for 5 minutes
+      'Last-Modified': new Date().toUTCString(),
     });
+
+    // Return the feature value
+    return res.json(responseData);
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       error,
       success: false,
     });
