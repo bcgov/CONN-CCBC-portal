@@ -153,6 +153,115 @@ const statusFilter = (row, id, filterValue) => {
   return filterValue.includes(row.getValue(id));
 };
 
+// Function to determine funding source based on the specified business logic
+const getFundingSource = (application) => {
+  const {
+    analystStatus,
+    externalStatus,
+    applicationSowDataByApplicationId,
+    program,
+    bcFundingRequested,
+    federalFundingRequested,
+  } = application;
+
+  if (program === 'CBC') {
+    // CBC logic
+    const internalStatus = normalizeStatusName(analystStatus || externalStatus);
+    const bcFunding = bcFundingRequested || 0;
+    const federalFunding = federalFundingRequested || 0;
+
+    if (internalStatus === 'Withdrawn') {
+      return 'N/A';
+    }
+
+    if (internalStatus === 'Conditionally Approved') {
+      return 'TBD';
+    }
+
+    if (
+      internalStatus === 'Agreement signed' ||
+      internalStatus === 'Reporting complete'
+    ) {
+      if (bcFunding > 0 && (federalFunding === 0 || federalFunding == null)) {
+        return 'BC';
+      }
+      if ((bcFunding === 0 || bcFunding == null) && federalFunding > 0) {
+        return 'ISED';
+      }
+      if (bcFunding > 0 && federalFunding > 0) {
+        return 'BC & ISED';
+      }
+      if (
+        (bcFunding === 0 || bcFunding == null) &&
+        (federalFunding === 0 || federalFunding == null)
+      ) {
+        return 'TBD';
+      }
+    }
+
+    return 'TBD';
+  }
+
+  // CCBC logic
+  const internalStatus = normalizeStatusName(analystStatus);
+
+  if (internalStatus === 'Not selected' || internalStatus === 'Withdrawn') {
+    return 'N/A';
+  }
+
+  const earlyStageStatuses = [
+    'Received',
+    'Screening',
+    'Assessment',
+    'Recommendation',
+    'Conditionally approved',
+    'On Hold',
+  ];
+
+  if (earlyStageStatuses.includes(internalStatus)) {
+    return 'TBD';
+  }
+
+  const postAgreementStatuses = [
+    'Agreement signed',
+    'Reporting complete',
+    'Cancelled',
+  ];
+
+  if (postAgreementStatuses.includes(internalStatus)) {
+    // Check if SOW is uploaded
+    const hasSowData = applicationSowDataByApplicationId?.totalCount > 0;
+    if (!hasSowData) {
+      return 'TBD';
+    }
+
+    // Get BC and Federal funding from SOW data
+    const sowData =
+      applicationSowDataByApplicationId?.nodes[0]?.sowTab7SBySowId?.nodes[0]
+        ?.jsonData?.summaryTable;
+    const bcFunding = sowData?.amountRequestedFromProvince || 0;
+    const federalFunding = sowData?.amountRequestedFromFederalGovernment || 0;
+
+    if (bcFunding > 0 && (federalFunding === 0 || federalFunding == null)) {
+      return 'BC';
+    }
+    if ((bcFunding === 0 || bcFunding == null) && federalFunding > 0) {
+      return 'ISED';
+    }
+    if (bcFunding > 0 && federalFunding > 0) {
+      return 'BC & ISED';
+    }
+    if (
+      (bcFunding === 0 || bcFunding == null) &&
+      (federalFunding === 0 || federalFunding == null)
+    ) {
+      return 'TBD';
+    }
+  }
+
+  return 'TBD';
+};
+
 const filterMultiSelectZones = (row, id, filterValue) => {
   /// NOSONAR
   if (filterValue.length === 0) {
@@ -216,6 +325,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
                   id
                   jsonData
                   rowId
+                  sowTab7SBySowId {
+                    nodes {
+                      rowId
+                      jsonData
+                      sowId
+                    }
+                  }
                   sowTab8SBySowId {
                     nodes {
                       rowId
@@ -338,6 +454,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     organizationName: 141,
     projectTitle: 150,
     zones: 91,
+    fundingSource: 110,
   });
 
   const handleBlob = (blob, toastMessage, reportDate) => {
@@ -597,6 +714,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       internalStatusOrder: statusOrderMap[application.node.analystStatus],
       communities: getCommunities(application.node),
       organizationName: application.node.organizationName || '',
+      fundingSource: getFundingSource(application.node),
     }));
 
     const allCbcApplications = showCbcProjects
@@ -607,7 +725,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           const cbcStatusOrder = cbcStatus
             ? statusOrderMap[cbcProjectStatusConverter(cbcStatus)]
             : null;
-          return {
+          const cbcApplication = {
             rowId: project.node.cbcId,
             ...project.node.jsonData,
             program: 'CBC',
@@ -625,6 +743,10 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
             isCbcProject: true,
             showLink: showCbcProjectsLink,
             communities: getCbcCommunities(project),
+          };
+          return {
+            ...cbcApplication,
+            fundingSource: getFundingSource(cbcApplication),
           };
         }) ?? [])
       : [];
@@ -749,6 +871,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         header: 'Organization',
       },
       {
+        accessorKey: 'fundingSource',
+        header: 'Funding Source',
+        filterVariant: 'multi-select',
+        filterSelectOptions: ['BC', 'ISED', 'BC & ISED', 'N/A', 'TBD'],
+        filterFn: genericFilterMultiSelect,
+      },
+      {
         header: 'Lead',
         accessorFn: accessorFunctionGeneratorInjectsEmptyString('analystLead'),
         Cell: AssignAnalystLead,
@@ -767,7 +896,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       // adding dummy columns for filter purposes
       ...additionalFilterColumns,
     ];
-  }, [AssignAnalystLead, allApplications, statusOrderMap]);
+  }, [AssignAnalystLead, allApplications, allCbcData.edges, statusOrderMap]);
 
   const handleOnSortChange = (sort: MRT_SortingState) => {
     if (!isFirstRender) {
