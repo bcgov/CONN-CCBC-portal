@@ -69,6 +69,8 @@ db:
   readonlyUser: ccbc_readonly
   test:
     password: '' # The value must be passed in via the deploy script
+  prod:
+    password: '' # The value must be passed in via the deploy script
 
   # A bash script to run in a pre-upgrade hook, in a psql container
   # The script will be run by the postgres user,
@@ -83,9 +85,35 @@ db:
     EOF
     psql -f deploy/create_roles.sql;
     PGPASSWORD=$TEST_PG_PASSWORD
-    pg_dump -h ccbc-replicas.ff61fb-test.svc.cluster.local -d ccbc > /tmp/ccbc.sql;
+    pg_dump -h ccbc-replicas.ff61fb-prod.svc.cluster.local -d ccbc > /tmp/ccbc.sql;
     PGPASSWORD=$PGPASSWORD_DEV
     psql -f /tmp/ccbc.sql;
+    psql -f test/anonymizer_functions.sql;
+    psql -f test/helper_functions.sql;
+    psql -f test/anonymize_form_data.sql;
+    psql -f test/anonymize_form_data_history.sql;
+    psql -f test/anonymize_application_sow_data.sql;
+    psql -f test/anonymize_application_sow_data_history.sql;
+    psql -f test/anonymize_cbc_data.sql;
+    psql -f test/anonymize_cbc_data_history.sql;
+    psql -f test/anonymize_form_data_attachments.sql;
+    psql -f test/anonymize_form_data_attachments_history.sql;
+    psql -f test/anonymize_form_data_numbers.sql;
+    psql -f test/anonymize_form_data_numbers_history.sql;
+    psql -f test/anonymize_cbc_data_numbers.sql;
+    psql -f test/anonymize_cbc_data_numbers_history.sql;
+    psql -f test/anonymize_sow_tab_7_numbers.sql;
+    psql -f test/anonymize_sow_tab_7_numbers_history.sql;
+    psql -f test/anonymize_conditional_approval_data_numbers.sql;
+    psql -f test/anonymize_conditional_approval_data_numbers_history.sql;
+    psql -f test/anonymize_application_internal_description.sql;
+    psql -f test/anonymize_application_internal_description_history.sql;
+    psql -f test/anonymize_rfi_data.sql;
+    psql -f test/anonymize_rfi_data_history.sql;
+    psql -f test/anonymize_project_page_attachments.sql;
+    psql -f test/anonymize_project_page_attachments_history.sql;
+    psql -f test/anonymize_assessment_data.sql;
+    psql -f test/anonymize_assessment_data_history.sql;
 
   # A bash script to run after the migrations are deployed, in a psql container
   # The script will be run by the postgres user, allowing to deploy test data, bypassing RLS
