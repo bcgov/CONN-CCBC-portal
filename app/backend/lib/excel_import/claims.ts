@@ -537,7 +537,7 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
   let haveServicesBeenOffered = null;
   let projectScheduleRisks = null;
   let thirdPartyPassiveInfrastructure = null;
-  let commincationMaterials = null;
+  let communicationMaterials = null;
   let projectBudgetRisks = null;
   let changesToOverallBudget = null;
 
@@ -582,7 +582,10 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
     if (
       checkFirstTenColumns(progressReportSheet, isCommunicationMaterialsFlag, i)
     ) {
-      commincationMaterials = getCommunicationMaterials(progressReportSheet, i);
+      communicationMaterials = getCommunicationMaterials(
+        progressReportSheet,
+        i
+      );
     }
     if (checkFirstTenColumns(progressReportSheet, isProjectBudgetRisks, i)) {
       projectBudgetRisks = getProjectBudgetRisks(progressReportSheet, i);
@@ -609,7 +612,7 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
     haveServicesBeenOffered,
     projectScheduleRisks,
     thirdPartyPassiveInfrastructure,
-    commincationMaterials,
+    communicationMaterials,
     projectBudgetRisks,
     changesToOverallBudget,
   };
