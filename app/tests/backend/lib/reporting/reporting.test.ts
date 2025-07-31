@@ -12,7 +12,7 @@ import {
   generateGcpeReport,
 } from '../../../../backend/lib/reporting/gcpe';
 
-jest.mock('.../../../../backend/lib/reporting/gcpe');
+jest.mock('../../../../backend/lib/reporting/gcpe');
 
 describe('Reporting API', () => {
   let app;
