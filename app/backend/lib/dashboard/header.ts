@@ -228,6 +228,13 @@ const HEADER_ROW: Row = [
     wrap: true,
   },
   {
+    value: 'Federal Funding Requested',
+    fontWeight: 'bold',
+    type: String,
+    height: 95,
+    wrap: true,
+  },
+  {
     value: 'Applicant Amount',
     fontWeight: 'bold',
     type: String,
