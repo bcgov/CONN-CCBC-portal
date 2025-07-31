@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-pascal-case */
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import * as React from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
@@ -27,7 +27,8 @@ import {
   getFileArraysFromRecord,
   getFileFieldsForTable,
 } from 'utils/historyFileUtils';
-import { Box, Link, TableCellProps } from '@mui/material';
+import { Box, Link, TableCellProps, IconButton, Tooltip } from '@mui/material';
+import { Refresh } from '@mui/icons-material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTime } from 'luxon';
@@ -38,6 +39,7 @@ import { convertStatus } from 'backend/lib/dashboard/util';
 import * as Sentry from '@sentry/nextjs';
 import { useFeature } from '@growthbook/growthbook-react';
 import getCbcSectionFromKey from 'utils/historyCbcSection';
+import { useChangeLogCache } from 'hooks/useChangeLogCache';
 import AdditionalFilters from './AdditionalFilters';
 import { HighlightFilterMatch } from './AllDashboardDetailPanel';
 
@@ -313,31 +315,20 @@ const ProjectChangeLog: React.FC<Props> = () => {
   const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
-  const [allData, setAllData] = useState({
-    allCbcs: [],
-    allApplications: [],
-  });
-  const [isLoading, setIsLoading] = useState(true);
+
+  // Use the caching hook instead of local state and useEffect
+  const { data: allData, isLoading, error, refreshData } = useChangeLogCache();
+
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/change-log');
-        const data = await response.json();
-        setAllData(data.data);
-      } catch (error) {
-        Sentry.captureException({
-          name: 'Error getting change log data',
-          message: error,
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  // Show error if needed
+  if (error) {
+    Sentry.captureException({
+      name: 'Error getting change log data',
+      message: error.message,
+      cause: error,
+    });
+  }
 
   const { tableData } = useMemo(() => {
     // Return empty data if data is not available
@@ -1012,6 +1003,11 @@ const ProjectChangeLog: React.FC<Props> = () => {
     onColumnFiltersChange: setColumnFilters,
     renderToolbarInternalActions: ({ table }) => (
       <Box>
+        <Tooltip title="Refresh data">
+          <IconButton onClick={refreshData} disabled={isLoading}>
+            <Refresh />
+          </IconButton>
+        </Tooltip>
         <MRT_ToggleGlobalFilterButton table={table} />
         <MRT_ShowHideColumnsButton table={table} />
         <MRT_ToggleDensePaddingButton table={table} />
