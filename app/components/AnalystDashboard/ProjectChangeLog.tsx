@@ -341,7 +341,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
 
   const { tableData } = useMemo(() => {
     // Return empty data if data is not available
-    if (!allData.allCbcs || !allData.allApplications) {
+    if (!allData?.allCbcs || !allData?.allApplications) {
       return { tableData: [] };
     }
     const allCbcsFlatMap =
