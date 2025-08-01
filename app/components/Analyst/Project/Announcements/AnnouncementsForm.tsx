@@ -283,6 +283,7 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
 
   return (
     <StyledProjectForm
+      key={rowId}
       before={
         <>
           <StyledCheckbox
