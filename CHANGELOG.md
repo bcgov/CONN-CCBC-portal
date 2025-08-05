@@ -1,3 +1,9 @@
+## [1.264.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.264.3...v1.264.4) (2025-08-05)
+
+### Bug Fixes
+
+- claims import typo ([2701dae](https://github.com/bcgov/CONN-CCBC-portal/commit/2701dae6f65249d3c2dea6eeb7c0c9a9b01a6ed3))
+
 ## [1.264.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.264.2...v1.264.3) (2025-08-05)
 
 ## [1.264.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.264.1...v1.264.2) (2025-08-05)
