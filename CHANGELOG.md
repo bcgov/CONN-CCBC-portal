@@ -1,3 +1,11 @@
+## [1.264.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.264.2...v1.264.3) (2025-08-05)
+
+## [1.264.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.264.1...v1.264.2) (2025-08-05)
+
+### Bug Fixes
+
+- announcement not updating checkbox state on navigation ([3e2478f](https://github.com/bcgov/CONN-CCBC-portal/commit/3e2478f12c2808d3315dc588d1e2413ca09027ca))
+
 ## [1.264.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.264.0...v1.264.1) (2025-07-29)
 
 # [1.264.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.263.0...v1.264.0) (2025-07-29)
