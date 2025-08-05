@@ -8,18 +8,40 @@ describe('GIS Upload', () => {
   it('upload new gis', () => {
     cy.visit('/analyst/dashboard');
     cy.contains('a', 'GIS').click();
-    cy.wait(500);
+
+    // Wait for page navigation and loading to complete
     cy.url().should('include', '/analyst/gis');
     cy.contains('h2', 'GIS Input');
-    cy.get('body').happoScreenshot({ component: 'GIS upload page' });
+
+    // Wait for the file input to be ready
+    cy.get('[data-testid=file-test], input[type="file"]').should('exist');
+    cy.waitForStableUI({ stabilityTimeout: 500 });
+
+    cy.stableHappoScreenshot({
+      component: 'GIS upload page',
+      ensureConsistent: false,
+      clearHovers: false,
+    });
+
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('cypress/fixtures/gis.json', { force: true });
-    cy.wait(500);
+
+    // Wait for file to be processed and UI to update
     cy.contains('gis.json');
+    cy.contains('button', 'Continue')
+      .should('be.visible')
+      .and('not.be.disabled');
+
     cy.contains('button', 'Continue').click();
-    cy.wait(500);
+
+    // Wait for navigation and table to load
     cy.url().should('include', '/analyst/gis/1');
+
+    // Wait for table to appear and be stable
+    cy.get('table').should('be.visible');
+    cy.get('table tbody tr').should('have.length.at.least', 1);
+    cy.waitForStableUI({ timeout: 10000, stabilityTimeout: 1000 });
 
     cy.get('table tbody tr')
       .first()
@@ -33,30 +55,54 @@ describe('GIS Upload', () => {
       });
 
     cy.contains('button', 'Import').click();
+
+    // Wait for import completion
     cy.contains('h1', 'GIS Analysis Import');
     cy.contains(/GIS analysis added to 1 projects for the first time/);
     cy.contains(/GIS analysis updated for 0 projects/);
     cy.contains(/Total processed 1/);
-    cy.get('body').happoScreenshot({ component: 'GIS upload success page' });
+
+    // Ensure all success messages are loaded before screenshot
+    cy.waitForStableUI({ stabilityTimeout: 500 });
+    cy.stableHappoScreenshot({
+      component: 'GIS upload success page',
+      ensureConsistent: false,
+      clearHovers: false,
+    });
   });
 
   it('upload invalid json with invalid schema', () => {
     cy.intercept('POST', '/api/analyst/gis').as('gisUpload');
     cy.visit('/analyst/dashboard');
     cy.contains('a', 'GIS').click();
-    cy.wait(500);
+
+    // Wait for page to load
     cy.url().should('include', '/analyst/gis');
+    cy.get('[data-testid=file-test], input[type="file"]').should('exist');
+    cy.waitForStableUI({ stabilityTimeout: 500 });
+
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('cypress/fixtures/gis-data-errors.json', { force: true });
-    cy.wait(500);
+
+    // Wait for file to be processed
     cy.contains('gis-data-errors.json');
+    cy.contains('button', 'Continue')
+      .should('be.visible')
+      .and('not.be.disabled');
+
     cy.contains('button', 'Continue').click();
-    cy.get('body').happoScreenshot({
-      component: 'GIS invalid json with invalid schema',
-    });
+
+    // Wait for API response and error state to stabilize
     cy.wait('@gisUpload').its('response.statusCode').should('eq', 400);
-    cy.wait(500);
+    cy.waitForStableUI({ stabilityTimeout: 1000 });
+
+    cy.stableHappoScreenshot({
+      component: 'GIS invalid json with invalid schema',
+      ensureConsistent: false,
+      clearHovers: false,
+    });
+
     // cy.contains(/Error uploading JSON file/);
     // cy.contains(/GIS_TOTAL_HH must be number/);
     // cy.contains(/GIS_PERCENT_OVERBUILD must be number/);
@@ -66,19 +112,32 @@ describe('GIS Upload', () => {
     cy.intercept('POST', '/api/analyst/gis').as('gisUpload');
     cy.visit('/analyst/dashboard');
     cy.contains('a', 'GIS').click();
-    cy.wait(500);
+
     cy.url().should('include', '/analyst/gis');
+    cy.get('[data-testid=file-test], input[type="file"]').should('exist');
+    cy.waitForStableUI({ stabilityTimeout: 500 });
+
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('cypress/fixtures/gis-data-400a.json', { force: true });
-    cy.wait(500);
+
     cy.contains('gis-data-400a.json');
+    cy.contains('button', 'Continue')
+      .should('be.visible')
+      .and('not.be.disabled');
+
     cy.contains('button', 'Continue').click();
-    cy.get('body').happoScreenshot({
-      component: 'GIS upload invalid json wrong format',
-    });
+
+    // Wait for API response and error state
     cy.wait('@gisUpload').its('response.statusCode').should('eq', 400);
-    cy.wait(500);
+    cy.waitForStableUI({ stabilityTimeout: 1000 });
+
+    cy.stableHappoScreenshot({
+      component: 'GIS upload invalid json wrong format',
+      ensureConsistent: false,
+      clearHovers: false,
+    });
+
     // cy.contains(/Error uploading JSON file/);
     // cy.contains(/must be array at line 1/);
   });
@@ -87,22 +146,39 @@ describe('GIS Upload', () => {
     cy.intercept('POST', '/api/analyst/gis').as('gisUpload');
     cy.visit('/analyst/dashboard');
     cy.contains('a', 'GIS').click();
-    cy.wait(500);
+
     cy.url().should('include', '/analyst/gis');
+    cy.get('[data-testid=file-test], input[type="file"]').should('exist');
+    cy.waitForStableUI({ stabilityTimeout: 500 });
+
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('cypress/fixtures/gis-data-400b.json', { force: true });
-    cy.wait(500);
-    cy.get('body').happoScreenshot({
+
+    // Wait for file selection UI to stabilize
+    cy.waitForStableUI({ stabilityTimeout: 500 });
+    cy.stableHappoScreenshot({
       component: 'GIS invalid json upload empty',
+      ensureConsistent: false,
+      clearHovers: false,
     });
+
     cy.contains('gis-data-400b.json');
+    cy.contains('button', 'Continue')
+      .should('be.visible')
+      .and('not.be.disabled');
     cy.contains('button', 'Continue').click();
-    cy.get('body').happoScreenshot({
-      component: 'GIS invalid json with empty',
-    });
+
+    // Wait for API response and error state
     cy.wait('@gisUpload').its('response.statusCode').should('eq', 400);
-    cy.wait(500);
+    cy.waitForStableUI({ stabilityTimeout: 1000 });
+
+    cy.stableHappoScreenshot({
+      component: 'GIS invalid json with empty',
+      ensureConsistent: false,
+      clearHovers: false,
+    });
+
     // cy.contains(/Error uploading JSON file/);
     // cy.contains(/Value expected at line 2/);
     // cy.contains(/Expected comma at line 5/);
