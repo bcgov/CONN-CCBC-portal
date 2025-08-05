@@ -197,35 +197,37 @@ const ProjectNavigationSidebar = ({ query }) => {
   return (
     <StyledAside>
       <StyledNav>
-        <StyledAutocomplete
-          size="small"
-          key="project-nav-option-autocomplete"
-          data-testid="project-nav-option-autocomplete"
-          onChange={(_e, val) => {
-            if (val) handleNavigation(val);
-          }}
-          options={options}
-          getOptionLabel={(option: any) => option.description?.toString()}
-          getOptionDisabled={(option: any) =>
-            option.id?.toString() === applicationId &&
-            option.type === applicationType
-          }
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              data-testid="project-nav-option-textfield"
-              label="Go to project"
-              InputProps={{
-                ...params.InputProps,
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          )}
-        />
+        <div data-skip-unsaved-warning>
+          <StyledAutocomplete
+            size="small"
+            key="project-nav-option-autocomplete"
+            data-testid="project-nav-option-autocomplete"
+            onChange={(_e, val) => {
+              if (val) handleNavigation(val);
+            }}
+            options={options}
+            getOptionLabel={(option: any) => option.description?.toString()}
+            getOptionDisabled={(option: any) =>
+              option.id?.toString() === applicationId &&
+              option.type === applicationType
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                data-testid="project-nav-option-textfield"
+                label="Go to project"
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            )}
+          />
+        </div>
         <StyledLowerSection>
           <StyledNavButton
             type="button"
@@ -234,6 +236,7 @@ const ProjectNavigationSidebar = ({ query }) => {
             }}
             disabled={!prevOption}
             data-testid="project-nav-prev-icon"
+            data-skip-unsaved-warning
           >
             <FontAwesomeIcon
               icon={faCircleArrowLeft}
@@ -254,6 +257,7 @@ const ProjectNavigationSidebar = ({ query }) => {
             }}
             disabled={!nextOption}
             data-testid="project-nav-next-icon"
+            data-skip-unsaved-warning
           >
             <FontAwesomeIcon
               icon={faCircleArrowRight}

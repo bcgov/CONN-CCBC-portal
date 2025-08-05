@@ -76,25 +76,26 @@ const UnsavedChangesProvider: React.FC<PropsWithChildren> = ({ children }) => {
         );
       }
 
+      // Skip if target has the skip attribute (applies to both buttons and links)
+      if (target?.hasAttribute('data-skip-unsaved-warning')) {
+        return;
+      }
+
       if (target?.getAttribute('data-button-id') === 'Logout-button')
         handleLogoutAction(event, target);
-      else if (
-        target?.tagName === 'A' &&
-        !target.hasAttribute('data-skip-unsaved-warning') &&
-        (target as HTMLAnchorElement).href
-      )
+      else if (target?.tagName === 'A' && (target as HTMLAnchorElement).href)
         handleLinkNavigation(event, target);
     };
 
     // Set listeners for clicks and logout form submission
-    document.querySelectorAll('a, form').forEach((element) => {
+    document.querySelectorAll('a, form, button').forEach((element) => {
       element.addEventListener('click', handleClick);
       element.addEventListener('submit', handleClick);
     });
 
     // Cleanup listeners
     return () => {
-      document.querySelectorAll('a, form').forEach((element) => {
+      document.querySelectorAll('a, form, button').forEach((element) => {
         element.removeEventListener('click', handleClick);
         element.removeEventListener('submit', handleClick);
       });
