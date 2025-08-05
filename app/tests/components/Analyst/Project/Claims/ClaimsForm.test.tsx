@@ -50,7 +50,7 @@ const mockQueryPayload = {
                         dateRequestReceived: '2023-01-01',
                         hasConstructionBegun: 'In Progress',
                         projectScheduleRisks: 'Yes',
-                        commincationMaterials: 'Yes',
+                        communicationMaterials: 'Yes',
                         changesToOverallBudget: 'Yes',
                         haveServicesBeenOffered: 'Completed',
                         eligibleCostsIncurredToDate: '2023-08-01T00:00:00.000Z',
