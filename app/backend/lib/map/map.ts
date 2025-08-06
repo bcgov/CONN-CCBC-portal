@@ -255,29 +255,22 @@ const handleQueryResult = (
   if (rfiData && rfiData?.nodes?.length > 0) {
     rfiMapFiles = extractAllRfiFiles(rfiData.nodes);
   }
-  if (rfiMapFiles?.geographicCoverageMap.length > 0) {
-    geographicCoverageMap.push(...rfiMapFiles.geographicCoverageMap);
-  } else {
-    geographicCoverageMap.push(...formMapFiles.geographicCoverageMap);
-  }
-  if (rfiMapFiles?.currentNetworkInfrastructure.length > 0) {
-    currentNetworkInfrastructure.push(
-      ...rfiMapFiles.currentNetworkInfrastructure
-    );
-  } else {
-    currentNetworkInfrastructure.push(
-      ...formMapFiles.currentNetworkInfrastructure
-    );
-  }
-  if (rfiMapFiles?.upgradedNetworkInfrastructure.length > 0) {
-    upgradedNetworkInfrastructure.push(
-      ...rfiMapFiles.upgradedNetworkInfrastructure
-    );
-  } else {
-    upgradedNetworkInfrastructure.push(
-      ...formMapFiles.upgradedNetworkInfrastructure
-    );
-  }
+
+  // return both RFI and Application files
+  geographicCoverageMap.push(
+    ...(rfiMapFiles?.geographicCoverageMap || []),
+    ...(formMapFiles.geographicCoverageMap || [])
+  );
+
+  currentNetworkInfrastructure.push(
+    ...(rfiMapFiles?.currentNetworkInfrastructure || []),
+    ...(formMapFiles.currentNetworkInfrastructure || [])
+  );
+
+  upgradedNetworkInfrastructure.push(
+    ...(rfiMapFiles?.upgradedNetworkInfrastructure || []),
+    ...(formMapFiles.upgradedNetworkInfrastructure || [])
+  );
 
   return {
     geographicCoverageMap,
