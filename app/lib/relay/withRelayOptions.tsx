@@ -1,5 +1,5 @@
 import type { NextPageContext } from 'next';
-import { WiredOptions } from 'relay-nextjs/wired/component';
+import type { RelayOptions } from 'relay-nextjs';
 import { NextRouter } from 'next/router';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
 import { CircularProgress, Box } from '@mui/material';
@@ -8,7 +8,7 @@ import { DEFAULT_PAGE_SIZE } from 'components/Table/Pagination';
 import { getClientEnvironment } from './client';
 import isRouteAuthorized from '../../utils/isRouteAuthorized';
 
-const withRelayOptions: WiredOptions<any> = {
+const withRelayOptions: RelayOptions<any, any> = {
   fallback: (
     <Box
       display="flex"
@@ -19,9 +19,6 @@ const withRelayOptions: WiredOptions<any> = {
       <CircularProgress size={40} />
     </Box>
   ),
-  ErrorComponent: (props) => {
-    throw props.error;
-  },
   createClientEnvironment: () => getClientEnvironment()!,
   createServerEnvironment: async (ctx: NextPageContext) => {
     const { createServerEnvironment } = await import('./server');
