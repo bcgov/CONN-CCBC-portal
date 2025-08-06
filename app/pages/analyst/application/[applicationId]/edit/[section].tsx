@@ -1,8 +1,7 @@
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { usePreloadedQuery } from 'react-relay/hooks';
+import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { graphql } from 'react-relay';
 import { IChangeEvent } from '@rjsf/core';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Button from '@button-inc/bcgov-theme/Button';

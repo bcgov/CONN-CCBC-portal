@@ -1,6 +1,5 @@
-import { usePreloadedQuery } from 'react-relay/hooks';
+import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { graphql } from 'react-relay';
 import { DashboardTabs } from 'components/AnalystDashboard';
 import { AddAnalyst, AdminTabs, AnalystList } from 'components/Admin';
 import styled from 'styled-components';

@@ -1988,6 +1988,11 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@babel/runtime@^7.25.0":
+  version "7.28.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.28.2.tgz#2ae5a9d51cc583bd1f5673b3bb70d6d819682473"
+  integrity sha512-KHp2IflsnGywDjBWDkR9iEqiWSpc8GIi0lgTT3mOElT0PP1tG26P4tmFI2YvAdzgq9RGyoHZQEIEdZy6Ec5xCA==
+
 "@babel/template@^7.22.15":
   version "7.22.15"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.22.15.tgz#09576efc3830f0430f4548ef971dde1350ef2f38"
@@ -6559,10 +6564,10 @@ babel-plugin-polyfill-regenerator@^0.6.5:
   dependencies:
     "@babel/helper-define-polyfill-provider" "^0.6.5"
 
-babel-plugin-relay@^16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-relay/-/babel-plugin-relay-16.2.0.tgz#2fd0e7bdb8318b1ee5a06403d70d0f851ea51731"
-  integrity sha512-+3n7kSFH5MelySnO5MLXl2S+Bq4nAGcdWylXeqNXZODbzgYtqak194Z4u5KElLAHGhsyKIMTW7qazBPvMbxhFQ==
+babel-plugin-relay@^20.1.0:
+  version "20.1.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-relay/-/babel-plugin-relay-20.1.0.tgz#69e1a4487908cf121b3c40f2237d4e5a0cf8c433"
+  integrity sha512-IfEWbuG/eVY6Ax/FirXUCeWZdYqb9VvUhSP4q/R33DUtKaozPo/xEvy9/70KlKuNn/hA4ZtuuY4uSVg/pQ+How==
   dependencies:
     babel-plugin-macros "^2.0.0"
     cosmiconfig "^5.0.5"
@@ -9700,10 +9705,15 @@ graphql@15.3.0:
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.3.0.tgz#3ad2b0caab0d110e3be4a5a9b2aa281e362b5278"
   integrity sha512-GTCJtzJmkFLWRfFJuoo9RWWa/FfamUHgiFosxi/X1Ani4AVWbeyBenZTNX6dM+7WSbbFfTo/25eh0LLkwHMw2w==
 
-"graphql@>=0.9 <0.14 || ^14.0.2 || ^15.4.0", "graphql@^0.6.0 || ^0.7.0 || ^0.8.0-b || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.2 || ^15.0.0", "graphql@^14.0.0 || ^15.0.0", graphql@^15.6.1:
+"graphql@>=0.9 <0.14 || ^14.0.2 || ^15.4.0", "graphql@^0.6.0 || ^0.7.0 || ^0.8.0-b || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.2 || ^15.0.0", "graphql@^14.0.0 || ^15.0.0":
   version "15.8.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.8.0.tgz#33410e96b012fa3bdb1091cc99a94769db212b38"
   integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==
+
+graphql@^15.6.1:
+  version "15.10.1"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.10.1.tgz#e9ff3bb928749275477f748b14aa5c30dcad6f2f"
+  integrity sha512-BL/Xd/T9baO6NFzoMpiMD7YUZ62R6viR5tp/MULVEnbYJXZA//kRNW7J0j1w/wXArgL0sCxhDfK5dczSKn3+cg==
 
 gray-percentage@^2.0.0:
   version "2.0.0"
@@ -13322,16 +13332,16 @@ react-relay-network-modern@6.2.2:
     core-js "^3.29.0"
     extract-files "^9.0.0"
 
-react-relay@^13.2.0:
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-13.2.0.tgz#3f8cf7bb4058d293b079d107b204fb5c27d7a4e7"
-  integrity sha512-ldUMWZ5nIMhz1VpRylFhMGc8lEaufR0ZwwfW6YqTMU/Rsy5c5nHGN7hvktPvdUV+biy6pzdRzfFiny469gok4A==
+react-relay@^20.1.0:
+  version "20.1.0"
+  resolved "https://registry.yarnpkg.com/react-relay/-/react-relay-20.1.0.tgz#a2329ad8c6665c4d63f531e9e8fb6f2d528f8b2f"
+  integrity sha512-Ryo44/9KQrrv6GXXvDjmYjA1Y0ui5i9WBN1sVy8q2AGc+LKOM1IuCcJaa6Ys3sJEnCcilbmFwJvKobwKxB0HtA==
   dependencies:
-    "@babel/runtime" "^7.0.0"
+    "@babel/runtime" "^7.25.0"
     fbjs "^3.0.2"
     invariant "^2.2.4"
     nullthrows "^1.1.1"
-    relay-runtime "13.2.0"
+    relay-runtime "20.1.0"
 
 react-router-dom@^6.0.0:
   version "6.3.0"
@@ -13585,45 +13595,37 @@ regjsparser@^0.12.0:
   dependencies:
     jsesc "~3.0.2"
 
-relay-compiler@17:
-  version "17.0.0"
-  resolved "https://registry.yarnpkg.com/relay-compiler/-/relay-compiler-17.0.0.tgz#5013e83267f45d78e24232ae7da90ed5ad3c1116"
-  integrity sha512-U2e/R0o40HJOQ13pwkvToqWqk6J3ASMyHmcxixVMZKfcwcpsTTOiKob215ZRh+4bqPwkNy97+V9CuzJ5hJmGtw==
+relay-compiler@^20.1.0:
+  version "20.1.0"
+  resolved "https://registry.yarnpkg.com/relay-compiler/-/relay-compiler-20.1.0.tgz#57273483bfe694293c5111ea083e6b3d5e74f0ea"
+  integrity sha512-QpIdE68NqdFnO0TObCYqEmUdXRcgG/VY/UH+p1kIxdXIM08YfliVf7ck5ypkKAj1iB/invDhsKb1W7PMAuYTAQ==
 
-relay-nextjs@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/relay-nextjs/-/relay-nextjs-0.8.0.tgz#cb2832e984339fb30448c30f4c9c44191074ba88"
-  integrity sha512-rOR1o8uTmIe6lcILT9AsINBgogAD3wm5gnM3SBFy8IEj68a8ViA2o1Qy1zfCXr3hXOOThFThD1nbXtd9AUi9tQ==
+relay-nextjs@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/relay-nextjs/-/relay-nextjs-3.0.1.tgz#3499e47dc8962a028745efa3d266d52b8674a93f"
+  integrity sha512-FQaQ59kQaDGchjXY5MYMsS0RXFPemXeqbT2CDZ07Jd7rM4lsTrItKTr1GZlJLomrlpvIN9ijNfokXR2ykBPWLA==
   dependencies:
+    lodash.isequal "^4.5.0"
     serialize-javascript "^5.0.1"
 
-relay-runtime@13.2.0, relay-runtime@^13.2.0:
-  version "13.2.0"
-  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-13.2.0.tgz#e587e8c5cc9decdacb11227425bfe9cd5d9fa36f"
-  integrity sha512-iDS/fy5iWg9EhySaPpeo4Fwy1cYwNJqLHdhdGncpJBtSogFFd3fI+K0SafUoxX7+Moj6a+aMQt/JKN78HdeLhA==
+relay-runtime@20.1.0, relay-runtime@^20.1.0:
+  version "20.1.0"
+  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-20.1.0.tgz#00613c64c4221231c088e9d14a76ef5c7ed7300a"
+  integrity sha512-Co/0HuYySz5xbMvShoa43Bouyj1q0X6ufWYR9+8J/fIM4VvyQy4GsXsn/y8BMpSD21cHfChIKfOqHjwR4Ry59w==
   dependencies:
-    "@babel/runtime" "^7.0.0"
+    "@babel/runtime" "^7.25.0"
     fbjs "^3.0.2"
     invariant "^2.2.4"
 
-relay-runtime@16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-16.2.0.tgz#1126b67749b89f6d4855ebd7e5749033fab5b97f"
-  integrity sha512-SrIyYItH1EZUj37NI8nZALasuq7mNyFrrSNgMefhgxNZxTVnr1KCp43LaxUfZqhsWbw4Y00JSGDRQXlcv4STHQ==
+relay-test-utils@^20.1.0:
+  version "20.1.0"
+  resolved "https://registry.yarnpkg.com/relay-test-utils/-/relay-test-utils-20.1.0.tgz#e9f786b33068cecc6a833652e36a0c958e852f9e"
+  integrity sha512-gs0pfzZ7Ubt6BrM27ZReiUmcYzrltKhuRkjLB6FWyAiTgHXwgAaUDF3LBZd6aSNm6TMmX0ze5J1DXKXDs8Wxag==
   dependencies:
-    "@babel/runtime" "^7.0.0"
+    "@babel/runtime" "^7.25.0"
     fbjs "^3.0.2"
     invariant "^2.2.4"
-
-relay-test-utils@^16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/relay-test-utils/-/relay-test-utils-16.2.0.tgz#0f94b65a169bca2fc98d3f06b93e0cc006bb7a97"
-  integrity sha512-nslgYqW7bIwEvlUbZoISgLz2TGh3/wHZWEQSwQ7oFZ8gpw6mRatG1ortIywGLhfqsRw5q9t6BJXdiqbl4BPu4w==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    fbjs "^3.0.2"
-    invariant "^2.2.4"
-    relay-runtime "16.2.0"
+    relay-runtime "20.1.0"
 
 remove-accents@0.5.0:
   version "0.5.0"

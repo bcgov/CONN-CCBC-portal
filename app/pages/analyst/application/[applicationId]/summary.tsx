@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
-import { graphql } from 'react-relay';
+import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { usePreloadedQuery } from 'react-relay/hooks';
 import Layout from 'components/Layout';
 import cookie from 'js-cookie';
 import AnalystLayout from 'components/Analyst/AnalystLayout';

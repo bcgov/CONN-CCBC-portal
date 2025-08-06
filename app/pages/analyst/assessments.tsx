@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { usePreloadedQuery } from 'react-relay/hooks';
+import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { graphql } from 'react-relay';
 import { useFeature } from '@growthbook/growthbook-react';
 import {
   AssessmentAssignmentTable,

@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import { ThemeProvider } from '@mui/material';
 import theme from 'styles/muiTheme';
-import { RelayEnvironmentProvider } from 'react-relay/hooks';
-import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
+import { RelayEnvironmentProvider } from 'react-relay';
+import { useRelayNextjs } from 'relay-nextjs/app';
 import { newTracker, trackPageView } from '@snowplow/browser-tracker';
 import { Settings } from 'luxon';
 import * as Sentry from '@sentry/nextjs';
@@ -22,11 +22,6 @@ import { AppProvider } from 'components/AppProvider';
 
 config.autoAddCss = false;
 
-const clientEnv = getClientEnvironment();
-const initialPreloadedQuery = getInitialPreloadedQuery({
-  createClientEnvironment: () => getClientEnvironment()!,
-});
-
 const growthbook = new GrowthBook();
 
 const { publicRuntimeConfig } = getConfig();
@@ -43,8 +38,9 @@ try {
 }
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const relayProps = getRelayProps(pageProps, initialPreloadedQuery);
-  const env = relayProps.preloadedQuery?.environment ?? clientEnv!;
+  const { env, ...relayProps } = useRelayNextjs(pageProps, {
+    createClientEnvironment: () => getClientEnvironment()!,
+  });
   const router = useRouter();
   Settings.defaultZone = 'America/Vancouver';
   Settings.defaultLocale = 'en-CA';

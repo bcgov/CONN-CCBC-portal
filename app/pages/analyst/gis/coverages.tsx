@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
-import { usePreloadedQuery } from 'react-relay/hooks';
+import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { graphql } from 'react-relay';
 import styled from 'styled-components';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
