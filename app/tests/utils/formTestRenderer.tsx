@@ -1,6 +1,5 @@
 import { RelayEnvironmentProvider } from 'react-relay';
 import { FormBase } from 'components/Form/';
-import { getInitialPreloadedQuery, getRelayProps } from 'relay-nextjs/app';
 import { getClientEnvironment } from 'lib/relay/client';
 import defaultTheme from 'lib/theme/DefaultTheme';
 import GlobalTheme from 'styles/GlobalTheme';
@@ -23,9 +22,6 @@ type Props = {
 };
 
 const clientEnv = getClientEnvironment();
-const initialPreloadedQuery = getInitialPreloadedQuery({
-  createClientEnvironment: () => getClientEnvironment()!,
-});
 
 const FormTestRenderer: React.FC<Props> = ({
   formData,
@@ -34,8 +30,6 @@ const FormTestRenderer: React.FC<Props> = ({
   uiSchema,
   formContext = null,
 }) => {
-  const relayProps = getRelayProps({}, initialPreloadedQuery);
-  const env = relayProps.preloadedQuery?.environment ?? clientEnv!;
   const [formState, setFormState] = useState(formData);
   const formRef = useRef<FormBaseRef>(null);
 
@@ -45,7 +39,7 @@ const FormTestRenderer: React.FC<Props> = ({
   };
 
   return (
-    <RelayEnvironmentProvider environment={env}>
+    <RelayEnvironmentProvider environment={clientEnv!}>
       <GrowthBookProvider growthbook={mockGrowthBook as any}>
         <GlobalTheme>
           <RouterContext.Provider value={createMockRouter()}>
