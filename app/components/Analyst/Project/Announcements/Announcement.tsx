@@ -147,7 +147,7 @@ const Announcement = ({
             return project.ccbcNumber === currentCCBCNumber ? null : (
               <div key={project.id}>
                 <StyledLink
-                  href={`/analyst/application/${project.rowId}`}
+                  href={`/analyst/application/${project.rowId}/project?section=announcements`}
                   rel="noreferrer"
                   target="_blank"
                 >

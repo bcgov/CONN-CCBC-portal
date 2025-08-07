@@ -161,6 +161,9 @@ const Project = ({
     if (toggledSection === 'conditionalApproval') {
       setIsConditionalApprovalExpanded(true);
     }
+    if (toggledSection === 'announcements') {
+      setIsAnnouncementsExpanded(true);
+    }
   }, [conditionalApproval, date, projectInformation, toggledSection]);
 
   const toggleExpandAll = () => {
