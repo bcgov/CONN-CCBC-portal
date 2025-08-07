@@ -1,3 +1,9 @@
+# [1.265.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.264.9...v1.265.0) (2025-08-07)
+
+### Features
+
+- change log query ([b1fda23](https://github.com/bcgov/CONN-CCBC-portal/commit/b1fda2360aad69766b445bf0b4c5378977c8568f))
+
 ## [1.264.9](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.264.8...v1.264.9) (2025-08-07)
 
 ## [1.264.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.264.7...v1.264.8) (2025-08-07)
