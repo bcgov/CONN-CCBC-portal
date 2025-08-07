@@ -49,9 +49,9 @@ const generateUniqueKey = () => {
 };
 
 const sortAndMarkLatest = (coverages: any[]): any[] => {
-  const sorted = [...coverages].sort((a, b) => {
-    if (a.source.includes('SOW')) return 1;
-    if (b.source.includes('SOW')) return -1;
+  const sorted = [...coverages].filter(Boolean).sort((a, b) => {
+    if (a.source?.includes('SOW')) return 1;
+    if (b.source?.includes('SOW')) return -1;
     return b.source.localeCompare(a.source, undefined, {
       numeric: true,
     });
