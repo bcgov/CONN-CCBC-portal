@@ -81,6 +81,7 @@ describe('Dashboard export functions', () => {
       null,
       null,
       55555,
+      55555,
       2641556,
       null,
       null,
