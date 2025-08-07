@@ -29,6 +29,7 @@ const getCbcDataQuery = `
   query getCbcData {
     allCbcData (
       filter: {cbcByCbcId: {archivedAt: {isNull: true}}}
+      orderBy: PROJECT_NUMBER_ASC
     ) {
       edges {
         node {
@@ -55,6 +56,7 @@ const getCcbcQuery = `
     query getCcbc {
       allApplications(
         filter: {analystStatus: {in: ["conditionally_approved", "approved", "on_hold", "closed", "recommendation", "complete"]}}
+        orderBy: CCBC_NUMBER_ASC
       ) {
         edges {
           node {
@@ -357,13 +359,14 @@ const generateExcelData = async (
 
     const applicationByRowId = node;
     const allApplicationSowData = {
-      nodes: node.applicationSowDataByApplicationId?.nodes || []
+      nodes: node.applicationSowDataByApplicationId?.nodes || [],
     };
     const allIntakes = ccbcData?.data?.allIntakes || { nodes: [] };
     const allApplicationErs = {
-      edges: ccbcData?.data?.allApplicationErs?.nodes
-        ?.filter(er => er.applicationId === node.rowId)
-        ?.map(er => ({ node: er })) || []
+      edges:
+        ccbcData?.data?.allApplicationErs?.nodes
+          ?.filter((er) => er.applicationId === node.rowId)
+          ?.map((er) => ({ node: er })) || [],
     };
     const allApplicationRds = { edges: [] }; // Not available in current query
 
@@ -372,7 +375,7 @@ const generateExcelData = async (
       allApplicationSowData,
       allIntakes,
       allApplicationErs,
-      allApplicationRds,
+      allApplicationRds
     );
 
     const fundingData = getFundingData(
@@ -528,7 +531,9 @@ const generateExcelData = async (
       },
       // proposed completion date
       {
-        value: cleanDateTime(summaryData.formData.eventsAndDates.proposedCompletionDate),
+        value: cleanDateTime(
+          summaryData.formData.eventsAndDates.proposedCompletionDate
+        ),
       },
       // date announced
       {
