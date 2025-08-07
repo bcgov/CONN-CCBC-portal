@@ -65,6 +65,9 @@ const withRelayOptions: RelayOptions<any, any> = {
       ...pageArgs,
     };
   },
+  queryOptionsFromContext: () => ({
+    fetchPolicy: 'store-and-network' as const, // Ensures fresh data is fetched when navigating back
+  }),
 };
 
 export default withRelayOptions;
