@@ -87,9 +87,9 @@ describe('The analyst application summary page', () => {
           ).should('be.visible');
 
           // Check conditional approval amounts (from fixture data)
-          cy.contains('$600,000'); // provincialRequested
-          cy.contains('$400,000'); // federalRequested
-          cy.contains('$1,000,000'); // sum of both
+          cy.contains('$987,654'); // provincialRequested
+          cy.contains('$1,234,567'); // federalRequested
+          cy.contains('(Conditional Approval)'); // conditional approval source
 
           // Application data still used for other fields
           cy.get('[data-testid="root_funding_applicantAmount-value"]').should(
@@ -189,12 +189,10 @@ describe('The analyst application summary page', () => {
           cy.visit('/analyst/application/1/summary');
           cy.contains('h2', 'Summary');
 
-          // Check that error messages are displayed for missing SOW data
-          cy.contains('SOW Excel table has not been uploaded');
-          cy.contains('SOW tab 8, which has not been uploaded to the portal');
+          cy.get('svg[data-testid="HelpIcon"]').first().trigger('mouseover');
           cy.contains(
-            'SOW tab 1 cell H18  which has not been uploaded to the portal'
-          );
+            'This value is informed from SOW tab 8 cell E15 which has not been uploaded to the portal.'
+          ).should('be.visible');
 
           // Check that some fields still show values
           cy.get('[data-testid="root_counts_communities-value"]').should(

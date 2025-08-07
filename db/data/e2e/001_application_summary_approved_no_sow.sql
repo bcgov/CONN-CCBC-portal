@@ -25,6 +25,12 @@ insert into ccbc_public.application_status
 ( application_id, status,created_by, created_at)
 overriding system value
 values
+(1,'received',1,'2022-10-17 10:16:45.319172-07');
+
+insert into ccbc_public.application_status
+( application_id, status,created_by, created_at)
+overriding system value
+values
 (1,'approved',1,'2022-10-17 10:16:45.319172-07');
 
 insert into ccbc_public.form_data
