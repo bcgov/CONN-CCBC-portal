@@ -1,3 +1,9 @@
+# [1.266.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.265.3...v1.266.0) (2025-08-07)
+
+### Features
+
+- direct navigation to announcement when directed within an announcement ([cf960dc](https://github.com/bcgov/CONN-CCBC-portal/commit/cf960dc087487bfad2b82fbf0d7620c7c329d50e))
+
 ## [1.265.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.265.2...v1.265.3) (2025-08-07)
 
 ## [1.265.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.265.1...v1.265.2) (2025-08-07)
