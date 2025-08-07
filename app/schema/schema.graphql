@@ -2258,6 +2258,37 @@ type Query implements Node {
   sowTab7ByRowId(rowId: Int!): SowTab7
   sowTab8ByRowId(rowId: Int!): SowTab8
 
+  """
+  Get all change log records ordered by newest modifications first, independent of application or CBC ID
+  """
+  changeLog(
+    limitCount: Int
+    offsetCount: Int
+
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ChangeLogRecordFilter
+  ): ChangeLogRecordsConnection
+
   """Reads and enables pagination through a set of `GisDataCount`."""
   gisDataCounts(
     batchid: Int!
@@ -88363,6 +88394,111 @@ type RfiDataStatusTypesEdge {
 
   """The `RfiDataStatusType` at the end of the edge."""
   node: RfiDataStatusType
+}
+
+"""A connection to a list of `ChangeLogRecord` values."""
+type ChangeLogRecordsConnection {
+  """A list of `ChangeLogRecord` objects."""
+  nodes: [ChangeLogRecord]!
+
+  """
+  A list of edges which contains the `ChangeLogRecord` and cursor to aid in pagination.
+  """
+  edges: [ChangeLogRecordsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ChangeLogRecord` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type ChangeLogRecord {
+  rowId: BigInt
+  recordId: UUID
+  oldRecordId: UUID
+  op: Operation
+  ts: Datetime
+  tableOid: BigFloat
+  tableSchema: String
+  tableName: String
+  createdBy: Int
+  createdAt: Datetime
+  ccbcNumber: String
+  applicationId: Int
+  program: String
+  record: JSON
+  oldRecord: JSON
+}
+
+"""A `ChangeLogRecord` edge in the connection."""
+type ChangeLogRecordsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ChangeLogRecord` at the end of the edge."""
+  node: ChangeLogRecord
+}
+
+"""
+A filter to be used against `ChangeLogRecord` object types. All fields are combined with a logical ‘and.’
+"""
+input ChangeLogRecordFilter {
+  """Filter by the object’s `rowId` field."""
+  rowId: BigIntFilter
+
+  """Filter by the object’s `recordId` field."""
+  recordId: UUIDFilter
+
+  """Filter by the object’s `oldRecordId` field."""
+  oldRecordId: UUIDFilter
+
+  """Filter by the object’s `op` field."""
+  op: OperationFilter
+
+  """Filter by the object’s `ts` field."""
+  ts: DatetimeFilter
+
+  """Filter by the object’s `tableOid` field."""
+  tableOid: BigFloatFilter
+
+  """Filter by the object’s `tableSchema` field."""
+  tableSchema: StringFilter
+
+  """Filter by the object’s `tableName` field."""
+  tableName: StringFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `ccbcNumber` field."""
+  ccbcNumber: StringFilter
+
+  """Filter by the object’s `applicationId` field."""
+  applicationId: IntFilter
+
+  """Filter by the object’s `program` field."""
+  program: StringFilter
+
+  """Filter by the object’s `record` field."""
+  record: JSONFilter
+
+  """Filter by the object’s `oldRecord` field."""
+  oldRecord: JSONFilter
+
+  """Checks for all expressions in this list."""
+  and: [ChangeLogRecordFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ChangeLogRecordFilter!]
+
+  """Negates the expression."""
+  not: ChangeLogRecordFilter
 }
 
 """A connection to a list of `GisDataCount` values."""

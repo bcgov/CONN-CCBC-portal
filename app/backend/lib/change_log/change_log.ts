@@ -11,68 +11,33 @@ const limiter = RateLimit({
 });
 
 const generateQuery = (
-  cbc_to_show = 100,
-  cbc_order = 'UPDATED_AT_DESC',
-  cbc_offset = 0,
-  history_items_per_cbc = 100,
-  ccbc_to_show = 100,
-  ccbc_order = 'UPDATED_AT_DESC',
-  ccbc_offset = 0,
-  history_items_per_ccbc = 100
+  limitCount = 99999,
+  offsetCount = 0,
+  exclude_ccbc = false
 ) => {
   return `
-  query allChangeLog {
-      allCbcs(first: ${cbc_to_show}, orderBy: ${cbc_order}, offset: ${cbc_offset}) {
-    nodes {
-      rowId
-      projectNumber
-      history(first: ${history_items_per_cbc}) {
+    query allChangeLog {
+      changeLog(limitCount: ${limitCount}, offsetCount: ${offsetCount}, ${exclude_ccbc ? 'filter: {tableName: {in: "cbc_data"}}' : ''}) {
         nodes {
-          op
-          createdAt
-          createdBy
-          id
-          record
-          oldRecord
-          tableName
-          ccbcUserByCreatedBy {
-            givenName
-            familyName
-          }
-        }
-      }
-    }
-  }
-  allApplications(first: ${ccbc_to_show}, orderBy: ${ccbc_order}, offset: ${ccbc_offset}) {
-    nodes {
-      rowId
-      ccbcNumber
-      program
-      history(first: ${history_items_per_ccbc}) {
-        nodes {
-          applicationId
-          createdAt
-          createdBy
-          externalAnalyst
-          familyName
-          item
-          givenName
-          op
-          record
-          oldRecord
+          rowId
           recordId
-          sessionSub
+          oldRecordId
+          op
+          ts
+          tableOid
+          tableSchema
           tableName
+          createdBy
+          createdAt
+          record
+          oldRecord
+          program
+          applicationId
+          ccbcNumber
         }
       }
-      ccbcUserByCreatedBy {
-        familyName
-        givenName
-      }
     }
-  }
-}
-`;
+  `;
 };
 
 changeLog.get('/api/change-log', limiter, async (req, res) => {
@@ -81,31 +46,58 @@ changeLog.get('/api/change-log', limiter, async (req, res) => {
     // refresh and get feature value from GrowthBook
     await gbClient.refreshFeatures();
     const featureValue: any = gbClient.getFeatureValue(flag, false, {});
-
     // generate the query based on the feature flag
     const query = generateQuery(
-      featureValue.cbc_to_show,
-      featureValue.cbc_order,
-      featureValue.cbc_offset,
-      featureValue.history_items_per_cbc,
-      featureValue.ccbc_to_show,
-      featureValue.ccbc_order,
-      featureValue.ccbc_offset,
-      featureValue.history_items_per_ccbc
+      featureValue?.limitCount,
+      featureValue?.offsetCount,
+      featureValue?.exclude_ccbc
     );
 
     const changeLogData = await performQuery(query, {}, req);
+    // Separate the change log data into cbc and ccbc based on table_name
+    const allCbcs: any[] = [];
+    const allApplications: any[] = [];
 
-    // Return the feature value
-    res.json({
+    changeLogData.data.changeLog.nodes.forEach((node: any) => {
+      if (node.tableName === 'cbc_data') {
+        allCbcs.push(node);
+      } else {
+        allApplications.push(node);
+      }
+    });
+
+    const responseData = {
       feature: flag,
       value: featureValue,
       query,
-      data: changeLogData.data,
+      data: { allCbcs, allApplications },
       success: true,
+    };
+
+    // Generate ETag based on data content
+    const crypto = await import('crypto');
+    const etag = crypto
+      .createHash('md5')
+      .update(JSON.stringify(responseData.data))
+      .digest('hex');
+
+    // Check if client has the same ETag
+    const clientETag = req.headers['if-none-match'];
+    if (clientETag === etag) {
+      return res.status(304).end();
+    }
+
+    // Set cache headers
+    res.set({
+      ETag: etag,
+      'Cache-Control': 'private, max-age=300', // Cache for 5 minutes
+      'Last-Modified': new Date().toUTCString(),
     });
+
+    // Return the feature value
+    return res.json(responseData);
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       error,
       success: false,
     });
