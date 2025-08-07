@@ -21,6 +21,13 @@ overriding system value
 values
 (1,'CCBC-010001', 'mockUser@ccbc_auth_user',1,1,'2022-10-17 10:16:45.319172-07',1,'2022-10-17 10:16:45.319172-07');
 
+
+insert into ccbc_public.application_status
+( application_id, status,created_by, created_at)
+overriding system value
+values
+(1,'received',1,'2022-10-17 10:16:45.319172-07');
+
 insert into ccbc_public.application_status
 ( application_id, status,created_by, created_at)
 overriding system value
@@ -49,8 +56,7 @@ values
 '{
     "decision": {
         "ministerDecision": "approved",
-        "provincialRequested": 987654,
-        "federalRequested": 1234567
+        "provincialRequested": 987654
     },
     "response": {
         "applicantResponse": "accepted",
@@ -58,7 +64,8 @@ values
     },
     "isedDecisionObj": {
         "isedDecision": "approved",
-        "isedAnnouncement": "2023-Q2"
+        "isedAnnouncement": "2023-Q2",
+        "federalRequested": 1234567
     },
     "projectDescription": "Summary Test Application - Conditionally Approved Status",
     "assignedTo": "Test Analyst"

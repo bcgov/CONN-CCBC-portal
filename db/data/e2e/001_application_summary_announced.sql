@@ -56,4 +56,10 @@ overriding system value
 values
 (1, 1, true, 1, '2022-10-17 16:28:11.006719-07', 1, '2022-10-17 16:28:26.105206-07');
 
+insert into ccbc_public.application_announced
+(application_id, announced, created_by, created_at, updated_by, updated_at)
+overriding system value
+values
+(1, true, 1, '2022-10-17 16:28:11.006719-07', 1, '2022-10-17 16:28:26.105206-07');
+
 commit;
