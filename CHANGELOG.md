@@ -1,3 +1,9 @@
+# [1.267.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.266.3...v1.267.0) (2025-08-08)
+
+### Features
+
+- show all the coverages on map ([c116e0c](https://github.com/bcgov/CONN-CCBC-portal/commit/c116e0c4e0e9a0b4097fa218851925041d92e888))
+
 ## [1.266.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.266.2...v1.266.3) (2025-08-07)
 
 ## [1.266.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.266.1...v1.266.2) (2025-08-07)
