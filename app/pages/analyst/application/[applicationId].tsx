@@ -143,6 +143,7 @@ const Application = ({
             toggleOverride,
             toggledSection,
             isEditable,
+            skipUnsavedWarning: true,
           }}
           formData={jsonData}
           tagName="div"
