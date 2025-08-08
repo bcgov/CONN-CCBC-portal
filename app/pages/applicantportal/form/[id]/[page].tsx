@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { graphql } from 'react-relay';
-import { usePreloadedQuery } from 'react-relay/hooks';
+import { usePreloadedQuery, graphql } from 'react-relay';
 import Alert from '@button-inc/bcgov-theme/Alert';
 import styled from 'styled-components';
 import { useFeature } from '@growthbook/growthbook-react';

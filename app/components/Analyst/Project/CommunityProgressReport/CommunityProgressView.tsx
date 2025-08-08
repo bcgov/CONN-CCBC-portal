@@ -1,4 +1,4 @@
-import { graphql, useFragment } from 'react-relay/hooks';
+import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import DownloadLink from 'components/DownloadLink';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';

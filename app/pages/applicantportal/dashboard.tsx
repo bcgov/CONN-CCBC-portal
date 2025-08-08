@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { usePreloadedQuery } from 'react-relay/hooks';
-import { graphql } from 'react-relay';
+import { usePreloadedQuery, graphql } from 'react-relay';
 import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import styled from 'styled-components';
 import Link from '@button-inc/bcgov-theme/Link';

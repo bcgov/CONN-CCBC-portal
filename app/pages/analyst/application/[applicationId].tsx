@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { graphql } from 'react-relay';
-import { usePreloadedQuery } from 'react-relay/hooks';
+import { usePreloadedQuery, graphql } from 'react-relay';
 import FormBase from 'components/Form/FormBase';
 import { analystUiSchema, validate } from 'formSchema';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';

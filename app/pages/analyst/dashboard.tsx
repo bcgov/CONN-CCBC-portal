@@ -1,8 +1,7 @@
 import { Profiler, useEffect } from 'react';
-import { usePreloadedQuery } from 'react-relay/hooks';
+import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { useFeature } from '@growthbook/growthbook-react';
-import { graphql } from 'react-relay';
 import cookie from 'js-cookie';
 import { DashboardTabs, TableTabs } from 'components/AnalystDashboard';
 import styled from 'styled-components';

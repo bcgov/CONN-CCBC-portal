@@ -1,5 +1,4 @@
-import { graphql } from 'react-relay';
-import { usePreloadedQuery } from 'react-relay/hooks';
+import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import { CbcIdQuery } from '__generated__/CbcIdQuery.graphql';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { graphql } from 'react-relay';
-import { usePreloadedQuery } from 'react-relay/hooks';
+import { usePreloadedQuery, graphql } from 'react-relay';
 import Button from '@button-inc/bcgov-theme/Button';
 import styled from 'styled-components';
 import SuccessBanner from '../../../../components/Form/SuccessBanner';
