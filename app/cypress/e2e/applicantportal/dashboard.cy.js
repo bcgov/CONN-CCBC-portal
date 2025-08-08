@@ -28,10 +28,17 @@ describe('The applicant dashboard', () => {
     // Dashboard page
 
     cy.findByRole('heading', { name: /^Dashboard/i }).should('exist');
-    // wait for our page component to stop re-rendering 6 times...
-    cy.wait(1000);
 
-    cy.get('body').happoScreenshot({ component: 'Dashboard Page' });
+    // Wait for dashboard to fully load and stabilize
+    cy.waitForElementStable('button:contains("Create application")', {
+      timeout: 10000,
+      stabilityTime: 500,
+    });
+
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Dashboard Page',
+    });
 
     cy.findByRole('button', { name: /Create application/i }).not('be.disabled');
     cy.findByRole('button', { name: /Create application/i }).click();
@@ -69,9 +76,14 @@ describe('The applicant dashboard', () => {
 
     cy.get('[id="root_projectDescription"]').type('test');
 
+    // Wait for auto-save to complete
     cy.contains('header > div', 'Last saved:');
+    cy.waitForStableUI({ stabilityTimeout: 500 });
 
-    cy.get('body').happoScreenshot({ component: 'Project Information Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Project Information Page',
+    });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -83,16 +95,16 @@ describe('The applicant dashboard', () => {
 
     cy.get('input[id="root_geographicArea-0"]').parent().click({ force: true });
 
-    cy.get('input[id="root_projectSpanMultipleLocations-0"]')
-      .scrollIntoView()
-      .parent()
-      .click();
+    cy.get('input[id="root_projectSpanMultipleLocations-0"]').scrollIntoView();
+
+    cy.get('input[id="root_projectSpanMultipleLocations-0"]').parent().click();
 
     cy.get('input[id="root_provincesTerritories-0"]').parent().click();
 
     cy.contains('header > div', 'Last saved:');
+    cy.waitForAutoSave();
 
-    cy.get('body').happoScreenshot({ component: 'Project Area Page' });
+    cy.screenshotPage('Project Area Page', 'form', { clearHovers: false });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -123,9 +135,10 @@ describe('The applicant dashboard', () => {
       .click();
 
     cy.contains('header > div', 'Last saved:');
+    cy.waitForAutoSave();
 
-    cy.get('body').happoScreenshot({
-      component: 'Existing Network Coverage Page',
+    cy.screenshotPage('Existing Network Coverage Page', 'form', {
+      clearHovers: false,
     });
 
     cy.contains('button', 'Save and continue').click();
@@ -147,7 +160,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Project Funding Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Project Funding Page',
+    });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -205,7 +221,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Other Funding Sources Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Other Funding Sources Page',
+    });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -231,7 +250,8 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Technological Solution Page',
     });
 
@@ -244,7 +264,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Benefits Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Benefits Page',
+    });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -269,7 +292,8 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Project Planning and Management Page',
     });
 
@@ -285,7 +309,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Template Uploads Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Template Uploads Page',
+    });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -298,7 +325,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Supporting Documents Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Supporting Documents Page',
+    });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -311,7 +341,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Coverage Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Coverage Page',
+    });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -345,7 +378,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Organization Profile Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Organization Profile Page',
+    });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -386,7 +422,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Organization Location Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Organization Location Page',
+    });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -405,7 +444,8 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Organization Contact Information Page',
     });
 
@@ -432,7 +472,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Authorized Contact Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Authorized Contact Page',
+    });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -457,7 +500,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Alternate Contact Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Alternate Contact Page',
+    });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -468,7 +514,7 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Review Page' });
+    cy.stableHappoScreenshot({ clearHovers: false, component: 'Review Page' });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -511,7 +557,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Acknowledgements Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Acknowledgements Page',
+    });
 
     cy.contains('button', 'Save and continue').click();
 
@@ -530,7 +579,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('header > div', 'Last saved:');
 
-    cy.get('body').happoScreenshot({ component: 'Submission Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Submission Page',
+    });
 
     cy.contains('button', 'Submit').click();
 
@@ -543,7 +595,7 @@ describe('The applicant dashboard', () => {
       name: /Thank you for applying to CCBC Intake 1/i,
     }).should('exist');
 
-    cy.get('body').happoScreenshot({ component: 'Success Page' });
+    cy.stableHappoScreenshot({ clearHovers: false, component: 'Success Page' });
 
     cy.contains('button', 'Return to dashboard').click();
   });
@@ -557,9 +609,16 @@ describe('The applicant dashboard', () => {
 
     // Dashboard page
     cy.contains('h1', 'Dashboard');
-    // wait for our page component to stop re-rendering 6 times...
-    cy.wait(1000);
-    cy.get('body').happoScreenshot({ component: 'Out of Intake Dashboard' });
+
+    // Wait for dashboard to fully load
+    cy.waitForElementStable('h1:contains("Dashboard")', {
+      timeout: 10000,
+      stabilityTime: 500,
+    });
+
+    cy.screenshotPage('Out of Intake Dashboard', 'dashboard', {
+      clearHovers: false,
+    });
 
     cy.contains('a', 'View').click();
 
@@ -569,7 +628,8 @@ describe('The applicant dashboard', () => {
     cy.get('[id="root_geographicAreaDescription"]').should('be.disabled');
     cy.get('[id="root_projectDescription"]').should('be.disabled');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Project Information Page',
     });
 
@@ -583,7 +643,8 @@ describe('The applicant dashboard', () => {
 
     cy.get('input').should('be.disabled');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Project Area Page',
     });
 
@@ -594,7 +655,8 @@ describe('The applicant dashboard', () => {
 
     cy.get('input').should('be.disabled');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Existing Network Coverage Page',
     });
 
@@ -605,7 +667,8 @@ describe('The applicant dashboard', () => {
 
     cy.get('input').should('be.disabled');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Project Funding Page',
     });
 
@@ -617,7 +680,8 @@ describe('The applicant dashboard', () => {
 
     cy.get('input').should('be.disabled');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Other Funding Sources Page',
     });
 
@@ -626,7 +690,8 @@ describe('The applicant dashboard', () => {
     // Technological solution page
     cy.contains('h1', 'Technological solution');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Technological Solution Page',
     });
 
@@ -640,7 +705,8 @@ describe('The applicant dashboard', () => {
 
     cy.get('textarea').should('be.disabled');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Benefits Page',
     });
 
@@ -651,7 +717,8 @@ describe('The applicant dashboard', () => {
 
     cy.get('input').should('be.disabled');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Project Planning and Management Page',
     });
 
@@ -661,7 +728,8 @@ describe('The applicant dashboard', () => {
 
     cy.contains('h1', 'Template uploads');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Template Uploads Page',
     });
 
@@ -672,7 +740,8 @@ describe('The applicant dashboard', () => {
 
     cy.contains('a', 'connectingcommunitiesbc@gov.bc.ca');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Supporting Documents Page',
     });
 
@@ -684,7 +753,8 @@ describe('The applicant dashboard', () => {
 
     cy.contains('a', 'Eligibility Mapping Tool');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Coverage Page',
     });
 
@@ -696,7 +766,8 @@ describe('The applicant dashboard', () => {
 
     cy.get('input').should('be.disabled');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Organization Profile Page',
     });
 
@@ -708,7 +779,8 @@ describe('The applicant dashboard', () => {
 
     cy.get('input').should('be.disabled');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Organization Location Page',
     });
 
@@ -720,7 +792,8 @@ describe('The applicant dashboard', () => {
 
     cy.get('input').should('be.disabled');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Organization Contact Information Page',
     });
 
@@ -732,7 +805,8 @@ describe('The applicant dashboard', () => {
 
     cy.get('input').should('be.disabled');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Authorized Contact Page',
     });
 
@@ -744,7 +818,8 @@ describe('The applicant dashboard', () => {
 
     cy.get('input').should('be.disabled');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Alternate Contact Page',
     });
 
@@ -754,7 +829,10 @@ describe('The applicant dashboard', () => {
 
     cy.contains('h1', 'Review');
 
-    cy.get('body').happoScreenshot({ component: 'Out of Intake Review Page' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Out of Intake Review Page',
+    });
 
     cy.contains('button', 'Continue').click();
 
@@ -762,7 +840,8 @@ describe('The applicant dashboard', () => {
 
     cy.contains('h1', 'Acknowledgements');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Acknowledgements Page',
     });
 
@@ -782,7 +861,8 @@ describe('The applicant dashboard', () => {
 
     cy.get('[id="root_submissionDate"]').should('have.text', '2022-10-09');
 
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Out of Intake Submission Page',
     });
 
@@ -799,7 +879,10 @@ describe('The applicant dashboard', () => {
     cy.sqlFixture('e2e/001_rfi');
     cy.visit('/applicantportal/dashboard');
     cy.wait(1000);
-    cy.get('body').happoScreenshot({ component: 'Dashboard with RFI' });
+    cy.stableHappoScreenshot({
+      clearHovers: false,
+      component: 'Dashboard with RFI',
+    });
   });
 
   it('should see status change after analyst changes status', () => {
@@ -833,7 +916,8 @@ describe('The applicant dashboard', () => {
     cy.mockLogin('ccbc_auth_user');
     cy.visit('/applicantportal/dashboard');
     cy.contains('div', 'fake_status').should('be.visible');
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
+      clearHovers: false,
       component: 'Dashboard with fake visible status',
     });
   });

@@ -18,8 +18,17 @@ describe('The analyst application view', () => {
       it('loads', () => {
         cy.visit('/analyst/application/1');
         cy.contains('h1', 'Test application');
-        cy.get('body').happoScreenshot({
+
+        // Wait for the application view to fully load
+        cy.waitForElementStable('h1:contains("Test application")', {
+          timeout: 10000,
+          stabilityTime: 500,
+        });
+
+        cy.stableHappoScreenshot({
           component: `Analyst application view - ${role}`,
+          clearHovers: false,
+          ensureConsistent: false,
         });
       });
     });
