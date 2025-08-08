@@ -48,6 +48,22 @@ const generateUniqueKey = () => {
   return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
 };
 
+const sortAndMarkLatest = (coverages: any[]): any[] => {
+  const sorted = [...coverages].filter(Boolean).sort((a, b) => {
+    if (a.source?.includes('SOW')) return 1;
+    if (b.source?.includes('SOW')) return -1;
+    return b.source.localeCompare(a.source, undefined, {
+      numeric: true,
+    });
+  });
+
+  // mark only the latest as checked
+  return sorted.map((item, _, arr) => ({
+    ...item,
+    latest: item.source === arr[0]?.source,
+  }));
+};
+
 const convertKmlColorToHex = (
   kmlColor: string
 ): {
@@ -201,38 +217,94 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
           )}
           <ScaleControl position="bottomleft" imperial={false} />
           <LayersControl position="topright">
-            {data?.geographicCoverageMap?.length > 0 && (
+            {data?.finalizedMapUpload?.length > 0 && (
               <>
-                {data?.geographicCoverageMap?.map((geoData) => (
+                {sortAndMarkLatest(data?.finalizedMapUpload)?.map((geoData) => (
                   <LayersControl.Overlay
-                    checked
-                    // Name does not accept anything but string, but it will render basic HTML
+                    // only enable the latest by default
+                    checked={geoData.latest}
                     name={`<span class='${tooltipClass}'>Project Coverage (${geoData?.source})</span>`}
-                    key={`geo-overlay-${generateUniqueKey()}`}
+                    key={`finalized-overlay-${generateUniqueKey()}`}
                   >
                     <LayerGroup>
                       <RenderMarkers
-                        markers={geoData?.markers}
-                        name="geo-marker"
+                        markers={geoData.markers}
+                        name="finalized-marker"
                         expanded={expanded}
                       />
                       {geoData?.polygons?.map((polygon) => (
                         <Polygon
-                          key={`geo-polygon-${generateUniqueKey()}`}
+                          key={`finalized-polygon-${polygon?.fileNam}`}
                           positions={polygon.coordinates}
-                          color="blue"
+                          color="purple"
                           pathOptions={pathOptions}
                         >
                           <Popup>
-                            {polygon?.balloonData && (
-                              <div>{parse(polygon.balloonData)}</div>
-                            )}
+                            <h4>{polygon?.name}</h4>
+                            <p>{polygon?.description}</p>
                           </Popup>
                         </Polygon>
+                      ))}
+                      {geoData?.lineStrings?.map((line) => (
+                        <Polyline
+                          key={`finalized-line-${line?.fileName}`}
+                          positions={line.coordinates}
+                          color={
+                            convertKmlColorToHex(line?.style?.lineStyle?.color)
+                              .hex
+                          }
+                          pathOptions={pathOptions}
+                        >
+                          <Popup>
+                            <h4>{line?.name}</h4>
+                            {line?.description && (
+                              <div>{parse(line.description)}</div>
+                            )}
+                          </Popup>
+                        </Polyline>
                       ))}
                     </LayerGroup>
                   </LayersControl.Overlay>
                 ))}
+              </>
+            )}
+            {data?.geographicCoverageMap?.length > 0 && (
+              <>
+                {sortAndMarkLatest(data?.geographicCoverageMap)?.map(
+                  (geoData) => (
+                    <LayersControl.Overlay
+                      checked={
+                        // enable only when the latest project coverage (no sow or amendment coverage uploads present)
+                        geoData.latest && data?.finalizedMapUpload?.length < 1
+                      }
+                      // Name does not accept anything but string, but it will render basic HTML
+                      name={`<span class='${tooltipClass}'>Project Coverage (${geoData?.source})</span>`}
+                      key={`geo-overlay-${generateUniqueKey()}`}
+                    >
+                      <LayerGroup>
+                        <RenderMarkers
+                          markers={geoData?.markers}
+                          name="geo-marker"
+                          expanded={expanded}
+                        />
+                        {geoData?.polygons?.map((polygon) => (
+                          <Polygon
+                            key={`geo-polygon-${generateUniqueKey()}`}
+                            positions={polygon.coordinates}
+                            color="blue"
+                            pathOptions={pathOptions}
+                          >
+                            <Popup>
+                              {polygon?.balloonData && (
+                                <div>{parse(polygon.balloonData)}</div>
+                              )}
+                            </Popup>
+                          </Polygon>
+                        ))}
+                      </LayerGroup>
+                    </LayersControl.Overlay>
+                  )
+                )}
               </>
             )}
             {data?.currentNetworkInfrastructure?.length > 0 && (
@@ -291,56 +363,6 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                             <p>{polygon?.description}</p>
                           </Popup>
                         </Polygon>
-                      ))}
-                    </LayerGroup>
-                  </LayersControl.Overlay>
-                ))}
-              </>
-            )}
-            {data?.finalizedMapUpload?.length > 0 && (
-              <>
-                {data?.finalizedMapUpload?.map((geoData) => (
-                  <LayersControl.Overlay
-                    checked
-                    name={`<span class='${tooltipClass}'>Project Coverage (${geoData?.source})</span>`}
-                    key={`finalized-overlay-${generateUniqueKey()}`}
-                  >
-                    <LayerGroup>
-                      <RenderMarkers
-                        markers={geoData.markers}
-                        name="finalized-marker"
-                        expanded={expanded}
-                      />
-                      {geoData?.polygons?.map((polygon) => (
-                        <Polygon
-                          key={`finalized-polygon-${polygon?.fileNam}`}
-                          positions={polygon.coordinates}
-                          color="purple"
-                          pathOptions={pathOptions}
-                        >
-                          <Popup>
-                            <h4>{polygon?.name}</h4>
-                            <p>{polygon?.description}</p>
-                          </Popup>
-                        </Polygon>
-                      ))}
-                      {geoData?.lineStrings?.map((line) => (
-                        <Polyline
-                          key={`finalized-line-${line?.fileName}`}
-                          positions={line.coordinates}
-                          color={
-                            convertKmlColorToHex(line?.style?.lineStyle?.color)
-                              .hex
-                          }
-                          pathOptions={pathOptions}
-                        >
-                          <Popup>
-                            <h4>{line?.name}</h4>
-                            {line?.description && (
-                              <div>{parse(line.description)}</div>
-                            )}
-                          </Popup>
-                        </Polyline>
                       ))}
                     </LayerGroup>
                   </LayersControl.Overlay>

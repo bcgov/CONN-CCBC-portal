@@ -350,7 +350,7 @@ BEGIN
             new_array := new_array || jsonb_set(
               array_element,
               ARRAY['name'],
-              to_jsonb(key_name || '-' || (index)::text)
+              to_jsonb(key_name || '-' || index || COALESCE(substring(array_element->>'name' from '\.[^\.]+$'), ''))
             );
           ELSE
             new_array := new_array || array_element;
@@ -376,7 +376,7 @@ BEGIN
                 new_array := new_array || jsonb_set(
                   array_element,
                   ARRAY['name'],
-                  to_jsonb(array_name || '-' || (index)::text)
+                  to_jsonb(array_name || '-' || index || COALESCE(substring(array_element->>'name' from '\.[^\.]+$'), ''))
                 );
               ELSE
                 new_array := new_array || array_element;
