@@ -1,3 +1,9 @@
+# [1.268.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.267.5...v1.268.0) (2025-08-08)
+
+### Features
+
+- add funding source to all dashboard ([832da7b](https://github.com/bcgov/CONN-CCBC-portal/commit/832da7b21172d76975cc9a9716b71efe7bc6bcc0))
+
 ## [1.267.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.267.4...v1.267.5) (2025-08-08)
 
 ## [1.267.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.267.3...v1.267.4) (2025-08-08)
