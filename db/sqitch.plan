@@ -846,3 +846,4 @@ mutations/create_change_request [mutations/create_change_request@1.262.19] 2025-
 computed_columns/application_history [computed_columns/application_history@1.259.0] 2025-07-15T16:15:18Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # remove attachments
 types/change_log_record 2025-07-24T20:22:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # type for change log records with ccbc_number and application_id
 computed_columns/change_log [types/change_log_record] 2025-07-24T20:22:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # query to return history for the change log
+@1.265.0 2025-08-08T22:30:05Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # release v1.265.0
