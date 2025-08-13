@@ -284,6 +284,210 @@ const getChangesToOverallBudget = (
   return changesToOverallBudget;
 };
 
+/// Budget Table Functions
+
+const extractFiscalYear = (headerText: string): string | null => {
+  if (typeof headerText !== 'string') return null;
+
+  // Match patterns like "2022-2023", "2023-2024", "2023-24", etc.
+  const fiscalYearMatch = headerText.match(/(\d{4})-(\d{2,4})/);
+  if (fiscalYearMatch) {
+    const startYear = fiscalYearMatch[1];
+    const endYearPart = fiscalYearMatch[2];
+
+    // Handle both full year (2023) and short year (24) formats
+    let endYear = endYearPart;
+    if (endYearPart.length === 2) {
+      // Convert 2-digit year to 4-digit year
+      const century = startYear.substring(0, 2);
+      endYear = century + endYearPart;
+    }
+
+    return `${startYear}-${endYear}`;
+  }
+
+  return null;
+};
+
+const safeParseFloat = (value: any): number => {
+  const numericValue = typeof value === 'number' ? value : parseFloat(value);
+  return !Number.isNaN(numericValue) ? numericValue : 0;
+};
+
+const parseProjectBudgetByGovernmentFY = (
+  progressReportSheet: Array<any>,
+  startRowIndex: number
+): Array<any> => {
+  const budgetData = [];
+  const allColumns = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+  ];
+
+  // The fiscal year headers are in the first row (startRowIndex)
+  // Extract fiscal years from all columns
+  const fiscalYears = [];
+  allColumns.forEach((col) => {
+    const cellValue =
+      progressReportSheet[startRowIndex] &&
+      progressReportSheet[startRowIndex][col];
+    if (cellValue) {
+      const fiscalYear = extractFiscalYear(cellValue.toString());
+      if (fiscalYear) {
+        fiscalYears.push({ fiscalYear, column: col });
+      }
+    }
+  });
+
+  if (fiscalYears.length === 0) return budgetData;
+
+  // Parse the budget rows - they are in fixed positions after the header
+  // Row 1: Eligible Costs
+  // Row 2: Ineligible Costs
+  // Row 3: Total Project Costs
+  const budgetRowMappings = [
+    { rowOffset: 1, key: 'eligibleCost' },
+    { rowOffset: 2, key: 'ineligibleCost' },
+    { rowOffset: 3, key: 'totalProjectCost' },
+  ];
+
+  fiscalYears.forEach(({ fiscalYear, column }) => {
+    const fiscalData = { fiscal: fiscalYear };
+
+    budgetRowMappings.forEach(({ rowOffset, key }) => {
+      const currentRowIndex = startRowIndex + rowOffset;
+      if (progressReportSheet[currentRowIndex]) {
+        const value = progressReportSheet[currentRowIndex][column];
+        if (value !== undefined && value !== null && value !== '') {
+          fiscalData[key] = safeParseFloat(value);
+        }
+      }
+    });
+
+    // Only add fiscal data if it has at least one budget value
+    const hasData = Object.keys(fiscalData).length > 1; // more than just 'fiscal'
+    if (hasData) {
+      budgetData.push(fiscalData);
+    }
+  });
+
+  return budgetData;
+};
+
+const parseUpdatedProvincialContributionByQuarter = (
+  progressReportSheet: Array<any>,
+  startRowIndex: number
+): Array<any> => {
+  const quarterlyData = [];
+  const allColumns = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+  ];
+
+  // The forecast headers are in the next row after the startRowIndex
+  const headerRowIndex = startRowIndex + 1;
+
+  if (!progressReportSheet[headerRowIndex]) return quarterlyData;
+
+  // Extract fiscal years from forecast headers
+  const fiscalYears = [];
+  allColumns.forEach((col) => {
+    const cellValue = progressReportSheet[headerRowIndex][col];
+    if (cellValue && cellValue.toString().toLowerCase().includes('forecast')) {
+      const fiscalYear = extractFiscalYear(cellValue.toString());
+      if (fiscalYear) {
+        fiscalYears.push({ fiscalYear, column: col });
+      }
+    }
+  });
+
+  if (fiscalYears.length === 0) return quarterlyData;
+
+  // Parse the quarterly rows - they are in fixed positions after the header
+  // Row 2: April - June
+  // Row 3: July - September
+  // Row 4: October - December
+  // Row 5: January - March
+  // Row 6: Fiscal Year Total
+  const quarterRowMappings = [
+    { rowOffset: 1, key: 'aprilJune' },
+    { rowOffset: 2, key: 'julySeptember' },
+    { rowOffset: 3, key: 'octoberDecember' },
+    { rowOffset: 4, key: 'januaryMarch' },
+    { rowOffset: 5, key: 'fiscalYearTotal' },
+  ];
+
+  fiscalYears.forEach(({ fiscalYear, column }) => {
+    const fiscalData = { fiscal: fiscalYear };
+
+    quarterRowMappings.forEach(({ rowOffset, key }) => {
+      const currentRowIndex = headerRowIndex + rowOffset;
+      if (progressReportSheet[currentRowIndex]) {
+        const value = progressReportSheet[currentRowIndex][column];
+        if (value !== undefined && value !== null && value !== '') {
+          fiscalData[key] = safeParseFloat(value);
+        }
+      }
+    });
+
+    // Only add fiscal data if it has at least one quarterly value
+    const hasData = Object.keys(fiscalData).length > 1; // more than just 'fiscal'
+    if (hasData) {
+      quarterlyData.push(fiscalData);
+    }
+  });
+
+  return quarterlyData;
+};
+
 /// Claims Request Form Flags
 
 const isDateRequestedReceivedFlag = (dateStringFlag: any) => {
@@ -600,6 +804,39 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
     }
   }
 
+  // Parse budget tables using known positions relative to "changes to overall budget"
+  let projectBudgetByGovernmentFY = [];
+  let updatedProvincialContributionByQuarter = [];
+  let budgetTableRowIndex = -1;
+
+  // Find the row where the "changes to overall budget" question was found
+  for (let i = 0; i < progressReportSheet.length; i++) {
+    if (
+      checkFirstTenColumns(progressReportSheet, isChangesToOverallBudgetFlag, i)
+    ) {
+      budgetTableRowIndex = i + 1; // The table starts one row after the question
+      break;
+    }
+  }
+
+  if (budgetTableRowIndex !== -1) {
+    // Parse the first budget table (By Government FY)
+    // This table is exactly one row after the "changes to overall budget" question
+    projectBudgetByGovernmentFY = parseProjectBudgetByGovernmentFY(
+      progressReportSheet,
+      budgetTableRowIndex
+    );
+
+    // Parse the second budget table (Provincial Contribution by Quarter)
+    // This table header is 4 rows below the first table
+    const quarterlyTableRowIndex = budgetTableRowIndex + 4;
+    updatedProvincialContributionByQuarter =
+      parseUpdatedProvincialContributionByQuarter(
+        progressReportSheet,
+        quarterlyTableRowIndex
+      );
+  }
+
   const jsonData = {
     dateRequestReceived,
     projectNumber,
@@ -615,6 +852,8 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
     communicationMaterials,
     projectBudgetRisks,
     changesToOverallBudget,
+    projectBudgetByGovernmentFY,
+    updatedProvincialContributionByQuarter,
   };
 
   const claimsData = {
