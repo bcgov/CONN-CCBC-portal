@@ -1158,13 +1158,11 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
 
 const ValidateData = async (data, req) => {
   const { ccbcNumber, applicationId, claimsId, excelDataId } = req.params;
-  const {
-    claimNumber,
-    dateRequestReceived,
-    projectNumber,
-    eligibleCostsIncurredFromDate,
-    eligibleCostsIncurredToDate,
-  } = data;
+  const { claimNumber, dateRequestReceived, projectNumber } =
+    data.claimRequestForm;
+
+  const { eligibleCostsIncurredFromDate, eligibleCostsIncurredToDate } =
+    data.claimRequestForm.projectCostsClaimPeriod;
 
   // get all previous claims for this applications
   const claims: any = await performQuery(
@@ -1190,7 +1188,10 @@ const ValidateData = async (data, req) => {
   const previousClaimNumbers =
     claims?.data?.applicationByRowId?.applicationClaimsExcelDataByApplicationId?.nodes?.map(
       (claim) => {
-        return claim.jsonData.claimNumber;
+        return (
+          claim.jsonData.claimRequestForm?.claimNumber ||
+          claim.jsonData.claimNumber
+        );
       }
     );
 
@@ -1219,9 +1220,15 @@ const ValidateData = async (data, req) => {
           return claim.rowId === parseInt(excelDataId, 10);
         }
       );
+
+    // Handle both old and new data structures
+    const existingClaimNumber =
+      existingClaim?.jsonData?.claimRequestForm?.claimNumber ||
+      existingClaim?.jsonData?.claimNumber;
+
     if (
       existingClaim === undefined ||
-      existingClaim.jsonData.claimNumber !== data.claimNumber
+      existingClaimNumber !== data.claimRequestForm.claimNumber
     ) {
       errors.push({
         error: 'The claim number does not match the claim number being edited.',
