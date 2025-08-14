@@ -569,9 +569,9 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       // geo ids
       { value: communities.bcGeographicIds.join(',') },
       // total communities and locales
-      { value: communities.totalCount },
+      { value: cbcDataByCbcId?.communitiesAndLocalesCount },
       // indigenous communities
-      { value: null },
+      { value: cbcDataByCbcId?.indigenousCommunities },
       // household count
       {
         value: cbcDataByCbcId?.householdCount,
@@ -591,6 +591,12 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       // bc funding requested
       {
         value: cbcDataByCbcId?.bcFundingRequested,
+        format: '$#,##0.00',
+        type: Number,
+      },
+      // federal funding requested
+      {
+        value: cbcDataByCbcId?.federalFundingRequested,
         format: '$#,##0.00',
         type: Number,
       },
