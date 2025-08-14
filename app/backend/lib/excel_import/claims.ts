@@ -135,6 +135,68 @@ const getEligibleCostsIncurredToDate = (
   return convertExcelDateToJSDate(eligibleCostsIncurredToDate);
 };
 
+const getEligibleCostsClaimed = (
+  claimsRequestFormSheet: Array<any>,
+  index: number,
+  column: string
+) => {
+  if (
+    claimsRequestFormSheet[index] &&
+    claimsRequestFormSheet[index][column] &&
+    typeof claimsRequestFormSheet[index][column] === 'string' &&
+    claimsRequestFormSheet[index][column] !==
+      'Select Option from Drop Down Menu to describe if Costs were Incurred and/or Paid'
+  ) {
+    return claimsRequestFormSheet[index][column];
+  }
+  return null;
+};
+
+const getTotalEligibleCostsClaimed = (
+  claimsRequestFormSheet: Array<any>,
+  index: number,
+  column: string
+) => {
+  if (
+    claimsRequestFormSheet[index] &&
+    claimsRequestFormSheet[index][column] &&
+    typeof claimsRequestFormSheet[index][column] === 'number'
+  ) {
+    return claimsRequestFormSheet[index][column];
+  }
+  return null;
+};
+
+const getIsedShareFromClaimPayment = (
+  claimsRequestFormSheet: Array<any>,
+  index: number,
+  column: string
+) => {
+  if (
+    claimsRequestFormSheet[index] &&
+    claimsRequestFormSheet[index][column] &&
+    typeof claimsRequestFormSheet[index][column] === 'number'
+  ) {
+    return claimsRequestFormSheet[index][column];
+  }
+  return null;
+};
+
+const getBcShareFromClaimPayment = (
+  claimsRequestFormSheet: Array<any>,
+  index: number,
+  column: string
+) => {
+  if (
+    claimsRequestFormSheet[index] &&
+    claimsRequestFormSheet[index][column] &&
+    typeof claimsRequestFormSheet[index][column] === 'number'
+  ) {
+    return claimsRequestFormSheet[index][column];
+  }
+  return null;
+};
+
 /// Get Progress Report Fields
 
 const isValidProgressReportInput = (input) => {
@@ -686,6 +748,11 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
   let claimNumber = null;
   let eligibleCostsIncurredFromDate = null;
   let eligibleCostsIncurredToDate = null;
+  let eligibleCostsClaimed = null;
+  let totalEligibleCostsClaimed = null;
+  let isedShareFromClaimPayment = null;
+  let bcShareFromClaimPayment = null;
+
   for (let i = 0; i < 50; i++) {
     if (
       checkFirstTenColumns(
@@ -720,6 +787,88 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
         claimsRequestFormSheet,
         i
       );
+
+      // Find which column contains the isEligibleCostsIncurredFromDateFlag
+      let flagColumn = null;
+      firstTenRowLetters.forEach((letter) => {
+        if (
+          claimsRequestFormSheet[i] &&
+          claimsRequestFormSheet[i][letter] &&
+          isEligibleCostsIncurredFromDateFlag(claimsRequestFormSheet[i][letter])
+        ) {
+          flagColumn = letter;
+        }
+      });
+
+      // Helper function to get the next column (move one column to the right)
+      const getNextColumn = (currentColumn: string): string | null => {
+        const allColumns = [
+          'A',
+          'B',
+          'C',
+          'D',
+          'E',
+          'F',
+          'G',
+          'H',
+          'I',
+          'J',
+          'K',
+          'L',
+          'M',
+          'N',
+          'O',
+          'P',
+        ];
+        const currentIndex = allColumns.indexOf(currentColumn);
+        if (currentIndex !== -1 && currentIndex < allColumns.length - 1) {
+          return allColumns[currentIndex + 1];
+        }
+        return null;
+      };
+
+      // Parse the new fields based on their relative positions to isEligibleCostsIncurredFromDateFlag
+      // Use the column one position to the right of the flag
+      if (flagColumn) {
+        const dataColumn = getNextColumn(flagColumn);
+        if (dataColumn) {
+          // eligibleCostsClaimed is 5 rows before
+          if (i >= 5) {
+            eligibleCostsClaimed = getEligibleCostsClaimed(
+              claimsRequestFormSheet,
+              i - 5,
+              dataColumn
+            );
+          }
+
+          // totalEligibleCostsClaimed is 4 rows before
+          if (i >= 4) {
+            totalEligibleCostsClaimed = getTotalEligibleCostsClaimed(
+              claimsRequestFormSheet,
+              i - 4,
+              dataColumn
+            );
+          }
+
+          // isedShareFromClaimPayment is 3 rows before
+          if (i >= 3) {
+            isedShareFromClaimPayment = getIsedShareFromClaimPayment(
+              claimsRequestFormSheet,
+              i - 3,
+              dataColumn
+            );
+          }
+
+          // bcShareFromClaimPayment is 2 rows before
+          if (i >= 2) {
+            bcShareFromClaimPayment = getBcShareFromClaimPayment(
+              claimsRequestFormSheet,
+              i - 2,
+              dataColumn
+            );
+          }
+        }
+      }
     }
     if (
       checkFirstTenColumns(
@@ -844,6 +993,10 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
     claimNumber,
     eligibleCostsIncurredFromDate,
     eligibleCostsIncurredToDate,
+    eligibleCostsClaimed,
+    totalEligibleCostsClaimed,
+    isedShareFromClaimPayment,
+    bcShareFromClaimPayment,
     progressOnPermits,
     hasConstructionBegun,
     haveServicesBeenOffered,
