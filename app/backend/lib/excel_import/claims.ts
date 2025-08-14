@@ -197,6 +197,114 @@ const getBcShareFromClaimPayment = (
   return null;
 };
 
+const getPaymentCalculationData = (
+  claimsRequestFormSheet: Array<any>,
+  paymentCalculationRowIndex: number
+) => {
+  const paymentCalculation = {
+    totalApprovedEligibleCost: null,
+    grossApprovedAssistance: null,
+    holdback: null,
+    netApprovedAssistance: null,
+    amountOwing: null,
+    adjustmentsOrRecoveries: null,
+    requestedPayment: null,
+  };
+
+  // Total Approved Eligible Cost is 2 rows below the "Payment Calculation" header
+  const totalEligibleCostRowIndex = paymentCalculationRowIndex + 2;
+  if (claimsRequestFormSheet[totalEligibleCostRowIndex]) {
+    paymentCalculation.totalApprovedEligibleCost = {
+      current: claimsRequestFormSheet[totalEligibleCostRowIndex]['E'] || null,
+      isedCumulative:
+        claimsRequestFormSheet[totalEligibleCostRowIndex]['G'] || null,
+      bcCumulative:
+        claimsRequestFormSheet[totalEligibleCostRowIndex]['H'] || null,
+    };
+  }
+
+  // Gross Approved Assistance is the next row after totalApprovedEligibleCost
+  const grossAssistanceRowIndex = totalEligibleCostRowIndex + 1;
+  if (claimsRequestFormSheet[grossAssistanceRowIndex]) {
+    paymentCalculation.grossApprovedAssistance = {
+      isedCurrent: claimsRequestFormSheet[grossAssistanceRowIndex]['E'] || null,
+      bcCurrent: claimsRequestFormSheet[grossAssistanceRowIndex]['F'] || null,
+      isedCumulative:
+        claimsRequestFormSheet[grossAssistanceRowIndex]['G'] || null,
+      bcCumulative:
+        claimsRequestFormSheet[grossAssistanceRowIndex]['H'] || null,
+    };
+  }
+
+  // Holdback is the next row after grossApprovedAssistance
+  const holdbackRowIndex = grossAssistanceRowIndex + 1;
+  if (claimsRequestFormSheet[holdbackRowIndex]) {
+    paymentCalculation.holdback = {
+      isedCurrent: claimsRequestFormSheet[holdbackRowIndex]['E'] || null,
+      bcCurrent: claimsRequestFormSheet[holdbackRowIndex]['F'] || null,
+      isedCumulative: claimsRequestFormSheet[holdbackRowIndex]['G'] || null,
+      bcCumulative: claimsRequestFormSheet[holdbackRowIndex]['H'] || null,
+    };
+  }
+
+  // Net Approved Assistance is the next row after holdback
+  const netApprovedAssistanceRowIndex = holdbackRowIndex + 1;
+  if (claimsRequestFormSheet[netApprovedAssistanceRowIndex]) {
+    paymentCalculation.netApprovedAssistance = {
+      isedCurrent:
+        claimsRequestFormSheet[netApprovedAssistanceRowIndex]['E'] || null,
+      bcCurrent:
+        claimsRequestFormSheet[netApprovedAssistanceRowIndex]['F'] || null,
+      isedCumulative:
+        claimsRequestFormSheet[netApprovedAssistanceRowIndex]['G'] || null,
+      bcCumulative:
+        claimsRequestFormSheet[netApprovedAssistanceRowIndex]['H'] || null,
+    };
+  }
+
+  // Amount Owing is the next row after netApprovedAssistance
+  const amountOwingRowIndex = netApprovedAssistanceRowIndex + 1;
+  if (claimsRequestFormSheet[amountOwingRowIndex]) {
+    paymentCalculation.amountOwing = {
+      isedCurrent: claimsRequestFormSheet[amountOwingRowIndex]['E'] || null,
+      bcCurrent: claimsRequestFormSheet[amountOwingRowIndex]['F'] || null,
+      isedCumulative: claimsRequestFormSheet[amountOwingRowIndex]['G'] || null,
+      bcCumulative: claimsRequestFormSheet[amountOwingRowIndex]['H'] || null,
+    };
+  }
+
+  // Adjustments or Recoveries is the next row after amountOwing
+  const adjustmentsOrRecoveriesRowIndex = amountOwingRowIndex + 1;
+  if (claimsRequestFormSheet[adjustmentsOrRecoveriesRowIndex]) {
+    paymentCalculation.adjustmentsOrRecoveries = {
+      isedCurrent:
+        claimsRequestFormSheet[adjustmentsOrRecoveriesRowIndex]['E'] || null,
+      bcCurrent:
+        claimsRequestFormSheet[adjustmentsOrRecoveriesRowIndex]['F'] || null,
+      isedCumulative:
+        claimsRequestFormSheet[adjustmentsOrRecoveriesRowIndex]['G'] || null,
+      bcCumulative:
+        claimsRequestFormSheet[adjustmentsOrRecoveriesRowIndex]['H'] || null,
+    };
+  }
+
+  // Requested Payment is the next row after adjustmentsOrRecoveries
+  const requestedPaymentRowIndex = adjustmentsOrRecoveriesRowIndex + 1;
+  if (claimsRequestFormSheet[requestedPaymentRowIndex]) {
+    paymentCalculation.requestedPayment = {
+      isedCurrent:
+        claimsRequestFormSheet[requestedPaymentRowIndex]['E'] || null,
+      bcCurrent: claimsRequestFormSheet[requestedPaymentRowIndex]['F'] || null,
+      isedCumulative:
+        claimsRequestFormSheet[requestedPaymentRowIndex]['G'] || null,
+      bcCumulative:
+        claimsRequestFormSheet[requestedPaymentRowIndex]['H'] || null,
+    };
+  }
+
+  return paymentCalculation;
+};
+
 /// Get Progress Report Fields
 
 const isValidProgressReportInput = (input) => {
@@ -630,6 +738,17 @@ const isEligibleCostsIncurredToDateFlag = (
   );
 };
 
+const isPaymentCalculationFlag = (paymentCalculationFlag: any) => {
+  if (typeof paymentCalculationFlag !== 'string') {
+    return false;
+  }
+  const paymentCalculationString = 'Payment Calculation';
+  return (
+    paymentCalculationFlag?.toLowerCase()?.trim() ===
+    paymentCalculationString?.toLowerCase()?.trim()
+  );
+};
+
 /// Progress Report Flags
 
 const isProgressOnPermitsFlag = (progressOnPermitsFlag: any) => {
@@ -752,6 +871,7 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
   let totalEligibleCostsClaimed = null;
   let isedShareFromClaimPayment = null;
   let bcShareFromClaimPayment = null;
+  let paymentCalculation = null;
 
   for (let i = 0; i < 50; i++) {
     if (
@@ -882,6 +1002,11 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
         i
       );
     }
+    if (
+      checkFirstTenColumns(claimsRequestFormSheet, isPaymentCalculationFlag, i)
+    ) {
+      paymentCalculation = getPaymentCalculationData(claimsRequestFormSheet, i);
+    }
   }
 
   // Progress Report sheet fields
@@ -997,6 +1122,7 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
     totalEligibleCostsClaimed,
     isedShareFromClaimPayment,
     bcShareFromClaimPayment,
+    paymentCalculation,
     progressOnPermits,
     hasConstructionBegun,
     haveServicesBeenOffered,
