@@ -1112,27 +1112,39 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
   }
 
   const jsonData = {
-    dateRequestReceived,
-    projectNumber,
-    isedProjectNumber,
-    claimNumber,
-    eligibleCostsIncurredFromDate,
-    eligibleCostsIncurredToDate,
-    eligibleCostsClaimed,
-    totalEligibleCostsClaimed,
-    isedShareFromClaimPayment,
-    bcShareFromClaimPayment,
-    paymentCalculation,
-    progressOnPermits,
-    hasConstructionBegun,
-    haveServicesBeenOffered,
-    projectScheduleRisks,
-    thirdPartyPassiveInfrastructure,
-    communicationMaterials,
-    projectBudgetRisks,
-    changesToOverallBudget,
-    projectBudgetByGovernmentFY,
-    updatedProvincialContributionByQuarter,
+    claimRequestForm: {
+      dateRequestReceived,
+      projectNumber,
+      isedProjectNumber,
+      claimNumber,
+      projectCostsClaimPeriod: {
+        eligibleCostsIncurredFromDate,
+        eligibleCostsIncurredToDate,
+      },
+      claimPaymentRequestSummary: {
+        eligibleCostsClaimed,
+        totalEligibleCostsClaimed,
+        isedShareFromClaimPayment,
+        bcShareFromClaimPayment,
+      },
+      paymentCalculation,
+    },
+    progressReport: {
+      projectImplementation: {
+        progressOnPermits,
+        hasConstructionBegun,
+        haveServicesBeenOffered,
+        projectScheduleRisks,
+        thirdPartyPassiveInfrastructure,
+        communicationMaterials,
+      },
+      projectBudget: {
+        projectBudgetRisks,
+        changesToOverallBudget,
+        projectBudgetByGovernmentFY,
+      },
+      updatedProvincialContributionByQuarter,
+    },
   };
 
   const claimsData = {
