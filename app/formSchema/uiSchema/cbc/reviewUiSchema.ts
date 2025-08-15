@@ -77,6 +77,10 @@ const reviewUiSchema = {
   },
   miscellaneous: {
     ...miscellaneousUiSchema,
+    constructionCompletedOn: {
+      ...miscellaneousUiSchema.constructionCompletedOn,
+      'ui:widget': 'DateWidget',
+    },
     'ui:options': { allowAnalystEdit: true },
   },
   projectDataReviews: {
