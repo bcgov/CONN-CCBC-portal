@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="ccbc" schema="ccbc_public" type="PostgreSQL - 15.13 (Debian 15.13-1.pgdg130+1)">
+<database name="ccbc" schema="ccbc_public" type="PostgreSQL - 15.14 (Debian 15.14-1.pgdg13+1)">
    <sequences>
       <sequence increment="1" name="cbc_data_change_reason_id_seq" startValue="1"/>
       <sequence increment="1" name="record_version_id_seq" startValue="1"/>
