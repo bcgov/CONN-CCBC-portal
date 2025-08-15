@@ -556,6 +556,38 @@ const ProjectChangeLog: React.FC<Props> = () => {
                     item.record?.json_data?.amendmentNumber
                 );
               }
+              // application status must match by status type (external vs internal)
+              if (previousItem.tableName === 'application_status') {
+                if (previousItem.tableName !== item.tableName) {
+                  return false;
+                }
+
+                // Special case: 'received' status can match both external and internal
+                const currentStatus = item.record?.status;
+                const previousStatus = previousItem.record?.status;
+
+                if (
+                  currentStatus === 'received' ||
+                  previousStatus === 'received'
+                ) {
+                  return true; // 'received' matches with any status type
+                }
+
+                // Check if current status is external (applicant_, withdrawn, submitted)
+                const currentIsExternal =
+                  currentStatus?.includes('applicant_') ||
+                  currentStatus === 'withdrawn' ||
+                  currentStatus === 'submitted';
+
+                // Check if previous status is external (applicant_, withdrawn, submitted)
+                const previousIsExternal =
+                  previousStatus?.includes('applicant_') ||
+                  previousStatus === 'withdrawn' ||
+                  previousStatus === 'submitted';
+
+                // Both must be the same type (external or internal)
+                return currentIsExternal === previousIsExternal;
+              }
               // Default: match by table name
               return previousItem.tableName === item.tableName;
             });
