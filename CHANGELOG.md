@@ -1,3 +1,9 @@
+## [1.268.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.268.1...v1.268.2) (2025-08-15)
+
+### Bug Fixes
+
+- cbc export federal funding, communities counts ([3edcbb3](https://github.com/bcgov/CONN-CCBC-portal/commit/3edcbb307ae4c0d358208816a3ac9e6058e77476))
+
 ## [1.268.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.268.0...v1.268.1) (2025-08-08)
 
 # [1.268.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.267.5...v1.268.0) (2025-08-08)
