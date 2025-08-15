@@ -135,6 +135,176 @@ const getEligibleCostsIncurredToDate = (
   return convertExcelDateToJSDate(eligibleCostsIncurredToDate);
 };
 
+const getEligibleCostsClaimed = (
+  claimsRequestFormSheet: Array<any>,
+  index: number,
+  column: string
+) => {
+  if (
+    claimsRequestFormSheet[index] &&
+    claimsRequestFormSheet[index][column] &&
+    typeof claimsRequestFormSheet[index][column] === 'string' &&
+    claimsRequestFormSheet[index][column] !==
+      'Select Option from Drop Down Menu to describe if Costs were Incurred and/or Paid'
+  ) {
+    return claimsRequestFormSheet[index][column];
+  }
+  return null;
+};
+
+const getTotalEligibleCostsClaimed = (
+  claimsRequestFormSheet: Array<any>,
+  index: number,
+  column: string
+) => {
+  if (
+    claimsRequestFormSheet[index] &&
+    claimsRequestFormSheet[index][column] &&
+    typeof claimsRequestFormSheet[index][column] === 'number'
+  ) {
+    return claimsRequestFormSheet[index][column];
+  }
+  return null;
+};
+
+const getIsedShareFromClaimPayment = (
+  claimsRequestFormSheet: Array<any>,
+  index: number,
+  column: string
+) => {
+  if (
+    claimsRequestFormSheet[index] &&
+    claimsRequestFormSheet[index][column] &&
+    typeof claimsRequestFormSheet[index][column] === 'number'
+  ) {
+    return claimsRequestFormSheet[index][column];
+  }
+  return null;
+};
+
+const getBcShareFromClaimPayment = (
+  claimsRequestFormSheet: Array<any>,
+  index: number,
+  column: string
+) => {
+  if (
+    claimsRequestFormSheet[index] &&
+    claimsRequestFormSheet[index][column] &&
+    typeof claimsRequestFormSheet[index][column] === 'number'
+  ) {
+    return claimsRequestFormSheet[index][column];
+  }
+  return null;
+};
+
+const getPaymentCalculationData = (
+  claimsRequestFormSheet: Array<any>,
+  paymentCalculationRowIndex: number
+) => {
+  const paymentCalculation = {
+    totalApprovedEligibleCost: null,
+    grossApprovedAssistance: null,
+    holdback: null,
+    netApprovedAssistance: null,
+    amountOwing: null,
+    adjustmentsOrRecoveries: null,
+    requestedPayment: null,
+  };
+
+  // Total Approved Eligible Cost is 2 rows below the "Payment Calculation" header
+  const totalEligibleCostRowIndex = paymentCalculationRowIndex + 2;
+  if (claimsRequestFormSheet[totalEligibleCostRowIndex]) {
+    paymentCalculation.totalApprovedEligibleCost = {
+      current: claimsRequestFormSheet[totalEligibleCostRowIndex]['E'] || null,
+      isedCumulative:
+        claimsRequestFormSheet[totalEligibleCostRowIndex]['G'] || null,
+      bcCumulative:
+        claimsRequestFormSheet[totalEligibleCostRowIndex]['H'] || null,
+    };
+  }
+
+  // Gross Approved Assistance is the next row after totalApprovedEligibleCost
+  const grossAssistanceRowIndex = totalEligibleCostRowIndex + 1;
+  if (claimsRequestFormSheet[grossAssistanceRowIndex]) {
+    paymentCalculation.grossApprovedAssistance = {
+      isedCurrent: claimsRequestFormSheet[grossAssistanceRowIndex]['E'] || null,
+      bcCurrent: claimsRequestFormSheet[grossAssistanceRowIndex]['F'] || null,
+      isedCumulative:
+        claimsRequestFormSheet[grossAssistanceRowIndex]['G'] || null,
+      bcCumulative:
+        claimsRequestFormSheet[grossAssistanceRowIndex]['H'] || null,
+    };
+  }
+
+  // Holdback is the next row after grossApprovedAssistance
+  const holdbackRowIndex = grossAssistanceRowIndex + 1;
+  if (claimsRequestFormSheet[holdbackRowIndex]) {
+    paymentCalculation.holdback = {
+      isedCurrent: claimsRequestFormSheet[holdbackRowIndex]['E'] || null,
+      bcCurrent: claimsRequestFormSheet[holdbackRowIndex]['F'] || null,
+      isedCumulative: claimsRequestFormSheet[holdbackRowIndex]['G'] || null,
+      bcCumulative: claimsRequestFormSheet[holdbackRowIndex]['H'] || null,
+    };
+  }
+
+  // Net Approved Assistance is the next row after holdback
+  const netApprovedAssistanceRowIndex = holdbackRowIndex + 1;
+  if (claimsRequestFormSheet[netApprovedAssistanceRowIndex]) {
+    paymentCalculation.netApprovedAssistance = {
+      isedCurrent:
+        claimsRequestFormSheet[netApprovedAssistanceRowIndex]['E'] || null,
+      bcCurrent:
+        claimsRequestFormSheet[netApprovedAssistanceRowIndex]['F'] || null,
+      isedCumulative:
+        claimsRequestFormSheet[netApprovedAssistanceRowIndex]['G'] || null,
+      bcCumulative:
+        claimsRequestFormSheet[netApprovedAssistanceRowIndex]['H'] || null,
+    };
+  }
+
+  // Amount Owing is the next row after netApprovedAssistance
+  const amountOwingRowIndex = netApprovedAssistanceRowIndex + 1;
+  if (claimsRequestFormSheet[amountOwingRowIndex]) {
+    paymentCalculation.amountOwing = {
+      isedCurrent: claimsRequestFormSheet[amountOwingRowIndex]['E'] || null,
+      bcCurrent: claimsRequestFormSheet[amountOwingRowIndex]['F'] || null,
+      isedCumulative: claimsRequestFormSheet[amountOwingRowIndex]['G'] || null,
+      bcCumulative: claimsRequestFormSheet[amountOwingRowIndex]['H'] || null,
+    };
+  }
+
+  // Adjustments or Recoveries is the next row after amountOwing
+  const adjustmentsOrRecoveriesRowIndex = amountOwingRowIndex + 1;
+  if (claimsRequestFormSheet[adjustmentsOrRecoveriesRowIndex]) {
+    paymentCalculation.adjustmentsOrRecoveries = {
+      isedCurrent:
+        claimsRequestFormSheet[adjustmentsOrRecoveriesRowIndex]['E'] || null,
+      bcCurrent:
+        claimsRequestFormSheet[adjustmentsOrRecoveriesRowIndex]['F'] || null,
+      isedCumulative:
+        claimsRequestFormSheet[adjustmentsOrRecoveriesRowIndex]['G'] || null,
+      bcCumulative:
+        claimsRequestFormSheet[adjustmentsOrRecoveriesRowIndex]['H'] || null,
+    };
+  }
+
+  // Requested Payment is the next row after adjustmentsOrRecoveries
+  const requestedPaymentRowIndex = adjustmentsOrRecoveriesRowIndex + 1;
+  if (claimsRequestFormSheet[requestedPaymentRowIndex]) {
+    paymentCalculation.requestedPayment = {
+      isedCurrent:
+        claimsRequestFormSheet[requestedPaymentRowIndex]['E'] || null,
+      bcCurrent: claimsRequestFormSheet[requestedPaymentRowIndex]['F'] || null,
+      isedCumulative:
+        claimsRequestFormSheet[requestedPaymentRowIndex]['G'] || null,
+      bcCumulative:
+        claimsRequestFormSheet[requestedPaymentRowIndex]['H'] || null,
+    };
+  }
+
+  return paymentCalculation;
+};
+
 /// Get Progress Report Fields
 
 const isValidProgressReportInput = (input) => {
@@ -284,6 +454,210 @@ const getChangesToOverallBudget = (
   return changesToOverallBudget;
 };
 
+/// Budget Table Functions
+
+const extractFiscalYear = (headerText: string): string | null => {
+  if (typeof headerText !== 'string') return null;
+
+  // Match patterns like "2022-2023", "2023-2024", "2023-24", etc.
+  const fiscalYearMatch = headerText.match(/(\d{4})-(\d{2,4})/);
+  if (fiscalYearMatch) {
+    const startYear = fiscalYearMatch[1];
+    const endYearPart = fiscalYearMatch[2];
+
+    // Handle both full year (2023) and short year (24) formats
+    let endYear = endYearPart;
+    if (endYearPart.length === 2) {
+      // Convert 2-digit year to 4-digit year
+      const century = startYear.substring(0, 2);
+      endYear = century + endYearPart;
+    }
+
+    return `${startYear}-${endYear}`;
+  }
+
+  return null;
+};
+
+const safeParseFloat = (value: any): number => {
+  const numericValue = typeof value === 'number' ? value : parseFloat(value);
+  return !Number.isNaN(numericValue) ? numericValue : 0;
+};
+
+const parseProjectBudgetByGovernmentFY = (
+  progressReportSheet: Array<any>,
+  startRowIndex: number
+): Array<any> => {
+  const budgetData = [];
+  const allColumns = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+  ];
+
+  // The fiscal year headers are in the first row (startRowIndex)
+  // Extract fiscal years from all columns
+  const fiscalYears = [];
+  allColumns.forEach((col) => {
+    const cellValue =
+      progressReportSheet[startRowIndex] &&
+      progressReportSheet[startRowIndex][col];
+    if (cellValue) {
+      const fiscalYear = extractFiscalYear(cellValue.toString());
+      if (fiscalYear) {
+        fiscalYears.push({ fiscalYear, column: col });
+      }
+    }
+  });
+
+  if (fiscalYears.length === 0) return budgetData;
+
+  // Parse the budget rows - they are in fixed positions after the header
+  // Row 1: Eligible Costs
+  // Row 2: Ineligible Costs
+  // Row 3: Total Project Costs
+  const budgetRowMappings = [
+    { rowOffset: 1, key: 'eligibleCost' },
+    { rowOffset: 2, key: 'ineligibleCost' },
+    { rowOffset: 3, key: 'totalProjectCost' },
+  ];
+
+  fiscalYears.forEach(({ fiscalYear, column }) => {
+    const fiscalData = { fiscal: fiscalYear };
+
+    budgetRowMappings.forEach(({ rowOffset, key }) => {
+      const currentRowIndex = startRowIndex + rowOffset;
+      if (progressReportSheet[currentRowIndex]) {
+        const value = progressReportSheet[currentRowIndex][column];
+        if (value !== undefined && value !== null && value !== '') {
+          fiscalData[key] = safeParseFloat(value);
+        }
+      }
+    });
+
+    // Only add fiscal data if it has at least one budget value
+    const hasData = Object.keys(fiscalData).length > 1; // more than just 'fiscal'
+    if (hasData) {
+      budgetData.push(fiscalData);
+    }
+  });
+
+  return budgetData;
+};
+
+const parseUpdatedProvincialContributionByQuarter = (
+  progressReportSheet: Array<any>,
+  startRowIndex: number
+): Array<any> => {
+  const quarterlyData = [];
+  const allColumns = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+  ];
+
+  // The forecast headers are in the next row after the startRowIndex
+  const headerRowIndex = startRowIndex + 1;
+
+  if (!progressReportSheet[headerRowIndex]) return quarterlyData;
+
+  // Extract fiscal years from forecast headers
+  const fiscalYears = [];
+  allColumns.forEach((col) => {
+    const cellValue = progressReportSheet[headerRowIndex][col];
+    if (cellValue && cellValue.toString().toLowerCase().includes('forecast')) {
+      const fiscalYear = extractFiscalYear(cellValue.toString());
+      if (fiscalYear) {
+        fiscalYears.push({ fiscalYear, column: col });
+      }
+    }
+  });
+
+  if (fiscalYears.length === 0) return quarterlyData;
+
+  // Parse the quarterly rows - they are in fixed positions after the header
+  // Row 2: April - June
+  // Row 3: July - September
+  // Row 4: October - December
+  // Row 5: January - March
+  // Row 6: Fiscal Year Total
+  const quarterRowMappings = [
+    { rowOffset: 1, key: 'aprilJune' },
+    { rowOffset: 2, key: 'julySeptember' },
+    { rowOffset: 3, key: 'octoberDecember' },
+    { rowOffset: 4, key: 'januaryMarch' },
+    { rowOffset: 5, key: 'fiscalYearTotal' },
+  ];
+
+  fiscalYears.forEach(({ fiscalYear, column }) => {
+    const fiscalData = { fiscal: fiscalYear };
+
+    quarterRowMappings.forEach(({ rowOffset, key }) => {
+      const currentRowIndex = headerRowIndex + rowOffset;
+      if (progressReportSheet[currentRowIndex]) {
+        const value = progressReportSheet[currentRowIndex][column];
+        if (value !== undefined && value !== null && value !== '') {
+          fiscalData[key] = safeParseFloat(value);
+        }
+      }
+    });
+
+    // Only add fiscal data if it has at least one quarterly value
+    const hasData = Object.keys(fiscalData).length > 1; // more than just 'fiscal'
+    if (hasData) {
+      quarterlyData.push(fiscalData);
+    }
+  });
+
+  return quarterlyData;
+};
+
 /// Claims Request Form Flags
 
 const isDateRequestedReceivedFlag = (dateStringFlag: any) => {
@@ -361,6 +735,17 @@ const isEligibleCostsIncurredToDateFlag = (
   return (
     eligibleCostsIncurredToDateFlag?.toLowerCase()?.trim() ===
     eligibleCostsIncurredFromDateString?.toLowerCase()?.trim()
+  );
+};
+
+const isPaymentCalculationFlag = (paymentCalculationFlag: any) => {
+  if (typeof paymentCalculationFlag !== 'string') {
+    return false;
+  }
+  const paymentCalculationString = 'Payment Calculation';
+  return (
+    paymentCalculationFlag?.toLowerCase()?.trim() ===
+    paymentCalculationString?.toLowerCase()?.trim()
   );
 };
 
@@ -482,6 +867,12 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
   let claimNumber = null;
   let eligibleCostsIncurredFromDate = null;
   let eligibleCostsIncurredToDate = null;
+  let eligibleCostsClaimed = null;
+  let totalEligibleCostsClaimed = null;
+  let isedShareFromClaimPayment = null;
+  let bcShareFromClaimPayment = null;
+  let paymentCalculation = null;
+
   for (let i = 0; i < 50; i++) {
     if (
       checkFirstTenColumns(
@@ -516,6 +907,88 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
         claimsRequestFormSheet,
         i
       );
+
+      // Find which column contains the isEligibleCostsIncurredFromDateFlag
+      let flagColumn = null;
+      firstTenRowLetters.forEach((letter) => {
+        if (
+          claimsRequestFormSheet[i] &&
+          claimsRequestFormSheet[i][letter] &&
+          isEligibleCostsIncurredFromDateFlag(claimsRequestFormSheet[i][letter])
+        ) {
+          flagColumn = letter;
+        }
+      });
+
+      // Helper function to get the next column (move one column to the right)
+      const getNextColumn = (currentColumn: string): string | null => {
+        const allColumns = [
+          'A',
+          'B',
+          'C',
+          'D',
+          'E',
+          'F',
+          'G',
+          'H',
+          'I',
+          'J',
+          'K',
+          'L',
+          'M',
+          'N',
+          'O',
+          'P',
+        ];
+        const currentIndex = allColumns.indexOf(currentColumn);
+        if (currentIndex !== -1 && currentIndex < allColumns.length - 1) {
+          return allColumns[currentIndex + 1];
+        }
+        return null;
+      };
+
+      // Parse the new fields based on their relative positions to isEligibleCostsIncurredFromDateFlag
+      // Use the column one position to the right of the flag
+      if (flagColumn) {
+        const dataColumn = getNextColumn(flagColumn);
+        if (dataColumn) {
+          // eligibleCostsClaimed is 5 rows before
+          if (i >= 5) {
+            eligibleCostsClaimed = getEligibleCostsClaimed(
+              claimsRequestFormSheet,
+              i - 5,
+              dataColumn
+            );
+          }
+
+          // totalEligibleCostsClaimed is 4 rows before
+          if (i >= 4) {
+            totalEligibleCostsClaimed = getTotalEligibleCostsClaimed(
+              claimsRequestFormSheet,
+              i - 4,
+              dataColumn
+            );
+          }
+
+          // isedShareFromClaimPayment is 3 rows before
+          if (i >= 3) {
+            isedShareFromClaimPayment = getIsedShareFromClaimPayment(
+              claimsRequestFormSheet,
+              i - 3,
+              dataColumn
+            );
+          }
+
+          // bcShareFromClaimPayment is 2 rows before
+          if (i >= 2) {
+            bcShareFromClaimPayment = getBcShareFromClaimPayment(
+              claimsRequestFormSheet,
+              i - 2,
+              dataColumn
+            );
+          }
+        }
+      }
     }
     if (
       checkFirstTenColumns(
@@ -528,6 +1001,11 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
         claimsRequestFormSheet,
         i
       );
+    }
+    if (
+      checkFirstTenColumns(claimsRequestFormSheet, isPaymentCalculationFlag, i)
+    ) {
+      paymentCalculation = getPaymentCalculationData(claimsRequestFormSheet, i);
     }
   }
 
@@ -600,21 +1078,73 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
     }
   }
 
+  // Parse budget tables using known positions relative to "changes to overall budget"
+  let projectBudgetByGovernmentFY = [];
+  let updatedProvincialContributionByQuarter = [];
+  let budgetTableRowIndex = -1;
+
+  // Find the row where the "changes to overall budget" question was found
+  for (let i = 0; i < progressReportSheet.length; i++) {
+    if (
+      checkFirstTenColumns(progressReportSheet, isChangesToOverallBudgetFlag, i)
+    ) {
+      budgetTableRowIndex = i + 1; // The table starts one row after the question
+      break;
+    }
+  }
+
+  if (budgetTableRowIndex !== -1) {
+    // Parse the first budget table (By Government FY)
+    // This table is exactly one row after the "changes to overall budget" question
+    projectBudgetByGovernmentFY = parseProjectBudgetByGovernmentFY(
+      progressReportSheet,
+      budgetTableRowIndex
+    );
+
+    // Parse the second budget table (Provincial Contribution by Quarter)
+    // This table header is 4 rows below the first table
+    const quarterlyTableRowIndex = budgetTableRowIndex + 4;
+    updatedProvincialContributionByQuarter =
+      parseUpdatedProvincialContributionByQuarter(
+        progressReportSheet,
+        quarterlyTableRowIndex
+      );
+  }
+
   const jsonData = {
-    dateRequestReceived,
-    projectNumber,
-    isedProjectNumber,
-    claimNumber,
-    eligibleCostsIncurredFromDate,
-    eligibleCostsIncurredToDate,
-    progressOnPermits,
-    hasConstructionBegun,
-    haveServicesBeenOffered,
-    projectScheduleRisks,
-    thirdPartyPassiveInfrastructure,
-    communicationMaterials,
-    projectBudgetRisks,
-    changesToOverallBudget,
+    claimRequestForm: {
+      dateRequestReceived,
+      projectNumber,
+      isedProjectNumber,
+      claimNumber,
+      projectCostsClaimPeriod: {
+        eligibleCostsIncurredFromDate,
+        eligibleCostsIncurredToDate,
+      },
+      claimPaymentRequestSummary: {
+        eligibleCostsClaimed,
+        totalEligibleCostsClaimed,
+        isedShareFromClaimPayment,
+        bcShareFromClaimPayment,
+      },
+      paymentCalculation,
+    },
+    progressReport: {
+      projectImplementation: {
+        progressOnPermits,
+        hasConstructionBegun,
+        haveServicesBeenOffered,
+        projectScheduleRisks,
+        thirdPartyPassiveInfrastructure,
+        communicationMaterials,
+      },
+      projectBudget: {
+        projectBudgetRisks,
+        changesToOverallBudget,
+        projectBudgetByGovernmentFY,
+      },
+      updatedProvincialContributionByQuarter,
+    },
   };
 
   const claimsData = {
@@ -628,13 +1158,11 @@ const readSummary = async (wb, sheet_1, sheet_2, applicationId, claimsId) => {
 
 const ValidateData = async (data, req) => {
   const { ccbcNumber, applicationId, claimsId, excelDataId } = req.params;
-  const {
-    claimNumber,
-    dateRequestReceived,
-    projectNumber,
-    eligibleCostsIncurredFromDate,
-    eligibleCostsIncurredToDate,
-  } = data;
+  const { claimNumber, dateRequestReceived, projectNumber } =
+    data.claimRequestForm;
+
+  const { eligibleCostsIncurredFromDate, eligibleCostsIncurredToDate } =
+    data.claimRequestForm.projectCostsClaimPeriod;
 
   // get all previous claims for this applications
   const claims: any = await performQuery(
@@ -660,7 +1188,10 @@ const ValidateData = async (data, req) => {
   const previousClaimNumbers =
     claims?.data?.applicationByRowId?.applicationClaimsExcelDataByApplicationId?.nodes?.map(
       (claim) => {
-        return claim.jsonData.claimNumber;
+        return (
+          claim.jsonData.claimRequestForm?.claimNumber ||
+          claim.jsonData.claimNumber
+        );
       }
     );
 
@@ -689,9 +1220,15 @@ const ValidateData = async (data, req) => {
           return claim.rowId === parseInt(excelDataId, 10);
         }
       );
+
+    // Handle both old and new data structures
+    const existingClaimNumber =
+      existingClaim?.jsonData?.claimRequestForm?.claimNumber ||
+      existingClaim?.jsonData?.claimNumber;
+
     if (
       existingClaim === undefined ||
-      existingClaim.jsonData.claimNumber !== data.claimNumber
+      existingClaimNumber !== data.claimRequestForm.claimNumber
     ) {
       errors.push({
         error: 'The claim number does not match the claim number being edited.',
