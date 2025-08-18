@@ -121,6 +121,10 @@ inputs:
   session_secret:
     description: 'Session secret'
     required: true
+  test_pg_password:
+    description: 'Test PG password'
+    required: false
+    default: ''
 
 runs:
   using: composite
@@ -200,6 +204,7 @@ runs:
           --set cronshp.rdFile="${{ inputs.rd_file }}" \
           --set cronshp.coveragesFile="${{ inputs.coverages_file }}" \
           --set app.sessionSecret="${{ inputs.session_secret }}" \
+          --set db.test.password="${{ inputs.test_pg_password }}" \
           --values values-${{ inputs.environment }}.yaml
 
       shell: bash
