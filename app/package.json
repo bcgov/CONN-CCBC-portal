@@ -128,11 +128,11 @@
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.864.0",
-    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-env": "^7.28.3",
     "@microsoft/eslint-formatter-sarif": "^3.1.0",
     "@testing-library/cypress": "^10.0.3",
     "@testing-library/dom": "^10.4.1",
-    "@testing-library/jest-dom": "^6.6.4",
+    "@testing-library/jest-dom": "^6.7.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^14.6.0",
