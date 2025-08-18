@@ -63,7 +63,7 @@ spec:
                 - |
                   set -euo pipefail;
                   echo "Starting test database refresh from production environment at $(date)"
-                  
+
                   # Connect to test database and clean up existing schemas
                   PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -v "ON_ERROR_STOP=1" <<EOF
                   drop schema if exists sqitch cascade;
@@ -72,19 +72,19 @@ spec:
                   drop schema if exists ccbc_private cascade;
                   drop schema if exists audit cascade;
                   EOF
-                  
+
                   # Recreate roles in test database
                   echo "Recreating roles in test database..."
                   PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f deploy/create_roles.sql;
-                  
+
                   # Dump from production environment
                   echo "Dumping database from production environment..."
                   PGPASSWORD=$SOURCE_PG_PASSWORD pg_dump -h $SOURCE_PG_HOST -U $SOURCE_PG_USER -d $SOURCE_PG_DATABASE > /tmp/ccbc_prod.sql;
-                  
+
                   # Restore to test database
                   echo "Restoring database to test environment..."
                   PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f /tmp/ccbc_prod.sql;
-                  
+
                   # Apply anonymization functions and data to test database
                   echo "Applying anonymization to test database..."
                   PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymizer_functions.sql;
@@ -113,9 +113,9 @@ spec:
                   PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_project_page_attachments_history.sql;
                   PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_assessment_data.sql;
                   PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_assessment_data_history.sql;
-                  
+
                   echo "Test database refresh completed successfully at $(date)"
-                  
+
                   # Clean up temporary files
                   rm -f /tmp/ccbc_prod.sql
 {{- end }}
