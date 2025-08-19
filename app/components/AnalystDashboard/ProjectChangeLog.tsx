@@ -466,27 +466,88 @@ const ProjectChangeLog: React.FC<Props> = () => {
             item.ccbcNumber !== null
           );
         })
-        // This is to remove any status changes by the applicant as well as
-        // remove the dependencies from showing and the form history
-        // might need to rework to find the index to ignore per applications
-        // but might slow down more
+        // Filter based on new logic: find "received" status and filter by row ID
         ?.filter((item) => {
-          // Exclude changes made by 'The applicant' except for rfi_data
           const isApplicant =
             item.record?.user_info?.session_sub?.includes('bceid') &&
             item.record?.user_info?.external_analyst !== true;
 
-          // If it's an applicant change, only allow it for rfi_data
-          if (isApplicant) {
-            return item.tableName === 'rfi_data';
+          // Always ignore all applicant changes for application_dependencies
+          if (isApplicant && item.tableName === 'application_dependencies') {
+            return false;
           }
 
-          // For non-applicant changes, allow all
+          // Find the "received" status record for this application
+          const receivedStatusRecord = allData.allApplications?.find(
+            (statusItem) =>
+              statusItem.tableName === 'application_status' &&
+              statusItem.ccbcNumber === item.ccbcNumber &&
+              statusItem.record?.status === 'received'
+          );
+
+          // Find the "submitted" status record for this application
+          const submittedStatusRecord = allData.allApplications?.find(
+            (statusItem) =>
+              statusItem.tableName === 'application_status' &&
+              statusItem.ccbcNumber === item.ccbcNumber &&
+              statusItem.record?.status === 'submitted'
+          );
+
+          // If we found a "received" status record, filter by row ID
+          if (receivedStatusRecord) {
+            // Exception: Don't filter out form_data that matches the ts of receivedStatusRecord or submittedStatusRecord (with 2-minute buffer)
+            if (item.tableName === 'form_data') {
+              const itemTime = new Date(item.ts).getTime();
+              const receivedTime = new Date(receivedStatusRecord.ts).getTime();
+              const twoMinutesInMs = 2 * 60 * 1000; // 2 minutes in milliseconds
+
+              const timeDifferenceReceived = Math.abs(itemTime - receivedTime);
+
+              // Check against received status
+              if (timeDifferenceReceived <= twoMinutesInMs) {
+                if (item.ccbcNumber === 'CCBC-060088') {
+                  // eslint-disable-next-line no-console
+                  console.log(
+                    'Form data matches received status record with buffer:',
+                    item
+                  );
+                }
+                return true;
+              }
+
+              // Check against submitted status if it exists
+              if (submittedStatusRecord) {
+                const submittedTime = new Date(
+                  submittedStatusRecord.ts
+                ).getTime();
+                const timeDifferenceSubmitted = Math.abs(
+                  itemTime - submittedTime
+                );
+
+                if (timeDifferenceSubmitted <= twoMinutesInMs) {
+                  if (item.ccbcNumber === 'CCBC-060088') {
+                    // eslint-disable-next-line no-console
+                    console.log(
+                      'Form data matches submitted status record with buffer:',
+                      item
+                    );
+                  }
+                  return true;
+                }
+              }
+            }
+
+            // If the current item's row ID is less than the received status row ID, ignore it
+            if (item.rowId < receivedStatusRecord.rowId) {
+              return false;
+            }
+          }
+
           return true;
         })
         // Join step: Find previous records for INSERT operations with null oldRecord
         ?.map((item, index, array) => {
-          if (item.op === 'INSERT' && item.oldRecord === null) {
+          if (item.op === 'INSERT') {
             // Look for the next item with matching criteria based on table type
             const matchingItem = array.slice(index + 1).find((previousItem) => {
               // Basic table and ccbc_number match
@@ -747,6 +808,17 @@ const ProjectChangeLog: React.FC<Props> = () => {
             ) {
               json = record?.json_data || {};
               prevJson = oldRecord?.json_data || {};
+
+              // Exclude form_data entries when prevJson is empty
+              if (
+                tableName === 'form_data' &&
+                Object.keys(prevJson).length === 0
+              ) {
+                return {
+                  _sortDate: effectiveDate,
+                  group: [], // Return empty group to exclude this entry
+                };
+              }
             } else {
               // For other tables, use the record directly
               json = record || {};
