@@ -1,3 +1,9 @@
+## [1.268.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.268.4...v1.268.5) (2025-08-19)
+
+### Bug Fixes
+
+- construction completed on ui schema ([96e836b](https://github.com/bcgov/CONN-CCBC-portal/commit/96e836bdf71f661fca6a6254be3276610ddc2c0d))
+
 ## [1.268.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.268.3...v1.268.4) (2025-08-18)
 
 ## [1.268.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.268.2...v1.268.3) (2025-08-18)
