@@ -1,3 +1,11 @@
+## [1.268.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.268.3...v1.268.4) (2025-08-18)
+
+## [1.268.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.268.2...v1.268.3) (2025-08-18)
+
+### Bug Fixes
+
+- change log status internal and external ([e0c5be3](https://github.com/bcgov/CONN-CCBC-portal/commit/e0c5be36cf5dd012b9145c8283e80121ec932db7))
+
 ## [1.268.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.268.1...v1.268.2) (2025-08-15)
 
 ### Bug Fixes
