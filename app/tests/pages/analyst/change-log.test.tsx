@@ -7094,6 +7094,27 @@ describe('The index page', () => {
     });
   });
 
+  it('correctly filters by application', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    // wait for the first one to ensure loading spinner is gone
+    await waitFor(() => {
+      expect(screen.getAllByText('6036')[0]).toBeInTheDocument();
+    });
+
+    const globalSearch = screen.getByPlaceholderText('Search');
+    expect(globalSearch).toBeInTheDocument();
+
+    fireEvent.change(globalSearch, {
+      target: { value: '010004' },
+    });
+
+    await waitFor(() => {
+      expect(screen.getAllByText('010004')[0]).toBeInTheDocument();
+    });
+  });
+
   it('shows global filter and filters results based on input', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
