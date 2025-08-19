@@ -411,8 +411,10 @@ const HistoryContent = ({
       prevAssessmentFilesArray
     );
 
-    const isDetailedAssessment =
-      assessmentType === 'gis' || assessmentType === 'screening';
+    // TODO: to be removed once all the assessments are detailed
+    const isDetailedAssessment = ['screening', 'gis', 'technical'].includes(
+      assessmentType
+    );
 
     return (
       <div>
