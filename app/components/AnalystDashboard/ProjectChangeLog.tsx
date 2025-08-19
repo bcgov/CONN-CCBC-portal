@@ -485,6 +485,14 @@ const ProjectChangeLog: React.FC<Props> = () => {
               statusItem.record?.status === 'received'
           );
 
+          // For form_data with rowId >= receivedStatusRecord.rowId, always include
+          if (
+            item.tableName === 'form_data' &&
+            Number(item.rowId) >= Number(receivedStatusRecord.rowId)
+          ) {
+            return true;
+          }
+
           // Find the "submitted" status record for this application
           const submittedStatusRecord = allData.allApplications?.find(
             (statusItem) =>
@@ -495,50 +503,53 @@ const ProjectChangeLog: React.FC<Props> = () => {
 
           // If we found a "received" status record, filter by row ID
           if (receivedStatusRecord) {
-            // Exception: Don't filter out form_data that matches the ts of receivedStatusRecord or submittedStatusRecord (with 2-minute buffer)
-            if (item.tableName === 'form_data') {
+            // Exception: For form_data with rowId lower than received status rowId, check timestamps
+            if (
+              item.tableName === 'form_data' &&
+              Number(item.rowId) < Number(receivedStatusRecord.rowId)
+            ) {
               const itemTime = new Date(item.ts).getTime();
               const receivedTime = new Date(receivedStatusRecord.ts).getTime();
               const twoMinutesInMs = 2 * 60 * 1000; // 2 minutes in milliseconds
 
-              const timeDifferenceReceived = Math.abs(itemTime - receivedTime);
-
-              // Check against received status
-              if (timeDifferenceReceived <= twoMinutesInMs) {
-                if (item.ccbcNumber === 'CCBC-060088') {
-                  // eslint-disable-next-line no-console
-                  console.log(
-                    'Form data matches received status record with buffer:',
-                    item
-                  );
-                }
+              // First check for exact timestamp match with received status
+              if (item.ts === receivedStatusRecord.ts) {
                 return true;
               }
 
-              // Check against submitted status if it exists
+              const timeDifferenceReceived = Math.abs(itemTime - receivedTime);
+
+              // Check against received status (2 minutes before and after)
+              if (timeDifferenceReceived <= twoMinutesInMs) {
+                return true;
+              }
+
+              // Check against submitted status if it exists (2 minutes before and after)
               if (submittedStatusRecord) {
                 const submittedTime = new Date(
                   submittedStatusRecord.ts
                 ).getTime();
+
+                // First check for exact timestamp match with submitted status
+                if (itemTime === submittedTime) {
+                  return true;
+                }
+
                 const timeDifferenceSubmitted = Math.abs(
                   itemTime - submittedTime
                 );
 
                 if (timeDifferenceSubmitted <= twoMinutesInMs) {
-                  if (item.ccbcNumber === 'CCBC-060088') {
-                    // eslint-disable-next-line no-console
-                    console.log(
-                      'Form data matches submitted status record with buffer:',
-                      item
-                    );
-                  }
                   return true;
                 }
               }
+
+              // If no timestamp matches found and rowId is lower, filter it out
+              return false;
             }
 
             // If the current item's row ID is less than the received status row ID, ignore it
-            if (item.rowId < receivedStatusRecord.rowId) {
+            if (Number(item.rowId) < Number(receivedStatusRecord.rowId)) {
               return false;
             }
           }
@@ -547,23 +558,24 @@ const ProjectChangeLog: React.FC<Props> = () => {
         })
         // Join step: Find previous records for INSERT operations with null oldRecord
         ?.map((item, index, array) => {
-          if (item.op === 'INSERT') {
-            // Look for the next item with matching criteria based on table type
-            const matchingItem = array.slice(index + 1).find((previousItem) => {
+          if (item.op === 'INSERT' && !item.oldRecord) {
+            // Look for matching items from the remaining array (similar to historyProcessing.ts)
+            const remainingItems = array.slice(index + 1);
+            const matchingItems = remainingItems.filter((previousItem) => {
               // Basic table and ccbc_number match
               if (previousItem.ccbcNumber !== item.ccbcNumber) {
                 return false;
               }
 
               // assessment data must match by item type
-              if (previousItem.tableName === 'assessment_data') {
+              if (item.tableName === 'assessment_data') {
                 return (
                   previousItem.tableName === item.tableName &&
                   previousItem.record?.item === item.record?.item
                 );
               }
               // rfis must match by rfi_number
-              if (previousItem.tableName === 'rfi_data') {
+              if (item.tableName === 'rfi_data') {
                 return (
                   previousItem.tableName === item.tableName &&
                   previousItem.record?.rfi_number === item.record?.rfi_number &&
@@ -572,9 +584,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
               }
               // community reports must match by quarter
               if (
-                previousItem.tableName ===
-                  'application_community_progress_report_data' &&
-                previousItem.tableName === item.tableName
+                item.tableName === 'application_community_progress_report_data'
               ) {
                 const quarter =
                   item.record?.json_data?.dueDate &&
@@ -583,6 +593,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
                   item.record?.json_data?.dueDate &&
                   getFiscalYear(item.record.json_data.dueDate);
                 const updated =
+                  previousItem.tableName === item.tableName &&
                   previousItem.op === 'INSERT' &&
                   getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
                     quarter &&
@@ -591,10 +602,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
                 return updated;
               }
               // application milestone needs to match by quarter
-              if (
-                previousItem.tableName === 'application_milestone_data' &&
-                previousItem.tableName === item.tableName
-              ) {
+              if (item.tableName === 'application_milestone_data') {
                 const quarter =
                   item.record?.json_data?.dueDate &&
                   getFiscalQuarter(item.record.json_data.dueDate);
@@ -602,6 +610,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
                   item.record?.json_data?.dueDate &&
                   getFiscalYear(item.record.json_data.dueDate);
                 const updated =
+                  previousItem.tableName === item.tableName &&
                   previousItem.op === 'INSERT' &&
                   getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
                     quarter &&
@@ -610,7 +619,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
                 return updated;
               }
               // change request data must match by amendment number
-              if (previousItem.tableName === 'change_request_data') {
+              if (item.tableName === 'change_request_data') {
                 return (
                   previousItem.tableName === item.tableName &&
                   previousItem.record?.json_data?.amendmentNumber ===
@@ -618,7 +627,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
                 );
               }
               // application status must match by status type (external vs internal)
-              if (previousItem.tableName === 'application_status') {
+              if (item.tableName === 'application_status') {
                 if (previousItem.tableName !== item.tableName) {
                   return false;
                 }
@@ -652,6 +661,10 @@ const ProjectChangeLog: React.FC<Props> = () => {
               // Default: match by table name
               return previousItem.tableName === item.tableName;
             });
+
+            // Get the first matching item (most recent)
+            const matchingItem =
+              matchingItems.length > 0 ? matchingItems[0] : null;
 
             if (matchingItem) {
               return {
@@ -897,34 +910,6 @@ const ProjectChangeLog: React.FC<Props> = () => {
           };
         })
         .filter((item) => item.group.length > 0) || []; // Only include items with actual changes
-
-    // console.log('allCbcsFlatMap', allCbcsFlatMap);
-    // console.log('allApplicationsFlatMap', allApplicationsFlatMap);
-    // figure out which fields of the allApplicationsFlatMap have undefined values
-    // allApplicationsFlatMap.forEach((item) => {
-    //   item.group.forEach((row) => {
-    //     Object.keys(row).forEach((key) => {
-    //       if (row[key] === undefined) {
-    //         console.log(`Undefined value found in row with id for key ${key}`);
-    //       }
-    //       // check for null
-    //       if (row[key] === null) {
-    //         console.log(`Null value found in row with id for key ${key}`);
-    //       }
-    //       // check if value can be converted to a string
-    //       if (row[key] !== null && row[key] !== undefined) {
-    //         try {
-    //           String(row[key]);
-    //         } catch (error) {
-    //           console.error(
-    //             `Value for key ${key} in row with id ${row.rowId} cannot be converted to string:`,
-    //             row[key]
-    //           );
-    //         }
-    //       }
-    //     });
-    //   });
-    // });
 
     const entries = [...allCbcsFlatMap, ...allApplicationsFlatMap];
 
