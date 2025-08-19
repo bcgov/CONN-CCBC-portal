@@ -17,7 +17,7 @@ jobs:
   reverts:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: deploy db migrations
@@ -59,7 +59,7 @@ jobs:
   pgtap:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           submodules: recursive
       - name: Run Database Unit Tests

@@ -17,7 +17,7 @@ jobs:
   # install-test-env:
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - uses: actions/checkout@v4
+  #     - uses: actions/checkout@v5
   #     - name: dev env setup
   #       uses: ./.github/actions/dev-env-setup
   #     - run: make install_dev_tools
@@ -30,7 +30,7 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@master
         with:
@@ -59,7 +59,7 @@ jobs:
         os: ['linux']
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Initialize CodeQL
         uses: github/codeql-action/init@429e1977040da7a23b6822b13c129cd1ba93dbb2
         with:
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Tag the base ref for pull requests
@@ -89,7 +89,7 @@ jobs:
   gitleaks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: ./.bin/install-gitleaks-linux-x64.sh
       - run: ./gitleaks detect --exit-code 0 --report-format sarif --report-path "gitleaks.sarif"
       - uses: github/codeql-action/upload-sarif@v3
@@ -99,7 +99,7 @@ jobs:
   check_immutable_sqitch_files:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - run: ./.bin/sqitch-check-immutable-files.sh db origin/main
@@ -107,7 +107,7 @@ jobs:
   check_deleted_sqitch_tags:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v4
@@ -160,7 +160,7 @@ jobs:
       name: tools
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install OpenShift CLI (oc)
         uses: redhat-actions/openshift-tools-installer@v1
         with:
