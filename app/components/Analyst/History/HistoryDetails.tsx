@@ -1,7 +1,6 @@
 import { diff } from 'json-diff';
 import DiffTable from 'components/DiffTable';
-import { getDefaultFormState } from '@rjsf/utils';
-import AJV8Validator from '@rjsf/validator-ajv8';
+import { normalizeJsonWithDefaults } from 'utils/historyFileUtils';
 
 const HistoryDetails = ({
   json,
@@ -11,12 +10,8 @@ const HistoryDetails = ({
   overrideParent = null,
 }) => {
   const schema = (overrideParent && diffSchema?.[overrideParent]) || diffSchema;
-  const normalizedJson = getDefaultFormState(AJV8Validator, schema, json);
-  const normalizedPrevJson = getDefaultFormState(
-    AJV8Validator,
-    schema,
-    prevJson
-  );
+  const normalizedJson = normalizeJsonWithDefaults(schema, json);
+  const normalizedPrevJson = normalizeJsonWithDefaults(schema, prevJson);
 
   const changes = diff(normalizedPrevJson, normalizedJson, {
     keepUnchangedValues: true,
