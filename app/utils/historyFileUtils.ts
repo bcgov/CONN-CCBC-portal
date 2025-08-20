@@ -1,6 +1,8 @@
 import { diff } from 'json-diff';
 import DownloadLink from 'components/DownloadLink';
 import React from 'react';
+import { getDefaultFormState } from '@rjsf/utils';
+import AJV8Validator from '@rjsf/validator-ajv8';
 
 export interface FileChange {
   type: 'added' | 'deleted' | 'replaced';
@@ -10,6 +12,14 @@ export interface FileChange {
   oldFileName?: string;
   oldUuid?: string;
 }
+
+export const DIFF_SCHEMA_OPTIONS: any = {
+  emptyObjectFields: 'skipEmptyDefaults',
+  arrayMinItems: { populate: 'never' },
+  allOf: 'skipDefaults',
+  mergeDefaultsIntoFormData: 'useFormDataIfPresent',
+  constAsDefaults: 'never',
+};
 
 // Generates file differences for project change log
 // Similar to HistoryFileRow but returns structured data instead of JSX
@@ -255,4 +265,15 @@ export const getFileFieldsForTable = (
   }
 
   return fieldsMap[tableName] || [];
+};
+
+export const normalizeJsonWithDefaults = (schema: any, json: any) => {
+  return getDefaultFormState(
+    AJV8Validator,
+    schema,
+    json,
+    {},
+    false,
+    DIFF_SCHEMA_OPTIONS
+  );
 };
