@@ -1,0 +1,98 @@
+name: cleanup-feature-environments
+
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      OPENSHIFT_SERVER: { required: true }
+      OPENSHIFT_TOKEN: { required: true }
+      OPENSHIFT_APP_NAMESPACE: { required: true }
+
+jobs:
+  cleanup-feature-environments:
+    runs-on: ubuntu-latest
+    environment:
+      name: development
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Install OpenShift CLI (oc)
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: latest
+      - name: Authenticate with OpenShift
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+      - name: Cleanup orphaned feature databases and helm releases
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get list of open PRs and transform to database names
+          echo "Getting list of open PRs..."
+          OPEN_PRS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls?state=open&per_page=100" | \
+            jq -r '.[].head.ref')
+
+          # Transform PR names to database names using same logic as deploy_feature
+          VALID_DBS=()
+          for pr in $OPEN_PRS; do
+            if [[ -n "$pr" ]]; then
+              # Apply EXACT same transformation as in deploy_feature.yaml:
+              # 1. Convert to lowercase and remove trailing dashes
+              FEATURE_NAME_LOWER=$(echo "$pr" | tr '[:upper:]' '[:lower:]' | sed 's/-*$//')
+              # 2. Truncate to 30 chars and remove trailing dashes again
+              FEATURE_NAME_LOWER_SHORT=$(echo "$FEATURE_NAME_LOWER" | cut -c -30 | sed 's/-*$//')
+              VALID_DBS+=("$FEATURE_NAME_LOWER_SHORT")
+              echo "Valid DB: $FEATURE_NAME_LOWER_SHORT (from PR: $pr -> $FEATURE_NAME_LOWER)"
+            fi
+          done
+
+          # Get current databases from PostgreSQL cluster
+          echo "Getting current databases from PostgreSQL cluster..."
+          CURRENT_DBS=$(oc -n ${{ secrets.OPENSHIFT_APP_NAMESPACE }} get PostgresCluster ccbc -o=jsonpath='{.spec.users[0].databases[*]}')
+
+          # Default databases to keep (postgres system databases and main ccbc)
+          SYSTEM_DBS=("postgres" "template0" "template1" "ccbc")
+
+          # Check each database and delete if it's not valid
+          for db in $CURRENT_DBS; do
+            # Skip system databases
+            if [[ " ${SYSTEM_DBS[@]} " =~ " ${db} " ]]; then
+              echo "Skipping system database: $db"
+              continue
+            fi
+
+            # Check if database matches any valid PR
+            DB_VALID=false
+            for valid_db in "${VALID_DBS[@]}"; do
+              if [[ "$db" == "$valid_db" ]]; then
+                DB_VALID=true
+                echo "Keeping database: $db (matches PR)"
+                break
+              fi
+            done
+
+            # Delete orphaned database and helm release
+            if [[ "$DB_VALID" == "false" ]]; then
+              echo "Deleting orphaned database: $db"
+              chmod +x ./lib/feature_envs/delete_feature_db.sh
+              ./lib/feature_envs/delete_feature_db.sh ccbc "$db" ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+
+              echo "Checking for orphaned Helm release: $db"
+              # Check if the helm release exists and uninstall it
+              if helm list -n "${{ secrets.OPENSHIFT_APP_NAMESPACE }}" | grep -q "^$db\s"; then
+                echo "Uninstalling Helm release: $db"
+                helm uninstall "$db" -n "${{ secrets.OPENSHIFT_APP_NAMESPACE }}"
+              else
+                echo "Helm release $db not found, nothing to do"
+              fi
+
+              # Wait for deletion to complete before proceeding to next database
+              echo "Waiting 30 seconds for deletion to complete..."
+              sleep 30
+            fi
+          done
+
+          echo "Feature database and Helm cleanup completed."

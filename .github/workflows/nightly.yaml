@@ -14,22 +14,12 @@ jobs:
   clean-dev-env:
     uses: ./.github/workflows/clean-dev-env-jobs.yaml
     secrets: inherit
+  cleanup-feature-environments:
+    uses: ./.github/workflows/cleanup-feature-environments.yaml
+    secrets: inherit
   setup-s3-backup:
     uses: ./.github/workflows/s3-backup.yaml
-    secrets:
-      AWS_ARN_DEV: ${{ secrets.AWS_ARN_DEV }}
-      OPENSHIFT_TOKEN_DEV: ${{ secrets.OPENSHIFT_TOKEN_DEV }}
-      OPENSHIFT_APP_NAMESPACE_DEV: ${{ secrets.OPENSHIFT_APP_NAMESPACE_DEV }}
-      AWS_PARAM_DEV: ${{ secrets.AWS_PARAM_DEV }}
-      AWS_ARN_TEST: ${{ secrets.AWS_ARN_TEST }}
-      OPENSHIFT_TOKEN_TEST: ${{ secrets.OPENSHIFT_TOKEN_TEST }}
-      OPENSHIFT_APP_NAMESPACE_TEST: ${{ secrets.OPENSHIFT_APP_NAMESPACE_TEST }}
-      AWS_ARN_PROD: ${{ secrets.AWS_ARN_PROD }}
-      AWS_PARAM_TEST: ${{ secrets.AWS_PARAM_TEST }}
-      OPENSHIFT_TOKEN_PROD: ${{ secrets.OPENSHIFT_TOKEN_PROD }}
-      OPENSHIFT_APP_NAMESPACE_PROD: ${{ secrets.OPENSHIFT_APP_NAMESPACE_PROD }}
-      AWS_PARAM_PROD: ${{ secrets.AWS_PARAM_PROD }}
-      OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+    secrets: inherit
   # Temp disable nightly main workflow
   # main:
   #   needs: [clear-cache]
