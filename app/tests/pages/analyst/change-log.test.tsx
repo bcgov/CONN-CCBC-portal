@@ -6823,6 +6823,360 @@ const mockData = {
         ccbcNumber: 'CCBC-010004',
       },
       {
+        rowId: '9754',
+        recordId: 'f216a5bd-c29d-5fe4-9753-d46adaaf058e',
+        oldRecordId: null,
+        op: 'INSERT',
+        ts: '2023-03-15T20:50:03.282895+00:00',
+        tableOid: '34624',
+        tableSchema: 'ccbc_public',
+        tableName: 'form_data',
+        createdBy: 45,
+        createdAt: '2022-12-01T18:56:12.707247+00:00',
+        record: {
+          id: 51,
+          json_data: {
+            review: {},
+            benefits: {
+              projectBenefits:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu',
+              numberOfHouseholds: 38,
+              householdsImpactedIndigenous: 0,
+            },
+            coverage: {
+              geographicCoverageMap: [
+                {
+                  id: 339,
+                  name: 'geographicCoverageMap-1',
+                  size: 1153,
+                  type: 'application/vnd.google-earth.kmz',
+                  uuid: 'f587bd7e-f275-4cd3-a924-2561f81db7d8',
+                },
+              ],
+              currentNetworkInfastructure: [
+                {
+                  id: 208,
+                  name: 'currentNetworkInfastructure-1',
+                  size: 480115,
+                  type: 'application/vnd.google-earth.kmz',
+                  uuid: 'b89e7bf1-8d24-42a4-aa3d-5ce4ad4f2d34',
+                },
+              ],
+              coverageAssessmentStatistics: [
+                {
+                  id: 341,
+                  name: 'coverageAssessmentStatistics-1',
+                  size: 10710,
+                  type: 'text/xml',
+                  uuid: 'ddd04a44-b60e-4dbc-b2d7-d2f8a481950f',
+                },
+              ],
+              upgradedNetworkInfrastructure: [
+                {
+                  id: 293,
+                  name: 'upgradedNetworkInfrastructure-1',
+                  size: 10094,
+                  type: 'application/vnd.google-earth.kmz',
+                  uuid: '8d34bf8c-a51c-4104-9350-359f53da29f9',
+                },
+              ],
+            },
+            submission: {
+              submissionDate: '2022-12-15',
+              submissionTitle: 'Lorem ipsum dolor',
+              submissionCompletedBy: 'Lorem ipsu',
+              submissionCompletedFor: 'Brightsys LLC',
+            },
+            projectArea: {
+              geographicArea: [6],
+              projectSpanMultipleLocations: false,
+            },
+            projectPlan: {
+              operationalPlan:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore',
+              projectStartDate: '2024-12-01',
+              projectCompletionDate: '2026-03-31',
+              relationshipManagerApplicant:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing',
+              overviewOfProjectParticipants:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
+              overviewProjectManagementTeam:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum',
+            },
+            techSolution: {
+              scalability:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea',
+              systemDesign:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat',
+              backboneTechnology: ['Fibre'],
+              lastMileTechnology: ['Fibre'],
+            },
+            budgetDetails: {
+              totalProjectCost: 277958.57,
+              totalEligibleCosts: 252308.57,
+            },
+            projectFunding: {
+              fundingRequestedCCBC2223: 1234.57,
+              fundingRequestedCCBC2324: 1234.57,
+              fundingRequestedCCBC2425: 69024.57,
+              fundingRequestedCCBC2526: 159411.57,
+              fundingRequestedCCBC2627: 1234.57,
+              totalFundingRequestedCCBC: 227201.57,
+              totalApplicantContribution: 51991.57,
+              applicationContribution2223: 1234.57,
+              applicationContribution2324: 1234.57,
+              applicationContribution2425: 8766.57,
+              applicationContribution2526: 44459.57,
+              applicationContribution2627: 1234.57,
+            },
+            templateUploads: {
+              detailedBudget: [
+                {
+                  id: 734,
+                  name: 'detailedBudget-1',
+                  size: 67593,
+                  type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                  uuid: 'cd90af22-1581-4cb7-be50-e9576662e747',
+                },
+              ],
+              geographicNames: [
+                {
+                  id: 738,
+                  name: 'geographicNames-1',
+                  size: 587899,
+                  type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                  uuid: '1bac4986-aa74-43d9-b69d-4fbe49d58590',
+                },
+              ],
+              equipmentDetails: [
+                {
+                  id: 739,
+                  name: 'equipmentDetails-1',
+                  size: 24729,
+                  type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                  uuid: '675dacc8-1e29-47a9-9d93-44c53c4c30b0',
+                },
+              ],
+              financialForecast: [
+                {
+                  id: 735,
+                  name: 'financialForecast-1',
+                  size: 112363,
+                  type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                  uuid: '87afe219-70e3-4ff6-a2a7-c2fd2e9916f4',
+                },
+              ],
+              lastMileIspOffering: [
+                {
+                  id: 736,
+                  name: 'lastMileIspOffering-1',
+                  size: 45570,
+                  type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                  uuid: 'ceb867a2-f6cd-4986-ae1a-02012ed47c67',
+                },
+              ],
+              popWholesalePricing: null,
+              eligibilityAndImpactsCalculator: [
+                {
+                  id: 733,
+                  name: 'eligibilityAndImpactsCalculator-1',
+                  size: 43155,
+                  type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                  uuid: '14fdc3f9-8ba2-4c20-96a2-7118ee756eb7',
+                },
+              ],
+              communityRuralDevelopmentBenefitsTemplate: [
+                {
+                  id: 737,
+                  name: 'communityRuralDevelopmentBenefitsTemplate-1',
+                  size: 46151,
+                  type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                  uuid: '3c001275-5f30-444d-bf35-e785e2da1542',
+                },
+              ],
+            },
+            acknowledgements: {
+              acknowledgementsList: [
+                'The Applicant acknowledges that the Program may collect and share Applicant information for purposes that include making enquiries of such persons, firms, corporations, federal and provincial government agencies/departments/ministries, and non-profit organizations as the Program deems necessary in order to reach a decision on this proposed project.',
+                'The Applicant acknowledges that any person, who is required to be registered pursuant to the Lobbyists Transparency Act (British Columbia) or the Lobbying Act (Canada), including consultant and in-house lobbyists, must be registered pursuant to, and comply with, those Acts as applicable.',
+                'The Applicant acknowledges that, where applicable, the Project may require an assessment under the Impact Assessment Act (Canada) or the Environmental Assessment Act (British Columbia).',
+                'The Applicant recognizes that there is a duty to consult Indigenous groups if a funded Project may undertake infrastructure in, or affecting, an Indigenous community, and the Applicant understands that it must provide such information and assistance to the Province or Federal government in connection with such consultation as may reasonably be required, including, but not limited to, those obligations with respect to Indigenous consultation which may be set forth in any Funding Agreement.',
+                'The Applicant acknowledges that any current or former public officer holder or public servant employed by the Applicant must comply with the provisions of the Standards of Conduct for BC Public Service employees, the Disclosing a Conflict of Interest: Employee Guideline & Disclosure Form (British Columbia), the Members’ Conflict of Interest Act (British Columbia), the Values and Ethics Code for the Public Service (Canada), the Policy on Conflict of Interest and Post-Employment (Canada), and the Conflict of Interest Act (Canada), as applicable.',
+                'The Applicant understands that all costs incurred in the preparation and submission of the application shall be wholly absorbed by the Applicant.',
+                'The Applicant understands that the Program reserves the right to make partial awards and to negotiate project scope changes with Applicants.',
+                'The Applicant understands that the Program is a discretionary program subject to available funding, and that submission of a complete application, meeting any or all of the eligibility criteria, does not guarantee that funding will be granted. All Applicants whose Projects are approved for funding will be notified in writing.',
+                'The Applicant acknowledges that it must ensure compliance with any applicable Canadian national security requirements as defined and/or administered by the Canadian security authorities, and any Provincial security requirements as defined and/or administered by the Province.',
+                'The Applicant acknowledges that it must have the managerial and financial capacity to deliver this proposed project on time and within budget and to maintain the infrastructure and services on an ongoing basis for five years after project completion.',
+                'The Applicant confirms that it is requesting the lowest possible Program contribution amount required to make this proposed Project financially viable.',
+                'The Applicant acknowledges that information provided in this Application Form (including attachments) may be shared between the Province and the Government of Canada and other levels of government to promote the Program and maximize the benefits to Canadian citizens and permanent residents.',
+                'The Applicant acknowledges that all activities required for this proposed Project must comply with all applicable federal, provincial, and territorial laws, regulations, municipal and other local by-laws.',
+                'The Applicant acknowledges that knowingly making any false statements or misrepresentations, including by omission, in an application may affect its eligibility and may result in the revocation of funding approval.',
+                'The Applicant acknowledges that information submitted in an application is subject to the Access to Information Act (Canada) or the Freedom of Information and Protection of Privacy Act (BC), as applicable.',
+                'The Applicant confirms that, to the best of its knowledge, the information submitted in this application is true and correct as of the date of submission.',
+                'The Applicant acknowledges that it is under no obligation or prohibition, nor is it subject to, or threatened by any actions, suits or proceedings, which could or would affect its ability to implement this proposed Project.',
+              ],
+            },
+            alternateContact: {
+              altEmail: '956b71a411b1204@405b.ca',
+              altGivenName: 'Lorem',
+              altTelephone: '+1 4X036 834-0424',
+              altFamilyName: 'Lorem ip',
+              altPositionTitle: 'Lorem ipsum dolor sit',
+              isAltContactSigningOfficer: true,
+            },
+            authorizedContact: {
+              authEmail: 'e791781b03@5904.ca',
+              authGivenName: 'Lor',
+              authTelephone: '+1 6X420 019-7550',
+              authFamilyName: 'Lorem',
+              authPositionTitle: 'Lorem ipsum dolor',
+              isAuthContactSigningOfficer: true,
+            },
+            contactInformation: {
+              contactEmail: 'be5636d4@08de.ca',
+              contactWebsite: 'c2c.d05d1f63.ca',
+              contactTelephoneNumber: '+1 7X202 472-4023',
+            },
+            projectInformation: {
+              projectTitle: 'Connecting 3DACA9BA3F11A11',
+              projectDescription:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+              geographicAreaDescription:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut',
+            },
+            organizationProfile: {
+              other: 'Incorporated company owned by a municipality',
+              isSubsidiary: false,
+              operatingName: 'Brightsys Solutions',
+              businessNumber: '832656342',
+              isNameLegalName: false,
+              isMailingAddress: true,
+              organizationName: 'Brightsys LLC',
+              isIndigenousEntity: false,
+              typeOfOrganization: 'Incorporated company - private or public',
+              orgRegistrationDate: '2005-07-13',
+              organizationOverview:
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
+            },
+            otherFundingSources: {
+              otherFundingSources: false,
+              infrastructureBankFunding2223: 1234.57,
+              infrastructureBankFunding2324: 1234.57,
+              infrastructureBankFunding2425: 1234.57,
+              infrastructureBankFunding2526: 1234.57,
+              totalInfrastructureBankFunding: null,
+            },
+            supportingDocuments: {
+              projectSchedule: [
+                {
+                  id: 100,
+                  name: 'projectSchedule-1',
+                  size: 20472,
+                  type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                  uuid: '56d29755-e73d-43de-be2e-74fabd873363',
+                },
+              ],
+              copiesOfRegistration: [
+                {
+                  id: 99,
+                  name: 'copiesOfRegistration-1',
+                  size: 1601820,
+                  type: 'application/pdf',
+                  uuid: '850456a1-d39a-4750-8ee9-3b414c25e66d',
+                },
+              ],
+              logicalNetworkDiagram: [
+                {
+                  id: 292,
+                  name: 'logicalNetworkDiagram-1',
+                  size: 1326358,
+                  type: 'application/vnd.ms-visio.viewer',
+                  uuid: '980ba158-6166-4a2a-be02-d5f1f849c9c2',
+                },
+              ],
+              preparedFinancialStatements: [
+                {
+                  id: 101,
+                  name: 'preparedFinancialStatements-1',
+                  size: 801111,
+                  type: 'application/pdf',
+                  uuid: '82b142e2-6ed9-4a5e-ae88-074a175269f9',
+                },
+                {
+                  id: 102,
+                  name: 'preparedFinancialStatements-2',
+                  size: 865465,
+                  type: 'application/pdf',
+                  uuid: '13b9a2e0-68cb-4a86-b7ea-15a3e0526b50',
+                },
+                {
+                  id: 104,
+                  name: 'preparedFinancialStatements-3',
+                  size: 205029,
+                  type: 'application/pdf',
+                  uuid: 'f60f650e-7090-4764-b896-bd13c8e40fdc',
+                },
+              ],
+              communityRuralDevelopmentBenefits: [
+                {
+                  id: 154,
+                  name: 'communityRuralDevelopmentBenefits-1',
+                  size: 290274,
+                  type: 'application/pdf',
+                  uuid: '64b5d84f-0c89-4151-99f1-a03b796b44f5',
+                },
+              ],
+            },
+            organizationLocation: {
+              city: 'Lorem ipsum',
+              province: 'British Columbia',
+              postalCode: 'V8J1L1',
+              streetName: 'Lorem ipsum',
+              streetNumber: 248,
+              isMailingAddress: true,
+            },
+            existingNetworkCoverage: {
+              hasPassiveInfrastructure: true,
+              isInfrastructureAvailable: true,
+              hasProvidedExitingNetworkCoverage:
+                'I will provide existing Network information and/or Coverage to ISED by the application deadline',
+              requiresThirdPartyInfrastructureAccess: true,
+            },
+            estimatedProjectEmployment: {
+              currentEmployment: 111,
+              estimatedFTECreation: 1.5,
+              numberOfEmployeesToWork: 1,
+              personMonthsToBeCreated: 18,
+              hoursOfEmploymentPerWeek: 35,
+              numberOfContractorsToWork: 1,
+              estimatedFTEContractorCreation: 0.3,
+              contractorPersonMonthsToBeCreated: 3,
+              hoursOfContractorEmploymentPerWeek: 35,
+            },
+          },
+          user_info: {
+            given_name: '',
+            family_name: 'Automated process',
+            session_sub: '170fe9fc310245f480e1a41fe9d8e048@bceidbasic',
+            external_analyst: null,
+          },
+          created_at: '2022-12-01T18:56:12.707247+00:00',
+          created_by: 45,
+          updated_at: '2022-12-15T15:36:36.311555+00:00',
+          updated_by: 45,
+          archived_at: null,
+          archived_by: null,
+          form_schema_id: 1,
+          last_edited_page: 'coverage',
+          reason_for_change: null,
+          form_data_status_type_id: 'committed',
+        },
+        oldRecord: null,
+        program: 'CCBC',
+        applicationId: 51,
+        ccbcNumber: 'CCBC-010004',
+      },
+      {
         rowId: '9721',
         recordId: '53a888ea-7827-5fd9-a99b-76e3edea3c97',
         oldRecordId: null,
