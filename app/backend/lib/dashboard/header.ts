@@ -323,7 +323,7 @@ const HEADER_ROW: Row = [
 const generateHeaderInfoRow = () => {
   const INFO_ROW: Row = [
     {
-      value: `INTERNAL USE ONLY: Not to be distributed outside Ministry of Citizen's Services\nEXPORTED: ${DateTime.now().setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}`,
+      value: `INTERNAL USE ONLY: Not to be distributed outside Ministry of Citizens' Services\nEXPORTED: ${DateTime.now().setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}`,
       fontWeight: 'bold',
       fontSize: 16,
       type: String,
