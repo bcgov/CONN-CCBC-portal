@@ -46,7 +46,7 @@
     "@growthbook/growthbook": "^1.6.1",
     "@growthbook/growthbook-react": "^1.6.1",
     "@mui/base": "^5.0.0-beta.70",
-    "@mui/icons-material": "^5.17.1",
+    "@mui/icons-material": "^5.18.0",
     "@mui/material": "^5.18.0",
     "@mui/x-date-pickers": "^6.16.2",
     "@rjsf/core": "5.24.12",
