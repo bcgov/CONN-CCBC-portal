@@ -3,6 +3,7 @@ name: nightly
 on:
   schedule:
     - cron: '0 5 * * *'
+  workflow_dispatch:
 jobs:
   clear-cache:
     uses: ./.github/workflows/cache.yaml
