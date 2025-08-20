@@ -582,41 +582,33 @@ const ProjectChangeLog: React.FC<Props> = () => {
                   previousItem.op === 'INSERT'
                 );
               }
+              // Helper function to check quarter and year matching for date-based tables
+              const checkQuarterYearMatch = () => {
+                const quarter =
+                  item.record?.json_data?.dueDate &&
+                  getFiscalQuarter(item.record.json_data.dueDate);
+                const year =
+                  item.record?.json_data?.dueDate &&
+                  getFiscalYear(item.record.json_data.dueDate);
+                const updated =
+                  previousItem.tableName === item.tableName &&
+                  previousItem.op === 'INSERT' &&
+                  getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
+                    quarter &&
+                  getFiscalYear(previousItem.record?.json_data?.dueDate) ===
+                    year;
+                return updated;
+              };
+
               // community reports must match by quarter
               if (
                 item.tableName === 'application_community_progress_report_data'
               ) {
-                const quarter =
-                  item.record?.json_data?.dueDate &&
-                  getFiscalQuarter(item.record.json_data.dueDate);
-                const year =
-                  item.record?.json_data?.dueDate &&
-                  getFiscalYear(item.record.json_data.dueDate);
-                const updated =
-                  previousItem.tableName === item.tableName &&
-                  previousItem.op === 'INSERT' &&
-                  getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
-                    quarter &&
-                  getFiscalYear(previousItem.record?.json_data?.dueDate) ===
-                    year;
-                return updated;
+                return checkQuarterYearMatch();
               }
               // application milestone needs to match by quarter
               if (item.tableName === 'application_milestone_data') {
-                const quarter =
-                  item.record?.json_data?.dueDate &&
-                  getFiscalQuarter(item.record.json_data.dueDate);
-                const year =
-                  item.record?.json_data?.dueDate &&
-                  getFiscalYear(item.record.json_data.dueDate);
-                const updated =
-                  previousItem.tableName === item.tableName &&
-                  previousItem.op === 'INSERT' &&
-                  getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
-                    quarter &&
-                  getFiscalYear(previousItem.record?.json_data?.dueDate) ===
-                    year;
-                return updated;
+                return checkQuarterYearMatch();
               }
               // change request data must match by amendment number
               if (item.tableName === 'change_request_data') {
