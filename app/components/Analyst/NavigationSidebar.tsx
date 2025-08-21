@@ -13,6 +13,7 @@ import {
 import { useEffect } from 'react';
 import NavItem from './NavItem';
 import SideMap from './SideMap';
+import ProjectNavigationSidebar from './ProjectNavigationSidebar';
 
 const StyledAside = styled.aside`
   min-height: 100%;
@@ -42,6 +43,7 @@ const NavigationSidebar = ({
   mapData = null,
   isMapExpanded = null,
   setIsMapExpanded = null,
+  query = null, // Add query prop for project navigation
 }) => {
   const router = useRouter();
   const { asPath } = router;
@@ -61,6 +63,7 @@ const NavigationSidebar = ({
     <StyledAside>
       <StyledNav>
         <StyledUpperSection>
+          <ProjectNavigationSidebar query={query} />
           <NavItem
             currentPath={asPath}
             href={

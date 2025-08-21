@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
+import { useFeature } from '@growthbook/growthbook-react';
 import FormDiv from 'components/FormDiv';
 import NavigationSidebar from './NavigationSidebar';
 import CbcHeader from './CbcHeader';
-import ProjectNavigationSidebar from '../ProjectNavigationSidebar';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -16,8 +16,9 @@ const StyledFlex = styled.div`
   display: flex;
 `;
 
-const StyledFormDiv = styled(FormDiv)`
-  max-width: 100%;
+const StyledFormDiv = styled(FormDiv)<{ $improvedNavigation?: boolean }>`
+  max-width: ${(props) => (props.$improvedNavigation ? '100%' : '100%')};
+  margin-right: ${(props) => (props.$improvedNavigation ? '40px' : 'auto')};
 `;
 
 const StyledOuterContainer = styled.div`
@@ -47,16 +48,21 @@ const CbcAnalystLayout: React.FC<Props> = ({
     `,
     query
   );
+
+  const improvedNavigation =
+    useFeature('improved_project_navigation').value ?? false;
+
   return (
     <StyledOuterContainer>
       <StyledContainer>
         <CbcHeader query={queryFragment} isFormEditable={isFormEditable} />
         <StyledFlex>
-          <NavigationSidebar />
-          <StyledFormDiv>{children}</StyledFormDiv>
+          <NavigationSidebar query={queryFragment} />
+          <StyledFormDiv $improvedNavigation={improvedNavigation}>
+            {children}
+          </StyledFormDiv>
         </StyledFlex>
       </StyledContainer>
-      <ProjectNavigationSidebar query={queryFragment} />
     </StyledOuterContainer>
   );
 };

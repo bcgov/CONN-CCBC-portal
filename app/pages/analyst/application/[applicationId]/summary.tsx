@@ -268,12 +268,7 @@ const Summary = ({
   }, [applicationId, showMap, query]);
 
   return (
-    <Layout
-      session={session}
-      title="Connecting Communities BC"
-      provisionRightNav
-      maxWidthOverride="100%"
-    >
+    <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout
         query={query}
         mapData={mapData}

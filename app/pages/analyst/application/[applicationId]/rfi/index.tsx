@@ -48,11 +48,7 @@ const RFIPage = ({
       ({ node }) => node.rfiDataByRfiDataId
     );
   return (
-    <Layout
-      session={session}
-      title="Connecting Communities BC"
-      provisionRightNav
-    >
+    <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <h2>RFI</h2>
         <hr />
