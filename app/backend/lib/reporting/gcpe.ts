@@ -692,7 +692,7 @@ export const compareGcpeReports = async (sourceRowId, targetRowId, req) => {
     });
   });
   // modify header to show correct time of comparison
-  markedExcelData[0][0].value = `INTERNAL USE ONLY: Not to be distributed outside Ministry of Citizen's Services\nGENERATED: ${DateTime.now().setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}`;
+  markedExcelData[0][0].value = `INTERNAL USE ONLY: Not to be distributed outside Ministry of Citizens' Services\nGENERATED: ${DateTime.now().setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}`;
   const blob = await writeXlsxFile(markedExcelData as any, {
     fontFamily: 'BC Sans',
     fontSize: 12,

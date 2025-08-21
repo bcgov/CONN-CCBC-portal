@@ -7,7 +7,7 @@ export const regenerateGcpeReportQueryResult = {
             span: 12,
             wrap: true,
             value:
-              "INTERNAL USE ONLY: Not to be distributed outside Ministry of Citizen's Services\nGENERATED: June 30, 2024 at 1:05 p.m. PDT",
+              "INTERNAL USE ONLY: Not to be distributed outside Ministry of Citizens' Services\nGENERATED: June 30, 2024 at 1:05 p.m. PDT",
             height: 50,
             fontSize: 16,
             fontWeight: 'bold',

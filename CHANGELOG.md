@@ -1,3 +1,9 @@
+## [1.269.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.269.0...v1.269.1) (2025-08-21)
+
+### Bug Fixes
+
+- typo on reports header ([da0b620](https://github.com/bcgov/CONN-CCBC-portal/commit/da0b620fe2a92eb8a793bafd51ca03d4da095d8b))
+
 # [1.269.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.268.6...v1.269.0) (2025-08-21)
 
 ### Features
