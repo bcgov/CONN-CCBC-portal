@@ -1,3 +1,11 @@
+# [1.269.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.268.6...v1.269.0) (2025-08-21)
+
+### Features
+
+- claims import payment request summary ([0638fe9](https://github.com/bcgov/CONN-CCBC-portal/commit/0638fe9d8f29a0731019c612b7b34b9f36c28e1a))
+- claims import progress report budget and forecast ([95a7c2a](https://github.com/bcgov/CONN-CCBC-portal/commit/95a7c2a7d5a552c8d165ec471038bcc73ebe9e15))
+- cleanup feature env nightly ([a1eab5b](https://github.com/bcgov/CONN-CCBC-portal/commit/a1eab5b45404a3ce7b105c71127a56e3ccd5e756))
+
 ## [1.268.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.268.5...v1.268.6) (2025-08-19)
 
 ## [1.268.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.268.4...v1.268.5) (2025-08-19)
