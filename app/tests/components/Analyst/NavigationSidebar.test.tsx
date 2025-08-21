@@ -13,6 +13,19 @@ jest.mock('next/router', () => ({
   },
 }));
 
+// Mock the ProjectNavigationSidebar component since it uses Relay
+jest.mock('components/Analyst/ProjectNavigationSidebar', () => {
+  const MockProjectNavigationSidebar = () => {
+    return <div data-testid="mock-project-navigation">Project Navigation</div>;
+  };
+  return MockProjectNavigationSidebar;
+});
+
+// Mock js-cookie to control the assessmentLastVisited behavior
+jest.mock('js-cookie', () => ({
+  get: jest.fn(() => null), // Default to null so Dashboard link goes to /analyst/dashboard
+}));
+
 const renderStaticLayout = () => {
   return render(
     <GlobalTheme>
