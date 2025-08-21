@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
-import { useFeature } from '@growthbook/growthbook-react';
 import NavigationSidebar from 'components/Analyst/NavigationSidebar';
 import FormDiv from 'components/FormDiv';
 import ApplicationHeader from './ApplicationHeader';
@@ -25,7 +24,7 @@ const StyledFlex = styled.div`
   width: 100%;
 `;
 
-const StyledFormDiv = styled(FormDiv)<{ $improvedNavigation?: boolean }>`
+const StyledFormDiv = styled(FormDiv)`
   margin: 0 auto;
   transition:
     max-width 0.2s,
@@ -76,11 +75,6 @@ const AnalystLayout: React.FC<Props> = ({
     query
   );
 
-  const improvedNavigation =
-    useFeature('improved_project_navigation').value ?? false;
-
-  console.log('improvedNavigation', improvedNavigation);
-
   return (
     <StyledOuterContainer>
       <StyledContainer>
@@ -92,9 +86,7 @@ const AnalystLayout: React.FC<Props> = ({
             setIsMapExpanded={setIsMapExpanded}
             query={queryFragment}
           />
-          <StyledFormDiv $improvedNavigation={improvedNavigation}>
-            {children}
-          </StyledFormDiv>
+          <StyledFormDiv>{children}</StyledFormDiv>
         </StyledFlex>
       </StyledContainer>
     </StyledOuterContainer>
