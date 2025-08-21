@@ -224,6 +224,7 @@ jobs:
       RD_FILE: ${{ secrets.RD_FILE }}
       COVERAGES_FILE: ${{ secrets.COVERAGES_FILE }}
       SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      TEST_PG_PASSWORD: ${{ secrets.TEST_PG_PASSWORD }}
 
   deploy-feature:
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
