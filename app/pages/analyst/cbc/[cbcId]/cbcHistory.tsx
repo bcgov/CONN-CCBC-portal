@@ -25,7 +25,7 @@ const CbcHistory = ({
   const rowId = cbcId ? parseInt(cbcId.toString(), 10) : undefined;
   const query = usePreloadedQuery(getCbcHistoryQuery, preloadedQuery);
   return (
-    <Layout session={null} title="Connecting Communities BC" provisionRightNav>
+    <Layout session={null} title="Connecting Communities BC">
       <CbcAnalystLayout key={rowId} query={query}>
         <CbcHistoryTable query={query} />
       </CbcAnalystLayout>
