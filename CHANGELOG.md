@@ -1,3 +1,10 @@
+# [1.270.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.269.1...v1.270.0) (2025-08-21)
+
+### Features
+
+- copy s3 buckets ([c861f0b](https://github.com/bcgov/CONN-CCBC-portal/commit/c861f0be2a7f494e9ebcf4a09658e1f0c955a3e9))
+- enable replacing test db on demand ([d49a668](https://github.com/bcgov/CONN-CCBC-portal/commit/d49a668448982532765bcbb54e7b8b7dc7b991b6))
+
 ## [1.269.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.269.0...v1.269.1) (2025-08-21)
 
 ### Bug Fixes
