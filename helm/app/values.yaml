@@ -127,6 +127,8 @@ db:
   name: ccbc
   appUser: ccbc_app
   readonlyUser: ccbc_readonly
+  test:
+    password: '' # The value must be passed in via deploy script
 
   # A bash script to run in a pre-upgrade hook, in a psql container
   # The script will be run by the postgres user,

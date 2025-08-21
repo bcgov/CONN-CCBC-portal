@@ -48,6 +48,7 @@ on:
       RD_FILE: { required: true }
       COVERAGES_FILE: { required: true }
       SESSION_SECRET: { required: true }
+      TEST_PG_PASSWORD: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -247,6 +248,7 @@ jobs:
           rd_file: ${{ secrets.RD_FILE }}
           coverages_file: ${{ secrets.COVERAGES_FILE }}
           session_secret: ${{ secrets.SESSION_SECRET }}
+          test_pg_password: ${{ secrets.TEST_PG_PASSWORD }}
           environment: prod
 
   backup-secrets-dev:

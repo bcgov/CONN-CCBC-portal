@@ -1,0 +1,121 @@
+{{- if and .Values.db.preUpgradeCommand (eq .Values.deployer.namespace "ff61fb-prod") }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ template "ccbc.fullname" . }}-test-db-refresh
+  labels: {{ include "ccbc.labels" . | nindent 4 }}
+  annotations:
+    description: "On-demand database refresh for ff61fb-test environment (deployed only in prod)"
+spec:
+  suspend: true  # This ensures the job never runs automatically
+  schedule: "0 0 31 2 *"  # Invalid date (Feb 31st) - will never trigger automatically
+  timeZone: "America/Vancouver"
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 1800  # 30 minutes timeout
+      template:
+        metadata:
+          labels: {{ include "ccbc.labels" . | nindent 12 }}
+          name: {{ template "ccbc.fullname" . }}-test-db-refresh
+        spec:
+          restartPolicy: Never
+          containers:
+            - env:
+                # Environment variables for connecting to test database
+                - name: PGHOST
+                  value: "ccbc-primary.ff61fb-test.svc.cluster.local"
+                - name: PGDATABASE
+                  value: "ccbc"
+                - name: PGUSER
+                  value: "postgres"
+                - name: PGPASSWORD_TEST
+                  valueFrom:
+                    secretKeyRef:
+                      name: ccbc-test-db-secret
+                      key: test-password
+                # Source database (prod) credentials
+                - name: SOURCE_PG_HOST
+                  value: "ccbc-replicas.ff61fb-prod.svc.cluster.local"
+                - name: SOURCE_PG_DATABASE
+                  value: "ccbc"
+                - name: SOURCE_PG_USER
+                  value: "ccbc_readonly"
+                - name: SOURCE_PG_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: ccbc-pguser-postgres
+                      key: password
+              name: {{ template "ccbc.fullname" . }}-test-db-refresh
+              image: {{ .Values.image.db.repository }}:{{ .Values.image.db.tag }}
+              imagePullPolicy: {{ .Values.image.db.pullPolicy }}
+              resources:
+                requests:
+                  cpu: 200m
+                  memory: 256Mi
+                limits:
+                  cpu: 500m
+                  memory: 512Mi
+              command:
+                - /usr/bin/env
+                - bash
+                - -c
+                - |
+                  set -euo pipefail;
+                  echo "Starting test database refresh from production environment at $(date)"
+
+                  # Connect to test database and clean up existing schemas
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -v "ON_ERROR_STOP=1" <<EOF
+                  drop schema if exists sqitch cascade;
+                  drop schema if exists mocks cascade;
+                  drop schema if exists ccbc_public cascade;
+                  drop schema if exists ccbc_private cascade;
+                  drop schema if exists audit cascade;
+                  EOF
+
+                  # Recreate roles in test database
+                  echo "Recreating roles in test database..."
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f deploy/create_roles.sql;
+
+                  # Dump from production environment
+                  echo "Dumping database from production environment..."
+                  PGPASSWORD=$SOURCE_PG_PASSWORD pg_dump -h $SOURCE_PG_HOST -U $SOURCE_PG_USER -d $SOURCE_PG_DATABASE > /tmp/ccbc_prod.sql;
+
+                  # Restore to test database
+                  echo "Restoring database to test environment..."
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f /tmp/ccbc_prod.sql;
+
+                  # Apply anonymization functions and data to test database
+                  echo "Applying anonymization to test database..."
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymizer_functions.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/helper_functions.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_form_data.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_form_data_history.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_application_sow_data.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_application_sow_data_history.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_cbc_data.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_cbc_data_history.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_form_data_attachments.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_form_data_attachments_history.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_form_data_numbers.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_form_data_numbers_history.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_cbc_data_numbers.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_cbc_data_numbers_history.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_sow_tab_7_numbers.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_sow_tab_7_numbers_history.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_conditional_approval_data_numbers.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_conditional_approval_data_numbers_history.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_application_internal_description.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_application_internal_description_history.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_rfi_data.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_rfi_data_history.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_project_page_attachments.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_project_page_attachments_history.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_assessment_data.sql;
+                  PGPASSWORD=$PGPASSWORD_TEST psql -h $PGHOST -d $PGDATABASE -f test/anonymize_assessment_data_history.sql;
+
+                  echo "Test database refresh completed successfully at $(date)"
+
+                  # Clean up temporary files
+                  rm -f /tmp/ccbc_prod.sql
+{{- end }}
