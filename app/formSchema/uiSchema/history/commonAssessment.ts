@@ -9,10 +9,6 @@ const commonAssessment = {
     title: 'Progress',
     default: 'Not started',
   },
-  decision: {
-    title: 'Decision',
-    default: 'No decision',
-  },
 };
 
 export default commonAssessment;
