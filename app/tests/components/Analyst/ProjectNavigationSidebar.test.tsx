@@ -252,6 +252,8 @@ describe('The application navigation bar component', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
-    expect(screen.getByText(/CCBC-233333/)).toBeInTheDocument();
+    // The text should appear in the next button's title since CCBC-233333 is the next project
+    const nextButton = screen.getByTestId('project-nav-next-icon');
+    expect(nextButton).toHaveAttribute('title', 'Next: CCBC-233333');
   });
 });
