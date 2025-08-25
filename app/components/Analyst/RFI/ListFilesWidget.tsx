@@ -23,7 +23,12 @@ const StyledFileDiv = styled('div')`
   margin-bottom: 8px;
 `;
 
-const StyledLink = styled.button`
+interface StyledLinkProps {
+  children?: React.ReactNode;
+  onClick?: (e: any) => void;
+}
+
+const StyledLink = styled.button<StyledLinkProps>`
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
   padding-left: 8px;

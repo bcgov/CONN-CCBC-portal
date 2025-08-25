@@ -4,12 +4,24 @@ import styled from 'styled-components';
 import kmzAndPdfLinks from 'data/zoneKmzLinksIntake3';
 import kmzAndPdfLinksIntake4And5 from 'data/zoneKmzLinksIntake4And5';
 
-const StyledLink = styled.a`
-  color: ${(props) => props.theme.color.links};
-  text-decoration-line: underline;
+interface StyledLinkProps {
+  children?: React.ReactNode;
+  target?: string;
+  href?: string;
+}
+
+const StyledLink = styled('a')<StyledLinkProps>`
+  margin: 0 8px;
+  text-decoration: underline;
 `;
 
-const StyledDiv = styled.div<{ direction: 'row' | 'column' }>`
+interface StyledDivProps {
+  children?: React.ReactNode;
+  direction: 'row' | 'column';
+  style?: React.CSSProperties;
+}
+
+const StyledDiv = styled.div<StyledDivProps>`
   display: flex;
   flex-direction: ${(props) => props.direction};
   align-items: ${(props) =>
@@ -30,13 +42,23 @@ const StyledDiv = styled.div<{ direction: 'row' | 'column' }>`
   }
 `;
 
-const StyledContainer = styled.div<{ direction: 'row' | 'column' }>`
+interface StyledContainerProps {
+  children?: React.ReactNode;
+  direction: 'row' | 'column';
+}
+
+const StyledContainer = styled.div<StyledContainerProps>`
   margin-top: 8px;
   margin-bottom: 16px;
   display: ${(props) => (props.direction === 'row' ? 'auto' : 'flex')};
 `;
 
-const StyledRow = styled.div<{ reviewEditMode: false }>`
+interface StyledRowProps {
+  children?: React.ReactNode;
+  reviewEditMode: boolean;
+}
+
+const StyledRow = styled.div<StyledRowProps>`
   border-top: ${(props) =>
     props.reviewEditMode ? '1px solid rgba(0, 0, 0, 0.16)' : 'none'};
   padding: ${(props) =>

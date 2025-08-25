@@ -58,8 +58,11 @@ const ArrayLocationFieldTemplate = (props: ArrayFieldTemplateProps) => {
                 data-testid="delete-community-source-button"
                 onClick={() => {
                   // get the value of the community source id
-                  const comSourceId =
-                    element.children.props.formData.geographicNameId;
+                  const comSourceId = (
+                    element?.children?.props as {
+                      formData?: { geographicNameId?: any };
+                    }
+                  )?.formData?.geographicNameId;
                   if (deleteCommunitySource) {
                     // function to delete source
                     deleteCommunitySource(comSourceId);

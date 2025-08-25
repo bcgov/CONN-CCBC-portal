@@ -7,11 +7,19 @@ const Table = styled.table`
   border-collapse: collapse;
 `;
 
-const TableRow = styled.tr`
+interface TableRowProps {
+  children?: React.ReactNode;
+}
+
+const TableRow = styled.tr<TableRowProps>`
   border: 1px solid #d6d6d6;
 `;
 
-const TableCell = styled.td`
+interface TableCellProps {
+  children?: React.ReactNode;
+}
+
+const TableCell = styled.td<TableCellProps>`
   border: 1px solid #d6d6d6;
 
   &:first-child {
@@ -22,7 +30,11 @@ const TableCell = styled.td`
   }
 `;
 
-const TableHeader = styled.th`
+interface TableHeaderProps {
+  children?: React.ReactNode;
+}
+
+const TableHeader = styled.th<TableHeaderProps>`
   border: 1px solid #d6d6d6;
 
   &:first-child {

@@ -10,6 +10,7 @@ interface Props {
 }
 
 interface StyledProps {
+  children?: React.ReactNode;
   selected: any;
 }
 

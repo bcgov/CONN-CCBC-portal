@@ -18,9 +18,18 @@ import { LoadingSpinner } from '../../../components';
 import { StyledDatePicker, getStyles } from '../widgets/DatePickerWidget';
 import GenericModal from '../widgets/GenericModal';
 
-const StyledContainer = styled.div<{
+interface StyledContainerProps {
+  children?: React.ReactNode;
   wrap?: boolean;
-}>`
+  className?: string;
+  style?: React.CSSProperties;
+  onDrop?: (e: any) => void;
+  onDragOver?: (e: any, isDragActive?: boolean, isDrop?: boolean) => void;
+  onDragEnter?: (e: any) => void;
+  onDragLeave?: (e: any) => void;
+}
+
+const StyledContainer = styled.div<StyledContainerProps>`
   margin-top: 8px;
   margin-bottom: 8px;
   width: 100%;
@@ -29,9 +38,12 @@ const StyledContainer = styled.div<{
   padding: 16px;
 `;
 
-const StyledInnerContainer = styled.div<{
+interface StyledInnerContainerProps {
+  children?: React.ReactNode;
   wrap?: boolean;
-}>`
+}
+
+const StyledInnerContainer = styled.div<StyledInnerContainerProps>`
   display: flex;
   justify-content: space-between;
   flex-direction: ${({ wrap }) => (wrap ? 'column-reverse' : 'row')};
@@ -43,7 +55,12 @@ const StyledFooterText = styled('div')`
   color: #606060;
 `;
 
-const StyledInputContainer = styled.div<{ useFileDate?: boolean }>`
+interface StyledInputContainerProps {
+  children?: React.ReactNode;
+  useFileDate?: boolean;
+}
+
+const StyledInputContainer = styled.div<StyledInputContainerProps>`
   ${({ useFileDate }) =>
     useFileDate
       ? `
@@ -54,7 +71,12 @@ const StyledInputContainer = styled.div<{ useFileDate?: boolean }>`
       : ''};
 `;
 
-const StyledButtonContainer = styled.div<{ useFileDate?: boolean }>`
+interface StyledButtonContainerProps {
+  children?: React.ReactNode;
+  useFileDate?: boolean;
+}
+
+const StyledButtonContainer = styled.div<StyledButtonContainerProps>`
   ${({ useFileDate }) =>
     useFileDate
       ? `
@@ -73,7 +95,13 @@ const StyledH4 = styled('h4')`
   margin: 0;
 `;
 
-const StyledLink = styled.button`
+interface StyledLinkProps {
+  children?: React.ReactNode;
+  'data-testid'?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+const StyledLink = styled.button<StyledLinkProps>`
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
 `;
@@ -112,7 +140,14 @@ const StyledFileDiv = styled('div')`
   }
 `;
 
-const StyledDeleteBtn = styled('button')`
+interface StyledDeleteBtnProps {
+  children?: React.ReactNode;
+  'data-testid'?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
+}
+
+const StyledDeleteBtn = styled('button')<StyledDeleteBtnProps>`
   &:hover {
     opacity: 0.6;
   }
@@ -247,7 +282,9 @@ const FileComponent: React.FC<FileComponentProps> = ({
   templateNumber,
   showTemplateUploadIndication,
 }) => {
-  const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
+  const hiddenFileInput = useRef<HTMLInputElement>(
+    null
+  ) as MutableRefObject<HTMLInputElement>;
   const isFiles = value?.length > 0;
   const hideIfFailed = errors?.length > 0 && hideFailedUpload;
   const isSecondary = buttonVariant === 'secondary';

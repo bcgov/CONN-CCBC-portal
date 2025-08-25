@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { ObjectFieldTemplateProps } from '@rjsf/utils';
 
 interface FlexProps {
+  children?: React.ReactNode;
   direction: string;
 }
 
@@ -10,21 +11,21 @@ const StyledFlex = styled.div<FlexProps>`
   flex-direction: column;
   flex-wrap: wrap;
   & input {
-    width: margin-right: 16px;
+    margin-right: 16px;
   }
 
   ${(props) => props.theme.breakpoint.mediumUp} {
     flex-direction: ${(props) =>
       props.direction ? props.direction : 'column'};
-     gap: 8px;
+    gap: 8px;
     .pg-select-wrapper {
       width: 100%;
       min-width: 180px;
     }
   }
 
-.datepicker-widget {
-   margin-bottom: 16px;
+  .datepicker-widget {
+    margin-bottom: 16px;
   }
 `;
 

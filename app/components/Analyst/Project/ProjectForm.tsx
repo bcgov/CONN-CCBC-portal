@@ -36,7 +36,13 @@ const LoadingItem = styled.div`
   justify-content: center;
 `;
 
-const StyledIconBtn = styled.button`
+interface StyledIconBtnProps {
+  children?: React.ReactNode;
+  onClick?: () => void;
+  'data-testid'?: string;
+}
+
+const StyledIconBtn = styled.button<StyledIconBtnProps>`
   border-radius: 0;
   appearance: none;
   margin-right: 8px;
@@ -51,7 +57,12 @@ const StyledIconBtn = styled.button`
   }
 `;
 
-const StyledToggleRight = styled(ToggleRight)`
+interface StyledToggleRightProps {
+  children?: React.ReactNode;
+  onClick?: (e: any) => any;
+}
+
+const StyledToggleRight = styled(ToggleRight)<StyledToggleRightProps>`
   display: flex;
 `;
 

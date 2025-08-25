@@ -160,13 +160,15 @@ const findNotification = (notifications, notificationType) => {
   };
 };
 
-const StyledLink = styled.a`
-  color: ${(props) => props.theme.color.links};
-  text-decoration: none;
+interface StyledLinkProps {
+  children?: React.ReactNode;
+  href?: string;
+}
 
-  &:hover {
-    text-decoration: underline;
-  }
+const StyledLink = styled.a<StyledLinkProps>`
+  color: ${(props) => props.theme.color.links};
+  text-decoration: underline;
+  text-align: center;
 `;
 
 const StyledText = styled.p`

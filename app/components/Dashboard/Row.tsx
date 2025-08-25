@@ -37,7 +37,14 @@ const StyledButtonLink = styled('button')`
   color: #1a5a96;
 `;
 
-const StyledWithdraw = styled.button`
+interface StyledWithdrawProps {
+  children?: React.ReactNode;
+  onClick?: any;
+  'data-testid'?: string;
+  type?: string;
+}
+
+const StyledWithdraw = styled.button<StyledWithdrawProps>`
   color: #d8292f;
 `;
 

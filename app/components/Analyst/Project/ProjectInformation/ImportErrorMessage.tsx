@@ -1,7 +1,14 @@
-import styled from 'styled-components'; 
+import styled from 'styled-components';
 import { Alert } from '@button-inc/bcgov-theme';
 
-const StyledAlert = styled(Alert)`
+interface StyledAlertProps {
+  children?: React.ReactNode;
+  variant?: string;
+  closable?: boolean;
+  content?: React.ReactNode;
+}
+
+const StyledAlert = styled(Alert)<StyledAlertProps>`
   margin-bottom: 8px;
   margin-top: 8px;
   padding: 0.5em;
@@ -16,7 +23,6 @@ interface Props {
 }
 
 const ImportErrorMessage: React.FC<Props> = ({ title, errorMessage }) => {
-  
   return (
     <StyledAlert
       key={errorMessage}

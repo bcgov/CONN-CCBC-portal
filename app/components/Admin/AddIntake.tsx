@@ -16,6 +16,7 @@ import { CustomValidator, RJSFValidationError } from '@rjsf/utils';
 import ALL_INTAKE_ZONES from 'data/intakeZones';
 
 interface EditProps {
+  children?: React.ReactNode;
   isFormEditMode: boolean;
 }
 

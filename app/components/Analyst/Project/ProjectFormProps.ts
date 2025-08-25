@@ -8,7 +8,7 @@ export interface ProjectFormProps {
   formAnimationHeight?: number;
   formAnimationHeightOffset?: number;
   formData: any;
-  formHeader?: string | React.ReactNode | JSX.Element;
+  formHeader?: string | React.ReactNode;
   handleChange: any;
   showEditBtn?: boolean;
   /** The hidden submit button's ref, used to enforce validation on the form

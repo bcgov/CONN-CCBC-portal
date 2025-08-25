@@ -12,7 +12,15 @@ import reportClientError from 'lib/helpers/reportClientError';
 import PendingChangeRequestModal from './PendingChangeRequestModal';
 import ClosePendingRequestModal from './ClosePendingRequestModal';
 
-const StyledCheckbox = styled.input`
+interface StyledCheckboxProps {
+  type?: string;
+  checked?: any;
+  'data-testid'?: string;
+  disabled?: boolean;
+  onChange?: (e: any) => void;
+}
+
+const StyledCheckbox = styled.input<StyledCheckboxProps>`
   transform: scale(1.5);
   transform-origin: left;
   cursor: pointer;

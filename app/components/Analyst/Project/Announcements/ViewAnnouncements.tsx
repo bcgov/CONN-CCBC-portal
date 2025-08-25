@@ -8,11 +8,20 @@ import Announcement from './Announcement';
 import AnnouncementsHeader from './AnnouncementsHeader';
 import AnnouncementDeleteModal from './AnnouncementDeleteModal';
 
-const StyledEmpty = styled.div`
+interface StyledEmptyProps {
+  children?: React.ReactNode;
+}
+
+const StyledEmpty = styled.div<StyledEmptyProps>`
   margin: 8px 0;
 `;
 
-const StyledContainer = styled.div`
+interface StyledContainerProps {
+  children?: React.ReactNode;
+  style?: React.CSSProperties;
+}
+
+const StyledContainer = styled.div<StyledContainerProps>`
   background: #ffffff;
   position: relative;
 `;

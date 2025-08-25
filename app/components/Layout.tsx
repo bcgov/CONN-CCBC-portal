@@ -1,3 +1,4 @@
+import React from 'react';
 import Head from 'next/head';
 import { Footer } from '@button-inc/bcgov-theme';
 import getConfig from 'next/config';
@@ -60,7 +61,7 @@ const StyledDiv = styled('div')`
 
 type Props = {
   title: string;
-  children: JSX.Element | JSX.Element[] | string | string[];
+  children: React.ReactNode;
   maxWidthOverride?: string;
   session: any;
   provisionRightNav?: boolean;

@@ -23,12 +23,19 @@ const StyledFlex = styled.div`
   }
 `;
 
-const StyledDate = styled.div`
+interface StyledDateProps {
+  children: React.ReactNode;
+  'data-testid'?: string;
+}
+
+const StyledDate = styled.div<StyledDateProps>`
   font-weight: 700;
   font-size: 14px;
 `;
 interface LabelProps {
   bold?: boolean;
+  children?: React.ReactNode;
+  htmlFor?: string;
 }
 
 const StyledLabel = styled.label<LabelProps>`

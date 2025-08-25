@@ -106,7 +106,13 @@ const StyledLastUpdated = styled.div`
   }
 `;
 
-const StyledInput = styled.input`
+interface StyledInputProps {
+  type?: string;
+  value?: any;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const StyledInput = styled.input<StyledInputProps>`
   padding: 4px 8px;
   width: 91px;
   height: 28px;
@@ -130,6 +136,19 @@ const StyledSpace = styled.div`
   left: -4px;
   bottom: -4px;
 `;
+
+/* Screen reader only text for accessibility */
+const srOnly = {
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  padding: '0',
+  margin: '-1px',
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  border: '0',
+} as React.CSSProperties;
 
 interface Props {
   query: any;
@@ -314,8 +333,12 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
               <span>{formatNumber(numberOfHouseholds)}</span>
             )}
           </td>
-          <td />
-          <td />
+          <td>
+            <span style={srOnly}>No data</span>
+          </td>
+          <td>
+            <span style={srOnly}>No data</span>
+          </td>
         </tr>
         <tr>
           <td>Assessment HH</td>
@@ -329,8 +352,12 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
               {isSavedEligible && <LoadingCheck checked={!isSavingEligible} />}
             </StyledFlex>
           </td>
-          <td />
-          <td />
+          <td>
+            <span className="sr-only">No data</span>
+          </td>
+          <td>
+            <span className="sr-only">No data</span>
+          </td>
         </tr>
       </StyledTable>
       <StyledTable>
@@ -362,13 +389,19 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
         </tr>
         <tr>
           <td className="breakpoint-labels">In application</td>
-          <td />
+          <td>
+            <span className="sr-only">No data</span>
+          </td>
           <td>
             {householdsImpactedIndigenous &&
               formatNumber(householdsImpactedIndigenous)}
           </td>
-          <td />
-          <td />
+          <td>
+            <span className="sr-only">No data</span>
+          </td>
+          <td>
+            <span className="sr-only">No data</span>
+          </td>
         </tr>
         <tr>
           <td className="breakpoint-labels">Assessment HH</td>
@@ -385,9 +418,15 @@ const ApplicationGisData: React.FC<Props> = ({ query }) => {
               )}
             </StyledFlex>
           </td>
-          <td />
-          <td />
-          <td />
+          <td>
+            <span className="sr-only">No data</span>
+          </td>
+          <td>
+            <span className="sr-only">No data</span>
+          </td>
+          <td>
+            <span className="sr-only">No data</span>
+          </td>
         </tr>
       </StyledTable>
       {createdAtFormatted && (

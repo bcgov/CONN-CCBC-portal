@@ -8,7 +8,12 @@ const StyledForm = styled.form`
   max-width: 400px;
 `;
 
-const StyledLabel = styled.label`
+interface StyledLabelProps {
+  children: React.ReactNode;
+  htmlFor?: string;
+}
+
+const StyledLabel = styled.label<StyledLabelProps>`
   font-weight: bold;
   margin-bottom: 4px;
   &::after {
@@ -29,7 +34,17 @@ const StyledInput = styled(Input)`
   }
 `;
 
-const StyledSelect = styled.select<{ error?: boolean }>`
+interface StyledSelectProps {
+  error?: boolean;
+  children?: React.ReactNode;
+  value?: string;
+  id?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  required?: boolean;
+  disabled?: boolean;
+}
+
+const StyledSelect = styled.select<StyledSelectProps>`
   width: 100%;
   margin-top: 4px;
   padding: 8px;

@@ -2,8 +2,10 @@ import { ObjectFieldTemplateProps } from '@rjsf/utils';
 import styled from 'styled-components';
 
 interface FlexProps {
+  children?: React.ReactNode;
   direction: string;
   isDividers: any;
+  style?: React.CSSProperties;
 }
 
 const StyledFlex = styled.div<FlexProps>`

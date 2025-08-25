@@ -4,13 +4,21 @@ import { DateTime } from 'luxon';
 import DownloadLink from 'components/DownloadLink';
 import { ViewDeleteButton, ViewEditButton } from '..';
 
-const StyledContainer = styled.div`
+interface StyledContainerProps {
+  children?: React.ReactNode;
+}
+
+const StyledContainer = styled.div<StyledContainerProps>`
   display: grid;
   grid-template-columns: 48px 164px 4fr 1fr;
   margin-bottom: 8px;
 `;
 
-const StyledFlex = styled.div`
+interface StyledFlexProps {
+  children?: React.ReactNode;
+}
+
+const StyledFlex = styled.div<StyledFlexProps>`
   display: flex;
   justify-content: flex-end;
 
@@ -19,7 +27,12 @@ const StyledFlex = styled.div`
   }
 `;
 
-const StyledDate = styled.div`
+interface StyledDateProps {
+  children?: React.ReactNode;
+  theme?: any;
+}
+
+const StyledDate = styled.div<StyledDateProps>`
   white-space: nowrap;
   font-weight: 700;
   margin-right: 16px;
@@ -29,7 +42,11 @@ const StyledDate = styled.div`
   }
 `;
 
-const StyledSuperScript = styled.span`
+interface StyledSuperScriptProps {
+  children?: React.ReactNode;
+}
+
+const StyledSuperScript = styled.span<StyledSuperScriptProps>`
   vertical-align: super;
   font-size: 10px;
 `;

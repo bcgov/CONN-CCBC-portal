@@ -1,7 +1,22 @@
-import { useState } from 'react';
+import { useState, ReactNode } from 'react';
 import styled from 'styled-components';
 
-const StyledButton = styled.button`
+interface StyledButtonProps {
+  children?: ReactNode;
+  type?: 'button' | 'submit' | 'reset';
+  'data-button-id'?: string;
+  disabled?: boolean;
+  onClick?: () => void;
+}
+
+interface StyledFormProps {
+  children?: ReactNode;
+  action: string;
+  method: 'GET' | 'POST';
+  onSubmit: () => void;
+}
+
+const StyledButton = styled.button<StyledButtonProps>`
   color: white;
   background: none;
   border: none;
@@ -12,7 +27,7 @@ const StyledButton = styled.button`
   font-size: 0.8em;
 `;
 
-const StyledForm = styled.form`
+const StyledForm = styled.form<StyledFormProps>`
   margin: 0 0 0 10px;
   display: flex;
   align-items: center;

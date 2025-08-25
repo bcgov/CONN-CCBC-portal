@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 interface Props {
@@ -6,6 +7,7 @@ interface Props {
 }
 
 interface StatusPillProps {
+  children?: React.ReactNode;
   styles: {
     border?: string;
     primary: string;

@@ -14,8 +14,8 @@ export type ToastType = 'success' | 'warning' | 'error';
 type ToastDirection = 'left' | 'right';
 
 interface ToastProps {
-  type?: ToastType;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  type: ToastType;
   onClose?: () => void;
   slideDirection?: ToastDirection;
   timeout?: number;
@@ -50,19 +50,22 @@ const getBackgroundColor = (toastType: ToastType) => {
   return theme.color.success;
 };
 
-const ToastContainer = styled.div<{
+interface ToastContainerProps {
+  children?: React.ReactNode;
   visible: boolean;
   slideDirection: ToastDirection;
   type: ToastType;
   disableAnimations: boolean;
-}>`
+}
+
+const ToastContainer = styled.div<ToastContainerProps>`
   display: flex;
   align-items: center;
   padding: 16px;
   position: fixed;
   bottom: ${(props) => props.theme.spacing.large};
   ${({ slideDirection }) =>
-    slideDirection === 'left' ? 'left' : 'right'}: 24px;
+    slideDirection === 'left' ? 'left: 24px;' : 'right: 24px;'}
   background-color: ${({ type }) => getBackgroundColor(type)};
   color: #fff;
   border-radius: 4px;
@@ -78,15 +81,29 @@ const ToastContainer = styled.div<{
   z-index: 1000;
 `;
 
-const IconContainer = styled.div`
+interface IconContainerProps {
+  children?: React.ReactNode;
+}
+
+const IconContainer = styled.div<IconContainerProps>`
   display: flex;
   align-items: center;
   margin-right: ${(props) => props.theme.spacing.small};
 `;
 
-const Message = styled.div``;
+interface MessageProps {
+  children?: React.ReactNode;
+}
 
-const CloseButton = styled.button`
+const Message = styled.div<MessageProps>``;
+
+interface CloseButtonProps {
+  children?: React.ReactNode;
+  onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
+}
+
+const CloseButton = styled.button<CloseButtonProps>`
   display: flex;
   align-items: center;
   margin-left: ${(props) => props.theme.spacing.small};

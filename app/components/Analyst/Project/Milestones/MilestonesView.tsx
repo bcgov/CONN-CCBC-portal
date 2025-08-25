@@ -5,13 +5,21 @@ import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import ProgressBar from 'components/ProgressBar';
 import { ViewDeleteButton, ViewEditButton } from '..';
 
-const StyledContainer = styled.div`
+interface StyledContainerProps {
+  children?: React.ReactNode;
+}
+
+const StyledContainer = styled.div<StyledContainerProps>`
   display: grid;
   grid-template-columns: 1fr 2fr 2fr 1fr;
   margin-bottom: 8px;
 `;
 
-const StyledFlex = styled.div`
+interface StyledFlexProps {
+  children?: React.ReactNode;
+}
+
+const StyledFlex = styled.div<StyledFlexProps>`
   display: flex;
   justify-content: flex-end;
 

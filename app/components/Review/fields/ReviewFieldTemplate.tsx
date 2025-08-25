@@ -17,6 +17,7 @@ const StyledSpan = styled.span`
 
 interface StyledRowProps {
   isSubField?: boolean;
+  children?: React.ReactNode;
 }
 
 const StyledRow = styled.tr<StyledRowProps>`
@@ -44,7 +45,8 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
     return children;
 
   const fieldTitle =
-    (uiSchema?.['ui:options']?.customTitle as JSX.Element) ?? schema.title;
+    (uiSchema?.['ui:options']?.customTitle as React.JSX.Element) ??
+    schema.title;
 
   const isExcludeTableFormat = uiSchema?.['ui:options']?.excludeTableFormat;
 

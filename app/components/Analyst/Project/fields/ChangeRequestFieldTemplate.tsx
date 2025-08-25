@@ -17,6 +17,7 @@ const StyledTextContainer = styled.span`
 `;
 
 interface ContainerProps {
+  children?: React.ReactNode;
   flexDirection?: string;
   flexAlign?: string;
 }
@@ -49,7 +50,7 @@ const StyledContainer = styled.div<ContainerProps>`
 
   display: flex;
   flex-direction: column;
-  item-align: ${(props) => props.flexAlign ?? 'baseline'};
+  align-items: ${(props) => props.flexAlign ?? 'baseline'};
 
   ${(props) => props.theme.breakpoint.smallUp} {
     margin-bottom: 0px;

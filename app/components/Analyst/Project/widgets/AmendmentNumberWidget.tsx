@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Input } from '@button-inc/bcgov-theme';
 
 interface ErrorProps {
+  children?: React.ReactNode;
   isError: boolean;
   isInvalid?: boolean;
 }
@@ -20,8 +21,10 @@ const StyledError = styled.div<ErrorProps>`
   margin-left: 16px;
   visibility: ${({ isInvalid }) => (isInvalid ? 'visible' : 'hidden')};
   opacity: ${({ isInvalid }) => (isInvalid ? '1' : '0')};
-  transition: opacity 0.3s, visibility 0.3s;
-}`;
+  transition:
+    opacity 0.3s,
+    visibility 0.3s;
+`;
 
 const StyledInput = styled(Input)`
   & input {

@@ -3,7 +3,14 @@ import styled from 'styled-components';
 import { AssignLead_query$key } from '__generated__/AssignLead_query.graphql';
 import { useAssignAnalystMutation } from '../../schema/mutations/application/createApplicationAnalystLead';
 
-export const StyledDropdown = styled.select`
+interface StyledDropdownProps {
+  children?: React.ReactNode;
+  name?: string;
+  id?: string;
+  onChange?: (e: any) => void;
+}
+
+export const StyledDropdown = styled.select<StyledDropdownProps>`
   text-overflow: ellipsis;
   color: ${(props) => props.theme.color.links};
   background-color: ${(props) => props.theme.color.white};
@@ -13,7 +20,15 @@ export const StyledDropdown = styled.select`
   border-radius: 4px;
 `;
 
-const StyledOption = styled.option``;
+interface StyledOptionProps {
+  children?: React.ReactNode;
+  selected?: boolean;
+  value?: any;
+  key?: string;
+  style?: React.CSSProperties;
+}
+
+const StyledOption = styled.option<StyledOptionProps>``;
 
 interface Props {
   lead: string;

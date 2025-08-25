@@ -1,6 +1,14 @@
 import styled from 'styled-components';
 
-const StyledCheckbox = styled.input`
+interface StyledCheckboxProps {
+  type?: 'checkbox' | 'radio' | 'text' | 'password';
+  'data-testid'?: string;
+  checked?: boolean;
+  disabled?: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const StyledCheckbox = styled.input<StyledCheckboxProps>`
   transform: scale(1.5);
   transform-origin: left;
   cursor: pointer;

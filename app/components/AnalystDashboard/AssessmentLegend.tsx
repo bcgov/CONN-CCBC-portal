@@ -11,9 +11,12 @@ const StyledLegendBar = styled(Box)`
   }
 `;
 
-const StyledLegendPill = styled.div<{
+interface StyledLegendPillProps {
   statusStyle: any;
-}>`
+  children?: React.ReactNode;
+}
+
+const StyledLegendPill = styled.div<StyledLegendPillProps>`
   display: flex;
   align-items: center;
   font-size: 14px;

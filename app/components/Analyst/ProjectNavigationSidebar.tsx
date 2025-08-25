@@ -32,7 +32,17 @@ const StyledNavigationButtons = styled.div`
   margin-bottom: 16px;
 `;
 
-const StyledNavButton = styled.button`
+interface StyledNavButtonProps {
+  children?: React.ReactNode;
+  type?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  title?: string;
+  'data-testid'?: string;
+  'data-skip-unsaved-warning'?: boolean;
+}
+
+const StyledNavButton = styled.button<StyledNavButtonProps>`
   flex: 1;
   display: flex;
   flex-direction: column;

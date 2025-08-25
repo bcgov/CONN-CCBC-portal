@@ -16,7 +16,11 @@ import CommunitiesHistoryTable from './CommunitiesHistoryTable';
 import HistoryRfiFile from './HistoryRfiFile';
 import HistoryAnnouncementCard from './HistoryAnnouncementCard';
 
-const StyledContent = styled.span`
+interface StyledContentProps {
+  children?: React.ReactNode;
+}
+
+const StyledContent = styled.span<StyledContentProps>`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

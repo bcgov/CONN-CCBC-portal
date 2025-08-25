@@ -1,7 +1,14 @@
 import Modal from 'components/Modal';
 import styled from 'styled-components';
 
-const StyledTextArea = styled.textarea`
+interface StyledTextAreaProps {
+  maxLength?: number;
+  onChange?: (e: any) => any;
+  value?: string;
+  'data-testid'?: string;
+}
+
+const StyledTextArea = styled.textarea<StyledTextAreaProps>`
   width: 100%;
   min-width: 400px;
   height: 126px;

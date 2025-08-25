@@ -14,7 +14,13 @@ const StyledMap = styled.div`
   top: 40px;
 `;
 
-const StyledLink = styled.a`
+interface StyledLinkProps {
+  children?: React.ReactNode;
+  'data-testid'?: string;
+  onClick?: (e: any) => void;
+}
+
+const StyledLink = styled.a<StyledLinkProps>`
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
   word-break: break-word;

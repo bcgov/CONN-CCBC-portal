@@ -1,4 +1,5 @@
 import { FieldTemplateProps } from '@rjsf/utils';
+import React from 'react';
 import styled from 'styled-components';
 import Description from './components/Description';
 import FieldLabel from './components/FieldLabel';
@@ -10,6 +11,7 @@ const StyledHR = styled.hr`
 
 interface StyledDivProps {
   isSubField: boolean;
+  children?: React.ReactNode;
 }
 
 const StyledDiv = styled.div<StyledDivProps>`
@@ -34,7 +36,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
   const boldTitle = uiOptions?.boldTitle as boolean;
   const showCreatedAt = Boolean(uiOptions?.showCreatedAt);
   const altOptionalText = uiOptions?.altOptionalText;
-  const customTitle = uiOptions?.customTitle as JSX.Element;
+  const customTitle = uiOptions?.customTitle as React.JSX.Element;
   const isAddHorizontalLine = uiOptions?.addHorizontalLine as boolean;
   const showLabel = displayLabel && !customTitle;
   const createdAt = formContext?.createdAt;

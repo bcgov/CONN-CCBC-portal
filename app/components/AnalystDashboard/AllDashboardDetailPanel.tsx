@@ -5,12 +5,16 @@ interface Props {
   filterValue: string;
 }
 
-const StyledMapLink = styled.a`
+interface StyledMapLinkProps {
+  children?: React.ReactNode;
+  href?: any;
+  target?: string;
+  rel?: string;
+}
+
+const StyledMapLink = styled.a<StyledMapLinkProps>`
   color: ${(props) => props.theme.color.links};
-  text-decoration-line: underline;
-  :hover {
-    cursor: pointer;
-  }
+  text-decoration: underline;
 `;
 
 const StyledSpan = styled.span`

@@ -37,6 +37,7 @@ const StyledContainer = styled.div`
 interface StyledInputWrapperProps {
   errorColor?: string;
   hasError?: boolean;
+  children?: React.ReactNode;
 }
 
 const StyledInputWrapper = styled.div<StyledInputWrapperProps>`

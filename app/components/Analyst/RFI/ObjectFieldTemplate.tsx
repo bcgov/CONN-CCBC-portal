@@ -4,6 +4,7 @@ import RequestedFilesField from './RequestedFilesField';
 
 interface ContainerProps {
   columns?: number;
+  children?: React.ReactNode;
 }
 
 const StyledContainer = styled.div<ContainerProps>`
@@ -12,7 +13,12 @@ const StyledContainer = styled.div<ContainerProps>`
   margin-bottom: 16px;
 `;
 
-const StyledItem = styled.div`
+interface StyledItemProps {
+  children?: React.ReactNode;
+  key?: any;
+}
+
+const StyledItem = styled.div<StyledItemProps>`
   & :first-child {
     margin-top: 0;
   }

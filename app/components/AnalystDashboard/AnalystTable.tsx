@@ -2,16 +2,28 @@ import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import AnalystRow from './AnalystRow';
 
-const StyledTable = styled('table')`
+interface StyledTableProps {
+  children?: React.ReactNode;
+}
+
+const StyledTable = styled('table')<StyledTableProps>`
   margin-bottom: 0px;
   width: 100%;
 `;
 
-const StyledTableHead = styled('thead')`
+interface StyledTableHeadProps {
+  children?: React.ReactNode;
+}
+
+const StyledTableHead = styled('thead')<StyledTableHeadProps>`
   padding: 16px 8px;
 `;
 
-const StyledTableHeadCell = styled('th')`
+interface StyledTableHeadCellProps {
+  children?: React.ReactNode;
+}
+
+const StyledTableHeadCell = styled('th')<StyledTableHeadCellProps>`
   padding: 12px;
 
   border-top: 1px solid hsla(0, 0%, 0%, 0.12);

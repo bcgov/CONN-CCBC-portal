@@ -5,7 +5,7 @@ import GenericFormStatus from './GenericFormStatus';
 interface Props {
   application: ApplicationFormStatus_application$key;
   isSaving: boolean;
-  error?: JSX.Element;
+  error?: React.ReactElement;
 }
 
 const ApplicationFormStatus: React.FC<Props> = ({

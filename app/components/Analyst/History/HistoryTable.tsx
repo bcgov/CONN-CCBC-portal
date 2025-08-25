@@ -11,7 +11,13 @@ import HistoryFilter, {
   getUserOptions,
 } from './HistoryFilter';
 
-const StyledTable = styled.table`
+interface StyledTableProps {
+  children?: React.ReactNode;
+  cellSpacing?: string;
+  cellPadding?: string;
+}
+
+const StyledTable = styled.table<StyledTableProps>`
   border: none;
   table-layout: fixed;
   margin-left: 8px;

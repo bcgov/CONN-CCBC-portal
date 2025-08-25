@@ -7,7 +7,15 @@ const namespace = publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
 
 const isProd = namespace?.endsWith('-prod');
 
-const StyledFlex = styled.a`
+interface StyledFlexProps {
+  children?: React.ReactNode;
+  'data-testid'?: string;
+  href?: string;
+  target?: string;
+  style?: React.CSSProperties;
+}
+
+const StyledFlex = styled.a<StyledFlexProps>`
   display: flex;
   flex-direction: row;
   align-items: center;

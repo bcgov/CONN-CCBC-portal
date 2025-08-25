@@ -7,11 +7,17 @@ interface Props {
 }
 
 interface TableProps {
+  children?: React.ReactNode;
   isCbc: boolean;
   isDeleted?: boolean;
 }
 
-const StyledCommunitiesContainer = styled.div`
+interface StyledContainerProps {
+  children?: React.ReactNode;
+  style?: React.CSSProperties;
+}
+
+const StyledCommunitiesContainer = styled.div<StyledContainerProps>`
   display: flex;
   align-items: center;
 `;
