@@ -980,6 +980,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     enableRowVirtualization: true,
     rowVirtualizerInstanceRef,
     rowVirtualizerOptions: { overscan: 50 },
+    icons: {
+      FilterAltIcon: () => null,
+    },
     onGlobalFilterChange: setGlobalFilter,
     onExpandedChange: (expanded) => {
       setExpanded(expanded);
