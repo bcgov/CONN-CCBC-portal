@@ -382,21 +382,24 @@ describe('The Gis history page', () => {
     // 1) User2 Tester + CCBC file (Jan 7, newest), 2) User1 Tester + CCBC fallback (Jan 6 23:47), 3) User2 Tester + CBC file (Jan 6 21:11, oldest)
     const firstRowCells = rows[0].querySelectorAll('td');
     expect(firstRowCells[0]).toHaveTextContent('User2 Tester');
-    expect(firstRowCells[1].querySelector('button')).toHaveTextContent(
-      'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip'
+    expect(
+      firstRowCells[1].querySelector('[data-testid="history-file-link"]')
+    ).toHaveTextContent('CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip');
+    expect(firstRowCells[2]).toHaveTextContent(
+      'January 7, 2025 at 7:28 a.m. PST'
     );
 
     const secondRowCells = rows[1].querySelectorAll('td');
     expect(secondRowCells[0]).toHaveTextContent('User1 Tester');
-    expect(secondRowCells[1].querySelector('button')).toHaveTextContent(
-      'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip'
-    );
+    expect(
+      secondRowCells[1].querySelector('[data-testid="history-file-link"]')
+    ).toHaveTextContent('CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip');
 
     const thirdRowCells = rows[2].querySelectorAll('td');
     expect(thirdRowCells[0]).toHaveTextContent('User2 Tester');
-    expect(thirdRowCells[1].querySelector('button')).toHaveTextContent(
-      'CBC_Coverage.zip'
-    );
+    expect(
+      thirdRowCells[1].querySelector('[data-testid="history-file-link"]')
+    ).toHaveTextContent('CBC_Coverage.zip');
   });
 
   it('correctly filters the record by uploaded date', async () => {
