@@ -4,6 +4,10 @@ const gis = {
   gis: {
     properties: {
       ...commonAssessment,
+      decision: {
+        title: 'Decision',
+        default: 'No decision',
+      },
       commentsOnCoverageData: {
         title: 'Comments on coverage data',
       },
