@@ -98,6 +98,7 @@ const CbcForm: React.FC<ProjectFormProps> = ({
             formData={formData}
             formContext={{
               formData: { ...formData },
+              skipUnsavedWarning: !isFormEditMode,
               ...additionalContext,
             }}
             theme={theme || ProjectTheme}
