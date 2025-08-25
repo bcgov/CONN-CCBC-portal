@@ -1,6 +1,6 @@
 import { diff } from 'json-diff';
-
 import DiffTable from 'components/DiffTable';
+import { normalizeJsonWithDefaults } from 'utils/historyFileUtils';
 
 const HistoryDetails = ({
   json,
@@ -9,7 +9,14 @@ const HistoryDetails = ({
   diffSchema,
   overrideParent = null,
 }) => {
-  const changes = diff(prevJson, json, { keepUnchangedValues: true });
+  const schema = (overrideParent && diffSchema?.[overrideParent]) || diffSchema;
+  const normalizedJson = normalizeJsonWithDefaults(schema, json);
+  const normalizedPrevJson = normalizeJsonWithDefaults(schema, prevJson);
+
+  const changes = diff(normalizedPrevJson, normalizedJson, {
+    keepUnchangedValues: true,
+  });
+
   return (
     <>
       {changes ? (
