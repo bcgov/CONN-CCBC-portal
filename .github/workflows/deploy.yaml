@@ -137,7 +137,18 @@ jobs:
     if: contains(needs.is-tagged-release.outputs.tagVersion, 'v')
     steps:
       - uses: actions/checkout@v5
-      - run: ./.bin/sqitch-last-change-is-tag.sh db
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            db:
+              - 'db/**'
+      - name: Check sqitch plan ends with tag
+        if: steps.changes.outputs.db == 'true'
+        run: ./.bin/sqitch-last-change-is-tag.sh db
+      - name: Skip sqitch plan check
+        if: steps.changes.outputs.db == 'false'
+        run: echo "Skipping sqitch plan check - no changes detected in db folder"
 
   deploy-to-openshift-test:
     needs: [deploy-to-openshift-development, is-tagged-release]
