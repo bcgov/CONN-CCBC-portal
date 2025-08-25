@@ -1,60 +1,7 @@
 import { useEffect, useState } from 'react';
 import { WidgetProps } from '@rjsf/utils';
-import styled from 'styled-components';
+import { Div, Error, Input } from 'lib/theme/sharedWidgetStyles';
 import validator from 'validator';
-
-interface DivProps {
-  children?: React.ReactNode;
-  className?: string;
-}
-
-const Div = styled.div<DivProps>`
-  margin-bottom: 8px;
-`;
-
-interface ErrorProps {
-  children?: React.ReactNode;
-  isError?: boolean;
-}
-
-const Error = styled.div<ErrorProps>`
-  color: #e71f1f;
-  display: ${({ isError }) => (isError ? 'inline-block' : 'none')};
-  margin-top: 8px;
-`;
-
-interface InputProps {
-  type?: string;
-  id?: string;
-  disabled?: boolean;
-  'data-testid'?: string;
-  onChange?: (e: any) => void;
-  placeholder?: string;
-  value?: any;
-  size?: string;
-  required?: boolean;
-  'aria-label'?: string;
-  isError?: boolean;
-}
-
-const Input = styled.input<InputProps>`
-  margin-top: 8px;
-  margin-bottom: 4px;
-  width: 50%;
-  padding: 0.5em 0.6em;
-  border: 1px solid rgba(0, 0, 0, 0.16);
-  border-radius: 4px;
-
-  &:focus {
-    outline: ${({ isError }) =>
-      isError ? '4px solid #E71F1F' : '4px solid #3B99FC'};
-  }
-
-  &:disabled {
-    background: rgba(196, 196, 196, 0.3);
-    border: 1px solid rgba(96, 96, 96, 0.3);
-  }
-`;
 
 const UrlWidget: React.FC<WidgetProps> = (props) => {
   const {
@@ -89,7 +36,7 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
   };
 
   return (
-    <Div className="url-widget-wrapper">
+    <Div className="url-widget-wrapper" {...({} as any)}>
       <Input
         type="url"
         isError={isError || urlError}
@@ -103,7 +50,7 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
         required={required}
         aria-label={label}
       />
-      <Error isError={urlError}>
+      <Error isError={urlError} {...({} as any)}>
         {urlError
           ? 'Invalid URL. Please copy and paste from your browser.'
           : '‎'}
