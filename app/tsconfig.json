@@ -27,7 +27,8 @@
     "public",
     "cypress",
     "./cypress.config.ts",
-    "./node_modules/**/*"
+    "./node_modules/**/*",
+    "tests/**/*"
   ],
   "include": ["./**/*", "./.eslintrc.js"]
 }
