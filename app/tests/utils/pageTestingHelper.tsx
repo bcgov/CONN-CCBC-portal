@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { render } from '@testing-library/react';
 import { MockPayloadGenerator } from 'relay-test-utils';
 import {
@@ -17,7 +18,7 @@ import TestingHelper from './TestingHelper';
 import mockGrowthBook from './mockGrowthBook';
 
 interface PageTestingHelperOptions<TQuery extends OperationType> {
-  pageComponent: (props: RelayProps<{}, TQuery>) => JSX.Element;
+  pageComponent: (props: RelayProps<{}, TQuery>) => React.JSX.Element;
   compiledQuery: ConcreteRequest;
   defaultQueryResolver?: MockResolvers;
   defaultQueryVariables?: TQuery['variables'];
