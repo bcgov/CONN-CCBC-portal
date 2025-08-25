@@ -960,6 +960,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     enableGlobalFilterModes: true,
     globalFilterModeOptions: ['fuzzy', 'startsWith', 'contains'],
     enableBottomToolbar: false,
+    enableColumnActions: false,
     filterFns: {
       filterNumber,
       statusFilter,
