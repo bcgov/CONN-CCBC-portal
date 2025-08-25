@@ -10,6 +10,11 @@ interface DropdownProps {
     backgroundColor: string;
     pillWidth: string;
   };
+  children?: React.ReactNode;
+  'data-testid'?: string;
+  onChange?: (e: any) => void;
+  value?: any;
+  id?: string;
 }
 
 const StyledDropdown = styled.select<DropdownProps>`
@@ -34,7 +39,14 @@ const StyledDropdown = styled.select<DropdownProps>`
   }
 `;
 
-const StyledOption = styled.option`
+interface StyledOptionProps {
+  children?: React.ReactNode;
+  value?: any;
+  key?: any;
+  disabled?: any;
+}
+
+const StyledOption = styled.option<StyledOptionProps>`
   color: ${(props) => props.theme.color.text};
   background-color: ${(props) => props.theme.color.white};
 `;

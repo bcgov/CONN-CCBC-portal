@@ -32,6 +32,7 @@ const StyledProjectForm = styled(ProjectForm)`
 `;
 
 interface FlexProps {
+  children?: React.ReactNode;
   isFormEditMode: boolean;
 }
 
@@ -659,7 +660,9 @@ const ProjectInformationForm: React.FC<Props> = ({
           />
         )}
         {showToast && (
-          <Toast timeout={5000}>Statement of work successfully imported</Toast>
+          <Toast type="success" timeout={5000}>
+            Statement of work successfully imported
+          </Toast>
         )}
       </StyledProjectForm>
       <GenericConfirmationModal

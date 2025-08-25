@@ -3,7 +3,13 @@ import MapCaller from 'components/Analyst/Map/MapCaller';
 import cookie from 'js-cookie';
 import styled from 'styled-components';
 
-const StyledLink = styled.a`
+interface StyledLinkProps {
+  children?: React.ReactNode;
+  'data-testid'?: string;
+  onClick?: (e: any) => void;
+}
+
+const StyledLink = styled.button<StyledLinkProps>`
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
   word-break: break-word;

@@ -28,7 +28,7 @@ const StyledOuterContainer = styled.div`
 `;
 
 interface Props {
-  children: JSX.Element[] | JSX.Element;
+  children: React.ReactNode;
   query: any;
   isFormEditable?: boolean;
 }

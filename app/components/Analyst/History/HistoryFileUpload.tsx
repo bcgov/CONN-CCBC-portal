@@ -13,10 +13,20 @@ import { filterOutNullishs } from 'components/AnalystDashboard/AllDashboard';
 import ClearFilters from 'components/Table/ClearFilters';
 import DateFilter from '../../Table/Filters/DateFilter';
 
-const StyledLink = styled.button`
+interface StyledLinkProps {
+  children?: React.ReactNode;
+  'data-testid'?: string;
+  onClick?: (e: any) => void;
+}
+
+const StyledLink = styled.a<StyledLinkProps>`
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
   word-break: break-word;
+  width: fit-content;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const handleDownload = async (uuid, fileName) => {

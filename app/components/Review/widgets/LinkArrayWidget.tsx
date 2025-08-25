@@ -7,7 +7,14 @@ const LinkArrayWidget: React.FC<WidgetProps> = ({
   formContext,
   name,
 }) => {
-  const StyledLink = styled.a`
+  interface StyledLinkProps {
+    children?: React.ReactNode;
+    href?: any;
+    target?: string;
+    rel?: string;
+  }
+
+  const StyledLink = styled.a<StyledLinkProps>`
     color: ${(props) => props.theme.color.links};
     text-decoration-line: underline;
     word-break: break-word;

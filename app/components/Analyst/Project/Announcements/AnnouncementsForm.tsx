@@ -31,7 +31,15 @@ const StyledLink = styled(Link)`
   color: #ffffff;
 `;
 
-const StyledCheckbox = styled.input`
+interface StyledCheckboxProps {
+  children?: React.ReactNode;
+  type?: 'checkbox' | 'radio' | 'text' | 'password';
+  checked?: boolean;
+  'data-testid'?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const StyledCheckbox = styled.input<StyledCheckboxProps>`
   transform: scale(1.5);
   transform-origin: left;
   cursor: pointer;
@@ -337,7 +345,9 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
         }}
       />
       {updatedCcbcItems && (
-        <Toast timeout={100000000}>{updatedCcbcItems}</Toast>
+        <Toast type="success" timeout={100000000}>
+          {updatedCcbcItems}
+        </Toast>
       )}
     </StyledProjectForm>
   );

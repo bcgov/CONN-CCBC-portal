@@ -42,7 +42,16 @@ const StyledAutocomplete = styled(Autocomplete)`
   width: 100%;
 `;
 
-const StyledNavButton = styled.button`
+interface StyledNavButtonProps {
+  children?: React.ReactNode;
+  type?: string;
+  onClick?: () => void;
+  disabled?: boolean;
+  'data-testid'?: string;
+  'data-skip-unsaved-warning'?: boolean;
+}
+
+const StyledNavButton = styled.button<StyledNavButtonProps>`
   width: 50%;
   display: flex;
   align-items: center;

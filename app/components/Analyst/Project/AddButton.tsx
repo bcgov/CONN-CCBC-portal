@@ -4,6 +4,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 interface EditProps {
   isFormEditMode: boolean;
+  children?: React.ReactNode;
+  onClick?: () => void;
 }
 
 const StyledAddButton = styled.button<EditProps>`

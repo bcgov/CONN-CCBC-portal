@@ -41,7 +41,7 @@ const ErrorContainer = styled('div')`
 interface Props {
   updatedAt: string;
   isSaving: boolean;
-  error?: JSX.Element;
+  error?: React.ReactElement;
   projectName: string;
   status: string;
   showProjectDetails?: boolean;

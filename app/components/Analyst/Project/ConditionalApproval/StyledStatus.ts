@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
 interface StatusProps {
+  children?: React.ReactNode;
   statusType: string;
+  'data-testid'?: string;
 }
 const StyledStatus = styled.div<StatusProps>`
   border-radius: 30px;

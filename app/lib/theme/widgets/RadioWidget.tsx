@@ -38,7 +38,12 @@ const StyledDiv = styled('div')`
   align-items: center;
 `;
 
-const StyledLabel = styled.label`
+interface StyledLabelProps {
+  children: React.ReactNode;
+  htmlFor?: string;
+}
+
+const StyledLabel = styled.label<StyledLabelProps>`
   padding-left: 8px;
 `;
 const RadioWidget: React.FC<WidgetProps> = ({

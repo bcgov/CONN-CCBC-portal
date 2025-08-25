@@ -15,6 +15,7 @@ import { IChangeEvent, ThemeProps } from '@rjsf/core';
 import { CustomValidator, RJSFValidationError } from '@rjsf/utils';
 
 interface EditProps {
+  children?: React.ReactNode;
   isFormEditMode: boolean;
 }
 

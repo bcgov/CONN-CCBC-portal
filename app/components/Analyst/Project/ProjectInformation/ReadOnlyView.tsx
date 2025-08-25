@@ -15,7 +15,61 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import ImportErrorMessage from './ImportErrorMessage';
 
-const StyledGrid = styled.div`
+interface StyledGridProps {
+  children?: React.ReactNode;
+  theme?: any;
+}
+
+interface StyledH3Props {
+  children?: React.ReactNode;
+  theme?: any;
+}
+
+interface StyledColumnProps {
+  children?: React.ReactNode;
+}
+
+interface StyledIconBtnProps {
+  children?: React.ReactNode;
+  onClick?: () => void;
+  theme?: any;
+}
+
+interface StyledDeleteBtnProps {
+  children?: React.ReactNode;
+  onClick?: () => void;
+  theme?: any;
+}
+
+interface StyledHideButtonProps {
+  children?: React.ReactNode;
+  theme?: any;
+}
+
+interface StyledDescriptionProps {
+  children?: React.ReactNode;
+  title?: string;
+}
+
+interface StyledArrowButtonProps {
+  children?: React.ReactNode;
+  type?: 'button';
+  onClick?: () => void;
+  isShowMore: boolean;
+  theme?: any;
+}
+
+interface StyledContentProps {
+  children?: React.ReactNode;
+}
+
+interface StyledToggleSectionProps {
+  children?: React.ReactNode;
+  isShowMore: boolean;
+  theme?: any;
+}
+
+const StyledGrid = styled.div<StyledGridProps>`
   ${(props) => props.theme.breakpoint.mediumUp} {
     display: grid;
     grid-template-columns: 15% 39% 12% 12% 12% 8% 4%;
@@ -24,7 +78,7 @@ const StyledGrid = styled.div`
   margin-bottom: 16px;
 `;
 
-const StyledH3 = styled.h3`
+const StyledH3 = styled.h3<StyledH3Props>`
   margin-bottom: 4px;
   button {
     margin-left: 8px;
@@ -37,7 +91,7 @@ const StyledH3 = styled.h3`
   }
 `;
 
-const StyledColumn = styled.div`
+const StyledColumn = styled.div<StyledColumnProps>`
   display: grid;
   grid-template-rows: 1fr 1fr;
 
@@ -46,7 +100,7 @@ const StyledColumn = styled.div`
   }
 `;
 
-const StyledIconBtn = styled.button`
+const StyledIconBtn = styled.button<StyledIconBtnProps>`
   border-radius: 0;
   appearance: none;
   height: fit-content;
@@ -61,7 +115,7 @@ const StyledIconBtn = styled.button`
   }
 `;
 
-const StyledDeleteBtn = styled.button`
+const StyledDeleteBtn = styled.button<StyledDeleteBtnProps>`
   border-radius: 0;
   appearance: none;
   height: fit-content;
@@ -76,7 +130,7 @@ const StyledDeleteBtn = styled.button`
   }
 `;
 
-const StyledHideButton = styled.div`
+const StyledHideButton = styled.div<StyledHideButtonProps>`
   display: none;
   margin-left: 8px;
 
@@ -85,7 +139,7 @@ const StyledHideButton = styled.div`
   }
 `;
 
-const StyledToggleSection = styled.div<ToggleProps>`
+const StyledToggleSection = styled.div<StyledToggleSectionProps>`
   display: grid;
   grid-template-columns: 18% 42% 40%;
   overflow: hidden;
@@ -109,7 +163,7 @@ const StyledToggleSection = styled.div<ToggleProps>`
   }
 `;
 
-const StyledDescription = styled.div`
+const StyledDescription = styled.div<StyledDescriptionProps>`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -120,11 +174,7 @@ const StyledDescription = styled.div`
   padding-right: 8px;
 `;
 
-interface ToggleProps {
-  isShowMore: boolean;
-}
-
-const StyledArrowButton = styled.button<ToggleProps>`
+const StyledArrowButton = styled.button<StyledArrowButtonProps>`
   color: ${(props) => props.theme.color.links};
   font-weight: 700;
 
@@ -135,7 +185,7 @@ const StyledArrowButton = styled.button<ToggleProps>`
   }
 `;
 
-const StyledContent = styled.div`
+const StyledContent = styled.div<StyledContentProps>`
   margin-bottom: 16px;
 `;
 

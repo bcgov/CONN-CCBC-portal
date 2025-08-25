@@ -23,7 +23,13 @@ const StyledDeleteBtn = styled('button')`
   }
 `;
 
-const StyledLink = styled.button`
+interface StyledLinkProps {
+  children?: React.ReactNode;
+  'data-testid'?: string;
+  onClick?: (e: any) => void;
+}
+
+const StyledLink = styled.button<StyledLinkProps>`
   width: 380px;
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;

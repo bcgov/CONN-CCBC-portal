@@ -1,11 +1,20 @@
+import React, { useState } from 'react';
 import { WidgetProps } from '@rjsf/utils';
 import * as Sentry from '@sentry/nextjs';
 import styled from 'styled-components';
 import { ZONE_MAP_URL, ZONE_MAP_URL_INTAKE_4 } from 'data/externalConstants';
 import { Toast } from 'components';
-import { useState } from 'react';
 
-const StyledLink = styled.a`
+interface StyledLinkProps {
+  children: React.ReactNode;
+  href?: string;
+  download?: string;
+  title?: string;
+  'data-testid'?: string;
+  onClick?: (e: any) => void;
+}
+
+const StyledLink = styled.a<StyledLinkProps>`
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
   margin-left: 0.5%;
@@ -14,17 +23,34 @@ const StyledLink = styled.a`
   }
 `;
 
-const StyledImage = styled.img`
+interface StyledImageProps {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  sizes: string;
+}
+
+const StyledImage = styled.img<StyledImageProps>`
   margin-bottom: 0px;
   width: 100%;
   height: auto;
 `;
 
-const StyledDiv = styled.div`
+interface StyledDivProps {
+  children: React.ReactNode;
+}
+
+const StyledDiv = styled.div<StyledDivProps>`
   margin-bottom: 3%;
 `;
 
-const StyledExternalLink = styled.a`
+interface StyledExternalLinkProps {
+  children: React.ReactNode;
+  href: string;
+}
+
+const StyledExternalLink = styled.a<StyledExternalLinkProps>`
   color: ${(props) => props.theme.color.white};
   text-decoration-line: underline;
   :hover {

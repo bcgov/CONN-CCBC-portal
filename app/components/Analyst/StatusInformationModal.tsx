@@ -3,7 +3,11 @@ import Modal from 'components/Modal';
 import CbcStatusInformationModal from './CBC/CbcStatusInformation';
 import CcbcStatusInformation from './CcbcStatusInformation';
 
-const StyledHeader = styled.h3`
+interface StyledHeaderProps {
+  children?: React.ReactNode;
+}
+
+const StyledHeader = styled.h3<StyledHeaderProps>`
   text-decoration: underline;
 `;
 

@@ -22,13 +22,22 @@ import { useUpdateFormRfiAndCreateTemplateNineDataMutation } from 'schema/mutati
 import useTemplateUpload from 'lib/helpers/useTemplateUpload';
 import { useToast } from 'components/AppProvider';
 
-const Flex = styled('header')`
+interface FlexProps {
+  children?: React.ReactNode;
+}
+
+const Flex = styled('header')<FlexProps>`
   display: flex;
   justify-content: space-between;
   width: 100%;
 `;
 
-const DashboardLink = styled.a`
+interface DashboardLinkProps {
+  children?: React.ReactNode;
+  href?: string;
+}
+
+const DashboardLink = styled.a<DashboardLinkProps>`
   color: #fff;
   text-decoration: underline;
   margin-left: 8px;
