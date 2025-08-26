@@ -7,6 +7,7 @@ import { faClose, faPen } from '@fortawesome/free-solid-svg-icons';
 import { useArchiveIntakeMutation } from 'schema/mutations/admin/archiveIntakeMutation';
 
 interface ContainerProps {
+  children?: React.ReactNode;
   isCurrentIntake: boolean;
 }
 
@@ -34,7 +35,13 @@ const StyledUpper = styled.div`
   }
 `;
 
-const StyledDelete = styled.button`
+interface StyledButtonProps {
+  children?: React.ReactNode;
+  onClick?: (intake: any) => void;
+  'data-testid'?: string;
+}
+
+const StyledDelete = styled.button<StyledButtonProps>`
   color: #d8292f;
   cursor: pointer;
   display: flex;
@@ -49,12 +56,11 @@ const StyledDelete = styled.button`
   }
 `;
 
-const StyledEdit = styled.button`
-    color: ${({ theme }) => theme.color.links};
+const StyledEdit = styled.button<StyledButtonProps>`
+  color: ${({ theme }) => theme.color.links};
 
-    &:hover {
-      opacity: 0.7;
-    }
+  &:hover {
+    opacity: 0.7;
   }
 `;
 

@@ -2,20 +2,36 @@ import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import AssessmentsRow from './AssessmentsRow';
 
-const StyledTable = styled('table')`
+interface StyledTableProps {
+  children?: React.ReactNode;
+}
+
+const StyledTable = styled('table')<StyledTableProps>`
   width: 100%;
 `;
 
-const StyledTableHead = styled('thead')`
+interface StyledTableHeadProps {
+  children?: React.ReactNode;
+}
+
+const StyledTableHead = styled('thead')<StyledTableHeadProps>`
   padding: 16px;
 `;
 
-const StyledTh = styled('th')`
+interface StyledThProps {
+  children?: React.ReactNode;
+}
+
+const StyledTh = styled('th')<StyledThProps>`
   padding: 12px;
   font-weight: bold;
 `;
 
-const StyledTBody = styled.tbody`
+interface StyledTBodyProps {
+  children?: React.ReactNode;
+}
+
+const StyledTBody = styled.tbody<StyledTBodyProps>`
   line-height: 120%;
 `;
 

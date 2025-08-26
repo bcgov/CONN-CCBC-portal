@@ -1,10 +1,20 @@
 import styled from 'styled-components';
 import * as Sentry from '@sentry/nextjs';
 
-const StyledLink = styled.button`
+interface StyledLinkProps {
+  children?: React.ReactNode;
+  'data-testid'?: string;
+  onClick?: (e: any) => void;
+}
+
+const StyledLink = styled.a<StyledLinkProps>`
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
   word-break: break-word;
+  width: fit-content;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const handleDownload = async (uuid, fileName) => {

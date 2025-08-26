@@ -53,7 +53,7 @@ const StyledFormDiv = styled(FormDiv)`
 `;
 
 interface Props {
-  children: JSX.Element[] | JSX.Element;
+  children: React.ReactNode;
   query: any;
   mapData?: any;
   isMapExpanded?: boolean;

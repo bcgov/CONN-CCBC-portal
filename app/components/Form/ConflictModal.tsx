@@ -2,7 +2,11 @@ import Modal from 'components/Modal';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
-const StyledText = styled.p`
+interface StyledTextProps {
+  children?: React.ReactNode;
+}
+
+const StyledText = styled.p<StyledTextProps>`
   text-align: center;
 `;
 

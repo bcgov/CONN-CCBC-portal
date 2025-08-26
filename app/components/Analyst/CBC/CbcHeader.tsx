@@ -36,7 +36,12 @@ const StyledDiv = styled.div`
   height: fit-content;
 `;
 
-const StyledLabel = styled.label`
+interface StyledLabelProps {
+  children: React.ReactNode;
+  htmlFor?: string;
+}
+
+const StyledLabel = styled.label<StyledLabelProps>`
   min-width: 210px;
   color: ${(props) => props.theme.color.components};
   padding-right: 1rem;

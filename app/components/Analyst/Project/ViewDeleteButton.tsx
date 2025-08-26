@@ -2,7 +2,12 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 
-const StyledButton = styled.button`
+interface StyledButtonProps {
+  children?: React.ReactNode;
+  onClick?: () => void;
+}
+
+const StyledButton = styled.button<StyledButtonProps>`
   display: flex;
   flex-direction: row;
   align-items: center;

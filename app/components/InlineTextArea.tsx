@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-interface AnimateProps {
+interface AnimateProps extends React.PropsWithChildren<any> {
   isExpanded: boolean;
 }
 
@@ -112,9 +112,11 @@ const InlineTextArea: React.FC<TextAreaProps> = ({
       ) : (
         <>
           {value ? (
-            <StyledText onClick={handleEdit}>{text}</StyledText>
+            <StyledText as="div" onClick={handleEdit}>
+              {text}
+            </StyledText>
           ) : (
-            <StyledPlaceholder onClick={handleEdit}>
+            <StyledPlaceholder as="div" onClick={handleEdit}>
               {placeholder || 'Click to edit'}
             </StyledPlaceholder>
           )}

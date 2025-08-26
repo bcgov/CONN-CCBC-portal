@@ -6,7 +6,13 @@ import { enUS } from '@mui/x-date-pickers/locales';
 import dayjs from 'dayjs';
 import styled from 'styled-components';
 
-const StyledClearButton = styled.button`
+interface StyledClearButtonProps {
+  children?: React.ReactNode;
+  type?: string;
+  onClick?: () => any;
+}
+
+const StyledClearButton = styled.button<StyledClearButtonProps>`
   color: ${(props) => props.theme.color.borderGrey};
 `;
 

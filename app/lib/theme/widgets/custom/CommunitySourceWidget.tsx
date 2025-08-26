@@ -9,7 +9,11 @@ interface CommunitySourceWidgetProps extends WidgetProps {
   children: React.ReactNode;
 }
 
-const StyledDiv = styled.div`
+interface StyledDivProps {
+  children?: React.ReactNode;
+}
+
+const StyledDiv = styled.div<StyledDivProps>`
   display: flex;
   flex-direction: row;
   gap: 4px;
@@ -24,20 +28,32 @@ const StyledButton = styled(Button)`
   margin: 2px;
 `;
 
-const StyledOptionMenu = styled.li`
+interface StyledOptionMenuProps {
+  children?: React.ReactNode;
+}
+
+const StyledOptionMenu = styled.li<StyledOptionMenuProps>`
   display: flex;
   border: 1px dashed lightgrey;
   margin: 0;
   padding: 0;
 `;
 
-const StyledLabelDiv = styled.div`
+interface StyledLabelDivProps {
+  children?: React.ReactNode;
+}
+
+const StyledLabelDiv = styled.div<StyledLabelDivProps>`
   width: 40%;
   padding: 8px;
   border-right: 1px dashed lightgrey;
 `;
 
-const StyledIdDiv = styled.div`
+interface StyledIdDivProps {
+  children?: React.ReactNode;
+}
+
+const StyledIdDiv = styled.div<StyledIdDivProps>`
   width: 20%;
   padding: 8px;
 `;
@@ -47,7 +63,12 @@ const StyledDisplayContainer = styled.div`
   padding: 5px 0;
 `;
 
-const StyledDisplayField = styled.div<{ width?: string }>`
+interface StyledDisplayFieldProps {
+  width?: string;
+  children?: React.ReactNode;
+}
+
+const StyledDisplayField = styled.div<StyledDisplayFieldProps>`
   width: ${(props) => props?.width || '200px'};
   padding: 1px;
 `;

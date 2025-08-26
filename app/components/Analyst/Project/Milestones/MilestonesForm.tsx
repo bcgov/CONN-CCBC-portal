@@ -273,7 +273,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
   return (
     <>
       {showToast && (
-        <Toast timeout={5000}>
+        <Toast type="success" timeout={5000}>
           Milestone report excel data successfully imported
         </Toast>
       )}

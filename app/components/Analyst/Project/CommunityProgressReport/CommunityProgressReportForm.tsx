@@ -271,7 +271,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
   return (
     <>
       {showToast && (
-        <Toast timeout={5000}>
+        <Toast type="success" timeout={5000}>
           Community progress report successfully imported
         </Toast>
       )}
