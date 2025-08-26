@@ -61,6 +61,7 @@ const moduleExports = {
     SITEMINDER_LOGOUT_URL: convictConfig.get('SITEMINDER_LOGOUT_URL'),
     SENTRY_ENVIRONMENT: convictConfig.get('SENTRY_ENVIRONMENT'),
     SENTRY_RELEASE: convictConfig.get('SENTRY_RELEASE'),
+    COVERAGES_FILE_NAME: convictConfig.get('COVERAGES_FILE_NAME'),
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
