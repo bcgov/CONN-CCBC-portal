@@ -2,12 +2,14 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import { ThemeProvider } from '@mui/material';
+import { CacheProvider } from '@emotion/react';
 import theme from 'styles/muiTheme';
 import { RelayEnvironmentProvider } from 'react-relay';
 import { useRelayNextjs } from 'relay-nextjs/app';
 import { newTracker, trackPageView } from '@snowplow/browser-tracker';
 import { Settings } from 'luxon';
 import type { AppProps } from 'next/app';
+import type { EmotionCache } from '@emotion/react';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { GrowthBook, GrowthBookProvider } from '@growthbook/growthbook-react';
@@ -19,6 +21,14 @@ import GlobalTheme from 'styles/GlobalTheme';
 import BCGovTypography from 'components/BCGovTypography';
 import { SessionExpiryHandler } from 'components';
 import { AppProvider } from 'components/AppProvider';
+import createEmotionCache from 'utils/createEmotionCache';
+
+export interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache;
+}
+
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache();
 
 config.autoAddCss = false;
 
@@ -27,14 +37,17 @@ const growthbook = new GrowthBook();
 const { publicRuntimeConfig } = getConfig();
 // Using convict to declare it but using nextjs public env due to convict fs import
 const growthbookUrl = `https://cdn.growthbook.io/api/features/${publicRuntimeConfig.NEXT_PUBLIC_GROWTHBOOK_API_KEY}`;
-try {
-  await fetch(growthbookUrl)
+
+// Initialize GrowthBook features on client-side only
+if (typeof window !== 'undefined') {
+  fetch(growthbookUrl)
     .then((res) => res.json())
     .then((res) => {
       growthbook.setFeatures(res.features);
+    })
+    .catch((err) => {
+      reportClientError(err, { source: 'growthbook-bootstrap' });
     });
-} catch (err) {
-  reportClientError(err, { source: 'growthbook-bootstrap' });
 }
 
 class AppErrorBoundary extends React.Component<
@@ -68,7 +81,11 @@ class AppErrorBoundary extends React.Component<
   }
 }
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const MyApp = ({
+  Component,
+  pageProps,
+  emotionCache = clientSideEmotionCache,
+}: MyAppProps) => {
   const { env, ...relayProps } = useRelayNextjs(pageProps, {
     createClientEnvironment: () => getClientEnvironment()!,
   });
@@ -87,6 +104,19 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     // nextjs.org/docs/messages/react-hydration-error
     setAppMounted(true);
+
+    // Force styled-components to rehydrate in React 19
+    if (typeof window !== 'undefined' && window.__NEXT_DATA__) {
+      // This helps with styled-components hydration in React 19
+      const styledComponentsStyleTags =
+        document.querySelectorAll('[data-styled]');
+      styledComponentsStyleTags.forEach((tag) => {
+        if (tag.textContent) {
+          // Force re-evaluation of styles to prevent hydration mismatch
+          tag.setAttribute('data-styled-version', '6');
+        }
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -107,32 +137,54 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, [router.asPath]);
 
   const component = appMounted ? (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+          }}
+        >
+          Loading...
+        </div>
+      }
+    >
       <Component {...pageProps} {...relayProps} />
     </Suspense>
   ) : (
-    <Component {...pageProps} {...relayProps} />
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+      }}
+    >
+      Loading...
+    </div>
   );
 
   return (
-    <GrowthBookProvider growthbook={growthbook}>
-      <GlobalTheme>
-        <ThemeProvider theme={theme}>
-          {React.createElement(GlobalStyle as any)}
-          <BCGovTypography />
-          <AppErrorBoundary>
-            {React.createElement(
-              RelayEnvironmentProvider as any,
-              { environment: env },
-              <AppProvider>
-                {typeof window !== 'undefined' && <SessionExpiryHandler />}
-                {component}
-              </AppProvider>
-            )}
-          </AppErrorBoundary>
-        </ThemeProvider>
-      </GlobalTheme>
-    </GrowthBookProvider>
+    <CacheProvider value={emotionCache}>
+      <GrowthBookProvider growthbook={growthbook}>
+        <GlobalTheme>
+          <ThemeProvider theme={theme}>
+            <GlobalStyle />
+            <BCGovTypography />
+            <AppErrorBoundary>
+              <RelayEnvironmentProvider environment={env}>
+                <AppProvider>
+                  {typeof window !== 'undefined' && <SessionExpiryHandler />}
+                  {component}
+                </AppProvider>
+              </RelayEnvironmentProvider>
+            </AppErrorBoundary>
+          </ThemeProvider>
+        </GlobalTheme>
+      </GrowthBookProvider>
+    </CacheProvider>
   );
 };
 

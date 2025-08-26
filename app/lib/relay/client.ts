@@ -35,14 +35,24 @@ export function createClientNetwork() {
 
 let clientEnv: Environment | undefined;
 export function getClientEnvironment() {
+  // Ensure we're in a browser environment
   if (typeof window === 'undefined') return null;
 
   if (clientEnv == null) {
-    clientEnv = new Environment({
-      network: createClientNetwork(),
-      store: new Store(new RecordSource()),
-      isServer: false,
-    });
+    try {
+      clientEnv = new Environment({
+        network: createClientNetwork(),
+        store: new Store(new RecordSource()),
+        isServer: false,
+      });
+    } catch (error) {
+      // Log the error silently and return null to prevent crashes
+      if (typeof window !== 'undefined' && window.console) {
+        // eslint-disable-next-line no-console
+        console.error('Failed to create Relay client environment:', error);
+      }
+      return null;
+    }
   }
 
   return clientEnv;

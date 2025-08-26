@@ -93,21 +93,11 @@ const TimeTravel = () => {
       >
         <StyledDatePicker
           sx={styles}
-          onChange={(value: Date) => setMockDate(value)}
+          onChange={(value: any) =>
+            setMockDate(value ? dayjs(value).toDate() : null)
+          }
           value={date ? dayjs(date) : null}
           defaultValue={null}
-          slotProps={{
-            actionBar: {
-              actions: ['clear', 'cancel'],
-            },
-            textField: {
-              inputProps: {
-                id: 'datepicker-widget-input',
-                'data-testid': 'datepicker-widget-input',
-              },
-            },
-          }}
-          format="YYYY-MM-DD"
         />
       </LocalizationProvider>
     </StyledContainer>

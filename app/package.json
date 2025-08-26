@@ -36,7 +36,9 @@
     "@bcgov-ccbc/ccbc-node-sp-auth": "^1.0.0",
     "@bcgov/bc-sans": "^2.1.0",
     "@button-inc/bcgov-theme": "^1.0.1",
+    "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
+    "@emotion/server": "^11.11.0",
     "@emotion/styled": "^11.14.1",
     "@fortawesome/fontawesome-svg-core": "^7.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
@@ -48,6 +50,7 @@
     "@mui/base": "^5.0.0-beta.70",
     "@mui/icons-material": "^5.18.0",
     "@mui/material": "^5.18.0",
+    "@mui/system": "^5.18.0",
     "@mui/x-date-pickers": "^6.16.2",
     "@rjsf/core": "5.24.13",
     "@rjsf/utils": "5.24.13",
@@ -109,6 +112,7 @@
     "re-resizable": "^6.11.2",
     "react": "19.1.1",
     "react-currency-input-field": "^4.0.5",
+    "react-is": "^19.1.1",
     "react-leaflet": "4.2.1",
     "react-leaflet-fullscreen": "^4.1.1",
     "react-relay": "^20.1.1",
@@ -116,7 +120,7 @@
     "react-typography": "^0.16.23",
     "relay-nextjs": "^3.0.1",
     "relay-runtime": "^20.1.0",
-    "styled-components": "^5.3.5",
+    "styled-components": "^6.1.12",
     "typography": "^0.16.24",
     "url": "^0.11.4",
     "validator": "13.15.35",
@@ -190,13 +194,17 @@
     "wait-on": "^9.0.5"
   },
   "resolutions": {
-    "@sideway/formula": "3.0.1",
-    "json5": "2.2.3",
-    "jsonwebtoken": "9.0.0",
-    "underscore": "1.12.1",
     "graphql": "15.6.1",
-    "@types/react": "19.1.11",
-    "@types/react-dom": "19.1.7"
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "react-is": "^19.1.1",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@emotion/cache": "^11.14.0",
+    "@mui/material": "^5.18.0",
+    "@mui/system": "^5.18.0",
+    "@mui/icons-material": "^5.18.0",
+    "@mui/base": "^5.0.0-beta.70"
   },
   "graphql": {
     "schema": "./schema/schema.graphql"

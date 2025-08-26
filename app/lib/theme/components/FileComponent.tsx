@@ -452,9 +452,10 @@ const FileComponent: React.FC<FileComponentProps> = ({
                     sx={getStyles(false)}
                     disabled={false}
                     readOnly={false}
-                    onChange={(d: Date | null) => {
-                      const originalDate = new Date(d);
+                    onChange={(d: any) => {
+                      const originalDate = d ? dayjs(d).toDate() : null;
                       if (
+                        originalDate &&
                         !Number.isNaN(originalDate) &&
                         originalDate.valueOf() >= 0
                       ) {
@@ -468,23 +469,11 @@ const FileComponent: React.FC<FileComponentProps> = ({
                     }}
                     value={fileDate ? dayjs(fileDate) : null}
                     defaultValue={null}
-                    slotProps={{
-                      actionBar: {
-                        actions: ['clear', 'cancel'],
-                      },
-                      textField: {
-                        inputProps: {
-                          id,
-                          'data-testid': 'datepicker-widget-input',
-                        },
-                      },
-                    }}
                     slots={{
                       openPickerButton: fileDate
                         ? ClearableIconButton
                         : undefined,
                     }}
-                    format="YYYY-MM-DD"
                   />
                 </LocalizationProvider>
               </div>
