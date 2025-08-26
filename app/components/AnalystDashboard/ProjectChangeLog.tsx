@@ -27,7 +27,7 @@ import {
   getFileArraysFromRecord,
   getFileFieldsForTable,
 } from 'utils/historyFileUtils';
-import { Box, Link, TableCellProps, IconButton, Tooltip } from '@mui/material';
+import { Box, Link, IconButton, Tooltip } from '@mui/material';
 import { Refresh } from '@mui/icons-material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -143,7 +143,7 @@ const muiTableBodyRowProps = ({ row }) => ({
   },
 });
 
-const muiTableBodyCellProps = (): TableCellProps => ({
+const muiTableBodyCellProps = (): any => ({
   align: 'left',
   sx: { padding: '8px', border: 'none', alignItems: 'flex-start' },
 });

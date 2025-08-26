@@ -6,7 +6,6 @@ import {
   useMaterialReactTable,
 } from 'material-react-table';
 import { useMemo } from 'react';
-import { TableCellProps } from '@mui/material';
 import styled from 'styled-components';
 import * as Sentry from '@sentry/nextjs';
 import { filterOutNullishs } from 'components/AnalystDashboard/AllDashboard';
@@ -120,7 +119,7 @@ const HistoryFileUpload = ({ historyTableList }) => {
     ];
   }, [historyTableList]);
 
-  const muiTableBodyCellProps = (): TableCellProps => {
+  const muiTableBodyCellProps = (): any => {
     return {
       sx: {
         padding: '8px !important',

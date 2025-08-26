@@ -9,6 +9,8 @@ import styled from 'styled-components';
 
 interface StyledHeaderBannerProps {
   type: 'success' | 'warn' | 'error' | 'custom';
+  customBannerColor?: string;
+  customFontColor?: string;
 }
 
 const StyledBaseHeaderBanner = styled(BaseHeader)<StyledHeaderBannerProps>`
@@ -63,7 +65,7 @@ const HeaderBanner: React.FC<Props> = ({
     <>
       {/* Shows the environment banner only in test and dev */}
       {environmentIndicator && !isProd && (
-        <StyledBaseHeaderBanner header="sub">
+        <StyledBaseHeaderBanner header="sub" type="custom">
           <StyledDiv>
             Connecting Communities BC portal{' '}
             {isTest ? ' Test ' : ' Development '} environment.

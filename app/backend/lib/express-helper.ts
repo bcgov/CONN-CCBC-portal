@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import formidable from 'formidable';
-import IncomingForm from 'formidable/Formidable';
+import formidable, { IncomingForm } from 'formidable';
 import config from '../../config';
 
 type AnyObject = Record<string, any>;
