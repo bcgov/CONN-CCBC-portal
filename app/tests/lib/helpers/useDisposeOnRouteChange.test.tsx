@@ -1,13 +1,13 @@
-import { renderHook, act } from '@testing-library/react-hooks/dom';
+import { renderHook, act } from '@testing-library/react';
 import useDisposeOnRouteChange from 'lib/helpers/useDisposeOnRouteChange';
 import { useRouter } from 'next/router';
+
 // Mock the Next.js router
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
 
 describe('useDisposeOnRouteChange', () => {
-  let setDisposable;
   let mockRouter;
   let onMapper = {};
 
@@ -24,13 +24,12 @@ describe('useDisposeOnRouteChange', () => {
     };
 
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
-
-    // Render the hook
-    const { result } = renderHook(() => useDisposeOnRouteChange());
-    setDisposable = result.current;
   });
 
   it('should set up an event listener on routeChangeStart', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { result } = renderHook(() => useDisposeOnRouteChange());
+
     expect(mockRouter.events.on).toHaveBeenCalledWith(
       'routeChangeStart',
       expect.any(Function)
@@ -38,11 +37,15 @@ describe('useDisposeOnRouteChange', () => {
   });
 
   it('should remove the event listener on unmount', () => {
+    const { result, unmount } = renderHook(() => useDisposeOnRouteChange());
+
     act(() => {
-      setDisposable({
+      result.current({
         dispose: jest.fn(),
       });
     });
+
+    unmount();
 
     expect(mockRouter.events.off).toHaveBeenCalledWith(
       'routeChangeStart',
@@ -52,10 +55,11 @@ describe('useDisposeOnRouteChange', () => {
 
   it('should call dispose method on route change', () => {
     const dispose = jest.fn();
+    const { result } = renderHook(() => useDisposeOnRouteChange());
 
     // Set disposable
     act(() => {
-      setDisposable({
+      result.current({
         dispose,
       });
     });
@@ -63,7 +67,9 @@ describe('useDisposeOnRouteChange', () => {
     // Simulate routeChangeStart event
     const handler = onMapper['routeChangeStart'];
     if (handler) {
-      handler();
+      act(() => {
+        handler();
+      });
     }
 
     expect(dispose).toHaveBeenCalled();
