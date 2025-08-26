@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import useEmailNotification from 'lib/helpers/useEmailNotification';
 import * as Sentry from '@sentry/nextjs';
 

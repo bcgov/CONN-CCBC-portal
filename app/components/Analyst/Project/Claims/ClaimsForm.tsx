@@ -243,7 +243,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
   return (
     <>
       {showToast && (
-        <Toast timeout={5000}>
+        <Toast type="success" timeout={5000}>
           Claims & progress report excel data successfully imported
         </Toast>
       )}

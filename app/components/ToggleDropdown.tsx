@@ -6,7 +6,14 @@ import {
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 
-const StyledToggleButton = styled.button<ToggleProps>`
+interface StyledToggleButtonProps {
+  children?: React.ReactNode;
+  'data-testid'?: string;
+  onClick?: () => void;
+  isOpen?: boolean;
+}
+
+const StyledToggleButton = styled.button<StyledToggleButtonProps>`
   display: flex;
   align-items: center;
   color: ${(props) => props.theme.color.links};
@@ -23,16 +30,17 @@ const StyledToggleButton = styled.button<ToggleProps>`
   }
 `;
 
-interface ToggleProps {
-  isOpen: boolean;
+interface StyledContainerProps {
+  children?: React.ReactNode;
 }
 
-const StyledContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 40px;
-  margin-bottom: 5px;
-  margin-top: 5px;
+const StyledContainer = styled.div<StyledContainerProps>`
+  padding: 8px 16px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
 `;
 
 const DropdownList = ({ items, hideText, showText }) => {

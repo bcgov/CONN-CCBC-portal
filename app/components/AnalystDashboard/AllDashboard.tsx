@@ -29,7 +29,7 @@ import statusStyles from 'data/statusStyles';
 import StatusInformationIcon from 'components/Analyst/StatusInformationIcon';
 import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
-import { Box, IconButton, MenuItem, TableCellProps } from '@mui/material';
+import { Box, IconButton, MenuItem } from '@mui/material';
 import { useFeature } from '@growthbook/growthbook-react';
 import getConfig from 'next/config';
 import { DateTime } from 'luxon';
@@ -89,7 +89,7 @@ const StyledTableHeader = styled.div`
   flex-direction: column;
 `;
 
-const muiTableBodyCellProps = (props): TableCellProps => {
+const muiTableBodyCellProps = (props): any => {
   const centeredCols = ['Package', 'zones', 'intakeNumber'];
   const isExpandColumn = props.column.id === 'mrt-row-expand';
   const isExpandedRow = props.row.getIsExpanded();

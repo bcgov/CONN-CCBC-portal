@@ -63,11 +63,11 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
   const maxDate = dayjs(uiOptions?.maxDate as number);
   const minDate = dayjs(uiOptions?.minDate as number);
 
-  const handleChange = (d: Date) => {
-    const dayjsDate = dayjs(d);
+  const handleChange = (d: any) => {
+    const dayjsDate = d ? dayjs(d) : null;
 
     // if not a valid entry clear the date
-    if (!dayjsDate.isValid()) {
+    if (!dayjsDate || !dayjsDate.isValid()) {
       onChange(undefined);
       return;
     }
@@ -110,21 +110,9 @@ const DatePickerWidget: React.FunctionComponent<WidgetProps> = ({
           onChange={handleChange}
           value={value ? dayjs(value) : null}
           defaultValue={null}
-          slotProps={{
-            actionBar: {
-              actions: ['clear', 'cancel'],
-            },
-            textField: {
-              inputProps: {
-                id,
-                'data-testid': 'datepicker-widget-input',
-              },
-            },
-          }}
           slots={{
             openPickerButton: value ? ClearableIconButton : undefined,
           }}
-          format="YYYY-MM-DD"
         />
       </LocalizationProvider>
     </StyledContainer>

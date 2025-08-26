@@ -11,7 +11,12 @@ interface Props {
   isHeaderEditable: boolean;
 }
 
-const StyledH2 = styled.h2`
+interface StyledH2Props {
+  children?: React.ReactNode;
+  onClick?: () => void;
+}
+
+const StyledH2 = styled.h2<StyledH2Props>`
   margin: 0;
   font-size: 16px;
   cursor: pointer;

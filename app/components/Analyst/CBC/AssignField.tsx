@@ -3,7 +3,14 @@ import { graphql, useFragment } from 'react-relay';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
 import styled from 'styled-components';
 
-const StyledDropdown = styled.select`
+interface StyledDropdownProps {
+  children?: React.ReactNode;
+  id?: string;
+  onChange?: (e: any) => void;
+  'data-testid'?: string;
+}
+
+const StyledDropdown = styled.select<StyledDropdownProps>`
   text-overflow: ellipsis;
   color: ${(props) => props.theme.color.links};
   background-color: ${(props) => props.theme.color.white};

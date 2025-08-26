@@ -12,6 +12,7 @@ interface Props {
 }
 
 interface TransistionProps {
+  children: React.ReactNode;
   show: boolean;
 }
 

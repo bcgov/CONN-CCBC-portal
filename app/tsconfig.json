@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2020",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -10,16 +10,21 @@
     "esModuleInterop": true,
     "module": "esnext",
     "sourceMap": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
-    "types": ["@testing-library/jest-dom"],
+    "typeRoots": ["./types", "./node_modules/@types"],
     "paths": {
       "*": ["*", "../*", "__generated__/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "exclude": [
     ".next",
@@ -29,5 +34,5 @@
     "./cypress.config.ts",
     "./node_modules/**/*"
   ],
-  "include": ["./**/*", "./.eslintrc.js"]
+  "include": ["./**/*", "./.eslintrc.js", ".next/types/**/*.ts", "./types/**/*"]
 }

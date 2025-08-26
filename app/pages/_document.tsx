@@ -5,11 +5,14 @@ import Document, {
   Main,
   NextScript,
   DocumentContext,
+  DocumentInitialProps,
 } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 export default class MyDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext) {
+  static async getInitialProps(
+    ctx: DocumentContext
+  ): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
 
@@ -21,14 +24,15 @@ export default class MyDocument extends Document {
         });
 
       const initialProps = await Document.getInitialProps(ctx);
+
       return {
         ...initialProps,
-        styles: [
-          <React.Fragment key="0">
+        styles: (
+          <>
             {initialProps.styles}
             {sheet.getStyleElement()}
-          </React.Fragment>,
-        ],
+          </>
+        ),
       };
     } finally {
       sheet.seal();
@@ -36,10 +40,12 @@ export default class MyDocument extends Document {
   }
 
   render() {
-    /* NextJs will automatically include the styles array from the getInitialProps function and render it last */
     return (
       <Html lang="en">
-        <Head />
+        <Head>
+          <meta name="styled-components" content="server" />
+          <meta name="emotion-insertion-point" content="" />
+        </Head>
         <body>
           <Main />
           <NextScript />

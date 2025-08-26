@@ -37,11 +37,11 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
   const maxDate = uiOptions?.maxDate && dayjs(uiOptions?.maxDate as number);
   const minDate = uiOptions?.minDate && dayjs(uiOptions?.minDate as number);
 
-  const handleChange = (d: Date) => {
-    const dayjsDate = dayjs(d);
+  const handleChange = (d: any) => {
+    const dayjsDate = d ? dayjs(d) : null;
 
-    // clear date if invalid
-    if (!dayjsDate.isValid()) {
+    // if not a valid entry clear the date
+    if (!dayjsDate || !dayjsDate.isValid()) {
       onChange(undefined);
       return;
     }
@@ -101,21 +101,9 @@ const DateTimePickerWidget: React.FunctionComponent<WidgetProps> = ({
           onChange={handleChange}
           value={value ? dayjs(value) : null}
           defaultValue={null}
-          slotProps={{
-            actionBar: {
-              actions: ['accept', 'clear', 'cancel'],
-            },
-            textField: {
-              inputProps: {
-                id,
-                'data-testid': 'datetime-widget-input',
-              },
-            },
-          }}
           slots={{
             openPickerButton: value ? ClearableButton : undefined,
           }}
-          format="YYYY-MM-DD HH:mm A"
         />
       </LocalizationProvider>
     </StyledDateTimeContainer>

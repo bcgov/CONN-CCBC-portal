@@ -36,7 +36,7 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
   };
 
   return (
-    <Div className="url-widget-wrapper">
+    <Div className="url-widget-wrapper" {...({} as any)}>
       <Input
         type="url"
         isError={isError || urlError}
@@ -50,7 +50,7 @@ const UrlWidget: React.FC<WidgetProps> = (props) => {
         required={required}
         aria-label={label}
       />
-      <Error isError={urlError}>
+      <Error isError={urlError} {...({} as any)}>
         {urlError
           ? 'Invalid URL. Please copy and paste from your browser.'
           : '‎'}

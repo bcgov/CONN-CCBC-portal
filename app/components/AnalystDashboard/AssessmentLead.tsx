@@ -3,7 +3,14 @@ import assessmentPillStyles from 'data/assessmentPillStyles';
 import { useCreateAssessmentMutation } from 'schema/mutations/assessment/createAssessment';
 import { useEffect, useState } from 'react';
 
-const StyledDropdown = styled.select`
+interface StyledDropdownProps {
+  children?: React.ReactNode;
+  'data-testid'?: string;
+  onChange?: (e: any) => void;
+  style?: React.CSSProperties;
+}
+
+const StyledDropdown = styled.select<StyledDropdownProps>`
   text-overflow: ellipsis;
   max-width: 100%;
 

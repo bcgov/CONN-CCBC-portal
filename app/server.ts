@@ -126,7 +126,7 @@ app.prepare().then(async () => {
 
   const { middleware: sessionMiddleware } = session();
 
-  server.use(sessionMiddleware);
+  server.use(sessionMiddleware as any);
 
   server.use(await ssoMiddleware());
 

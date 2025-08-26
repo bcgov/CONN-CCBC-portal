@@ -27,7 +27,7 @@ import {
   getFileArraysFromRecord,
   getFileFieldsForTable,
 } from 'utils/historyFileUtils';
-import { Box, Link, TableCellProps, IconButton, Tooltip } from '@mui/material';
+import { Box, Link, IconButton, Tooltip } from '@mui/material';
 import { Refresh } from '@mui/icons-material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -112,10 +112,14 @@ const MergedCell = ({ cell, renderedCellValue }) => {
   return displayValue;
 };
 
-const StyledCommunitiesCell = styled.td<{
+interface StyledCommunitiesCellProps {
   addBorder: boolean;
   isRemoved?: boolean;
-}>`
+  children?: React.ReactNode;
+  title?: any;
+}
+
+const StyledCommunitiesCell = styled.td<StyledCommunitiesCellProps>`
   width: 50%;
   font-size: 13px;
   padding: 2px;
@@ -139,7 +143,7 @@ const muiTableBodyRowProps = ({ row }) => ({
   },
 });
 
-const muiTableBodyCellProps = (): TableCellProps => ({
+const muiTableBodyCellProps = (): any => ({
   align: 'left',
   sx: { padding: '8px', border: 'none', alignItems: 'flex-start' },
 });

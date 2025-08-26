@@ -4,7 +4,11 @@ import { DateTime } from 'luxon';
 import styled from 'styled-components';
 import CommunitiesHistoryTable from '../../History/CommunitiesHistoryTable';
 
-const StyledContent = styled.span`
+interface StyledContentProps {
+  children?: React.ReactNode;
+}
+
+const StyledContent = styled.span<StyledContentProps>`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -20,7 +24,11 @@ const StyledContent = styled.span`
   }
 `;
 
-const StyledChange = styled.div`
+interface StyledChangeProps {
+  children?: React.ReactNode;
+}
+
+const StyledChange = styled.div<StyledChangeProps>`
   padding: 8px 16px;
 `;
 

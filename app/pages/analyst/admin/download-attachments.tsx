@@ -44,7 +44,7 @@ const StyledBtnContainer = styled.div`
   flex-direction: row;
   justify-content: left;
 `;
-const StyledDropdown = styled.select`
+const StyledDropdown = styled.select<{ children?: React.ReactNode }>`
   text-overflow: ellipsis;
   color: ${(props) => props.theme.color.links};
   background-color: ${(props) => props.theme.color.white};
@@ -56,8 +56,6 @@ const StyledDropdown = styled.select`
   position: relative;
   justify-content: left;
 `;
-
-const StyledOption = styled.option``;
 
 const AttachmentsTab = (allIntakes) => {
   const { nodes } = allIntakes;
@@ -103,6 +101,7 @@ const AttachmentsTab = (allIntakes) => {
       </StyledCaption>
       {filtered && (
         <StyledDropdown
+          as="select"
           name="select-intake"
           data-testid="select-intake-test"
           onChange={(e) => selectIntake(e)}
@@ -119,14 +118,14 @@ const AttachmentsTab = (allIntakes) => {
             const intakeName = `Intake ${intakeData.ccbcIntakeNumber}. ${startDate} - ${endDate}`;
 
             return (
-              <StyledOption
+              <option
                 id={intakeData.rowId}
                 key={intakeData.rowId}
                 value={intakeData.ccbcIntakeNumber}
                 selected={intakeData.ccbcIntakeNumber === intake}
               >
                 {intakeName}
-              </StyledOption>
+              </option>
             );
           })}
         </StyledDropdown>

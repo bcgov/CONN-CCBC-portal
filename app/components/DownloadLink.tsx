@@ -2,7 +2,14 @@ import styled from 'styled-components';
 import * as Sentry from '@sentry/nextjs';
 import { useState } from 'react';
 
-const StyledLink = styled.a`
+interface StyledLinkProps {
+  children?: React.ReactNode;
+  title?: string;
+  'data-testid'?: string;
+  onClick?: (e: any) => void;
+}
+
+const StyledLink = styled.button<StyledLinkProps>`
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
   word-break: break-word;

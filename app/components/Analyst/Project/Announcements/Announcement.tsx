@@ -4,6 +4,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 
+interface StyledPreviewProps {
+  children?: React.ReactNode;
+  onClick?: () => void;
+}
+
+interface StyledLinkProps {
+  children?: React.ReactNode;
+  href?: string;
+  rel?: string;
+  target?: string;
+}
+
+interface StyledIconBtnProps {
+  children?: React.ReactNode;
+  onClick?: () => void;
+  'aria-label'?: string;
+  'data-testid'?: string;
+}
+
+interface StyledButtonProps {
+  children?: React.ReactNode;
+  key?: string;
+  onClick?: () => any;
+  'data-testid'?: string;
+}
+
 const StyledAnnouncement = styled.div`
   font-style: normal;
   display: grid;
@@ -17,7 +43,7 @@ const StyledAnnouncement = styled.div`
   margin-bottom: 12px;
 `;
 
-const StyledPreview = styled.div`
+const StyledPreview = styled.div<StyledPreviewProps>`
   display: grid;
   grid-template-columns: 20% 80%;
   grid-gap: 8px;
@@ -66,14 +92,14 @@ const StyledDescription = styled.div`
   text-overflow: ellipsis;
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled.a<StyledLinkProps>`
   font-weight: 400;
   font-size: 16px;
   line-height: 16px;
   color: #1a5a96;
 `;
 
-const StyledIconBtn = styled.button`
+const StyledIconBtn = styled.button<StyledIconBtnProps>`
   font-size: 16px;
   margin-right: 8px;
   cursor: pointer;
@@ -86,7 +112,7 @@ const StyledIconBtn = styled.button`
   }
 `;
 
-const StyledButton = styled.button`
+const StyledButton = styled.button<StyledButtonProps>`
   font-size: 16px;
   font-weight: 900;
   color: red;

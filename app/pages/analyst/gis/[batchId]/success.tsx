@@ -9,12 +9,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import ToggleDropdown from 'components/ToggleDropdown';
 
-const StyledContainer = styled.div`
+interface StyledContainerProps {
+  children?: React.ReactNode;
+  marginTop?: string;
+}
+
+const StyledContainer = styled.div<StyledContainerProps>`
   margin-bottom: 5px;
-  margin-top: 5px;
+  margin-top: ${(props) => props.marginTop || '5px'};
 `;
 
-const StyledFlex = styled.div`
+interface StyledFlexProps {
+  children?: React.ReactNode;
+}
+
+const StyledFlex = styled.div<StyledFlexProps>`
   display: flex;
   flex-direction: column;
 
@@ -23,7 +32,11 @@ const StyledFlex = styled.div`
   }
 `;
 
-const StyledGreenCard = styled.div`
+interface StyledGreenCardProps {
+  children?: React.ReactNode;
+}
+
+const StyledGreenCard = styled.div<StyledGreenCardProps>`
   align-items: center;
   padding: 8px 16px;
   width: 600px;
@@ -35,7 +48,11 @@ const StyledGreenCard = styled.div`
   background-color: #dff0d8;
 `;
 
-const StyledGrayCard = styled.div`
+interface StyledGrayCardProps {
+  children?: React.ReactNode;
+}
+
+const StyledGrayCard = styled.div<StyledGrayCardProps>`
   align-items: center;
   padding: 8px 16px;
   width: 600px;
@@ -47,7 +64,11 @@ const StyledGrayCard = styled.div`
   background-color: #f1f2f3;
 `;
 
-const StyledButton = styled.div`
+interface StyledButtonProps {
+  children?: React.ReactNode;
+}
+
+const StyledButton = styled.div<StyledButtonProps>`
   margin-top: 2em;
 `;
 
@@ -79,73 +100,75 @@ const BatchIdPage: React.FC<
     <Layout session={session} title="Connecting Communities BC">
       <StyledFlex>
         <StyledContainer>
-          <h1>GIS Analysis Import</h1>
-          <StyledGreenCard>
-            <StyledContainer>
-              <FontAwesomeIcon icon={faCircleCheck} color="#2E8540" /> GIS
-              analysis added to {gisDataCounts.nodes[0].total} projects for the
-              first time
-            </StyledContainer>
-            <ToggleDropdown
-              items={gisDataCounts.nodes[0]?.ccbcNumbers?.split(',') || []}
-              hideText="Hide Projects"
-              showText="View Projects"
-            />
-          </StyledGreenCard>
-          <StyledGreenCard>
-            <StyledContainer>
-              <FontAwesomeIcon icon={faCircleCheck} color="#2E8540" /> GIS
-              analysis updated for {gisDataCounts.nodes[1].total} projects
-            </StyledContainer>
-            <ToggleDropdown
-              items={gisDataCounts.nodes[1]?.ccbcNumbers?.split(',') || []}
-              hideText="Hide Projects"
-              showText="View Projects"
-            />
-          </StyledGreenCard>
-          <StyledGrayCard>
-            <StyledContainer>
-              GIS analysis unchanged for {gisDataCounts.nodes[3].total} projects
-              and was not updated
-            </StyledContainer>
-            <ToggleDropdown
-              items={gisDataCounts.nodes[3]?.ccbcNumbers?.split(',') || []}
-              hideText="Hide Projects"
-              showText="View Projects"
-            />
-          </StyledGrayCard>
-          <StyledGrayCard>
-            <StyledContainer>
-              GIS analysis not imported for {gisDataCounts.nodes[4].total}{' '}
-              projects because they are at or past Recommendation
-            </StyledContainer>
-            <ToggleDropdown
-              items={gisDataCounts.nodes[4]?.ccbcNumbers?.split(',') || []}
-              hideText="Hide Projects"
-              showText="View Projects"
-            />
-          </StyledGrayCard>
-          <StyledGrayCard>
-            <StyledContainer>
-              GIS analysis found for {gisDataCounts.nodes[2].total} CCBC numbers
-              that are not in the portal
-            </StyledContainer>
-            <ToggleDropdown
-              items={gisDataCounts.nodes[2]?.ccbcNumbers?.split(',') || []}
-              hideText="Hide Projects"
-              showText="View Projects"
-            />
-            <StyledContainer>
-              Total processed {gisDataCounts.nodes[5].total}
-            </StyledContainer>
-          </StyledGrayCard>
-          <StyledButton>
-            <ButtonLink href="/analyst/dashboard">
-              Return to dashboard
-            </ButtonLink>
-          </StyledButton>
+          <>
+            <h1>GIS Analysis Import</h1>
+            <StyledGreenCard>
+              <StyledContainer>
+                <FontAwesomeIcon icon={faCircleCheck} color="#2E8540" /> GIS
+                analysis added to {gisDataCounts.nodes[0].total} projects for
+                the first time
+              </StyledContainer>
+              <ToggleDropdown
+                items={gisDataCounts.nodes[0]?.ccbcNumbers?.split(',') || []}
+                hideText="Hide Projects"
+                showText="View Projects"
+              />
+            </StyledGreenCard>
+            <StyledGreenCard>
+              <StyledContainer>
+                <FontAwesomeIcon icon={faCircleCheck} color="#2E8540" /> GIS
+                analysis updated for {gisDataCounts.nodes[1].total} projects
+              </StyledContainer>
+              <ToggleDropdown
+                items={gisDataCounts.nodes[1]?.ccbcNumbers?.split(',') || []}
+                hideText="Hide Projects"
+                showText="View Projects"
+              />
+            </StyledGreenCard>
+            <StyledGrayCard>
+              <StyledContainer>
+                GIS analysis unchanged for {gisDataCounts.nodes[3].total}{' '}
+                projects and was not updated
+              </StyledContainer>
+              <ToggleDropdown
+                items={gisDataCounts.nodes[3]?.ccbcNumbers?.split(',') || []}
+                hideText="Hide Projects"
+                showText="View Projects"
+              />
+            </StyledGrayCard>
+            <StyledGrayCard>
+              <StyledContainer>
+                GIS analysis not imported for {gisDataCounts.nodes[4].total}{' '}
+                projects because they are at or past Recommendation
+              </StyledContainer>
+              <ToggleDropdown
+                items={gisDataCounts.nodes[4]?.ccbcNumbers?.split(',') || []}
+                hideText="Hide Projects"
+                showText="View Projects"
+              />
+            </StyledGrayCard>
+            <StyledGrayCard>
+              <StyledContainer>
+                GIS analysis found for {gisDataCounts.nodes[2].total} CCBC
+                numbers that are not in the portal
+              </StyledContainer>
+              <ToggleDropdown
+                items={gisDataCounts.nodes[2]?.ccbcNumbers?.split(',') || []}
+                hideText="Hide Projects"
+                showText="View Projects"
+              />
+              <StyledContainer>
+                Total processed {gisDataCounts.nodes[5].total}
+              </StyledContainer>
+            </StyledGrayCard>
+            <StyledButton>
+              <ButtonLink href="/analyst/dashboard">
+                Return to dashboard
+              </ButtonLink>
+            </StyledButton>
+          </>
         </StyledContainer>
-        <StyledContainer style={{ marginTop: '3.8em' }}>
+        <StyledContainer marginTop="3.8em">
           <MetabaseLink
             href="https://ccbc-metabase.apps.silver.devops.gov.bc.ca/dashboard/87-gis-analyses"
             text="Visit Metabase to view a dashboard of GIS analysis"

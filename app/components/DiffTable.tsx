@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import formatMoney from 'utils/formatMoney';
 
-const StyledTable = styled.table`
+const StyledTable = styled.table<{ children?: React.ReactNode }>`
   table-layout: auto;
 
   th,

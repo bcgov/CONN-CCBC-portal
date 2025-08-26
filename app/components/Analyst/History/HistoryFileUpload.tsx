@@ -6,17 +6,26 @@ import {
   useMaterialReactTable,
 } from 'material-react-table';
 import { useMemo } from 'react';
-import { TableCellProps } from '@mui/material';
 import styled from 'styled-components';
 import * as Sentry from '@sentry/nextjs';
 import { filterOutNullishs } from 'components/AnalystDashboard/AllDashboard';
 import ClearFilters from 'components/Table/ClearFilters';
 import DateFilter from '../../Table/Filters/DateFilter';
 
-const StyledLink = styled.button`
+interface StyledLinkProps {
+  children?: React.ReactNode;
+  'data-testid'?: string;
+  onClick?: (e: any) => void;
+}
+
+const StyledLink = styled.a<StyledLinkProps>`
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
   word-break: break-word;
+  width: fit-content;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const handleDownload = async (uuid, fileName) => {
@@ -110,7 +119,7 @@ const HistoryFileUpload = ({ historyTableList }) => {
     ];
   }, [historyTableList]);
 
-  const muiTableBodyCellProps = (): TableCellProps => {
+  const muiTableBodyCellProps = (): any => {
     return {
       sx: {
         padding: '8px !important',

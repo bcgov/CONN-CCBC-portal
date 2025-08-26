@@ -159,9 +159,9 @@ describe('The Gis JSON upload history page', () => {
 
     const firstRowCells = rows[0].querySelectorAll('td');
     expect(firstRowCells[0]).toHaveTextContent('Admin Tester');
-    expect(firstRowCells[1].querySelector('button')).toHaveTextContent(
-      'GIS_HH_ASSESSMENT_JSON_INTAKE_5.json'
-    );
+    expect(
+      firstRowCells[1].querySelector('[data-testid="history-file-link"]')
+    ).toHaveTextContent('GIS_HH_ASSESSMENT_JSON_INTAKE_5.json');
     expect(firstRowCells[2]).toHaveTextContent(
       'February 4, 2025 at 2:52 p.m. PST'
     );

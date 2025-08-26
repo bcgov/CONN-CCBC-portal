@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import styled from 'styled-components';
+import getConfig from 'next/config';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
 import { ButtonLink, Layout } from 'components';
@@ -14,7 +15,6 @@ import Tabs from 'components/Analyst/GIS/Tabs';
 import checkFileType from 'utils/checkFileType';
 import { useUnsavedChanges } from 'components/UnsavedChangesProvider';
 import HistoryFileUpload from 'components/Analyst/History/HistoryFileUpload';
-import config from '../../../config';
 
 const getCoveragesQuery = graphql`
   query coveragesQuery {
@@ -40,7 +40,8 @@ const getCoveragesQuery = graphql`
   }
 `;
 
-const COVERAGES_FILE_NAME = config.get('COVERAGES_FILE_NAME');
+const { publicRuntimeConfig } = getConfig();
+const { COVERAGES_FILE_NAME } = publicRuntimeConfig;
 
 const StyledContainer = styled.div`
   width: 100%;

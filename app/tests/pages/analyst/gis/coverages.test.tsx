@@ -285,9 +285,9 @@ describe('The Gis history page', () => {
 
     const firstRowCells = rows[0].querySelectorAll('td');
     expect(firstRowCells[0]).toHaveTextContent('User1 Tester');
-    expect(firstRowCells[1].querySelector('button')).toHaveTextContent(
-      'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip'
-    );
+    expect(
+      firstRowCells[1].querySelector('[data-testid="history-file-link"]')
+    ).toHaveTextContent('CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip');
     expect(firstRowCells[2]).toHaveTextContent(
       'January 7, 2025 at 7:28 a.m. PST'
     );
