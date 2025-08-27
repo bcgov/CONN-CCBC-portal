@@ -221,10 +221,10 @@ describe('The application navigation bar component', () => {
       target: { value: 'CCBC-010020' },
     });
 
-    const option = await screen.findAllByText('CCBC-010020')[0];
-    expect(option).toBeInTheDocument();
+    const option = await screen.findAllByText('CCBC-010020');
+    expect(option[1]).toBeInTheDocument();
 
-    fireEvent.click(option);
+    fireEvent.click(option[1]);
 
     expect(pushMock).toHaveBeenCalledWith('/analyst/application/1', undefined, {
       shallow: true,
