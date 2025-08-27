@@ -6,6 +6,7 @@ import CbcEditProjectDescription from './CbcEditProjectDescription';
 import CbcAssignProjectType from './CbcAssignProjectType';
 import CbcEditProjectNumber from './CbcEditProjectNumber';
 import StatusInformationIcon from '../StatusInformationIcon';
+import CompactHeader from '../CompactHeader';
 
 const StyledCallout = styled.div`
   margin-bottom: 0.5em;
@@ -108,60 +109,66 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditable = false }) => {
   const status = jsonData.projectStatus;
 
   return (
-    <StyledCallout>
-      <StyledProjectInfo>
-        {/* <StyledH2>{projectNumber}</StyledH2> */}
-        <CbcEditProjectNumber
-          cbc={cbcByRowId}
-          value={projectNumber}
-          isHeaderEditable={isFormEditable}
-        />
-        <StyledH1>{jsonData.projectTitle}</StyledH1>
-        <StyledH2>{jsonData.currentOperatingName}</StyledH2>
-        <CbcEditProjectDescription
-          cbc={cbcByRowId}
-          isHeaderEditable={isFormEditable}
-        />
-      </StyledProjectInfo>
-      <StyledDiv>
-        <StyledItem>
-          <StyledLabel htmlFor="change-status">External Status</StyledLabel>
-          <CbcChangeStatus
+    <>
+      <StyledCallout>
+        <StyledProjectInfo>
+          {/* <StyledH2>{projectNumber}</StyledH2> */}
+          <CbcEditProjectNumber
             cbc={cbcByRowId}
-            status={status}
-            statusList={[
-              {
-                description: 'Conditionally Approved',
-                name: 'conditionally_approved',
-                id: 1,
-              },
-              { description: 'Agreement Signed', name: 'approved', id: 3 },
-              { description: 'Reporting Complete', name: 'complete', id: 2 },
-              { description: 'Withdrawn', name: 'withdrawn', id: 4 },
-            ]}
-            isFormEditable={isFormEditable}
+            value={projectNumber}
+            isHeaderEditable={isFormEditable}
           />
-          <StatusInformationIcon type="cbc" />
-        </StyledItem>
-        <StyledProjectType>
-          <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>
-          <CbcAssignProjectType
+          <StyledH1>{jsonData.projectTitle}</StyledH1>
+          <StyledH2>{jsonData.currentOperatingName}</StyledH2>
+          <CbcEditProjectDescription
             cbc={cbcByRowId}
             isHeaderEditable={isFormEditable}
           />
-        </StyledProjectType>
-        <StyledPendingChangeRequests>
-          <StyledLabel htmlFor="assign-project-type">
-            Pending Change Request
-          </StyledLabel>
-          <PendingChangeRequest
-            application={cbcByRowId}
-            isCbc
-            isFormEditable={isFormEditable}
-          />
-        </StyledPendingChangeRequests>
-      </StyledDiv>
-    </StyledCallout>
+        </StyledProjectInfo>
+        <StyledDiv>
+          <StyledItem>
+            <StyledLabel htmlFor="change-status">External Status</StyledLabel>
+            <CbcChangeStatus
+              cbc={cbcByRowId}
+              status={status}
+              statusList={[
+                {
+                  description: 'Conditionally Approved',
+                  name: 'conditionally_approved',
+                  id: 1,
+                },
+                { description: 'Agreement Signed', name: 'approved', id: 3 },
+                { description: 'Reporting Complete', name: 'complete', id: 2 },
+                { description: 'Withdrawn', name: 'withdrawn', id: 4 },
+              ]}
+              isFormEditable={isFormEditable}
+            />
+            <StatusInformationIcon type="cbc" />
+          </StyledItem>
+          <StyledProjectType>
+            <StyledLabel htmlFor="assign-project-type">
+              Project Type
+            </StyledLabel>
+            <CbcAssignProjectType
+              cbc={cbcByRowId}
+              isHeaderEditable={isFormEditable}
+            />
+          </StyledProjectType>
+          <StyledPendingChangeRequests>
+            <StyledLabel htmlFor="assign-project-type">
+              Pending Change Request
+            </StyledLabel>
+            <PendingChangeRequest
+              application={cbcByRowId}
+              isCbc
+              isFormEditable={isFormEditable}
+            />
+          </StyledPendingChangeRequests>
+        </StyledDiv>
+      </StyledCallout>
+      {/* visible and sticky to the top whe scrolling */}
+      <CompactHeader record={cbcByRowId} />
+    </>
   );
 };
 

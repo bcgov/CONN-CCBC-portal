@@ -8,6 +8,7 @@ import EditProjectDescription from './EditProjectDescription';
 import StatusInformationIcon from './StatusInformationIcon';
 import AssignProjectType from './AssignProjectType';
 import PendingChangeRequest from './PendingChangeRequest/PendingChangeRequest';
+import CompactHeader from './CompactHeader';
 
 const StyledCallout = styled.div`
   margin-bottom: 0.5em;
@@ -194,74 +195,80 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
   }
 
   return (
-    <StyledCallout>
-      <StyledProjectInfo>
-        <StyledH2>{ccbcNumber}</StyledH2>
-        <StyledH1>{projectName}</StyledH1>
-        <StyledH2>{organizationName}</StyledH2>
-        <EditProjectDescription application={applicationByRowId} />
-      </StyledProjectInfo>
-      <StyledDiv>
-        <StyledItem>
-          <StyledLabel htmlFor="change-status">Internal Status</StyledLabel>
-          <ChangeStatus
-            application={applicationByRowId}
-            disabledStatusList={disabledStatusList}
-            hiddenStatusTypes={['draft', 'submitted', 'analyst_withdrawn']}
-            status={
-              analystStatus === 'analyst_withdrawn'
-                ? 'withdrawn'
-                : analystStatus
-            }
-            statusList={allApplicationStatusTypes?.nodes}
-          />
-          <StatusInformationIcon type="ccbc" />
-        </StyledItem>
-        <StyledItem>
-          <StyledLabel htmlFor="change-status">External Status</StyledLabel>
-          <ChangeStatus
-            application={applicationByRowId}
-            hiddenStatusTypes={[
-              'analyst_withdrawn',
-              'assessment',
-              'draft',
-              'recommendation',
-              'screening',
-              'submitted',
-            ]}
-            isExternalStatus
-            status={externalStatus.replace('applicant_', '')}
-            statusList={allApplicationStatusTypes.nodes}
-          />
-        </StyledItem>
-        <StyledPackage>
-          <StyledLabel htmlFor="assign-package">Package</StyledLabel>
-          <AssignPackage application={applicationByRowId} />
-        </StyledPackage>
-        {showLead && (
+    <>
+      <StyledCallout>
+        <StyledProjectInfo>
+          <StyledH2>{ccbcNumber}</StyledH2>
+          <StyledH1>{projectName}</StyledH1>
+          <StyledH2>{organizationName}</StyledH2>
+          <EditProjectDescription application={applicationByRowId} />
+        </StyledProjectInfo>
+        <StyledDiv>
           <StyledItem>
-            <StyledLabel htmlFor="assign-lead">Lead</StyledLabel>
-            <AssignLead
-              label="Lead"
-              applicationId={rowId}
-              lead={analystLead}
-              query={queryFragment}
+            <StyledLabel htmlFor="change-status">Internal Status</StyledLabel>
+            <ChangeStatus
+              application={applicationByRowId}
+              disabledStatusList={disabledStatusList}
+              hiddenStatusTypes={['draft', 'submitted', 'analyst_withdrawn']}
+              status={
+                analystStatus === 'analyst_withdrawn'
+                  ? 'withdrawn'
+                  : analystStatus
+              }
+              statusList={allApplicationStatusTypes?.nodes}
+            />
+            <StatusInformationIcon type="ccbc" />
+          </StyledItem>
+          <StyledItem>
+            <StyledLabel htmlFor="change-status">External Status</StyledLabel>
+            <ChangeStatus
+              application={applicationByRowId}
+              hiddenStatusTypes={[
+                'analyst_withdrawn',
+                'assessment',
+                'draft',
+                'recommendation',
+                'screening',
+                'submitted',
+              ]}
+              isExternalStatus
+              status={externalStatus.replace('applicant_', '')}
+              statusList={allApplicationStatusTypes.nodes}
             />
           </StyledItem>
-        )}
-        <StyledProjectType>
-          <StyledLabel htmlFor="assign-project-type">Project Type</StyledLabel>
-          <AssignProjectType application={applicationByRowId} />
-        </StyledProjectType>
+          <StyledPackage>
+            <StyledLabel htmlFor="assign-package">Package</StyledLabel>
+            <AssignPackage application={applicationByRowId} />
+          </StyledPackage>
+          {showLead && (
+            <StyledItem>
+              <StyledLabel htmlFor="assign-lead">Lead</StyledLabel>
+              <AssignLead
+                label="Lead"
+                applicationId={rowId}
+                lead={analystLead}
+                query={queryFragment}
+              />
+            </StyledItem>
+          )}
+          <StyledProjectType>
+            <StyledLabel htmlFor="assign-project-type">
+              Project Type
+            </StyledLabel>
+            <AssignProjectType application={applicationByRowId} />
+          </StyledProjectType>
 
-        <StyledPendingChangeRequests>
-          <StyledLabel htmlFor="assign-project-type">
-            Pending Change Request
-          </StyledLabel>
-          <PendingChangeRequest application={applicationByRowId} />
-        </StyledPendingChangeRequests>
-      </StyledDiv>
-    </StyledCallout>
+          <StyledPendingChangeRequests>
+            <StyledLabel htmlFor="assign-project-type">
+              Pending Change Request
+            </StyledLabel>
+            <PendingChangeRequest application={applicationByRowId} />
+          </StyledPendingChangeRequests>
+        </StyledDiv>
+      </StyledCallout>
+      {/* visible and sticky to the top whe scrolling */}
+      <CompactHeader record={applicationByRowId} />
+    </>
   );
 };
 
