@@ -195,9 +195,7 @@
     "json5": "2.2.3",
     "jsonwebtoken": "9.0.0",
     "underscore": "1.12.1",
-    "graphql": "15.6.1",
-    "@types/react": "19.1.11",
-    "@types/react-dom": "19.1.8"
+    "graphql": "15.6.1"
   },
   "graphql": {
     "schema": "./schema/schema.graphql"
