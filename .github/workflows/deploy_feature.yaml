@@ -217,14 +217,31 @@ jobs:
 
           echo "::set-output name=status::$status"
       - name: Transition Issue
-        if: steps.pr_approval.outputs.result == 'true' && steps.get_status.outputs.status != 'SPRINT Done' && steps.get_status.outputs.status != 'Closed' && steps.get_status.outputs.status != 'In Progress (DRAFT PR)'
+        if: steps.pr_approval.outputs.result == 'true' && steps.get_status.outputs.status != 'SPRINT Done' && steps.get_status.outputs.status != 'Closed'
         run: |
+          # Determine transition ID based on current status
+          case "${{ steps.get_status.outputs.status }}" in
+            "DEV REVIEW (OPEN PR)")
+              TRANSITION_ID="12"
+              ;;
+            "MERGE CONFLICT")
+              TRANSITION_ID="14"
+              ;;
+            "In Progress (DRAFT PR)")
+              TRANSITION_ID="6"
+              ;;
+            *)
+              echo "No transition defined for status: ${{ steps.get_status.outputs.status }}"
+              exit 0
+              ;;
+          esac
+
           curl -X POST \
             -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
             -H "Content-Type: application/json" \
             -d '{
                   "transition": {
-                      "id": "12"
+                      "id": "'$TRANSITION_ID'"
                   }
               }' \
             "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY/transitions"
