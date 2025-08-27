@@ -49,6 +49,9 @@ COPY --from=deps ${APP_HOME}/node_modules ./node_modules
 # Copy the application source code
 COPY app/ .
 
+# Remove test folder
+RUN rm -rf ${APP_HOME}/tests
+
 # Build the app (compile Relay, server, and Next.js) load sentry auth token from secret
 ENV NODE_ENV=production
 RUN --mount=type=secret,id=sentry_auth_token \
