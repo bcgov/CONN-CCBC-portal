@@ -221,7 +221,7 @@ describe('The application navigation bar component', () => {
       target: { value: 'CCBC-010020' },
     });
 
-    const option = await screen.findByText('CCBC-010020');
+    const option = await screen.findAllByText('CCBC-010020')[0];
     expect(option).toBeInTheDocument();
 
     fireEvent.click(option);
