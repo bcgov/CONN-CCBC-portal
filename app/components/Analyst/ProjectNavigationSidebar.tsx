@@ -35,6 +35,7 @@ const StyledNavigationButtons = styled.div`
 const StyledNavButton = styled.button`
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 8px 4px;
@@ -247,6 +248,11 @@ const ProjectNavigationSidebar = ({ query }) => {
             size="lg"
             color={prevOption ? '#345FA9' : '#A9A9A9'}
           />
+          {prevOption && (
+            <span style={{ fontSize: '12px', marginTop: '5px' }}>
+              {prevOption?.description}
+            </span>
+          )}
         </StyledNavButton>
         <StyledNavButton
           type="button"
@@ -266,6 +272,11 @@ const ProjectNavigationSidebar = ({ query }) => {
             size="lg"
             color={nextOption ? '#345FA9' : '#A9A9A9'}
           />
+          {nextOption && (
+            <span style={{ fontSize: '12px', marginTop: '5px' }}>
+              {nextOption?.description}
+            </span>
+          )}
         </StyledNavButton>
       </StyledNavigationButtons>
     </StyledProjectNavigation>
