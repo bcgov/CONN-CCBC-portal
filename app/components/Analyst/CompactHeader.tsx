@@ -3,11 +3,11 @@ import useStickyHeader from 'lib/helpers/useStickyHeader';
 
 const STICKY_OFFSET = 65;
 
-const StyledCallout = styled.div<{ $visible: boolean; $offset: number }>`
+const StyledCallout = styled.div<{ $offset: number }>`
   position: sticky;
   top: ${({ $offset }) => `${$offset}px`};
   z-index: 1001;
-  display: ${({ $visible }) => ($visible ? 'flex' : 'none')};
+  display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 12px;
@@ -73,19 +73,19 @@ const CompactHeader: React.FC<Props> = ({ record }) => {
   return (
     <>
       <div id="sticky-marker" />
-      <StyledCallout $visible={showCompact} $offset={OFF_SET}>
-        <ColLeft>
-          <StyledH1>{projectNumber}</StyledH1>
-        </ColLeft>
-
-        <ColCenter title={projectName}>
-          <StyledH1>{projectName}</StyledH1>
-        </ColCenter>
-
-        <ColRight>
-          <StyledH1>{organizationName}</StyledH1>
-        </ColRight>
-      </StyledCallout>
+      {showCompact && (
+        <StyledCallout $offset={OFF_SET}>
+          <ColLeft>
+            <StyledH1>{projectNumber}</StyledH1>
+          </ColLeft>
+          <ColCenter title={projectName}>
+            <StyledH1>{projectName}</StyledH1>
+          </ColCenter>
+          <ColRight>
+            <StyledH1>{organizationName}</StyledH1>
+          </ColRight>
+        </StyledCallout>
+      )}
     </>
   );
 };
