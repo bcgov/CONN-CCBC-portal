@@ -8,13 +8,15 @@ export default function useStickyHeader(
   const [extraOffset, setExtraOffset] = useState(0);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return null;
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+      return undefined;
+    }
 
     const banner = document.getElementById('environment-banner');
     setExtraOffset(banner?.offsetHeight ?? 0);
 
     const el = document.getElementById(sentinelId);
-    if (!el) return null;
+    if (!el) return undefined;
 
     const io = new IntersectionObserver(
       ([entry]) => setShowCompact(!entry.isIntersecting),
@@ -29,7 +31,7 @@ export default function useStickyHeader(
     return () => {
       io.disconnect();
     };
-  }, [sentinelId, offSet, extraOffset]);
+  }, [sentinelId, offSet]);
 
   return { showCompact, extraOffset };
 }
