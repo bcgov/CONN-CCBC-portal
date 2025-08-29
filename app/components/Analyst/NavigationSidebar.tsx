@@ -11,8 +11,10 @@ import {
   faNoteSticky,
 } from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from 'react';
+import useStickyHeader from 'lib/helpers/useStickyHeader';
 import NavItem from './NavItem';
 import SideMap from './SideMap';
+import ProjectNavigationSidebar from './ProjectNavigationSidebar';
 
 const StyledAside = styled.aside`
   min-height: 100%;
@@ -24,9 +26,9 @@ const StyledAside = styled.aside`
   }
 `;
 
-const StyledNav = styled.nav`
+const StyledNav = styled.nav<{ $offset: number }>`
   position: sticky;
-  top: 40px;
+  top: ${({ $offset }) => `${$offset + 140}px`};
 `;
 
 const StyledUpperSection = styled.section`
@@ -42,8 +44,10 @@ const NavigationSidebar = ({
   mapData = null,
   isMapExpanded = null,
   setIsMapExpanded = null,
+  query = null, // Add query prop for project navigation
 }) => {
   const router = useRouter();
+  const { extraOffset } = useStickyHeader();
   const { asPath } = router;
   const { applicationId } = router.query;
   const assessmentLastVisited = cookie.get('assessment_last_visited') || null;
@@ -59,8 +63,9 @@ const NavigationSidebar = ({
 
   return (
     <StyledAside>
-      <StyledNav>
+      <StyledNav $offset={extraOffset}>
         <StyledUpperSection>
+          <ProjectNavigationSidebar query={query} />
           <NavItem
             currentPath={asPath}
             href={

@@ -26,11 +26,7 @@ const History = ({
   const showHistory = useFeature('show_history').value;
 
   return (
-    <Layout
-      session={session}
-      title="Connecting Communities BC"
-      provisionRightNav
-    >
+    <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <h2>History</h2>
         {showHistory && <HistoryTable query={query} />}
