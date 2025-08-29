@@ -1,15 +1,17 @@
 const commonAssessment = {
-  targetDate: {
-    title: 'Target Date',
-  },
   assignedTo: {
     title: 'Assigned To',
   },
-  decision: {
-    title: 'Decision',
+  targetDate: {
+    title: 'Target Date',
   },
   nextStep: {
     title: 'Progress',
+    default: 'Not started',
+  },
+  decision: {
+    title: 'Decision',
+    default: 'No decision',
   },
 };
 

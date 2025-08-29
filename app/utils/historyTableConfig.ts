@@ -11,6 +11,7 @@ import applicationSowDataSchema from 'formSchema/uiSchema/history/applicationSow
 import applicationAnnounced from 'formSchema/uiSchema/history/applicationAnnounced';
 import fnhaContribution from 'formSchema/uiSchema/history/fnhaContribution';
 import communities from 'formSchema/uiSchema/history/communities';
+import technicalSchema from 'formSchema/uiSchema/history/technical';
 
 // Define inline schemas for simple cases
 const communityReportSchema = {
@@ -188,6 +189,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       schema: (() => {
         if (assessmentType === 'screening') return screeningSchema;
         if (assessmentType === 'gis') return gis;
+        if (assessmentType === 'technical') return technicalSchema;
         return null;
       })(),
       excludedKeys: [
