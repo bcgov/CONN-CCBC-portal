@@ -54,11 +54,7 @@ const GisAssessment = ({
   const showApplicationGisData = useFeature('show_application_gis_data').value;
 
   return (
-    <Layout
-      session={session}
-      title="Connecting Communities BC"
-      provisionRightNav
-    >
+    <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <AssessmentsTabs />
         {showApplicationGisData && <ApplicationGisData query={query} />}

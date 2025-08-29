@@ -13,42 +13,42 @@ import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search'; // Import the magnifying glass icon
 import InputAdornment from '@mui/material/InputAdornment';
 
-const StyledAside = styled.aside`
-  margin-top: 250px;
-  min-height: 100%;
-  width: ${(props) => `calc((100vw - ${props.theme.width.pageMaxWidth}) / 2)`};
-  @media (max-width: 975px) {
-    width: 100px;
-  }
-  @media (max-width: 1450px) {
-    width: 100px;
-  }
-`;
-
-const StyledNav = styled.nav`
+// Project navigation components for left sidebar
+const StyledProjectNavigation = styled.div`
   width: 100%;
-  position: sticky;
-  top: 100px;
-  max-width: 300px;
-`;
-
-const StyledLowerSection = styled.section`
-  margin-top: 1em;
-  display: flex;
-  justify-content: space-between;
+  margin-bottom: 16px;
+  z-index: 10;
 `;
 
 const StyledAutocomplete = styled(Autocomplete)`
   width: 100%;
+  margin-bottom: 12px;
+`;
+
+const StyledNavigationButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
 `;
 
 const StyledNavButton = styled.button`
-  width: 50%;
+  flex: 1;
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  background: none;
+  border: none;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+  border-radius: 4px;
+  transition: background-color 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(52, 95, 169, 0.1);
+  }
 `;
 
 const CBC_LINK = '/analyst/cbc';
@@ -195,85 +195,91 @@ const ProjectNavigationSidebar = ({ query }) => {
   };
 
   return (
-    <StyledAside>
-      <StyledNav>
-        <div data-skip-unsaved-warning>
-          <StyledAutocomplete
-            size="small"
-            key="project-nav-option-autocomplete"
-            data-testid="project-nav-option-autocomplete"
-            onChange={(_e, val) => {
-              if (val) handleNavigation(val);
-            }}
-            options={options}
-            getOptionLabel={(option: any) => option.description?.toString()}
-            getOptionDisabled={(option: any) =>
-              option.id?.toString() === applicationId &&
-              option.type === applicationType
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                data-testid="project-nav-option-textfield"
-                label="Go to project"
-                InputProps={{
-                  ...params.InputProps,
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            )}
+    <StyledProjectNavigation>
+      <div data-skip-unsaved-warning>
+        <StyledAutocomplete
+          size="small"
+          key="project-nav-option-autocomplete"
+          data-testid="project-nav-option-autocomplete"
+          onChange={(_e, val) => {
+            if (val) handleNavigation(val);
+          }}
+          options={options}
+          getOptionLabel={(option: any) => option.description?.toString()}
+          getOptionDisabled={(option: any) =>
+            option.id?.toString() === applicationId &&
+            option.type === applicationType
+          }
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              data-testid="project-nav-option-textfield"
+              label="Go to project"
+              InputProps={{
+                ...params.InputProps,
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        />
+      </div>
+      <StyledNavigationButtons>
+        <StyledNavButton
+          type="button"
+          onClick={() => {
+            handleNavigation(prevOption);
+          }}
+          disabled={!prevOption}
+          data-testid="project-nav-prev-icon"
+          data-skip-unsaved-warning
+          title={
+            prevOption
+              ? `Previous: ${prevOption?.description}`
+              : 'No previous project'
+          }
+        >
+          <FontAwesomeIcon
+            icon={faCircleArrowLeft}
+            fixedWidth
+            size="lg"
+            color={prevOption ? '#345FA9' : '#A9A9A9'}
           />
-        </div>
-        <StyledLowerSection>
-          <StyledNavButton
-            type="button"
-            onClick={() => {
-              handleNavigation(prevOption);
-            }}
-            disabled={!prevOption}
-            data-testid="project-nav-prev-icon"
-            data-skip-unsaved-warning
-          >
-            <FontAwesomeIcon
-              icon={faCircleArrowLeft}
-              fixedWidth
-              size="lg"
-              color={prevOption ? '#345FA9' : '#A9A9A9'}
-            />
-            {prevOption && (
-              <span style={{ fontSize: '12px' }}>
-                Previous project - {prevOption?.description}
-              </span>
-            )}
-          </StyledNavButton>
-          <StyledNavButton
-            type="button"
-            onClick={() => {
-              handleNavigation(nextOption);
-            }}
-            disabled={!nextOption}
-            data-testid="project-nav-next-icon"
-            data-skip-unsaved-warning
-          >
-            <FontAwesomeIcon
-              icon={faCircleArrowRight}
-              fixedWidth
-              size="lg"
-              color={nextOption ? '#345FA9' : '#A9A9A9'}
-            />
-            {nextOption && (
-              <span style={{ fontSize: '12px' }}>
-                Next project - {nextOption?.description}
-              </span>
-            )}
-          </StyledNavButton>
-        </StyledLowerSection>
-      </StyledNav>
-    </StyledAside>
+          {prevOption && (
+            <span style={{ fontSize: '12px', marginTop: '5px' }}>
+              {prevOption?.description}
+            </span>
+          )}
+        </StyledNavButton>
+        <StyledNavButton
+          type="button"
+          onClick={() => {
+            handleNavigation(nextOption);
+          }}
+          disabled={!nextOption}
+          data-testid="project-nav-next-icon"
+          data-skip-unsaved-warning
+          title={
+            nextOption ? `Next: ${nextOption?.description}` : 'No next project'
+          }
+        >
+          <FontAwesomeIcon
+            icon={faCircleArrowRight}
+            fixedWidth
+            size="lg"
+            color={nextOption ? '#345FA9' : '#A9A9A9'}
+          />
+          {nextOption && (
+            <span style={{ fontSize: '12px', marginTop: '5px' }}>
+              {nextOption?.description}
+            </span>
+          )}
+        </StyledNavButton>
+      </StyledNavigationButtons>
+    </StyledProjectNavigation>
   );
 };
 

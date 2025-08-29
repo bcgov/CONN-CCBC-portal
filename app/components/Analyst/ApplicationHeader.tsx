@@ -53,12 +53,12 @@ const StyledProjectInfo = styled.div`
     word-break: break-word;
     overflow-wrap: break-word;
     width: 80vw;
-    max-width: 100vw;
+    max-width: 200vw;
     box-sizing: border-box;
     padding-left: 16px;
     padding-right: 16px;
     position: relative;
-    left: 70%;
+    left: 50%;
     right: 30%;
     transform: translateX(-50%);
     margin-left: 0;
@@ -68,8 +68,12 @@ const StyledProjectInfo = styled.div`
 const StyledDiv = styled.div`
   display: grid;
   height: fit-content;
+  @media (max-width: 975px) {
+    margin-right: 160px;
+  }
   @media (max-width: 900px) {
-    width: 20vw;
+    width: 80vw;
+    left: 50%;
     margin-left: auto;
     margin-right: auto;
   }

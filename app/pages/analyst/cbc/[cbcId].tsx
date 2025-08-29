@@ -384,11 +384,7 @@ const Cbc = ({
   };
 
   return (
-    <Layout
-      session={session}
-      title="Connecting Communities BC"
-      provisionRightNav
-    >
+    <Layout session={session} title="Connecting Communities BC">
       <CbcAnalystLayout query={query} isFormEditable={allowEdit} key={rowId}>
         <RightAlignText>
           <>

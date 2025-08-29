@@ -1,3 +1,9 @@
+# [1.271.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.270.5...v1.271.0) (2025-08-29)
+
+### Features
+
+- move project navigation sidebar to left nav ([e25b8aa](https://github.com/bcgov/CONN-CCBC-portal/commit/e25b8aaa675156ccac7969a8b68caa0a200f33d8))
+
 ## [1.270.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.270.4...v1.270.5) (2025-08-29)
 
 ## [1.270.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.270.3...v1.270.4) (2025-08-29)

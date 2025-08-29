@@ -3,7 +3,6 @@ import { graphql, useFragment } from 'react-relay';
 import FormDiv from 'components/FormDiv';
 import NavigationSidebar from './NavigationSidebar';
 import CbcHeader from './CbcHeader';
-import ProjectNavigationSidebar from '../ProjectNavigationSidebar';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -47,16 +46,16 @@ const CbcAnalystLayout: React.FC<Props> = ({
     `,
     query
   );
+
   return (
     <StyledOuterContainer>
       <StyledContainer>
         <CbcHeader query={queryFragment} isFormEditable={isFormEditable} />
         <StyledFlex>
-          <NavigationSidebar />
+          <NavigationSidebar query={queryFragment} />
           <StyledFormDiv>{children}</StyledFormDiv>
         </StyledFlex>
       </StyledContainer>
-      <ProjectNavigationSidebar query={queryFragment} />
     </StyledOuterContainer>
   );
 };

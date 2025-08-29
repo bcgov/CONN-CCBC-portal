@@ -221,10 +221,10 @@ describe('The application navigation bar component', () => {
       target: { value: 'CCBC-010020' },
     });
 
-    const option = await screen.findByText('CCBC-010020');
-    expect(option).toBeInTheDocument();
+    const option = await screen.findAllByText('CCBC-010020');
+    expect(option[1]).toBeInTheDocument();
 
-    fireEvent.click(option);
+    fireEvent.click(option[1]);
 
     expect(pushMock).toHaveBeenCalledWith('/analyst/application/1', undefined, {
       shallow: true,
@@ -252,6 +252,8 @@ describe('The application navigation bar component', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
-    expect(screen.getByText(/CCBC-233333/)).toBeInTheDocument();
+    // The text should appear in the next button's title since CCBC-233333 is the next project
+    const nextButton = screen.getByTestId('project-nav-next-icon');
+    expect(nextButton).toHaveAttribute('title', 'Next: CCBC-233333');
   });
 });

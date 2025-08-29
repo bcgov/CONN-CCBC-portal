@@ -3,7 +3,6 @@ import { graphql, useFragment } from 'react-relay';
 import NavigationSidebar from 'components/Analyst/NavigationSidebar';
 import FormDiv from 'components/FormDiv';
 import ApplicationHeader from './ApplicationHeader';
-import ProjectNavigationSidebar from './ProjectNavigationSidebar';
 
 const StyledContainer = styled.div`
   display: flex;
@@ -41,8 +40,7 @@ const StyledFormDiv = styled(FormDiv)`
     padding: 0 8px;
   }
   @media (max-width: 976px) {
-    /* When ProjectNavigationSidebar is floating, take full width */
-    max-width: 100vw;
+    max-width: 600px;
     margin-left: 10px;
     margin-right: 0;
     padding: 0 4px;
@@ -76,6 +74,7 @@ const AnalystLayout: React.FC<Props> = ({
     `,
     query
   );
+
   return (
     <StyledOuterContainer>
       <StyledContainer>
@@ -85,11 +84,11 @@ const AnalystLayout: React.FC<Props> = ({
             mapData={mapData}
             isMapExpanded={isMapExpanded}
             setIsMapExpanded={setIsMapExpanded}
+            query={queryFragment}
           />
           <StyledFormDiv>{children}</StyledFormDiv>
         </StyledFlex>
       </StyledContainer>
-      <ProjectNavigationSidebar query={queryFragment} />
     </StyledOuterContainer>
   );
 };
