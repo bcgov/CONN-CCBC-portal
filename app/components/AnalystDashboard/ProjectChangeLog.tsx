@@ -466,90 +466,152 @@ const ProjectChangeLog: React.FC<Props> = () => {
             item.ccbcNumber !== null
           );
         })
-        // This is to remove any status changes by the applicant as well as
-        // remove the dependencies from showing and the form history
-        // might need to rework to find the index to ignore per applications
-        // but might slow down more
+        // Filter based on new logic: find "received" status and filter by row ID
         ?.filter((item) => {
-          // Exclude changes made by 'The applicant' except for rfi_data
           const isApplicant =
             item.record?.user_info?.session_sub?.includes('bceid') &&
             item.record?.user_info?.external_analyst !== true;
 
-          // If it's an applicant change, only allow it for rfi_data
-          if (isApplicant) {
-            return item.tableName === 'rfi_data';
+          // Always ignore all applicant changes for application_dependencies
+          if (isApplicant && item.tableName === 'application_dependencies') {
+            return false;
           }
 
-          // For non-applicant changes, allow all
+          // Find the "received" status record for this application
+          const receivedStatusRecord = allData.allApplications?.find(
+            (statusItem) =>
+              statusItem.tableName === 'application_status' &&
+              statusItem.ccbcNumber === item.ccbcNumber &&
+              statusItem.record?.status === 'received'
+          );
+
+          // For form_data with rowId >= receivedStatusRecord.rowId, always include
+          if (
+            item.tableName === 'form_data' &&
+            Number(item.rowId) >= Number(receivedStatusRecord.rowId)
+          ) {
+            return true;
+          }
+
+          // Find the "submitted" status record for this application
+          const submittedStatusRecord = allData.allApplications?.find(
+            (statusItem) =>
+              statusItem.tableName === 'application_status' &&
+              statusItem.ccbcNumber === item.ccbcNumber &&
+              statusItem.record?.status === 'submitted'
+          );
+
+          // If we found a "received" status record, filter by row ID
+          if (receivedStatusRecord) {
+            // Exception: For form_data with rowId lower than received status rowId, check timestamps
+            if (
+              item.tableName === 'form_data' &&
+              Number(item.rowId) < Number(receivedStatusRecord.rowId)
+            ) {
+              const itemTime = new Date(item.ts).getTime();
+              const receivedTime = new Date(receivedStatusRecord.ts).getTime();
+              const twoMinutesInMs = 2 * 60 * 1000; // 2 minutes in milliseconds
+
+              // First check for exact timestamp match with received status
+              if (item.ts === receivedStatusRecord.ts) {
+                return true;
+              }
+
+              const timeDifferenceReceived = Math.abs(itemTime - receivedTime);
+
+              // Check against received status (2 minutes before and after)
+              if (timeDifferenceReceived <= twoMinutesInMs) {
+                return true;
+              }
+
+              // Check against submitted status if it exists (2 minutes before and after)
+              if (submittedStatusRecord) {
+                const submittedTime = new Date(
+                  submittedStatusRecord.ts
+                ).getTime();
+
+                // First check for exact timestamp match with submitted status
+                if (itemTime === submittedTime) {
+                  return true;
+                }
+
+                const timeDifferenceSubmitted = Math.abs(
+                  itemTime - submittedTime
+                );
+
+                if (timeDifferenceSubmitted <= twoMinutesInMs) {
+                  return true;
+                }
+              }
+
+              // If no timestamp matches found and rowId is lower, filter it out
+              return false;
+            }
+
+            // If the current item's row ID is less than the received status row ID, ignore it
+            if (Number(item.rowId) < Number(receivedStatusRecord.rowId)) {
+              return false;
+            }
+          }
+
           return true;
         })
         // Join step: Find previous records for INSERT operations with null oldRecord
         ?.map((item, index, array) => {
-          if (item.op === 'INSERT' && item.oldRecord === null) {
-            // Look for the next item with matching criteria based on table type
-            const matchingItem = array.slice(index + 1).find((previousItem) => {
+          if (item.op === 'INSERT' && !item.oldRecord) {
+            // Look for matching items from the remaining array (similar to historyProcessing.ts)
+            const remainingItems = array.slice(index + 1);
+            const matchingItems = remainingItems.filter((previousItem) => {
               // Basic table and ccbc_number match
               if (previousItem.ccbcNumber !== item.ccbcNumber) {
                 return false;
               }
 
               // assessment data must match by item type
-              if (previousItem.tableName === 'assessment_data') {
+              if (item.tableName === 'assessment_data') {
                 return (
                   previousItem.tableName === item.tableName &&
                   previousItem.record?.item === item.record?.item
                 );
               }
               // rfis must match by rfi_number
-              if (previousItem.tableName === 'rfi_data') {
+              if (item.tableName === 'rfi_data') {
                 return (
                   previousItem.tableName === item.tableName &&
                   previousItem.record?.rfi_number === item.record?.rfi_number &&
                   previousItem.op === 'INSERT'
                 );
               }
+              // Helper function to check quarter and year matching for date-based tables
+              const checkQuarterYearMatch = () => {
+                const quarter =
+                  item.record?.json_data?.dueDate &&
+                  getFiscalQuarter(item.record.json_data.dueDate);
+                const year =
+                  item.record?.json_data?.dueDate &&
+                  getFiscalYear(item.record.json_data.dueDate);
+                const updated =
+                  previousItem.tableName === item.tableName &&
+                  previousItem.op === 'INSERT' &&
+                  getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
+                    quarter &&
+                  getFiscalYear(previousItem.record?.json_data?.dueDate) ===
+                    year;
+                return updated;
+              };
+
               // community reports must match by quarter
               if (
-                previousItem.tableName ===
-                  'application_community_progress_report_data' &&
-                previousItem.tableName === item.tableName
+                item.tableName === 'application_community_progress_report_data'
               ) {
-                const quarter =
-                  item.record?.json_data?.dueDate &&
-                  getFiscalQuarter(item.record.json_data.dueDate);
-                const year =
-                  item.record?.json_data?.dueDate &&
-                  getFiscalYear(item.record.json_data.dueDate);
-                const updated =
-                  previousItem.op === 'INSERT' &&
-                  getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
-                    quarter &&
-                  getFiscalYear(previousItem.record?.json_data?.dueDate) ===
-                    year;
-                return updated;
+                return checkQuarterYearMatch();
               }
               // application milestone needs to match by quarter
-              if (
-                previousItem.tableName === 'application_milestone_data' &&
-                previousItem.tableName === item.tableName
-              ) {
-                const quarter =
-                  item.record?.json_data?.dueDate &&
-                  getFiscalQuarter(item.record.json_data.dueDate);
-                const year =
-                  item.record?.json_data?.dueDate &&
-                  getFiscalYear(item.record.json_data.dueDate);
-                const updated =
-                  previousItem.op === 'INSERT' &&
-                  getFiscalQuarter(previousItem.record?.json_data?.dueDate) ===
-                    quarter &&
-                  getFiscalYear(previousItem.record?.json_data?.dueDate) ===
-                    year;
-                return updated;
+              if (item.tableName === 'application_milestone_data') {
+                return checkQuarterYearMatch();
               }
               // change request data must match by amendment number
-              if (previousItem.tableName === 'change_request_data') {
+              if (item.tableName === 'change_request_data') {
                 return (
                   previousItem.tableName === item.tableName &&
                   previousItem.record?.json_data?.amendmentNumber ===
@@ -557,7 +619,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
                 );
               }
               // application status must match by status type (external vs internal)
-              if (previousItem.tableName === 'application_status') {
+              if (item.tableName === 'application_status') {
                 if (previousItem.tableName !== item.tableName) {
                   return false;
                 }
@@ -591,6 +653,10 @@ const ProjectChangeLog: React.FC<Props> = () => {
               // Default: match by table name
               return previousItem.tableName === item.tableName;
             });
+
+            // Get the first matching item (most recent)
+            const matchingItem =
+              matchingItems.length > 0 ? matchingItems[0] : null;
 
             if (matchingItem) {
               return {
@@ -747,6 +813,17 @@ const ProjectChangeLog: React.FC<Props> = () => {
             ) {
               json = record?.json_data || {};
               prevJson = oldRecord?.json_data || {};
+
+              // Exclude form_data entries when prevJson is empty
+              if (
+                tableName === 'form_data' &&
+                Object.keys(prevJson).length === 0
+              ) {
+                return {
+                  _sortDate: effectiveDate,
+                  group: [], // Return empty group to exclude this entry
+                };
+              }
             } else {
               // For other tables, use the record directly
               json = record || {};
@@ -825,34 +902,6 @@ const ProjectChangeLog: React.FC<Props> = () => {
           };
         })
         .filter((item) => item.group.length > 0) || []; // Only include items with actual changes
-
-    // console.log('allCbcsFlatMap', allCbcsFlatMap);
-    // console.log('allApplicationsFlatMap', allApplicationsFlatMap);
-    // figure out which fields of the allApplicationsFlatMap have undefined values
-    // allApplicationsFlatMap.forEach((item) => {
-    //   item.group.forEach((row) => {
-    //     Object.keys(row).forEach((key) => {
-    //       if (row[key] === undefined) {
-    //         console.log(`Undefined value found in row with id for key ${key}`);
-    //       }
-    //       // check for null
-    //       if (row[key] === null) {
-    //         console.log(`Null value found in row with id for key ${key}`);
-    //       }
-    //       // check if value can be converted to a string
-    //       if (row[key] !== null && row[key] !== undefined) {
-    //         try {
-    //           String(row[key]);
-    //         } catch (error) {
-    //           console.error(
-    //             `Value for key ${key} in row with id ${row.rowId} cannot be converted to string:`,
-    //             row[key]
-    //           );
-    //         }
-    //       }
-    //     });
-    //   });
-    // });
 
     const entries = [...allCbcsFlatMap, ...allApplicationsFlatMap];
 
