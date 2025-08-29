@@ -173,7 +173,7 @@
     "fetch-mock": "9.11.0",
     "fse": "^4.0.1",
     "happo-cypress": "^4.3.1",
-    "happo-e2e": "^4.1.2",
+    "happo-e2e": "^5.0.0",
     "happo.io": "^12.4.2",
     "jest": "^30.0.5",
     "jest-environment-jsdom": "^29.7.0",
