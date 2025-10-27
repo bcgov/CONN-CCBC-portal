@@ -1,3 +1,11 @@
+## [1.271.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.1...v1.271.2) (2025-10-27)
+
+## [1.271.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.0...v1.271.1) (2025-10-27)
+
+### Bug Fixes
+
+- unwanted unsaved changes modal in cbc edit ([cfdb401](https://github.com/bcgov/CONN-CCBC-portal/commit/cfdb401c47303cfb7306161e59d7c7fd0fa986f0))
+
 # [1.271.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.270.5...v1.271.0) (2025-08-29)
 
 ### Features
