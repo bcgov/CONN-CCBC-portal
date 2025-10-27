@@ -960,6 +960,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     enableGlobalFilterModes: true,
     globalFilterModeOptions: ['fuzzy', 'startsWith', 'contains'],
     enableBottomToolbar: false,
+    enableColumnActions: false,
     filterFns: {
       filterNumber,
       statusFilter,
@@ -979,6 +980,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     enableRowVirtualization: true,
     rowVirtualizerInstanceRef,
     rowVirtualizerOptions: { overscan: 50 },
+    icons: {
+      FilterAltIcon: () => null,
+    },
     onGlobalFilterChange: setGlobalFilter,
     onExpandedChange: (expanded) => {
       setExpanded(expanded);
