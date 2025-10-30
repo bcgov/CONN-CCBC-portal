@@ -440,6 +440,13 @@ const HistoryContent = ({
             overrideParent={assessmentConfig?.overrideParent}
           />
         )}
+        {showAssessmentFilesDiff && (
+          <HistoryFile
+            filesArray={assessmentFilesArray}
+            previousFileArray={prevAssessmentFilesArray}
+            title={arrayTitle}
+          />
+        )}
         {showOtherFilesDiff && (
           <HistoryFile
             filesArray={record.json_data?.otherFiles || []}
@@ -447,13 +454,7 @@ const HistoryContent = ({
               prevHistoryItem?.record?.json_data?.otherFiles || []
             }
             title={`${formatAssessment(assessmentType)} Other Files`}
-          />
-        )}
-        {showAssessmentFilesDiff && (
-          <HistoryFile
-            filesArray={assessmentFilesArray}
-            previousFileArray={prevAssessmentFilesArray}
-            title={arrayTitle}
+            tableTitle={!showAssessmentFilesDiff}
           />
         )}
       </div>

@@ -208,6 +208,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
         'uploadedAt',
         'otherFiles',
         'assessmentTemplate',
+        'completedAssessment',
         'user_info',
       ],
       overrideParent: assessmentType,
