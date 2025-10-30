@@ -1,3 +1,4 @@
+import React from 'react';
 import { ThemeProvider } from 'styled-components';
 
 // Here we can set a global theme or variables to reference in child components
@@ -53,8 +54,9 @@ type Props = {
   children: JSX.Element | JSX.Element[];
 };
 
-const GlobalTheme: React.FC<Props> = ({ children }) => (
-  <ThemeProvider theme={theme}>{children}</ThemeProvider>
-);
+const GlobalTheme: React.FC<Props> = ({ children }) => {
+  const StyledThemeProvider = ThemeProvider as any;
+  return <StyledThemeProvider theme={theme}>{children}</StyledThemeProvider>;
+};
 
 export default GlobalTheme;
