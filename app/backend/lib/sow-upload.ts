@@ -34,7 +34,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
     return res.status(404).end();
   }
 
-  const errorList = [];
+  const errorList: Array<{ level: string; error: unknown }> = [];
   const form = formidable(commonFormidableConfig);
 
   const files = await parseForm(form, req).catch((err) => {
