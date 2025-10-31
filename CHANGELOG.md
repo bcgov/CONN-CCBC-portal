@@ -1,3 +1,9 @@
+## [1.271.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.6...v1.271.7) (2025-10-31)
+
+### Bug Fixes
+
+- intake banner timimg ([d75c5d8](https://github.com/bcgov/CONN-CCBC-portal/commit/d75c5d8c04b65810b4d04f82367e63b42cdcbdd9))
+
 ## [1.271.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.5...v1.271.6) (2025-10-30)
 
 ## [1.271.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.4...v1.271.5) (2025-10-30)

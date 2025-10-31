@@ -166,8 +166,8 @@ const Dashboard = ({
             <p>
               {isRollingIntake ? (
                 <>
-                  Intake 7 is now open until February 26, 2026 2:30PT. If you
-                  are interested in submitting an application, or for any
+                  Intake 7 is now open until February 26, 2026, at 2:30 PM PT.
+                  If you are interested in submitting an application, or for any
                   questions about connectivity projects in your area, please
                   email{' '}
                   <a href="mailto:connectingcommunitiesbc@gov.bc.ca">
