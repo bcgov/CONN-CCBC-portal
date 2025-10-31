@@ -191,7 +191,7 @@ jobs:
             "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY/comment"
       - name: Check PR Approval
         id: pr_approval
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

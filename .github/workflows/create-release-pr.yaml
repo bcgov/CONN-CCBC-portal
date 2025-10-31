@@ -42,7 +42,7 @@ jobs:
           git checkout main
           git checkout -b chore/release
       - name: Close Previous PRs
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -62,7 +62,7 @@ jobs:
           git pull
           echo '--ci' | make release
       - name: Create PR
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
           script: |

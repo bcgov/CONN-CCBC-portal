@@ -103,7 +103,7 @@ const Home = ({
     return (
       <BoldText>
         <>
-          Intake 6 is now open until October 15, 2025. <br />
+          Intake 7 is now open until February 26, 2026, at 2:30 PM PT. <br />
           If you are interested in submitting an application, or for any
           questions about connectivity projects in your area, please email{' '}
           <a href="mailto:connectingcommunitiesbc@gov.bc.ca">
