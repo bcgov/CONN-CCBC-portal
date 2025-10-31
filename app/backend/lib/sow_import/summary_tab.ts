@@ -164,7 +164,13 @@ const ValidateData = (data, cellRefs: any = {}, cellValues: any = {}) => {
   const addError = (key, error, expected = 'Yes/No value') => {
     const cell = cellRefs[key];
     const received = cellValues[key] ?? 'null';
-    errors.push({ cell, error, received, expected });
+    errors.push({
+      level: 'cell',
+      cell,
+      error,
+      received,
+      expected,
+    });
   };
 
   if (data.backboneFibre === undefined)

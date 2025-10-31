@@ -209,7 +209,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
     const rowNumber = getRowNumber(rowData, row);
     const setCellMetadata = (key: string, column: string) => {
       cellRefs[key] = `${column}${rowNumber}`;
-      cellValues[key] = value;
+      cellValues[key] = rowData[column];
     };
 
     // if (typeof(value) !== 'string') continue;
