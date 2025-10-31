@@ -22,6 +22,8 @@ const readSummary = async (wb, sheet_name, applicationId, amendmentNumber) => {
     header: 'A',
   });
 
+  const cellRefs: any = [];
+  const cellValues: any = [];
   const jsonData = {
     organizationName: '',
     projectTitle: '',
@@ -41,6 +43,13 @@ const readSummary = async (wb, sheet_name, applicationId, amendmentNumber) => {
     lastMileSatellite: false,
   };
 
+  const getRowNumber = (rowData, fallbackIndex) => {
+    if (rowData && typeof rowData.__rowNum__ === 'number') {
+      return rowData.__rowNum__ + 1;
+    }
+    return fallbackIndex + 1;
+  };
+
   // hardcoded summary table position: rows from 6 to 20
   // first pass - columns C and D
   for (let row = 6; row < 20; row++) {
@@ -48,28 +57,39 @@ const readSummary = async (wb, sheet_name, applicationId, amendmentNumber) => {
     if (value === undefined) continue;
     if (typeof value !== 'string') continue;
     const input = summary[row]['D'];
-    if (input === undefined) continue;
+
+    // Cell reference
+    const rowNumber = getRowNumber(summary[row], row);
+    const cellNumber = `D${rowNumber}`;
+
+    const extractData = (field: string, conversion = null) => {
+      cellRefs[field] = cellNumber;
+      cellValues[field] = input;
+      if (input !== undefined) {
+        jsonData[field] = conversion ? conversion(input) : input;
+      }
+    };
 
     if (value.indexOf('Applicant Name') > -1) {
-      jsonData.organizationName = input;
+      extractData('organizationName');
     }
     if (value.indexOf('Project Title') > -1) {
-      jsonData.projectTitle = input;
+      extractData('projectTitle');
     }
     if (value.indexOf('Province') > -1) {
-      jsonData.province = input;
+      extractData('province');
     }
     if (value.indexOf('Application Number') > -1) {
-      jsonData.ccbc_number = input;
+      extractData('ccbc_number');
     }
     if (value.indexOf('Effective Start Date') > -1) {
-      jsonData.effectiveStartDate = convertExcelDateToJSDate(input);
+      extractData('effectiveStartDate', convertExcelDateToJSDate);
     }
     if (value.indexOf('Project Start Date') > -1) {
-      jsonData.projectStartDate = convertExcelDateToJSDate(input);
+      extractData('projectStartDate', convertExcelDateToJSDate);
     }
     if (value.indexOf('Project Completion Date') > -1) {
-      jsonData.projectCompletionDate = convertExcelDateToJSDate(input);
+      extractData('projectCompletionDate', convertExcelDateToJSDate);
     }
   }
 
@@ -88,33 +108,45 @@ const readSummary = async (wb, sheet_name, applicationId, amendmentNumber) => {
       lastMile = true;
     }
     const input = summary[row]['G'];
-    if (input === undefined || input === '') continue;
+
+    // Cell reference
+    const rowNumber = getRowNumber(summary[row], row);
+    const cellNumber = `G${rowNumber}`;
+
+    const extractData = (field: string) => {
+      cellRefs[field] = cellNumber;
+      cellValues[field] = input;
+      if (input !== undefined && input !== '') {
+        jsonData[field] = convertExcelDropdownToBoolean(input);
+      }
+    };
+
     if (backbone && value.indexOf('Fibre') > -1) {
-      jsonData.backboneFibre = convertExcelDropdownToBoolean(input);
+      extractData('backboneFibre');
     }
     if (backbone && value.indexOf('Microwave') > -1) {
-      jsonData.backboneMicrowave = convertExcelDropdownToBoolean(input);
+      extractData('backboneMicrowave');
     }
     if (backbone && value.indexOf('Satellite') > -1) {
-      jsonData.backboneSatellite = convertExcelDropdownToBoolean(input);
+      extractData('backboneSatellite');
     }
     if (lastMile && value.indexOf('Fibre') > -1) {
-      jsonData.lastMileFibre = convertExcelDropdownToBoolean(input);
+      extractData('lastMileFibre');
     }
     if (lastMile && value.indexOf('Cable') > -1) {
-      jsonData.lastMileCable = convertExcelDropdownToBoolean(input);
+      extractData('lastMileCable');
     }
     if (lastMile && value.indexOf('DSL') > -1) {
-      jsonData.lastMileDSL = convertExcelDropdownToBoolean(input);
+      extractData('lastMileDSL');
     }
     if (lastMile && value.indexOf('Mobile') > -1) {
-      jsonData.lastMileMobileWireless = convertExcelDropdownToBoolean(input);
+      extractData('lastMileMobileWireless');
     }
     if (lastMile && value.indexOf('Fixed') > -1) {
-      jsonData.lastMileFixedWireless = convertExcelDropdownToBoolean(input);
+      extractData('lastMileFixedWireless');
     }
     if (lastMile && value.indexOf('Satellite') > -1) {
-      jsonData.lastMileSatellite = convertExcelDropdownToBoolean(input);
+      extractData('lastMileSatellite');
     }
   }
 
@@ -124,73 +156,88 @@ const readSummary = async (wb, sheet_name, applicationId, amendmentNumber) => {
     _jsonData: jsonData,
   };
 
-  return sowData;
+  return { ...sowData, cellRefs, cellValues };
 };
 
-const ValidateData = (data) => {
+const ValidateData = (data, cellRefs: any = {}, cellValues: any = {}) => {
   const errors = [];
+  const addError = (key, error, expected = 'Yes/No value') => {
+    const cell = cellRefs[key];
+    const received = cellValues[key] ?? 'null';
+    errors.push({
+      level: 'cell',
+      cell,
+      error,
+      received,
+      expected,
+    });
+  };
+
   if (data.backboneFibre === undefined)
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Backbone Technologies - Fibre',
-    });
-  if (data.backboneMicrowave === undefined)
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Backbone Technologies - Microwave',
-    });
+    addError('backboneFibre', 'Invalid data: Backbone Technologies - Fibre');
+  if (data.backboneMicrowave === undefined) {
+    addError(
+      'backboneMicrowave',
+      'Invalid data: Backbone Technologies - Microwave'
+    );
+  }
+
   if (data.backboneSatellite === undefined)
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Backbone Technologies - Satellite',
-    });
+    addError(
+      'backboneSatellite',
+      'Invalid data: Backbone Technologies - Satellite'
+    );
   if (data.lastMileFibre === undefined)
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Last Mile Technologies - Fibre',
-    });
+    addError('lastMileFibre', 'Invalid data: Last Mile Technologies - Fibre');
   if (data.lastMileCable === undefined)
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Last Mile Technologies - Cable',
-    });
+    addError('lastMileCable', 'Invalid data: Last Mile Technologies - Cable');
   if (data.lastMileDSL === undefined)
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Last Mile Technologies - DSL',
-    });
+    addError('lastMileDSL', 'Invalid data: Last Mile Technologies - DSL');
   if (data.lastMileMobileWireless === undefined)
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Last Mile Technologies - Mobile Wireless',
-    });
+    addError(
+      'lastMileMobileWireless',
+      'Invalid data: Last Mile Technologies - Mobile Wireless'
+    );
   if (data.lastMileFixedWireless === undefined)
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Last Mile Technologies - Fixed Wireless',
-    });
+    addError(
+      'lastMileFixedWireless',
+      'Invalid data: Last Mile Technologies - Fixed Wireless'
+    );
   if (data.lastMileSatellite === undefined)
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Last Mile Technologies - Satellite',
-    });
+    addError(
+      'lastMileSatellite',
+      'Invalid data: Last Mile Technologies - Satellite'
+    );
 
   if (data.effectiveStartDate === null)
-    errors.push({ level: 'cell', error: 'Invalid data: Effective Start Date' });
+    addError(
+      'effectiveStartDate',
+      'Invalid data: Effective Start Date',
+      'Valid date'
+    );
   if (data.projectStartDate === null)
-    errors.push({ level: 'cell', error: 'Invalid data: Project Start Date' });
+    addError(
+      'projectStartDate',
+      'Invalid data: Project Start Date',
+      'Valid date'
+    );
   if (data.projectCompletionDate === null)
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Project Completion Date',
-    });
+    addError(
+      'projectCompletionDate',
+      'Invalid data: Project Completion Date',
+      'Valid date'
+    );
 
   if (data.organizationName === '')
-    errors.push({ level: 'cell', error: 'Invalid data: Applicant Name' });
+    addError(
+      'organizationName',
+      'Invalid data: Applicant Name',
+      'Non-empty value'
+    );
   if (data.projectTitle === '')
-    errors.push({ level: 'cell', error: 'Invalid data: Project Title' });
+    addError('projectTitle', 'Invalid data: Project Title', 'Non-empty value');
   if (data.province === '')
-    errors.push({ level: 'cell', error: 'Invalid data: Province' });
+    addError('province', 'Invalid data: Province', 'Non-empty value');
   return errors;
 };
 
@@ -199,7 +246,7 @@ const LoadSummaryData = async (wb, sheet_name, req) => {
   const validate = req.query?.validate === 'true';
   const operation = req.query?.operation || 'UPDATE';
 
-  const data = await readSummary(
+  const { cellRefs, cellValues, ...data } = await readSummary(
     wb,
     sheet_name,
     applicationId,
@@ -209,10 +256,17 @@ const LoadSummaryData = async (wb, sheet_name, req) => {
   const uploadedNumber = data._jsonData.ccbc_number;
   if (uploadedNumber !== ccbcNumber) {
     return {
-      error: `CCBC Number mismatch: expected ${ccbcNumber}, received: ${uploadedNumber}`,
+      error: [
+        {
+          cell: cellRefs.ccbc_number,
+          error: 'CCBC Number mismatch',
+          expected: ccbcNumber,
+          received: uploadedNumber,
+        },
+      ],
     };
   }
-  const errorList = ValidateData(data._jsonData);
+  const errorList = ValidateData(data._jsonData, cellRefs, cellValues);
 
   if (errorList.length > 0) {
     return { error: errorList };

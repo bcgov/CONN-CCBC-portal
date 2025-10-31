@@ -11,13 +11,39 @@ import bytesToSize from 'utils/bytesToText';
 import FileComponent from 'lib/theme/components/FileComponent';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCircleCheck,
+  faCircleExclamation,
+} from '@fortawesome/free-solid-svg-icons';
 import { Alert } from '@button-inc/bcgov-theme';
 import parse from 'html-react-parser';
 
 const StyledAlert = styled(Alert)`
   margin-bottom: 8px;
   margin-top: 8px;
+`;
+
+const TabErrorAlert = styled(StyledAlert)`
+  > div:first-child {
+    display: none !important;
+  }
+`;
+
+const TabErrorRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  margin-top: 4px;
+`;
+
+const TabErrorIcon = styled(FontAwesomeIcon)`
+  color: ${(props) => props.theme.color.error};
+  margin-right: 8px;
+  flex-shrink: 0;
+  margin-top: 3px;
+`;
+
+const TabErrorText = styled.div`
+  flex: 1;
 `;
 
 const ellipsisAnimation = keyframes`
@@ -89,6 +115,13 @@ export const Success = ({ heading = 'Excel Data table match database' }) => (
   </SuccessContainer>
 );
 
+const tabDisplayNames: Record<string, string> = {
+  summary: 'Tab - SOW Tables Summary',
+  tab1: 'Tab 1 - Community Information',
+  tab2: 'Tab 2 - Project Sites',
+  tab7: 'Tab 7 - Budget',
+};
+
 export const displayExcelUploadErrors = (err) => {
   const {
     level: errorType,
@@ -117,6 +150,48 @@ export const displayExcelUploadErrors = (err) => {
     title = `The upload of ${filename} timed out. Please try again later.`;
   }
   // for cell level errors
+  if (Array.isArray(errorMessage)) {
+    const tabTitle = tabDisplayNames[errorType] || title;
+    return (
+      <TabErrorAlert
+        key={tabTitle}
+        variant="danger"
+        closable={false}
+        content={
+          <>
+            <div> {tabTitle}</div>
+            <div>
+              {errorMessage.map(
+                ({ cell, error: message, expected, received }, idx) => {
+                  const cellText = cell ? `Cell ${cell}, ` : '';
+                  const expectationParts = [];
+                  if (expected !== null && expected !== undefined) {
+                    expectationParts.push(`expected - "${expected}"`);
+                  }
+                  expectationParts.push(`received - "${received ?? null}"`);
+                  const expectationText =
+                    expectationParts.length > 0
+                      ? `; ${expectationParts.join(', ')}`
+                      : '';
+
+                  return (
+                    <TabErrorRow key={`${cell ?? idx}-${message}`}>
+                      <TabErrorIcon icon={faCircleExclamation} />
+                      <TabErrorText>
+                        {cellText}
+                        {message}
+                        {expectationText}
+                      </TabErrorText>
+                    </TabErrorRow>
+                  );
+                }
+              )}
+            </div>
+          </>
+        }
+      />
+    );
+  }
   if (typeof errorMessage !== 'string') {
     return errorMessage.map(({ error: message }) => {
       return (
