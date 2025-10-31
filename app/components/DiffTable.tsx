@@ -226,7 +226,8 @@ const generateDiffTable = (
     const entries = Object.entries(object);
 
     entries.forEach(([key, value]) => {
-      if (excludedKeys.some((e) => key.includes(e))) {
+      const normalizedKey = sanitizedKey(key);
+      if (excludedKeys.includes(normalizedKey)) {
         return;
       }
       if (typeof value === 'object' && value !== null) {
@@ -438,7 +439,8 @@ export const generateRawDiff = (
     const entries = Object.entries(object || {});
 
     entries.forEach(([key, value]) => {
-      if (excludedKeys.some((e) => key.includes(e))) {
+      const normalizedKey = sanitizedKey(key);
+      if (excludedKeys.includes(normalizedKey)) {
         return;
       }
       const fieldKey = key.replace(/(__added|__deleted|__old)/g, '');
