@@ -5,7 +5,7 @@ const relay = require('./relay.config.js');
 
 const moduleExports = {
   poweredByHeader: false,
-
+  outputFileTracingRoot: __dirname,
   async redirects() {
     return [
       {
@@ -35,7 +35,6 @@ const moduleExports = {
     ];
   },
   reactStrictMode: true,
-  swcMinify: true,
   compiler: {
     // ssr and displayName are configured by default
     styledComponents: true,
@@ -44,6 +43,9 @@ const moduleExports = {
       artifactDirectory: relay.artifactDirectory,
       language: 'typescript',
     },
+  },
+  turbopack: {
+    resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
   },
 
   publicRuntimeConfig: {

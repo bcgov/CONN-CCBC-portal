@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Check release process checkbox
         id: checkbox
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -29,7 +29,7 @@ jobs:
             return checkboxChecked;
       - name: Check if PR is up-to-date with main
         id: up_to_date
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -62,7 +62,7 @@ jobs:
             return containsAllCommits;
       - name: Check PR Approval
         id: pr_approval
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -119,7 +119,7 @@ jobs:
         continue-on-error: true
       - name: Uncheck the checkbox
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

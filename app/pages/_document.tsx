@@ -16,8 +16,8 @@ export default class MyDocument extends Document {
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: (App) => (props) =>
-            sheet.collectStyles(<App {...props} />),
+          enhanceApp: (App) =>
+            ((props) => sheet.collectStyles(<App {...props} />)) as any,
         });
 
       const initialProps = await Document.getInitialProps(ctx);
@@ -26,7 +26,7 @@ export default class MyDocument extends Document {
         styles: [
           <React.Fragment key="0">
             {initialProps.styles}
-            {sheet.getStyleElement()}
+            {sheet.getStyleElement() as any}
           </React.Fragment>,
         ],
       };

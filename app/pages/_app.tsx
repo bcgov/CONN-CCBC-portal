@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import { ThemeProvider } from '@mui/material';
@@ -87,15 +87,17 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <GrowthBookProvider growthbook={growthbook}>
       <GlobalTheme>
         <ThemeProvider theme={theme}>
-          <GlobalStyle />
+          {React.createElement(GlobalStyle as any)}
           <BCGovTypography />
           <Sentry.ErrorBoundary fallback={<Error500 />}>
-            <RelayEnvironmentProvider environment={env}>
+            {React.createElement(
+              RelayEnvironmentProvider as any,
+              { environment: env },
               <AppProvider>
                 {typeof window !== 'undefined' && <SessionExpiryHandler />}
                 {component}
               </AppProvider>
-            </RelayEnvironmentProvider>
+            )}
           </Sentry.ErrorBoundary>
         </ThemeProvider>
       </GlobalTheme>

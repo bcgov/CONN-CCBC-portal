@@ -1,3 +1,25 @@
+## [1.271.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.6...v1.271.7) (2025-10-31)
+
+### Bug Fixes
+
+- intake banner timimg ([d75c5d8](https://github.com/bcgov/CONN-CCBC-portal/commit/d75c5d8c04b65810b4d04f82367e63b42cdcbdd9))
+
+## [1.271.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.5...v1.271.6) (2025-10-30)
+
+## [1.271.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.4...v1.271.5) (2025-10-30)
+
+## [1.271.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.3...v1.271.4) (2025-10-28)
+
+## [1.271.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.2...v1.271.3) (2025-10-28)
+
+## [1.271.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.1...v1.271.2) (2025-10-27)
+
+## [1.271.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.0...v1.271.1) (2025-10-27)
+
+### Bug Fixes
+
+- unwanted unsaved changes modal in cbc edit ([cfdb401](https://github.com/bcgov/CONN-CCBC-portal/commit/cfdb401c47303cfb7306161e59d7c7fd0fa986f0))
+
 # [1.271.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.270.5...v1.271.0) (2025-08-29)
 
 ### Features
