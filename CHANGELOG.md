@@ -1,3 +1,9 @@
+## [1.271.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.7...v1.271.8) (2025-11-03)
+
+### Bug Fixes
+
+- some fields are getting excluded due to partial match in diff table ([ee73477](https://github.com/bcgov/CONN-CCBC-portal/commit/ee73477e8ef2be6cdd51de0af6e0230dfd4f4ca2))
+
 ## [1.271.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.6...v1.271.7) (2025-10-31)
 
 ### Bug Fixes
