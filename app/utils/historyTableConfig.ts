@@ -12,6 +12,9 @@ import applicationAnnounced from 'formSchema/uiSchema/history/applicationAnnounc
 import fnhaContribution from 'formSchema/uiSchema/history/fnhaContribution';
 import communities from 'formSchema/uiSchema/history/communities';
 import technicalSchema from 'formSchema/uiSchema/history/technical';
+import projectManagementSchema from 'formSchema/uiSchema/history/projectManagement';
+import permittingSchema from 'formSchema/uiSchema/history/permitting';
+import financialRiskSchema from 'formSchema/uiSchema/history/financialRisk';
 
 // Define inline schemas for simple cases
 const communityReportSchema = {
@@ -96,6 +99,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       schema: applicationAnnounced,
       excludedKeys: [
         'id',
+        'application_id',
         'updated_at',
         'created_at',
         'created_by',
@@ -190,6 +194,10 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
         if (assessmentType === 'screening') return screeningSchema;
         if (assessmentType === 'gis') return gis;
         if (assessmentType === 'technical') return technicalSchema;
+        if (assessmentType === 'financialRisk') return financialRiskSchema;
+        if (assessmentType === 'projectManagement')
+          return projectManagementSchema;
+        if (assessmentType === 'permitting') return permittingSchema;
         return null;
       })(),
       excludedKeys: [
@@ -201,6 +209,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
         'uploadedAt',
         'otherFiles',
         'assessmentTemplate',
+        'completedAssessment',
         'user_info',
       ],
       overrideParent: assessmentType,
@@ -231,6 +240,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       schema: gisAssessmentHhSchema,
       excludedKeys: [
         'id',
+        'application_id',
         'updated_at',
         'created_at',
         'created_by',
@@ -293,6 +303,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       schema: pendingChangeRequestSchema,
       excludedKeys: [
         'id',
+        'application_id',
         'created_at',
         'updated_at',
         'created_by',
@@ -308,6 +319,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       schema: fnhaContribution,
       excludedKeys: [
         'id',
+        'application_id',
         'updated_at',
         'created_at',
         'created_by',

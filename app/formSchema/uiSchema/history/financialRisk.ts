@@ -1,7 +1,7 @@
 import commonAssessment from './commonAssessment';
 
-const technicalSchema = {
-  technical: {
+const financialRiskSchema = {
+  financialRisk: {
     properties: {
       ...commonAssessment,
       decision: {
@@ -12,4 +12,4 @@ const technicalSchema = {
   },
 };
 
-export default technicalSchema;
+export default financialRiskSchema;

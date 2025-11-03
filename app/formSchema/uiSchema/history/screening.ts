@@ -4,6 +4,10 @@ const screeningSchema = {
   screening: {
     properties: {
       ...commonAssessment,
+      decision: {
+        title: 'Decision',
+        default: 'No decision',
+      },
       contestingMap: {
         title: 'Contesting Map',
       },

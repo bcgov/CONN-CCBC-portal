@@ -399,6 +399,17 @@ const HistoryContent = ({
           'Assessment Template',
         ];
       }
+      if (
+        ['technical', 'projectManagement', 'financialRisk'].includes(
+          assessmentName
+        )
+      ) {
+        return [
+          record.json_data?.completedAssessment || [],
+          prevHistoryItem?.record?.json_data?.completedAssessment || [],
+          'Completed assessment',
+        ];
+      }
       return [[], []];
     };
 
@@ -411,10 +422,7 @@ const HistoryContent = ({
       prevAssessmentFilesArray
     );
 
-    // TODO: to be removed once all the assessments are detailed
-    const isDetailedAssessment = ['screening', 'gis', 'technical'].includes(
-      assessmentType
-    );
+    const assessmentConfig = getTableConfig(`assessment_data`, assessmentType);
 
     return (
       <div>
@@ -423,36 +431,30 @@ const HistoryContent = ({
           <b>{formatAssessment(assessmentType)} Assessment</b>
           <span> on {createdAtFormatted}</span>
         </StyledContent>
-        {showHistoryDetails && isDetailedAssessment && (
+        {showHistoryDetails && (
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record?.json_data || {}}
-            diffSchema={
-              getTableConfig(`assessment_data`, assessmentType)?.schema
-            }
-            excludedKeys={
-              getTableConfig(`assessment_data`, assessmentType)?.excludedKeys ||
-              []
-            }
-            overrideParent={
-              getTableConfig(`assessment_data`, assessmentType)?.overrideParent
-            }
+            diffSchema={assessmentConfig?.schema}
+            excludedKeys={assessmentConfig?.excludedKeys || []}
+            overrideParent={assessmentConfig?.overrideParent}
           />
         )}
-        {showOtherFilesDiff && isDetailedAssessment && (
+        {showAssessmentFilesDiff && (
+          <HistoryFile
+            filesArray={assessmentFilesArray}
+            previousFileArray={prevAssessmentFilesArray}
+            title={arrayTitle}
+          />
+        )}
+        {showOtherFilesDiff && (
           <HistoryFile
             filesArray={record.json_data?.otherFiles || []}
             previousFileArray={
               prevHistoryItem?.record?.json_data?.otherFiles || []
             }
             title={`${formatAssessment(assessmentType)} Other Files`}
-          />
-        )}
-        {showAssessmentFilesDiff && isDetailedAssessment && (
-          <HistoryFile
-            filesArray={assessmentFilesArray}
-            previousFileArray={prevAssessmentFilesArray}
-            title={arrayTitle}
+            tableTitle={!showAssessmentFilesDiff}
           />
         )}
       </div>
@@ -952,6 +954,7 @@ const HistoryContent = ({
 
     const excludedKeys = [
       'id',
+      'application_id',
       'created_at',
       'updated_at',
       'created_by',
