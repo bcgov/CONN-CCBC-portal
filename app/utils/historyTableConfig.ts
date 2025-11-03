@@ -99,6 +99,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       schema: applicationAnnounced,
       excludedKeys: [
         'id',
+        'application_id',
         'updated_at',
         'created_at',
         'created_by',
@@ -239,6 +240,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       schema: gisAssessmentHhSchema,
       excludedKeys: [
         'id',
+        'application_id',
         'updated_at',
         'created_at',
         'created_by',
@@ -301,6 +303,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       schema: pendingChangeRequestSchema,
       excludedKeys: [
         'id',
+        'application_id',
         'created_at',
         'updated_at',
         'created_by',
@@ -316,6 +319,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       schema: fnhaContribution,
       excludedKeys: [
         'id',
+        'application_id',
         'updated_at',
         'created_at',
         'created_by',
