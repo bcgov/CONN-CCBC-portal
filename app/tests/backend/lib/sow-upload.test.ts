@@ -171,8 +171,14 @@ describe('The SoW import', () => {
     expect(response.body).toEqual([
       {
         level: 'summary',
-        error:
-          'CCBC Number mismatch: expected CCBC-020100, received: CCBC-020118',
+        error: [
+          {
+            cell: 'D10',
+            error: 'CCBC Number mismatch',
+            expected: 'CCBC-020100',
+            received: 'CCBC-020118',
+          },
+        ],
       },
     ]);
   });

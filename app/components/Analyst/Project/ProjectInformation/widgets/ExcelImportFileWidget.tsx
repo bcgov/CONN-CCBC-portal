@@ -151,46 +151,55 @@ export const displayExcelUploadErrors = (err) => {
   }
   // for cell level errors
   if (Array.isArray(errorMessage)) {
-    const tabTitle = tabDisplayNames[errorType] || title;
-    return (
-      <TabErrorAlert
-        key={tabTitle}
-        variant="danger"
-        closable={false}
-        content={
-          <>
-            <div> {tabTitle}</div>
-            <div>
-              {errorMessage.map(
-                ({ cell, error: message, expected, received }, idx) => {
-                  const cellText = cell ? `Cell ${cell}, ` : '';
-                  const expectationParts = [];
-                  if (expected !== null && expected !== undefined) {
-                    expectationParts.push(`expected - "${expected}"`);
-                  }
-                  expectationParts.push(`received - "${received ?? null}"`);
-                  const expectationText =
-                    expectationParts.length > 0
-                      ? `; ${expectationParts.join(', ')}`
-                      : '';
-
-                  return (
-                    <TabErrorRow key={`${cell ?? idx}-${message}`}>
-                      <TabErrorIcon icon={faCircleExclamation} />
-                      <TabErrorText>
-                        {cellText}
-                        {message}
-                        {expectationText}
-                      </TabErrorText>
-                    </TabErrorRow>
-                  );
-                }
-              )}
-            </div>
-          </>
-        }
-      />
+    const isCellErrorArray = errorMessage.every(
+      (error) =>
+        error &&
+        typeof error === 'object' &&
+        ('cell' in error || 'expected' in error || 'received' in error)
     );
+
+    if (isCellErrorArray) {
+      const tabTitle = tabDisplayNames[errorType] || title;
+      return (
+        <TabErrorAlert
+          key={tabTitle}
+          variant="danger"
+          closable={false}
+          content={
+            <>
+              <div> {tabTitle}</div>
+              <div>
+                {errorMessage.map(
+                  ({ cell, error: message, expected, received }, idx) => {
+                    const cellText = cell ? `Cell ${cell}, ` : '';
+                    const expectationParts = [];
+                    if (expected !== null && expected !== undefined) {
+                      expectationParts.push(`expected - "${expected}"`);
+                    }
+                    expectationParts.push(`received - "${received ?? null}"`);
+                    const expectationText =
+                      expectationParts.length > 0
+                        ? `; ${expectationParts.join(', ')}`
+                        : '';
+
+                    return (
+                      <TabErrorRow key={`${cell ?? idx}-${message}`}>
+                        <TabErrorIcon icon={faCircleExclamation} />
+                        <TabErrorText>
+                          {cellText}
+                          {message}
+                          {expectationText}
+                        </TabErrorText>
+                      </TabErrorRow>
+                    );
+                  }
+                )}
+              </div>
+            </>
+          }
+        />
+      );
+    }
   }
   if (typeof errorMessage !== 'string') {
     return errorMessage.map(({ error: message }) => {
