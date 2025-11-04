@@ -48,11 +48,10 @@ resource "aws_sns_topic" "lambda_error_notifications" {
 }
 
 resource "aws_sns_topic_subscription" "lambda_error_email" {
-  for_each = toset(["anthony@button.is", "rafael.solorzano@gov.bc.ca", "meherzad.romer@gov.bc.ca", "rumesha.ranathunga@gov.bc.ca", "nwbc.devinbox@gov.bc.ca"])
+  for_each = toset(["rafael.solorzano@gov.bc.ca", "meherzad.romer@gov.bc.ca", "rumesha.ranathunga@gov.bc.ca", "nwbc.devinbox@gov.bc.ca"])
   topic_arn = aws_sns_topic.lambda_error_notifications.arn
   protocol  = "email"
   endpoint  = each.value
-  # endpoint = "anthony@button.is"
 }
 
 resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
