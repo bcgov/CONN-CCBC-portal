@@ -139,6 +139,7 @@ const ValidateData = (data, sheet) => {
   const errors = [];
   if (typeof data.householdsImpactedIndigenous !== 'number') {
     errors.push({
+      level: 'cell',
       cell: `${getRowNumberFromSheet(INDIGENOUS_HOUSEHOLDS_IMPACTED_ROW)}${TOTALS_COLUMN}`,
       error: 'Invalid data: Indigenous Households Impacted',
       received: sheet[INDIGENOUS_HOUSEHOLDS_IMPACTED_ROW][TOTALS_COLUMN],
@@ -147,6 +148,7 @@ const ValidateData = (data, sheet) => {
   }
   if (typeof data.numberOfHouseholds !== 'number') {
     errors.push({
+      level: 'cell',
       cell: `${getRowNumberFromSheet(TOTAL_HOUSEHOLDS_IMPACTED_ROW)}${TOTALS_COLUMN}`,
       error: 'Invalid data: Total Number of Households Impacted',
       received: sheet[TOTAL_HOUSEHOLDS_IMPACTED_ROW][TOTALS_COLUMN],
@@ -155,6 +157,7 @@ const ValidateData = (data, sheet) => {
   }
   if (typeof data.totalNumberCommunitiesImpacted !== 'number') {
     errors.push({
+      level: 'cell',
       cell: `${getRowNumberFromSheet(TOTAL_COMMUNITIES_IMPACTED_ROW)}${TOTALS_COLUMN}`,
       error: 'Invalid data: Total Number of Communities Impacted',
       received: sheet[TOTAL_COMMUNITIES_IMPACTED_ROW][TOTALS_COLUMN],
@@ -163,9 +166,10 @@ const ValidateData = (data, sheet) => {
   }
   if (data.communityData.length === 0) {
     errors.push({
+      level: 'table',
       cell: 'Community Table',
       error: 'Invalid data: No completed Community Information rows found',
-      received: data.communityData.length,
+      received: `${data.communityData.length} completed rows`,
       expected: 'at least 1 completed row',
     });
   }

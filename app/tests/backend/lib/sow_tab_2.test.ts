@@ -30,6 +30,7 @@ describe('sow_tab_2', () => {
     expect(data).toEqual({
       error: [
         {
+          level: 'table',
           cell: null,
           error: 'Invalid data: No completed Project Site rows found',
           expected: 'at least 1 completed row',

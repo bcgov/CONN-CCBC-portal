@@ -21,10 +21,8 @@ import parse from 'html-react-parser';
 const StyledAlert = styled(Alert)`
   margin-bottom: 8px;
   margin-top: 8px;
-`;
 
-const TabErrorAlert = styled(StyledAlert)`
-  > div:first-child {
+  &.tab-error-alert > .pg-notification-content:first-of-type {
     display: none !important;
   }
 `;
@@ -36,7 +34,7 @@ const TabErrorRow = styled.div`
 `;
 
 const TabErrorIcon = styled(FontAwesomeIcon)`
-  color: ${(props) => props.theme.color.error};
+  color: rgb(161, 38, 34);
   margin-right: 8px;
   flex-shrink: 0;
   margin-top: 3px;
@@ -161,7 +159,8 @@ export const displayExcelUploadErrors = (err) => {
     if (isCellErrorArray) {
       const tabTitle = tabDisplayNames[errorType] || title;
       return (
-        <TabErrorAlert
+        <StyledAlert
+          className="tab-error-alert"
           key={tabTitle}
           variant="danger"
           closable={false}
@@ -170,8 +169,13 @@ export const displayExcelUploadErrors = (err) => {
               <div> {tabTitle}</div>
               <div>
                 {errorMessage.map(
-                  ({ cell, error: message, expected, received }, idx) => {
+                  (
+                    { cell, error: message, expected, received, level },
+                    idx
+                  ) => {
                     const cellText = cell ? `Cell ${cell}, ` : '';
+                    const tableText =
+                      level === 'table' && cell ? `${cell}, ` : '';
                     const expectationParts = [];
                     if (expected !== null && expected !== undefined) {
                       expectationParts.push(`expected - "${expected}"`);
@@ -186,7 +190,7 @@ export const displayExcelUploadErrors = (err) => {
                       <TabErrorRow key={`${cell ?? idx}-${message}`}>
                         <TabErrorIcon icon={faCircleExclamation} />
                         <TabErrorText>
-                          {cellText}
+                          {level === 'table' ? tableText : cellText}
                           {message}
                           {expectationText}
                         </TabErrorText>

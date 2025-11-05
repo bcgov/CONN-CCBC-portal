@@ -213,27 +213,31 @@ describe('sow_tab_1 parsing tests', () => {
     const expected = {
       error: [
         {
+          level: 'cell',
           cell: '14H',
           error: 'Invalid data: Indigenous Households Impacted',
           received: 'oops',
           expected: 'number',
         },
         {
+          level: 'cell',
           cell: '15H',
           error: 'Invalid data: Total Number of Households Impacted',
           received: 'oops',
           expected: 'number',
         },
         {
+          level: 'cell',
           cell: '16H',
           error: 'Invalid data: Total Number of Communities Impacted',
           received: 'oops',
           expected: 'number',
         },
         {
+          level: 'table',
           cell: 'Community Table',
           error: 'Invalid data: No completed Community Information rows found',
-          received: 0,
+          received: '0 completed rows',
           expected: 'at least 1 completed row',
         },
       ],

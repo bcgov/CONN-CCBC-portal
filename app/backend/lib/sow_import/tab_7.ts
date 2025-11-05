@@ -675,6 +675,7 @@ const ValidateData = (
 
   const addError = (key: string, error: string, expected?: string) => {
     errors.push({
+      level: 'cell',
       cell: cellRefs[key],
       error,
       received: cellValues[key] ?? data[key] ?? 'null',
