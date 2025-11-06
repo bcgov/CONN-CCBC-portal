@@ -1,5 +1,24 @@
 begin;
 
+set jwt.claims.sub to 'mockUser@ccbc_auth_user';
+
+insert into ccbc_public.ccbc_user
+  (id, given_name, family_name, email_address, session_sub)
+overriding system value
+values
+  (1, 'foo1', 'bar', 'foo1@bar.com', 'mockUser@ccbc_auth_user')
+on conflict (id) do update set
+  given_name = excluded.given_name,
+  family_name = excluded.family_name,
+  email_address = excluded.email_address,
+  session_sub = excluded.session_sub;
+
+select setval(
+  'ccbc_public.ccbc_user_id_seq',
+  (select coalesce(max(id), 1) from ccbc_public.ccbc_user),
+  true
+);
+
 select mocks.set_mocked_time_in_transaction('2022-10-09 09:00:00-07'::timestamptz);
 
 insert into ccbc_public.cbc_project(
@@ -194,5 +213,7 @@ insert into ccbc_public.cbc_data(id, cbc_id, project_number, json_data, sharepoi
         "nditConditionalApprovalLetterSent": "YES",
         "bindingAgreementSignedNditRecipient": "YES"
     }$$, '2024-01-01 16:28:11.006719-07', '2024-01-02 16:28:11.006719-07', '2024-01-02 16:28:11.006719-07');
+
+reset jwt.claims.sub;
 
 commit;
