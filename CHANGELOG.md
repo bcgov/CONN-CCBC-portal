@@ -1,3 +1,11 @@
+## [1.271.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.10...v1.271.11) (2025-11-06)
+
+## [1.271.10](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.9...v1.271.10) (2025-11-06)
+
+### Bug Fixes
+
+- fiscal year formatting ([8b35f2f](https://github.com/bcgov/CONN-CCBC-portal/commit/8b35f2f4e7a39e7d67733106b1e1dd039ca1d0f6))
+
 ## [1.271.9](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.8...v1.271.9) (2025-11-03)
 
 ## [1.271.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.7...v1.271.8) (2025-11-03)

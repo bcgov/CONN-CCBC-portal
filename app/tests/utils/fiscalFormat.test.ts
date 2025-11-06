@@ -33,6 +33,11 @@ describe('the getFiscalYear function', () => {
     expect(result).toEqual('2023-24');
   });
 
+  it('should return the previous fiscal year for fourth quarter', () => {
+    const result = getFiscalYear('2025-03-31');
+    expect(result).toEqual('2024-25');
+  });
+
   it('should return null if the date is null', () => {
     const result = getFiscalYear(null);
     expect(result).toEqual(null);
