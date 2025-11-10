@@ -400,7 +400,7 @@ jobs:
         id: fetch_tag
         run: echo "tagVersion=$(git describe --tags $(git rev-list --tags --max-count=1))" >>$GITHUB_OUTPUT
       - name: Release
-        uses: softprops/action-gh-release@v2.4.1
+        uses: softprops/action-gh-release@v2.4.2
         with:
           generate_release_notes: true
           tag_name: ${{ steps.fetch_tag.outputs.tagVersion }}
