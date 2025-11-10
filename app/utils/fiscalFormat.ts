@@ -21,9 +21,10 @@ const getFiscalQuarter = (date) => {
 
 const getFiscalYear = (date) => {
   if (!date) return null;
-  const { year } = DateTime.fromJSDate(new Date(date));
-  const shortenedYear = year % 100;
-  return `${year}-${shortenedYear + 1}`;
+  const { year, month } = DateTime.fromJSDate(new Date(date)).setZone('UTC');
+  const startYear = month <= 3 ? year - 1 : year;
+  const shortenedYear = startYear % 100;
+  return `${startYear}-${shortenedYear + 1}`;
 };
 
 export { getFiscalQuarter, getFiscalYear };
