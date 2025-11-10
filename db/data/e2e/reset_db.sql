@@ -20,7 +20,8 @@ truncate table
   ccbc_public.sow_tab_7,
   ccbc_public.sow_tab_8,
   ccbc_public.application_fnha_contribution,
-  ccbc_public.application_milestone_excel_data
+  ccbc_public.application_milestone_excel_data,
+  ccbc_public.reporting_gcpe
 restart identity cascade;
 
 commit;
