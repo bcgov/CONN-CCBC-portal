@@ -1,4 +1,4 @@
-{{- if eq .Values.deployer.namespace "ff61fb-prod" }}
+{{- if eq .Values.app.namespace "ff61fb-prod" }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
