@@ -1,3 +1,10 @@
+## [1.271.12](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.11...v1.271.12) (2025-11-13)
+
+### Bug Fixes
+
+- deploy test db refresh and secret ([66dfae3](https://github.com/bcgov/CONN-CCBC-portal/commit/66dfae3f9af506934512f04a1100683fcf35a838))
+- new cocogitto args ([fdbae24](https://github.com/bcgov/CONN-CCBC-portal/commit/fdbae24093c537746683d9c9875faed6088e6d83))
+
 ## [1.271.11](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.10...v1.271.11) (2025-11-06)
 
 ## [1.271.10](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.9...v1.271.10) (2025-11-06)
