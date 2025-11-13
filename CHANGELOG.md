@@ -1,3 +1,9 @@
+## [1.271.14](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.13...v1.271.14) (2025-11-13)
+
+### Bug Fixes
+
+- use app instead of deployer value ([359e09f](https://github.com/bcgov/CONN-CCBC-portal/commit/359e09fa547b56c0450e26b050fb40d68ff438ed))
+
 ## [1.271.13](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.12...v1.271.13) (2025-11-13)
 
 ## [1.271.12](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.11...v1.271.12) (2025-11-13)
