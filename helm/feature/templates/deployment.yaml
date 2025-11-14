@@ -103,7 +103,7 @@ spec:
               value: {{ .Values.objectStorage.awsClamS3Bucket }}
             - name: AWS_S3_REGION
               value: {{ .Values.objectStorage.awsS3Region }}
-{{- if not (contains "prod" .Release.Name) }}
+{{- if not (contains "prod" .Values.app.namespace) }}
             - name: AWS_S3_KEY
               valueFrom:
                 secretKeyRef:
