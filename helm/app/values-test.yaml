@@ -14,3 +14,11 @@ db:
     for file in data/test/*.sql; do
       psql -v "ON_ERROR_STOP=1" -f "${file}";
     done;
+
+crunchy-postgres:
+  pgBackRest:
+    volume:
+      storage: 20Gi
+  instances:
+    dataVolumeClaimSpec:
+      storage: 5Gi
