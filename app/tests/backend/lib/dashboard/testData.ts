@@ -156,7 +156,13 @@ export const testApplicationData = {
       },
     },
     allApplicationSowData: {
-      nodes: [],
+      nodes: [
+        {
+          jsonData: {
+            lastMileFibre: true,
+          },
+        },
+      ],
     },
     allIntakes: {
       nodes: [
