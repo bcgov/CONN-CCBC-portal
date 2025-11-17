@@ -61,6 +61,7 @@ const ellipsisAnimation = keyframes`
 const Loading = styled.div`
   color: #1a5a96;
   width: 10rem;
+  white-space: nowrap;
   &:after {
     overflow: hidden;
     display: inline-block;
