@@ -12,7 +12,7 @@ const conditionalApproval: RJSFSchema = {
       properties: {
         ministerDecision: {
           type: 'string',
-          enum: ['Approved', 'Not approved', 'Hold'],
+          enum: ['Approved', 'Not approved', 'Hold', 'Decision not required'],
         },
         ministerDate: {
           type: 'string',
@@ -33,7 +33,7 @@ const conditionalApproval: RJSFSchema = {
       properties: {
         isedDecision: {
           type: 'string',
-          enum: ['Approved', 'Not approved', 'Hold'],
+          enum: ['Approved', 'Not approved', 'Hold', 'Decision not required'],
         },
         isedDate: {
           type: 'string',

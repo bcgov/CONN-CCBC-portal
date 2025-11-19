@@ -79,6 +79,80 @@ const mockJsonDataQueryPayload = {
   },
 };
 
+const mockNoDecisionReadOnlyPayload = {
+  Application() {
+    return {
+      rowId: 1,
+      amendmentNumbers: '0 1 2 3',
+      ccbcNumber: 'CCBC-010003',
+      conditionalApproval: {
+        jsonData: {
+          decision: {
+            ministerDecision: 'No decision',
+          },
+          isedDecisionObj: {},
+          letterOfApproval: {},
+          response: {},
+        },
+      },
+      conditionalApprovalDataByApplicationId: {
+        edges: [
+          {
+            node: {
+              id: 'test-id',
+              jsonData: {
+                decision: {
+                  ministerDecision: 'No decision',
+                },
+                isedDecisionObj: {},
+                letterOfApproval: {},
+                response: {},
+              },
+            },
+          },
+        ],
+      },
+    };
+  },
+};
+
+const mockDecisionNotRequiredReadOnlyPayload = {
+  Application() {
+    return {
+      rowId: 1,
+      amendmentNumbers: '0 1 2 3',
+      ccbcNumber: 'CCBC-010003',
+      conditionalApproval: {
+        jsonData: {
+          decision: {
+            ministerDecision: 'Decision not required',
+          },
+          isedDecisionObj: {},
+          letterOfApproval: {},
+          response: {},
+        },
+      },
+      conditionalApprovalDataByApplicationId: {
+        edges: [
+          {
+            node: {
+              id: 'test-id',
+              jsonData: {
+                decision: {
+                  ministerDecision: 'Decision not required',
+                },
+                isedDecisionObj: {},
+                letterOfApproval: {},
+                response: {},
+              },
+            },
+          },
+        ],
+      },
+    };
+  },
+};
+
 const componentTestingHelper =
   new ComponentTestingHelper<ApplicationFormTestQuery>({
     component: ConditionalApprovalForm,
@@ -136,6 +210,24 @@ describe('The Conditional Approval form', () => {
     );
   });
 
+  it('shows "No decision received" in read only mode when the saved value is "No decision"', async () => {
+    componentTestingHelper.loadQuery(mockNoDecisionReadOnlyPayload);
+    componentTestingHelper.renderComponent();
+
+    expect(
+      screen.getAllByTestId('read-only-decision-widget')[0]
+    ).toHaveTextContent('No decision received');
+  });
+
+  it('shows "Decision not required" in read only mode when selected', async () => {
+    componentTestingHelper.loadQuery(mockDecisionNotRequiredReadOnlyPayload);
+    componentTestingHelper.renderComponent();
+
+    expect(
+      screen.getAllByTestId('read-only-decision-widget')[0]
+    ).toHaveTextContent('Decision not required');
+  });
+
   it('applicant status select should be disabled', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
@@ -150,7 +242,7 @@ describe('The Conditional Approval form', () => {
     ).toBeDisabled();
   });
 
-  it('applicant status select should be enabled when the correct options are selected', async () => {
+  it('enables applicant status select when BC minister approved and applicant accepts', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -169,6 +261,33 @@ describe('The Conditional Approval form', () => {
 
     await act(async () => {
       fireEvent.change(ministerDecision, { target: { value: 'Approved' } });
+      fireEvent.change(applicantResponse, { target: { value: 'Accepted' } });
+    });
+
+    expect(
+      screen.getByTestId('root_response_statusApplicantSees')
+    ).not.toBeDisabled();
+  });
+
+  it('enables applicant status select when ISED minister approved and applicant accepts', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const editButton = screen.getAllByTestId('project-form-edit-button')[0];
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const isedDecision = screen.getByTestId(
+      'root_isedDecisionObj_isedDecision'
+    );
+
+    const applicantResponse = screen.getByTestId(
+      'root_response_applicantResponse'
+    );
+
+    await act(async () => {
+      fireEvent.change(isedDecision, { target: { value: 'Approved' } });
       fireEvent.change(applicantResponse, { target: { value: 'Accepted' } });
     });
 
