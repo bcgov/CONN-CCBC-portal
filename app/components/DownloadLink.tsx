@@ -13,8 +13,10 @@ const StyledLink = styled.a`
 `;
 
 const handleDownload = async (uuid, fileName, setQuarantinedLink) => {
+  // handle special characters
   const cleanFileName = fileName.replace(/,$/, '');
-  const url = `/api/s3/download/${uuid}/${cleanFileName}`;
+  const encodedFileName = encodeURIComponent(cleanFileName);
+  const url = `/api/s3/download/${uuid}/${encodedFileName}`;
   await fetch(url)
     .then((response) => response.json())
     .then((response) => {
