@@ -104,13 +104,25 @@ spec:
             - name: AWS_S3_REGION
               value: {{ .Values.objectStorage.awsS3Region }}
             - name: AWS_S3_KEY
-              value: {{ .Values.objectStorage.awsS3Key }}
+              valueFrom:
+                secretKeyRef:
+                  key: key
+                  name: s3-secret-shp
             - name: AWS_S3_SECRET_KEY
-              value: {{ .Values.objectStorage.awsS3SecretKey }}
+              valueFrom:
+                secretKeyRef:
+                  key: secret
+                  name: s3-secret-shp
             - name: AWS_ACCESS_KEY_ID
-              value: {{ .Values.objectStorage.awsS3Key }}
+              valueFrom:
+                secretKeyRef:
+                  key: key
+                  name: s3-secret-shp
             - name: AWS_SECRET_ACCESS_KEY
-              value: {{ .Values.objectStorage.awsS3SecretKey }}
+              valueFrom:
+                secretKeyRef:
+                  key: secret
+                  name: s3-secret-shp
             - name: AWS_ROLE_ARN
               value: {{ .Values.objectStorage.awsRoleArn }}
             - name: SENTRY_RELEASE

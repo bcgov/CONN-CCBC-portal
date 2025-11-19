@@ -1,4 +1,4 @@
-{{- if and .Values.db.preUpgradeCommand (eq .Values.deployer.namespace "ff61fb-prod") }}
+{{- if eq .Values.app.namespace "ff61fb-prod" }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -8,7 +8,7 @@ metadata:
     description: "On-demand database refresh for ff61fb-test environment (deployed only in prod)"
 spec:
   suspend: true  # This ensures the job never runs automatically
-  schedule: "0 0 31 2 *"  # Invalid date (Feb 31st) - will never trigger automatically
+  schedule: "0 1 * * 0"
   timeZone: "America/Vancouver"
   jobTemplate:
     spec:
