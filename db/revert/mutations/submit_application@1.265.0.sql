@@ -71,13 +71,6 @@ begin
   insert into ccbc_public.application_status
     (application_id, status) values (application_row_id, 'submitted');
 
-  insert into ccbc_public.application_dependencies
-    (application_id, json_data, reason_for_change)
-    values (application_row_id, jsonb_build_object(
-      'connectedCoastNetworkDependent', 'TBD',
-      'crtcProjectDependent', 'TBD'
-    ), '');
-
   if is_rolling_intake then
     insert into ccbc_public.application_status
       (application_id, status) values (application_row_id, 'received');
