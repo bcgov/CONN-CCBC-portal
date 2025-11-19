@@ -281,6 +281,7 @@ const HistoryContent = ({
   }
 
   if (tableName === 'form_data') {
+    const prevJson = prevHistoryItem?.record?.json_data || {};
     return (
       <div>
         <StyledContent data-testid="history-content-form-data">
@@ -292,7 +293,7 @@ const HistoryContent = ({
         {showHistoryDetails && prevHistoryItem?.record && (
           <HistoryDetails
             json={record.json_data}
-            prevJson={prevHistoryItem?.record?.json_data || {}}
+            prevJson={prevJson}
             excludedKeys={getTableConfig('form_data')?.excludedKeys || []}
             diffSchema={getTableConfig('form_data')?.schema}
           />

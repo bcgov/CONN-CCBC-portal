@@ -847,3 +847,4 @@ computed_columns/application_history [computed_columns/application_history@1.259
 types/change_log_record 2025-07-24T20:22:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # type for change log records with ccbc_number and application_id
 computed_columns/change_log [types/change_log_record] 2025-07-24T20:22:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # query to return history for the change log
 @1.265.0 2025-08-08T22:30:05Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # release v1.265.0
+mutations/submit_application [mutations/submit_application@1.265.0] 2025-11-19T17:50:20Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add insert on application submission
