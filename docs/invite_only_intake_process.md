@@ -24,7 +24,7 @@ Important: This query updates every open intake that matches the conditions. If 
 Verify the generated code (optional but recommended)
 
 ```sql
-SELECT id, intake_number, hidden_code
+SELECT id, ccbc_intake_number, hidden_code
 FROM ccbc_public.intake
 WHERE close_timestamp > NOW()
   AND hidden = false
