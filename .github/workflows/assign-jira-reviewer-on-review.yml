@@ -22,6 +22,34 @@ jobs:
         run: |
           echo "JIRA_KEY=$(echo "$FEATURE_NAME" | grep -oE 'NDT-[0-9]+')" >> $GITHUB_ENV
 
+      - name: Get Jira issue metadata
+        id: jira_issue_type
+        run: |
+          response=$(curl -s -X GET \
+            -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
+            -H "Content-Type: application/json" \
+            https://connectivitydivision.atlassian.net/rest/api/3/issue/${{ env.JIRA_KEY }})
+
+          issue_type=$(echo "$response" | jq -r '.fields.issuetype.name')
+          case "$issue_type" in
+            "Story")
+              field="customfield_10074"
+              ;;
+            "Task")
+              field="customfield_10076"
+              ;;
+            "Bug")
+              field="customfield_10075"
+              ;;
+            *)
+              echo "Unsupported Jira issue type: $issue_type"
+              exit 1
+              ;;
+          esac
+
+          echo "ISSUE_TYPE=$issue_type" >> $GITHUB_ENV
+          echo "JIRA_FIELD=$field" >> $GITHUB_ENV
+
       - name: Extract Jira issue key and reviewer
         id: extract
         env:
@@ -32,8 +60,10 @@ jobs:
 
       - name: Assign Jira reviewer
         run: |
-          echo "Assigning Jira reviewer to ticket ${{ env.JIRA_KEY }}"
-          QUERY="{\"fields\": {\"customfield_10076\": [{\"id\": \"${{ env.JIRA_ID }}\"}]}}"
+          echo "Assigning Jira reviewer to ticket ${{ env.JIRA_KEY }} (type: ${{ env.ISSUE_TYPE }})"
+          QUERY=$(jq -n --arg field "${{ env.JIRA_FIELD }}" --arg id "${{ env.JIRA_ID }}" \
+            '{fields: {($field): [{id: $id}]}}')
+
           curl -X PUT \
             -H "Authorization: Basic ${{ secrets.JIRA_AUTH }}" \
             -H "Content-Type: application/json" \
