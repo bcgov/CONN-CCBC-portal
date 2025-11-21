@@ -459,13 +459,14 @@ describe('The application header component', () => {
 
     componentTestingHelper.expectMutationToBeCalled(
       'mergeApplicationMutation',
-      {
+      expect.objectContaining({
         input: {
           _childApplicationId: 1,
           _parentApplicationId: 2001,
           _parentCbcId: null,
         },
-      }
+        connections: expect.any(Array),
+      })
     );
     componentTestingHelper.expectMutationToBeCalled(
       'createApplicationStatusMutation',

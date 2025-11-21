@@ -53,6 +53,8 @@ export const convertStatus = (status: string): string => {
       return 'On Hold';
     case 'applicant_received':
       return 'Received';
+    case 'applicant_merged':
+      return 'Merged';
     case 'assessment':
       return 'Assessment';
     case 'cancelled':
@@ -67,6 +69,8 @@ export const convertStatus = (status: string): string => {
       return 'Withdrawn';
     case 'conditionally_approved':
       return 'Conditionally Approved';
+    case 'merged':
+      return 'Merged';
     case 'approved':
       return 'Agreement Signed';
     case 'on_hold':
@@ -102,6 +106,8 @@ export const handleLastMileSpeed = (status): number => {
     status === 'approved' ||
     status === 'applicant_approved' ||
     status === 'applicant_conditionally_approved' ||
+    status === 'merged' ||
+    status === 'applicant_merged' ||
     status === 'applicant_complete' ||
     status === 'complete'
   ) {

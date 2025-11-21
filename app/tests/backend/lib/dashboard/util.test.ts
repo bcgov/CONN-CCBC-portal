@@ -65,6 +65,14 @@ describe('Dashboard util functions', () => {
     );
   });
 
+  it('should return "Merged" for "merged"', () => {
+    expect(convertStatus('merged')).toBe('Merged');
+  });
+
+  it('should return "Merged" for "applicant_merged"', () => {
+    expect(convertStatus('applicant_merged')).toBe('Merged');
+  });
+
   it('should return "Agreement Signed" for "approved"', () => {
     expect(convertStatus('approved')).toBe('Agreement Signed');
   });

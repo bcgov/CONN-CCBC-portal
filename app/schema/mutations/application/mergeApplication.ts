@@ -3,9 +3,16 @@ import { mergeApplicationMutation } from '__generated__/mergeApplicationMutation
 import useMutationWithErrorMessage from '../useMutationWithErrorMessage';
 
 const mutation = graphql`
-  mutation mergeApplicationMutation($input: MergeApplicationInput!) {
+  mutation mergeApplicationMutation(
+    $input: MergeApplicationInput!
+    $connections: [ID!]!
+  ) {
     mergeApplication(input: $input) {
-      applicationMerge {
+      applicationMerge
+        @prependNode(
+          connections: $connections
+          edgeTypeName: "ApplicationMergesEdge"
+        ) {
         id
         parentApplicationId
         parentCbcId

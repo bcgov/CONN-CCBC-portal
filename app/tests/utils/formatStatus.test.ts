@@ -11,6 +11,10 @@ describe('The formatStatus function', () => {
     expect(formatStatus('Received')).toBe('applicant_received');
   });
 
+  it('returns the correct status for Merged', () => {
+    expect(formatStatus('Merged')).toBe('applicant_merged');
+  });
+
   it('returns the correct unhandled status', () => {
     expect(formatStatus('unhandled_status')).toBe('unhandled_status');
   });

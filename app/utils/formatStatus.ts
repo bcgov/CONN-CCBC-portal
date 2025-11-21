@@ -5,6 +5,9 @@ const formatStatus = (status: string) => {
   if (status === 'Conditionally Approved') {
     return 'applicant_conditionally_approved';
   }
+  if (status === 'Merged') {
+    return 'applicant_merged';
+  }
   return status;
 };
 

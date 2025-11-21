@@ -147,12 +147,18 @@ const ChangeStatus: React.FC<Props> = ({
           filter: { archivedAt: { isNull: true } }
           orderBy: CREATED_AT_DESC
           first: 1
-        ) {
-          nodes {
-            parentApplicationId
-            parentCbcId
-            rowId
-            childApplicationId
+        )
+          @connection(
+            key: "ChangeStatus_applicationMergesByChildApplicationId"
+          ) {
+          __id
+          edges {
+            node {
+              id
+              parentApplicationId
+              parentCbcId
+              childApplicationId
+            }
           }
         }
       }
@@ -170,6 +176,9 @@ const ChangeStatus: React.FC<Props> = ({
     applicationProjectTypesByApplicationId,
     applicationMergesByChildApplicationId,
   } = queryFragment;
+  const mergeConnectionIds = applicationMergesByChildApplicationId?.__id
+    ? [applicationMergesByChildApplicationId.__id]
+    : [];
   const [createStatus] = useCreateApplicationStatusMutation();
   const [mergeApplication] = useMergeApplicationMutation();
   // Filter unwanted status types
@@ -189,7 +198,8 @@ const ChangeStatus: React.FC<Props> = ({
   );
   const internalChangeModal = useModal();
   const externalChangeModal = useModal();
-  const existingParentNode = applicationMergesByChildApplicationId?.nodes[0];
+  const existingParentNode =
+    applicationMergesByChildApplicationId?.edges?.[0]?.node;
   const existingParentId =
     existingParentNode?.parentApplicationId ?? existingParentNode?.parentCbcId;
   const [mergeParent, setMergeParent] =
@@ -212,8 +222,7 @@ const ChangeStatus: React.FC<Props> = ({
   const disabledStatuses =
     disabledStatusList && disabledStatusList[currentStatus?.name];
 
-  const requiresMergeParentSelection =
-    !isExternalStatus && draftStatus?.name === 'merged';
+  const requiresMergeParentSelection = draftStatus?.name === 'merged';
 
   useEffect(() => {
     // update status when there is a relay store update
@@ -285,6 +294,7 @@ const ChangeStatus: React.FC<Props> = ({
               _childApplicationId: rowId,
               ...mergeInput,
             },
+            connections: mergeConnectionIds,
           },
         });
       } catch (error) {
