@@ -35,6 +35,12 @@ const statusStylesBase = {
     pillWidth: '222px',
     description: 'Conditionally approved',
   },
+  merged: {
+    primary: '#FFFFFF',
+    backgroundColor: '#8250DF',
+    pillWidth: '140px',
+    description: 'Merged',
+  },
   applicant_conditionally_approved: {
     primary: '#FFFFFF',
     backgroundColor: '#1F8234',
@@ -114,6 +120,9 @@ const statusStyles = {
   },
   applicant_conditionally_approved: {
     ...statusStylesBase.conditionally_approved,
+  },
+  applicant_merged: {
+    ...statusStylesBase.merged,
   },
   applicant_on_hold: {
     ...statusStylesBase.on_hold,

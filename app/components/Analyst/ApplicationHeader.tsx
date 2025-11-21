@@ -162,12 +162,37 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
             id
           }
         }
+        allCbcData(
+          filter: { archivedAt: { isNull: true } }
+          orderBy: PROJECT_NUMBER_ASC
+        ) {
+          nodes {
+            rowId
+            projectNumber
+            cbcId
+          }
+        }
+        allCcbcApplications: allApplications(
+          first: 1000
+          filter: { archivedAt: { isNull: true } }
+          orderBy: CCBC_NUMBER_ASC
+        ) {
+          nodes {
+            ccbcNumber
+            rowId
+          }
+        }
       }
     `,
     query
   );
 
-  const { allApplicationStatusTypes, applicationByRowId } = queryFragment;
+  const {
+    allApplicationStatusTypes,
+    applicationByRowId,
+    allCbcData,
+    allCcbcApplications,
+  } = queryFragment;
   const {
     analystLead,
     analystStatus,
@@ -178,6 +203,25 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
     rowId,
     intakeNumber,
   } = applicationByRowId;
+  const allParentApplications =
+    allCcbcApplications?.nodes
+      ?.filter((node) => node.rowId !== rowId)
+      ?.map((node) => ({
+        id: node.rowId,
+        projectNumber: node.ccbcNumber,
+        type: 'CCBC' as const,
+      })) ?? [];
+
+  const allCbcProjects =
+    allCbcData?.nodes
+      ?.filter((node) => node.rowId !== rowId)
+      ?.map((node) => ({
+        id: node.cbcId,
+        projectNumber: node.projectNumber,
+        type: 'CBC' as const,
+      })) ?? [];
+
+  const allMergeParentOptions = [...allParentApplications, ...allCbcProjects];
 
   const showLead = useFeature('show_lead').value;
   const isInternalIntake = intakeNumber === 99;
@@ -216,6 +260,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
                   : analystStatus
               }
               statusList={allApplicationStatusTypes?.nodes}
+              parentList={allMergeParentOptions}
             />
             <StatusInformationIcon type="ccbc" />
           </StyledItem>
@@ -234,6 +279,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
               isExternalStatus
               status={externalStatus.replace('applicant_', '')}
               statusList={allApplicationStatusTypes.nodes}
+              parentList={allMergeParentOptions}
             />
           </StyledItem>
           <StyledPackage>
