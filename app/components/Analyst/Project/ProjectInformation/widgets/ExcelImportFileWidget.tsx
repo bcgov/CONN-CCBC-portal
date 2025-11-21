@@ -140,6 +140,7 @@ const tabDisplayNames: Record<string, string> = {
   tab1: 'Tab 1 - Community Information',
   tab2: 'Tab 2 - Project Sites',
   tab7: 'Tab 7 - Budget',
+  tab8: 'Tab 8 - Geograhical Names',
 };
 
 const isCellLevelError = (err) => {
