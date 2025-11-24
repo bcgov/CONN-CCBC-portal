@@ -60,7 +60,7 @@ jobs:
       tagVersion: ${{steps.tagVersion.outputs.tagVersion}}
     steps:
       - name: Git Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Is Tagged Commit
@@ -82,7 +82,7 @@ jobs:
       # url: 'https://ccbc-dev.apps.silver.devops.gov.bc.ca'
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Deploy
         uses: ./.github/actions/app
         with:
@@ -136,7 +136,7 @@ jobs:
     needs: [is-tagged-release]
     if: contains(needs.is-tagged-release.outputs.tagVersion, 'v')
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: dorny/paths-filter@v3
         id: changes
         with:
@@ -159,7 +159,7 @@ jobs:
       url: 'https://ccbc-test.apps.silver.devops.gov.bc.ca'
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Deploy
         uses: ./.github/actions/app
         with:
@@ -215,7 +215,7 @@ jobs:
       url: 'https://ccbc.apps.silver.devops.gov.bc.ca'
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Deploy
         uses: ./.github/actions/app
         with:
@@ -393,7 +393,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Fetch latest tag
