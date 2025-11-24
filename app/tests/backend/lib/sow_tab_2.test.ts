@@ -3,34 +3,44 @@
  */
 import { mocked } from 'jest-mock';
 import request from 'supertest';
-import * as XLSX from 'xlsx'; 
+import * as XLSX from 'xlsx';
 import { performQuery } from '../../../backend/lib/graphql';
-import LoadTab2Data from '../../../backend/lib/sow_import/tab_2'
+import LoadTab2Data from '../../../backend/lib/sow_import/tab_2';
 
 jest.mock('../../../backend/lib/graphql');
 
 describe('sow_tab_2', () => {
   beforeEach(() => {
     mocked(performQuery).mockImplementation(async () => {
-      return {}
+      return {};
     });
     jest.spyOn(XLSX, 'read').mockReturnValue({
-      Sheets: { Sheet1:{ } },
-      SheetNames: ["2"]
+      Sheets: { Sheet1: {} },
+      SheetNames: ['2'],
     });
-  })
-  it('should parse worksheet and return error if no data found', async ()  => { 
-    jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue([
-      { a: 1, b: 2, c: 3 }
-    ]);
-    const wb = XLSX.read(null); 
-
-    const data = await LoadTab2Data(1,wb,'2', request);
-
-    expect(data).toEqual({error: [{ level: "table", error: "Invalid data: No completed Project Site rows found" }]});
   });
-  
-  it('should parse worksheet and submit expected mutation', async ()  => { 
+  it('should parse worksheet and return error if no data found', async () => {
+    jest
+      .spyOn(XLSX.utils, 'sheet_to_json')
+      .mockReturnValue([{ a: 1, b: 2, c: 3 }]);
+    const wb = XLSX.read(null);
+
+    const data = await LoadTab2Data(1, wb, '2', request);
+
+    expect(data).toEqual({
+      error: [
+        {
+          level: 'table',
+          cell: null,
+          error: 'Invalid data: No completed Project Site rows found',
+          expected: 'at least 1 completed row',
+          received: '0 completed',
+        },
+      ],
+    });
+  });
+
+  it('should parse worksheet and submit expected mutation', async () => {
     const fakeTab2 = [
       { AG: 122 },
       { A: 'Step 2. Project Sites' },
@@ -48,7 +58,7 @@ describe('sow_tab_2', () => {
         K: 'Short Description and Comments',
         L: 'Milestone Deliverable Completion Dates',
         O: 'Information Complete',
-        P: 'Message Center'
+        P: 'Message Center',
       },
       {
         E: 'Latitude',
@@ -63,7 +73,7 @@ describe('sow_tab_2', () => {
         W: 'At least one cell has to be filled-in. ',
         X: 'Missing App Num. ',
         Y: '?',
-        Z: 'Missing Equipment for Site. '
+        Z: 'Missing Equipment for Site. ',
       },
       {
         A: 1,
@@ -87,7 +97,7 @@ describe('sow_tab_2', () => {
         U: true,
         V: true,
         W: true,
-        Z: true
+        Z: true,
       },
       {
         A: 2,
@@ -111,7 +121,7 @@ describe('sow_tab_2', () => {
         U: true,
         V: true,
         W: true,
-        Z: true
+        Z: true,
       },
       {
         A: 3,
@@ -135,11 +145,11 @@ describe('sow_tab_2', () => {
         U: true,
         V: true,
         W: true,
-        Z: true
-      }
+        Z: true,
+      },
     ];
 
-    const expectedInput ={
+    const expectedInput = {
       input: {
         jsonData: [
           {
@@ -156,7 +166,7 @@ describe('sow_tab_2', () => {
             description: 'Edge, Interconnected, Linked',
             milestone1: '2023-09-30T00:00:00.000Z',
             milestone2: '2024-03-31T00:00:00.000Z',
-            milestone3: '2024-12-31T00:00:00.000Z'
+            milestone3: '2024-12-31T00:00:00.000Z',
           },
           {
             entryNumber: 2,
@@ -172,7 +182,7 @@ describe('sow_tab_2', () => {
             description: 'Edge, Interconnected, Linked',
             milestone1: '2023-09-30T00:00:00.000Z',
             milestone2: '2024-03-31T00:00:00.000Z',
-            milestone3: '2024-12-31T00:00:00.000Z'
+            milestone3: '2024-12-31T00:00:00.000Z',
           },
           {
             entryNumber: 3,
@@ -188,20 +198,24 @@ describe('sow_tab_2', () => {
             description: 'Edge, Interconnected, Linked',
             milestone1: '2023-09-30T00:00:00.000Z',
             milestone2: '2024-03-31T00:00:00.000Z',
-            milestone3: '2024-12-31T00:00:00.000Z'
-          }
+            milestone3: '2024-12-31T00:00:00.000Z',
+          },
         ],
-        sowId: 1
-      }
+        sowId: 1,
+      },
     };
 
     jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(fakeTab2);
-    const wb = XLSX.read(null); 
+    const wb = XLSX.read(null);
 
-    await LoadTab2Data(1,wb,'2', request);
-    expect(performQuery).toHaveBeenCalledWith( expect.anything(), expectedInput, expect.anything());
+    await LoadTab2Data(1, wb, '2', request);
+    expect(performQuery).toHaveBeenCalledWith(
+      expect.anything(),
+      expectedInput,
+      expect.anything()
+    );
   });
-  
+
   afterEach(() => {
     jest.clearAllMocks();
   });

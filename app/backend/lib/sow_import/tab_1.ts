@@ -1,4 +1,4 @@
-import XLSX, { WorkBook } from 'xlsx';
+import XLSX from 'xlsx';
 import { performQuery } from '../graphql';
 import { convertExcelDropdownToBoolean } from './util';
 
@@ -97,10 +97,7 @@ export const readRowData = (row: Object) => {
   };
 };
 
-export const readData = (sow_id: number, wb: WorkBook, sheet_name: string) => {
-  const sheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
-    header: 'A',
-  });
+export const readData = (sow_id: number, sheet: any) => {
   // The values for the total numbers are static, and don't have to be
   // dynamically found
   const indigenousHouseholdsImpacted =
@@ -130,39 +127,62 @@ export const readData = (sow_id: number, wb: WorkBook, sheet_name: string) => {
   };
 };
 
-const ValidateData = (data) => {
+const ValidateData = (data, sheet) => {
+  const getRowNumberFromSheet = (index: number) => {
+    const rowData: any = sheet[index];
+    const rowNumber = rowData?.__rowNum__;
+    if (typeof rowNumber === 'number') {
+      return rowNumber + 1;
+    }
+    return index + 1;
+  };
   const errors = [];
   if (typeof data.householdsImpactedIndigenous !== 'number') {
     errors.push({
       level: 'cell',
+      cell: `${getRowNumberFromSheet(INDIGENOUS_HOUSEHOLDS_IMPACTED_ROW)}${TOTALS_COLUMN}`,
       error: 'Invalid data: Indigenous Households Impacted',
+      received: sheet[INDIGENOUS_HOUSEHOLDS_IMPACTED_ROW][TOTALS_COLUMN],
+      expected: 'number',
     });
   }
   if (typeof data.numberOfHouseholds !== 'number') {
     errors.push({
       level: 'cell',
+      cell: `${getRowNumberFromSheet(TOTAL_HOUSEHOLDS_IMPACTED_ROW)}${TOTALS_COLUMN}`,
       error: 'Invalid data: Total Number of Households Impacted',
+      received: sheet[TOTAL_HOUSEHOLDS_IMPACTED_ROW][TOTALS_COLUMN],
+      expected: 'number',
     });
   }
   if (typeof data.totalNumberCommunitiesImpacted !== 'number') {
     errors.push({
       level: 'cell',
+      cell: `${getRowNumberFromSheet(TOTAL_COMMUNITIES_IMPACTED_ROW)}${TOTALS_COLUMN}`,
       error: 'Invalid data: Total Number of Communities Impacted',
+      received: sheet[TOTAL_COMMUNITIES_IMPACTED_ROW][TOTALS_COLUMN],
+      expected: 'number',
     });
   }
   if (data.communityData.length === 0) {
     errors.push({
       level: 'table',
+      cell: 'Community Table',
       error: 'Invalid data: No completed Community Information rows found',
+      received: `${data.communityData.length} completed rows`,
+      expected: 'at least 1 completed row',
     });
   }
   return errors;
 };
 const LoadTab1Data = async (sow_id, wb, sheet_name, req) => {
   const validate = req.query?.validate === 'true';
-  const data = readData(sow_id, wb, sheet_name);
+  const sheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
+    header: 'A',
+  });
+  const data = readData(sow_id, sheet);
   const input = { input: { sowId: parseInt(sow_id, 10), jsonData: data } };
-  const errorList = ValidateData(data);
+  const errorList = ValidateData(data, sheet);
 
   if (errorList.length > 0) {
     return { error: errorList };

@@ -17,6 +17,16 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   const budget = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
     header: 'A',
   });
+
+  const getRowNumber = (rowData: any, fallbackIndex: number) => {
+    if (rowData && typeof rowData.__rowNum__ === 'number') {
+      return rowData.__rowNum__ + 1;
+    }
+    return fallbackIndex + 1;
+  };
+
+  const cellRefs: Record<string, string> = {};
+  const cellValues: Record<string, unknown> = {};
   const detailedBudget = {
     summaryTable: {
       targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity: false,
@@ -186,7 +196,8 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   // -- SUMMARY TABLE --
   // first pass - column B
   for (let row = 1; row < 50; row++) {
-    const suspect = budget[row]['C'];
+    const rowData = budget[row];
+    const suspect = rowData['C'];
     let value;
     if (suspect === undefined) continue;
     if (typeof suspect !== 'string') {
@@ -195,17 +206,28 @@ const readBudget = async (sow_id, wb, sheet_name) => {
       value = suspect;
     }
 
+    const rowNumber = getRowNumber(rowData, row);
+    const setCellMetadata = (key: string, column: string) => {
+      cellRefs[key] = `${column}${rowNumber}`;
+      cellValues[key] = rowData[column];
+    };
+
     // if (typeof(value) !== 'string') continue;
     if (value.indexOf('Are you targeting a very remote community') > -1) {
       detailedBudget.summaryTable.targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity =
         convertExcelDropdownToBoolean(budget[row]['D']);
+      setCellMetadata(
+        'targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity',
+        'D'
+      );
       break;
     }
   }
 
   // second pass - columns G - J
   for (let row = 1; row < 50; row++) {
-    const suspect = budget[row]['G'];
+    const rowData = budget[row];
+    const suspect = rowData['G'];
     let value;
     if (suspect === undefined) continue;
     if (typeof suspect !== 'string') {
@@ -213,30 +235,43 @@ const readBudget = async (sow_id, wb, sheet_name) => {
     } else {
       value = suspect;
     }
-    // if (typeof(value) !== 'string') continue;
+
+    const rowNumber = getRowNumber(rowData, row);
+    const setCellMetadata = (key: string, column: string) => {
+      cellRefs[key] = `${column}${rowNumber}`;
+      cellValues[key] = rowData[column];
+    };
+
     if (value.indexOf('*Total Eligible Costs') > -1) {
-      detailedBudget.summaryTable.totalEligibleCosts = budget[row]['H'];
+      detailedBudget.summaryTable.totalEligibleCosts = rowData['H'];
+      setCellMetadata('totalEligibleCosts', 'H');
     }
     if (value.indexOf('*Total Ineligible Costs') > -1) {
-      detailedBudget.summaryTable.totalIneligibleCosts = budget[row]['H'];
+      detailedBudget.summaryTable.totalIneligibleCosts = rowData['H'];
+      setCellMetadata('totalIneligibleCosts', 'H');
     }
     if (value.indexOf('*Total Project Cost') > -1) {
-      detailedBudget.summaryTable.totalProjectCost = budget[row]['H'];
+      detailedBudget.summaryTable.totalProjectCost = rowData['H'];
+      setCellMetadata('totalProjectCost', 'H');
     }
     if (value.indexOf('*Amount requested from the Federal Government') > -1) {
       detailedBudget.summaryTable.amountRequestedFromFederalGovernment =
-        budget[row]['H'];
-      detailedBudget.summaryTable.amountRequestedFromProvince =
-        budget[row]['J'];
+        rowData['H'];
+      setCellMetadata('amountRequestedFromFederalGovernment', 'H');
+      detailedBudget.summaryTable.amountRequestedFromProvince = rowData['J'];
+      setCellMetadata('amountRequestedFromProvince', 'J');
     }
     if (value.indexOf('*Amount Applicant will contribute') > -1) {
-      detailedBudget.summaryTable.totalApplicantContribution = budget[row]['H'];
-      detailedBudget.summaryTable.totalInfrastructureBankFunding =
-        budget[row]['J'];
+      detailedBudget.summaryTable.totalApplicantContribution = rowData['H'];
+      setCellMetadata('totalApplicantContribution', 'H');
+      detailedBudget.summaryTable.totalInfrastructureBankFunding = rowData['J'];
+      setCellMetadata('totalInfrastructureBankFunding', 'J');
     }
     if (value.indexOf('*Funding from all other sources') > -1) {
-      detailedBudget.summaryTable.fundingFromAllOtherSources = budget[row]['H'];
-      detailedBudget.summaryTable.totalFundingRequestedCCBC = budget[row]['J'];
+      detailedBudget.summaryTable.fundingFromAllOtherSources = rowData['H'];
+      setCellMetadata('fundingFromAllOtherSources', 'H');
+      detailedBudget.summaryTable.totalFundingRequestedCCBC = rowData['J'];
+      setCellMetadata('totalFundingRequestedCCBC', 'J');
     }
   }
   // -- END SUMMARY TABLE --
@@ -482,6 +517,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
       row++;
       // next 7 are possible other
       let fnhaFundingRow = {};
+      let fnhaFundingIndex = -1;
       for (let otherRow = row; otherRow < row + 7; otherRow++) {
         const otherSuspect = budget[otherRow]['B'];
         let otherValue;
@@ -500,6 +536,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
           otherValue.indexOf('First Nations Health Authority (FNHA)') > -1
         ) {
           fnhaFundingRow = budget[otherRow];
+          fnhaFundingIndex = otherRow;
         } else {
           detailedBudget.summaryOfEstimatedProjectFunding.otherFundingPartners.push(
             {
@@ -526,6 +563,12 @@ const readBudget = async (sow_id, wb, sheet_name) => {
       detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding.total =
         fnhaFundingRow['K'] ?? 0;
       detailedBudget.summaryTable.totalFNHAFunding = fnhaFundingRow['K'] ?? 0;
+      const fnhaRowNumber = getRowNumber(
+        budget[fnhaFundingIndex],
+        fnhaFundingIndex
+      );
+      cellRefs.totalFNHAFunding = `K${fnhaRowNumber}`;
+      cellValues.totalFNHAFunding = fnhaFundingRow['K'];
     }
     // get totals
     if (value.indexOf('Total Financial Contributions') > -1) {
@@ -620,83 +663,98 @@ const readBudget = async (sow_id, wb, sheet_name) => {
   }
 
   // -- END CURRENT FISCAL PROVINCIAL CONTRIBUTION FORECAST BY QUARTER --
-  return detailedBudget;
+  return { ...detailedBudget, cellRefs, cellValues };
 };
 
-const ValidateData = (data) => {
+const ValidateData = (
+  data,
+  cellRefs: Record<string, string> = {},
+  cellValues: Record<string, unknown> = {}
+) => {
   const errors = [];
+
+  const addError = (key: string, error: string, expected?: string) => {
+    errors.push({
+      level: 'cell',
+      cell: cellRefs[key],
+      error,
+      received: cellValues[key] ?? data[key] ?? 'null',
+      expected: expected || 'number',
+    });
+  };
+
   if (typeof data.totalEligibleCosts !== 'number') {
-    errors.push({ level: 'cell', error: 'Invalid data: Total Eligible Costs' });
+    addError('totalEligibleCosts', 'Invalid data: Total Eligible Costs');
   }
   if (typeof data.totalIneligibleCosts !== 'number') {
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Total Ineligible Costs',
-    });
+    addError('totalIneligibleCosts', 'Invalid data: Total Ineligible Costs');
   }
   if (typeof data.totalProjectCost !== 'number') {
-    errors.push({ level: 'cell', error: 'Invalid data: Total Project Costs' });
+    addError('totalProjectCost', 'Invalid data: Total Project Costs');
   }
   if (typeof data.amountRequestedFromFederalGovernment !== 'number') {
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Amount Requested from the Federal Government',
-    });
+    addError(
+      'amountRequestedFromFederalGovernment',
+      'Invalid data: Amount Requested from the Federal Government'
+    );
   }
   if (typeof data.amountRequestedFromProvince !== 'number') {
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Amount Requested from the Province',
-    });
+    addError(
+      'amountRequestedFromProvince',
+      'Invalid data: Amount Requested from the Province',
+      'number'
+    );
   }
   if (typeof data.totalApplicantContribution !== 'number') {
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Amount Applicant will contribute',
-    });
+    addError(
+      'totalApplicantContribution',
+      'Invalid data: Amount Applicant will contribute'
+    );
   }
   if (typeof data.totalInfrastructureBankFunding !== 'number') {
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Amount CIB will contribute',
-    });
+    addError(
+      'totalInfrastructureBankFunding',
+      'Invalid data: Amount CIB will contribute'
+    );
   }
   if (typeof data.totalFNHAFunding !== 'number') {
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: First Nations Health Authority (FNHA)',
-    });
+    addError(
+      'totalFNHAFunding',
+      'Invalid data: First Nations Health Authority (FNHA)'
+    );
   }
   if (typeof data.fundingFromAllOtherSources !== 'number') {
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Funding from all other sources',
-    });
+    addError(
+      'fundingFromAllOtherSources',
+      'Invalid data: Funding from all other sources'
+    );
   }
   if (typeof data.totalFundingRequestedCCBC !== 'number') {
-    errors.push({
-      level: 'cell',
-      error: 'Invalid data: Total Requested from the CCBC Program',
-    });
+    addError(
+      'totalFundingRequestedCCBC',
+      'Invalid data: Total Requested from the CCBC Program'
+    );
   }
 
   if (
     data.targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity ===
     undefined
   ) {
-    errors.push({
-      level: 'table',
-      error: 'Invalid data: Targeting very remote community',
-    });
+    addError(
+      'targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity',
+      'Invalid data: Targeting very remote community',
+      'Yes/No value'
+    );
   }
   return errors;
 };
 
 const LoadTab7Data = async (sow_id, wb, sheet_name, req) => {
   const validate = req.query?.validate === 'true';
-  const data = await readBudget(sow_id, wb, sheet_name);
+  const rawData = await readBudget(sow_id, wb, sheet_name);
+  const { cellRefs = {}, cellValues = {}, ...data } = rawData;
 
-  const errorList = ValidateData(data.summaryTable);
+  const errorList = ValidateData(data.summaryTable, cellRefs, cellValues);
 
   if (errorList.length > 0) {
     return { error: errorList };

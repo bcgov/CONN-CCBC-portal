@@ -11,13 +11,37 @@ import bytesToSize from 'utils/bytesToText';
 import FileComponent from 'lib/theme/components/FileComponent';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCircleCheck,
+  faCircleExclamation,
+} from '@fortawesome/free-solid-svg-icons';
 import { Alert } from '@button-inc/bcgov-theme';
 import parse from 'html-react-parser';
 
 const StyledAlert = styled(Alert)`
   margin-bottom: 8px;
   margin-top: 8px;
+
+  &.tab-error-alert > .pg-notification-content:first-of-type {
+    display: none !important;
+  }
+`;
+
+const TabErrorRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  margin-top: 4px;
+`;
+
+const TabErrorIcon = styled(FontAwesomeIcon)`
+  color: rgb(161, 38, 34);
+  margin-right: 8px;
+  flex-shrink: 0;
+  margin-top: 3px;
+`;
+
+const TabErrorText = styled.div`
+  flex: 1;
 `;
 
 const ellipsisAnimation = keyframes`
@@ -37,12 +61,13 @@ const ellipsisAnimation = keyframes`
 const Loading = styled.div`
   color: #1a5a96;
   width: 10rem;
+  white-space: nowrap;
   &:after {
     overflow: hidden;
     display: inline-block;
     vertical-align: bottom;
     animation: ${ellipsisAnimation} steps(4, end) 900ms infinite;
-    content: '\\2026'; /* ascii code for the ellipsis character */
+    content: '...';
   }
 `;
 
@@ -75,6 +100,27 @@ const SuccessContainer = styled.div`
   display: flex;
 `;
 
+const CellLevelErrorsAlert = styled(StyledAlert)`
+  background-color: #fde4e4;
+  border-color: rgb(161, 38, 34);
+  color: rgb(161, 38, 34);
+  font-size: 16px;
+  font-weight: 400;
+  .cell-level-heading,
+  .cell-level-footer {
+    font-weight: 700;
+    margin-bottom: ${(props) => props.theme.spacing.medium};
+  }
+  .cell-level-tab-title {
+    font-weight: 700;
+    margin-top: ${(props) => props.theme.spacing.small};
+  }
+
+  &.tab-error-alert > .pg-notification-content:first-of-type {
+    display: none !important;
+  }
+`;
+
 export const Success = ({ heading = 'Excel Data table match database' }) => (
   <SuccessContainer>
     <SuccessTextContainer>
@@ -89,12 +135,28 @@ export const Success = ({ heading = 'Excel Data table match database' }) => (
   </SuccessContainer>
 );
 
-export const displayExcelUploadErrors = (err) => {
-  const {
-    level: errorType,
-    error: errorMessage,
-    filename = 'Statement of Work',
-  } = err;
+const tabDisplayNames: Record<string, string> = {
+  summary: 'Tab - SOW Tables Summary',
+  tab1: 'Tab 1 - Community Information',
+  tab2: 'Tab 2 - Project Sites',
+  tab7: 'Tab 7 - Budget',
+  tab8: 'Tab 8 - Geograhical Names',
+};
+
+const isCellLevelError = (err) => {
+  const errorMessage = err?.error;
+  return (
+    Array.isArray(errorMessage) &&
+    errorMessage.every(
+      (error) =>
+        error &&
+        typeof error === 'object' &&
+        ('cell' in error || 'expected' in error || 'received' in error)
+    )
+  );
+};
+
+const getDefaultErrorTitle = (errorType, filename) => {
   let title = `An unknown error has occured while validating the ${filename} data`;
   if (errorType?.includes('tab')) {
     title = `There was an error importing the ${filename} data at ${errorType}`;
@@ -116,7 +178,18 @@ export const displayExcelUploadErrors = (err) => {
   if (errorType === 'timeout') {
     title = `The upload of ${filename} timed out. Please try again later.`;
   }
-  // for cell level errors
+
+  return title;
+};
+
+export const displayExcelUploadErrors = (err) => {
+  const {
+    level: errorType,
+    error: errorMessage,
+    filename = 'Statement of Work',
+  } = err;
+  const title = getDefaultErrorTitle(errorType, filename);
+
   if (typeof errorMessage !== 'string') {
     return errorMessage.map(({ error: message }) => {
       return (
@@ -143,6 +216,73 @@ export const displayExcelUploadErrors = (err) => {
         <>
           <div> {title}</div>
           <div>{parse(errorMessage)}</div>
+        </>
+      }
+    />
+  );
+};
+
+const renderTabErrorRow = ({
+  cell,
+  error: message,
+  expected,
+  received,
+  level,
+}) => {
+  const cellText = cell ? `Cell ${cell}, ` : '';
+  const tableText = level === 'table' && cell ? `${cell}, ` : '';
+  const expectationParts = [];
+  if (expected !== null && expected !== undefined) {
+    expectationParts.push(`expected - "${expected}"`);
+  }
+  if (received !== undefined || received === null) {
+    expectationParts.push(`received - "${received ?? null}"`);
+  }
+  const expectationText =
+    expectationParts.length > 0 ? `; ${expectationParts.join(', ')}` : '';
+
+  return (
+    <TabErrorRow key={cellText}>
+      <TabErrorIcon icon={faCircleExclamation} />
+      <TabErrorText>
+        {level === 'table' ? tableText : cellText}
+        {message}
+        {expectationText}
+      </TabErrorText>
+    </TabErrorRow>
+  );
+};
+
+const renderCellLevelErrors = (errors) => {
+  if (!errors.length) return null;
+  const filename = errors[0]?.filename ?? 'Statement of Work';
+  const heading = `There were errors importing the file : ${filename} data`;
+
+  return (
+    <CellLevelErrorsAlert
+      className="tab-error-alert"
+      variant="danger"
+      closable={false}
+      content={
+        <>
+          <div className="cell-level-heading">{heading}</div>
+          {errors.map((error) => {
+            const { level: errorType, error: errorMessage } = error;
+            const tabTitle =
+              tabDisplayNames[errorType] ||
+              getDefaultErrorTitle(errorType, filename);
+
+            return (
+              <div key={error}>
+                <div className="cell-level-tab-title">{tabTitle}</div>
+                {errorMessage.map((detail) => renderTabErrorRow(detail))}
+              </div>
+            );
+          })}
+          <div className="cell-level-footer">
+            Please review and complete the missing or incorrect information in
+            the listed tabs before re-uploading the file.
+          </div>
         </>
       }
     />
@@ -209,6 +349,12 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
     }
   }, [rawErrors, setError]);
   const { applicationId, excelValidationErrors, validateExcel } = formContext;
+  const cellLevelErrors = (excelValidationErrors ?? []).filter((err) =>
+    isCellLevelError(err)
+  );
+  const otherExcelErrors = (excelValidationErrors ?? []).filter(
+    (err) => !isCellLevelError(err)
+  );
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (loading) return;
@@ -303,8 +449,9 @@ const ExcelImportFileWidget: React.FC<ExcelImportFileWidgetProps> = ({
         value={value}
         allowDragAndDrop={allowDragAndDrop}
       />
-      {excelValidationErrors?.length > 0 &&
-        excelValidationErrors.flatMap(displayExcelUploadErrors)}
+      {cellLevelErrors.length > 0 && renderCellLevelErrors(cellLevelErrors)}
+      {otherExcelErrors.length > 0 &&
+        otherExcelErrors.flatMap(displayExcelUploadErrors)}
     </>
   );
 };

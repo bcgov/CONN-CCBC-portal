@@ -73,36 +73,36 @@ const processSow: ExpressMiddleware = async (req, res) => {
   let exportError;
   if (result) {
     const loadError = (result as any).error;
-    let tab7Summary;
+
     if (loadError) {
       errorList.push({ level: 'summary', error: loadError });
-    } else {
-      const sowData = (result as any)?.data?.createApplicationSowData
-        ?.applicationSowData;
-      const sowId = sowData?.rowId || 1;
+    }
+    const sowData = (result as any)?.data?.createApplicationSowData
+      ?.applicationSowData;
+    const sowId = sowData?.rowId || 1;
 
-      const tab2 = await LoadTab2Data(sowId, wb, '2', req);
-      exportError = (tab2 as any)?.error;
-      if (exportError) {
-        errorList.push({ level: 'tab2', error: exportError });
-      }
-      const tab1 = await LoadTab1Data(sowId, wb, '1', req);
-      exportError = (tab1 as any)?.error;
-      if (exportError) {
-        errorList.push({ level: 'tab1', error: exportError });
-      }
-      // await LoadTab7Data(sowId, wb, '7', req);
-      const tab7: any = await LoadTab7Data(sowId, wb, '7', req);
-      tab7Summary = tab7?.data?.createSowTab7?.sowTab7?.jsonData?.summaryTable;
-      exportError = (tab7 as any)?.error;
-      if (exportError) {
-        errorList.push({ level: 'tab7', error: exportError });
-      }
-      const tab8 = await LoadTab8Data(sowId, wb, '8', req);
-      exportError = (tab8 as any)?.error;
-      if (exportError) {
-        errorList.push({ level: 'tab8', error: exportError });
-      }
+    const tab2 = await LoadTab2Data(sowId, wb, '2', req);
+    exportError = (tab2 as any)?.error;
+    if (exportError) {
+      errorList.push({ level: 'tab2', error: exportError });
+    }
+    const tab1 = await LoadTab1Data(sowId, wb, '1', req);
+    exportError = (tab1 as any)?.error;
+    if (exportError) {
+      errorList.push({ level: 'tab1', error: exportError });
+    }
+    // await LoadTab7Data(sowId, wb, '7', req);
+    const tab7: any = await LoadTab7Data(sowId, wb, '7', req);
+    const tab7Summary =
+      tab7?.data?.createSowTab7?.sowTab7?.jsonData?.summaryTable;
+    exportError = (tab7 as any)?.error;
+    if (exportError) {
+      errorList.push({ level: 'tab7', error: exportError });
+    }
+    const tab8 = await LoadTab8Data(sowId, wb, '8', req);
+    exportError = (tab8 as any)?.error;
+    if (exportError) {
+      errorList.push({ level: 'tab8', error: exportError });
     }
     if (errorList.length > 0) {
       return res.status(400).json(errorList).end();
