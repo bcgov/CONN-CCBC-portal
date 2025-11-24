@@ -15,7 +15,7 @@ jobs:
       name: development
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install OpenShift CLI (oc)
         uses: redhat-actions/openshift-tools-installer@v1
         with:
