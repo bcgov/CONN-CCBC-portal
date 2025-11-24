@@ -15,6 +15,14 @@ const readData = async (sow_id, wb, sheet_name) => {
   const sheet = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
     header: 'A',
   });
+
+  const getRowNumber = (rowData, fallbackIndex) => {
+    if (rowData && typeof rowData.__rowNum__ === 'number') {
+      return rowData.__rowNum__ + 1;
+    }
+    return fallbackIndex + 1;
+  };
+
   const result = {
     communitiesNumber: 0,
     indigenousCommunitiesNumber: 0,
@@ -22,11 +30,18 @@ const readData = async (sow_id, wb, sheet_name) => {
     errors: [],
   };
   if (sheet.length < 20) {
-    result.errors.push('Wrong number of rows on Tab 8');
+    result.errors.push({
+      level: 'table',
+      cell: null,
+      error: 'Wrong number of rows on Tab 8',
+      received: `${sheet.length} rows`,
+      expected: 'at least 20 rows',
+    });
     return result;
   }
   for (let row = 1; row < 18; row++) {
-    const suspect = sheet[row]['B'];
+    const rowData = sheet[row];
+    const suspect = rowData['B'];
     let value;
     if (suspect === undefined) continue;
     if (typeof suspect !== 'string') {
@@ -34,11 +49,15 @@ const readData = async (sow_id, wb, sheet_name) => {
     } else {
       value = suspect;
       if (value.indexOf('Number of Communities') > -1) {
-        const number = sheet[row]['E'];
+        const number = rowData['E'];
+        const cell = `E${getRowNumber(rowData, row)}`;
         if (typeof number !== 'number') {
           result.errors.push({
             level: 'cell',
             error: 'Invalid data: Number of Communities Impacted',
+            cell,
+            received: number ?? 'null',
+            expected: 'number',
           });
         } else {
           result.communitiesNumber = number;
@@ -46,11 +65,15 @@ const readData = async (sow_id, wb, sheet_name) => {
       }
 
       if (value.indexOf('Number of Indigenous') > -1) {
-        const number = sheet[row]['E'];
+        const number = rowData['E'];
+        const cell = `E${getRowNumber(rowData, row)}`;
         if (typeof number !== 'number') {
           result.errors.push({
             level: 'cell',
             error: 'Invalid data: Number of Indigenous Communities Impacted',
+            cell,
+            received: number ?? 'null',
+            expected: 'number',
           });
         } else {
           result.indigenousCommunitiesNumber = number;
@@ -96,6 +119,9 @@ const readData = async (sow_id, wb, sheet_name) => {
     result.errors.push({
       level: 'table',
       error: 'Invalid data: No completed Geographic Names rows found',
+      cell: 'Geographic Names table',
+      received: `${result.geoNames.length} completed rows`,
+      expected: 'at least 1 completed row',
     });
   }
   if (result.errors.length === 0) delete result.errors;

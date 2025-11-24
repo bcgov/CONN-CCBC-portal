@@ -1,3 +1,11 @@
+## [1.271.17](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.16...v1.271.17) (2025-11-24)
+
+## [1.271.16](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.15...v1.271.16) (2025-11-24)
+
+### Bug Fixes
+
+- show all the errors for sow tabs ([a535d2a](https://github.com/bcgov/CONN-CCBC-portal/commit/a535d2a4ee01eed06f40ce537445ff7b52b0cd27))
+
 ## [1.271.15](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.14...v1.271.15) (2025-11-13)
 
 ## [1.271.14](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.13...v1.271.14) (2025-11-13)

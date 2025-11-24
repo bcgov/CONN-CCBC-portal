@@ -67,7 +67,10 @@ const ValidateData = (data) => {
   if (data.length === 0) {
     errors.push({
       level: 'table',
+      cell: null,
       error: 'Invalid data: No completed Project Site rows found',
+      received: `${data.length} completed`,
+      expected: 'at least 1 completed row',
     });
   }
   return errors;
