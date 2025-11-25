@@ -1,3 +1,8 @@
+/* eslint-disable import/first */
+jest.mock('@sentry/nextjs', () => ({
+  captureException: jest.fn(),
+}));
+
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { ZONE_MAP_URL } from 'data/externalConstants';
 import { ZoneMapWidget } from 'lib/theme/widgets';

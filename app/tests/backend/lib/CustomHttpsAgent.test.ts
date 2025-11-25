@@ -1,6 +1,11 @@
+/* eslint-disable import/first */
 /**
  * @jest-environment node
  */
+
+jest.mock('@sentry/nextjs', () => ({
+  captureException: jest.fn(),
+}));
 
 import * as Sentry from '@sentry/nextjs';
 import CustomHttpsAgent from '../../../backend/lib/CustomHttpsAgent';
@@ -193,9 +198,6 @@ describe('Custom https agent', () => {
 
     const spy = jest.spyOn(agent, 'createConnection');
 
-    const spySentry = jest
-      .spyOn(Sentry, 'captureException')
-      .mockImplementation();
     agent.createConnection(
       {
         host: 'host',
@@ -205,11 +207,13 @@ describe('Custom https agent', () => {
         hints: 0,
         lookup: jest.fn(),
       },
-      () => ({}) // callback
+      () => ({})
     );
 
-    spy.mock.results[0].value.emit('error');
+    const socket = spy.mock.results[0].value;
 
-    expect(spySentry).toHaveBeenCalledTimes(1);
+    socket.emit('error', new Error('boom'));
+
+    expect(Sentry.captureException).toHaveBeenCalledTimes(1);
   });
 });
