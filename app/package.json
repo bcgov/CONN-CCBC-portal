@@ -65,7 +65,7 @@
     "@xmldom/xmldom": "^0.9.8",
     "ajv": "^8.13.0",
     "archiver": "^7.0.1",
-    "body-parser": "1.20.3",
+    "body-parser": "2.2.1",
     "cheerio": "^1.1.2",
     "connect-pg-simple": "^10.0.0",
     "convict": "^6.2.4",
