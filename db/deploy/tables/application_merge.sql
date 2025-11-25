@@ -4,23 +4,12 @@ begin;
 
 create table ccbc_public.application_merge(
   id integer primary key generated always as identity,
-
-  -- exactly one of these two will be set
   parent_application_id integer references ccbc_public.application(id),
   parent_cbc_id         integer references ccbc_public.cbc(id),
-
-  child_application_id integer not null references ccbc_public.application(id),
-
-  -- enforce “either ccbc OR cbc, but not both and not neither”
-  constraint application_merge_parent_chk check (
-    (parent_application_id is not null and parent_cbc_id is null)
-    or
-    (parent_application_id is null and parent_cbc_id is not null)
-  )
+  child_application_id integer not null references ccbc_public.application(id)
 );
 
-select
-  ccbc_private.upsert_timestamp_columns('ccbc_public', 'application_merge');
+select ccbc_private.upsert_timestamp_columns('ccbc_public', 'application_merge');
 
 -- enable audit/history
 select audit.enable_tracking('ccbc_public.application_merge'::regclass);
