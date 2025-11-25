@@ -12,6 +12,7 @@ create table ccbc_public.application_merge(
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'application_merge');
 
 -- enable audit/history
+GRANT TRIGGER ON ccbc_public.application_merge TO ccbc;
 select audit.enable_tracking('ccbc_public.application_merge'::regclass);
 
 do
