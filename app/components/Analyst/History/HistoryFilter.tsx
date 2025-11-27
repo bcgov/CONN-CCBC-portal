@@ -18,7 +18,7 @@ const typeLabelMappings: Record<string, string> = {
   application_announcement: 'Announcement',
   project_information_data: 'Funding agreement, SOW & map',
   application_sow_data: 'Funding agreement, SOW & map',
-  application_project_type: 'Project type',
+  application_project_type: 'Project Type',
   application_status: 'Status',
   conditional_approval_data: 'Conditional approval',
   application_gis_data: 'Assessment',
