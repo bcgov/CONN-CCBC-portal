@@ -170,6 +170,30 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       ],
       overrideParent: 'applicationPackage',
     },
+    application_project_type: {
+      schema: {
+        applicationProjectType: {
+          properties: {
+            project_type: {
+              title: 'Project Type',
+              type: 'string',
+            },
+          },
+        },
+      },
+      excludedKeys: [
+        'id',
+        'application_id',
+        'created_at',
+        'updated_at',
+        'created_by',
+        'updated_by',
+        'archived_at',
+        'archived_by',
+        'user_info',
+      ],
+      overrideParent: 'applicationProjectType',
+    },
     form_data: {
       schema: applicationDiffSchema,
       excludedKeys: [
