@@ -15,6 +15,9 @@ declare
   _form_data jsonb;
   form_data_id int;
   is_rolling_intake boolean;
+  new_form_data_id int;
+  old_last_edited_page varchar(100);
+  old_reason_for_change varchar(1000);
 begin
 
   select ccbc_public.application_status(
@@ -32,6 +35,9 @@ begin
   select json_data, id, form_schema_id from
    ccbc_public.application_form_data((select row(ccbc_public.application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id))
     into _form_data, form_data_id, _form_data_schema_id;
+
+  select last_edited_page, reason_for_change from ccbc_public.form_data where id = form_data_id
+    into old_last_edited_page, old_reason_for_change;
 
   select jsonb_array_length(json_schema -> 'properties' -> 'acknowledgements' -> 'properties' -> 'acknowledgementsList' -> 'items' -> 'enum')
     from ccbc_public.form where id = _form_data_schema_id into num_acknowledgements;
@@ -99,10 +105,18 @@ begin
       intake_id = current_intake_id where id = application_row_id;
   end if;
 
-  update ccbc_public.form_data set
-    form_data_status_type_id = 'committed',
-    form_schema_id = _form_schema_id
-    where id = form_data_id;
+  -- Create a new form_data record with committed status
+  new_form_data_id := nextval(pg_get_serial_sequence('ccbc_public.form_data','id'));
+
+  insert into ccbc_public.form_data (id, json_data, form_schema_id, form_data_status_type_id, last_edited_page, reason_for_change) overriding system value
+    values (new_form_data_id, _form_data, _form_schema_id, 'committed', old_last_edited_page, old_reason_for_change);
+
+  -- Link the new form_data to the application
+  insert into ccbc_public.application_form_data (application_id, form_data_id)
+    values (application_row_id, new_form_data_id);
+
+  -- Archive the previous form_data record
+  update ccbc_public.form_data set archived_at = now() where id = form_data_id;
 
   return (select row(application.*)::ccbc_public.application from ccbc_public.application where id = application_row_id);
 end;
