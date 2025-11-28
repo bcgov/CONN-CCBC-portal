@@ -50,7 +50,8 @@ const ListFilesWidget: React.FC<WidgetProps> = ({
     (uiSchema['ui:options']?.templateNumber as number) ?? null;
 
   const handleDownload = async (uuid: string, fileName: string) => {
-    const url = `/api/s3/download/${uuid}/${fileName}`;
+    const encodedFileName = encodeURIComponent(fileName);
+    const url = `/api/s3/download/${uuid}/${encodedFileName}`;
     await fetch(url)
       .then((response) => response.json())
       .then((response) => {

@@ -1,3 +1,12 @@
+## [1.271.23](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.22...v1.271.23) (2025-11-28)
+
+## [1.271.22](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.21...v1.271.22) (2025-11-28)
+
+### Bug Fixes
+
+- auto assign reviewer ([911ec92](https://github.com/bcgov/CONN-CCBC-portal/commit/911ec92759cb857f97d68609d4491df5c138c46b))
+- special characters on file name download ([97072cb](https://github.com/bcgov/CONN-CCBC-portal/commit/97072cba406f5e7a18b92989e90e925486a0e1ae))
+
 ## [1.271.21](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.20...v1.271.21) (2025-11-27)
 
 ## [1.271.20](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.19...v1.271.20) (2025-11-27)
