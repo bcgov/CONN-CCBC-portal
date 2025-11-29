@@ -15,11 +15,8 @@ import {
   findPrimaryAnnouncement,
   findPrimaryAnnouncementDate,
   findSecondaryAnnouncement,
-  getHouseholdCount,
-  getTotalProjectBudget,
   handleProjectType,
   handleCbcEconomicRegions,
-  handleCcbcEconomicRegions,
   getCCBCFederalFundingSource,
 } from './util';
 import toTitleCase from '../../../utils/formatString';
@@ -42,6 +39,16 @@ const getCbcDataQuery = `
               nodes {
                 communitiesSourceDataByCommunitiesSourceDataId {
                   economicRegion
+                }
+              }
+            }
+            cbcApplicationPendingChangeRequestsByCbcId(
+              last: 1
+              filter: { archivedAt: { isNull: true } }
+            ) {
+              edges {
+                node {
+                  isPending
                 }
               }
             }
@@ -238,7 +245,12 @@ const generateExcelData = async (
       // announced by province
       { value: convertBoolean(node?.jsonData?.announcedByProvince) },
       // change request pending
-      { value: convertBoolean(node?.jsonData?.changeRequestPending) },
+      {
+        value: node?.cbcByRowId?.cbcApplicationPendingChangeRequestsByCbcId
+          ?.edges?.[0]?.node?.isPending
+          ? 'YES'
+          : 'NO',
+      },
       // project complete
       {
         value:
@@ -411,13 +423,10 @@ const generateExcelData = async (
         value: node?.formData?.jsonData?.organizationProfile?.organizationName,
       },
       // project title
-      { value: node?.formData?.jsonData?.projectInformation?.projectTitle },
+      { value: node?.projectName },
       // economic region
       {
-        value: handleCcbcEconomicRegions(
-          node?.rowId,
-          ccbcData?.data?.allApplicationErs?.nodes
-        ),
+        value: `${summaryData?.formData?.locations?.economicRegions?.join(', ') || ''}`,
       },
       // federal funding source
       { value: getCCBCFederalFundingSource(node) },
@@ -425,9 +434,7 @@ const generateExcelData = async (
       { value: convertStatus(node?.analystStatus) },
       // project milestone complete percent
       {
-        value:
-          node?.applicationMilestoneExcelDataByApplicationId?.nodes[0]?.jsonData
-            ?.projectMilestoneCompleted,
+        value: `${summaryData?.formData?.milestone?.percentProjectMilestoneComplete || ''}`,
       },
       // project milestone completion date
       {
@@ -454,13 +461,13 @@ const generateExcelData = async (
       },
       // bc funding request
       {
-        value: fundingData?.bcFundingRequested,
+        value: summaryData?.formData?.funding?.bcFundingRequested,
         format: '$#,##0.00',
         type: Number,
       },
       // federal funding
       {
-        value: fundingData?.federalFunding,
+        value: summaryData?.formData?.funding?.federalFunding,
         format: '$#,##0.00',
         type: Number,
       },
@@ -472,8 +479,7 @@ const generateExcelData = async (
       },
       // applicant amount
       {
-        value:
-          node?.formData?.jsonData?.projectFunding?.totalApplicantContribution,
+        value: summaryData?.formData?.funding?.applicantAmount,
         format: '$#,##0.00',
         type: Number,
       },
@@ -485,11 +491,7 @@ const generateExcelData = async (
       },
       // total project budget
       {
-        value: getTotalProjectBudget(
-          node?.applicationSowDataByApplicationId?.nodes[0]?.sowTab7SBySowId
-            ?.nodes[0],
-          node?.formData?.jsonData?.totalProjectBudget
-        ),
+        value: summaryData?.formData?.funding?.totalProjectBudget,
         format: '$#,##0.00',
         type: Number,
       },
@@ -505,11 +507,7 @@ const generateExcelData = async (
       },
       // household count
       {
-        value: getHouseholdCount(
-          node?.applicationSowDataByApplicationId?.nodes[0]?.sowTab1SBySowId
-            ?.nodes[0],
-          node?.formData?.jsonData
-        ),
+        value: summaryData?.formData?.counts?.totalHouseholdsImpacted || '',
       },
       // transport km
       { value: null },
@@ -524,7 +522,13 @@ const generateExcelData = async (
             ?.connectedCoastNetworkDependent,
       },
       // proposed start date
-      { value: node?.formData?.jsonData?.projectPlan?.projectStartDate },
+      {
+        value: `${
+          cleanDateTime(
+            summaryData?.formData?.eventsAndDates?.proposedStartDate
+          ) || ''
+        }`,
+      },
       // date conditionally approved
       {
         value: getConditionalApprovalDate(node?.conditionalApproval?.jsonData),
