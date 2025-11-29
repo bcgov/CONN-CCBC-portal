@@ -318,6 +318,13 @@ const HEADER_ROW: Row = [
     height: 95,
     wrap: true,
   },
+  {
+    value: 'Notes',
+    fontWeight: 'bold',
+    type: String,
+    height: 95,
+    wrap: true,
+  },
 ];
 
 const generateHeaderInfoRow = () => {

@@ -379,6 +379,31 @@ const HistoryContent = ({
     );
   }
 
+  if (tableName === 'application_internal_notes') {
+    return (
+      <div>
+        <StyledContent data-testid="history-content-internal-notes">
+          <span>
+            {displayName} updated <b>Internal Notes</b> on {createdAtFormatted}
+          </span>
+        </StyledContent>
+        {showHistoryDetails && (
+          <HistoryDetails
+            json={record}
+            prevJson={prevHistoryItem?.record || {}}
+            excludedKeys={
+              getTableConfig('application_internal_notes')?.excludedKeys || []
+            }
+            diffSchema={getTableConfig('application_internal_notes')?.schema}
+            overrideParent={
+              getTableConfig('application_internal_notes')?.overrideParent
+            }
+          />
+        )}
+      </div>
+    );
+  }
+
   if (tableName === 'assessment_data') {
     const assessmentType = historyItem.item;
     const user =
