@@ -15,6 +15,7 @@ import technicalSchema from 'formSchema/uiSchema/history/technical';
 import projectManagementSchema from 'formSchema/uiSchema/history/projectManagement';
 import permittingSchema from 'formSchema/uiSchema/history/permitting';
 import financialRiskSchema from 'formSchema/uiSchema/history/financialRisk';
+import internalNotes from 'formSchema/uiSchema/history/internalNotes';
 
 // Define inline schemas for simple cases
 const communityReportSchema = {
@@ -338,6 +339,20 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
         'user_info',
       ],
       overrideParent: 'pendingChangeRequest',
+    },
+    application_internal_notes: {
+      schema: internalNotes,
+      excludedKeys: [
+        'id',
+        'application_id',
+        'created_by',
+        'created_at',
+        'updated_by',
+        'updated_at',
+        'archived_by',
+        'archived_at',
+      ],
+      overrideParent: 'applicationInternalNotes',
     },
     application_fnha_contribution: {
       schema: fnhaContribution,
