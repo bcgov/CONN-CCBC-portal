@@ -215,6 +215,7 @@ const getFundingSource = (application) => {
     'Assessment',
     'Recommendation',
     'Conditionally approved',
+    'Merged',
     'On Hold',
   ];
 

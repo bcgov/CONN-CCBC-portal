@@ -5,6 +5,10 @@ import statusStyles from 'data/statusStyles';
 import { useCreateApplicationStatusMutation } from 'schema/mutations/assessment/createApplicationStatus';
 import useModal from 'lib/helpers/useModal';
 import * as Sentry from '@sentry/nextjs';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import { useMergeApplicationMutation } from 'schema/mutations/application/mergeApplication';
+import { useArchiveApplicationMergeMutation } from 'schema/mutations/application/archiveApplicationMerge';
 import ChangeModal from './ChangeModal';
 import ExternalChangeModal from './ExternalChangeModal';
 
@@ -42,20 +46,50 @@ const StyledOption = styled.option`
   background-color: ${(props) => props.theme.color.white};
 `;
 
+const StyledMergeProjectRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+`;
+
+const StyledLabel = styled.label`
+  white-space: nowrap;
+  font-weight: 700;
+
+  strong {
+    font-weight: 400;
+  }
+`;
+
+const StyledMergeAutocomplete = styled(Autocomplete)`
+  width: 260px;
+`;
+
 const getStatus = (statusName, statusList) => {
   return statusList.find((statusType) => statusType.name === statusName);
 };
 
-const ModalDescription = ({ currentStatus, draftStatus }) => {
+const ModalDescription = ({
+  currentStatus,
+  draftStatus,
+  mergeParentSelect,
+}) => {
   return (
     <>
       <p>
         You are about to change the status from {currentStatus?.description} to{' '}
         {draftStatus?.description}.
       </p>
-      <div>Please provide a reason for changing the status. (optional)</div>
+      {mergeParentSelect}
     </>
   );
+};
+
+type ParentApplicationOption = {
+  id: number;
+  projectNumber: string;
+  type: 'CBC' | 'CCBC';
 };
 
 interface Props {
@@ -65,6 +99,7 @@ interface Props {
   hiddenStatusTypes?: any;
   status: string;
   statusList: any;
+  parentList?: ParentApplicationOption[];
 }
 
 const ChangeStatus: React.FC<Props> = ({
@@ -74,6 +109,7 @@ const ChangeStatus: React.FC<Props> = ({
   isExternalStatus,
   status,
   statusList,
+  parentList = [],
 }) => {
   const queryFragment = useFragment(
     graphql`
@@ -107,6 +143,24 @@ const ChangeStatus: React.FC<Props> = ({
             }
           }
         }
+        applicationMergesByChildApplicationId(
+          filter: { archivedAt: { isNull: true } }
+          orderBy: CREATED_AT_DESC
+          first: 1
+        )
+          @connection(
+            key: "ChangeStatus_applicationMergesByChildApplicationId"
+          ) {
+          __id
+          edges {
+            node {
+              id
+              parentApplicationId
+              parentCbcId
+              childApplicationId
+            }
+          }
+        }
       }
     `,
     application
@@ -120,8 +174,13 @@ const ChangeStatus: React.FC<Props> = ({
     ccbcNumber,
     internalDescription,
     applicationProjectTypesByApplicationId,
+    applicationMergesByChildApplicationId,
   } = queryFragment;
+  const mergeConnectionIds = applicationMergesByChildApplicationId?.__id
+    ? [applicationMergesByChildApplicationId.__id]
+    : [];
   const [createStatus] = useCreateApplicationStatusMutation();
+  const [mergeApplication] = useMergeApplicationMutation();
   // Filter unwanted status types
   const statusTypes = statusList.filter(
     (statusType) => !hiddenStatusTypes.includes(statusType.name)
@@ -139,6 +198,13 @@ const ChangeStatus: React.FC<Props> = ({
   );
   const internalChangeModal = useModal();
   const externalChangeModal = useModal();
+  const existingParentNode =
+    applicationMergesByChildApplicationId?.edges?.[0]?.node;
+  const existingParentId =
+    existingParentNode?.parentApplicationId ?? existingParentNode?.parentCbcId;
+  const [mergeParent, setMergeParent] =
+    useState<ParentApplicationOption | null>(null);
+  const [archiveApplicationMerge] = useArchiveApplicationMergeMutation();
 
   const conditionalApprovalData = conditionalApproval?.jsonData;
 
@@ -156,12 +222,26 @@ const ChangeStatus: React.FC<Props> = ({
   const disabledStatuses =
     disabledStatusList && disabledStatusList[currentStatus?.name];
 
+  const requiresMergeParentSelection = draftStatus?.name === 'merged';
+
   useEffect(() => {
     // update status when there is a relay store update
     setCurrentStatus(getStatus(status, statusTypes));
     setDraftStatus(getStatus(status, statusTypes));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
+
+  useEffect(() => {
+    setMergeParent(
+      existingParentId
+        ? {
+            id: existingParentId,
+            projectNumber: existingParentId,
+            type: existingParentNode?.parentApplicationId ? 'CCBC' : 'CBC',
+          }
+        : null
+    );
+  }, [existingParentId, existingParentNode]);
 
   const sendEmailNotification = async (
     url: string,
@@ -195,6 +275,55 @@ const ChangeStatus: React.FC<Props> = ({
       newStatus === 'withdrawn' ? withdrawn : `applicant_${newStatus}`;
     const internalStatus = newStatus === 'withdrawn' ? withdrawn : newStatus;
     const statusInputName = isExternalStatus ? externalStatus : internalStatus;
+
+    // update the parent relationship
+    if (
+      requiresMergeParentSelection &&
+      mergeParent?.id &&
+      mergeParent?.id !== existingParentId
+    ) {
+      try {
+        const mergeInput =
+          mergeParent.type === 'CCBC'
+            ? { _parentApplicationId: mergeParent.id, _parentCbcId: null }
+            : { _parentApplicationId: null, _parentCbcId: mergeParent.id };
+
+        mergeApplication({
+          variables: {
+            input: {
+              _childApplicationId: rowId,
+              ...mergeInput,
+            },
+            connections: mergeConnectionIds,
+          },
+        });
+      } catch (error) {
+        Sentry.captureException(error);
+        return;
+      }
+    }
+
+    if (
+      !isExternalStatus &&
+      currentStatus?.name === 'merged' &&
+      newStatus !== 'merged'
+    ) {
+      try {
+        archiveApplicationMerge({
+          variables: {
+            input: {
+              _childApplicationId: rowId,
+            },
+          },
+          onCompleted: () => {
+            setMergeParent(null);
+          },
+        });
+      } catch (error) {
+        Sentry.captureException(error);
+        return;
+      }
+    }
 
     createStatus({
       variables: {
@@ -286,6 +415,48 @@ const ChangeStatus: React.FC<Props> = ({
     }
   };
 
+  const mergeParentSelect = requiresMergeParentSelection ? (
+    <div>
+      <div>
+        Please select the parent project and provide a reason for this change.
+      </div>
+
+      <StyledMergeProjectRow>
+        <StyledLabel
+          id={`merge-parent-select-label-${rowId}`}
+          htmlFor="merge-parent-select"
+        >
+          Parent Project (optional) :
+        </StyledLabel>
+
+        <StyledMergeAutocomplete
+          size="small"
+          key="merge-parent-autocomplete"
+          data-testid="merge-parent-autocomplete"
+          options={parentList}
+          getOptionLabel={(option: ParentApplicationOption) =>
+            option.projectNumber?.toString()
+          }
+          onChange={(_event, newValue: ParentApplicationOption | null) => {
+            setMergeParent(newValue);
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              placeholder="Search by ID"
+              size="small"
+              inputProps={{
+                ...params.inputProps,
+                'aria-labelledby': `merge-parent-select-label-${rowId}`,
+              }}
+            />
+          )}
+          value={parentList.find((p) => p.id === mergeParent?.id) ?? null}
+        />
+      </StyledMergeProjectRow>
+    </div>
+  ) : null;
+
   return (
     <>
       {isExternalStatus && (
@@ -309,6 +480,7 @@ const ChangeStatus: React.FC<Props> = ({
           <ModalDescription
             currentStatus={currentStatus}
             draftStatus={draftStatus}
+            mergeParentSelect={mergeParentSelect}
           />
         }
         id={

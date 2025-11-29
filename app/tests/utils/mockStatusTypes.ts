@@ -31,6 +31,11 @@ const allApplicationStatusTypes = {
       id: 'WyJhcHBsaWNhdGlvbl9zdGF0dXNfdHlwZXMiLCJjb25kaXRpb25hbGx5X2FwcHJvdmVkIl0=',
     },
     {
+      name: 'merged',
+      description: 'Merged',
+      id: 'mock-merged-status-id',
+    },
+    {
       name: 'draft',
       description: 'Draft',
       id: 'WyJhcHBsaWNhdGlvbl9zdGF0dXNfdHlwZXMiLCJkcmFmdCJd',

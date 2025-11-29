@@ -87,6 +87,9 @@ create_db:
 	@$(PSQL) -d postgres -tc "SELECT count(*) FROM pg_database WHERE datname = '$(DB_NAME)'" | \
 		grep -q 1 || \
 		$(PSQL) -d postgres -c "CREATE DATABASE $(DB_NAME)";
+	@$(PSQL) -d postgres -tc "SELECT 1 FROM pg_roles WHERE rolname = 'ccbc'" | \
+		grep -q 1 || \
+		$(PSQL) -d postgres -c "CREATE ROLE ccbc";
 
 .PHONY: drop_db
 drop_db: ## Drop the $(DB_NAME) database if it exists
@@ -101,8 +104,11 @@ create_test_db:
 	@$(PSQL) -d postgres -tc "SELECT count(*) FROM pg_database WHERE datname = '$(DB_NAME)_test'" | \
 		grep -q 1 || \
 		$(PSQL) -d postgres -c "CREATE DATABASE $(DB_NAME)_test"; \
-		$(PSQL) -d $(DB_NAME)_test -c "create extension if not exists pgtap"; \
-		$(PSQL) -d $(DB_NAME)_test -c "create extension if not exists \"uuid-ossp\"";
+	$(PSQL) -d postgres -tc "SELECT 1 FROM pg_roles WHERE rolname = 'ccbc'" | \
+		grep -q 1 || \
+		$(PSQL) -d postgres -c "CREATE ROLE ccbc"; \
+	$(PSQL) -d $(DB_NAME)_test -c "create extension if not exists pgtap"; \
+	$(PSQL) -d $(DB_NAME)_test -c "create extension if not exists \"uuid-ossp\"";
 
 .PHONY: drop_test_db
 drop_test_db: ## Drop the $(DB_NAME)_test database if it exists

@@ -2,7 +2,8 @@ import { graphql } from 'react-relay';
 import compiledQuery, {
   ChangeStatusTestQuery,
 } from '__generated__/ChangeStatusTestQuery.graphql';
-import { act, screen, fireEvent } from '@testing-library/react';
+import { act, screen, fireEvent, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import ChangeStatus from 'components/Analyst/ChangeStatus';
 import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
@@ -99,6 +100,41 @@ const mockConditionalApprovalQueryPayload = {
   },
 };
 
+const mockExistingMergeQueryPayload = {
+  Query() {
+    return {
+      applicationByRowId: {
+        id: 'WyJhcHBsaWNhdGlvbnMiLDFd',
+        rowId: 1,
+        analystStatus: 'merged',
+        externalStatus: 'received',
+        internalDescription: null,
+        applicationMergesByChildApplicationId: {
+          nodes: [
+            {
+              parentApplicationId: 2,
+              parentCbcId: null,
+              rowId: 10,
+              childApplicationId: 1,
+            },
+          ],
+        },
+        applicationProjectTypesByApplicationId: {
+          nodes: [],
+        },
+      },
+      allApplicationStatusTypes: {
+        ...allApplicationStatusTypes,
+      },
+    };
+  },
+};
+
+const parentProjects = [
+  { id: 2001, projectNumber: 'CCBC-2001', type: 'CCBC' },
+  { id: 3002, projectNumber: 'CBC-3002', type: 'CBC' },
+];
+
 const componentTestingHelper =
   new ComponentTestingHelper<ChangeStatusTestQuery>({
     component: ChangeStatus,
@@ -169,6 +205,7 @@ describe('The application header component', () => {
     expect(screen.getByText('Not selected')).toBeInTheDocument();
     expect(screen.getByText('Reporting complete')).toBeInTheDocument();
     expect(screen.getByText('Conditionally approved')).toBeInTheDocument();
+    expect(screen.getByText('Merged')).toBeInTheDocument();
     expect(screen.getByText('On hold')).toBeInTheDocument();
     expect(screen.getByText('Received')).toBeInTheDocument();
     expect(screen.getByText('Recommendation')).toBeInTheDocument();
@@ -272,6 +309,7 @@ describe('The application header component', () => {
     expect(screen.getByText('Conditionally approved')).toBeInTheDocument();
     expect(screen.getByText('On hold')).toBeInTheDocument();
     expect(screen.getByText('Received')).toBeInTheDocument();
+    expect(screen.getByText('Merged')).toBeInTheDocument();
 
     expect(screen.queryByText('Assessment')).not.toBeInTheDocument();
     expect(screen.queryByText('Recommendation')).not.toBeInTheDocument();
@@ -371,6 +409,191 @@ describe('The application header component', () => {
     expect(screen.getByTestId('change-status')).toHaveValue(
       'conditionally_approved'
     );
+  });
+
+  it('prompts for merge parent selection when choosing merged', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent(undefined, {
+      parentList: parentProjects,
+    });
+
+    const select = screen.getByTestId('change-status');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: 'merged' } });
+    });
+
+    expect(
+      screen.getByText(
+        'Please select the parent project and provide a reason for this change.'
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByTestId('merge-parent-autocomplete')).toBeInTheDocument();
+  });
+
+  it('creates merge relationship with a CCBC parent before saving merged status', async () => {
+    const user = userEvent.setup();
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent(undefined, {
+      parentList: parentProjects,
+    });
+
+    const select = screen.getByTestId('change-status');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: 'merged' } });
+    });
+
+    const autocompleteInput = within(
+      screen.getByTestId('merge-parent-autocomplete')
+    ).getByRole('combobox');
+
+    await user.click(autocompleteInput);
+    await user.type(autocompleteInput, 'CCBC-2001');
+    await user.click(screen.getByText('CCBC-2001'));
+
+    const saveButton = screen.getByText('Save change');
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'mergeApplicationMutation',
+      expect.objectContaining({
+        input: {
+          _childApplicationId: 1,
+          _parentApplicationId: 2001,
+          _parentCbcId: null,
+        },
+        connections: expect.any(Array),
+      })
+    );
+    componentTestingHelper.expectMutationToBeCalled(
+      'createApplicationStatusMutation',
+      {
+        input: {
+          applicationStatus: {
+            applicationId: expect.any(Number),
+            changeReason: '',
+            status: 'merged',
+          },
+        },
+      }
+    );
+
+    const resolveOperation = (operation) => {
+      if (operation.request.node.params.name === 'mergeApplicationMutation') {
+        return {
+          data: {
+            mergeApplication: {
+              applicationMerge: {
+                id: 'mock-merge-id',
+                parentApplicationId: 2001,
+                parentCbcId: null,
+                childApplicationId: 1,
+              },
+            },
+          },
+        };
+      }
+
+      return {
+        data: {
+          applicationStatus: {
+            status: 'merged',
+          },
+        },
+      };
+    };
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation(
+        resolveOperation
+      );
+      componentTestingHelper.environment.mock.resolveMostRecentOperation(
+        resolveOperation
+      );
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue('merged');
+  });
+
+  it('archives merge relationship when moving away from merged', async () => {
+    componentTestingHelper.loadQuery(mockExistingMergeQueryPayload);
+    componentTestingHelper.renderComponent(undefined, {
+      parentList: parentProjects,
+    });
+
+    const select = screen.getByTestId('change-status');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: 'assessment' } });
+    });
+
+    const saveButton = screen.getByText('Save change');
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'archiveApplicationMergeMutation',
+      {
+        input: {
+          _childApplicationId: 1,
+        },
+      }
+    );
+    componentTestingHelper.expectMutationToBeCalled(
+      'createApplicationStatusMutation',
+      {
+        input: {
+          applicationStatus: {
+            applicationId: expect.any(Number),
+            changeReason: '',
+            status: 'assessment',
+          },
+        },
+      }
+    );
+
+    const resolveOperation = (operation) => {
+      if (
+        operation.request.node.params.name === 'archiveApplicationMergeMutation'
+      ) {
+        return {
+          data: {
+            archiveApplicationMerge: {
+              applicationMerge: {
+                id: 'mock-merge-id',
+                parentApplicationId: 2,
+                parentCbcId: null,
+                childApplicationId: 1,
+                archivedAt: '2024-01-01',
+              },
+            },
+          },
+        };
+      }
+
+      return {
+        data: {
+          applicationStatus: {
+            status: 'assessment',
+          },
+        },
+      };
+    };
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation(
+        resolveOperation
+      );
+      componentTestingHelper.environment.mock.resolveMostRecentOperation(
+        resolveOperation
+      );
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue('assessment');
   });
 
   it('sends notification once internal status is changed to agreement signed', async () => {

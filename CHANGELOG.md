@@ -1,3 +1,11 @@
+## [1.272.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.272.0...v1.272.1) (2025-11-28)
+
+# [1.272.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.23...v1.272.0) (2025-11-28)
+
+### Features
+
+- add merge status to CCBC ([4fe0016](https://github.com/bcgov/CONN-CCBC-portal/commit/4fe00166de929d78f18cff79d8c0cc89fdcf8092))
+
 ## [1.271.23](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.22...v1.271.23) (2025-11-28)
 
 ## [1.271.22](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.21...v1.271.22) (2025-11-28)

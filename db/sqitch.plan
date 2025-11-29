@@ -847,3 +847,9 @@ computed_columns/application_history [computed_columns/application_history@1.259
 types/change_log_record 2025-07-24T20:22:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # type for change log records with ccbc_number and application_id
 computed_columns/change_log [types/change_log_record] 2025-07-24T20:22:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # query to return history for the change log
 @1.265.0 2025-08-08T22:30:05Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # release v1.265.0
+tables/application_status_type_011_add_merged_status 2025-08-09T18:00:00Z ,,, <rranathu@NH504670> # add merged status type for CCBC
+tables/application_merge 2025-08-09T19:00:00Z ,,, <rranathu@NH504670> # add table application_merge
+mutations/merge_application 2025-08-12T19:00:00Z ,,, <rranathu@NH504670> # add mutation to archive previous merges when creating a new one
+mutations/archive_application_merge 2025-08-13T19:00:00Z ,,, <rranathu@NH504670> # add mutation to archive merges when unmerging
+@1.272.0 2025-11-28T23:46:22Z CCBC Service Account <ccbc@button.is> # release v1.272.0
+@1.272.1 2025-11-28T23:47:51Z CCBC Service Account <ccbc@button.is> # release v1.272.1
