@@ -1,3 +1,11 @@
+## [1.273.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.273.0...v1.273.1) (2025-11-29)
+
+# [1.273.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.272.1...v1.273.0) (2025-11-29)
+
+### Features
+
+- add decision not required to conditional approval ([f4649fb](https://github.com/bcgov/CONN-CCBC-portal/commit/f4649fbdec3f0390d26350939cee2a9525af63f2))
+
 ## [1.272.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.272.0...v1.272.1) (2025-11-28)
 
 # [1.272.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.271.23...v1.272.0) (2025-11-28)

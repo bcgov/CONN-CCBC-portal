@@ -6,8 +6,11 @@ interface SelectWidgetProps extends WidgetProps {
 }
 const StatusSelectWidget: React.FC<SelectWidgetProps> = (props) => {
   const { formContext } = props;
-  const isMinisterApproved =
+  const isBcMinisterApproved =
     formContext?.formData?.decision?.ministerDecision === 'Approved';
+  const isFederalMinisterApproved =
+    formContext?.formData?.isedDecisionObj?.isedDecision === 'Approved';
+  const isMinisterApproved = isBcMinisterApproved || isFederalMinisterApproved;
   const isApplicantAccepted =
     formContext?.formData?.response?.applicantResponse === 'Accepted';
   const isAccepted = isMinisterApproved && isApplicantAccepted;
