@@ -1,6 +1,7 @@
 history_item
 application_rd
 application_er
+application_merge
 notification
 intake_users
 cbc_project_communities

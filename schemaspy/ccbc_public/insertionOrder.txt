@@ -58,6 +58,7 @@ attachment
 cbc_project_communities
 intake_users
 notification
+application_merge
 application_er
 application_rd
 history_item
