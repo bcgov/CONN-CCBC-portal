@@ -65,16 +65,6 @@ export const getHouseholdCount = (sowTab1: any, application: any): string => {
   return application?.benefits?.numberOfHouseholds;
 };
 
-export const getTotalProjectBudget = (
-  sowTab7: any,
-  applicationTotalProjectBudget: any
-): string => {
-  if (sowTab7?.jsonData?.summaryTable?.totalProjectCost) {
-    return sowTab7?.jsonData?.summaryTable?.totalProjectCost;
-  }
-  return applicationTotalProjectBudget;
-};
-
 export const convertBoolean = (value): string => {
   if (value === null || value === undefined) return null;
   return value ? 'YES' : 'NO';
@@ -124,20 +114,6 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
       return { ...item };
     });
   });
-};
-
-export const handleCcbcEconomicRegions = (
-  applicationId: Number,
-  economicRegionNodes: {
-    applicationId: Number;
-    er: string;
-    ccbcNumber: string;
-  }[]
-): string | null => {
-  const match = economicRegionNodes?.find(
-    (node) => node.applicationId === applicationId
-  );
-  return match?.er || null;
 };
 
 export const handleCbcEconomicRegions = (communityNodes: any[]): string => {

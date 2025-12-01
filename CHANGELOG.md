@@ -1,3 +1,11 @@
+## [1.273.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.273.2...v1.273.3) (2025-12-01)
+
+## [1.273.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.273.1...v1.273.2) (2025-12-01)
+
+### Bug Fixes
+
+- data differences in excel and gcpe exports ([9446804](https://github.com/bcgov/CONN-CCBC-portal/commit/94468044d302e34314e38b1eec1717b8ccfbe4e0))
+
 ## [1.273.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.273.0...v1.273.1) (2025-11-29)
 
 # [1.273.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.272.1...v1.273.0) (2025-11-29)

@@ -350,16 +350,21 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // project location ??
       { value: null },
-      { value: `${summaryData?.formData?.locations?.economicRegions || ''}` },
+      // economic regions
+      {
+        value: `${summaryData?.formData?.locations?.economicRegions?.join(', ') || ''}`,
+      },
       // regional district
-      { value: `${summaryData?.formData?.locations?.regionalDistricts || ''}` },
+      {
+        value: `${summaryData?.formData?.locations?.regionalDistricts?.join(', ') || ''}`,
+      },
       // geographic names
       {
-        value: `${benefitingCommunitiesNames.length > 0 ? benefitingCommunitiesNames.join(',') : ''}${benefitingIndigenousCommunitiesNames.length > 0 ? (benefitingCommunitiesNames.length > 0 ? ',' : '') + benefitingIndigenousCommunitiesNames.join(',') : ''}`,
+        value: `${benefitingCommunitiesNames.length > 0 ? benefitingCommunitiesNames.join(', ') : ''}${benefitingIndigenousCommunitiesNames.length > 0 ? (benefitingCommunitiesNames.length > 0 ? ', ' : '') + benefitingIndigenousCommunitiesNames.join(', ') : ''}`,
       },
       // geo ids
       {
-        value: `${benefitingCommunitiesIds.length > 0 ? benefitingCommunitiesIds.join(',') : ''}${benefitingIndigenousCommunitiesIds.length > 0 ? (benefitingCommunitiesIds.length > 0 ? ',' : '') + benefitingIndigenousCommunitiesIds.join(',') : ''}`,
+        value: `${benefitingCommunitiesIds.length > 0 ? benefitingCommunitiesIds.join(', ') : ''}${benefitingIndigenousCommunitiesIds.length > 0 ? (benefitingCommunitiesIds.length > 0 ? ', ' : '') + benefitingIndigenousCommunitiesIds.join(', ') : ''}`,
       },
       // total communities and locales
       { value: summaryData?.formData?.counts?.communities || '' },
@@ -412,7 +417,9 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
         type: Number,
       },
       // announced by bc/ised
-      { value: convertBoolean(data?.applicationByRowId?.announced) },
+      {
+        value: summaryData?.formData?.eventsAndDates?.announcedByProvince,
+      },
       // date application received
       {
         value: `${
@@ -480,10 +487,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // phase
       {
-        value: cbcDataByCbcId?.phase
-          ? parseInt(cbcDataByCbcId?.phase, 10)
-          : null,
-        type: Number,
+        value: cbcDataByCbcId?.phase,
       },
       // zone
       { value: getSortedZones(cbcDataByCbcId?.zones) },
@@ -561,13 +565,13 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
         value: cbcDataByCbcId?.projectLocations,
       },
       // economic region
-      { value: communities.economicRegions },
+      { value: communities.economicRegions?.join(', ') || '' },
       // regional district
-      { value: communities.regionalDistricts },
+      { value: communities.regionalDistricts?.join(', ') || '' },
       // geographic names
-      { value: communities.bcGeographicNames.join(',') },
+      { value: communities.bcGeographicNames.join(', ') },
       // geo ids
-      { value: communities.bcGeographicIds.join(',') },
+      { value: communities.bcGeographicIds.join(', ') },
       // total communities and locales
       { value: cbcDataByCbcId?.communitiesAndLocalesCount },
       // indigenous communities
