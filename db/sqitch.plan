@@ -847,3 +847,6 @@ computed_columns/application_history [computed_columns/application_history@1.259
 types/change_log_record 2025-07-24T20:22:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # type for change log records with ccbc_number and application_id
 computed_columns/change_log [types/change_log_record] 2025-07-24T20:22:13Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # query to return history for the change log
 @1.265.0 2025-08-08T22:30:05Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # release v1.265.0
+tables/application_internal_notes 2025-12-02T16:16:33Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # table to hold internal notes for applications
+computed_columns/application_history [computed_columns/application_history@1.265.0] 2025-12-02T16:32:55Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add internal notes to history
+computed_columns/change_log [computed_columns/change_log@1.265.0] 2025-12-02T16:33:35Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add internal notes to change log
