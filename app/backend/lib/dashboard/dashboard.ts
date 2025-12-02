@@ -18,7 +18,6 @@ import {
 } from './util';
 import columnOptions from './column_options';
 import toTitleCase from '../../../utils/formatString';
-import { getInternalNotesMap } from '../reporting/internalNotes';
 
 const getApplicationDataQuery = `
   query applicationDataQuery($rowId: Int!) {
@@ -89,6 +88,13 @@ const getApplicationDataQuery = `
         edges {
           node {
             id
+          }
+        }
+      }
+      applicationInternalNotesByApplicationId {
+        edges {
+          node {
+            note
           }
         }
       }
@@ -259,17 +265,11 @@ export const generateCbcData = async (ids: number[], req) => {
 };
 
 export const generateDashboardExport = async (applicationData, cbcData) => {
-  const applicationIds =
-    applicationData
-      ?.map((app) => app?.data?.applicationByRowId?.rowId)
-      ?.filter(Boolean) || [];
-  const internalNotesMap = await getInternalNotesMap(applicationIds);
   const excelData = [HEADER_ROW];
 
   // do application (ccbc and other)
   applicationData?.forEach((app) => {
     const { data } = app;
-    const applicationRowId = data?.applicationByRowId?.rowId;
     const summaryData = generateFormData(
       data.applicationByRowId,
       data.allApplicationSowData,
@@ -480,7 +480,10 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       { value: null },
       // internal notes
       {
-        value: internalNotesMap[applicationRowId] ?? '',
+        value:
+          data?.applicationByRowId?.applicationInternalNotesByApplicationId?.edges
+            ?.map((edge) => edge?.node?.note)
+            .join('\n') || '',
       },
     ];
     excelData.push(row);
