@@ -149,6 +149,13 @@ const getCcbcQuery = `
                 }
               }
             }
+            applicationInternalNotesByApplicationId {
+              edges {
+                node {
+                  note
+                }
+              }
+            }
             ccbcNumber
             externalStatus
             internalDescription
@@ -350,6 +357,8 @@ const generateExcelData = async (
       { value: node?.jsonData?.primaryNewsRelease },
       // secondary news release
       { value: node?.jsonData?.secondaryNewsRelease },
+      // notes
+      { value: node?.jsonData?.notes },
     ];
     excelData.push(row);
   });
@@ -552,6 +561,13 @@ const generateExcelData = async (
         value: findSecondaryAnnouncement(
           node?.applicationAnnouncementsByApplicationId
         ),
+      },
+      // notes
+      {
+        value:
+          node?.applicationInternalNotesByApplicationId?.edges
+            ?.map((edge) => edge?.node?.note)
+            .join('\n') || '',
       },
     ];
     excelData.push(row);
