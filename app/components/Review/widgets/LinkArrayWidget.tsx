@@ -23,13 +23,17 @@ const LinkArrayWidget: React.FC<WidgetProps> = ({
         value.length > 0 &&
         value.map((item, index) => (
           <>
-            <StyledLink
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {item.name}
-            </StyledLink>
+            {item.link ? (
+              <StyledLink
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {item.name}
+              </StyledLink>
+            ) : (
+              <span>{item.name}</span>
+            )}
             {index < value.length - 1 ? ', ' : ''}
           </>
         ))}

@@ -369,7 +369,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // geo ids
       {
-        value: `${benefitingCommunitiesIds.length > 0 ? benefitingCommunitiesIds.join(', ') : ''}${benefitingIndigenousCommunitiesIds.length > 0 ? (benefitingCommunitiesIds.length > 0 ? ', ' : '') + benefitingIndigenousCommunitiesIds.join(', ') : ''}`,
+        value: `${benefitingCommunitiesIds.length > 0 ? benefitingCommunitiesIds.map(id => id ?? 'N/A').join(', ') : ''}${benefitingIndigenousCommunitiesIds.length > 0 ? (benefitingCommunitiesIds.length > 0 ? ', ' : '') + benefitingIndigenousCommunitiesIds.map(id => id ?? 'N/A').join(', ') : ''}`,
       },
       // total communities and locales
       { value: summaryData?.formData?.counts?.communities || '' },
