@@ -79,6 +79,8 @@ const columnOptions: Columns = [
   {},
   // column 39 (change log)
   { width: 40 },
+  // column 39 (Notes)
+  { width: 20 },
 ];
 
 export default columnOptions;
