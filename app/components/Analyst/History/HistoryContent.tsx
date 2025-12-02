@@ -245,6 +245,8 @@ const HistoryContent = ({
     if (projectType) {
       if (projectType === 'lastMile') {
         projectTypeTitle = 'Last Mile';
+      } else if (projectType === 'transport') {
+        projectTypeTitle = 'Transport';
       } else {
         projectTypeTitle = 'Last Mile & Transport';
       }
@@ -253,6 +255,8 @@ const HistoryContent = ({
     if (previousProjectType) {
       if (previousProjectType === 'lastMile') {
         previousProjectTypeTitle = 'Last Mile';
+      } else if (previousProjectType === 'transport') {
+        previousProjectTypeTitle = 'Transport';
       } else {
         previousProjectTypeTitle = 'Last Mile & Transport';
       }
