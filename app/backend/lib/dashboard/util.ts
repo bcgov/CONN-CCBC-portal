@@ -100,20 +100,33 @@ export const formatCurrency = (value: number | null | undefined): string => {
   return formatMoney(numberValue);
 };
 
-export const handleLastMileSpeed = (status): number => {
-  if (
-    status === 'conditionally_approved' ||
-    status === 'approved' ||
-    status === 'applicant_approved' ||
-    status === 'applicant_conditionally_approved' ||
-    status === 'merged' ||
-    status === 'applicant_merged' ||
-    status === 'applicant_complete' ||
-    status === 'complete'
-  ) {
-    return 50;
-  }
-  return null;
+export const handleLastMileSpeed = (status: string, sowData: any): number => {
+  if (!sowData) return null;
+
+  const LAST_MILE_FIELDS = [
+    'lastMileFibre',
+    'lastMileCable',
+    'lastMileDSL',
+    'lastMileMobileWireless',
+    'lastMileFixedWireless',
+    'lastMileSatellite',
+  ];
+
+  const APPROVED_STATUSES = new Set([
+    'conditionally_approved',
+    'approved',
+    'applicant_approved',
+    'applicant_conditionally_approved',
+    'applicant_complete',
+    'complete',
+  ]);
+
+  const hasLastMileTechnology = LAST_MILE_FIELDS.some(
+    (field) => sowData[field] === true
+  );
+  const isProjectApproved = APPROVED_STATUSES.has(status);
+
+  return hasLastMileTechnology && isProjectApproved ? 50 : null;
 };
 
 export const getFnhaValue = (data) => {

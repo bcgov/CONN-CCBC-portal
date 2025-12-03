@@ -343,7 +343,12 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       // last mile technology
       { value: null },
       // last mile minimum speed
-      { value: handleLastMileSpeed(data?.applicationByRowId?.status) },
+      {
+        value: handleLastMileSpeed(
+          data?.applicationByRowId?.status,
+          data?.allApplicationSowData?.nodes[0]?.jsonData
+        ),
+      },
       // connected coast network dependent
       {
         value: `${summaryData?.formData?.dependency?.connectedCoastNetworkDependent || ''}`,

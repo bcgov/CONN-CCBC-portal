@@ -1,3 +1,11 @@
+## [1.273.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.273.4...v1.273.5) (2025-12-03)
+
+## [1.273.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.273.3...v1.273.4) (2025-12-03)
+
+### Bug Fixes
+
+- dashboard descrepencies ([63c45f5](https://github.com/bcgov/CONN-CCBC-portal/commit/63c45f5a9020d66b7b01d968c8f2636e86d90f93))
+
 ## [1.273.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.273.2...v1.273.3) (2025-12-01)
 
 ## [1.273.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.273.1...v1.273.2) (2025-12-01)
