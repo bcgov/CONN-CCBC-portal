@@ -171,6 +171,7 @@ interface Props {
   sow?: any;
   title: string;
   wirelessSow?: any;
+  sowTitle?: string;
   otherFiles?: Array<any>;
   setDeleteModalOpen?: (open: boolean) => void;
   setDeleteModalData?: (data: any) => void;
@@ -193,6 +194,7 @@ const ReadOnlyView: React.FC<Props> = ({
   sow,
   title,
   wirelessSow,
+  sowTitle,
   otherFiles,
   amendmentNumber,
   setDeleteModalOpen,
@@ -246,7 +248,7 @@ const ReadOnlyView: React.FC<Props> = ({
           )}
           {sow && (
             <DownloadLink uuid={sow.uuid} fileName={sow.name}>
-              <FileHeader icon={faFileExcel} title="SoW" />
+              <FileHeader icon={faFileExcel} title={sowTitle} />
             </DownloadLink>
           )}
         </StyledColumn>

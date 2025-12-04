@@ -72,6 +72,19 @@ const ProjectInformationForm: React.FC<Props> = ({
             fnhaContribution
           }
         }
+        applicationSowDataByApplicationId(last: 1) {
+          edges {
+            node {
+              sowTab7SBySowId {
+                edges {
+                  node {
+                    jsonData
+                  }
+                }
+              }
+            }
+          }
+        }
         changeRequestDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
           orderBy: AMENDMENT_NUMBER_DESC
@@ -104,6 +117,7 @@ const ProjectInformationForm: React.FC<Props> = ({
     id,
     rowId,
     projectInformation,
+    applicationSowDataByApplicationId,
     applicationFnhaContributionsByApplicationId: {
       nodes: [applicationFnhaContributionsByApplicationId],
     },
@@ -490,6 +504,48 @@ const ProjectInformationForm: React.FC<Props> = ({
     });
   };
 
+  const getSowTitle = (
+    sowData: typeof applicationSowDataByApplicationId
+  ): string => {
+    if (!sowData?.edges?.length) {
+      return 'Original';
+    }
+
+    const latestSowData = sowData.edges[0]?.node;
+    const tab7Data =
+      latestSowData?.sowTab7SBySowId?.edges?.[0]?.node?.jsonData?.summaryTable;
+
+    if (!tab7Data) {
+      return 'Original';
+    }
+
+    const amountRequestedFromProvince = Math.floor(
+      tab7Data.amountRequestedFromProvince || 0
+    );
+    const amountRequestedFromFederalGovernment = Math.floor(
+      tab7Data.amountRequestedFromFederalGovernment || 0
+    );
+
+    if (amountRequestedFromProvince === 0) {
+      return 'ISED-SOW';
+    }
+
+    if (amountRequestedFromFederalGovernment === 0) {
+      return 'BC-SOW';
+    }
+
+    if (
+      amountRequestedFromProvince > 0 &&
+      amountRequestedFromFederalGovernment > 0
+    ) {
+      return 'BC/ISED SOW';
+    }
+
+    return 'SOW';
+  };
+
+  const sowTitle = getSowTitle(applicationSowDataByApplicationId);
+
   const isOriginalSowUpload = projectInformation?.jsonData;
   return (
     <>
@@ -616,6 +672,7 @@ const ProjectInformationForm: React.FC<Props> = ({
               descriptionOfChanges={descriptionOfChanges}
               levelOfAmendment={levelOfAmendment}
               title={`Amendment #${amendmentNumber}`}
+              sowTitle={sowTitle}
               onFormEdit={() => {
                 setIsChangeRequest(true);
                 setIsFormEditMode(true);
@@ -640,6 +697,7 @@ const ProjectInformationForm: React.FC<Props> = ({
           <ReadOnlyView
             date={projectInformationData?.dateFundingAgreementSigned}
             title="Original"
+            sowTitle={sowTitle}
             onFormEdit={() => {
               setIsChangeRequest(false);
               setFormData(projectInformationData);
