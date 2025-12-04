@@ -77,6 +77,7 @@ const changeRequestUiSchema = {
     },
   },
   otherFiles: {
+    'ui:label': 'Upload any supporting documents for the project, for example, the ISED SOW (if it differs for jointly funded projects), the Information Note for ISED-only projects, or any other relevant files.',
     'ui:widget': 'FileWidget',
     'ui:options': {
       flexDirection: 'column',
