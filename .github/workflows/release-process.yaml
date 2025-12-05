@@ -101,12 +101,51 @@ jobs:
           curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
           ./sqitch config --user user.name 'CCBC Service Account'
           ./sqitch config --user user.email 'ccbc@button.is'
-      - name: Make Release
+      - name: Check if release already exists
+        id: check_release
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
+        run: |
+          git checkout "${GITHUB_HEAD_REF}"
+          git fetch --tags
+          
+          # Check if the latest commit on this branch is already a release commit
+          LATEST_COMMIT_MSG=$(git log -1 --pretty=%B "${GITHUB_HEAD_REF}")
+          LATEST_COMMIT_AUTHOR=$(git log -1 --pretty=%ae "${GITHUB_HEAD_REF}")
+          
+          echo "Latest commit message: $LATEST_COMMIT_MSG"
+          echo "Latest commit author: $LATEST_COMMIT_AUTHOR"
+          
+          # Check if latest commit is a release commit from the service account
+          if echo "$LATEST_COMMIT_MSG" | grep -q "^chore: release v"; then
+            if [ "$LATEST_COMMIT_AUTHOR" = "ccbc@button.is" ] || [ "$LATEST_COMMIT_AUTHOR" = "116113628+ccbc-service-account@users.noreply.github.com" ]; then
+              echo "Latest commit is already a release commit from service account. Skipping release to prevent duplicate."
+              echo "release_exists=true" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+          fi
+          
+          # Also check if there's a release tag that matches commits on this branch
+          yarn
+          NEW_TAG=$(yarn release-it --release-version | awk 'match($0, /^ *([0-9]+\.[0-9]+\.[0-9]+)/, a) { if (NR == 1) next; print "v" a[1]; exit; }')
+          echo "Checking if tag $NEW_TAG already exists..."
+          TAG_EXISTS=$(git tag -l "$NEW_TAG")
+          if [ -n "$TAG_EXISTS" ]; then
+            echo "Release tag $NEW_TAG already exists. Skipping release."
+            echo "release_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "No existing release found. Proceeding with release."
+            echo "release_exists=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Make Release
+        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft && steps.check_release.outputs.release_exists == 'false'
         run: |
           yarn
           git checkout "${GITHUB_HEAD_REF}"
           yarn run release-it --ci --branch="${GITHUB_HEAD_REF}" --git.commitArgs=-n
+      - name: Skip Release - Already Exists
+        if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft && steps.check_release.outputs.release_exists == 'true'
+        run: |
+          echo "⚠️ Release already exists. Skipping release creation to prevent duplicate releases."
       - name: Enable Auto-Merge
         if: steps.checkbox.outputs.result == 'true' && steps.up_to_date.outputs.result == 'true' && steps.pr_approval.outputs.result == 'true' && !github.event.pull_request.draft
         run: |
