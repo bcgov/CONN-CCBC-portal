@@ -67,6 +67,7 @@ const getCbcSectionFromKey = (key: string): string => {
     milestoneComments: 'Miscellaneous',
     primaryNewsRelease: 'Miscellaneous',
     secondaryNewsRelease: 'Miscellaneous',
+    childProjects: 'Miscellaneous',
     notes: 'Miscellaneous',
 
     // Project Data Reviews section

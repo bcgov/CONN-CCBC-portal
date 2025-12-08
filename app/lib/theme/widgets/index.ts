@@ -15,3 +15,5 @@ export { default as SelectWidget } from './SelectWidget';
 export { default as UrlWidget } from './UrlWidget';
 export { default as ZoneMapWidget } from './ZoneMapWidget';
 export { default as MultiSelectWidget } from './MultiSelectWidget';
+export { default as CcbcIdWidget } from 'components/Analyst/Project/widgets/CcbcIdWidget';
+export { default as LinkArrayWidget } from 'components/Review/widgets/LinkArrayWidget';

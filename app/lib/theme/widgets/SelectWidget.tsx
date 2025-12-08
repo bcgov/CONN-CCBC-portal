@@ -68,13 +68,17 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
   placeholder,
   schema,
   uiSchema,
+  options,
   customOption,
   rawErrors,
   objectOptions,
 }) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const options = objectOptions ?? (schema.enum as Array<string>);
+  const normalizedOptions =
+    objectOptions ??
+    (options?.objectOptions as ObjectOptionProps[]) ??
+    (schema.enum as Array<string>);
   const description = uiSchema ? uiSchema['ui:description'] : null;
   const showNull = uiSchema?.['ui:shownull'] ?? true;
   const isError = rawErrors && rawErrors.length > 0 && !value;
@@ -101,7 +105,7 @@ const SelectWidget: React.FC<SelectWidgetProps> = ({
           </option>
         )}
         ;
-        {options?.map((opt, index) => {
+        {normalizedOptions?.map((opt, index) => {
           return (
             <option
               // eslint-disable-next-line react/no-array-index-key

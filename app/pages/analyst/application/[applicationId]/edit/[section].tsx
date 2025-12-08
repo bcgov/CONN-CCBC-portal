@@ -6,6 +6,7 @@ import { IChangeEvent } from '@rjsf/core';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Button from '@button-inc/bcgov-theme/Button';
 import budgetDetails from 'formSchema/pages/budgetDetails';
+import * as Sentry from '@sentry/nextjs';
 import FormBase from 'components/Form/FormBase';
 import {
   calculate,
@@ -18,16 +19,23 @@ import { SectionQuery } from '__generated__/SectionQuery.graphql';
 import { useCreateNewFormDataMutation } from 'schema/mutations/application/createNewFormData';
 import { analystProjectArea, benefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
-import { RJSFSchema } from '@rjsf/utils';
 import useEmailNotification from 'lib/helpers/useEmailNotification';
 import review from 'formSchema/analyst/summary/review';
 import reviewUiSchema from 'formSchema/uiSchema/summary/reviewUiSchema';
-import { getFundingData } from 'lib/helpers/ccbcSummaryGenerateFormData';
+import {
+  getFundingData,
+  getMiscellaneousData,
+} from 'lib/helpers/ccbcSummaryGenerateFormData';
 import { useSaveFnhaContributionMutation } from 'schema/mutations/application/saveFnhaContributionMutation';
+import { RJSFSchema } from '@rjsf/utils';
+import { useMergeApplicationMutation } from 'schema/mutations/application/mergeApplication';
+import { useArchiveApplicationMergeMutation } from 'schema/mutations/application/archiveApplicationMerge';
+import useApplicationMerge from 'lib/helpers/useApplicationMerge';
 
 const getSectionQuery = graphql`
   query SectionQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
+      rowId
       ccbcNumber
       status
       formData {
@@ -35,6 +43,40 @@ const getSectionQuery = graphql`
         jsonData
         formByFormSchemaId {
           jsonSchema
+        }
+      }
+      parentApplicationMerge: applicationMergesByChildApplicationId(
+        first: 1
+        filter: { archivedAt: { isNull: true } }
+        orderBy: CREATED_AT_DESC
+      ) {
+        __id
+        edges {
+          node {
+            parentCbcId
+            parentApplicationId
+            applicationByParentApplicationId {
+              ccbcNumber
+              rowId
+            }
+            cbcByParentCbcId {
+              projectNumber
+            }
+          }
+        }
+      }
+      childApplicationMerge: applicationMergesByParentApplicationId(
+        filter: { archivedAt: { isNull: true } }
+        orderBy: CREATED_AT_DESC
+      ) {
+        edges {
+          node {
+            childApplicationId
+            applicationByChildApplicationId {
+              ccbcNumber
+              rowId
+            }
+          }
         }
       }
       conditionalApproval {
@@ -66,6 +108,25 @@ const getSectionQuery = graphql`
         }
       }
     }
+    allApplications(
+      filter: { archivedAt: { isNull: true } }
+      orderBy: CCBC_NUMBER_ASC
+    ) {
+      nodes {
+        rowId
+        ccbcNumber
+      }
+    }
+    allCbcData(
+      filter: { archivedAt: { isNull: true } }
+      orderBy: PROJECT_NUMBER_ASC
+    ) {
+      nodes {
+        rowId
+        projectNumber
+        cbcId
+      }
+    }
     session {
       sub
     }
@@ -80,6 +141,7 @@ const EditApplication = ({
   const {
     session,
     applicationByRowId: {
+      rowId,
       ccbcNumber,
       applicationFnhaContributionsByApplicationId,
       formData: {
@@ -87,15 +149,28 @@ const EditApplication = ({
         formSchemaId,
         jsonData,
       },
+      parentApplicationMerge,
     },
     allApplicationSowData,
+    allApplications,
+    allCbcData,
   } = query;
 
   // Use a hidden ref for submit button instead of passing to modal so we have the most up to date form data
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
+  const { getMiscellaneousSchema } = useApplicationMerge();
+  const [mergeApplication] = useMergeApplicationMutation();
+  const [archiveApplicationMerge] = useArchiveApplicationMergeMutation();
   const sectionName = router.query.section as string;
   const applicationId = router.query.applicationId as string;
+  const ccbcApplications =
+    allApplications?.nodes?.filter(
+      ({ rowId: applicationRowId }) =>
+        applicationRowId !== Number(applicationId)
+    ) || [];
+  const cbcApplications = allCbcData?.nodes || [];
+  const applicationsList = [...ccbcApplications, ...cbcApplications];
 
   // Budget details was removed from the applicant schema but we want to display in for Analysts
   // no matter which schema is returned from the database
@@ -106,12 +181,35 @@ const EditApplication = ({
       ...budgetDetails,
     },
   };
-  const isSummaryEdit = sectionName === 'funding';
-  const sectionSchema = (
-    isSummaryEdit
-      ? review.properties.funding
-      : formSchema.properties[sectionName]
-  ) as RJSFSchema;
+  const isSummaryEdit =
+    sectionName === 'funding' || sectionName === 'miscellaneous';
+
+  // custom schemaa for miscellaneous edit with project options
+  const { schema: miscSchema, uiSchema: miscUiSchema } = getMiscellaneousSchema(
+    query?.applicationByRowId,
+    true
+  );
+  const miscellaneousOptions = applicationsList.map((application: any) => {
+    return {
+      rowId: application.cbcId ?? application.rowId,
+      ccbcNumber: application.projectNumber ?? application.ccbcNumber,
+      type: application.cbcId ? 'CBC' : 'CCBC',
+    };
+  });
+
+  const sectionUiSchema =
+    sectionName === 'miscellaneous'
+      ? miscUiSchema
+      : reviewUiSchema[sectionName];
+  let sectionSchema: RJSFSchema;
+  if (isSummaryEdit) {
+    sectionSchema =
+      sectionName === 'miscellaneous'
+        ? (miscSchema as RJSFSchema)
+        : (review.properties[sectionName] as RJSFSchema);
+  } else {
+    sectionSchema = formSchema.properties[sectionName] as RJSFSchema;
+  }
 
   uiSchema.benefits = { ...uiSchema.benefits, ...benefits } as any;
   uiSchema.projectArea = {
@@ -124,8 +222,16 @@ const EditApplication = ({
     query.applicationByRowId,
     allApplicationSowData
   );
+
+  const miscellaneousData = getMiscellaneousData(query?.applicationByRowId);
+  const summaryData =
+    sectionName === 'miscellaneous'
+      ? {
+          linkedProject: miscellaneousData?.length ? miscellaneousData : [],
+        }
+      : fundingSummaryData;
   const [sectionFormData, setSectionFormData] = useState(
-    isSummaryEdit ? fundingSummaryData : jsonData[sectionName]
+    isSummaryEdit ? summaryData : jsonData[sectionName]
   );
   const [changeReason, setChangeReason] = useState('');
   const [isFormSaved, setIsFormSaved] = useState(true);
@@ -142,7 +248,7 @@ const EditApplication = ({
 
   const [createNewFormData] = useCreateNewFormDataMutation();
 
-  const handleSummaryEdit = () => {
+  const handleFundingUpdate = () => {
     saveFnhaContributionMutation({
       variables: {
         connections: [applicationFnhaContributionsByApplicationId.__id],
@@ -156,6 +262,65 @@ const EditApplication = ({
         router.push(`/analyst/application/${applicationId}/summary`);
       },
     });
+  };
+
+  const handleMiscellaneousEdit = () => {
+    const newParent = sectionFormData?.linkedProject;
+
+    if (miscellaneousData?.[0]?.rowId && !newParent?.linkedProject) {
+      try {
+        archiveApplicationMerge({
+          variables: {
+            input: {
+              _childApplicationId: rowId,
+            },
+          },
+          onCompleted: () => {
+            router.push(`/analyst/application/${applicationId}/summary`);
+          },
+        });
+      } catch (error) {
+        return;
+      }
+    }
+
+    if (newParent?.rowId !== miscellaneousData?.[0]?.rowId) {
+      try {
+        const mergeInput =
+          newParent.type === 'CCBC'
+            ? { _parentApplicationId: newParent.rowId, _parentCbcId: null }
+            : { _parentApplicationId: null, _parentCbcId: newParent.rowId };
+
+        mergeApplication({
+          variables: {
+            input: {
+              _childApplicationId: rowId,
+              ...mergeInput,
+            },
+            connections: parentApplicationMerge?.__id
+              ? [parentApplicationMerge.__id]
+              : [],
+          },
+          onCompleted: () => {
+            router.push(`/analyst/application/${applicationId}/summary`);
+          },
+        });
+      } catch (error) {
+        Sentry.captureException(error);
+      }
+    }
+  };
+  const handleSummaryEdit = () => {
+    switch (sectionName) {
+      case 'miscellaneous':
+        handleMiscellaneousEdit();
+        break;
+      case 'funding':
+        handleFundingUpdate();
+        break;
+      default:
+        break;
+    }
   };
 
   const handleSubmit = () => {
@@ -225,10 +390,11 @@ const EditApplication = ({
           formData={sectionFormData}
           onChange={handleChange}
           schema={sectionSchema}
-          uiSchema={
-            isSummaryEdit ? reviewUiSchema.funding : uiSchema[sectionName]
-          }
+          uiSchema={isSummaryEdit ? sectionUiSchema : uiSchema[sectionName]}
           onSubmit={triggerModal}
+          formContext={{
+            ccbcIdList: miscellaneousOptions,
+          }}
           noValidate
         >
           <button
