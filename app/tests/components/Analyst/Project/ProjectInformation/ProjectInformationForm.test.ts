@@ -81,6 +81,28 @@ const mockDataQueryPayload = {
           },
         ],
       },
+      applicationSowDataByApplicationId: {
+        edges: [
+          {
+            node: {
+              sowTab7SBySowId: {
+                edges: [
+                  {
+                    node: {
+                      jsonData: {
+                        summaryTable: {
+                          amountRequestedFromProvince: 100,
+                          amountRequestedFromFederalGovernment: 0,
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
       projectInformation: {
         jsonData: {
           finalizedMapUpload: [
@@ -327,7 +349,7 @@ describe('The ProjectInformation form', () => {
     componentTestingHelper.loadQuery(mockDataQueryPayload);
     componentTestingHelper.renderComponent();
 
-    expect(screen.getAllByText('SOW')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('BC-SOW')[0]).toBeInTheDocument();
 
     expect(screen.getAllByText('test1.kmz')[0]).toBeInTheDocument();
     expect(screen.getAllByText('test2.kmz')[0]).toBeInTheDocument();
@@ -335,13 +357,145 @@ describe('The ProjectInformation form', () => {
     expect(screen.getByText('Wireless SoW')).toBeInTheDocument();
 
     
-    expect(screen.getByText('Funding Agreement')).toBeInTheDocument();
+    expect(screen.getByText('BC Funding Agreement')).toBeInTheDocument();
 
     expect(screen.getByText('May 10, 2023')).toBeInTheDocument();
 
     expect(
       screen.getByText('View project data in Metabase')
     ).toBeInTheDocument();
+  });
+
+  it('should display ISED-SOW and ISED Contribution Agreement when province amount is 0', async () => {
+    const mockISEDPayload = {
+      Application() {
+        return {
+          ...mockDataQueryPayload.Application(),
+          applicationSowDataByApplicationId: {
+            edges: [
+              {
+                node: {
+                  sowTab7SBySowId: {
+                    edges: [
+                      {
+                        node: {
+                          jsonData: {
+                            summaryTable: {
+                              amountRequestedFromProvince: 0,
+                              amountRequestedFromFederalGovernment: 100,
+                            },
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+        };
+      },
+    };
+    componentTestingHelper.loadQuery(mockISEDPayload);
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getAllByText('ISED-SOW')[0]).toBeInTheDocument();
+    expect(screen.getByText('ISED Contribution Agreement')).toBeInTheDocument();
+  });
+
+  it('should display BC-SOW and BC Funding Agreement when federal amount is 0', async () => {
+    componentTestingHelper.loadQuery(mockDataQueryPayload);
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getAllByText('BC-SOW')[0]).toBeInTheDocument();
+    expect(screen.getByText('BC Funding Agreement')).toBeInTheDocument();
+  });
+
+  it('should display BC/ISED SOW and BC Funding Agreement when both amounts are greater than 0', async () => {
+    const mockBCISEDPayload = {
+      Application() {
+        return {
+          ...mockDataQueryPayload.Application(),
+          applicationSowDataByApplicationId: {
+            edges: [
+              {
+                node: {
+                  sowTab7SBySowId: {
+                    edges: [
+                      {
+                        node: {
+                          jsonData: {
+                            summaryTable: {
+                              amountRequestedFromProvince: 100,
+                              amountRequestedFromFederalGovernment: 200,
+                            },
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+        };
+      },
+    };
+    componentTestingHelper.loadQuery(mockBCISEDPayload);
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getAllByText('BC/ISED SOW')[0]).toBeInTheDocument();
+    expect(screen.getByText('BC Funding Agreement')).toBeInTheDocument();
+  });
+
+  it('should display default SOW and Funding Agreement when no sow data is available', async () => {
+    const mockNoSowDataPayload = {
+      Application() {
+        return {
+          ...mockDataQueryPayload.Application(),
+          applicationSowDataByApplicationId: {
+            edges: [],
+          },
+        };
+      },
+    };
+    componentTestingHelper.loadQuery(mockNoSowDataPayload);
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getAllByText('SOW')[0]).toBeInTheDocument();
+    expect(screen.getByText('Funding Agreement')).toBeInTheDocument();
+  });
+
+  it('should display default SOW and Funding Agreement when summaryTable data is missing', async () => {
+    const mockNoSummaryTablePayload = {
+      Application() {
+        return {
+          ...mockDataQueryPayload.Application(),
+          applicationSowDataByApplicationId: {
+            edges: [
+              {
+                node: {
+                  sowTab7SBySowId: {
+                    edges: [
+                      {
+                        node: {
+                          jsonData: {},
+                        },
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+        };
+      },
+    };
+    componentTestingHelper.loadQuery(mockNoSummaryTablePayload);
+    componentTestingHelper.renderComponent();
+
+    expect(screen.getAllByText('SOW')[0]).toBeInTheDocument();
+    expect(screen.getByText('Funding Agreement')).toBeInTheDocument();
   });
 
   it('calls the mutation on Change Request save and send email notification for SOW upload', async () => {
