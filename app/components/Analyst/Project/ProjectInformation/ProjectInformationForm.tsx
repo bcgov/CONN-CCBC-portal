@@ -712,6 +712,7 @@ const ProjectInformationForm: React.FC<Props> = ({
             date={projectInformationData?.dateFundingAgreementSigned}
             title="Original"
             sowTitle={sowTitle}
+            fundingTitle={fundingTitle}
             onFormEdit={() => {
               setIsChangeRequest(false);
               setFormData(projectInformationData);
