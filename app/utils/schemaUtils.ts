@@ -126,6 +126,7 @@ export const createCbcSchemaData = (jsonData) => {
     milestoneComments: jsonData.milestoneComments,
     primaryNewsRelease: jsonData.primaryNewsRelease,
     secondaryNewsRelease: jsonData.secondaryNewsRelease,
+    childProjects: jsonData.childProjects || [],
     notes: jsonData.notes,
   };
 
