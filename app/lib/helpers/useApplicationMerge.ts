@@ -92,7 +92,8 @@ const useApplicationMerge = () => {
       rowId: number,
       changeReason: string,
       connections: readonly string[],
-      onCompleted: () => void
+      onCompleted: () => void,
+      onError?: (error?: unknown) => void
     ) => {
       const mergeConnection = connections ?? [];
 
@@ -111,6 +112,7 @@ const useApplicationMerge = () => {
               _changeReason: changeReason,
             },
           },
+          onError,
           onCompleted,
         });
         return;
@@ -133,6 +135,7 @@ const useApplicationMerge = () => {
           },
           connections: mergeConnection,
         },
+        onError,
         onCompleted,
       });
     },

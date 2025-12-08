@@ -7,8 +7,7 @@ import useModal from 'lib/helpers/useModal';
 import * as Sentry from '@sentry/nextjs';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { useMergeApplicationMutation } from 'schema/mutations/application/mergeApplication';
-import { useArchiveApplicationMergeMutation } from 'schema/mutations/application/archiveApplicationMerge';
+import useApplicationMerge from 'lib/helpers/useApplicationMerge';
 import ChangeModal from './ChangeModal';
 import ExternalChangeModal from './ExternalChangeModal';
 
@@ -179,8 +178,8 @@ const ChangeStatus: React.FC<Props> = ({
   const mergeConnectionIds = applicationMergesByChildApplicationId?.__id
     ? [applicationMergesByChildApplicationId.__id]
     : [];
+  const { updateParent } = useApplicationMerge();
   const [createStatus] = useCreateApplicationStatusMutation();
-  const [mergeApplication] = useMergeApplicationMutation();
   // Filter unwanted status types
   const statusTypes = statusList.filter(
     (statusType) => !hiddenStatusTypes.includes(statusType.name)
@@ -204,7 +203,6 @@ const ChangeStatus: React.FC<Props> = ({
     existingParentNode?.parentApplicationId ?? existingParentNode?.parentCbcId;
   const [mergeParent, setMergeParent] =
     useState<ParentApplicationOption | null>(null);
-  const [archiveApplicationMerge] = useArchiveApplicationMergeMutation();
 
   const conditionalApprovalData = conditionalApproval?.jsonData;
 
@@ -277,54 +275,20 @@ const ChangeStatus: React.FC<Props> = ({
     const statusInputName = isExternalStatus ? externalStatus : internalStatus;
 
     // update the parent relationship
-    if (
-      requiresMergeParentSelection &&
-      mergeParent?.id &&
-      mergeParent?.id !== existingParentId
-    ) {
-      try {
-        const mergeInput =
-          mergeParent.type === 'CCBC'
-            ? { _parentApplicationId: mergeParent.id, _parentCbcId: null }
-            : { _parentApplicationId: null, _parentCbcId: mergeParent.id };
-
-        mergeApplication({
-          variables: {
-            input: {
-              _childApplicationId: rowId,
-              _changeReason: changeReason,
-              ...mergeInput,
-            },
-            connections: mergeConnectionIds,
-          },
-        });
-      } catch (error) {
-        Sentry.captureException(error);
-        return;
-      }
-    }
-
-    if (
-      !isExternalStatus &&
-      currentStatus?.name === 'merged' &&
-      newStatus !== 'merged'
-    ) {
-      try {
-        archiveApplicationMerge({
-          variables: {
-            input: {
-              _childApplicationId: rowId,
-              _changeReason: changeReason,
-            },
-          },
-          onCompleted: () => {
-            setMergeParent(null);
-          },
-        });
-      } catch (error) {
-        Sentry.captureException(error);
-        return;
-      }
+    if (requiresMergeParentSelection) {
+      updateParent(
+        existingParentId,
+        { ...mergeParent, rowId: mergeParent?.id },
+        rowId,
+        changeReason,
+        mergeConnectionIds,
+        () => {
+          if (!mergeParent?.id) setMergeParent(null);
+        },
+        (error: any) => {
+          Sentry.captureException(error);
+        }
+      );
     }
 
     createStatus({

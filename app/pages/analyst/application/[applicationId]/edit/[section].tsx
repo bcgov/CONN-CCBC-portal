@@ -28,6 +28,7 @@ import {
 import { useSaveFnhaContributionMutation } from 'schema/mutations/application/saveFnhaContributionMutation';
 import { RJSFSchema } from '@rjsf/utils';
 import useApplicationMerge from 'lib/helpers/useApplicationMerge';
+import { useToast } from 'components/AppProvider';
 
 const getSectionQuery = graphql`
   query SectionQuery($rowId: Int!) {
@@ -156,6 +157,7 @@ const EditApplication = ({
   // Use a hidden ref for submit button instead of passing to modal so we have the most up to date form data
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
+  const { showToast } = useToast();
   const { getMiscellaneousSchema, updateParent } = useApplicationMerge();
   const sectionName = router.query.section as string;
   const applicationId = router.query.applicationId as string;
@@ -266,9 +268,22 @@ const EditApplication = ({
       ? [parentApplicationMerge.__id]
       : [];
 
-    updateParent(oldParent, newParent, rowId, changeReason, connections, () => {
-      router.push(`/analyst/application/${applicationId}/summary`);
-    });
+    updateParent(
+      oldParent,
+      newParent,
+      rowId,
+      changeReason,
+      connections,
+      // onSuccess
+      () => {
+        router.push(`/analyst/application/${applicationId}/summary`);
+      },
+      // onError show error message
+      () => {
+        showToast?.('An error occurred. Please try again.', 'error', 15000);
+        router.push(`/analyst/application/${applicationId}/summary`);
+      }
+    );
   };
 
   const handleSummaryEdit = () => {
