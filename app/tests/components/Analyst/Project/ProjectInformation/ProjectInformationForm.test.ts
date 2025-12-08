@@ -327,13 +327,14 @@ describe('The ProjectInformation form', () => {
     componentTestingHelper.loadQuery(mockDataQueryPayload);
     componentTestingHelper.renderComponent();
 
-    expect(screen.getAllByText('SoW')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('SOW')[0]).toBeInTheDocument();
 
     expect(screen.getAllByText('test1.kmz')[0]).toBeInTheDocument();
     expect(screen.getAllByText('test2.kmz')[0]).toBeInTheDocument();
 
     expect(screen.getByText('Wireless SoW')).toBeInTheDocument();
 
+    
     expect(screen.getByText('Funding Agreement')).toBeInTheDocument();
 
     expect(screen.getByText('May 10, 2023')).toBeInTheDocument();
