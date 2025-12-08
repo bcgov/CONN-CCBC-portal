@@ -504,11 +504,16 @@ const ProjectInformationForm: React.FC<Props> = ({
     });
   };
 
-  const getSowTitle = (
+  const getHelperTitles = (
     sowData: typeof applicationSowDataByApplicationId
-  ): string => {
+  ): { sowTitle: string; fundingTitle: string } => {
+    const helperTitles = {
+      sowTitle: 'SOW',
+      fundingTitle: 'Funding Agreement',
+    };
+
     if (!sowData?.edges?.length) {
-      return 'Original';
+      return helperTitles;
     }
 
     const latestSowData = sowData.edges[0]?.node;
@@ -516,7 +521,7 @@ const ProjectInformationForm: React.FC<Props> = ({
       latestSowData?.sowTab7SBySowId?.edges?.[0]?.node?.jsonData?.summaryTable;
 
     if (!tab7Data) {
-      return 'Original';
+      return helperTitles;
     }
 
     const amountRequestedFromProvince = Math.floor(
@@ -527,24 +532,32 @@ const ProjectInformationForm: React.FC<Props> = ({
     );
 
     if (amountRequestedFromProvince === 0) {
-      return 'ISED-SOW';
+      helperTitles.sowTitle = 'ISED-SOW';
+      helperTitles.fundingTitle = 'ISED Contribution Agreement';
+      return helperTitles;
     }
 
     if (amountRequestedFromFederalGovernment === 0) {
-      return 'BC-SOW';
+      helperTitles.sowTitle = 'BC-SOW';
+      helperTitles.fundingTitle = 'BC Funding Agreement';
+      return helperTitles;
     }
 
     if (
       amountRequestedFromProvince > 0 &&
       amountRequestedFromFederalGovernment > 0
     ) {
-      return 'BC/ISED SOW';
+      helperTitles.sowTitle = 'BC/ISED SOW';
+      helperTitles.fundingTitle = 'BC/ISED Funding Agreement';
+      return helperTitles;
     }
 
-    return 'SOW';
+    return helperTitles;
   };
 
-  const sowTitle = getSowTitle(applicationSowDataByApplicationId);
+  const { sowTitle, fundingTitle } = getHelperTitles(
+    applicationSowDataByApplicationId
+  );
 
   const isOriginalSowUpload = projectInformation?.jsonData;
   return (
@@ -673,6 +686,7 @@ const ProjectInformationForm: React.FC<Props> = ({
               levelOfAmendment={levelOfAmendment}
               title={`Amendment #${amendmentNumber}`}
               sowTitle={sowTitle}
+              fundingTitle={fundingTitle}
               onFormEdit={() => {
                 setIsChangeRequest(true);
                 setIsFormEditMode(true);

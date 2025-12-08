@@ -172,6 +172,7 @@ interface Props {
   title: string;
   wirelessSow?: any;
   sowTitle?: string;
+  fundingTitle?: any;
   otherFiles?: Array<any>;
   setDeleteModalOpen?: (open: boolean) => void;
   setDeleteModalData?: (data: any) => void;
@@ -195,6 +196,7 @@ const ReadOnlyView: React.FC<Props> = ({
   title,
   wirelessSow,
   sowTitle,
+  fundingTitle,
   otherFiles,
   amendmentNumber,
   setDeleteModalOpen,
@@ -243,7 +245,7 @@ const ReadOnlyView: React.FC<Props> = ({
               uuid={fundingAgreement.uuid}
               fileName={fundingAgreement.name}
             >
-              <FileHeader icon={faFileContract} title="Funding Agreement" />
+              <FileHeader icon={faFileContract} title={fundingTitle} />
             </DownloadLink>
           )}
           {sow && (
