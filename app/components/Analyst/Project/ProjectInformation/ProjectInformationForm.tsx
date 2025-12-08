@@ -548,7 +548,7 @@ const ProjectInformationForm: React.FC<Props> = ({
       amountRequestedFromFederalGovernment > 0
     ) {
       helperTitles.sowTitle = 'BC/ISED SOW';
-      helperTitles.fundingTitle = 'BC/ISED Funding Agreement';
+      helperTitles.fundingTitle = 'BC Funding Agreement';
       return helperTitles;
     }
 
