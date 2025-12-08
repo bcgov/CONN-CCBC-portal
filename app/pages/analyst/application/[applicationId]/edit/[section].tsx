@@ -6,7 +6,6 @@ import { IChangeEvent } from '@rjsf/core';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Button from '@button-inc/bcgov-theme/Button';
 import budgetDetails from 'formSchema/pages/budgetDetails';
-import * as Sentry from '@sentry/nextjs';
 import FormBase from 'components/Form/FormBase';
 import {
   calculate,
@@ -28,8 +27,6 @@ import {
 } from 'lib/helpers/ccbcSummaryGenerateFormData';
 import { useSaveFnhaContributionMutation } from 'schema/mutations/application/saveFnhaContributionMutation';
 import { RJSFSchema } from '@rjsf/utils';
-import { useMergeApplicationMutation } from 'schema/mutations/application/mergeApplication';
-import { useArchiveApplicationMergeMutation } from 'schema/mutations/application/archiveApplicationMerge';
 import useApplicationMerge from 'lib/helpers/useApplicationMerge';
 
 const getSectionQuery = graphql`
@@ -159,9 +156,7 @@ const EditApplication = ({
   // Use a hidden ref for submit button instead of passing to modal so we have the most up to date form data
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
-  const { getMiscellaneousSchema } = useApplicationMerge();
-  const [mergeApplication] = useMergeApplicationMutation();
-  const [archiveApplicationMerge] = useArchiveApplicationMergeMutation();
+  const { getMiscellaneousSchema, updateParent } = useApplicationMerge();
   const sectionName = router.query.section as string;
   const applicationId = router.query.applicationId as string;
   const ccbcApplications =
@@ -265,51 +260,17 @@ const EditApplication = ({
   };
 
   const handleMiscellaneousEdit = () => {
+    const oldParent = miscellaneousData?.[0]?.rowId;
     const newParent = sectionFormData?.linkedProject;
+    const connections = parentApplicationMerge?.__id
+      ? [parentApplicationMerge.__id]
+      : [];
 
-    if (miscellaneousData?.[0]?.rowId && !newParent?.linkedProject) {
-      try {
-        archiveApplicationMerge({
-          variables: {
-            input: {
-              _childApplicationId: rowId,
-            },
-          },
-          onCompleted: () => {
-            router.push(`/analyst/application/${applicationId}/summary`);
-          },
-        });
-      } catch (error) {
-        return;
-      }
-    }
-
-    if (newParent?.rowId !== miscellaneousData?.[0]?.rowId) {
-      try {
-        const mergeInput =
-          newParent.type === 'CCBC'
-            ? { _parentApplicationId: newParent.rowId, _parentCbcId: null }
-            : { _parentApplicationId: null, _parentCbcId: newParent.rowId };
-
-        mergeApplication({
-          variables: {
-            input: {
-              _childApplicationId: rowId,
-              ...mergeInput,
-            },
-            connections: parentApplicationMerge?.__id
-              ? [parentApplicationMerge.__id]
-              : [],
-          },
-          onCompleted: () => {
-            router.push(`/analyst/application/${applicationId}/summary`);
-          },
-        });
-      } catch (error) {
-        Sentry.captureException(error);
-      }
-    }
+    updateParent(oldParent, newParent, rowId, changeReason, connections, () => {
+      router.push(`/analyst/application/${applicationId}/summary`);
+    });
   };
+
   const handleSummaryEdit = () => {
     switch (sectionName) {
       case 'miscellaneous':

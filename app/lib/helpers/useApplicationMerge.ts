@@ -1,12 +1,26 @@
+import { useCallback } from 'react';
 import { RJSFSchema } from '@rjsf/utils';
 import miscellaneous from 'formSchema/analyst/summary/miscellaneous';
 import reviewUiSchema from 'formSchema/uiSchema/summary/reviewUiSchema';
+import { useArchiveApplicationMergeMutation } from 'schema/mutations/application/archiveApplicationMerge';
+import { useMergeApplicationMutation } from 'schema/mutations/application/mergeApplication';
 import {
   APPROVED_STATUSES,
   MERGED_STATUSES,
 } from './ccbcSummaryGenerateFormData';
 
+type LinkedProjectSelection =
+  | {
+      rowId: number;
+      type: 'CCBC' | 'CBC';
+    }
+  | null
+  | undefined;
+
 const useApplicationMerge = () => {
+  const [mergeApplication] = useMergeApplicationMutation();
+  const [archiveApplicationMerge] = useArchiveApplicationMergeMutation();
+
   const getMiscLinkedProjectLabel = (status?: string) => {
     if (APPROVED_STATUSES.includes(status)) {
       return 'Child Project(s)';
@@ -71,7 +85,61 @@ const useApplicationMerge = () => {
     };
   };
 
-  return { getMiscellaneousSchema, getMiscLinkedProjectLabel };
+  const updateParent = useCallback(
+    (
+      oldParent: number | undefined,
+      newParent: LinkedProjectSelection,
+      rowId: number,
+      changeReason: string,
+      connections: readonly string[],
+      onCompleted: () => void
+    ) => {
+      const mergeConnection = connections ?? [];
+
+      // No change
+      if (newParent?.rowId === oldParent) {
+        onCompleted();
+        return;
+      }
+
+      // Remove an existing parent relationship
+      if (oldParent && !newParent?.rowId) {
+        archiveApplicationMerge({
+          variables: {
+            input: {
+              _childApplicationId: rowId,
+              _changeReason: changeReason,
+            },
+          },
+          onCompleted,
+        });
+        return;
+      }
+
+      // Add or replace the parent relationship
+      if (!newParent?.rowId) return;
+
+      const mergeInput =
+        newParent.type === 'CCBC'
+          ? { _parentApplicationId: newParent.rowId, _parentCbcId: null }
+          : { _parentApplicationId: null, _parentCbcId: newParent.rowId };
+
+      mergeApplication({
+        variables: {
+          input: {
+            _childApplicationId: rowId,
+            _changeReason: changeReason,
+            ...mergeInput,
+          },
+          connections: mergeConnection,
+        },
+        onCompleted,
+      });
+    },
+    [archiveApplicationMerge, mergeApplication]
+  );
+
+  return { getMiscellaneousSchema, getMiscLinkedProjectLabel, updateParent };
 };
 
 export default useApplicationMerge;
