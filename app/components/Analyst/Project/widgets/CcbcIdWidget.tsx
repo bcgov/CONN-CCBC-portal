@@ -57,6 +57,17 @@ const UrlWidget: React.FC<WidgetProps> = ({
   const allowMultiple = options?.allowMultiple ?? true;
   const widgetWidth = options?.widgetWidth as string | undefined;
 
+  let normalizedValue = value;
+
+  if (allowMultiple) {
+    normalizedValue =
+      value ?? (ccbcNumber && rowId ? [{ ccbcNumber, rowId }] : []);
+  } else if (Array.isArray(value)) {
+    [normalizedValue] = value;
+  } else {
+    normalizedValue = value ?? null;
+  }
+
   const styles = {
     '& .MuiInputBase-root': {
       padding: '0px',
@@ -82,7 +93,7 @@ const UrlWidget: React.FC<WidgetProps> = ({
       onChange={(e, val) => {
         if (e) onChange(val);
       }}
-      value={allowMultiple ? (value ?? [{ ccbcNumber, rowId }]) : value?.[0]}
+      value={normalizedValue}
       data-testid={id}
       options={ccbcIdList}
       // To prevent a warning when comparing the previous value to the current

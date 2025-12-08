@@ -2,8 +2,7 @@
 
 begin;
 
-drop function if exists ccbc_public.merge_application(_child_application_id int, _parent_application_id int,  _parent_cbc_id int);
-create or replace function ccbc_public.merge_application(_child_application_id int, _parent_application_id int default null,  _parent_cbc_id int default null, _change_reason text default null) returns ccbc_public.application_merge as $$
+create or replace function ccbc_public.merge_application(_child_application_id int, _parent_application_id int default null,  _parent_cbc_id int default null) returns ccbc_public.application_merge as $$
 declare
   new_application_merge_id int;
   old_application_merge_id int;
@@ -18,8 +17,8 @@ begin
   select am.id into old_application_merge_id from ccbc_public.application_merge as am where am.child_application_id = _child_application_id and am.archived_at is null
   order by am.id desc limit 1;
 
-  insert into ccbc_public.application_merge (child_application_id, parent_application_id,  parent_cbc_id, change_reason)
-    values (_child_application_id, _parent_application_id, _parent_cbc_id, _change_reason) returning id into new_application_merge_id;
+  insert into ccbc_public.application_merge (child_application_id, parent_application_id,  parent_cbc_id)
+    values (_child_application_id, _parent_application_id, _parent_cbc_id) returning id into new_application_merge_id;
 
   if old_application_merge_id is not null then
     update ccbc_public.application_merge set archived_at = now() where id = old_application_merge_id;

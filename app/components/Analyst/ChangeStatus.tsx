@@ -292,6 +292,7 @@ const ChangeStatus: React.FC<Props> = ({
           variables: {
             input: {
               _childApplicationId: rowId,
+              _changeReason: changeReason,
               ...mergeInput,
             },
             connections: mergeConnectionIds,
@@ -313,6 +314,7 @@ const ChangeStatus: React.FC<Props> = ({
           variables: {
             input: {
               _childApplicationId: rowId,
+              _changeReason: changeReason,
             },
           },
           onCompleted: () => {
