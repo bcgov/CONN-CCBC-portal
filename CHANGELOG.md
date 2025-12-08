@@ -1,3 +1,9 @@
+# [1.274.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.273.7...v1.274.0) (2025-12-08)
+
+### Features
+
+- add packages 11 - 20 ([81f4f52](https://github.com/bcgov/CONN-CCBC-portal/commit/81f4f526096095f1b3b64de521dbc37a998c3912))
+
 ## [1.273.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.273.6...v1.273.7) (2025-12-04)
 
 ## [1.273.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.273.5...v1.273.6) (2025-12-04)
