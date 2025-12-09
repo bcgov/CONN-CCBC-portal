@@ -17,6 +17,7 @@ const mutation = graphql`
         parentApplicationId
         parentCbcId
         childApplicationId
+        changeReason
       }
     }
   }

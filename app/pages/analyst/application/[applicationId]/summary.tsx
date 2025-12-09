@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import mapUiSchema from 'formSchema/uiSchema/summary/mapUiSchema';
 import { useFeature } from '@growthbook/growthbook-react';
+import useApplicationMerge from 'lib/helpers/useApplicationMerge';
 
 const getSummaryQuery = graphql`
   query summaryQuery($rowId: Int!) {
@@ -41,6 +42,37 @@ const getSummaryQuery = graphql`
       applicationDependenciesByApplicationId(first: 1) {
         nodes {
           jsonData
+        }
+      }
+      parentApplicationMerge: applicationMergesByChildApplicationId(
+        first: 1
+        filter: { archivedAt: { isNull: true } }
+        orderBy: CREATED_AT_DESC
+      ) {
+        edges {
+          node {
+            parentCbcId
+            parentApplicationId
+            applicationByParentApplicationId {
+              ccbcNumber
+            }
+            cbcByParentCbcId {
+              projectNumber
+            }
+          }
+        }
+      }
+      childApplicationMerge: applicationMergesByParentApplicationId(
+        filter: { archivedAt: { isNull: true } }
+        orderBy: CREATED_AT_DESC
+      ) {
+        edges {
+          node {
+            childApplicationId
+            applicationByChildApplicationId {
+              ccbcNumber
+            }
+          }
         }
       }
       applicationFnhaContributionsByApplicationId {
@@ -232,12 +264,29 @@ const Summary = ({
   );
   const [finalFormData, setFinalFormData] = useState<any>(formData);
   const [editMode, setEditMode] = useState(false);
+  const { getMiscellaneousSchema } = useApplicationMerge();
+  const { schema: miscSchema, uiSchema: miscUiSchema } =
+    getMiscellaneousSchema(applicationByRowId);
+
+  // to handle dynamic titles and widgets based on the status
+  const summaryReviewUiSchema = {
+    ...reviewUiSchema,
+    miscellaneous: miscUiSchema,
+  };
+  const summaryReviewSchema = {
+    ...review,
+    properties: {
+      ...review.properties,
+      miscellaneous: miscSchema,
+    },
+  };
+
   const finalUiSchema = {
     map: { ...mapUiSchema },
-    ...reviewUiSchema,
+    ...summaryReviewUiSchema,
   };
   const finalSchema = {
-    ...review,
+    ...summaryReviewSchema,
     properties: {
       map: {
         required: map.required,
@@ -246,7 +295,7 @@ const Summary = ({
           ...map.properties,
         },
       },
-      ...review.properties,
+      ...summaryReviewSchema.properties,
     },
   };
   useEffect(() => {
@@ -354,8 +403,8 @@ const Summary = ({
           isFormEditMode={editMode}
           title="Summary"
           theme={ReviewTheme}
-          schema={isMapExpanded ? finalSchema : review}
-          uiSchema={isMapExpanded ? finalUiSchema : reviewUiSchema}
+          schema={isMapExpanded ? finalSchema : summaryReviewSchema}
+          uiSchema={isMapExpanded ? finalUiSchema : summaryReviewUiSchema}
           resetFormData={() => {}}
           onSubmit={() => {}}
           setIsFormEditMode={setEditMode}

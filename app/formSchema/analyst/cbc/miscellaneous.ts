@@ -5,6 +5,10 @@ const miscellaneous: RJSFSchema = {
   description: '',
   type: 'object',
   properties: {
+    childProjects: {
+      type: 'string',
+      title: 'Child Project(s)',
+    },
     projectMilestoneCompleted: {
       type: 'number',
       title: '% Project Milestone Completed',

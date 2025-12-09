@@ -718,6 +718,92 @@ const mockQueryPayloadConditionalApproval = {
   },
 };
 
+const mockMiscellaneousReceivedPayload = {
+  Query() {
+    return {
+      applicationByRowId: {
+        rowId: 1,
+        ccbcNumber: 'CCBC-010001',
+        announcements: { totalCount: 0 },
+        applicationAnnouncedsByApplicationId: { nodes: [] },
+        applicationDependenciesByApplicationId: { nodes: [] },
+        parentApplicationMerge: { edges: [] },
+        childApplicationMerge: { edges: [] },
+        applicationFnhaContributionsByApplicationId: { edges: [] },
+        applicationStatusesByApplicationId: { nodes: [] },
+        applicationMilestoneExcelDataByApplicationId: { nodes: [] },
+        applicationFormTemplate9DataByApplicationId: { nodes: [] },
+        projectInformationDataByApplicationId: { nodes: [] },
+        formData: { jsonData: {} },
+        projectInformation: {},
+        conditionalApproval: {},
+        changeRequestDataByApplicationId: { edges: [] },
+        allAssessments: { nodes: [] },
+        intakeNumber: 1,
+        status: 'received',
+      },
+      allApplicationSowData: { nodes: [] },
+      allIntakes: {
+        nodes: [
+          {
+            closeTimestamp: '2022-12-15T22:30:00+00:00',
+            ccbcIntakeNumber: 1,
+          },
+        ],
+      },
+      allApplicationErs: { edges: [] },
+      allApplicationRds: { edges: [] },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+      },
+    };
+  },
+};
+
+const mockMiscellaneousMergedPayload = {
+  Query() {
+    return {
+      ...mockMiscellaneousReceivedPayload.Query(),
+      applicationByRowId: {
+        ...mockMiscellaneousReceivedPayload.Query().applicationByRowId,
+        status: 'merged',
+      },
+    };
+  },
+};
+
+const mockMiscellaneousApprovedPayload = {
+  Query() {
+    return {
+      ...mockMiscellaneousReceivedPayload.Query(),
+      applicationByRowId: {
+        ...mockMiscellaneousReceivedPayload.Query().applicationByRowId,
+        status: 'approved',
+        childApplicationMerge: {
+          edges: [
+            {
+              node: {
+                childApplicationId: 2,
+                applicationByChildApplicationId: {
+                  ccbcNumber: 'CCBC-010010',
+                },
+              },
+            },
+            {
+              node: {
+                childApplicationId: 3,
+                applicationByChildApplicationId: {
+                  ccbcNumber: 'CCBC-010011',
+                },
+              },
+            },
+          ],
+        },
+      },
+    };
+  },
+};
+
 const mockQueryPayloadAgreementSigned = {
   Query() {
     return {
@@ -940,8 +1026,7 @@ const mockQueryPayloadAgreementSigned = {
                       amountRequestedFromProvince: 7777,
                       totalInfrastructureBankFunding: 6666,
                       amountRequestedFromFederalGovernment: 5555,
-                      targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity:
-                        false,
+                      targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity: false,
                     },
                     detailedBudget: {
                       federalSharingRatio: 0.4,
@@ -1340,6 +1425,47 @@ describe('The Summary page', () => {
     expect(screen.getByText('Milestone')).toBeInTheDocument();
   });
 
+  it('should show the default miscellaneous label and fallback when no linked projects on received applications', async () => {
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockMiscellaneousReceivedPayload);
+      pageTestingHelper.renderPage();
+    });
+
+    expect(screen.getByText('Parent/Child Project(s)')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('root_miscellaneous_linkedProject-value')
+    ).toHaveTextContent('N/A');
+  });
+
+  it('should show the merged miscellaneous fallback and label', async () => {
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockMiscellaneousMergedPayload);
+      pageTestingHelper.renderPage();
+    });
+
+    expect(screen.getByText('Parent Project')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('root_miscellaneous_linkedProject-value')
+    ).toHaveTextContent('TBD');
+  });
+
+  it('should list child project links when the application is approved', async () => {
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockMiscellaneousApprovedPayload);
+      pageTestingHelper.renderPage();
+    });
+
+    expect(screen.getByText('Child Project(s)')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'CCBC-010010' })).toHaveAttribute(
+      'href',
+      '/analyst/application/2/summary'
+    );
+    expect(screen.getByRole('link', { name: 'CCBC-010011' })).toHaveAttribute(
+      'href',
+      '/analyst/application/3/summary'
+    );
+  });
+
   it('should show the correct data when application is received', async () => {
     await act(async () => {
       pageTestingHelper.loadQuery(mockQueryPayloadReceived);
@@ -1611,5 +1737,26 @@ describe('The Summary page', () => {
     const penIcon = icons.find((icon) => icon.classList.contains('fa-pen'));
     expect(penIcon).toBeInTheDocument();
     expect(fundingSection).toContainElement(penIcon as HTMLElement);
+  });
+
+  it('miscellaneous accordion should be editable with link to the edit page', async () => {
+    await act(async () => {
+      pageTestingHelper.loadQuery(mockMiscellaneousReceivedPayload);
+      pageTestingHelper.renderPage();
+    });
+
+    const miscellaneousSection = document.getElementById('root_miscellaneous');
+    expect(miscellaneousSection).toBeInTheDocument();
+
+    const penIcon = miscellaneousSection?.querySelector(
+      '.fa-pen'
+    ) as HTMLElement;
+    expect(penIcon).toBeInTheDocument();
+
+    const editLink = penIcon.closest('a');
+    expect(editLink).toHaveAttribute(
+      'href',
+      '/analyst/application/1/edit/miscellaneous'
+    );
   });
 });

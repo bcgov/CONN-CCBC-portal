@@ -6,6 +6,7 @@ const LinkArrayWidget: React.FC<WidgetProps> = ({
   value,
   formContext,
   name,
+  uiSchema,
 }) => {
   const StyledLink = styled.a`
     color: ${(props) => props.theme.color.links};
@@ -16,23 +17,37 @@ const LinkArrayWidget: React.FC<WidgetProps> = ({
       cursor: pointer;
     }
   `;
+  const StyledHint = styled.span`
+    display: block;
+    margin-top: 4px;
+    color: ${(props) => props.theme.color.darkGrey};
+    font-style: italic;
+    font-size: 13px;
+  `;
+  const StyledLinksContainer = styled.div`
+    margin-bottom: 16px;
+  `;
+
+  const help = uiSchema?.['ui:help'];
+  const hasLinks = Array.isArray(value) && value.length > 0;
+  const displayValue = hasLinks ? value : value?.toString() || undefined;
+
   return (
-    <>
-      {value &&
-        Array.isArray(value) &&
-        value.length > 0 &&
-        value.map((item, index) => (
-          <>
-            <StyledLink
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {item.name}
-            </StyledLink>
-            {index < value.length - 1 ? ', ' : ''}
-          </>
-        ))}
+    <StyledLinksContainer>
+      {hasLinks
+        ? value.map((item, index) => (
+            <>
+              <StyledLink
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {item.name}
+              </StyledLink>
+              {index < value.length - 1 ? ', ' : ''}
+            </>
+          ))
+        : displayValue}
       {formContext?.formDataSource?.[name] &&
         value !== null &&
         typeof value !== 'undefined' && (
@@ -40,7 +55,8 @@ const LinkArrayWidget: React.FC<WidgetProps> = ({
             {` (${formContext.formDataSource?.[name]})`}
           </StyledSourceSpan>
         )}
-    </>
+      {help && <StyledHint>{help}</StyledHint>}
+    </StyledLinksContainer>
   );
 };
 

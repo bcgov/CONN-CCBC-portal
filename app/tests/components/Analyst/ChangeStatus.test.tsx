@@ -462,6 +462,7 @@ describe('The application header component', () => {
       expect.objectContaining({
         input: {
           _childApplicationId: 1,
+          _changeReason: '',
           _parentApplicationId: 2001,
           _parentCbcId: null,
         },
@@ -491,6 +492,7 @@ describe('The application header component', () => {
                 parentApplicationId: 2001,
                 parentCbcId: null,
                 childApplicationId: 1,
+                changeReason: '',
               },
             },
           },
@@ -540,6 +542,7 @@ describe('The application header component', () => {
       {
         input: {
           _childApplicationId: 1,
+          _changeReason: '',
         },
       }
     );
@@ -569,6 +572,7 @@ describe('The application header component', () => {
                 parentCbcId: null,
                 childApplicationId: 1,
                 archivedAt: '2024-01-01',
+                changeReason: '',
               },
             },
           },

@@ -1,6 +1,15 @@
 import review from '../../formSchema/analyst/summary/review';
 import customValidate from '../../utils/ccbcCustomValidator';
 
+export const APPROVED_STATUSES = [
+  'approved',
+  'applicant_approved',
+  'applicant_complete',
+  'complete',
+];
+
+export const MERGED_STATUSES = ['merged', 'applicant_merged'];
+
 const getEconomicRegions = (economicRegions) => {
   if (!economicRegions) {
     return null;
@@ -210,6 +219,15 @@ const getCommunitiesWithAmendmentNumber = (sowNodes: Array<any>) => {
     }
   });
   return communityData;
+};
+
+const getMiscFallBack = (applicationStatus, linkedProject) => {
+  const linkedProjectFallback = MERGED_STATUSES.includes(applicationStatus)
+    ? 'TBD'
+    : 'N/A';
+  return {
+    linkedProject: linkedProject?.length ? null : linkedProjectFallback,
+  };
 };
 
 const getFallBackFields = (applicationData, formData, communities) => {
@@ -563,6 +581,49 @@ export const getFundingData = (applicationData, sowData) => {
   return getFundingDataFromApplication(applicationData);
 };
 
+const getChildApplicationMergeLinks = (childApplicationMerge) =>
+  childApplicationMerge?.edges?.map((child) => ({
+    name: child.node.applicationByChildApplicationId?.ccbcNumber,
+    ccbcNumber: child.node.applicationByChildApplicationId?.ccbcNumber,
+    link: `/analyst/application/${child.node.childApplicationId}/summary`,
+    rowId: child.node.childApplicationId,
+  })) ?? [];
+
+const getParentApplicationMergeLinks = (parentApplicationMerge) => {
+  const parentNode = parentApplicationMerge?.edges?.[0]?.node;
+  if (!parentNode) return [];
+
+  const isCBC = !!parentNode?.cbcByParentCbcId?.projectNumber;
+  const parentApplicationNumber =
+    parentNode?.applicationByParentApplicationId?.ccbcNumber ||
+    parentNode?.cbcByParentCbcId?.projectNumber;
+
+  if (!parentApplicationNumber) return [];
+
+  return [
+    {
+      name: parentApplicationNumber,
+      ccbcNumber: parentApplicationNumber,
+      link: isCBC
+        ? `/analyst/cbc/${parentNode?.parentCbcId}`
+        : `/analyst/application/${parentNode?.parentApplicationId}/summary`,
+      rowId: isCBC ? parentNode?.parentCbcId : parentNode?.parentApplicationId,
+    },
+  ];
+};
+
+export const getMiscellaneousData = (applicationData) => {
+  if (APPROVED_STATUSES.includes(applicationData?.status)) {
+    return getChildApplicationMergeLinks(
+      applicationData?.childApplicationMerge
+    );
+  }
+
+  return getParentApplicationMergeLinks(
+    applicationData?.parentApplicationMerge
+  );
+};
+
 const getSowData = (sowData, baseSowData) => {
   const communitiesData = getCommunitiesWithAmendmentNumber(sowData?.nodes);
   const communities = getCommunitiesNumberWithAmendmentNumber(sowData?.nodes);
@@ -754,6 +815,9 @@ const getFormDataFromApplication = (
       proposedCompletionDate:
         applicationData?.formData?.jsonData?.projectPlan?.projectCompletionDate,
     },
+    miscellaneous: {
+      linkedProject: getMiscellaneousData(applicationData),
+    },
   };
   const formData = {
     formData: generatedFormData,
@@ -921,6 +985,9 @@ const generateFormData = (
           sowFormData.eventsAndDates.proposedCompletionDate,
         dateAgreementSigned: sowFormData.eventsAndDates.dateAgreementSigned,
       },
+      miscellaneous: {
+        linkedProject: getMiscellaneousData(applicationData),
+      },
     };
     formDataSource = {
       ...formDataSource,
@@ -949,6 +1016,11 @@ const generateFormData = (
     };
   }
 
+  const miscFallBack = getMiscFallBack(
+    applicationData?.status,
+    formData?.miscellaneous?.linkedProject
+  );
+
   return {
     // dependency is one source
     formData: {
@@ -974,6 +1046,9 @@ const generateFormData = (
             ?.nodes[0]?.jsonData?.overallMilestoneProgress
         ),
       },
+      miscellaneous: {
+        ...formData?.miscellaneous,
+      },
     },
     formDataSource: {
       ...formDataSource,
@@ -988,6 +1063,7 @@ const generateFormData = (
     },
     fallBackFields: {
       ...fallBackFields,
+      ...miscFallBack,
     },
   };
 };

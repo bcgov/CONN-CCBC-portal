@@ -42,6 +42,20 @@ const getCbcSectionQuery = graphql`
           }
         }
       }
+      applicationMergesByParentCbcId(
+        filter: { archivedAt: { isNull: true } }
+        orderBy: CREATED_AT_DESC
+      ) {
+        edges {
+          node {
+            childApplicationId
+            applicationByChildApplicationId {
+              ccbcNumber
+              rowId
+            }
+          }
+        }
+      }
       cbcProjectCommunitiesByCbcId(filter: { archivedAt: { isNull: true } }) {
         nodes {
           communitiesSourceDataByCommunitiesSourceDataId {
@@ -84,7 +98,12 @@ const EditCbcSection = ({
   const [addedCommunities, setAddedCommunities] = useState([]);
   const [removedCommunities, setRemovedCommunities] = useState([]);
 
-  const { cbcDataByCbcId, rowId, cbcProjectCommunitiesByCbcId } = cbcByRowId;
+  const {
+    cbcDataByCbcId,
+    rowId,
+    cbcProjectCommunitiesByCbcId,
+    applicationMergesByParentCbcId,
+  } = cbcByRowId;
   const { jsonData, rowId: cbcDataRowId } = cbcDataByCbcId.edges[0].node;
 
   useEffect(() => {
@@ -92,13 +111,27 @@ const EditCbcSection = ({
       cbcProjectCommunitiesByCbcId.nodes?.map(
         (node) => node.communitiesSourceDataByCommunitiesSourceDataId
       ) || [];
+    const childProjects =
+      applicationMergesByParentCbcId?.edges?.map((child) => {
+        const childId = child?.node?.childApplicationId;
+        const childCcbcNumber =
+          child?.node?.applicationByChildApplicationId?.ccbcNumber;
+
+        return {
+          name: childCcbcNumber,
+          ccbcNumber: childCcbcNumber,
+          link: `/analyst/application/${childId}/summary`,
+          rowId: childId,
+        };
+      }) ?? [];
     setFormData(
       createCbcSchemaData({
         ...jsonData,
         cbcCommunitiesData,
+        childProjects,
       })
     );
-  }, [jsonData, cbcProjectCommunitiesByCbcId]);
+  }, [jsonData, cbcProjectCommunitiesByCbcId, applicationMergesByParentCbcId]);
 
   const changeModal = useModal();
 
@@ -195,6 +228,7 @@ const EditCbcSection = ({
       ...updatedLocationsAndCounts
     } = formData.locationsAndCounts;
     const { projectLocations, zones } = formData.locations;
+    const { childProjects, ...miscellaneous } = formData.miscellaneous || {};
     updateFormData({
       variables: {
         inputCbcData: {
@@ -210,7 +244,7 @@ const EditCbcSection = ({
               ...updatedLocationsAndCounts,
               ...formData.funding,
               ...formData.eventsAndDates,
-              ...formData.miscellaneous,
+              ...miscellaneous,
               ...formData.projectDataReviews,
             },
             changeReason,

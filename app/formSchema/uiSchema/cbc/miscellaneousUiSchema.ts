@@ -4,6 +4,15 @@ const miscellaneousUiSchema = {
     dividers: true,
   },
   'ui:title': 'Miscellaneous',
+  'ui:order': [
+    'projectMilestoneCompleted',
+    'constructionCompletedOn',
+    'milestoneComments',
+    'primaryNewsRelease',
+    'secondaryNewsRelease',
+    'childProjects',
+    'notes',
+  ],
   projectMilestoneCompleted: {
     'ui:widget': 'NumberWidget',
     'ui:label': 'Project Milestone Completed',
@@ -26,6 +35,13 @@ const miscellaneousUiSchema = {
   secondaryNewsRelease: {
     'ui:widget': 'TextWidget',
     'ui:label': 'Secondary News Release',
+  },
+  childProjects: {
+    'ui:widget': 'LinkArrayWidget',
+    'ui:label': 'Child Project(s)',
+    'ui:options': {
+      boldTitle: true,
+    },
   },
   notes: {
     'ui:widget': 'TextAreaWidget',

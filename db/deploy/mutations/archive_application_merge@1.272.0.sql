@@ -1,8 +1,6 @@
--- Revert ccbc:mutations/archive_application_merge from pg
+-- Deploy ccbc:mutations/archive_application_merge to pg
 
 begin;
-
-drop function if exists ccbc_public.archive_application_merge(_child_application_id int, _change_reason text);
 
 create or replace function ccbc_public.archive_application_merge(_child_application_id int) returns ccbc_public.application_merge as $$
 declare

@@ -44,6 +44,20 @@ const getCbcQuery = graphql`
           }
         }
       }
+      applicationMergesByParentCbcId(
+        filter: { archivedAt: { isNull: true } }
+        orderBy: CREATED_AT_DESC
+      ) {
+        edges {
+          node {
+            childApplicationId
+            applicationByChildApplicationId {
+              ccbcNumber
+              rowId
+            }
+          }
+        }
+      }
       cbcProjectCommunitiesByCbcId(filter: { archivedAt: { isNull: true } }) {
         __id
         nodes {
@@ -110,7 +124,7 @@ const Cbc = ({
   const [changeReason, setChangeReason] = useState<null | string>(null);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
 
-  const { rowId } = query.cbcByRowId;
+  const { rowId, applicationMergesByParentCbcId } = query.cbcByRowId;
   const [formData, setFormData] = useState(null);
   const [baseFormData, setBaseFormData] = useState({} as any);
   const [addedCommunities, setAddedCommunities] = useState([]);
@@ -204,6 +218,20 @@ const Cbc = ({
     const cbcData = edges[0].node;
     const { jsonData } = cbcData;
 
+    const childProjects =
+      applicationMergesByParentCbcId?.edges?.map((child) => {
+        const childId = child?.node?.childApplicationId;
+        const childCcbcNumber =
+          child?.node?.applicationByChildApplicationId?.ccbcNumber;
+
+        return {
+          name: childCcbcNumber,
+          ccbcNumber: childCcbcNumber,
+          link: `/analyst/application/${childId}/summary`,
+          rowId: childId,
+        };
+      }) ?? [];
+
     const {
       tombstone,
       projectType,
@@ -216,6 +244,7 @@ const Cbc = ({
     } = createCbcSchemaData({
       ...jsonData,
       cbcCommunitiesData,
+      childProjects,
     });
 
     setFormData({
@@ -242,7 +271,13 @@ const Cbc = ({
     setAllowEdit(
       isCbcAdmin && editFeatureEnabled && !projectDataReviews?.locked
     );
-  }, [query, isCbcAdmin, editFeatureEnabled, cbcCommunitiesData]);
+  }, [
+    query,
+    isCbcAdmin,
+    editFeatureEnabled,
+    cbcCommunitiesData,
+    applicationMergesByParentCbcId,
+  ]);
 
   const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
 
@@ -259,6 +294,7 @@ const Cbc = ({
       ...updatedLocationsAndCounts
     } = formData.locationsAndCounts;
     const { projectLocations, zones } = formData.locations;
+    const { childProjects, ...miscellaneous } = formData.miscellaneous || {};
     updateFormData({
       variables: {
         inputCbcData: {
@@ -274,7 +310,7 @@ const Cbc = ({
               ...updatedLocationsAndCounts,
               ...formData.funding,
               ...formData.eventsAndDates,
-              ...formData.miscellaneous,
+              ...miscellaneous,
               ...formData.projectDataReviews,
             },
             changeReason,

@@ -4,6 +4,7 @@ import fundingUiSchema from './fundingUiSchema';
 import eventsAndDatesUiSchema from './eventsAndDatesUiSchema';
 import milestoneUiSchema from './milestoneUiSchema';
 import locationsUiSchema from './locationsUiSchema';
+import miscellaneousUiSchema from './miscellaneousUiSchema';
 
 const reviewUiSchema = {
   dependency: dependencyUiSchema,
@@ -49,5 +50,6 @@ const reviewUiSchema = {
   },
   eventsAndDates: eventsAndDatesUiSchema,
   milestone: milestoneUiSchema,
+  miscellaneous: miscellaneousUiSchema,
 };
 export default reviewUiSchema;
