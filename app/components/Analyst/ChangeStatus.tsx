@@ -274,16 +274,27 @@ const ChangeStatus: React.FC<Props> = ({
     const internalStatus = newStatus === 'withdrawn' ? withdrawn : newStatus;
     const statusInputName = isExternalStatus ? externalStatus : internalStatus;
 
+    const isLeavingMergedStatus =
+      existingParentId &&
+      currentStatus?.name === 'merged' &&
+      newStatus !== 'merged';
+    const isMergedStatus = newStatus === 'merged';
+    const shouldUpdateMergeParent =
+      requiresMergeParentSelection || isLeavingMergedStatus;
+    const updatedParent = isMergedStatus
+      ? { ...mergeParent, rowId: mergeParent?.id }
+      : null;
+
     // update the parent relationship
-    if (requiresMergeParentSelection) {
+    if (shouldUpdateMergeParent) {
       updateParent(
         existingParentId,
-        { ...mergeParent, rowId: mergeParent?.id },
+        updatedParent,
         rowId,
         changeReason,
         mergeConnectionIds,
         () => {
-          if (!mergeParent?.id) setMergeParent(null);
+          if (!updatedParent?.rowId) setMergeParent(null);
         },
         (error: any) => {
           Sentry.captureException(error);
