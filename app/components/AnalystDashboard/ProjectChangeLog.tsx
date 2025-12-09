@@ -177,6 +177,14 @@ const formatUser = (item) => {
   return `${item.record?.user_info?.given_name} ${item.record?.user_info?.family_name}`;
 };
 
+const formatProjectType = (projectType: string | null | undefined) => {
+  if (projectType === 'N/A') return 'N/A';
+  if (!projectType) return 'Unassigned';
+  if (projectType === 'lastMile') return 'Last Mile';
+  if (projectType === 'transport') return 'Transport';
+  return 'Last Mile & Transport';
+};
+
 const communityArrayToHistoryString = (
   communitiesArray: any[],
   keys: string[]
@@ -778,6 +786,26 @@ const ProjectChangeLog: React.FC<Props> = () => {
               tableConfig.excludedKeys,
               tableConfig.overrideParent || tableName
             );
+          } else if (tableName === 'application_project_type') {
+            diffRows = generateRawDiff(
+              diff(
+                {
+                  project_type: oldRecord?.project_type || null,
+                },
+                {
+                  project_type: record?.project_type || null,
+                },
+                { keepUnchangedValues: true }
+              ),
+              tableConfig.schema,
+              tableConfig.excludedKeys,
+              tableConfig.overrideParent || tableName
+            ).map((row) => ({
+              ...row,
+              newValue: formatProjectType(row.newValue),
+              oldValue: formatProjectType(row.oldValue),
+            }));
+            overrideField = 'Project Type';
           } else if (tableName === 'application_package') {
             diffRows = generateRawDiff(
               diff(
