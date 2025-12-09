@@ -76,7 +76,7 @@ const CbcCreateForm = ({ formData, errors, isSubmitting, handleChange }) => {
         </p>
         <StyledLabel htmlFor="project-id">Project ID</StyledLabel>
         <StyledInput
-          type="number"
+          type="text"
           id="project-id"
           value={formData.projectId}
           onChange={handleChange('projectId')}

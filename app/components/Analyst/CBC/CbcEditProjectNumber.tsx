@@ -7,7 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 interface Props {
   cbc: any;
-  value: number;
+  value: string | number;
   isHeaderEditable: boolean;
 }
 
@@ -70,34 +70,36 @@ const CbcEditProjectNumber: React.FC<Props> = ({
     cbc
   );
 
-  const [baseProjectNumber, setBaseProjectNumber] = useState(value);
+  const [baseProjectNumber, setBaseProjectNumber] = useState(
+    String(value ?? '')
+  );
   const [isEditing, setIsEditing] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [updateProjectNumber] = useUpdateCbcProjectNumberMutation();
 
   const [projectNumber, setProjectNumber] = useState(
-    queryFragment?.projectNumber
+    String(queryFragment?.projectNumber ?? '')
   );
 
   const [error, setError] = useState(null);
 
   const handleSubmit = () => {
     setIsSaving(true);
-    const parsedValue = parseInt(projectNumber, 10);
-    if (baseProjectNumber !== parsedValue) {
+    const trimmedValue = projectNumber.trim();
+    if (baseProjectNumber !== trimmedValue) {
       updateProjectNumber({
         variables: {
           input: {
             projectNumber: baseProjectNumber,
             cbcPatch: {
-              projectNumber: parsedValue,
+              projectNumber: trimmedValue,
             },
           },
         },
         onCompleted: () => {
-          setProjectNumber(parsedValue);
-          setBaseProjectNumber(parsedValue);
+          setProjectNumber(trimmedValue);
+          setBaseProjectNumber(trimmedValue);
           setIsEditing(false);
         },
         onError: (e) => {
@@ -126,7 +128,7 @@ const CbcEditProjectNumber: React.FC<Props> = ({
       if (!error) handleSubmit();
     } else if (e.key === 'Escape') {
       setIsEditing(false);
-      setProjectNumber(value);
+      setProjectNumber(String(value ?? ''));
     }
   };
 
@@ -152,24 +154,23 @@ const CbcEditProjectNumber: React.FC<Props> = ({
 
   const validateProjectNumber = async (val) => {
     setIsValidating(true);
-    const parsedValue = parseInt(val, 10);
-    if (Number.isNaN(parsedValue)) {
-      setError('Project number must be a number.');
-    } else if (val === '' || val === null) {
+    const trimmedVal = val?.trim() ?? '';
+    if (trimmedVal === '') {
       setError('Project number cannot be empty.');
-      // is a valid number and is not empty
+      setIsValidating(false);
     } else {
-      if (parsedValue !== baseProjectNumber) {
-        const isUnique = await checkProjectNumberIsUnique(parsedValue);
+      if (trimmedVal !== baseProjectNumber) {
+        const isUnique = await checkProjectNumberIsUnique(trimmedVal);
         if (isUnique) {
           setError(null);
         } else {
           setError('A project with this number already exists.');
         }
+      } else {
+        setError(null);
       }
       setIsValidating(false);
     }
-    setIsValidating(false);
     setProjectNumber(val);
   };
   return (
@@ -178,7 +179,7 @@ const CbcEditProjectNumber: React.FC<Props> = ({
         <>
           <StyledInput
             error={error}
-            type="number"
+            type="text"
             id="project-number-change"
             onChange={(e: { target: { value: string } }) => {
               const val = e.target.value;
@@ -192,8 +193,6 @@ const CbcEditProjectNumber: React.FC<Props> = ({
             size="medium"
             required
             aria-label="Project number input"
-            maxLength={12}
-            minLength={1}
             onBlur={() => {
               if (!error) handleSubmit();
             }}
