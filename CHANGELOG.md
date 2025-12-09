@@ -1,3 +1,9 @@
+# [1.275.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.274.1...v1.275.0) (2025-12-09)
+
+### Features
+
+- handle null geo ids and links ([9fc8afe](https://github.com/bcgov/CONN-CCBC-portal/commit/9fc8afe45efb5f121856876e74bb61b60c746149))
+
 ## [1.274.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.274.0...v1.274.1) (2025-12-08)
 
 # [1.274.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.273.7...v1.274.0) (2025-12-08)
