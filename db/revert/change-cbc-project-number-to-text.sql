@@ -10,14 +10,15 @@ ALTER TABLE ccbc_public.cbc_data
 ALTER TABLE ccbc_public.cbc
   DROP CONSTRAINT cbc_project_number_key;
 
+-- NOTE: This will fail if there are any projects with a project number that is not an integer.
 -- Revert types back to integer
-ALTER TABLE ccbc_public.cbc
-  ALTER COLUMN project_number TYPE integer
-  USING project_number::integer;
+-- ALTER TABLE ccbc_public.cbc
+--   ALTER COLUMN project_number TYPE integer
+--   USING project_number::integer;
 
-ALTER TABLE ccbc_public.cbc_data
-  ALTER COLUMN project_number TYPE integer
-  USING project_number::integer;
+-- ALTER TABLE ccbc_public.cbc_data
+--   ALTER COLUMN project_number TYPE integer
+--   USING project_number::integer;
 
 -- Recreate UNIQUE
 ALTER TABLE ccbc_public.cbc
@@ -31,6 +32,6 @@ ALTER TABLE ccbc_public.cbc_data
   ON UPDATE CASCADE
   ON DELETE SET NULL;
 
--- NOTE: This will fail if there are any projects with a project number that is not an integer.
+
 
 COMMIT;
