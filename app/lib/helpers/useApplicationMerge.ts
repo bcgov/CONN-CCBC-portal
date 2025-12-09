@@ -9,13 +9,10 @@ import {
   MERGED_STATUSES,
 } from './ccbcSummaryGenerateFormData';
 
-type LinkedProjectSelection =
-  | {
-      rowId: number;
-      type: 'CCBC' | 'CBC';
-    }
-  | null
-  | undefined;
+type LinkedProjectSelection = {
+  rowId: number;
+  type: 'CCBC' | 'CBC';
+};
 
 const useApplicationMerge = () => {
   const [mergeApplication] = useMergeApplicationMutation();
@@ -88,7 +85,7 @@ const useApplicationMerge = () => {
   const updateParent = useCallback(
     (
       oldParent: number | undefined,
-      newParent: LinkedProjectSelection,
+      newParent: LinkedProjectSelection | null | undefined,
       rowId: number,
       changeReason: string,
       connections: readonly string[],
