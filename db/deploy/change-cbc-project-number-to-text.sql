@@ -4,7 +4,7 @@ BEGIN;
 
 -- 1. Drop foreign key from cbc_data
 ALTER TABLE ccbc_public.cbc_data
-  DROP CONSTRAINT fk_cbc_data;
+  DROP CONSTRAINT IF EXISTS fk_cbc_data;
 
 -- 2. Drop UNIQUE constraint on cbc.project_number
 ALTER TABLE ccbc_public.cbc
