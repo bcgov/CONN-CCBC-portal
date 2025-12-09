@@ -53,6 +53,8 @@ export const handleProjectType = (projectType: string): string => {
       return 'Last Mile';
     case 'lastMileAndTransport':
       return 'Last Mile & Transport';
+    case 'transport':
+      return 'Transport';
     default:
       return null;
   }
