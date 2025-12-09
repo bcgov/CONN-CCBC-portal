@@ -1,3 +1,11 @@
+## [1.275.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.4...v1.275.5) (2025-12-09)
+
+## [1.275.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.3...v1.275.4) (2025-12-09)
+
+### Bug Fixes
+
+- project type history ([d9bc860](https://github.com/bcgov/CONN-CCBC-portal/commit/d9bc860f9f84a48249346659614763b94ffa1ac6))
+
 ## [1.275.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.2...v1.275.3) (2025-12-09)
 
 ## [1.275.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.1...v1.275.2) (2025-12-09)
