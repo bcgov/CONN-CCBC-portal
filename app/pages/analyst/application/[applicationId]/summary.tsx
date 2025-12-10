@@ -52,7 +52,7 @@ const getSummaryQuery = graphql`
         }
       }
       applicationStatusesByApplicationId(
-        filter: { status: { equalTo: "submitted" } }
+        filter: { status: { equalTo: "received" } }
       ) {
         nodes {
           createdAt
