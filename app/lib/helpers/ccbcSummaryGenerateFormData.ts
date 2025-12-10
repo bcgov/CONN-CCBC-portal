@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import review from '../../formSchema/analyst/summary/review';
 import customValidate from '../../utils/ccbcCustomValidator';
 
@@ -39,15 +40,23 @@ const handleApplicationDateReceived = (applicationData, allIntakes) => {
   //   return null;
   // }
   // from intake 5 application is immediately submitted, use that date
+  let receivedDate;
   if (applicationData.intakeNumber >= 5) {
-    return applicationData?.applicationStatusesByApplicationId?.nodes[0]
-      ?.createdAt;
+    receivedDate =
+      applicationData?.applicationStatusesByApplicationId?.nodes[0]?.createdAt;
+  } else {
+    // otherwise find the intake matching and use the close timestamp
+    const intake = allIntakes.nodes.find(
+      (i) => i.ccbcIntakeNumber === applicationData.intakeNumber
+    );
+    receivedDate = intake?.closeTimestamp;
   }
-  // otherwise find the intake matching and use the close timestamp
-  const intake = allIntakes.nodes.find(
-    (i) => i.ccbcIntakeNumber === applicationData.intakeNumber
-  );
-  return intake?.closeTimestamp;
+
+  return receivedDate
+    ? DateTime.fromJSDate(new Date(receivedDate)).toLocaleString(
+        DateTime.DATE_SHORT
+      )
+    : null;
 };
 
 const handleOtherFundingSourcesApplication = (otherFundingSources) => {
