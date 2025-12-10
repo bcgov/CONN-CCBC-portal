@@ -96,7 +96,7 @@ const readSummary = async (wb, sheet_name, applicationId, amendmentNumber) => {
   // second pass - columns F and G
   let backbone = false;
   let lastMile = false;
-  for (let row = 6; row < 20; row++) {
+  for (let row = 5; row < 20; row++) {
     const value = summary[row]['F'];
     if (value === undefined) continue;
     if (typeof value !== 'string') continue;
@@ -104,7 +104,6 @@ const readSummary = async (wb, sheet_name, applicationId, amendmentNumber) => {
       backbone = true;
     }
     if (value.indexOf('Last Mile Technologies') > -1) {
-      backbone = false;
       lastMile = true;
     }
     const input = summary[row]['G'];

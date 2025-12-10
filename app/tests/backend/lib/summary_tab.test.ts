@@ -181,7 +181,7 @@ describe('sow_summary parsing tests', () => {
         effectiveStartDate: '2023-06-10T00:00:00.000Z',
         projectStartDate: '2023-07-28T00:00:00.000Z',
         projectCompletionDate: '2025-10-31T00:00:00.000Z',
-        backboneFibre: false,
+        backboneFibre: true,
         backboneMicrowave: false,
         backboneSatellite: false,
         lastMileFibre: true,
