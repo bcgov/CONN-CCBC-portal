@@ -102,9 +102,11 @@ const readSummary = async (wb, sheet_name, applicationId, amendmentNumber) => {
     if (typeof value !== 'string') continue;
     if (value.indexOf('Backbone Technologies') > -1) {
       backbone = true;
+      lastMile = false;
     }
     if (value.indexOf('Last Mile Technologies') > -1) {
       lastMile = true;
+      backbone = false;
     }
     const input = summary[row]['G'];
 
