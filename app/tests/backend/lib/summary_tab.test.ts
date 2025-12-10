@@ -199,6 +199,149 @@ describe('sow_summary parsing tests', () => {
     const brokenSummary = { ...fakeSummary };
     // overwrite company info and backbone tecnology
     brokenSummary[6]['D'] = '';
+    brokenSummary[6]['G'] = 'INVALID';
+    brokenSummary[7]['D'] = '';
+    brokenSummary[7]['G'] = 'INVALID';
+    brokenSummary[8]['D'] = '';
+    brokenSummary[8]['G'] = 'INVALID';
+    // overwrite last mile tecnology
+    brokenSummary[10]['G'] = 'INVALID';
+    brokenSummary[11]['G'] = 'INVALID';
+    brokenSummary[12]['G'] = 'INVALID';
+    brokenSummary[13]['G'] = 'INVALID';
+    brokenSummary[14]['G'] = 'INVALID';
+    brokenSummary[15]['G'] = 'INVALID';
+
+    // overwrite dates
+    brokenSummary[12]['D'] = '';
+    brokenSummary[13]['D'] = '';
+    brokenSummary[14]['D'] = '';
+
+    jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(brokenSummary);
+
+    const wb = XLSX.read(null);
+    const req = { ...request };
+    req.query = { validate: true };
+    req.params = { applicationId: 1, ccbcNumber: 'CCBC-020118' };
+
+    const data = await LoadSummaryData(wb, 'Summary_Sommaire', req);
+    const expected = {
+      error: [
+        {
+          level: 'cell',
+          cell: 'G7',
+          error: 'Invalid data: Backbone Technologies - Fibre',
+          received: 'INVALID',
+          expected: 'Yes/No value',
+        },
+        {
+          level: 'cell',
+          cell: 'G8',
+          error: 'Invalid data: Backbone Technologies - Microwave',
+          received: 'INVALID',
+          expected: 'Yes/No value',
+        },
+        {
+          level: 'cell',
+          cell: 'G9',
+          error: 'Invalid data: Backbone Technologies - Satellite',
+          received: 'INVALID',
+          expected: 'Yes/No value',
+        },
+        {
+          level: 'cell',
+          cell: 'G11',
+          error: 'Invalid data: Last Mile Technologies - Fibre',
+          received: 'INVALID',
+          expected: 'Yes/No value',
+        },
+        {
+          level: 'cell',
+          cell: 'G12',
+          error: 'Invalid data: Last Mile Technologies - Cable',
+          received: 'INVALID',
+          expected: 'Yes/No value',
+        },
+        {
+          level: 'cell',
+          cell: 'G13',
+          error: 'Invalid data: Last Mile Technologies - DSL',
+          received: 'INVALID',
+          expected: 'Yes/No value',
+        },
+        {
+          level: 'cell',
+          cell: 'G17',
+          error: 'Invalid data: Last Mile Technologies - Mobile Wireless',
+          received: 'null',
+          expected: 'Yes/No value',
+        },
+        {
+          level: 'cell',
+          cell: 'G15',
+          error: 'Invalid data: Last Mile Technologies - Fixed Wireless',
+          received: 'INVALID',
+          expected: 'Yes/No value',
+        },
+        {
+          level: 'cell',
+          cell: 'G16',
+          error: 'Invalid data: Last Mile Technologies - Satellite',
+          received: 'INVALID',
+          expected: 'Yes/No value',
+        },
+        {
+          level: 'cell',
+          cell: 'D13',
+          error: 'Invalid data: Effective Start Date',
+          received: '',
+          expected: 'Valid date',
+        },
+        {
+          level: 'cell',
+          cell: 'D14',
+          error: 'Invalid data: Project Start Date',
+          received: '',
+          expected: 'Valid date',
+        },
+        {
+          level: 'cell',
+          cell: 'D15',
+          error: 'Invalid data: Project Completion Date',
+          received: '',
+          expected: 'Valid date',
+        },
+        {
+          level: 'cell',
+          cell: 'D7',
+          error: 'Invalid data: Applicant Name',
+          received: '',
+          expected: 'Non-empty value',
+        },
+        {
+          level: 'cell',
+          cell: 'D8',
+          error: 'Invalid data: Project Title',
+          received: '',
+          expected: 'Non-empty value',
+        },
+        {
+          level: 'cell',
+          cell: 'D9',
+          error: 'Invalid data: Province',
+          received: '',
+          expected: 'Non-empty value',
+        },
+      ],
+    };
+
+    expect(data).toEqual(expected);
+  });
+
+  it('return errors for invalid worksheet when only Last mile preset', async () => {
+    const brokenSummary = { ...fakeSummary };
+    // overwrite company info and backbone tecnology
+    brokenSummary[6]['D'] = '';
     brokenSummary[6]['G'] = '';
     brokenSummary[7]['D'] = '';
     brokenSummary[7]['G'] = '';
@@ -316,6 +459,7 @@ describe('sow_summary parsing tests', () => {
 
     expect(data).toEqual(expected);
   });
+
   afterEach(() => {
     jest.clearAllMocks();
   });
