@@ -2961,8 +2961,7 @@ const mockQueryPayload = {
                 archived_at: null,
                 archived_by: null,
                 application_id: 1,
-                reason_for_change:
-                  '',
+                reason_for_change: '',
               },
               recordId: 'b01aa98e-a7c1-5431-931d-130a53a16c61',
               sessionSub: '54f0aa1ad196497fff9321c20a1ef@bceidbasic',
@@ -3820,12 +3819,14 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-community-progress-report')[1]
     ).toHaveTextContent(
-      'The applicant created a Community Progress Report on Aug 21, 2023'
+      'The applicant updated the Q2 (Jul-Sep) 2023-24 Community progress report on Aug 21, 2023'
     );
 
     expect(
       screen.getAllByTestId('history-content-community-progress-report')[0]
-    ).toHaveTextContent('The applicant deleted a Community Progress Report');
+    ).toHaveTextContent(
+      'The applicant deleted the Q2 (Jul-Sep) 2023-24 Community progress report'
+    );
   });
 
   it('shows the correct history for editing an application', async () => {
@@ -3872,13 +3873,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 33 diff tables', async () => {
+  it('shows all 34 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(33);
+    expect(diffTables.length).toBe(34);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -3889,9 +3890,9 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(
-      screen.getAllByTestId('history-content-dependencies')
-    ).toHaveLength(2);
+    expect(screen.getAllByTestId('history-content-dependencies')).toHaveLength(
+      2
+    );
   });
 
   it('shows the correct history for uploading gis analysis', async () => {
@@ -4159,6 +4160,50 @@ describe('The index page', () => {
     expect(fnhaHistory).toHaveTextContent(
       'Foo Bar updated FNHA Contribution on Mar 6, 2025, 11:50 a.m.'
     );
+  });
+
+  it('shows the correct history for pending change requests', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const pendingHistories = screen.getAllByTestId(
+      'history-content-pending-change-request'
+    );
+
+    expect(pendingHistories).toHaveLength(3);
+    expect(
+      pendingHistories.some((entry) =>
+        entry.textContent?.includes(
+          'indicated that a change request is pending'
+        )
+      )
+    ).toBe(true);
+    expect(
+      pendingHistories.some((entry) =>
+        entry.textContent?.includes(
+          'indicated that the change request is no longer pending'
+        )
+      )
+    ).toBe(true);
+  });
+
+  it('displays the pending change request resolution reason', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const resolvedEntry = screen
+      .getAllByTestId('history-content-pending-change-request')
+      .find((entry) =>
+        entry.textContent?.includes(
+          'indicated that the change request is no longer pending'
+        )
+      );
+
+    expect(resolvedEntry).toBeDefined();
+    expect(screen.getByText(/change request cancelled/i)).toBeInTheDocument();
+    expect(
+      screen.queryByText(/Yes, change request cancelled/i)
+    ).not.toBeInTheDocument();
   });
 });
 
