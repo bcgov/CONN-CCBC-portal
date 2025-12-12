@@ -757,52 +757,57 @@ const HistoryContent = ({
   }
 
   if (tableName === 'application_community_progress_report_data') {
-    const updateRec = op === 'INSERT' && prevHistoryItem;
-    const newFile = record.json_data?.progressReportFile;
-    const oldFile = prevHistoryItem?.record?.json_data?.progressReportFile;
-    const changedFile =
-      updateRec &&
-      ((oldFile && !newFile) ||
-        (newFile && !oldFile) ||
-        (newFile && oldFile && newFile[0].uuid !== oldFile[0].uuid));
+    const historyOperation = record?.history_operation;
+    const hasPrevRecord = !!prevHistoryItem?.record;
+    let operation = 'updated';
+    if (historyOperation === 'deleted') {
+      operation = 'deleted';
+    } else if (historyOperation === 'created' && !hasPrevRecord) {
+      operation = 'created';
+    }
+    const isDeleted = operation === 'deleted';
+
+    const currFileArray = isDeleted
+      ? []
+      : record.json_data?.progressReportFile || [];
+    const previousFileArray =
+      prevHistoryItem?.record?.json_data?.progressReportFile || [];
+
+    const showFilesDiff = !!diff(currFileArray, previousFileArray);
+    const dueDate =
+      record?.json_data?.dueDate || prevHistoryItem?.record?.json_data?.dueDate;
+    const fiscalPeriod = `${getFiscalQuarter(dueDate)} ${getFiscalYear(dueDate)}`;
 
     return (
       <>
         <StyledContent data-testid="history-content-community-progress-report">
-          {op === 'INSERT' && prevHistoryItem?.record && (
-            <span>{displayName} updated a </span>
-          )}
-          {op === 'INSERT' && prevHistoryItem?.record === undefined && (
-            <span>{displayName} created a </span>
-          )}
-          {op === 'UPDATE' && record.history_operation === 'deleted' && (
-            <span>{displayName} deleted a </span>
-          )}
-          <b>Community Progress Report</b>
+          <span>
+            {displayName} {operation} the{' '}
+          </span>
+          {fiscalPeriod && <span>{fiscalPeriod} </span>}
+          <b>Community progress report</b>
           <span> on {createdAtFormatted}</span>
         </StyledContent>
-        {op === 'INSERT' && changedFile && (
+        <HistoryDetails
+          json={isDeleted ? {} : record.json_data || {}}
+          prevJson={prevHistoryItem?.record?.json_data || {}}
+          excludedKeys={
+            getTableConfig('application_community_progress_report_data')
+              ?.excludedKeys || []
+          }
+          diffSchema={
+            getTableConfig('application_community_progress_report_data')?.schema
+          }
+          overrideParent={
+            getTableConfig('application_community_progress_report_data')
+              ?.overrideParent
+          }
+        />
+        {showFilesDiff && (
           <HistoryFile
-            filesArray={record.json_data.progressReportFile || []}
-            title="Uploaded Community Progress Report Excel"
-          />
-        )}
-        {op === 'INSERT' && showHistoryDetails && (
-          <HistoryDetails
-            json={record.json_data}
-            prevJson={prevHistoryItem?.record?.json_data || {}}
-            excludedKeys={
-              getTableConfig('application_community_progress_report_data')
-                ?.excludedKeys || []
-            }
-            diffSchema={
-              getTableConfig('application_community_progress_report_data')
-                ?.schema
-            }
-            overrideParent={
-              getTableConfig('application_community_progress_report_data')
-                ?.overrideParent
-            }
+            filesArray={currFileArray}
+            previousFileArray={previousFileArray}
+            title="Community Progress Report Excel"
           />
         )}
       </>
