@@ -72,6 +72,19 @@ const ProjectInformationForm: React.FC<Props> = ({
             fnhaContribution
           }
         }
+        applicationSowDataByApplicationId(last: 1) {
+          edges {
+            node {
+              sowTab7SBySowId {
+                edges {
+                  node {
+                    jsonData
+                  }
+                }
+              }
+            }
+          }
+        }
         changeRequestDataByApplicationId(
           filter: { archivedAt: { isNull: true } }
           orderBy: AMENDMENT_NUMBER_DESC
@@ -104,6 +117,7 @@ const ProjectInformationForm: React.FC<Props> = ({
     id,
     rowId,
     projectInformation,
+    applicationSowDataByApplicationId,
     applicationFnhaContributionsByApplicationId: {
       nodes: [applicationFnhaContributionsByApplicationId],
     },
@@ -490,6 +504,61 @@ const ProjectInformationForm: React.FC<Props> = ({
     });
   };
 
+  const getHelperTitles = (
+    sowData: typeof applicationSowDataByApplicationId
+  ): { sowTitle: string; fundingTitle: string } => {
+    const helperTitles = {
+      sowTitle: 'SOW',
+      fundingTitle: 'Funding Agreement',
+    };
+
+    if (!sowData?.edges?.length) {
+      return helperTitles;
+    }
+
+    const latestSowData = sowData.edges[0]?.node;
+    const tab7Data =
+      latestSowData?.sowTab7SBySowId?.edges?.[0]?.node?.jsonData?.summaryTable;
+
+    if (!tab7Data) {
+      return helperTitles;
+    }
+
+    const amountRequestedFromProvince = Math.floor(
+      tab7Data.amountRequestedFromProvince || 0
+    );
+    const amountRequestedFromFederalGovernment = Math.floor(
+      tab7Data.amountRequestedFromFederalGovernment || 0
+    );
+
+    if (amountRequestedFromProvince === 0) {
+      helperTitles.sowTitle = 'ISED-SOW';
+      helperTitles.fundingTitle = 'ISED Contribution Agreement';
+      return helperTitles;
+    }
+
+    if (amountRequestedFromFederalGovernment === 0) {
+      helperTitles.sowTitle = 'BC-SOW';
+      helperTitles.fundingTitle = 'BC Funding Agreement';
+      return helperTitles;
+    }
+
+    if (
+      amountRequestedFromProvince > 0 &&
+      amountRequestedFromFederalGovernment > 0
+    ) {
+      helperTitles.sowTitle = 'BC/ISED SOW';
+      helperTitles.fundingTitle = 'BC Funding Agreement';
+      return helperTitles;
+    }
+
+    return helperTitles;
+  };
+
+  const { sowTitle, fundingTitle } = getHelperTitles(
+    applicationSowDataByApplicationId
+  );
+
   const isOriginalSowUpload = projectInformation?.jsonData;
   return (
     <>
@@ -616,6 +685,8 @@ const ProjectInformationForm: React.FC<Props> = ({
               descriptionOfChanges={descriptionOfChanges}
               levelOfAmendment={levelOfAmendment}
               title={`Amendment #${amendmentNumber}`}
+              sowTitle={sowTitle}
+              fundingTitle={fundingTitle}
               onFormEdit={() => {
                 setIsChangeRequest(true);
                 setIsFormEditMode(true);
@@ -640,6 +711,8 @@ const ProjectInformationForm: React.FC<Props> = ({
           <ReadOnlyView
             date={projectInformationData?.dateFundingAgreementSigned}
             title="Original"
+            sowTitle={sowTitle}
+            fundingTitle={fundingTitle}
             onFormEdit={() => {
               setIsChangeRequest(false);
               setFormData(projectInformationData);
