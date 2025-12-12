@@ -3682,7 +3682,7 @@ const mockRfiHistoryPayload = {
               recordId: 'c5ef0109-a7b4-56b6-a093-f2f47905a40a',
               sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
               tableName: 'rfi_data',
-            }
+            },
           ],
         },
         formData: {
@@ -3882,12 +3882,14 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-community-progress-report')[1]
     ).toHaveTextContent(
-      'The applicant created a Community Progress Report on Aug 21, 2023'
+      'The applicant updated the Q2 (Jul-Sep) 2023-24 Community progress report on Aug 21, 2023'
     );
 
     expect(
       screen.getAllByTestId('history-content-community-progress-report')[0]
-    ).toHaveTextContent('The applicant deleted a Community Progress Report');
+    ).toHaveTextContent(
+      'The applicant deleted the Q2 (Jul-Sep) 2023-24 Community progress report'
+    );
   });
 
   it('shows the correct history for editing an application', async () => {
@@ -4110,9 +4112,7 @@ describe('The index page', () => {
       'history-content-milestone-file'
     )[0];
 
-    expect(claimHistoryFile).toHaveTextContent(
-      'Milestone Report Excel'
-    );
+    expect(claimHistoryFile).toHaveTextContent('Milestone Report Excel');
     expect(claimHistoryFile).toHaveTextContent(
       'UBF-AA-00000-Milestone-Report.xlsx'
     );
@@ -4134,9 +4134,7 @@ describe('The index page', () => {
       'history-content-milestone-evidence-file'
     )[0];
 
-    expect(claimHistoryFile).toHaveTextContent(
-      'Milestone Completion Evidence'
-    );
+    expect(claimHistoryFile).toHaveTextContent('Milestone Completion Evidence');
     expect(claimHistoryFile).toHaveTextContent('evidence.pdf');
   });
 
@@ -4221,6 +4219,50 @@ describe('The index page', () => {
     expect(fnhaHistory).toHaveTextContent(
       'Foo Bar updated FNHA Contribution on Mar 6, 2025, 11:50 a.m.'
     );
+  });
+
+  it('shows the correct history for pending change requests', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const pendingHistories = screen.getAllByTestId(
+      'history-content-pending-change-request'
+    );
+
+    expect(pendingHistories).toHaveLength(3);
+    expect(
+      pendingHistories.some((entry) =>
+        entry.textContent?.includes(
+          'indicated that a change request is pending'
+        )
+      )
+    ).toBe(true);
+    expect(
+      pendingHistories.some((entry) =>
+        entry.textContent?.includes(
+          'indicated that the change request is no longer pending'
+        )
+      )
+    ).toBe(true);
+  });
+
+  it('displays the pending change request resolution reason', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const resolvedEntry = screen
+      .getAllByTestId('history-content-pending-change-request')
+      .find((entry) =>
+        entry.textContent?.includes(
+          'indicated that the change request is no longer pending'
+        )
+      );
+
+    expect(resolvedEntry).toBeDefined();
+    expect(screen.getByText(/change request cancelled/i)).toBeInTheDocument();
+    expect(
+      screen.queryByText(/Yes, change request cancelled/i)
+    ).not.toBeInTheDocument();
   });
 });
 
