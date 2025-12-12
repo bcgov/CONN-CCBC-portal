@@ -13,7 +13,7 @@ cbc.post('/api/cbc', async (req, res) => {
     return res.status(404).end();
   }
   const { projectId, projectTitle, externalStatus, projectType } = req.body;
-  const projectNumber = parseInt(projectId, 10);
+  const projectNumber = projectId.trim();
 
   const createResult = await createCbcProject(
     projectNumber,

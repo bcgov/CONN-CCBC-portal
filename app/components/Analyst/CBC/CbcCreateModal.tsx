@@ -36,10 +36,6 @@ const CbcCreateModal = ({ isOpen, setIsOpen }) => {
       submit?: string;
     } = {};
 
-    if (!formData.projectId || Number.isNaN(parseInt(formData.projectId, 10))) {
-      newErrors.projectId = 'Project ID must be a valid number';
-    }
-
     if (!formData.projectTitle.trim()) {
       newErrors.projectTitle = 'Project title is required';
     }
