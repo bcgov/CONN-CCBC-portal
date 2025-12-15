@@ -33,7 +33,7 @@ validation.post(
     const getProjectNumber = await performQuery(
       getProjectNumberQuery,
       {
-        projectNumber: String(projectNumber ?? ''),
+        projectNumber: String(projectNumber),
       },
       req
     );
