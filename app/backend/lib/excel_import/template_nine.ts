@@ -425,7 +425,7 @@ templateNine.get(
     const authRole = getAuthRole(req);
     const pgRole = authRole?.pgRole;
     const isRoleAuthorized =
-      pgRole === 'ccbc_admin' || pgRole === 'super_admin';
+      pgRole === 'ccbc_admin' || pgRole === 'super_admin' || pgRole === 'ccbc_auth_user';
 
     if (!isRoleAuthorized) {
       return res.status(404).end();
