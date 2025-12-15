@@ -128,7 +128,7 @@ const CbcEditProjectNumber: React.FC<Props> = ({
       if (!error) handleSubmit();
     } else if (e.key === 'Escape') {
       setIsEditing(false);
-      setProjectNumber(String(value ?? ''));
+      setProjectNumber(String(value));
     }
   };
 
