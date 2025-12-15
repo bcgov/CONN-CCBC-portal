@@ -166,8 +166,6 @@ const CbcEditProjectNumber: React.FC<Props> = ({
         } else {
           setError('A project with this number already exists.');
         }
-      } else {
-        setError(null);
       }
       setIsValidating(false);
     }
