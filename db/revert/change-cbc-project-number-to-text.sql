@@ -26,7 +26,7 @@ ALTER TABLE ccbc_public.cbc
 
 -- Recreate FK
 ALTER TABLE ccbc_public.cbc_data
-  ADD CONSTRAINT cbc_data_project_number_fkey
+  ADD CONSTRAINT fk_cbc_data
   FOREIGN KEY (project_number)
   REFERENCES ccbc_public.cbc(project_number)
   ON UPDATE CASCADE
