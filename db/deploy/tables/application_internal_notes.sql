@@ -10,6 +10,7 @@ create table ccbc_public.application_internal_notes (
 
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'application_internal_notes');
 
+GRANT TRIGGER ON ccbc_public.application_internal_notes TO ccbc;
 select audit.enable_tracking('ccbc_public.application_internal_notes'::regclass);
 
 do
