@@ -4,9 +4,9 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 
-const StyledAutocomplete = styled(Autocomplete)`
+const StyledAutocomplete = styled(Autocomplete)<{ width?: string }>`
   margin-bottom: 16px;
-  width: 100%;
+  width: ${(props) => props.width ?? '100%'};
   min-width: 240px;
 
   ${(props) => props.theme.breakpoint.largeUp} {
@@ -51,8 +51,22 @@ const UrlWidget: React.FC<WidgetProps> = ({
   formContext,
   onChange,
   value,
+  options,
 }) => {
   const { ccbcIdList, ccbcNumber, rowId } = formContext;
+  const allowMultiple = options?.allowMultiple ?? true;
+  const widgetWidth = options?.widgetWidth as string | undefined;
+
+  let normalizedValue = value;
+
+  if (allowMultiple) {
+    normalizedValue =
+      value ?? (ccbcNumber && rowId ? [{ ccbcNumber, rowId }] : []);
+  } else if (Array.isArray(value)) {
+    [normalizedValue] = value;
+  } else {
+    normalizedValue = value ?? null;
+  }
 
   const styles = {
     '& .MuiInputBase-root': {
@@ -73,18 +87,19 @@ const UrlWidget: React.FC<WidgetProps> = ({
   return (
     <StyledAutocomplete
       className="ccbcid-widget-wrapper"
-      multiple
+      width={widgetWidth}
+      multiple={!!allowMultiple}
       id={id}
       onChange={(e, val) => {
         if (e) onChange(val);
       }}
-      value={value ?? [{ ccbcNumber, rowId }]}
+      value={normalizedValue}
       data-testid={id}
       options={ccbcIdList}
       // To prevent a warning when comparing the previous value to the current
-      isOptionEqualToValue={optionChecker}
+      isOptionEqualToValue={allowMultiple ? optionChecker : undefined}
       getOptionLabel={(option: any) => option.ccbcNumber}
-      filterSelectedOptions
+      filterSelectedOptions={!!allowMultiple}
       renderTags={(val, getTagProps) =>
         renderTags(val, getTagProps, ccbcNumber)
       }

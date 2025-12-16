@@ -30622,6 +30622,9 @@ input ApplicationMergeFilter {
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
 
+  """Filter by the object’s `changeReason` field."""
+  changeReason: StringFilter
+
   """Filter by the object’s `applicationByParentApplicationId` relation."""
   applicationByParentApplicationId: ApplicationFilter
 
@@ -49147,6 +49150,9 @@ type ApplicationMerge implements Node {
   """archived at timestamp"""
   archivedAt: Datetime
 
+  """Reason provided when creating or archiving a merge"""
+  changeReason: String
+
   """
   Reads a single `Application` that is related to this `ApplicationMerge`.
   """
@@ -51585,6 +51591,8 @@ enum ApplicationMergesOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
+  CHANGE_REASON_ASC
+  CHANGE_REASON_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -51623,6 +51631,9 @@ input ApplicationMergeCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+
+  """Checks for equality with the object’s `changeReason` field."""
+  changeReason: String
 }
 
 """A connection to a list of `RecordVersion` values."""
@@ -96073,6 +96084,9 @@ input ApplicationMergeInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """Reason provided when creating or archiving a merge"""
+  changeReason: String
 }
 
 """The output of our create `ApplicationPackage` mutation."""
@@ -100926,6 +100940,9 @@ input ApplicationMergePatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """Reason provided when creating or archiving a merge"""
+  changeReason: String
 }
 
 """All input for the `updateApplicationMergeByRowId` mutation."""
@@ -108512,6 +108529,7 @@ input ArchiveApplicationMergeInput {
   """
   clientMutationId: String
   _childApplicationId: Int!
+  _changeReason: String
 }
 
 """The output of our `archiveApplicationMilestoneData` mutation."""
@@ -110389,6 +110407,7 @@ input MergeApplicationInput {
   _childApplicationId: Int!
   _parentApplicationId: Int
   _parentCbcId: Int
+  _changeReason: String
 }
 
 """The output of our `parseGisData` mutation."""

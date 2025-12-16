@@ -5,6 +5,7 @@ import eventsAndDates from './eventsAndDates';
 import funding from './funding';
 import milestone from './milestone';
 import locations from './locations';
+import miscellaneous from './miscellaneous';
 
 const review: RJSFSchema = {
   type: 'object',
@@ -49,6 +50,13 @@ const review: RJSFSchema = {
       title: milestone.title,
       properties: {
         ...milestone.properties,
+      },
+    },
+    miscellaneous: {
+      required: miscellaneous.required,
+      title: miscellaneous.title,
+      properties: {
+        ...miscellaneous.properties,
       },
     },
   },
