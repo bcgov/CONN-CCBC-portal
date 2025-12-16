@@ -681,6 +681,7 @@
             <parent column="id" foreignKey="application_merge_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="6" id="9" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="change_reason" nullable="true" remarks="Reason provided when creating or archiving a merge" size="2147483647" type="text" typeCode="12"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="application_merge_pkey" unique="true">
             <column ascending="true" name="id"/>
