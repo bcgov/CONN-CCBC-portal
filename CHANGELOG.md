@@ -1,3 +1,10 @@
+## [1.275.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.5...v1.275.6) (2025-12-16)
+
+### Bug Fixes
+
+- prevent double auto release process ([646ef33](https://github.com/bcgov/CONN-CCBC-portal/commit/646ef33351128cfa02b3cf0b746b350b60493740))
+- summary tab backbone technologies import ([b709083](https://github.com/bcgov/CONN-CCBC-portal/commit/b70908328bca745b2b7f6ae140c495c124f53f40))
+
 ## [1.275.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.4...v1.275.5) (2025-12-09)
 
 ## [1.275.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.3...v1.275.4) (2025-12-09)
