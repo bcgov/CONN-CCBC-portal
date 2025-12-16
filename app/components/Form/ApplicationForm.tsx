@@ -723,7 +723,6 @@ const ApplicationForm: React.FC<Props> = ({
   };
 
   const handleSubmit = (e: IChangeEvent<any>) => {
-    console.log(jsonData);
     if (pageNumber < subschemaArray.length) {
       saveForm(
         e.formData,
@@ -744,8 +743,6 @@ const ApplicationForm: React.FC<Props> = ({
           },
         },
         onCompleted: () => {
-          console.log(jsonData);
-          console.log(rowId);
           router.push(`/applicantportal/form/${rowId}/success`);
           const templateNineUpload =
             jsonData.templateUploads?.geographicNames?.[0];
