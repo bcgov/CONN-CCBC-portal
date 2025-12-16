@@ -205,7 +205,7 @@ const mockQueryPayload = {
                 otherFundingRequested: 265000,
                 projectTitle: 'Project 1',
                 dateAnnounced: '2019-07-02T00:00:00.000Z',
-                projectNumber: 5555,
+                projectNumber: '5555',
                 projectStatus: 'Reporting Complete',
                 federalFundingRequested: 555555,
                 householdCount: null,
@@ -238,7 +238,7 @@ const mockQueryPayload = {
                 conditionalApprovalLetterSent: 'YES',
                 agreementSigned: 'YES',
               },
-              projectNumber: 5555,
+              projectNumber: '5555',
             },
           },
           {
@@ -255,7 +255,7 @@ const mockQueryPayload = {
                 otherFundingRequested: 444444,
                 projectTitle: 'Project 1',
                 dateAnnounced: '2019-07-02T00:00:00.000Z',
-                projectNumber: 4444,
+                projectNumber: '4444',
                 projectStatus: 'Agreement Signed',
                 federalFundingRequested: 444444,
                 householdCount: null,
@@ -288,7 +288,7 @@ const mockQueryPayload = {
                 conditionalApprovalLetterSent: 'YES',
                 agreementSigned: 'YES',
               },
-              projectNumber: 4444,
+              projectNumber: '4444',
             },
           },
           {
@@ -305,7 +305,7 @@ const mockQueryPayload = {
                 otherFundingRequested: 33333,
                 projectTitle: 'Project 3',
                 dateAnnounced: '2019-07-02T00:00:00.000Z',
-                projectNumber: 3333,
+                projectNumber: '3333',
                 originalProjectNumber: 673829,
                 projectStatus: 'Reporting Complete',
                 federalFundingRequested: 333333,
@@ -339,7 +339,7 @@ const mockQueryPayload = {
                 conditionalApprovalLetterSent: 'YES',
                 agreementSigned: 'YES',
               },
-              projectNumber: 3333,
+              projectNumber: '3333',
               cbcByCbcId: {
                 cbcProjectCommunitiesByCbcId: {
                   nodes: [
@@ -1247,9 +1247,6 @@ describe('The index page', () => {
       fireEvent.click(submitButton);
     });
 
-    expect(
-      screen.getByText('Project ID must be a valid number')
-    ).toBeInTheDocument();
     expect(screen.getByText('Project title is required')).toBeInTheDocument();
     expect(screen.getByText('External status is required')).toBeInTheDocument();
     expect(screen.getByText('Project type is required')).toBeInTheDocument();
@@ -1344,7 +1341,7 @@ describe('The index page', () => {
                       currentOperatingName: 'Test CBC Company',
                       projectTitle: 'Test CBC Project',
                     },
-                    projectNumber: 1001,
+                    projectNumber: '1001',
                     cbcId: 1,
                     cbcByCbcId: {
                       cbcProjectCommunitiesByCbcId: {
@@ -1386,7 +1383,7 @@ describe('The index page', () => {
                       currentOperatingName: 'Test CBC Company',
                       projectTitle: 'Test CBC Project',
                     },
-                    projectNumber: 1001,
+                    projectNumber: '1001',
                     cbcId: 1,
                     cbcByCbcId: {
                       cbcProjectCommunitiesByCbcId: {
@@ -1428,7 +1425,7 @@ describe('The index page', () => {
                       currentOperatingName: 'Test CBC Company',
                       projectTitle: 'Test CBC Project',
                     },
-                    projectNumber: 1001,
+                    projectNumber: '1001',
                     cbcId: 1,
                     cbcByCbcId: {
                       cbcProjectCommunitiesByCbcId: {
@@ -1473,7 +1470,7 @@ describe('The index page', () => {
                       currentOperatingName: 'Test CBC Company',
                       projectTitle: 'Test CBC Project',
                     },
-                    projectNumber: 1001,
+                    projectNumber: '1001',
                     cbcId: 1,
                     cbcByCbcId: {
                       cbcProjectCommunitiesByCbcId: {
@@ -1515,7 +1512,7 @@ describe('The index page', () => {
                       currentOperatingName: 'Test CBC Company',
                       projectTitle: 'Test CBC Project',
                     },
-                    projectNumber: 1001,
+                    projectNumber: '1001',
                     cbcId: 1,
                     cbcByCbcId: {
                       cbcProjectCommunitiesByCbcId: {
@@ -1557,7 +1554,7 @@ describe('The index page', () => {
                       currentOperatingName: 'Test CBC Company',
                       projectTitle: 'Test CBC Project',
                     },
-                    projectNumber: 1001,
+                    projectNumber: '1001',
                     cbcId: 1,
                     cbcByCbcId: {
                       cbcProjectCommunitiesByCbcId: {

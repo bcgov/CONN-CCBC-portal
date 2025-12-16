@@ -26,7 +26,7 @@ const cbcJsonData = {
   otherFundingRequested: 265000,
   projectTitle: 'Project 1',
   dateAnnounced: '2019-07-02T00:00:00.000Z',
-  projectNumber: 5555,
+  projectNumber: '5555',
   projectStatus: 'Reporting Complete',
   federalFundingRequested: 555555,
   householdCount: null,
@@ -65,7 +65,7 @@ const mockQueryPayload = {
   Query() {
     return {
       cbcByRowId: {
-        projectNumber: 5555,
+        projectNumber: '5555',
         rowId: 1,
         sharepointTimestamp: '2024-10-01T00:00:00.000Z',
         cbcDataByCbcId: {
@@ -75,7 +75,7 @@ const mockQueryPayload = {
                 jsonData: cbcJsonData,
                 sharepointTimestamp: '2024-10-01T00:00:00.000Z',
                 rowId: 1,
-                projectNumber: 5555,
+                projectNumber: '5555',
                 updatedAt: '2024-10-01T00:00:00.000Z',
                 updatedBy: 'test',
               },
@@ -151,7 +151,7 @@ const mockNonCbcQueryPayload = {
   Query() {
     return {
       cbcByRowId: {
-        projectNumber: 5555,
+        projectNumber: '5555',
         rowId: 1,
         sharepointTimestamp: '2024-10-01T00:00:00.000Z',
         cbcDataByCbcId: {
@@ -161,7 +161,7 @@ const mockNonCbcQueryPayload = {
                 jsonData: cbcJsonData,
                 sharepointTimestamp: '2024-10-01T00:00:00.000Z',
                 rowId: 1,
-                projectNumber: 5555,
+                projectNumber: '5555',
                 updatedAt: '2024-10-01T00:00:00.000Z',
                 updatedBy: 'test',
               },
@@ -181,7 +181,7 @@ const mockLockedQueryPayload = {
   Query() {
     return {
       cbcByRowId: {
-        projectNumber: 5555,
+        projectNumber: '5555',
         rowId: 1,
         sharepointTimestamp: '2024-10-01T00:00:00.000Z',
         cbcDataByCbcId: {
@@ -191,7 +191,7 @@ const mockLockedQueryPayload = {
                 jsonData: { ...cbcJsonData, locked: true },
                 sharepointTimestamp: '2024-10-01T00:00:00.000Z',
                 rowId: 1,
-                projectNumber: 5555,
+                projectNumber: '5555',
                 updatedAt: '2024-10-01T00:00:00.000Z',
                 updatedBy: 'test',
               },
@@ -320,7 +320,9 @@ describe('Cbc', () => {
     await act(async () => {
       fireEvent.click(projectNumberField);
     });
-    const projectNumberInput = screen.getByRole('spinbutton');
+    const projectNumberInput = screen.getByRole('textbox', {
+      name: /Project number input/i,
+    });
     await act(async () => {
       fireEvent.change(projectNumberInput, {
         target: { value: '5554' },
@@ -356,7 +358,9 @@ describe('Cbc', () => {
     await act(async () => {
       fireEvent.click(projectNumberField);
     });
-    const projectNumberInput = screen.getByRole('spinbutton');
+    const projectNumberInput = screen.getByRole('textbox', {
+      name: /Project number input/i,
+    });
     await act(async () => {
       fireEvent.change(projectNumberInput, {
         target: { value: '5554' },
@@ -379,7 +383,9 @@ describe('Cbc', () => {
     await act(async () => {
       fireEvent.click(projectNumberField);
     });
-    const projectNumberInput = screen.getByRole('spinbutton');
+    const projectNumberInput = screen.getByRole('textbox', {
+      name: /Project number input/i,
+    });
     await act(async () => {
       fireEvent.change(projectNumberInput, {
         target: { value: '5554' },
@@ -413,7 +419,9 @@ describe('Cbc', () => {
     await act(async () => {
       fireEvent.click(projectNumberField);
     });
-    const projectNumberInput = screen.getByRole('spinbutton');
+    const projectNumberInput = screen.getByRole('textbox', {
+      name: /Project number input/i,
+    });
     await act(async () => {
       fireEvent.change(projectNumberInput, {
         target: { value: '5555' },
@@ -605,7 +613,7 @@ describe('Cbc', () => {
           cbcDataPatch: {
             jsonData: {
               errorLog: [],
-              projectNumber: 5555,
+              projectNumber: '5555',
               phase: 2,
               intake: 1,
               projectStatus: 'Reporting Complete',
@@ -724,7 +732,7 @@ describe('Cbc', () => {
           cbcDataPatch: {
             jsonData: {
               errorLog: [],
-              projectNumber: 5555,
+              projectNumber: '5555',
               phase: 2,
               intake: 1,
               projectStatus: 'Reporting Complete',
