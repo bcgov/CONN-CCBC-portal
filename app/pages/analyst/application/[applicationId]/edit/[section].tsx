@@ -142,6 +142,7 @@ const getSectionQuery = graphql`
     }
     session {
       sub
+      authRole
     }
     ...AnalystLayout_query
   }
@@ -196,10 +197,15 @@ const EditApplication = ({
   const isSummaryEdit =
     sectionName === 'funding' || sectionName === 'miscellaneous';
 
-  // custom schemaa for miscellaneous edit with project options
+  // Check if user has permission to view internal notes
+  const canViewInternalNotes =
+    session?.authRole === 'super_admin' || session?.authRole === 'ccbc_admin';
+
+  // custom schema for miscellaneous edit with project options
   const { schema: miscSchema, uiSchema: miscUiSchema } = getMiscellaneousSchema(
     query?.applicationByRowId,
-    true
+    true,
+    session?.authRole
   );
   const miscellaneousOptions = applicationsList.map((application: any) => {
     return {
@@ -241,7 +247,7 @@ const EditApplication = ({
     sectionName === 'miscellaneous'
       ? {
           linkedProject: miscellaneousData?.length ? miscellaneousData : [],
-          internalNotes: internalNotesData,
+          ...(canViewInternalNotes && { internalNotes: internalNotesData }),
         }
       : fundingSummaryData;
   const [sectionFormData, setSectionFormData] = useState(
@@ -288,11 +294,9 @@ const EditApplication = ({
       : [];
 
     // Handle internal notes update/create
-    const currentInternalNote =
-      (query?.applicationByRowId as any)?.applicationInternalNotesByApplicationId
-        ?.edges?.[0]?.node;
-    const newInternalNotesValue =
-      sectionFormData?.internalNotes || null;
+    const currentInternalNote = (query?.applicationByRowId as any)
+      ?.applicationInternalNotesByApplicationId?.edges?.[0]?.node;
+    const newInternalNotesValue = sectionFormData?.internalNotes || null;
     const currentInternalNotesValue = currentInternalNote?.note || null;
     const needsInternalNotesUpdate =
       newInternalNotesValue !== currentInternalNotesValue;
@@ -307,7 +311,7 @@ const EditApplication = ({
               applicationInternalNote: {
                 applicationId: rowId,
                 note: newInternalNotesValue,
-                changeReason: changeReason
+                changeReason: changeReason,
               },
             },
           },
@@ -332,7 +336,7 @@ const EditApplication = ({
               id: currentInternalNote.id,
               applicationInternalNotePatch: {
                 note: newInternalNotesValue || '',
-                changeReason: changeReason
+                changeReason: changeReason,
               },
             },
           },
