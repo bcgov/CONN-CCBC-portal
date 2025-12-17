@@ -311,7 +311,7 @@ const EditApplication = ({
               applicationInternalNote: {
                 applicationId: rowId,
                 note: newInternalNotesValue,
-                changeReason: changeReason,
+                changeReason,
               },
             },
           },
@@ -336,7 +336,7 @@ const EditApplication = ({
               id: currentInternalNote.id,
               applicationInternalNotePatch: {
                 note: newInternalNotesValue || '',
-                changeReason: changeReason,
+                changeReason,
               },
             },
           },
