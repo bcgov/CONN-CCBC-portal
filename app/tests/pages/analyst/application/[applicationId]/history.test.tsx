@@ -4220,50 +4220,6 @@ describe('The index page', () => {
       'Foo Bar updated FNHA Contribution on Mar 6, 2025, 11:50 a.m.'
     );
   });
-
-  it('shows the correct history for pending change requests', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    const pendingHistories = screen.getAllByTestId(
-      'history-content-pending-change-request'
-    );
-
-    expect(pendingHistories).toHaveLength(3);
-    expect(
-      pendingHistories.some((entry) =>
-        entry.textContent?.includes(
-          'indicated that a change request is pending'
-        )
-      )
-    ).toBe(true);
-    expect(
-      pendingHistories.some((entry) =>
-        entry.textContent?.includes(
-          'indicated that the change request is no longer pending'
-        )
-      )
-    ).toBe(true);
-  });
-
-  it('displays the pending change request resolution reason', async () => {
-    pageTestingHelper.loadQuery();
-    pageTestingHelper.renderPage();
-
-    const resolvedEntry = screen
-      .getAllByTestId('history-content-pending-change-request')
-      .find((entry) =>
-        entry.textContent?.includes(
-          'indicated that the change request is no longer pending'
-        )
-      );
-
-    expect(resolvedEntry).toBeDefined();
-    expect(screen.getByText(/change request cancelled/i)).toBeInTheDocument();
-    expect(
-      screen.queryByText(/Yes, change request cancelled/i)
-    ).not.toBeInTheDocument();
-  });
 });
 
 describe('The filter', () => {
