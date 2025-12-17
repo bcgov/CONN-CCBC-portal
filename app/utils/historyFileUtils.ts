@@ -151,6 +151,7 @@ export const getFileArraysFromRecord = (
 ): [any[], any[]] => {
   let currentFiles = [];
   let previousFiles = [];
+  const isDeleted = record?.history_operation === 'deleted';
 
   const getNestedValue = (obj: any, path: string) => {
     return path.split('.').reduce((current, key) => current?.[key], obj);
@@ -178,6 +179,11 @@ export const getFileArraysFromRecord = (
     // For other tables, files might be stored directly in the record
     currentFiles = getNestedValue(record, fieldName) || [];
     previousFiles = getNestedValue(prevRecord, fieldName) || [];
+  }
+
+  if (isDeleted) {
+    const deletedFiles = currentFiles.length > 0 ? currentFiles : previousFiles;
+    return [[], deletedFiles || []];
   }
 
   return [currentFiles, previousFiles];
