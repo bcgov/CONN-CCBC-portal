@@ -2,6 +2,8 @@ import { DateTime } from 'luxon';
 import review from '../../formSchema/analyst/summary/review';
 import customValidate from '../../utils/ccbcCustomValidator';
 
+const TIMEZONE = 'America/Vancouver';
+
 export const APPROVED_STATUSES = [
   'approved',
   'applicant_approved',
@@ -53,9 +55,9 @@ const handleApplicationDateReceived = (applicationData, allIntakes) => {
   }
 
   return receivedDate
-    ? DateTime.fromJSDate(new Date(receivedDate)).toLocaleString(
-        DateTime.DATE_SHORT
-      )
+    ? DateTime.fromJSDate(new Date(receivedDate))
+        .setZone(TIMEZONE)
+        .toFormat('yyyy-MM-dd')
     : null;
 };
 
