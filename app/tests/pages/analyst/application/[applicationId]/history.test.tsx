@@ -2961,8 +2961,7 @@ const mockQueryPayload = {
                 archived_at: null,
                 archived_by: null,
                 application_id: 1,
-                reason_for_change:
-                  '',
+                reason_for_change: '',
               },
               recordId: 'b01aa98e-a7c1-5431-931d-130a53a16c61',
               sessionSub: '54f0aa1ad196497fff9321c20a1ef@bceidbasic',
@@ -3621,6 +3620,69 @@ const mockRfiHistoryPayload = {
               sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
               tableName: 'rfi_data',
             },
+            {
+              tableName: 'application_internal_notes',
+              sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
+              recordId: '393bf877-0d5e-5e9e-b425-37f4a9e68eaa',
+              record: {
+                id: 1,
+                note: 'some note',
+                created_at: '2025-12-17T17:19:23.491563+00:00',
+                created_by: 336,
+                updated_at: '2025-12-17T17:19:23.491563+00:00',
+                updated_by: 336,
+                archived_at: null,
+                archived_by: null,
+                change_reason: 'test',
+                application_id: 56,
+              },
+              op: 'INSERT',
+              oldRecord: null,
+              item: null,
+              givenName: 'Bar',
+              familyName: 'Foo',
+              externalAnalyst: null,
+              createdBy: 336,
+              createdAt: '2025-12-17T17:19:23.491563+00:00',
+              applicationId: 510,
+            },
+            {
+              tableName: 'application_internal_notes',
+              sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
+              recordId: '393bf877-0d5e-5e9e-b425-37f4a9e68eaa',
+              record: {
+                id: 1,
+                note: 'some other note',
+                created_at: '2025-12-17T17:19:23.491563+00:00',
+                created_by: 336,
+                updated_at: '2025-12-17T17:20:14.015024+00:00',
+                updated_by: 336,
+                archived_at: null,
+                archived_by: null,
+                change_reason: 'test',
+                application_id: 510,
+              },
+              op: 'UPDATE',
+              oldRecord: {
+                id: 1,
+                note: 'fdfafdaff',
+                created_at: '2025-12-17T17:19:23.491563+00:00',
+                created_by: 336,
+                updated_at: '2025-12-17T17:19:23.491563+00:00',
+                updated_by: 336,
+                archived_at: null,
+                archived_by: null,
+                change_reason: 'test',
+                application_id: 510,
+              },
+              item: null,
+              givenName: 'Bar',
+              familyName: 'Foo',
+              externalAnalyst: null,
+              createdBy: 336,
+              createdAt: '2025-12-17T17:19:23.491563+00:00',
+              applicationId: 510,
+            },
           ],
         },
         formData: {
@@ -3889,9 +3951,9 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    expect(
-      screen.getAllByTestId('history-content-dependencies')
-    ).toHaveLength(2);
+    expect(screen.getAllByTestId('history-content-dependencies')).toHaveLength(
+      2
+    );
   });
 
   it('shows the correct history for uploading gis analysis', async () => {
