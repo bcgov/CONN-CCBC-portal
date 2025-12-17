@@ -857,3 +857,5 @@ tables/application_merge_001_add_change_reason 2025-12-03T19:00:00Z ,,, <rranath
 mutations/merge_application [mutations/merge_application@1.272.0] 2025-12-08T17:15:40Z ,,, <rranathu@NH504670> # update with a change reason
 mutations/archive_application_merge [mutations/archive_application_merge@1.272.0] 2025-12-08T17:24:34Z ,,, <rranathu@NH504670> # update with a change reason
 tables/application_internal_notes 2025-12-02T16:16:33Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # table to hold internal notes for applications
+computed_columns/application_history [computed_columns/application_history@1.272.0] 2025-12-17T21:14:12Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add internal notes history
+computed_columns/change_log [computed_columns/change_log@1.272.0] 2025-12-17T21:15:27Z Rafael Solorzano <61289255+rafasdc@users.noreply.github.com> # add internal notes to change log
