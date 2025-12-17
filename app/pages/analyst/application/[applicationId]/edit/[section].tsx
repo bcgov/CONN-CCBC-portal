@@ -293,6 +293,25 @@ const EditApplication = ({
       ? [parentApplicationMerge.__id]
       : [];
 
+    function handleParentUpdate() {
+      updateParent(
+        oldParent,
+        newParent,
+        rowId,
+        changeReason,
+        connections,
+        // onSuccess
+        () => {
+          router.push(`/analyst/application/${applicationId}/summary`);
+        },
+        // onError show error message
+        () => {
+          showToast?.('An error occurred. Please try again.', 'error', 15000);
+          router.push(`/analyst/application/${applicationId}/summary`);
+        }
+      );
+    }
+
     // Handle internal notes update/create
     const currentInternalNote = (query?.applicationByRowId as any)
       ?.applicationInternalNotesByApplicationId?.edges?.[0]?.node;
@@ -328,7 +347,8 @@ const EditApplication = ({
           },
         });
         return;
-      } else if (currentInternalNote?.id) {
+      }
+      if (currentInternalNote?.id) {
         // Update existing internal note
         updateInternalNote({
           variables: {
@@ -358,25 +378,6 @@ const EditApplication = ({
 
     // If no internal notes update needed, just handle parent update
     handleParentUpdate();
-
-    function handleParentUpdate() {
-      updateParent(
-        oldParent,
-        newParent,
-        rowId,
-        changeReason,
-        connections,
-        // onSuccess
-        () => {
-          router.push(`/analyst/application/${applicationId}/summary`);
-        },
-        // onError show error message
-        () => {
-          showToast?.('An error occurred. Please try again.', 'error', 15000);
-          router.push(`/analyst/application/${applicationId}/summary`);
-        }
-      );
-    }
   };
 
   const handleSummaryEdit = () => {
