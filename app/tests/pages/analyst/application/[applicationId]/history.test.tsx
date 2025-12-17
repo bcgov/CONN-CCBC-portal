@@ -3178,6 +3178,69 @@ const mockQueryPayload = {
               recordId: '34eb1bd2-1b93-5f3f-a08f-d8f332afe333',
               op: 'INSERT',
             },
+            {
+              tableName: 'application_internal_notes',
+              sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
+              recordId: '393bf877-0d5e-5e9e-b425-37f4a9e68eaa',
+              record: {
+                id: 1,
+                note: 'some note',
+                created_at: '2025-12-17T17:19:23.491563+00:00',
+                created_by: 336,
+                updated_at: '2025-12-17T17:19:23.491563+00:00',
+                updated_by: 336,
+                archived_at: null,
+                archived_by: null,
+                change_reason: 'test',
+                application_id: 56,
+              },
+              op: 'INSERT',
+              oldRecord: null,
+              item: null,
+              givenName: 'Bar',
+              familyName: 'Foo',
+              externalAnalyst: null,
+              createdBy: 336,
+              createdAt: '2025-12-17T17:19:23.491563+00:00',
+              applicationId: 510,
+            },
+            {
+              tableName: 'application_internal_notes',
+              sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
+              recordId: '393bf877-0d5e-5e9e-b425-37f4a9e68eaa',
+              record: {
+                id: 1,
+                note: 'some other note',
+                created_at: '2025-12-17T17:19:23.491563+00:00',
+                created_by: 336,
+                updated_at: '2025-12-17T17:20:14.015024+00:00',
+                updated_by: 336,
+                archived_at: null,
+                archived_by: null,
+                change_reason: 'test',
+                application_id: 510,
+              },
+              op: 'UPDATE',
+              oldRecord: {
+                id: 1,
+                note: 'fdfafdaff',
+                created_at: '2025-12-17T17:19:23.491563+00:00',
+                created_by: 336,
+                updated_at: '2025-12-17T17:19:23.491563+00:00',
+                updated_by: 336,
+                archived_at: null,
+                archived_by: null,
+                change_reason: 'test',
+                application_id: 510,
+              },
+              item: null,
+              givenName: 'Bar',
+              familyName: 'Foo',
+              externalAnalyst: null,
+              createdBy: 336,
+              createdAt: '2025-12-17T17:19:23.491563+00:00',
+              applicationId: 510,
+            },
           ],
         },
         formData: {
@@ -3619,70 +3682,7 @@ const mockRfiHistoryPayload = {
               recordId: 'c5ef0109-a7b4-56b6-a093-f2f47905a40a',
               sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
               tableName: 'rfi_data',
-            },
-            {
-              tableName: 'application_internal_notes',
-              sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
-              recordId: '393bf877-0d5e-5e9e-b425-37f4a9e68eaa',
-              record: {
-                id: 1,
-                note: 'some note',
-                created_at: '2025-12-17T17:19:23.491563+00:00',
-                created_by: 336,
-                updated_at: '2025-12-17T17:19:23.491563+00:00',
-                updated_by: 336,
-                archived_at: null,
-                archived_by: null,
-                change_reason: 'test',
-                application_id: 56,
-              },
-              op: 'INSERT',
-              oldRecord: null,
-              item: null,
-              givenName: 'Bar',
-              familyName: 'Foo',
-              externalAnalyst: null,
-              createdBy: 336,
-              createdAt: '2025-12-17T17:19:23.491563+00:00',
-              applicationId: 510,
-            },
-            {
-              tableName: 'application_internal_notes',
-              sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
-              recordId: '393bf877-0d5e-5e9e-b425-37f4a9e68eaa',
-              record: {
-                id: 1,
-                note: 'some other note',
-                created_at: '2025-12-17T17:19:23.491563+00:00',
-                created_by: 336,
-                updated_at: '2025-12-17T17:20:14.015024+00:00',
-                updated_by: 336,
-                archived_at: null,
-                archived_by: null,
-                change_reason: 'test',
-                application_id: 510,
-              },
-              op: 'UPDATE',
-              oldRecord: {
-                id: 1,
-                note: 'fdfafdaff',
-                created_at: '2025-12-17T17:19:23.491563+00:00',
-                created_by: 336,
-                updated_at: '2025-12-17T17:19:23.491563+00:00',
-                updated_by: 336,
-                archived_at: null,
-                archived_by: null,
-                change_reason: 'test',
-                application_id: 510,
-              },
-              item: null,
-              givenName: 'Bar',
-              familyName: 'Foo',
-              externalAnalyst: null,
-              createdBy: 336,
-              createdAt: '2025-12-17T17:19:23.491563+00:00',
-              applicationId: 510,
-            },
+            }
           ],
         },
         formData: {
@@ -3934,13 +3934,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 33 diff tables', async () => {
+  it('shows all 35 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(33);
+    expect(diffTables.length).toBe(35);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -4247,7 +4247,7 @@ describe('The filter', () => {
     const dropdown = document.querySelector('[role="listbox"]') as HTMLElement;
     const options = within(dropdown!).getAllByRole('option');
     const optionNames = options.map((option) => option.textContent?.trim());
-    expect(options.length).toEqual(17);
+    expect(options.length).toEqual(18);
 
     const expectedOptionNames = [
       'Amendment',
