@@ -128,6 +128,18 @@ const getSummaryQuery = graphql`
           }
         }
       }
+      applicationInternalNotesByApplicationId(
+        condition: { archivedAt: null }
+        first: 1
+      ) {
+        edges {
+          node {
+            id
+            rowId
+            note
+          }
+        }
+      }
       status
       intakeNumber
     }
@@ -266,7 +278,7 @@ const Summary = ({
   const [editMode, setEditMode] = useState(false);
   const { getMiscellaneousSchema } = useApplicationMerge();
   const { schema: miscSchema, uiSchema: miscUiSchema } =
-    getMiscellaneousSchema(applicationByRowId);
+    getMiscellaneousSchema(applicationByRowId, false);
 
   // to handle dynamic titles and widgets based on the status
   const summaryReviewUiSchema = {

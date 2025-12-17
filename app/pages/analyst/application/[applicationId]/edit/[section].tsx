@@ -24,11 +24,14 @@ import reviewUiSchema from 'formSchema/uiSchema/summary/reviewUiSchema';
 import {
   getFundingData,
   getMiscellaneousData,
+  getInternalNotesData,
 } from 'lib/helpers/ccbcSummaryGenerateFormData';
 import { useSaveFnhaContributionMutation } from 'schema/mutations/application/saveFnhaContributionMutation';
 import { RJSFSchema } from '@rjsf/utils';
 import useApplicationMerge from 'lib/helpers/useApplicationMerge';
 import { useToast } from 'components/AppProvider';
+import { useCreateApplicationInternalNoteMutation } from 'schema/mutations/application/createApplicationInternalNote';
+import { useUpdateApplicationInternalNoteMutation } from 'schema/mutations/application/updateApplicationInternalNote';
 
 const getSectionQuery = graphql`
   query SectionQuery($rowId: Int!) {
@@ -86,6 +89,18 @@ const getSectionQuery = graphql`
           node {
             id
             fnhaContribution
+          }
+        }
+      }
+      applicationInternalNotesByApplicationId(
+        condition: { archivedAt: null }
+        first: 1
+      ) {
+        edges {
+          node {
+            id
+            rowId
+            note
           }
         }
       }
@@ -221,10 +236,12 @@ const EditApplication = ({
   );
 
   const miscellaneousData = getMiscellaneousData(query?.applicationByRowId);
+  const internalNotesData = getInternalNotesData(query?.applicationByRowId);
   const summaryData =
     sectionName === 'miscellaneous'
       ? {
           linkedProject: miscellaneousData?.length ? miscellaneousData : [],
+          internalNotes: internalNotesData,
         }
       : fundingSummaryData;
   const [sectionFormData, setSectionFormData] = useState(
@@ -235,6 +252,8 @@ const EditApplication = ({
   const changeModal = useModal();
   const { notifyHHCountUpdate } = useEmailNotification();
   const [saveFnhaContributionMutation] = useSaveFnhaContributionMutation();
+  const [createInternalNote] = useCreateApplicationInternalNoteMutation();
+  const [updateInternalNote] = useUpdateApplicationInternalNoteMutation();
   const handleChange = (e: IChangeEvent) => {
     setIsFormSaved(false);
     const newFormSectionData = { ...e.formData };
@@ -268,22 +287,92 @@ const EditApplication = ({
       ? [parentApplicationMerge.__id]
       : [];
 
-    updateParent(
-      oldParent,
-      newParent,
-      rowId,
-      changeReason,
-      connections,
-      // onSuccess
-      () => {
-        router.push(`/analyst/application/${applicationId}/summary`);
-      },
-      // onError show error message
-      () => {
-        showToast?.('An error occurred. Please try again.', 'error', 15000);
-        router.push(`/analyst/application/${applicationId}/summary`);
+    // Handle internal notes update/create
+    const currentInternalNote =
+      (query?.applicationByRowId as any)?.applicationInternalNotesByApplicationId
+        ?.edges?.[0]?.node;
+    const newInternalNotesValue =
+      sectionFormData?.internalNotes || null;
+    const currentInternalNotesValue = currentInternalNote?.note || null;
+    const needsInternalNotesUpdate =
+      newInternalNotesValue !== currentInternalNotesValue;
+
+    // If internal notes need to be updated, handle that first
+    if (needsInternalNotesUpdate) {
+      if (!currentInternalNote && newInternalNotesValue) {
+        // Create new internal note
+        createInternalNote({
+          variables: {
+            input: {
+              applicationInternalNote: {
+                applicationId: rowId,
+                note: newInternalNotesValue,
+                changeReason: changeReason
+              },
+            },
+          },
+          onCompleted: () => {
+            // After creating note, handle parent update
+            handleParentUpdate();
+          },
+          onError: () => {
+            showToast?.(
+              'An error occurred while updating internal notes. Please try again.',
+              'error',
+              15000
+            );
+          },
+        });
+        return;
+      } else if (currentInternalNote?.id) {
+        // Update existing internal note
+        updateInternalNote({
+          variables: {
+            input: {
+              id: currentInternalNote.id,
+              applicationInternalNotePatch: {
+                note: newInternalNotesValue || '',
+                changeReason: changeReason
+              },
+            },
+          },
+          onCompleted: () => {
+            // After updating note, handle parent update
+            handleParentUpdate();
+          },
+          onError: () => {
+            showToast?.(
+              'An error occurred while updating internal notes. Please try again.',
+              'error',
+              15000
+            );
+          },
+        });
+        return;
       }
-    );
+    }
+
+    // If no internal notes update needed, just handle parent update
+    handleParentUpdate();
+
+    function handleParentUpdate() {
+      updateParent(
+        oldParent,
+        newParent,
+        rowId,
+        changeReason,
+        connections,
+        // onSuccess
+        () => {
+          router.push(`/analyst/application/${applicationId}/summary`);
+        },
+        // onError show error message
+        () => {
+          showToast?.('An error occurred. Please try again.', 'error', 15000);
+          router.push(`/analyst/application/${applicationId}/summary`);
+        }
+      );
+    }
   };
 
   const handleSummaryEdit = () => {

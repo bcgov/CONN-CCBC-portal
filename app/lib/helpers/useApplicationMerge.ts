@@ -61,6 +61,13 @@ const useApplicationMerge = () => {
                 boldTitle: true,
               },
             },
+      internalNotes: {
+        'ui:widget': 'TextAreaWidget',
+        'ui:label': 'Internal Notes',
+        'ui:options': {
+          rows: 5,
+        },
+      },
     };
 
     const miscellaneousSchema: RJSFSchema = {
@@ -72,6 +79,10 @@ const useApplicationMerge = () => {
           title: isEditView
             ? `${miscLinkedProjectLabel}: `
             : miscLinkedProjectLabel,
+        },
+        internalNotes: {
+          type: 'string',
+          title: 'Internal Notes',
         },
       },
     };

@@ -5,7 +5,8 @@ begin;
 create table ccbc_public.application_internal_notes (
   id integer primary key generated always as identity,
   application_id integer references ccbc_public.application(id),
-  note text
+  note text,
+  change_reason text default null
 );
 
 select ccbc_private.upsert_timestamp_columns('ccbc_public', 'application_internal_notes');
