@@ -351,7 +351,8 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
         'updated_at',
         'archived_by',
         'archived_at',
-        'change_reason'
+        'change_reason',
+        'user_info'
       ],
       overrideParent: 'applicationInternalNotes',
     },
