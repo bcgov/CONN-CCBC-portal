@@ -146,7 +146,6 @@ returns setof ccbc_public.change_log_record as $$
         when r.table_name = 'application_rd' then (r.record->>'application_id')::int = app.id
         when r.table_name = 'application_fnha_contribution' then (r.record->>'application_id')::int = app.id
         when r.table_name = 'application_pending_change_request' then (r.record->>'application_id')::int = app.id
-        when r.table_name = 'application_internal_notes' then (r.record->>'application_id')::int = app.id
         when r.table_name = 'form_data' then
           (r.record->>'id')::int in (
             select af.form_data_id from ccbc_public.application_form_data af where af.application_id = app.id
@@ -246,9 +245,6 @@ returns setof ccbc_public.change_log_record as $$
     or
     -- Application pending change request (INSERT only, not archived)
     (r.op='INSERT' and r.table_name='application_pending_change_request' and r.record->>'archived_by' is null)
-    or
-    -- Application internal notes (INSERT or UPDATE)
-    ((r.op='INSERT' or r.op='UPDATE') and r.table_name='application_internal_notes' and r.record->>'archived_by' is null and r.record->>'application_id' is not null)
     or
     -- CBC data (all operations)
     (r.table_name = 'cbc_data')
