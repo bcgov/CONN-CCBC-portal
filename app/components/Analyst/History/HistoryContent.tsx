@@ -380,6 +380,7 @@ const HistoryContent = ({
   }
 
   if (tableName === 'application_internal_notes') {
+    const changeReason = record?.change_reason;
     return (
       <div>
         <StyledContent data-testid="history-content-internal-notes">
@@ -400,6 +401,7 @@ const HistoryContent = ({
             }
           />
         )}
+        {changeReason && <ChangeReason reason={changeReason} />}
       </div>
     );
   }

@@ -18,6 +18,7 @@ import {
   faSignsPost,
   faWifi,
   faHourglass,
+  faStickyNote
 } from '@fortawesome/free-solid-svg-icons';
 
 const StyledIcon = styled.div`
@@ -57,6 +58,7 @@ const iconMap = {
   application_communities: faClipboardList,
   application_fnha_contribution: faDollarSign,
   application_pending_change_request: faHourglass,
+  application_internal_notes: faStickyNote
 };
 
 interface Props {
