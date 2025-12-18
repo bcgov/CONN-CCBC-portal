@@ -873,7 +873,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       },
       {
         accessorKey: 'fundingSource',
-        header: 'Funding Source',
+        header: 'BC/ISED Funded',
         filterVariant: 'multi-select',
         filterSelectOptions: ['BC', 'ISED', 'BC & ISED', 'N/A', 'TBD'],
         filterFn: genericFilterMultiSelect,
