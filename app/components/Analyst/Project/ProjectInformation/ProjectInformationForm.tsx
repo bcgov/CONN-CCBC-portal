@@ -148,6 +148,11 @@ const ProjectInformationForm: React.FC<Props> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteModalData, setDeleteModalData] = useState(null);
   const fnhaInfoModal = useModal();
+  const [updatedTitles, setUpdatedTitles] = useState<{
+    sowTitle: string;
+    fundingTitle: string;
+  } | null>(null);
+  const latestTab7SummaryRef = useRef<any>(null);
 
   const apiPath = `/api/analyst/sow/${rowId}/${ccbcNumber}/${
     isChangeRequest ? formData?.amendmentNumber : 0
@@ -238,6 +243,8 @@ const ProjectInformationForm: React.FC<Props> = ({
     setSowFile(null);
     setShowToast(false);
     setIsSubmitAttempted(false);
+    // Don't clear updatedTitles here - let it persist so titles update immediately
+    // It will be cleared when form is edited again or when new data is saved
   };
 
   const cancelNotifyAgreementSignedEmail = () => {
@@ -343,6 +350,19 @@ const ProjectInformationForm: React.FC<Props> = ({
           formData?.statementOfWorkUpload?.length > 0 && sowFile !== null;
         const fnhaFunding = response?.result?.tab7Summary?.totalFNHAFunding;
 
+        // Store tab7Summary from response to update titles after mutation completes
+        // Check multiple possible response structures
+        const tab7Summary =
+          response?.result?.tab7Summary ||
+          response?.tab7Summary ||
+          (response?.result?.data?.createSowTab7?.sowTab7?.jsonData?.summaryTable);
+        
+        if (isSowUploaded && response?.status === 200 && tab7Summary) {
+          latestTab7SummaryRef.current = tab7Summary;
+        } else {
+          latestTab7SummaryRef.current = null;
+        }
+
         // If there are sow errors, persist sow error in form data if not delete
         const newFormData = { ...formData };
         if (isSowErrors) {
@@ -366,6 +386,12 @@ const ProjectInformationForm: React.FC<Props> = ({
               },
             },
             onCompleted: () => {
+              // Update helper titles from the stored tab7Summary if available
+              if (latestTab7SummaryRef.current) {
+                const newTitles = getHelperTitlesFromTab7Data(latestTab7SummaryRef.current);
+                setUpdatedTitles(newTitles);
+              }
+
               handleResetFormData();
 
               if (isSowUploaded && response?.status === 200) {
@@ -432,6 +458,12 @@ const ProjectInformationForm: React.FC<Props> = ({
               },
             },
             onCompleted: () => {
+              // Update helper titles from the stored tab7Summary if available
+              if (latestTab7SummaryRef.current) {
+                const newTitles = getHelperTitlesFromTab7Data(latestTab7SummaryRef.current);
+                setUpdatedTitles(newTitles);
+              }
+
               handleResetFormData(!formData?.hasFundingAgreementBeenSigned);
               setHasFormSaved(true);
               if (isSowUploaded && response?.status === 200) {
@@ -504,21 +536,13 @@ const ProjectInformationForm: React.FC<Props> = ({
     });
   };
 
-  const getHelperTitles = (
-    sowData: typeof applicationSowDataByApplicationId
+  const getHelperTitlesFromTab7Data = (
+    tab7Data: any
   ): { sowTitle: string; fundingTitle: string } => {
     const helperTitles = {
       sowTitle: 'SOW',
       fundingTitle: 'Funding Agreement',
     };
-
-    if (!sowData?.edges?.length) {
-      return helperTitles;
-    }
-
-    const latestSowData = sowData.edges[0]?.node;
-    const tab7Data =
-      latestSowData?.sowTab7SBySowId?.edges?.[0]?.node?.jsonData?.summaryTable;
 
     if (!tab7Data) {
       return helperTitles;
@@ -555,9 +579,31 @@ const ProjectInformationForm: React.FC<Props> = ({
     return helperTitles;
   };
 
-  const { sowTitle, fundingTitle } = getHelperTitles(
-    applicationSowDataByApplicationId
+  const getHelperTitles = (
+    sowData: typeof applicationSowDataByApplicationId
+  ): { sowTitle: string; fundingTitle: string } => {
+    const helperTitles = {
+      sowTitle: 'SOW',
+      fundingTitle: 'Funding Agreement',
+    };
+
+    if (!sowData?.edges?.length) {
+      return helperTitles;
+    }
+
+    const latestSowData = sowData.edges[0]?.node;
+    const tab7Data =
+      latestSowData?.sowTab7SBySowId?.edges?.[0]?.node?.jsonData?.summaryTable;
+
+    return getHelperTitlesFromTab7Data(tab7Data);
+  };
+
+  const computedTitles = useMemo(
+    () => getHelperTitles(applicationSowDataByApplicationId),
+    [applicationSowDataByApplicationId]
   );
+
+  const { sowTitle, fundingTitle } = updatedTitles || computedTitles;
 
   const isOriginalSowUpload = projectInformation?.jsonData;
   return (
@@ -600,6 +646,8 @@ const ProjectInformationForm: React.FC<Props> = ({
                   setShowToast(false);
                   setIsFormEditMode(true);
                   setOperation('INSERT');
+                  setUpdatedTitles(null);
+                  latestTab7SummaryRef.current = null;
                 }}
                 title="Add change request"
               />
@@ -694,6 +742,8 @@ const ProjectInformationForm: React.FC<Props> = ({
                 setFormData(jsonData);
                 setShowToast(false);
                 setOperation('UPDATE');
+                setUpdatedTitles(null);
+                latestTab7SummaryRef.current = null;
               }}
               isChangeRequest
               isFormEditMode={isFormEditMode}
@@ -719,6 +769,8 @@ const ProjectInformationForm: React.FC<Props> = ({
               setIsFormEditMode(true);
               setShowToast(false);
               setOperation('UPDATE');
+              setUpdatedTitles(null);
+              latestTab7SummaryRef.current = null;
             }}
             isFormEditMode={isFormEditMode}
             isSowUploadError={projectInformationData?.isSowUploadError}
