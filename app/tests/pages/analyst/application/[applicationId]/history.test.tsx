@@ -4041,7 +4041,7 @@ describe('The index page', () => {
     )[3];
 
     expect(claimsHistory).toHaveTextContent(
-      'The applicant created a Milestone Report on Oct 17, 2023, 8:09 a.m.'
+      'The applicant created a Q3 (Oct-Dec) 2023-24 Milestone Report on Oct 17, 2023, 8:09 a.m.'
     );
 
     const claimHistoryFile = screen.getAllByTestId(
@@ -4049,7 +4049,7 @@ describe('The index page', () => {
     )[0];
 
     expect(claimHistoryFile).toHaveTextContent(
-      'Uploaded Milestone Report Excel'
+      'Milestone Report Excel'
     );
     expect(claimHistoryFile).toHaveTextContent(
       'UBF-AA-00000-Milestone-Report.xlsx'
@@ -4065,7 +4065,7 @@ describe('The index page', () => {
     )[2];
 
     expect(claimsHistory).toHaveTextContent(
-      'The applicant updated a Milestone Report on Oct 17, 2023, 8:10 a.m.'
+      'The applicant updated a Q3 (Oct-Dec) 2023-24 Milestone Report on Oct 17, 2023, 8:10 a.m.'
     );
 
     const claimHistoryFile = screen.getAllByTestId(
@@ -4073,7 +4073,7 @@ describe('The index page', () => {
     )[0];
 
     expect(claimHistoryFile).toHaveTextContent(
-      'Uploaded Milestone Completion Evidence'
+      'Milestone Completion Evidence'
     );
     expect(claimHistoryFile).toHaveTextContent('evidence.pdf');
   });
@@ -4087,7 +4087,7 @@ describe('The index page', () => {
     )[0];
 
     expect(claimsHistory).toHaveTextContent(
-      'The applicant deleted a Milestone Report on Oct 17, 2023, 8:16 a.m.'
+      'The applicant deleted a Q4 (Jan-Mar) 2022-23 Milestone Report on Oct 17, 2023, 8:16 a.m.'
     );
     const claimHistoryFile = screen.getAllByTestId(
       'history-content-milestone-file'
