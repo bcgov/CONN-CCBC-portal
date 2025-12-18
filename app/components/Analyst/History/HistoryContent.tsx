@@ -7,13 +7,13 @@ import { diff } from 'json-diff';
 import { processArrayDiff } from 'components/DiffTable';
 import communities from 'formSchema/uiSchema/history/communities';
 import { getTableConfig } from 'utils/historyTableConfig';
+import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
 import HistoryFile from './HistoryFile';
 import CommunitiesHistoryTable from './CommunitiesHistoryTable';
 import HistoryRfiFile from './HistoryRfiFile';
-import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 
 const StyledContent = styled.span`
   display: flex;
