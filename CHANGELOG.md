@@ -1,3 +1,9 @@
+## [1.275.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.7...v1.275.8) (2025-12-19)
+
+### Bug Fixes
+
+- timezone issue in dates summary page ([cd7a2ea](https://github.com/bcgov/CONN-CCBC-portal/commit/cd7a2ea7fc984e6fc5d7140d673f942f87d1a9f1))
+
 ## [1.275.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.6...v1.275.7) (2025-12-16)
 
 ## [1.275.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.5...v1.275.6) (2025-12-16)
