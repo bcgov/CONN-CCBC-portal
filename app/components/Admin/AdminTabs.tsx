@@ -40,6 +40,7 @@ const AdminTabs = () => {
   const downloadAttachmentsHref = '/analyst/admin/download-attachments';
   const applicationIntakesHref = '/analyst/admin/application-intakes';
   const listOfAnalystsHref = '/analyst/admin/list-of-analysts';
+  const utilitiesHref = '/analyst/admin/utilities';
 
   return (
     <StyledNav>
@@ -62,6 +63,13 @@ const AdminTabs = () => {
         selected={router?.pathname.includes(listOfAnalystsHref)}
       >
         List of analysts
+      </StyledTab>
+      <StyledTab
+        href={utilitiesHref}
+        passHref
+        selected={router?.pathname.includes(utilitiesHref)}
+      >
+        Utilities
       </StyledTab>
     </StyledNav>
   );
