@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import styled from 'styled-components';
@@ -170,7 +170,37 @@ const Utilities = ({
   const [validationErrors, setValidationErrors] = useState([]);
   const [exactMatchMessage, setExactMatchMessage] = useState('');
 
-  const selectedProject = allApplications?.edges?.find(
+  // Check if a project has a SOW uploaded
+  const hasSowUploaded = useCallback((project: any) => {
+    if (!project) return false;
+
+    const changeRequestData =
+      project.changeRequestDataByApplicationId?.edges?.[0]?.node;
+    const projectInformationData = project.projectInformation?.jsonData;
+
+    // Check if there's a change request with SOW
+    if (
+      changeRequestData?.jsonData?.statementOfWorkUpload?.length > 0
+    ) {
+      return true;
+    }
+
+    // Check if there's an original SOW
+    if (projectInformationData?.statementOfWorkUpload?.length > 0) {
+      return true;
+    }
+
+    return false;
+  }, []);
+
+  // Filter projects to only include those with SOW uploaded
+  const projectsWithSow = useMemo(() => {
+    return allApplications?.edges?.filter((edge) =>
+      hasSowUploaded(edge.node)
+    ) || [];
+  }, [allApplications, hasSowUploaded]);
+
+  const selectedProject = projectsWithSow.find(
     (edge) => edge.node.rowId.toString() === selectedProjectId
   )?.node;
 
@@ -450,7 +480,7 @@ const Utilities = ({
               }}
             >
               <option value="">-- Select a project --</option>
-              {allApplications?.edges?.map((edge) => {
+              {projectsWithSow.map((edge) => {
                 const project = edge.node;
                 return (
                   <option key={project.rowId} value={project.rowId}>
