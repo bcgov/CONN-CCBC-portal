@@ -103,13 +103,16 @@ const StyledSection = styled.section`
 `;
 
 const StyledDropdown = styled.select`
-  width: 100%;
-  max-width: 500px;
-  padding: 8px;
-  margin-bottom: 16px;
+  text-overflow: ellipsis;
+  color: ${(props) => props.theme.color.links};
+  background-color: ${(props) => props.theme.color.white};
   border: 1px solid ${(props) => props.theme.color.borderGrey};
+  padding: 8px;
+  max-width: 100%;
   border-radius: 4px;
-  font-size: 16px;
+  margin-top: 0.25rem;
+  position: relative;
+  justify-content: left;
 `;
 
 const StyledSowInfo = styled.div`
@@ -122,7 +125,7 @@ const StyledSowInfo = styled.div`
 
 const StyledButton = styled.button`
   padding: 8px 16px;
-  background-color: ${(props) => props.theme.color.primary};
+  background-color: ${(props) => props.theme.color.primaryBlue};
   color: white;
   border: none;
   border-radius: 4px;
