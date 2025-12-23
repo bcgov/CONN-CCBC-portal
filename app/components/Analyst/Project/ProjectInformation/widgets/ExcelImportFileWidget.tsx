@@ -143,7 +143,7 @@ const tabDisplayNames: Record<string, string> = {
   tab8: 'Tab 8 - Geograhical Names',
 };
 
-const isCellLevelError = (err) => {
+export const isCellLevelError = (err) => {
   const errorMessage = err?.error;
   return (
     Array.isArray(errorMessage) &&
@@ -253,7 +253,7 @@ const renderTabErrorRow = ({
   );
 };
 
-const renderCellLevelErrors = (errors) => {
+export const renderCellLevelErrors = (errors) => {
   if (!errors.length) return null;
   const filename = errors[0]?.filename ?? 'Statement of Work';
   const heading = `There were errors importing the file : ${filename} data`;
