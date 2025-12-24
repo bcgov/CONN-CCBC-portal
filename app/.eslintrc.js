@@ -16,6 +16,8 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    // REQUIRED FIX — prevents ESLint crash
+    '@next/next/no-html-link-for-pages': 'off',
     'jsx-a11y/anchor-is-valid': [
       'error',
       {
@@ -39,7 +41,7 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
-    'relay/generated-flow-types': 0, // we're not using Flow
+    'relay/generated-flow-types': 0,
     'relay/must-colocate-fragment-spreads': 0,
     'relay/unused-fields': 0,
     'class-methods-use-this': 1,
