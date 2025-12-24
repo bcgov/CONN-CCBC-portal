@@ -257,11 +257,23 @@ const Utilities = ({
 
   const downloadFile = async (uuid: string, fileName: string): Promise<File> => {
     const encodedFileName = encodeURIComponent(fileName);
-    const url = `/api/s3/download/${uuid}/${encodedFileName}`;
+    // Use the blob endpoint to avoid CORS issues
+    const url = `/api/s3/download-blob/${uuid}/${encodedFileName}`;
     const response = await fetch(url);
-    const signedUrl = await response.json();
-    const fileResponse = await fetch(signedUrl);
-    const blob = await fileResponse.blob();
+    
+    // Check for AV status error
+    if (response.status === 403) {
+      const errorData = await response.json();
+      if (errorData.avstatus === 'dirty') {
+        throw new Error('File is quarantined and cannot be downloaded');
+      }
+    }
+    
+    if (!response.ok) {
+      throw new Error(`Failed to download file: ${response.statusText}`);
+    }
+    
+    const blob = await response.blob();
     return new File([blob], fileName, { type: blob.type });
   };
 
