@@ -150,6 +150,12 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
     const updatedRow = row.map((item, colIndex) => {
       const item2 = matchingRowInArray2[colIndex];
 
+      // Skip the changelog column itself (last column) from comparison
+      if (colIndex === row.length - 1) {
+        // Return placeholder for now, will be replaced with actual changelog
+        return { ...item };
+      }
+
       if (item?.value !== item2?.value) {
         // Track the change for the changelog
         const columnName = columnNames[colIndex] || `Column ${colIndex + 1}`;
@@ -166,9 +172,9 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
       return { ...item };
     });
 
-    // Add the changelog as the last column
+    // Replace the last column with the generated changelog
     const changelogValue = changes.length > 0 ? changes.join('\n') : '';
-    updatedRow.push({ value: changelogValue, wrap: true });
+    updatedRow[updatedRow.length - 1] = { value: changelogValue };
 
     return updatedRow;
   });
