@@ -362,6 +362,8 @@ const generateExcelData = async (
       { value: node?.jsonData?.primaryNewsRelease },
       // secondary news release
       { value: node?.jsonData?.secondaryNewsRelease },
+      // change log (empty for non-comparison)
+      { value: '' },
     ];
     excelData.push(row);
   });
@@ -557,6 +559,8 @@ const generateExcelData = async (
           node?.applicationAnnouncementsByApplicationId
         ),
       },
+      // change log (empty for non-comparison)
+      { value: '' },
     ];
     excelData.push(row);
   });
