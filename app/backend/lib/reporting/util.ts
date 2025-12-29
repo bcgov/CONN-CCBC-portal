@@ -156,7 +156,17 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
         return { ...item };
       }
 
-      if (item?.value !== item2?.value) {
+      // Helper function to normalize values for comparison (remove all spaces)
+      const normalizeValue = (val) => {
+        if (val === null || val === undefined) return null;
+        if (typeof val === 'string') return val.replace(/\s/g, '');
+        return val;
+      };
+
+      const normalizedValue1 = normalizeValue(item?.value);
+      const normalizedValue2 = normalizeValue(item2?.value);
+
+      if (normalizedValue1 !== normalizedValue2) {
         // Track the change for the changelog
         const columnName = columnNames[colIndex] || `Column ${colIndex + 1}`;
         const oldValue = item2?.value === null || item2?.value === undefined ? 'Null' : item2.value;
