@@ -169,8 +169,15 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
       if (normalizedValue1 !== normalizedValue2) {
         // Track the change for the changelog
         const columnName = columnNames[colIndex] || `Column ${colIndex + 1}`;
-        const oldValue = item2?.value === null || item2?.value === undefined ? 'Null' : item2.value;
-        const newValue = item?.value === null || item?.value === undefined ? 'Null' : item.value;
+        let oldValue = item2?.value === null || item2?.value === undefined ? 'Null' : item2.value;
+        let newValue = item?.value === null || item?.value === undefined ? 'Null' : item.value;
+        // Show "Blank" instead of empty string for clarity
+        if (oldValue === '') {
+          oldValue = 'Blank';
+        }
+        if (newValue === '') {
+          newValue = 'Blank';
+        }
         changes.push(`${columnName}: ${oldValue} -> ${newValue}`);
 
         return {
