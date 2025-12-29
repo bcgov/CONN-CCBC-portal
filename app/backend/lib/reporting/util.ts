@@ -79,6 +79,48 @@ export const cleanDateTime = (date: string): string => {
 };
 
 export const compareAndMarkArrays = (array1: any, array2: any) => {
+  // Column names mapping (index to name)
+  const columnNames = [
+    'Program',
+    'Announced by BC/ISED',
+    'Change Request Pending',
+    'Project Complete',
+    'Phase',
+    'Project #',
+    'Federal Project #',
+    'Applicant',
+    'Project Title',
+    'Economic Region',
+    'Federal Funding Source',
+    'Status',
+    '% Project Milestone Complete',
+    'Project Milestone Completion Date',
+    'Project Description',
+    'Conditional Approval Letter Sent to Applicant',
+    'Binding Agreement Signed',
+    'Project Type',
+    'BC Funding Requested',
+    'Federal Funding Requested',
+    'FNHA Funding',
+    'Applicant Amount',
+    'Other Funding Requested',
+    'Total Project Budget',
+    'Communities and Locales Total Count',
+    'Indigenous Communities',
+    'Project Locations',
+    'Household Count',
+    'Transport km',
+    'Highway km',
+    'Rest Areas',
+    'Connected Coast Network Dependent',
+    'Proposed Start Date',
+    'Date Conditionally Approved',
+    'Proposed Completion Date',
+    'Date Announced',
+    'Primary News Release',
+    'Secondary News Release',
+  ];
+
   // Convert array2 to a map for quick look-up by ID
   const idToArray2Map = new Map();
 
@@ -103,10 +145,18 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
       return row;
     }
 
-    return row.map((item, colIndex) => {
+    const changes = [];
+
+    const updatedRow = row.map((item, colIndex) => {
       const item2 = matchingRowInArray2[colIndex];
 
       if (item?.value !== item2?.value) {
+        // Track the change for the changelog
+        const columnName = columnNames[colIndex] || `Column ${colIndex + 1}`;
+        const oldValue = item2?.value === null || item2?.value === undefined ? 'Null' : item2.value;
+        const newValue = item?.value === null || item?.value === undefined ? 'Null' : item.value;
+        changes.push(`${columnName}: ${oldValue} -> ${newValue}`);
+
         return {
           ...item,
           backgroundColor: '#2FA7DD',
@@ -115,6 +165,12 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
 
       return { ...item };
     });
+
+    // Add the changelog as the last column
+    const changelogValue = changes.length > 0 ? changes.join('\n') : '';
+    updatedRow.push({ value: changelogValue, wrap: true });
+
+    return updatedRow;
   });
 };
 
