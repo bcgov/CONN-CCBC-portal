@@ -91,6 +91,8 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
     'Applicant',
     'Project Title',
     'Economic Region',
+    'BC/ISED Funded',
+    '$830M Funding',
     'Federal Funding Source',
     'Status',
     '% Project Milestone Complete',
@@ -243,4 +245,112 @@ export const getCCBCFederalFundingSource = (application: any): string => {
   ].includes(application?.status);
 
   return applicationApproved && isedMinisterApproved ? 'ISED-UBF Core' : '';
+};
+
+// Function to determine funding source based on the specified business logic
+// Same logic as AllDashboard.tsx getFundingSource
+export const getFundingSource = (application: any): string => {
+  const {
+    analystStatus,
+    externalStatus,
+    applicationSowDataByApplicationId,
+    program,
+    bcFundingRequested,
+    federalFundingRequested,
+  } = application;
+
+  if (program === 'CBC') {
+    // CBC logic
+    const status = analystStatus || externalStatus;
+    const bcFunding = bcFundingRequested || 0;
+    const federalFunding = federalFundingRequested || 0;
+
+    if (status === 'Withdrawn') {
+      return 'N/A';
+    }
+
+    if (status === 'Conditionally Approved') {
+      return 'TBD';
+    }
+
+    if (status === 'Agreement Signed' || status === 'Reporting Complete') {
+      if (bcFunding > 0 && (federalFunding === 0 || federalFunding == null)) {
+        return 'BC';
+      }
+      if ((bcFunding === 0 || bcFunding == null) && federalFunding > 0) {
+        return 'ISED';
+      }
+      if (bcFunding > 0 && federalFunding > 0) {
+        return 'BC & ISED';
+      }
+      if (
+        (bcFunding === 0 || bcFunding == null) &&
+        (federalFunding === 0 || federalFunding == null)
+      ) {
+        return 'TBD';
+      }
+    }
+
+    return 'TBD';
+  }
+
+  // CCBC logic
+  const status = analystStatus;
+
+  if (status === 'closed' || status === 'withdrawn') {
+    return 'N/A';
+  }
+
+  const earlyStageStatuses = [
+    'received',
+    'screening',
+    'assessment',
+    'recommendation',
+    'conditionally_approved',
+    'merged',
+    'on_hold',
+  ];
+
+  if (earlyStageStatuses.includes(status)) {
+    return 'TBD';
+  }
+
+  const postAgreementStatuses = [
+    'approved', // agreement signed
+    'complete', // reporting complete
+    'cancelled',
+  ];
+
+  if (postAgreementStatuses.includes(status)) {
+    // Check if SOW is uploaded
+    const hasSowData = applicationSowDataByApplicationId?.totalCount > 0;
+    if (!hasSowData) {
+      return 'TBD';
+    }
+
+    // Get BC and Federal funding from SOW data
+    const sowData =
+      applicationSowDataByApplicationId?.nodes[0]?.sowTab7SBySowId?.nodes[0]
+        ?.jsonData?.summaryTable;
+    const bcFunding = sowData?.amountRequestedFromProvince || 0;
+    const federalFunding = sowData?.amountRequestedFromFederalGovernment || 0;
+
+    if (bcFunding > 0 && (federalFunding === 0 || federalFunding == null)) {
+      return 'BC';
+    }
+    if ((bcFunding === 0 || bcFunding == null) && federalFunding > 0) {
+      return 'ISED';
+    }
+    if (bcFunding > 0 && federalFunding > 0) {
+      return 'BC & ISED';
+    }
+    if (
+      (bcFunding === 0 || bcFunding == null) &&
+      (federalFunding === 0 || federalFunding == null)
+    ) {
+      return 'TBD';
+    }
+  }
+
+  return 'TBD';
 };

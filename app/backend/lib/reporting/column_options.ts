@@ -21,38 +21,38 @@ const columnOptions: Columns = [
   { width: 18 },
   // column 10 (economic region)
   { width: 18 },
-  // column 11 (federal funding source)
+  // column 11 (BC/ISED Funded)
   { width: 18 },
-  // column 12 (status)
+  // column 12 ($830M Funding)
+  { width: 15 },
+  // column 13 (federal funding source)
+  { width: 18 },
+  // column 14 (status)
   { width: 20 },
-  // column 13 (project milestone complete)
+  // column 15 (project milestone complete)
   {},
-  // column 14 (project milestone completion date)
+  // column 16 (project milestone completion date)
   {},
-  // column 15 (project description)
+  // column 17 (project description)
   {},
-  // column 16
+  // column 18
   {},
-  // column 17
+  // column 19
   {},
-  // column 18 (project type)
+  // column 20 (project type)
   { width: 20 },
-  // column 19 (bc funding requested)
+  // column 21 (bc funding requested)
   { width: 20 },
-  // column 20 (federal funding source)
+  // column 22 (federal funding requested)
   { width: 20 },
-  // column 21 (FNHA funding)
+  // column 23 (FNHA funding)
   { width: 20 },
-  // column 22 (Applicant amount)
+  // column 24 (Applicant amount)
   { width: 20 },
-  // column 23 (other funding requested)
+  // column 25 (other funding requested)
   { width: 20 },
-  // column 24 (total project budget)
+  // column 26 (total project budget)
   { width: 20 },
-  // column 25
-  {},
-  // column 26
-  {},
   // column 27
   {},
   // column 28
@@ -79,7 +79,9 @@ const columnOptions: Columns = [
   {},
   // column 39 (Notes)
   { width: 20 },
-  // column 39 (change log)
+  // column 40
+  {},
+  // column 41 (change log)
   { width: 40 },
 ];
 

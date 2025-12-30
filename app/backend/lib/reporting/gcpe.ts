@@ -18,6 +18,7 @@ import {
   handleProjectType,
   handleCbcEconomicRegions,
   getCCBCFederalFundingSource,
+  getFundingSource,
 } from './util';
 import toTitleCase from '../../../utils/formatString';
 import { getFnhaValue } from '../dashboard/util';
@@ -279,6 +280,20 @@ const generateExcelData = async (
           node?.cbcByCbcId?.cbcProjectCommunitiesByCbcId?.nodes
         ),
       },
+      // BC/ISED funded
+      {
+        value: getFundingSource({
+          ...node?.jsonData,
+          program: 'CBC',
+          analystStatus: node?.jsonData?.projectStatus,
+          externalStatus: node?.jsonData?.projectStatus,
+          applicationSowDataByApplicationId: null,
+        }),
+      },
+      // $830M funding
+      {
+        value: convertBoolean(node?.jsonData?.eightThirtyMillionFunding),
+      },
       // federal funding source
       { value: node?.jsonData?.federalFundingSource },
       // status
@@ -438,6 +453,14 @@ const generateExcelData = async (
       // economic region
       {
         value: `${summaryData?.formData?.locations?.economicRegions?.join(', ') || ''}`,
+      },
+      // BC/ISED funded
+      {
+        value: getFundingSource(node),
+      },
+      // $830M funding
+      {
+        value: node?.ccbcNumber?.includes('CCBC') ? 'YES' : 'NO',
       },
       // federal funding source
       { value: getCCBCFederalFundingSource(node) },
