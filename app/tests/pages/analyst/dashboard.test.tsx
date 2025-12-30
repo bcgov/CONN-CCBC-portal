@@ -1324,7 +1324,7 @@ describe('The index page', () => {
       pageTestingHelper.loadQuery();
       pageTestingHelper.renderPage();
 
-      expect(screen.getByText('Funding Source')).toBeInTheDocument();
+      expect(screen.getByText('BC/ISED Funded')).toBeInTheDocument();
     });
 
     it('shows BC funding source for CBC projects with BC funding only', async () => {
@@ -2090,7 +2090,7 @@ describe('The index page', () => {
 
       // Filter by BC funding
       const fundingSourceFilter = screen.getByLabelText(
-        'Filter by Funding Source'
+        'Filter by BC/ISED Funded'
       );
       await act(async () => {
         fireEvent.mouseDown(fundingSourceFilter);
