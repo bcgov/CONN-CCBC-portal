@@ -91,6 +91,8 @@ const columnOptions: Columns = [
   {},
   // column 44 (Construction completed on)
   {},
+  // column 45 (Notes)
+  { width: 20 },
 ];
 
 export default columnOptions;
