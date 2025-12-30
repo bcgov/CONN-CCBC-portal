@@ -1,10 +1,10 @@
 const projectInformationUiSchema = {
   hasFundingAgreementBeenSigned: {
-    'ui:title': 'Has the funding agreement been signed?',
+    'ui:title': 'Has the funding/contribution agreement been signed?',
     'ui:widget': 'RadioWidget',
   },
   dateFundingAgreementSigned: {
-    'ui:title': 'Date funding agreement signed by Province',
+    'ui:title': 'Date funding/contribution agreement signed',
     'ui:widget': 'DatePickerWidget',
   },
   fundingAgreementUpload: {

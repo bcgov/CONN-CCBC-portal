@@ -7,7 +7,7 @@ const projectInformation: RJSFSchema = {
   required: ['dateFundingAgreementSigned'],
   properties: {
     hasFundingAgreementBeenSigned: {
-      title: 'Has the funding agreement been signed?',
+      title: 'Has the funding/contribution agreement been signed?',
       type: 'boolean',
       enum: [true, false],
       default: false,
@@ -33,15 +33,15 @@ const projectInformation: RJSFSchema = {
             },
             fundingAgreementUpload: {
               title:
-                'Upload the Funding Agreement signed by both the Recipient & Province',
+                'Upload the signed agreement',
               type: 'string',
             },
             statementOfWorkUpload: {
-              title: 'Upload the completed statement of work Excel file',
+              title: 'Upload the completed SOW',
               type: 'string',
             },
             sowWirelessUpload: {
-              title: 'Upload the SOW Wireless Tbl Excel file, if necessary',
+              title: 'Upload the SOW Wireless',
               type: 'string',
             },
             finalizedMapUpload: {
