@@ -12,6 +12,8 @@ export const convertStatus = (status: string): string => {
       return 'Recommendation';
     case 'complete':
       return 'Reporting Complete';
+    case 'merged':
+      return 'Merged';
     default:
       return status;
   }
@@ -243,6 +245,7 @@ export const getCCBCFederalFundingSource = (application: any): string => {
     'applicant_conditionally_approved',
     'applicant_complete',
     'complete',
+    'merged',
   ].includes(application?.status);
 
   return applicationApproved && isedMinisterApproved ? 'ISED-UBF Core' : '';
