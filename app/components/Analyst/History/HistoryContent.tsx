@@ -7,6 +7,7 @@ import { diff } from 'json-diff';
 import { processArrayDiff } from 'components/DiffTable';
 import communities from 'formSchema/uiSchema/history/communities';
 import { getTableConfig } from 'utils/historyTableConfig';
+import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import StatusPill from '../../StatusPill';
 import HistoryDetails from './HistoryDetails';
 import HistoryAttachment from './HistoryAttachment';
@@ -821,6 +822,8 @@ const HistoryContent = ({
     );
   }
   if (tableName === 'application_milestone_data') {
+    const fiscalQuarter = getFiscalQuarter(record.json_data?.dueDate);
+    const fiscalYear = getFiscalYear(record.json_data?.dueDate);
     const updateRec = op === 'INSERT' && prevHistoryItem;
     const newMilestoneFile = record.json_data?.milestoneFile;
     const oldMilestoneFile = prevHistoryItem?.record?.json_data?.milestoneFile;
@@ -854,7 +857,7 @@ const HistoryContent = ({
           {op === 'UPDATE' && record.history_operation === 'deleted' && (
             <span>{displayName} deleted a </span>
           )}
-          <b>Milestone Report</b>
+          <b> {fiscalQuarter} {fiscalYear} Milestone Report</b>
           <span> on {createdAtFormatted}</span>
         </StyledContent>
         {op === 'INSERT' && showHistoryDetails && (
@@ -889,7 +892,7 @@ const HistoryContent = ({
           <HistoryFile
             filesArray={record.json_data.milestoneFile || []}
             previousFileArray={oldMilestoneFile || []}
-            title="Uploaded Milestone Report Excel"
+            title="Milestone Report Excel"
             testId="history-content-milestone-file"
           />
         )}
@@ -897,7 +900,7 @@ const HistoryContent = ({
           <HistoryFile
             filesArray={record.json_data.evidenceOfCompletionFile || []}
             previousFileArray={oldEvidenceFile || []}
-            title="Uploaded Milestone Completion Evidence"
+            title="Milestone Completion Evidence"
             tableTitle={!changedMilestoneFile}
             testId="history-content-milestone-evidence-file"
           />
@@ -906,7 +909,7 @@ const HistoryContent = ({
           <HistoryFile
             filesArray={[]}
             previousFileArray={record.json_data.milestoneFile || []}
-            title="Uploaded Milestone Report Excel"
+            title="Milestone Report Excel"
             tableTitle={false}
             testId="history-content-milestone-file"
           />
@@ -915,7 +918,7 @@ const HistoryContent = ({
           <HistoryFile
             filesArray={[]}
             previousFileArray={record.json_data.evidenceOfCompletionFile || []}
-            title="Uploaded Milestone Completion Evidence"
+            title="Milestone Completion Evidence"
             tableTitle={false}
             testId="history-content-milestone-evidence-file"
           />
