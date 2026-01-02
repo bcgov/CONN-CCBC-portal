@@ -95,7 +95,7 @@ describe('The ExcelImportFileWidget', () => {
     });
 
     expect(
-      screen.getByText('Upload the completed statement of work Excel file')
+      screen.getByText('Upload the completed SOW')
     ).toBeInTheDocument();
   });
 

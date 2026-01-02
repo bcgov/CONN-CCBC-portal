@@ -1,3 +1,17 @@
+# [1.277.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.9...v1.277.0) (2026-01-02)
+
+### Features
+
+- differentiate ised/bc project documents ([0cadd55](https://github.com/bcgov/CONN-CCBC-portal/commit/0cadd55f27e8ad86c8c5a812bb7aacdbb64c6c04))
+- milestone history show fiscal and quarter ([c198258](https://github.com/bcgov/CONN-CCBC-portal/commit/c1982581e5470857b0bc8684f16e180e0006031f))
+- show gcpe change log ([cea255f](https://github.com/bcgov/CONN-CCBC-portal/commit/cea255fd8903da2225b4b210ce1c7ca06e046cb9))
+
+# [1.276.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.9...v1.276.0) (2025-12-30)
+
+### Features
+
+- differentiate ised/bc project documents ([0bf7252](https://github.com/bcgov/CONN-CCBC-portal/commit/0bf72525c6080c6044e5f7b8d46cf1e0ee6b75da))
+
 ## [1.275.9](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.8...v1.275.9) (2025-12-30)
 
 ## [1.275.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.7...v1.275.8) (2025-12-19)
