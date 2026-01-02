@@ -113,18 +113,26 @@ const CbcHistoryTable: React.FC<Props> = ({ query }) => {
           {filteredHistory.map((historyItem) => (
             <CbcHistoryRow
               key={historyItem.rowId}
-              json={{
-                ...historyItem.record?.json_data,
-                project_number: historyItem.record?.project_number,
-                locations: {
-                  added: historyItem.record?.added_communities,
-                  removed: historyItem.record?.deleted_communities,
-                },
-              }}
-              prevJson={{
-                ...historyItem.oldRecord?.json_data,
-                project_number: historyItem.oldRecord?.project_number,
-              }}
+              json={
+                historyItem.tableName === 'cbc_data'
+                  ? {
+                      ...historyItem.record?.json_data,
+                      project_number: historyItem.record?.project_number,
+                      locations: {
+                        added: historyItem.record?.added_communities,
+                        removed: historyItem.record?.deleted_communities,
+                      },
+                    }
+                  : historyItem.record
+              }
+              prevJson={
+                historyItem.tableName === 'cbc_data'
+                  ? {
+                      ...historyItem.oldRecord?.json_data,
+                      project_number: historyItem.oldRecord?.project_number,
+                    }
+                  : historyItem.oldRecord
+              }
               changeReason={historyItem.record?.change_reason}
               tableName={historyItem.tableName}
               createdAt={historyItem.createdAt}
