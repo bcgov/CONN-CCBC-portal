@@ -55,6 +55,26 @@ const applicationDependenciesSchema = {
   },
 };
 
+const applicationMergeSchema = {
+  applicationMerge: {
+    title: 'Merge details',
+    properties: {
+      child_ccbc_number: {
+        title: 'Child Application',
+        type: 'string',
+      },
+      parent_ccbc_number: {
+        title: 'Parent application',
+        type: 'string',
+      },
+      parent_cbc_project_number: {
+        title: 'Parent CBC Application',
+        type: 'string',
+      },
+    },
+  },
+};
+
 // Map table names to their schemas and excluded keys
 export const getTableConfig = (tableName: string, assessmentType?: string) => {
   const configs = {
@@ -377,6 +397,25 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
       schema: communities.applicationCommunities,
       excludedKeys: ['user_info'],
       overrideParent: 'applicationCommunities',
+    },
+    application_merge: {
+      schema: applicationMergeSchema,
+      excludedKeys: [
+        'id',
+        'created_at',
+        'updated_at',
+        'created_by',
+        'updated_by',
+        'archived_by',
+        'archived_at',
+        'user_info',
+        'parent_application_id',
+        'parent_cbc_id',
+        'child_application_id',
+        'parent_type',
+        'change_reason',
+      ],
+      overrideParent: 'applicationMerge',
     },
   };
 

@@ -93,6 +93,23 @@ const HistoryContent = ({
       </>
     );
   }
+
+  if (tableName === 'application_merge') {
+    const childNumber = json?.child_ccbc_number || prevJson?.child_ccbc_number;
+    const isDeletedChild = !!json?.archived_at;
+
+    return (
+      <>
+        <StyledContent data-testid="cbc-merge-updater-and-timestamp">
+          <span>
+            {user} {isDeletedChild ? 'removed' : 'added'} a child application{' '}
+            <b>{childNumber || 'Unknown'}</b> on {createdAtFormatted}
+          </span>
+        </StyledContent>
+        {changeReason && <ChangeReason reason={changeReason} />}
+      </>
+    );
+  }
   return null;
 };
 

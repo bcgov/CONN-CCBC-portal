@@ -73,6 +73,7 @@ const HistoryContent = ({
     createdBy,
     item,
     record,
+    applicationId,
     sessionSub,
     externalAnalyst,
     op,
@@ -350,6 +351,63 @@ const HistoryContent = ({
           <b>{newPackage}</b> on {createdAtFormatted}
         </span>
       </StyledContent>
+    );
+  }
+
+  if (tableName === 'application_merge') {
+    const user =
+      createdBy === 1 && op === 'INSERT' ? 'The system' : displayName;
+    const parentApplicationId =
+      historyItem?.record?.parent_application_id ??
+      historyItem?.record?.parent_cbc_id;
+    const childApplicationId = historyItem?.record?.child_ccbc_number;
+    const isParentHistory = applicationId === parentApplicationId;
+
+    const mergeTableConfig = getTableConfig('application_merge');
+
+    const excluded = isParentHistory
+      ? [
+          ...mergeTableConfig.excludedKeys,
+          'parent_ccbc_number',
+          'parent_cbc_number',
+        ]
+      : [
+          ...mergeTableConfig.excludedKeys,
+          'child_ccbc_numbers',
+          'child_ccbc_number',
+        ];
+
+    const isDeletedChild = isParentHistory && record.archived_at;
+
+    return (
+      <>
+        {isParentHistory ? (
+          <StyledContent data-testid="history-content-parent-merge">
+            <span>
+              {user} {isDeletedChild ? 'deleted' : 'added'} a child application{' '}
+              <b> {childApplicationId}</b> on {createdAtFormatted}
+            </span>
+          </StyledContent>
+        ) : (
+          <StyledContent data-testid="history-content-child-merge">
+            <span>
+              {user} updated the{' '}
+              <b>{isParentHistory ? 'Child' : 'Parent'} Application</b> on{' '}
+              {createdAtFormatted}
+            </span>
+          </StyledContent>
+        )}
+        {!isParentHistory && (
+          <HistoryDetails
+            json={historyItem?.record}
+            prevJson={prevHistoryItem?.record || {}}
+            excludedKeys={excluded || []}
+            diffSchema={mergeTableConfig?.schema}
+            overrideParent={mergeTableConfig?.overrideParent}
+          />
+        )}
+        {reasonForChange && <ChangeReason reason={reasonForChange} />}
+      </>
     );
   }
 
