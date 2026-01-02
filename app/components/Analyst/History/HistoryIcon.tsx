@@ -18,6 +18,7 @@ import {
   faSignsPost,
   faWifi,
   faHourglass,
+  faCodeMerge,
 } from '@fortawesome/free-solid-svg-icons';
 
 const StyledIcon = styled.div`
@@ -46,6 +47,7 @@ const iconMap = {
   application_dependencies: faCheckDouble,
   application_analyst_lead: faUser,
   application_package: faBox,
+  application_merge: faCodeMerge,
   conditional_approval_data: faStamp,
   application_gis_data: faMap,
   project_information_data: faChartGantt,
