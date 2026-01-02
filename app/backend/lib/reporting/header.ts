@@ -73,6 +73,20 @@ const HEADER_ROW: Row = [
     wrap: true,
   },
   {
+    value: 'BC/ISED Funded',
+    fontWeight: 'bold',
+    type: String,
+    height: 95,
+    wrap: true,
+  },
+  {
+    value: '$830M Funding',
+    fontWeight: 'bold',
+    type: String,
+    height: 95,
+    wrap: true,
+  },
+  {
     value: 'Federal Funding Source',
     fontWeight: 'bold',
     type: String,
