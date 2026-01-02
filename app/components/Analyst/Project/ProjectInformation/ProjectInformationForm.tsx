@@ -292,6 +292,68 @@ const ProjectInformationForm: React.FC<Props> = ({
     });
   };
 
+  const getHelperTitlesFromTab7Data = (
+    tab7Data: any
+  ): { sowTitle: string; fundingTitle: string } => {
+    const helperTitles = {
+      sowTitle: 'SOW',
+      fundingTitle: 'Funding Agreement',
+    };
+
+    if (!tab7Data) {
+      return helperTitles;
+    }
+
+    const amountRequestedFromProvince = Math.floor(
+      tab7Data.amountRequestedFromProvince || 0
+    );
+    const amountRequestedFromFederalGovernment = Math.floor(
+      tab7Data.amountRequestedFromFederalGovernment || 0
+    );
+
+    if (amountRequestedFromProvince === 0) {
+      helperTitles.sowTitle = 'ISED-SOW';
+      helperTitles.fundingTitle = 'ISED Contribution Agreement';
+      return helperTitles;
+    }
+
+    if (amountRequestedFromFederalGovernment === 0) {
+      helperTitles.sowTitle = 'BC-SOW';
+      helperTitles.fundingTitle = 'BC Funding Agreement';
+      return helperTitles;
+    }
+
+    if (
+      amountRequestedFromProvince > 0 &&
+      amountRequestedFromFederalGovernment > 0
+    ) {
+      helperTitles.sowTitle = 'BC/ISED SOW';
+      helperTitles.fundingTitle = 'BC Funding Agreement';
+      return helperTitles;
+    }
+
+    return helperTitles;
+  };
+
+  const getHelperTitles = (
+    sowData: typeof applicationSowDataByApplicationId
+  ): { sowTitle: string; fundingTitle: string } => {
+    const helperTitles = {
+      sowTitle: 'SOW',
+      fundingTitle: 'Funding Agreement',
+    };
+
+    if (!sowData?.edges?.length) {
+      return helperTitles;
+    }
+
+    const latestSowData = sowData.edges[0]?.node;
+    const tab7Data =
+      latestSowData?.sowTab7SBySowId?.edges?.[0]?.node?.jsonData?.summaryTable;
+
+    return getHelperTitlesFromTab7Data(tab7Data);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitAttempted(true);
@@ -355,8 +417,9 @@ const ProjectInformationForm: React.FC<Props> = ({
         const tab7Summary =
           response?.result?.tab7Summary ||
           response?.tab7Summary ||
-          (response?.result?.data?.createSowTab7?.sowTab7?.jsonData?.summaryTable);
-        
+          response?.result?.data?.createSowTab7?.sowTab7?.jsonData
+            ?.summaryTable;
+
         if (isSowUploaded && response?.status === 200 && tab7Summary) {
           latestTab7SummaryRef.current = tab7Summary;
         } else {
@@ -388,7 +451,9 @@ const ProjectInformationForm: React.FC<Props> = ({
             onCompleted: () => {
               // Update helper titles from the stored tab7Summary if available
               if (latestTab7SummaryRef.current) {
-                const newTitles = getHelperTitlesFromTab7Data(latestTab7SummaryRef.current);
+                const newTitles = getHelperTitlesFromTab7Data(
+                  latestTab7SummaryRef.current
+                );
                 setUpdatedTitles(newTitles);
               }
 
@@ -460,7 +525,9 @@ const ProjectInformationForm: React.FC<Props> = ({
             onCompleted: () => {
               // Update helper titles from the stored tab7Summary if available
               if (latestTab7SummaryRef.current) {
-                const newTitles = getHelperTitlesFromTab7Data(latestTab7SummaryRef.current);
+                const newTitles = getHelperTitlesFromTab7Data(
+                  latestTab7SummaryRef.current
+                );
                 setUpdatedTitles(newTitles);
               }
 
@@ -534,68 +601,6 @@ const ProjectInformationForm: React.FC<Props> = ({
         ConnectionHandler.deleteNode(connection, nodeId);
       },
     });
-  };
-
-  const getHelperTitlesFromTab7Data = (
-    tab7Data: any
-  ): { sowTitle: string; fundingTitle: string } => {
-    const helperTitles = {
-      sowTitle: 'SOW',
-      fundingTitle: 'Funding Agreement',
-    };
-
-    if (!tab7Data) {
-      return helperTitles;
-    }
-
-    const amountRequestedFromProvince = Math.floor(
-      tab7Data.amountRequestedFromProvince || 0
-    );
-    const amountRequestedFromFederalGovernment = Math.floor(
-      tab7Data.amountRequestedFromFederalGovernment || 0
-    );
-
-    if (amountRequestedFromProvince === 0) {
-      helperTitles.sowTitle = 'ISED-SOW';
-      helperTitles.fundingTitle = 'ISED Contribution Agreement';
-      return helperTitles;
-    }
-
-    if (amountRequestedFromFederalGovernment === 0) {
-      helperTitles.sowTitle = 'BC-SOW';
-      helperTitles.fundingTitle = 'BC Funding Agreement';
-      return helperTitles;
-    }
-
-    if (
-      amountRequestedFromProvince > 0 &&
-      amountRequestedFromFederalGovernment > 0
-    ) {
-      helperTitles.sowTitle = 'BC/ISED SOW';
-      helperTitles.fundingTitle = 'BC Funding Agreement';
-      return helperTitles;
-    }
-
-    return helperTitles;
-  };
-
-  const getHelperTitles = (
-    sowData: typeof applicationSowDataByApplicationId
-  ): { sowTitle: string; fundingTitle: string } => {
-    const helperTitles = {
-      sowTitle: 'SOW',
-      fundingTitle: 'Funding Agreement',
-    };
-
-    if (!sowData?.edges?.length) {
-      return helperTitles;
-    }
-
-    const latestSowData = sowData.edges[0]?.node;
-    const tab7Data =
-      latestSowData?.sowTab7SBySowId?.edges?.[0]?.node?.jsonData?.summaryTable;
-
-    return getHelperTitlesFromTab7Data(tab7Data);
   };
 
   const computedTitles = useMemo(
