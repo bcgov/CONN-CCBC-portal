@@ -37,12 +37,17 @@ import { useToast } from 'components/AppProvider';
 import { useRouter } from 'next/router';
 import CbcCreateModal from 'components/Analyst/CBC/CbcCreateModal';
 import CbcCreateIcon from 'components/Analyst/CBC/CbcCreateIcon';
+import {
+  getFundingSource,
+  normalizeStatusName,
+} from '../../backend/lib/dashboard/util';
 import DownloadIcon from './DownloadIcon';
 import { sortStatus, sortZones } from './AssessmentAssignmentTable';
 import AdditionalFilters, {
   additionalFilterColumns,
 } from './AdditionalFilters';
 import AllDashboardDetailPanel from './AllDashboardDetailPanel';
+import { cbcProjectStatusConverter } from '../../utils/formatStatus';
 
 type Application = {
   ccbcNumber: string;
@@ -64,23 +69,6 @@ export const filterNumber = (row, id, filterValue) => {
     return false;
   }
   return numericProperty === Number(filterValue);
-};
-
-// matching the status with `applicant statuses` since cbc only has external status
-const cbcProjectStatusConverter = (status) => {
-  if (status === 'Conditionally Approved') {
-    return 'applicant_conditionally_approved';
-  }
-  if (status === 'Reporting Complete') {
-    return 'complete';
-  }
-  if (status === 'Agreement Signed') {
-    return 'applicant_approved';
-  }
-  if (status === 'Withdrawn') {
-    return 'withdrawn';
-  }
-  return status;
 };
 
 const StyledTableHeader = styled.div`
@@ -142,125 +130,11 @@ const accessorFunctionGeneratorInjectsEmptyString = (accessorKey) => {
   return (row) => row[accessorKey] ?? '';
 };
 
-const normalizeStatusName = (status) => {
-  return statusStyles[status]?.description;
-};
-
 const statusFilter = (row, id, filterValue) => {
   if (filterValue.length === 0) {
     return true;
   }
   return filterValue.includes(row.getValue(id));
-};
-
-// Function to determine funding source based on the specified business logic
-const getFundingSource = (application) => {
-  const {
-    analystStatus,
-    externalStatus,
-    applicationSowDataByApplicationId,
-    program,
-    bcFundingRequested,
-    federalFundingRequested,
-  } = application;
-
-  if (program === 'CBC') {
-    // CBC logic
-    const internalStatus = normalizeStatusName(analystStatus || externalStatus);
-    const bcFunding = bcFundingRequested || 0;
-    const federalFunding = federalFundingRequested || 0;
-
-    if (internalStatus === 'Withdrawn') {
-      return 'N/A';
-    }
-
-    if (internalStatus === 'Conditionally Approved') {
-      return 'TBD';
-    }
-
-    if (
-      internalStatus === 'Agreement signed' ||
-      internalStatus === 'Reporting complete'
-    ) {
-      if (bcFunding > 0 && (federalFunding === 0 || federalFunding == null)) {
-        return 'BC';
-      }
-      if ((bcFunding === 0 || bcFunding == null) && federalFunding > 0) {
-        return 'ISED';
-      }
-      if (bcFunding > 0 && federalFunding > 0) {
-        return 'BC & ISED';
-      }
-      if (
-        (bcFunding === 0 || bcFunding == null) &&
-        (federalFunding === 0 || federalFunding == null)
-      ) {
-        return 'TBD';
-      }
-    }
-
-    return 'TBD';
-  }
-
-  // CCBC logic
-  const internalStatus = normalizeStatusName(analystStatus);
-
-  if (internalStatus === 'Not selected' || internalStatus === 'Withdrawn') {
-    return 'N/A';
-  }
-
-  const earlyStageStatuses = [
-    'Received',
-    'Screening',
-    'Assessment',
-    'Recommendation',
-    'Conditionally approved',
-    'Merged',
-    'On Hold',
-  ];
-
-  if (earlyStageStatuses.includes(internalStatus)) {
-    return 'TBD';
-  }
-
-  const postAgreementStatuses = [
-    'Agreement signed',
-    'Reporting complete',
-    'Cancelled',
-  ];
-
-  if (postAgreementStatuses.includes(internalStatus)) {
-    // Check if SOW is uploaded
-    const hasSowData = applicationSowDataByApplicationId?.totalCount > 0;
-    if (!hasSowData) {
-      return 'TBD';
-    }
-
-    // Get BC and Federal funding from SOW data
-    const sowData =
-      applicationSowDataByApplicationId?.nodes[0]?.sowTab7SBySowId?.nodes[0]
-        ?.jsonData?.summaryTable;
-    const bcFunding = sowData?.amountRequestedFromProvince || 0;
-    const federalFunding = sowData?.amountRequestedFromFederalGovernment || 0;
-
-    if (bcFunding > 0 && (federalFunding === 0 || federalFunding == null)) {
-      return 'BC';
-    }
-    if ((bcFunding === 0 || bcFunding == null) && federalFunding > 0) {
-      return 'ISED';
-    }
-    if (bcFunding > 0 && federalFunding > 0) {
-      return 'BC & ISED';
-    }
-    if (
-      (bcFunding === 0 || bcFunding == null) &&
-      (federalFunding === 0 || federalFunding == null)
-    ) {
-      return 'TBD';
-    }
-  }
-
-  return 'TBD';
 };
 
 const filterMultiSelectZones = (row, id, filterValue) => {

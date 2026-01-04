@@ -11,6 +11,7 @@ import {
 import { HEADER_ROW } from './header';
 import {
   convertStatus,
+  getFundingSource,
   getSortedZones,
   handleCbcCommunities,
   handleCcbcCommunities,
@@ -18,6 +19,7 @@ import {
 } from './util';
 import columnOptions from './column_options';
 import toTitleCase from '../../../utils/formatString';
+import { cbcProjectStatusConverter } from '../../../utils/formatStatus';
 
 const getApplicationDataQuery = `
   query applicationDataQuery($rowId: Int!) {
@@ -120,6 +122,7 @@ const getApplicationDataQuery = `
       program
       package
       organizationName
+      analystStatus
       externalStatus
       announced
       internalDescription
@@ -130,6 +133,7 @@ const getApplicationDataQuery = `
       condition: { archivedAt: null }
       last: 1
     ) {
+      totalCount
       nodes {
         rowId
         jsonData
@@ -326,6 +330,13 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       { value: data?.applicationByRowId?.internalDescription },
       // current operating name
       { value: data?.applicationByRowId?.organizationName },
+      // bc/ised funded
+      {
+        value: getFundingSource({
+          ...data?.applicationByRowId,
+          applicationSowDataByApplicationId: data?.allApplicationSowData,
+        }),
+      },
       // 830 million funding
       {
         value: data?.applicationByRowId?.ccbcNumber.includes('CCBC')
@@ -540,6 +551,16 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       // current operating name
       {
         value: cbcDataByCbcId?.currentOperatingName,
+      },
+      // bc/ised funded
+      {
+        value: getFundingSource({
+          ...cbcDataByCbcId,
+          program: 'CBC',
+          externalStatus: cbcDataByCbcId.projectStatus
+            ? cbcProjectStatusConverter(cbcDataByCbcId.projectStatus)
+            : null,
+        }),
       },
       // 830 million funding
       {

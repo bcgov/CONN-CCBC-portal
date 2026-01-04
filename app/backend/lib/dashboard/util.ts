@@ -1,4 +1,5 @@
 import formatMoney from '../../../utils/formatMoney';
+import statusStyles from '../../../data/statusStyles';
 
 export const handleCbcCommunities = (cbcCommunities) => {
   const economicRegions = new Set<string>();
@@ -141,3 +142,117 @@ export const getFnhaValue = (data) => {
 
 export const getSortedZones = (zones?: number[] | null) =>
   Array.isArray(zones) ? [...zones].sort((a, b) => a - b) : zones;
+
+export const normalizeStatusName = (status?: string) => {
+  return statusStyles[status]?.description;
+};
+
+// Determine funding source based on status and funding data
+export const getFundingSource = (application) => {
+  const {
+    analystStatus,
+    externalStatus,
+    applicationSowDataByApplicationId,
+    program,
+    bcFundingRequested,
+    federalFundingRequested,
+  } = application;
+
+  if (program === 'CBC') {
+    // CBC logic
+    const internalStatus = normalizeStatusName(analystStatus || externalStatus);
+    const bcFunding = bcFundingRequested || 0;
+    const federalFunding = federalFundingRequested || 0;
+
+    if (internalStatus === 'Withdrawn') {
+      return 'N/A';
+    }
+
+    if (internalStatus === 'Conditionally Approved') {
+      return 'TBD';
+    }
+
+    if (
+      internalStatus === 'Agreement signed' ||
+      internalStatus === 'Reporting complete'
+    ) {
+      if (bcFunding > 0 && (federalFunding === 0 || federalFunding == null)) {
+        return 'BC';
+      }
+      if ((bcFunding === 0 || bcFunding == null) && federalFunding > 0) {
+        return 'ISED';
+      }
+      if (bcFunding > 0 && federalFunding > 0) {
+        return 'BC & ISED';
+      }
+      if (
+        (bcFunding === 0 || bcFunding == null) &&
+        (federalFunding === 0 || federalFunding == null)
+      ) {
+        return 'TBD';
+      }
+    }
+
+    return 'TBD';
+  }
+
+  // CCBC logic
+  const internalStatus = normalizeStatusName(analystStatus);
+
+  if (internalStatus === 'Not selected' || internalStatus === 'Withdrawn') {
+    return 'N/A';
+  }
+
+  const earlyStageStatuses = [
+    'Received',
+    'Screening',
+    'Assessment',
+    'Recommendation',
+    'Conditionally approved',
+    'Merged',
+    'On Hold',
+  ];
+
+  if (earlyStageStatuses.includes(internalStatus)) {
+    return 'TBD';
+  }
+
+  const postAgreementStatuses = [
+    'Agreement signed',
+    'Reporting complete',
+    'Cancelled',
+  ];
+
+  if (postAgreementStatuses.includes(internalStatus)) {
+    // Check if SOW is uploaded
+    const hasSowData = applicationSowDataByApplicationId?.totalCount > 0;
+    if (!hasSowData) {
+      return 'TBD';
+    }
+
+    // Get BC and Federal funding from SOW data
+    const sowData =
+      applicationSowDataByApplicationId?.nodes[0]?.sowTab7SBySowId?.nodes[0]
+        ?.jsonData?.summaryTable;
+    const bcFunding = sowData?.amountRequestedFromProvince || 0;
+    const federalFunding = sowData?.amountRequestedFromFederalGovernment || 0;
+
+    if (bcFunding > 0 && (federalFunding === 0 || federalFunding == null)) {
+      return 'BC';
+    }
+    if ((bcFunding === 0 || bcFunding == null) && federalFunding > 0) {
+      return 'ISED';
+    }
+    if (bcFunding > 0 && federalFunding > 0) {
+      return 'BC & ISED';
+    }
+    if (
+      (bcFunding === 0 || bcFunding == null) &&
+      (federalFunding === 0 || federalFunding == null)
+    ) {
+      return 'TBD';
+    }
+  }
+
+  return 'TBD';
+};
