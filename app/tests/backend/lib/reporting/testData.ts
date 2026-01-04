@@ -21571,6 +21571,8 @@ export const cbcDataQueryResult = {
               householdCount: null,
               applicantAmount: 1641519,
               bcFundingRequest: 1927353,
+              bcFundingRequested: 1927353,
+              federalFundingRequested: 2065032,
               projectLocations: 'Location 4',
               proposedStartDate: '2018-02-05T00:00:00.000Z',
               primaryNewsRelease:
