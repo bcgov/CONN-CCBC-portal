@@ -63,12 +63,8 @@ const applicationMergeSchema = {
         title: 'Child Application',
         type: 'string',
       },
-      parent_ccbc_number: {
+      parent_application: {
         title: 'Parent application',
-        type: 'string',
-      },
-      parent_cbc_project_number: {
-        title: 'Parent CBC Application',
         type: 'string',
       },
     },
