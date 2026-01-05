@@ -15,6 +15,56 @@ export const formatUserName = (historyItem: any) => {
   };
 };
 
+const getMergeChildrenKey = (historyItem: any) => {
+  const mergeTimestamp =
+    historyItem.op === 'UPDATE'
+      ? historyItem.record?.updated_at || historyItem.createdAt
+      : historyItem.createdAt;
+  return `${historyItem.recordId}-${mergeTimestamp}`;
+};
+
+const buildMergeChildrenMap = (historyAfterReceived: any[]) => {
+  const childrenByRecordId = new Map();
+  const currentChildren = new Set<string>();
+
+  // Track children for merge events so we can show before/after lists
+  historyAfterReceived.forEach((historyItem) => {
+    if (historyItem.tableName !== 'application_merge') return;
+
+    const parentApplicationId = Number(
+      historyItem.record?.parent_application_id ||
+        historyItem.oldRecord?.parent_application_id
+    );
+    const applicationId = Number(historyItem.applicationId);
+    const isParentHistory =
+      !Number.isNaN(parentApplicationId) &&
+      parentApplicationId === applicationId;
+    if (!isParentHistory) return;
+
+    const childNumber =
+      historyItem.record?.child_ccbc_number ||
+      historyItem.oldRecord?.child_ccbc_number;
+    const before = Array.from(currentChildren).sort();
+
+    if (childNumber) {
+      const isRemoval = !!historyItem.record?.archived_at;
+      if (isRemoval) {
+        currentChildren.delete(childNumber);
+      } else {
+        currentChildren.add(childNumber);
+      }
+    }
+
+    const after = Array.from(currentChildren).sort();
+    childrenByRecordId.set(getMergeChildrenKey(historyItem), {
+      before,
+      after,
+    });
+  });
+
+  return childrenByRecordId;
+};
+
 export const processHistoryItems = (
   applicationHistory: readonly any[],
   options: {
@@ -43,11 +93,26 @@ export const processHistoryItems = (
     .map((historyItem) => historyItem.item)
     .indexOf('received');
 
-  // Get history from received onwards, reversed
-  const historyList = sortedHistory
-    .slice(receivedIndex >= 0 ? receivedIndex : 0)
+  // Get history from received onwards
+  const historyAfterReceived = sortedHistory.slice(
+    receivedIndex >= 0 ? receivedIndex : 0
+  );
+
+  const mergeChildrenByRecordId = buildMergeChildrenMap(historyAfterReceived);
+
+  // Reverse for display order
+  const historyList = historyAfterReceived
+    .slice()
     .reverse()
-    .map(applyUserFormatting ? formatUserName : (item) => item);
+    .map((historyItem) => {
+      const formatted = applyUserFormatting
+        ? formatUserName(historyItem)
+        : historyItem;
+      const mergeChildren = mergeChildrenByRecordId.get(
+        getMergeChildrenKey(historyItem)
+      );
+      return mergeChildren ? { ...formatted, mergeChildren } : formatted;
+    });
 
   // Process each history item with previous item matching logic
   const processedHistory = historyList

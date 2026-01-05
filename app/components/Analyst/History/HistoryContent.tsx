@@ -77,6 +77,7 @@ const HistoryContent = ({
     sessionSub,
     externalAnalyst,
     op,
+    mergeChildren,
   } = historyItem;
   const showHistoryDetails = useFeature('show_history_details').value;
   const isAnalyst = sessionSub.includes('idir') || externalAnalyst;
@@ -364,6 +365,7 @@ const HistoryContent = ({
     const isParentHistory = applicationId === parentApplicationId;
 
     const mergeTableConfig = getTableConfig('application_merge');
+    const mergeChildrenConfig = getTableConfig('application_merge_children');
 
     const mergeRecord = {
       ...historyItem?.record,
@@ -398,6 +400,8 @@ const HistoryContent = ({
         ];
 
     const isDeletedChild = isParentHistory && record.archived_at;
+    const oldChildren = mergeChildren?.before || [];
+    const newChildren = mergeChildren?.after || [];
 
     return (
       <>
@@ -416,6 +420,15 @@ const HistoryContent = ({
               {createdAtFormatted}
             </span>
           </StyledContent>
+        )}
+        {isParentHistory && mergeChildren && (
+          <HistoryDetails
+            json={{ children: newChildren.join(', ') || 'N/A' }}
+            prevJson={{ children: oldChildren.join(', ') || 'N/A' }}
+            excludedKeys={mergeChildrenConfig?.excludedKeys || []}
+            diffSchema={mergeChildrenConfig?.schema}
+            overrideParent={mergeChildrenConfig?.overrideParent}
+          />
         )}
         {!isParentHistory && (
           <HistoryDetails

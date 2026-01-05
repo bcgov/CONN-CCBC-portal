@@ -71,6 +71,18 @@ const applicationMergeSchema = {
   },
 };
 
+const mergeChildrenSchema = {
+  mergeChildren: {
+    title: 'Child applications',
+    properties: {
+      children: {
+        title: 'Children',
+        type: 'string',
+      },
+    },
+  },
+};
+
 // Map table names to their schemas and excluded keys
 export const getTableConfig = (tableName: string, assessmentType?: string) => {
   const configs = {
@@ -412,6 +424,11 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
         'change_reason',
       ],
       overrideParent: 'applicationMerge',
+    },
+    application_merge_children: {
+      schema: mergeChildrenSchema,
+      excludedKeys: [],
+      overrideParent: 'mergeChildren',
     },
   };
 
