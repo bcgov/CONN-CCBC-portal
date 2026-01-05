@@ -4,7 +4,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import styled from 'styled-components';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
-import { ButtonLink, Layout, MetabaseEmbed } from 'components';
+import { ButtonLink, Layout } from 'components';
 import { gisUploadedJsonQuery } from '__generated__/gisUploadedJsonQuery.graphql';
 import FileComponent from 'lib/theme/components/FileComponent';
 import { useRouter } from 'next/router';
@@ -237,7 +237,6 @@ const UploadJSON = ({
       <StyledContainer>
         <DashboardTabs session={session} />
         <GisTab historyList={allGisData?.nodes || []} />
-        <MetabaseEmbed dashboardNumber={87} dashboardNumberTest={91} />
       </StyledContainer>
     </Layout>
   );
