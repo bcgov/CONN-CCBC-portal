@@ -25,6 +25,7 @@ application_package
 application_milestone_excel_data
 application_milestone_data
 application_map_data
+application_internal_notes
 application_internal_description
 application_gis_assessment_hh
 application_form_template_9_data
