@@ -21,8 +21,8 @@ describe('Dashboard util functions', () => {
     expect(convertStatus('applicant_closed')).toBe('Not Selected');
   });
 
-  it('should return "Complete" for "applicant_complete"', () => {
-    expect(convertStatus('applicant_complete')).toBe('Complete');
+  it('should return "Reporting Complete" for "applicant_complete"', () => {
+    expect(convertStatus('applicant_complete')).toBe('Reporting Complete');
   });
 
   it('should return "Conditionally Approved" for "applicant_conditionally_approved"', () => {
@@ -89,8 +89,8 @@ describe('Dashboard util functions', () => {
     expect(convertStatus('recommendation')).toBe('Recommendation');
   });
 
-  it('should return "Complete" for "complete"', () => {
-    expect(convertStatus('complete')).toBe('Complete');
+  it('should return "Reporting Complete" for "complete"', () => {
+    expect(convertStatus('complete')).toBe('Reporting Complete');
   });
 
   it('should return the same status for unknown status', () => {
