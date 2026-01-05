@@ -15,11 +15,17 @@ const getGcpeReportingQuery = graphql`
         node {
           rowId
           createdAt
+          ccbcUserByCreatedBy {
+            givenName
+            familyName
+          }
         }
       }
     }
     session {
       sub
+      givenName
+      familyName
       ...DashboardTabs_query
     }
   }
@@ -42,7 +48,7 @@ const GcpeReporting = ({
       <StyledContainer>
         <DashboardTabs session={session} />
         <Tabs />
-        <Gcpe reportList={gcpeEdges} />
+        <Gcpe reportList={gcpeEdges} session={session} />
       </StyledContainer>
     </Layout>
   );

@@ -7,7 +7,25 @@ import * as Sentry from '@sentry/nextjs';
 import styled from 'styled-components';
 import LoadingSpinner from 'components/LoadingSpinner';
 
-const Gcpe = ({ reportList }) => {
+const formatReportDate = (date) =>
+  DateTime.fromISO(date)
+    .setZone('America/Los_Angeles')
+    .toLocaleString(DateTime.DATETIME_FULL);
+
+const getCreatorName = (edge) => {
+  const givenName = edge?.node?.ccbcUserByCreatedBy?.givenName?.trim();
+  const familyName = edge?.node?.ccbcUserByCreatedBy?.familyName?.trim();
+  return `${familyName}, ${givenName}`;
+};
+
+const formatReportLabel = (edge) => {
+  const createdAtLabel = formatReportDate(edge.node.createdAt);
+  const creatorName = getCreatorName(edge);
+
+  return `Generated ${createdAtLabel} | ${creatorName}`;
+};
+
+const Gcpe = ({ reportList, session }) => {
   const [gcpeReports, setGcpeReports] = useState(reportList);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedReport, setSelectedReport] = useState(-1);
@@ -19,8 +37,15 @@ const Gcpe = ({ reportList }) => {
 
   const handleExistingReportChange = (e) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
-    setSelectedReport(selectedOption.value);
-    setSelectedReportDate(selectedOption.text.split('Generated ')[1]);
+    const { value } = selectedOption;
+    setSelectedReport(value);
+
+    const report = gcpeReports.find(
+      (edge) => edge?.node?.rowId.toString() === value.toString()
+    );
+    setSelectedReportDate(
+      report?.node?.createdAt ? formatReportDate(report.node.createdAt) : ''
+    );
   };
 
   const handleReportCompareChange = (e) => {
@@ -56,6 +81,10 @@ const Gcpe = ({ reportList }) => {
           node: {
             rowId,
             createdAt: DateTime.now().setZone('America/Los_Angeles').toISO(),
+            ccbcUserByCreatedBy: {
+              givenName: session?.givenName || '',
+              familyName: session?.familyName || '',
+            },
           },
         },
         ...gcpeReports,
@@ -122,7 +151,7 @@ const Gcpe = ({ reportList }) => {
             value={edge.node.rowId}
             selected={selectedReport === edge.node.rowId}
           >
-            {`Generated ${DateTime.fromISO(edge.node.createdAt).setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}`}
+            {formatReportLabel(edge)}
           </option>
         ))}
       </StyledDropdown>
@@ -179,7 +208,7 @@ const Gcpe = ({ reportList }) => {
             value={edge.node.rowId}
             selected={selectedReportCompare === edge.node.rowId}
           >
-            {`Generated ${DateTime.fromISO(edge.node.createdAt).setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}`}
+            {formatReportLabel(edge)}
           </option>
         ))}
       </StyledDropdown>
@@ -244,7 +273,7 @@ const Gcpe = ({ reportList }) => {
               selectedTargetReport.toString() === edge.node.rowId.toString()
             }
           >
-            {`Generated ${DateTime.fromISO(edge.node.createdAt).setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}`}
+            {formatReportLabel(edge)}
           </option>
         ))}
       </StyledDropdown>
@@ -266,7 +295,7 @@ const Gcpe = ({ reportList }) => {
               selectedSourceReport.toString() === edge.node.rowId.toString()
             }
           >
-            {`Generated ${DateTime.fromISO(edge.node.createdAt).setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}`}
+            {formatReportLabel(edge)}
           </option>
         ))}
       </StyledDropdown>
