@@ -1,3 +1,9 @@
+# [1.278.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.277.0...v1.278.0) (2026-01-05)
+
+### Features
+
+- ccbc internal notes ([c98c396](https://github.com/bcgov/CONN-CCBC-portal/commit/c98c3960484410b0b7cd5c61c8d5a037b7142dfb))
+
 # [1.277.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.275.9...v1.277.0) (2026-01-02)
 
 ### Features
