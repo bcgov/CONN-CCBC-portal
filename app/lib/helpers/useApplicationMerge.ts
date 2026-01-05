@@ -28,7 +28,12 @@ const useApplicationMerge = () => {
     return 'Parent/Child Project(s)';
   };
 
-  const getMiscellaneousSchema = (applicationByRowId, isEditView = false) => {
+  const getMiscellaneousSchema = (
+    applicationByRowId,
+    isEditView = false,
+    authRole?: string,
+    alwaysShowInternalNotes = false
+  ) => {
     const isMergedStatus = MERGED_STATUSES.includes(applicationByRowId?.status);
     const isApprovedStatus = APPROVED_STATUSES.includes(
       applicationByRowId?.status
@@ -36,6 +41,13 @@ const useApplicationMerge = () => {
     const miscLinkedProjectLabel = getMiscLinkedProjectLabel(
       applicationByRowId?.status
     );
+
+    // Check if user has permission to view internal notes
+    // Always show on summary page, role-restricted on edit page
+    const canViewInternalNotes =
+      alwaysShowInternalNotes ||
+      authRole === 'super_admin' ||
+      authRole === 'ccbc_admin';
 
     const miscellaneousUiSchema = {
       ...reviewUiSchema.miscellaneous,
@@ -61,6 +73,15 @@ const useApplicationMerge = () => {
                 boldTitle: true,
               },
             },
+      ...(canViewInternalNotes && {
+        internalNotes: {
+          'ui:widget': 'TextAreaWidget',
+          'ui:label': 'Internal Notes',
+          'ui:options': {
+            rows: 5,
+          },
+        },
+      }),
     };
 
     const miscellaneousSchema: RJSFSchema = {
@@ -73,6 +94,12 @@ const useApplicationMerge = () => {
             ? `${miscLinkedProjectLabel}: `
             : miscLinkedProjectLabel,
         },
+        ...(canViewInternalNotes && {
+          internalNotes: {
+            type: 'string',
+            title: 'Internal Notes',
+          },
+        }),
       },
     };
 

@@ -91,6 +91,13 @@ const getApplicationDataQuery = `
           }
         }
       }
+      applicationInternalNotesByApplicationId {
+        edges {
+          node {
+            note
+          }
+        }
+      }
       applicationPendingChangeRequestsByApplicationId(
         condition: {archivedAt: null}
         last: 1
@@ -471,6 +478,13 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // construction completed on
       { value: null },
+      // internal notes
+      {
+        value:
+          data?.applicationByRowId?.applicationInternalNotesByApplicationId?.edges
+            ?.map((edge) => edge?.node?.note)
+            .join('\n') || '',
+      },
     ];
     excelData.push(row);
   });
@@ -651,6 +665,8 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // construction completed on
       { value: cleanDateTime(cbcDataByCbcId?.constructionCompletedOn) },
+      // notes
+      { value: cbcDataByCbcId?.notes || '' },
     ];
     excelData.push(row);
   });

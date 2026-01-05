@@ -270,6 +270,13 @@ const HEADER_ROW: Row = [
     wrap: true,
   },
   {
+    value: 'Notes',
+    fontWeight: 'bold',
+    type: String,
+    height: 95,
+    wrap: true,
+  },
+  {
     value: 'Change log',
     fontWeight: 'bold',
     type: String,

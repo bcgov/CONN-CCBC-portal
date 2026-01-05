@@ -77,6 +77,8 @@ const columnOptions: Columns = [
   {},
   // column 38
   {},
+  // column 39 (Notes)
+  { width: 20 },
   // column 39 (change log)
   { width: 40 },
 ];

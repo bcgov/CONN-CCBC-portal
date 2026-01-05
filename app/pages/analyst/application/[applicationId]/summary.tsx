@@ -26,6 +26,7 @@ const getSummaryQuery = graphql`
   query summaryQuery($rowId: Int!) {
     session {
       sub
+      authRole
     }
     applicationByRowId(rowId: $rowId) {
       announcements {
@@ -125,6 +126,18 @@ const getSummaryQuery = graphql`
         edges {
           node {
             id
+          }
+        }
+      }
+      applicationInternalNotesByApplicationId(
+        condition: { archivedAt: null }
+        first: 1
+      ) {
+        edges {
+          node {
+            id
+            rowId
+            note
           }
         }
       }
@@ -265,8 +278,12 @@ const Summary = ({
   const [finalFormData, setFinalFormData] = useState<any>(formData);
   const [editMode, setEditMode] = useState(false);
   const { getMiscellaneousSchema } = useApplicationMerge();
-  const { schema: miscSchema, uiSchema: miscUiSchema } =
-    getMiscellaneousSchema(applicationByRowId);
+  const { schema: miscSchema, uiSchema: miscUiSchema } = getMiscellaneousSchema(
+    applicationByRowId,
+    false,
+    session?.authRole,
+    true
+  );
 
   // to handle dynamic titles and widgets based on the status
   const summaryReviewUiSchema = {

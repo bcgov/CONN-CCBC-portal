@@ -635,6 +635,12 @@ export const getMiscellaneousData = (applicationData) => {
   );
 };
 
+export const getInternalNotesData = (applicationData) => {
+  const internalNotesNode =
+    applicationData?.applicationInternalNotesByApplicationId?.edges?.[0]?.node;
+  return internalNotesNode?.note || null;
+};
+
 const getSowData = (sowData, baseSowData) => {
   const communitiesData = getCommunitiesWithAmendmentNumber(sowData?.nodes);
   const communities = getCommunitiesNumberWithAmendmentNumber(sowData?.nodes);
@@ -828,6 +834,7 @@ const getFormDataFromApplication = (
     },
     miscellaneous: {
       linkedProject: getMiscellaneousData(applicationData),
+      internalNotes: getInternalNotesData(applicationData),
     },
   };
   const formData = {
@@ -1059,6 +1066,7 @@ const generateFormData = (
       },
       miscellaneous: {
         ...formData?.miscellaneous,
+        internalNotes: getInternalNotesData(applicationData),
       },
     },
     formDataSource: {
