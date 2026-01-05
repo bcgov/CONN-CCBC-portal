@@ -365,16 +365,36 @@ const HistoryContent = ({
 
     const mergeTableConfig = getTableConfig('application_merge');
 
+    const mergeRecord = {
+      ...historyItem?.record,
+      parent_application:
+        historyItem?.record?.parent_ccbc_number ??
+        historyItem?.record?.parent_cbc_project_number ??
+        null,
+    };
+
+    const mergePrevRecord = {
+      ...(prevHistoryItem?.record || {}),
+      parent_application:
+        prevHistoryItem?.record?.parent_ccbc_number ??
+        prevHistoryItem?.record?.parent_cbc_project_number ??
+        null,
+    };
+
     const excluded = isParentHistory
       ? [
           ...mergeTableConfig.excludedKeys,
           'parent_ccbc_number',
+          'parent_application',
           'parent_cbc_number',
+          'parent_cbc_project_number',
         ]
       : [
           ...mergeTableConfig.excludedKeys,
           'child_ccbc_numbers',
           'child_ccbc_number',
+          'parent_ccbc_number',
+          'parent_cbc_project_number',
         ];
 
     const isDeletedChild = isParentHistory && record.archived_at;
@@ -399,8 +419,8 @@ const HistoryContent = ({
         )}
         {!isParentHistory && (
           <HistoryDetails
-            json={historyItem?.record}
-            prevJson={prevHistoryItem?.record || {}}
+            json={mergeRecord}
+            prevJson={mergePrevRecord}
             excludedKeys={excluded || []}
             diffSchema={mergeTableConfig?.schema}
             overrideParent={mergeTableConfig?.overrideParent}
