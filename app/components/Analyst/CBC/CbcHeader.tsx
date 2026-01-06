@@ -137,9 +137,9 @@ const CbcHeader: React.FC<Props> = ({ query, isFormEditable = false }) => {
                   name: 'conditionally_approved',
                   id: 1,
                 },
-                { description: 'Agreement Signed', name: 'Agreement Signed', id: 3 },
-                { description: 'Reporting Complete', name: 'Reporting Complete', id: 2 },
-                { description: 'Withdrawn', name: 'Withdrawn', id: 4 },
+                { description: 'Agreement Signed', name: 'approved', id: 3 },
+                { description: 'Reporting Complete', name: 'complete', id: 2 },
+                { description: 'Withdrawn', name: 'withdrawn', id: 4 },
               ]}
               isFormEditable={isFormEditable}
             />
