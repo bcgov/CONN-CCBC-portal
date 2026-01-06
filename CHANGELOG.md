@@ -1,3 +1,9 @@
+## [1.278.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.278.0...v1.278.1) (2026-01-06)
+
+### Bug Fixes
+
+- application submit procedure for history ([9361135](https://github.com/bcgov/CONN-CCBC-portal/commit/936113520c0dd78e72da839379bfcd94c114f088))
+
 # [1.278.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.277.0...v1.278.0) (2026-01-05)
 
 ### Features

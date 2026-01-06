@@ -33,9 +33,18 @@ const HistoryRow = ({
 }) => {
   const { tableName, user } = historyItem;
 
+  // If tableName is form_data and prevJson is an empty object, return nothing
+  // this matches the logic of the change log
+  if (tableName === 'form_data') {
+    const prevJson = prevHistoryItem?.record?.json_data || {};
+    if (Object.keys(prevJson).length === 0) {
+      return null;
+    }
+  }
+
   return (
     !(
-      (tableName === 'attachment') ||
+      tableName === 'attachment' ||
       (tableName === 'application_dependencies' && user === 'The applicant')
     ) && (
       <tr>
