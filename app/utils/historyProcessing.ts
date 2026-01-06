@@ -44,7 +44,9 @@ const buildMergeChildrenMap = (historyAfterReceived: any[]) => {
     const childNumber =
       historyItem.record?.child_ccbc_number ||
       historyItem.oldRecord?.child_ccbc_number;
-    const before = Array.from(currentChildren).sort();
+    const before = Array.from(currentChildren).sort((a, b) =>
+      a.localeCompare(b)
+    );
 
     if (childNumber) {
       const isRemoval = !!historyItem.record?.archived_at;
@@ -55,7 +57,10 @@ const buildMergeChildrenMap = (historyAfterReceived: any[]) => {
       }
     }
 
-    const after = Array.from(currentChildren).sort();
+    const after = Array.from(currentChildren).sort((a, b) =>
+      a.localeCompare(b)
+    );
+
     childrenByRecordId.set(getMergeChildrenKey(historyItem), {
       before,
       after,
