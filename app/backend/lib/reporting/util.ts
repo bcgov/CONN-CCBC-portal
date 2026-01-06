@@ -261,19 +261,20 @@ export const getFundingSource = (application: any): string => {
 
   if (program === 'CBC') {
     // CBC logic
-    const status = analystStatus || externalStatus;
+    const cbcStatus = analystStatus || externalStatus;
+    const status = cbcStatus.toLowerCase();
     const bcFunding = bcFundingRequested || 0;
     const federalFunding = federalFundingRequested || 0;
 
-    if (status === 'Withdrawn') {
+    if (status === 'withdrawn') {
       return 'N/A';
     }
 
-    if (status === 'Conditionally Approved') {
+    if (status === 'conditionally approved') {
       return 'TBD';
     }
 
-    if (status === 'Agreement Signed' || status === 'Reporting Complete') {
+    if (status === 'agreement signed' || status === 'reporting complete') {
       if (bcFunding > 0 && (federalFunding === 0 || federalFunding == null)) {
         return 'BC';
       }
@@ -297,7 +298,7 @@ export const getFundingSource = (application: any): string => {
   // CCBC logic
   const status = analystStatus;
 
-  if (status === 'closed' || status === 'withdrawn') {
+  if (status === 'closed' || status === 'withdrawn' || status === 'analyst_withdrawn') {
     return 'N/A';
   }
 
