@@ -649,6 +649,42 @@ type Query implements Node {
     filter: ApplicationInternalDescriptionFilter
   ): ApplicationInternalDescriptionsConnection
 
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  allApplicationInternalNotes(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection
+
   """Reads and enables pagination through a set of `ApplicationMapData`."""
   allApplicationMapData(
     """Only read the first `n` values of the set."""
@@ -2243,6 +2279,7 @@ type Query implements Node {
   applicationGisAssessmentHhByRowId(rowId: Int!): ApplicationGisAssessmentHh
   applicationGisDataByRowId(rowId: Int!): ApplicationGisData
   applicationInternalDescriptionByRowId(rowId: Int!): ApplicationInternalDescription
+  applicationInternalNoteByRowId(rowId: Int!): ApplicationInternalNote
   applicationMapDataByRowId(rowId: Int!): ApplicationMapData
   applicationMergeByRowId(rowId: Int!): ApplicationMerge
   applicationMilestoneDataByRowId(rowId: Int!): ApplicationMilestoneData
@@ -2513,6 +2550,16 @@ type Query implements Node {
     """
     id: ID!
   ): ApplicationInternalDescription
+
+  """
+  Reads a single `ApplicationInternalNote` using its globally unique `ID`.
+  """
+  applicationInternalNote(
+    """
+    The globally unique `ID` to be used in selecting a single `ApplicationInternalNote`.
+    """
+    id: ID!
+  ): ApplicationInternalNote
 
   """Reads a single `ApplicationMapData` using its globally unique `ID`."""
   applicationMapData(
@@ -8535,6 +8582,114 @@ type CcbcUser implements Node {
     """
     filter: ApplicationMergeFilter
   ): ApplicationMergesConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   ccbcUsersByCcbcUserCreatedByAndUpdatedBy(
@@ -24583,6 +24738,312 @@ type CcbcUser implements Node {
     """
     filter: CcbcUserFilter
   ): CcbcUserCcbcUsersByApplicationMergeArchivedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationInternalNoteCreatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationInternalNoteCreatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationInternalNoteCreatedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationInternalNoteCreatedByAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationInternalNoteCreatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationInternalNoteCreatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationInternalNoteUpdatedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationInternalNoteUpdatedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationInternalNoteUpdatedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationInternalNoteUpdatedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationInternalNoteUpdatedByAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationInternalNoteUpdatedByAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `Application`."""
+  applicationsByApplicationInternalNoteArchivedByAndApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `Application`."""
+    orderBy: [ApplicationsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationFilter
+  ): CcbcUserApplicationsByApplicationInternalNoteArchivedByAndApplicationIdManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationInternalNoteArchivedByAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationInternalNoteArchivedByAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationInternalNoteArchivedByAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): CcbcUserCcbcUsersByApplicationInternalNoteArchivedByAndUpdatedByManyToManyConnection!
 }
 
 """A connection to a list of `CcbcUser` values."""
@@ -25742,6 +26203,26 @@ input CcbcUserFilter {
   """Some related `applicationMergesByArchivedBy` exist."""
   applicationMergesByArchivedByExist: Boolean
 
+  """Filter by the object’s `applicationInternalNotesByCreatedBy` relation."""
+  applicationInternalNotesByCreatedBy: CcbcUserToManyApplicationInternalNoteFilter
+
+  """Some related `applicationInternalNotesByCreatedBy` exist."""
+  applicationInternalNotesByCreatedByExist: Boolean
+
+  """Filter by the object’s `applicationInternalNotesByUpdatedBy` relation."""
+  applicationInternalNotesByUpdatedBy: CcbcUserToManyApplicationInternalNoteFilter
+
+  """Some related `applicationInternalNotesByUpdatedBy` exist."""
+  applicationInternalNotesByUpdatedByExist: Boolean
+
+  """
+  Filter by the object’s `applicationInternalNotesByArchivedBy` relation.
+  """
+  applicationInternalNotesByArchivedBy: CcbcUserToManyApplicationInternalNoteFilter
+
+  """Some related `applicationInternalNotesByArchivedBy` exist."""
+  applicationInternalNotesByArchivedByExist: Boolean
+
   """Filter by the object’s `keycloakJwtsBySub` relation."""
   keycloakJwtsBySub: CcbcUserToManyKeycloakJwtFilter
 
@@ -26553,6 +27034,14 @@ input ApplicationFilter {
 
   """Some related `applicationMergesByChildApplicationId` exist."""
   applicationMergesByChildApplicationIdExist: Boolean
+
+  """
+  Filter by the object’s `applicationInternalNotesByApplicationId` relation.
+  """
+  applicationInternalNotesByApplicationId: ApplicationToManyApplicationInternalNoteFilter
+
+  """Some related `applicationInternalNotesByApplicationId` exist."""
+  applicationInternalNotesByApplicationIdExist: Boolean
 
   """Filter by the object’s `intakeByIntakeId` relation."""
   intakeByIntakeId: IntakeFilter
@@ -30622,6 +31111,9 @@ input ApplicationMergeFilter {
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
 
+  """Filter by the object’s `changeReason` field."""
+  changeReason: StringFilter
+
   """Filter by the object’s `applicationByParentApplicationId` relation."""
   applicationByParentApplicationId: ApplicationFilter
 
@@ -31248,6 +31740,94 @@ input CbcToManyApplicationMergeFilter {
   No related `ApplicationMerge` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
   none: ApplicationMergeFilter
+}
+
+"""
+A filter to be used against many `ApplicationInternalNote` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationToManyApplicationInternalNoteFilter {
+  """
+  Every related `ApplicationInternalNote` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ApplicationInternalNoteFilter
+
+  """
+  Some related `ApplicationInternalNote` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ApplicationInternalNoteFilter
+
+  """
+  No related `ApplicationInternalNote` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ApplicationInternalNoteFilter
+}
+
+"""
+A filter to be used against `ApplicationInternalNote` object types. All fields are combined with a logical ‘and.’
+"""
+input ApplicationInternalNoteFilter {
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
+
+  """Filter by the object’s `applicationId` field."""
+  applicationId: IntFilter
+
+  """Filter by the object’s `note` field."""
+  note: StringFilter
+
+  """Filter by the object’s `changeReason` field."""
+  changeReason: StringFilter
+
+  """Filter by the object’s `createdBy` field."""
+  createdBy: IntFilter
+
+  """Filter by the object’s `createdAt` field."""
+  createdAt: DatetimeFilter
+
+  """Filter by the object’s `updatedBy` field."""
+  updatedBy: IntFilter
+
+  """Filter by the object’s `updatedAt` field."""
+  updatedAt: DatetimeFilter
+
+  """Filter by the object’s `archivedBy` field."""
+  archivedBy: IntFilter
+
+  """Filter by the object’s `archivedAt` field."""
+  archivedAt: DatetimeFilter
+
+  """Filter by the object’s `applicationByApplicationId` relation."""
+  applicationByApplicationId: ApplicationFilter
+
+  """A related `applicationByApplicationId` exists."""
+  applicationByApplicationIdExists: Boolean
+
+  """Filter by the object’s `ccbcUserByCreatedBy` relation."""
+  ccbcUserByCreatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByCreatedBy` exists."""
+  ccbcUserByCreatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByUpdatedBy` relation."""
+  ccbcUserByUpdatedBy: CcbcUserFilter
+
+  """A related `ccbcUserByUpdatedBy` exists."""
+  ccbcUserByUpdatedByExists: Boolean
+
+  """Filter by the object’s `ccbcUserByArchivedBy` relation."""
+  ccbcUserByArchivedBy: CcbcUserFilter
+
+  """A related `ccbcUserByArchivedBy` exists."""
+  ccbcUserByArchivedByExists: Boolean
+
+  """Checks for all expressions in this list."""
+  and: [ApplicationInternalNoteFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [ApplicationInternalNoteFilter!]
+
+  """Negates the expression."""
+  not: ApplicationInternalNoteFilter
 }
 
 """
@@ -32710,6 +33290,26 @@ input CcbcUserToManyApplicationMergeFilter {
   No related `ApplicationMerge` matches the filter criteria. All fields are combined with a logical ‘and.’
   """
   none: ApplicationMergeFilter
+}
+
+"""
+A filter to be used against many `ApplicationInternalNote` object types. All fields are combined with a logical ‘and.’
+"""
+input CcbcUserToManyApplicationInternalNoteFilter {
+  """
+  Every related `ApplicationInternalNote` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  every: ApplicationInternalNoteFilter
+
+  """
+  Some related `ApplicationInternalNote` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  some: ApplicationInternalNoteFilter
+
+  """
+  No related `ApplicationInternalNote` matches the filter criteria. All fields are combined with a logical ‘and.’
+  """
+  none: ApplicationInternalNoteFilter
 }
 
 """
@@ -34863,6 +35463,42 @@ type Application implements Node {
     """
     filter: ApplicationMergeFilter
   ): ApplicationMergesConnection!
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
 
   """Reads and enables pagination through a set of `AssessmentData`."""
   allAssessments(
@@ -38436,6 +39072,108 @@ type Application implements Node {
     """
     filter: CcbcUserFilter
   ): ApplicationCcbcUsersByApplicationMergeChildApplicationIdAndArchivedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationInternalNoteApplicationIdAndCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationInternalNoteApplicationIdAndCreatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationInternalNoteApplicationIdAndUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationInternalNoteApplicationIdAndUpdatedByManyToManyConnection!
+
+  """Reads and enables pagination through a set of `CcbcUser`."""
+  ccbcUsersByApplicationInternalNoteApplicationIdAndArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcUser`."""
+    orderBy: [CcbcUsersOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcUserCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcUserFilter
+  ): ApplicationCcbcUsersByApplicationInternalNoteApplicationIdAndArchivedByManyToManyConnection!
 }
 
 """A connection to a list of `ApplicationStatus` values."""
@@ -49147,6 +49885,9 @@ type ApplicationMerge implements Node {
   """archived at timestamp"""
   archivedAt: Datetime
 
+  """Reason provided when creating or archiving a merge"""
+  changeReason: String
+
   """
   Reads a single `Application` that is related to this `ApplicationMerge`.
   """
@@ -51585,6 +52326,8 @@ enum ApplicationMergesOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
+  CHANGE_REASON_ASC
+  CHANGE_REASON_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -51623,6 +52366,9 @@ input ApplicationMergeCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+
+  """Checks for equality with the object’s `changeReason` field."""
+  changeReason: String
 }
 
 """A connection to a list of `RecordVersion` values."""
@@ -53053,6 +53799,153 @@ type ApplicationMergesEdge {
 
   """The `ApplicationMerge` at the end of the edge."""
   node: ApplicationMerge
+}
+
+"""A connection to a list of `ApplicationInternalNote` values."""
+type ApplicationInternalNotesConnection {
+  """A list of `ApplicationInternalNote` objects."""
+  nodes: [ApplicationInternalNote]!
+
+  """
+  A list of edges which contains the `ApplicationInternalNote` and cursor to aid in pagination.
+  """
+  edges: [ApplicationInternalNotesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `ApplicationInternalNote` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""Table containing internal notes for the application"""
+type ApplicationInternalNote implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """Primary key for the internal notes record"""
+  rowId: Int!
+
+  """Application that owns the internal notes"""
+  applicationId: Int
+
+  """The internal notes text"""
+  note: String
+  changeReason: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime!
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime!
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+
+  """
+  Reads a single `Application` that is related to this `ApplicationInternalNote`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationInternalNote`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationInternalNote`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationInternalNote`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+}
+
+"""A `ApplicationInternalNote` edge in the connection."""
+type ApplicationInternalNotesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `ApplicationInternalNote` at the end of the edge."""
+  node: ApplicationInternalNote
+}
+
+"""Methods to use when ordering `ApplicationInternalNote`."""
+enum ApplicationInternalNotesOrderBy {
+  NATURAL
+  ID_ASC
+  ID_DESC
+  APPLICATION_ID_ASC
+  APPLICATION_ID_DESC
+  NOTE_ASC
+  NOTE_DESC
+  CHANGE_REASON_ASC
+  CHANGE_REASON_DESC
+  CREATED_BY_ASC
+  CREATED_BY_DESC
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  UPDATED_BY_ASC
+  UPDATED_BY_DESC
+  UPDATED_AT_ASC
+  UPDATED_AT_DESC
+  ARCHIVED_BY_ASC
+  ARCHIVED_BY_DESC
+  ARCHIVED_AT_ASC
+  ARCHIVED_AT_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `ApplicationInternalNote` object types. All
+fields are tested for equality and combined with a logical ‘and.’
+"""
+input ApplicationInternalNoteCondition {
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `applicationId` field."""
+  applicationId: Int
+
+  """Checks for equality with the object’s `note` field."""
+  note: String
+
+  """Checks for equality with the object’s `changeReason` field."""
+  changeReason: String
+
+  """Checks for equality with the object’s `createdBy` field."""
+  createdBy: Int
+
+  """Checks for equality with the object’s `createdAt` field."""
+  createdAt: Datetime
+
+  """Checks for equality with the object’s `updatedBy` field."""
+  updatedBy: Int
+
+  """Checks for equality with the object’s `updatedAt` field."""
+  updatedAt: Datetime
+
+  """Checks for equality with the object’s `archivedBy` field."""
+  archivedBy: Int
+
+  """Checks for equality with the object’s `archivedAt` field."""
+  archivedAt: Datetime
 }
 
 """A connection to a list of `Announcement` values."""
@@ -59929,6 +60822,204 @@ type ApplicationCcbcUsersByApplicationMergeChildApplicationIdAndArchivedByManyTo
     """
     filter: ApplicationMergeFilter
   ): ApplicationMergesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationInternalNote`.
+"""
+type ApplicationCcbcUsersByApplicationInternalNoteApplicationIdAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationInternalNote`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationInternalNoteApplicationIdAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationInternalNote`.
+"""
+type ApplicationCcbcUsersByApplicationInternalNoteApplicationIdAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationInternalNote`.
+"""
+type ApplicationCcbcUsersByApplicationInternalNoteApplicationIdAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationInternalNote`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationInternalNoteApplicationIdAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationInternalNote`.
+"""
+type ApplicationCcbcUsersByApplicationInternalNoteApplicationIdAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationInternalNote`.
+"""
+type ApplicationCcbcUsersByApplicationInternalNoteApplicationIdAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationInternalNote`, and the cursor to aid in pagination.
+  """
+  edges: [ApplicationCcbcUsersByApplicationInternalNoteApplicationIdAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationInternalNote`.
+"""
+type ApplicationCcbcUsersByApplicationInternalNoteApplicationIdAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
 }
 
 """A `Application` edge in the connection."""
@@ -91206,6 +92297,600 @@ type CcbcUserCcbcUsersByApplicationMergeArchivedByAndUpdatedByManyToManyEdge {
 }
 
 """
+A connection to a list of `Application` values, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserApplicationsByApplicationInternalNoteCreatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationInternalNote`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationInternalNoteCreatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserApplicationsByApplicationInternalNoteCreatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserCcbcUsersByApplicationInternalNoteCreatedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationInternalNote`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationInternalNoteCreatedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserCcbcUsersByApplicationInternalNoteCreatedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserCcbcUsersByApplicationInternalNoteCreatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationInternalNote`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationInternalNoteCreatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserCcbcUsersByApplicationInternalNoteCreatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserApplicationsByApplicationInternalNoteUpdatedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationInternalNote`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationInternalNoteUpdatedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserApplicationsByApplicationInternalNoteUpdatedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserCcbcUsersByApplicationInternalNoteUpdatedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationInternalNote`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationInternalNoteUpdatedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserCcbcUsersByApplicationInternalNoteUpdatedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserCcbcUsersByApplicationInternalNoteUpdatedByAndArchivedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationInternalNote`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationInternalNoteUpdatedByAndArchivedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserCcbcUsersByApplicationInternalNoteUpdatedByAndArchivedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByArchivedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+}
+
+"""
+A connection to a list of `Application` values, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserApplicationsByApplicationInternalNoteArchivedByAndApplicationIdManyToManyConnection {
+  """A list of `Application` objects."""
+  nodes: [Application]!
+
+  """
+  A list of edges which contains the `Application`, info from the `ApplicationInternalNote`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserApplicationsByApplicationInternalNoteArchivedByAndApplicationIdManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `Application` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `Application` edge in the connection, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserApplicationsByApplicationInternalNoteArchivedByAndApplicationIdManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `Application` at the end of the edge."""
+  node: Application
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByApplicationId(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserCcbcUsersByApplicationInternalNoteArchivedByAndCreatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationInternalNote`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationInternalNoteArchivedByAndCreatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserCcbcUsersByApplicationInternalNoteArchivedByAndCreatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByCreatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+}
+
+"""
+A connection to a list of `CcbcUser` values, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserCcbcUsersByApplicationInternalNoteArchivedByAndUpdatedByManyToManyConnection {
+  """A list of `CcbcUser` objects."""
+  nodes: [CcbcUser]!
+
+  """
+  A list of edges which contains the `CcbcUser`, info from the `ApplicationInternalNote`, and the cursor to aid in pagination.
+  """
+  edges: [CcbcUserCcbcUsersByApplicationInternalNoteArchivedByAndUpdatedByManyToManyEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CcbcUser` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""
+A `CcbcUser` edge in the connection, with data from `ApplicationInternalNote`.
+"""
+type CcbcUserCcbcUsersByApplicationInternalNoteArchivedByAndUpdatedByManyToManyEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcUser` at the end of the edge."""
+  node: CcbcUser
+
+  """
+  Reads and enables pagination through a set of `ApplicationInternalNote`.
+  """
+  applicationInternalNotesByUpdatedBy(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: ApplicationInternalNoteCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: ApplicationInternalNoteFilter
+  ): ApplicationInternalNotesConnection!
+}
+
+"""
 A connection to a list of `Application` values, with data from `ApplicationAnalystLead`.
 """
 type AnalystApplicationsByApplicationAnalystLeadAnalystIdAndApplicationIdManyToManyConnection {
@@ -92337,6 +94022,14 @@ type Mutation {
     input: CreateApplicationGisDataInput!
   ): CreateApplicationGisDataPayload
 
+  """Creates a single `ApplicationInternalNote`."""
+  createApplicationInternalNote(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateApplicationInternalNoteInput!
+  ): CreateApplicationInternalNotePayload
+
   """Creates a single `ApplicationMapData`."""
   createApplicationMapData(
     """
@@ -92974,6 +94667,26 @@ type Mutation {
     """
     input: UpdateApplicationInternalDescriptionByRowIdInput!
   ): UpdateApplicationInternalDescriptionPayload
+
+  """
+  Updates a single `ApplicationInternalNote` using its globally unique id and a patch.
+  """
+  updateApplicationInternalNote(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationInternalNoteInput!
+  ): UpdateApplicationInternalNotePayload
+
+  """
+  Updates a single `ApplicationInternalNote` using a unique key and a patch.
+  """
+  updateApplicationInternalNoteByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationInternalNoteByRowIdInput!
+  ): UpdateApplicationInternalNotePayload
 
   """
   Updates a single `ApplicationMapData` using its globally unique id and a patch.
@@ -93948,6 +95661,24 @@ type Mutation {
     """
     input: DeleteApplicationGisDataByRowIdInput!
   ): DeleteApplicationGisDataPayload
+
+  """
+  Deletes a single `ApplicationInternalNote` using its globally unique id.
+  """
+  deleteApplicationInternalNote(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationInternalNoteInput!
+  ): DeleteApplicationInternalNotePayload
+
+  """Deletes a single `ApplicationInternalNote` using a unique key."""
+  deleteApplicationInternalNoteByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationInternalNoteByRowIdInput!
+  ): DeleteApplicationInternalNotePayload
 
   """Deletes a single `ApplicationMapData` using its globally unique id."""
   deleteApplicationMapData(
@@ -95907,6 +97638,89 @@ input ApplicationGisDataInput {
   archivedAt: Datetime
 }
 
+"""The output of our create `ApplicationInternalNote` mutation."""
+type CreateApplicationInternalNotePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationInternalNote` that was created by this mutation."""
+  applicationInternalNote: ApplicationInternalNote
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ApplicationInternalNote`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationInternalNote`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationInternalNote`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationInternalNote`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationInternalNote`. May be used by Relay 1."""
+  applicationInternalNoteEdge(
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationInternalNotesEdge
+}
+
+"""All input for the create `ApplicationInternalNote` mutation."""
+input CreateApplicationInternalNoteInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `ApplicationInternalNote` to be created by this mutation."""
+  applicationInternalNote: ApplicationInternalNoteInput!
+}
+
+"""An input for mutations affecting `ApplicationInternalNote`"""
+input ApplicationInternalNoteInput {
+  """Application that owns the internal notes"""
+  applicationId: Int
+
+  """The internal notes text"""
+  note: String
+  changeReason: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
 """The output of our create `ApplicationMapData` mutation."""
 type CreateApplicationMapDataPayload {
   """
@@ -96073,6 +97887,9 @@ input ApplicationMergeInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """Reason provided when creating or archiving a merge"""
+  changeReason: String
 }
 
 """The output of our create `ApplicationPackage` mutation."""
@@ -100727,6 +102544,115 @@ input UpdateApplicationInternalDescriptionByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our update `ApplicationInternalNote` mutation."""
+type UpdateApplicationInternalNotePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationInternalNote` that was updated by this mutation."""
+  applicationInternalNote: ApplicationInternalNote
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ApplicationInternalNote`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationInternalNote`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationInternalNote`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationInternalNote`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationInternalNote`. May be used by Relay 1."""
+  applicationInternalNoteEdge(
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationInternalNotesEdge
+}
+
+"""All input for the `updateApplicationInternalNote` mutation."""
+input UpdateApplicationInternalNoteInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationInternalNote` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `ApplicationInternalNote` being updated.
+  """
+  applicationInternalNotePatch: ApplicationInternalNotePatch!
+}
+
+"""
+Represents an update to a `ApplicationInternalNote`. Fields that are set will be updated.
+"""
+input ApplicationInternalNotePatch {
+  """Application that owns the internal notes"""
+  applicationId: Int
+
+  """The internal notes text"""
+  note: String
+  changeReason: String
+
+  """created by user id"""
+  createdBy: Int
+
+  """created at timestamp"""
+  createdAt: Datetime
+
+  """updated by user id"""
+  updatedBy: Int
+
+  """updated at timestamp"""
+  updatedAt: Datetime
+
+  """archived by user id"""
+  archivedBy: Int
+
+  """archived at timestamp"""
+  archivedAt: Datetime
+}
+
+"""All input for the `updateApplicationInternalNoteByRowId` mutation."""
+input UpdateApplicationInternalNoteByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ApplicationInternalNote` being updated.
+  """
+  applicationInternalNotePatch: ApplicationInternalNotePatch!
+
+  """Primary key for the internal notes record"""
+  rowId: Int!
+}
+
 """The output of our update `ApplicationMapData` mutation."""
 type UpdateApplicationMapDataPayload {
   """
@@ -100926,6 +102852,9 @@ input ApplicationMergePatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """Reason provided when creating or archiving a merge"""
+  changeReason: String
 }
 
 """All input for the `updateApplicationMergeByRowId` mutation."""
@@ -105856,6 +107785,76 @@ input DeleteApplicationGisDataByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our delete `ApplicationInternalNote` mutation."""
+type DeleteApplicationInternalNotePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationInternalNote` that was deleted by this mutation."""
+  applicationInternalNote: ApplicationInternalNote
+  deletedApplicationInternalNoteId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """
+  Reads a single `Application` that is related to this `ApplicationInternalNote`.
+  """
+  applicationByApplicationId: Application
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationInternalNote`.
+  """
+  ccbcUserByCreatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationInternalNote`.
+  """
+  ccbcUserByUpdatedBy: CcbcUser
+
+  """
+  Reads a single `CcbcUser` that is related to this `ApplicationInternalNote`.
+  """
+  ccbcUserByArchivedBy: CcbcUser
+
+  """An edge for our `ApplicationInternalNote`. May be used by Relay 1."""
+  applicationInternalNoteEdge(
+    """The method to use when ordering `ApplicationInternalNote`."""
+    orderBy: [ApplicationInternalNotesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationInternalNotesEdge
+}
+
+"""All input for the `deleteApplicationInternalNote` mutation."""
+input DeleteApplicationInternalNoteInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationInternalNote` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteApplicationInternalNoteByRowId` mutation."""
+input DeleteApplicationInternalNoteByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """Primary key for the internal notes record"""
+  rowId: Int!
+}
+
 """The output of our delete `ApplicationMapData` mutation."""
 type DeleteApplicationMapDataPayload {
   """
@@ -108512,6 +110511,7 @@ input ArchiveApplicationMergeInput {
   """
   clientMutationId: String
   _childApplicationId: Int!
+  _changeReason: String
 }
 
 """The output of our `archiveApplicationMilestoneData` mutation."""
@@ -110389,6 +112389,7 @@ input MergeApplicationInput {
   _childApplicationId: Int!
   _parentApplicationId: Int
   _parentCbcId: Int
+  _changeReason: String
 }
 
 """The output of our `parseGisData` mutation."""
