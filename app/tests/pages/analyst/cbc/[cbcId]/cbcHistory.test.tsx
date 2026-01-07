@@ -206,6 +206,22 @@ const mockQueryPayload = {
                 familyName: 'User',
               },
             },
+            {
+              record: {
+                child_ccbc_number: 'CCBC-010005',
+                archived_at: null,
+                change_reason: 'Merged child application for testing',
+              },
+              oldRecord: null,
+              op: 'INSERT',
+              tableName: 'application_merge',
+              createdBy: 1,
+              createdAt: '2024-10-01T12:15:00.000-07:00',
+              ccbcUserByCreatedBy: {
+                givenName: 'Tony',
+                familyName: 'User',
+              },
+            },
           ],
         },
       },
@@ -266,5 +282,26 @@ describe('Cbc History', () => {
       'tr[data-key^="Deleted-row"]'
     );
     expect(removedCommunityRows).toHaveLength(2);
+  });
+
+  it('shows the change reason for cbc updates', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    expect(screen.getAllByText(/Reason for change:/)).toHaveLength(2);
+    expect(screen.getByText(/These are change reasons/)).toBeInTheDocument();
+  });
+
+  it('shows application merge history for system updates', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const mergeHistory = screen.getByTestId('cbc-merge-updater-and-timestamp');
+    expect(mergeHistory).toHaveTextContent(
+      /Tony User added a child application CCBC-010005 on/
+    );
+    expect(
+      screen.getByText(/Merged child application for testing/)
+    ).toBeInTheDocument();
   });
 });
