@@ -11,7 +11,7 @@ const limiter = RateLimit({
 const validation = Router();
 
 const getProjectNumberQuery = `
-  query GetProjectNumber($projectNumber: Int!) {
+  query GetProjectNumber($projectNumber: String!) {
     cbcByProjectNumber(projectNumber: $projectNumber) {
       rowId
       projectNumber
@@ -33,7 +33,7 @@ validation.post(
     const getProjectNumber = await performQuery(
       getProjectNumberQuery,
       {
-        projectNumber: parseInt(projectNumber, 10),
+        projectNumber: String(projectNumber),
       },
       req
     );

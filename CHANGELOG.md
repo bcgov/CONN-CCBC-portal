@@ -1,3 +1,9 @@
+# [1.279.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.278.1...v1.279.0) (2026-01-07)
+
+### Features
+
+- allow cbc project id to be any text ([c037707](https://github.com/bcgov/CONN-CCBC-portal/commit/c037707940933ac3425aaf1e4bc4b83a928d0ded))
+
 ## [1.278.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.278.0...v1.278.1) (2026-01-06)
 
 ### Bug Fixes

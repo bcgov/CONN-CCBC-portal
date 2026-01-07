@@ -60,7 +60,7 @@ describe('The Community Progress Report import', () => {
     const response = await request(app)
       .post('/api/cbc')
       .send({
-        projectId: 123,
+        projectId: '123',
         projectTitle: 'Test Project',
         externalStatus: 'active',
         projectType: 'type1',
@@ -96,7 +96,7 @@ describe('The Community Progress Report import', () => {
     const response = await request(app)
       .post('/api/cbc')
       .send({
-        projectId: 123,
+        projectId: '123',
         projectTitle: 'Test Project',
         externalStatus: 'active',
         projectType: 'type1',

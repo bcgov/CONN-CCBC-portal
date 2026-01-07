@@ -2296,7 +2296,7 @@ type Query implements Node {
   assessmentTypeByName(name: String!): AssessmentType
   attachmentByRowId(rowId: Int!): Attachment
   cbcByRowId(rowId: Int!): Cbc
-  cbcByProjectNumber(projectNumber: Int!): Cbc
+  cbcByProjectNumber(projectNumber: String!): Cbc
   cbcApplicationPendingChangeRequestByRowId(rowId: Int!): CbcApplicationPendingChangeRequest
   cbcDataByRowId(rowId: Int!): CbcData
   cbcDataChangeReasonByRowId(rowId: Int!): CbcDataChangeReason
@@ -31165,7 +31165,7 @@ input CbcFilter {
   rowId: IntFilter
 
   """Filter by the object’s `projectNumber` field."""
-  projectNumber: IntFilter
+  projectNumber: StringFilter
 
   """Filter by the object’s `sharepointTimestamp` field."""
   sharepointTimestamp: DatetimeFilter
@@ -31279,7 +31279,7 @@ input CbcDataFilter {
   cbcId: IntFilter
 
   """Filter by the object’s `projectNumber` field."""
-  projectNumber: IntFilter
+  projectNumber: StringFilter
 
   """Filter by the object’s `jsonData` field."""
   jsonData: JSONFilter
@@ -49924,7 +49924,7 @@ type Cbc implements Node {
   rowId: Int!
 
   """The project number, unique for each project"""
-  projectNumber: Int!
+  projectNumber: String!
 
   """The timestamp of the last time the data was updated from sharepoint"""
   sharepointTimestamp: Datetime
@@ -50866,7 +50866,7 @@ type CbcData implements Node {
   cbcId: Int
 
   """Column containing the project number the cbc application is from"""
-  projectNumber: Int
+  projectNumber: String
   jsonData: JSON!
   sharepointTimestamp: Datetime
 
@@ -51425,7 +51425,7 @@ input CbcDataCondition {
   cbcId: Int
 
   """Checks for equality with the object’s `projectNumber` field."""
-  projectNumber: Int
+  projectNumber: String
 
   """Checks for equality with the object’s `jsonData` field."""
   jsonData: JSON
@@ -52078,7 +52078,7 @@ input CbcCondition {
   rowId: Int
 
   """Checks for equality with the object’s `projectNumber` field."""
-  projectNumber: Int
+  projectNumber: String
 
   """Checks for equality with the object’s `sharepointTimestamp` field."""
   sharepointTimestamp: Datetime
@@ -98656,7 +98656,7 @@ input CreateCbcInput {
 """An input for mutations affecting `Cbc`"""
 input CbcInput {
   """The project number, unique for each project"""
-  projectNumber: Int!
+  projectNumber: String!
 
   """The timestamp of the last time the data was updated from sharepoint"""
   sharepointTimestamp: Datetime
@@ -98835,7 +98835,7 @@ input CbcDataInput {
   cbcId: Int
 
   """Column containing the project number the cbc application is from"""
-  projectNumber: Int
+  projectNumber: String
   jsonData: JSON
   sharepointTimestamp: Datetime
 
@@ -104200,7 +104200,7 @@ input UpdateCbcInput {
 """Represents an update to a `Cbc`. Fields that are set will be updated."""
 input CbcPatch {
   """The project number, unique for each project"""
-  projectNumber: Int
+  projectNumber: String
 
   """The timestamp of the last time the data was updated from sharepoint"""
   sharepointTimestamp: Datetime
@@ -104255,7 +104255,7 @@ input UpdateCbcByProjectNumberInput {
   cbcPatch: CbcPatch!
 
   """The project number, unique for each project"""
-  projectNumber: Int!
+  projectNumber: String!
 }
 
 """
@@ -104446,7 +104446,7 @@ input CbcDataPatch {
   cbcId: Int
 
   """Column containing the project number the cbc application is from"""
-  projectNumber: Int
+  projectNumber: String
   jsonData: JSON
   sharepointTimestamp: Datetime
 
@@ -108653,7 +108653,7 @@ input DeleteCbcByProjectNumberInput {
   clientMutationId: String
 
   """The project number, unique for each project"""
-  projectNumber: Int!
+  projectNumber: String!
 }
 
 """
