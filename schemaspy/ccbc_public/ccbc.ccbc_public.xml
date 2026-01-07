@@ -1117,8 +1117,8 @@
             <child column="cbc_id" foreignKey="cbc_data_cbc_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
             <child column="cbc_id" foreignKey="cbc_project_communities_cbc_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_project_communities"/>
          </column>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="project_number" nullable="false" remarks="The project number, unique for each project" size="10" type="int4" typeCode="4">
-            <child column="project_number" foreignKey="fk_cbc_data" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="project_number" nullable="false" remarks="The project number, unique for each project" size="2147483647" type="text" typeCode="12">
+            <child column="project_number" foreignKey="cbc_data_project_number_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc_data"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="6" id="2" name="sharepoint_timestamp" nullable="true" remarks="The timestamp of the last time the data was updated from sharepoint" size="35" type="timestamptz" typeCode="93"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
@@ -1193,8 +1193,8 @@
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="cbc_id" nullable="true" remarks="ID of the cbc application this cbc_data belongs to" size="10" type="int4" typeCode="4">
             <parent column="id" foreignKey="cbc_data_cbc_id_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc"/>
          </column>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="project_number" nullable="true" remarks="Column containing the project number the cbc application is from" size="10" type="int4" typeCode="4">
-            <parent column="project_number" foreignKey="fk_cbc_data" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="project_number" nullable="true" remarks="Column containing the project number the cbc application is from" size="2147483647" type="text" typeCode="12">
+            <parent column="project_number" foreignKey="cbc_data_project_number_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="cbc"/>
          </column>
          <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="3" name="json_data" nullable="false" remarks="" size="2147483647" type="jsonb" typeCode="1111"/>
          <column autoUpdated="false" defaultValue="null" digits="6" id="4" name="sharepoint_timestamp" nullable="true" remarks="" size="35" type="timestamptz" typeCode="93"/>
