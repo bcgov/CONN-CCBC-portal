@@ -811,9 +811,16 @@ const HistoryContent = ({
 
   if (tableName === 'application_claims_data') {
     const operation = historyItem.record?.history_operation;
-    const isUpdate = operation === 'updated';
     const isDelete = operation === 'deleted';
-    const isFile = record.json_data?.claimsFile?.length > 0;
+
+    const currFiles = isDelete ? [] : record.json_data?.claimsFile || [];
+    const prevHistoryOperation = prevHistoryItem?.record?.history_operation;
+    const prevFiles =
+      prevHistoryOperation === 'deleted'
+        ? []
+        : prevHistoryItem?.record?.json_data?.claimsFile || [];
+
+    const filesDiff = !!diff(currFiles, prevFiles);
 
     return (
       <>
@@ -823,26 +830,11 @@ const HistoryContent = ({
             {createdAtFormatted}
           </span>
         </StyledContent>
-
-        {!isUpdate && isFile && (
+        {showHistoryDetails && filesDiff && (
           <HistoryFile
-            filesArray={record.json_data.claimsFile || []}
-            previousFileArray={
-              prevHistoryItem?.record?.json_data?.claimsFile || []
-            }
-            title={`${
-              isDelete ? 'Deleted' : 'Uploaded'
-            } Claims & Progress Report Excel`}
-            testId="history-content-claims-file"
-          />
-        )}
-        {showHistoryDetails && isUpdate && (
-          <HistoryFile
-            filesArray={record.json_data.claimsFile || []}
-            previousFileArray={
-              prevHistoryItem?.record?.json_data?.claimsFile || []
-            }
-            title="Uploaded Claims & Progress Report Excel"
+            filesArray={currFiles}
+            previousFileArray={prevFiles}
+            title="Claims & Progress Report Excel"
             testId="history-content-claims-file"
           />
         )}
@@ -885,7 +877,10 @@ const HistoryContent = ({
           {op === 'UPDATE' && record.history_operation === 'deleted' && (
             <span>{displayName} deleted a </span>
           )}
-          <b> {fiscalQuarter} {fiscalYear} Milestone Report</b>
+          <b>
+            {' '}
+            {fiscalQuarter} {fiscalYear} Milestone Report
+          </b>
           <span> on {createdAtFormatted}</span>
         </StyledContent>
         {op === 'INSERT' && showHistoryDetails && (
