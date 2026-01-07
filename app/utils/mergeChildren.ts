@@ -40,8 +40,8 @@ export const buildMergeChildrenMap = (items: any[]) => {
       hasRecordParent && hasOldParent && recordParentId !== oldParentId;
 
     const updateChildrenForParent = (parentId: number, action: string) => {
-      const currentChildren =
-        currentChildrenByParent.get(parentId) || new Set();
+      const currentChildren: Set<string> =
+        currentChildrenByParent.get(parentId) ?? new Set<string>();
       const before = Array.from(currentChildren).sort((a, b) =>
         a.localeCompare(b)
       );
