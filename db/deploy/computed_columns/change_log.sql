@@ -5,6 +5,74 @@ begin;
 create or replace function ccbc_public.change_log(limit_count integer default null, offset_count integer default 0)
 returns setof ccbc_public.change_log_record as $$
 
+  with merge_pairs as (
+    select
+      insert_r.id as insert_id,
+      update_r.id as update_id,
+      insert_r.record_id as record_id,
+      update_r.old_record_id as old_record_id,
+      insert_r.ts,
+      insert_r.table_oid,
+      insert_r.table_schema,
+      insert_r.table_name,
+      insert_r.created_by,
+      insert_r.created_at,
+      insert_r.record as record,
+      update_r.old_record as old_record
+    from ccbc_public.record_version insert_r
+    inner join ccbc_public.record_version update_r
+      on insert_r.table_name = 'application_merge'
+      and insert_r.op = 'INSERT'
+      and update_r.table_name = 'application_merge'
+      and update_r.op = 'UPDATE'
+      and insert_r.ts = update_r.ts
+      and insert_r.created_by = update_r.created_by
+      and coalesce(
+        (insert_r.record->>'child_application_id')::int,
+        (insert_r.old_record->>'child_application_id')::int
+      ) = coalesce(
+        (update_r.record->>'child_application_id')::int,
+        (update_r.old_record->>'child_application_id')::int
+      )
+      and update_r.record->>'archived_at' is not null
+      and insert_r.record->>'archived_at' is null
+  ),
+  merged_record_version as (
+    select
+      insert_id as id,
+      record_id,
+      old_record_id,
+      'UPDATE'::audit.operation as op,
+      ts,
+      table_oid,
+      table_schema,
+      table_name,
+      created_by,
+      created_at,
+      record,
+      old_record
+    from merge_pairs
+    union all
+    select
+      r.id,
+      r.record_id,
+      r.old_record_id,
+      r.op,
+      r.ts,
+      r.table_oid,
+      r.table_schema,
+      r.table_name,
+      r.created_by,
+      r.created_at,
+      r.record,
+      r.old_record
+    from ccbc_public.record_version r
+    where not exists (
+      select 1
+      from merge_pairs mp
+      where r.id in (mp.insert_id, mp.update_id)
+    )
+  )
   select
     r.id,
     r.record_id,
@@ -16,7 +84,7 @@ returns setof ccbc_public.change_log_record as $$
     r.table_name,
     -- Use updated_by for specific cases, otherwise created_by
     case
-      when (r.op='UPDATE' and r.table_name in ('rfi_data', 'application_announcement', 'application_community_progress_report_data', 'application_claims_data', 'application_milestone_data', 'application_dependencies'))
+      when (r.op='UPDATE' and r.table_name in ('rfi_data', 'application_announcement', 'application_community_progress_report_data', 'application_claims_data', 'application_milestone_data', 'application_dependencies', 'application_merge'))
            or (r.table_name='application_announcement' and r.record->>'history_operation'='deleted')
            or (r.op = 'UPDATE' and r.table_name = 'cbc_data')
       then COALESCE((r.record->>'updated_by')::int, r.created_by)
@@ -96,6 +164,21 @@ returns setof ccbc_public.change_log_record as $$
             'external_analyst', u.external_analyst
           )
         )
+      when r.table_name = 'application_merge' then
+        jsonb_strip_nulls(
+          r.record || jsonb_build_object(
+            'child_ccbc_number', child_application.ccbc_number,
+            'parent_ccbc_number', parent_application.ccbc_number,
+            'parent_cbc_project_number', parent_cbc.project_number::text,
+            'parent_application', coalesce(parent_application.ccbc_number, parent_cbc.project_number::text),
+            'user_info', jsonb_build_object(
+              'family_name', COALESCE(u.family_name, 'Automated process'),
+              'given_name', COALESCE(u.given_name, ''),
+              'session_sub', COALESCE(u.session_sub, 'robot@idir'),
+              'external_analyst', u.external_analyst
+            )
+          )
+        )
       else r.record || jsonb_build_object(
         'user_info', jsonb_build_object(
           'family_name', COALESCE(u.family_name, 'Automated process'),
@@ -105,12 +188,23 @@ returns setof ccbc_public.change_log_record as $$
         )
       )
     end as record,
-    r.old_record
-  from ccbc_public.record_version as r
+    case
+      when r.table_name = 'application_merge' then
+        jsonb_strip_nulls(
+          coalesce(r.old_record, '{}'::jsonb) || jsonb_build_object(
+            'child_ccbc_number', old_child_application.ccbc_number,
+            'parent_ccbc_number', old_parent_application.ccbc_number,
+            'parent_cbc_project_number', old_parent_cbc.project_number::text,
+            'parent_application', coalesce(old_parent_application.ccbc_number, old_parent_cbc.project_number::text)
+          )
+        )
+      else r.old_record
+    end as old_record
+  from merged_record_version as r
   -- Join with ccbc_user based on the attribution logic
   left join ccbc_public.ccbc_user u on u.id = (
     case
-      when (r.op='UPDATE' and r.table_name in ('rfi_data', 'application_announcement', 'application_community_progress_report_data', 'application_claims_data', 'application_milestone_data', 'application_dependencies'))
+      when (r.op='UPDATE' and r.table_name in ('rfi_data', 'application_announcement', 'application_community_progress_report_data', 'application_claims_data', 'application_milestone_data', 'application_dependencies', 'application_merge'))
            or (r.table_name='application_announcement' and r.record->>'history_operation'='deleted')
            or (r.op = 'UPDATE' and r.table_name = 'cbc_data')
       then COALESCE((r.record->>'updated_by')::int, r.created_by)
@@ -143,6 +237,10 @@ returns setof ccbc_public.change_log_record as $$
         when r.table_name = 'application_milestone_data' then (r.record->>'application_id')::int = app.id
         when r.table_name = 'application_project_type' then (r.record->>'application_id')::int = app.id
         when r.table_name = 'application_dependencies' then (r.record->>'application_id')::int = app.id
+        when r.table_name = 'application_merge' then app.id in (
+          coalesce((r.record->>'child_application_id')::int, (r.old_record->>'child_application_id')::int),
+          coalesce((r.record->>'parent_application_id')::int, (r.old_record->>'parent_application_id')::int)
+        )
         when r.table_name = 'application_rd' then (r.record->>'application_id')::int = app.id
         when r.table_name = 'application_fnha_contribution' then (r.record->>'application_id')::int = app.id
         when r.table_name = 'application_pending_change_request' then (r.record->>'application_id')::int = app.id
@@ -158,6 +256,34 @@ returns setof ccbc_public.change_log_record as $$
         else false
       end
     )
+  )
+  -- Join with application/parent details for application_merge display
+  left join ccbc_public.application child_application on (
+    r.table_name = 'application_merge'
+    and child_application.id = coalesce(
+      (r.record->>'child_application_id')::int,
+      (r.old_record->>'child_application_id')::int
+    )
+  )
+  left join ccbc_public.application parent_application on (
+    r.table_name = 'application_merge'
+    and parent_application.id = (r.record->>'parent_application_id')::int
+  )
+  left join ccbc_public.cbc parent_cbc on (
+    r.table_name = 'application_merge'
+    and parent_cbc.id = (r.record->>'parent_cbc_id')::int
+  )
+  left join ccbc_public.application old_child_application on (
+    r.table_name = 'application_merge'
+    and old_child_application.id = (r.old_record->>'child_application_id')::int
+  )
+  left join ccbc_public.application old_parent_application on (
+    r.table_name = 'application_merge'
+    and old_parent_application.id = (r.old_record->>'parent_application_id')::int
+  )
+  left join ccbc_public.cbc old_parent_cbc on (
+    r.table_name = 'application_merge'
+    and old_parent_cbc.id = (r.old_record->>'parent_cbc_id')::int
   )
   -- Special join for rfi_data to get application_id through application_rfi_data
   left join ccbc_public.application_rfi_data rfi_app on (
@@ -250,13 +376,16 @@ returns setof ccbc_public.change_log_record as $$
     -- Application internal notes (INSERT or UPDATE)
     ((r.op='INSERT' or r.op='UPDATE') and r.table_name='application_internal_notes' and r.record->>'archived_by' is null and r.record->>'application_id' is not null)
     or
+    -- Application merge (INSERT or UPDATE)
+    ((r.op='INSERT' or r.op='UPDATE') and r.table_name='application_merge')
+    or
     -- CBC data (all operations)
     (r.table_name = 'cbc_data')
   and (
     -- Exclude records with null ccbc_number for non-cbc_data tables
     r.table_name = 'cbc_data' or app.ccbc_number is not null
   )
-  group by r.id, r.record_id, r.old_record_id, r.op, r.ts, r.table_oid, r.table_schema, r.table_name, r.created_by, r.created_at, r.record, r.old_record, u.family_name, u.given_name, u.session_sub, u.external_analyst, app.ccbc_number, app.id, app.program, rfi_app.application_id
+  group by r.id, r.record_id, r.old_record_id, r.op, r.ts, r.table_oid, r.table_schema, r.table_name, r.created_by, r.created_at, r.record, r.old_record, u.family_name, u.given_name, u.session_sub, u.external_analyst, app.ccbc_number, app.id, app.program, rfi_app.application_id, child_application.ccbc_number, parent_application.ccbc_number, parent_cbc.project_number, old_child_application.ccbc_number, old_parent_application.ccbc_number, old_parent_cbc.project_number
   order by r.id desc
   limit coalesce(limit_count, 2147483647)
   offset offset_count;

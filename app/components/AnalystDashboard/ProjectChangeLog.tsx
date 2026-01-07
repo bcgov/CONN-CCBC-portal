@@ -722,8 +722,80 @@ const ProjectChangeLog: React.FC<Props> = () => {
 
           let diffRows = [];
 
-          // Special handling for application_communities
-          if (tableName === 'application_communities') {
+          if (tableName === 'application_merge') {
+            const recordParentId = record?.parent_application_id;
+            const oldParentId = oldRecord?.parent_application_id;
+            const isRemoval =
+              !!record?.archived_at &&
+              oldRecord?.parent_application === record?.parent_application;
+            const isParentHistory =
+              applicationId === recordParentId || applicationId === oldParentId;
+            const isOldParentHistory =
+              applicationId === oldParentId && applicationId !== recordParentId;
+            const parentChanged =
+              (recordParentId &&
+                oldParentId &&
+                recordParentId !== oldParentId) ||
+              record?.parent_cbc_id !== oldRecord?.parent_cbc_id;
+            const excludedKeys = [
+              ...(tableConfig?.excludedKeys || []),
+              ...(isParentHistory
+                ? [
+                    'parent_application',
+                    'parent_ccbc_number',
+                    'parent_cbc_project_number',
+                  ]
+                : [
+                    'child_ccbc_number',
+                    'child_ccbc_numbers',
+                    'child_cbc_project_number',
+                    'child_application',
+                    'parent_ccbc_number',
+                    'parent_cbc_project_number',
+                  ]),
+            ];
+
+            diffRows = generateRawDiff(
+              diff(oldRecord || {}, record || {}, {
+                keepUnchangedValues: true,
+              }),
+              tableConfig?.schema || {},
+              excludedKeys,
+              tableConfig?.overrideParent || tableName
+            );
+
+            if ((isRemoval || parentChanged) && diffRows.length === 0) {
+              const childNumber =
+                oldRecord?.child_ccbc_number || record?.child_ccbc_number;
+              if (isParentHistory) {
+                const isParentRemoval = isRemoval || isOldParentHistory;
+                diffRows = [
+                  {
+                    key: 'child_ccbc_number',
+                    field: 'Child Application',
+                    newValue: isParentRemoval
+                      ? 'N/A'
+                      : childNumber || 'Unknown',
+                    oldValue: isParentRemoval
+                      ? childNumber || 'Unknown'
+                      : 'N/A',
+                  },
+                ];
+              } else if (isRemoval) {
+                const removedParent =
+                  oldRecord?.parent_application || record?.parent_application;
+                diffRows = [
+                  {
+                    key: 'parent_application',
+                    field: 'Parent application',
+                    newValue: 'N/A',
+                    oldValue: removedParent || 'Unknown',
+                  },
+                ];
+              }
+            }
+            // Special handling for application_communities
+          } else if (tableName === 'application_communities') {
             const changes = diff(oldRecord || {}, record || {});
             const [newArray, oldArray] = processArrayDiff(
               changes,

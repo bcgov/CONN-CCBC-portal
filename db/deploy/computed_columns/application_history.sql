@@ -2,6 +2,7 @@
 
 begin;
 
+drop function if exists ccbc_public.application_history(application ccbc_public.application);
 create or replace function ccbc_public.application_history(application ccbc_public.application)
 returns setof ccbc_public.history_item as $$
 
