@@ -239,7 +239,8 @@ returns setof ccbc_public.change_log_record as $$
         when r.table_name = 'application_dependencies' then (r.record->>'application_id')::int = app.id
         when r.table_name = 'application_merge' then app.id in (
           coalesce((r.record->>'child_application_id')::int, (r.old_record->>'child_application_id')::int),
-          coalesce((r.record->>'parent_application_id')::int, (r.old_record->>'parent_application_id')::int)
+          (r.record->>'parent_application_id')::int,
+          (r.old_record->>'parent_application_id')::int
         )
         when r.table_name = 'application_rd' then (r.record->>'application_id')::int = app.id
         when r.table_name = 'application_fnha_contribution' then (r.record->>'application_id')::int = app.id

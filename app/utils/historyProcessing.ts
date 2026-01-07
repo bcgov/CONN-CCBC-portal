@@ -1,5 +1,9 @@
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import isEqual from 'lodash.isequal';
+import {
+  buildMergeChildrenMap,
+  getMergeChildrenKey,
+} from 'utils/mergeChildren';
 
 export const formatUserName = (historyItem: any) => {
   const isAnalyst =
@@ -13,61 +17,6 @@ export const formatUserName = (historyItem: any) => {
     ...historyItem,
     user: isSystem ? 'The system' : fullName,
   };
-};
-
-const getMergeChildrenKey = (historyItem: any) => {
-  const mergeTimestamp =
-    historyItem.op === 'UPDATE'
-      ? historyItem.record?.updated_at || historyItem.createdAt
-      : historyItem.createdAt;
-  return `${historyItem.recordId}-${mergeTimestamp}`;
-};
-
-const buildMergeChildrenMap = (historyAfterReceived: any[]) => {
-  const childrenByRecordId = new Map();
-  const currentChildren = new Set<string>();
-
-  // Track children for merge events so we can show before/after lists
-  historyAfterReceived.forEach((historyItem) => {
-    if (historyItem.tableName !== 'application_merge') return;
-
-    const parentApplicationId = Number(
-      historyItem.record?.parent_application_id ||
-        historyItem.oldRecord?.parent_application_id
-    );
-    const applicationId = Number(historyItem.applicationId);
-    const isParentHistory =
-      !Number.isNaN(parentApplicationId) &&
-      parentApplicationId === applicationId;
-    if (!isParentHistory) return;
-
-    const childNumber =
-      historyItem.record?.child_ccbc_number ||
-      historyItem.oldRecord?.child_ccbc_number;
-    const before = Array.from(currentChildren).sort((a, b) =>
-      a.localeCompare(b)
-    );
-
-    if (childNumber) {
-      const isRemoval = !!historyItem.record?.archived_at;
-      if (isRemoval) {
-        currentChildren.delete(childNumber);
-      } else {
-        currentChildren.add(childNumber);
-      }
-    }
-
-    const after = Array.from(currentChildren).sort((a, b) =>
-      a.localeCompare(b)
-    );
-
-    childrenByRecordId.set(getMergeChildrenKey(historyItem), {
-      before,
-      after,
-    });
-  });
-
-  return childrenByRecordId;
 };
 
 export const processHistoryItems = (
@@ -113,9 +62,19 @@ export const processHistoryItems = (
       const formatted = applyUserFormatting
         ? formatUserName(historyItem)
         : historyItem;
-      const mergeChildren = mergeChildrenByRecordId.get(
-        getMergeChildrenKey(historyItem)
+      const parentApplicationId = Number(
+        historyItem.record?.parent_application_id ||
+          historyItem.oldRecord?.parent_application_id
       );
+      const isParentHistory =
+        historyItem.tableName === 'application_merge' &&
+        !Number.isNaN(parentApplicationId) &&
+        parentApplicationId === Number(historyItem.applicationId);
+      const mergeChildren = isParentHistory
+        ? mergeChildrenByRecordId.get(
+            getMergeChildrenKey(historyItem, historyItem.applicationId)
+          )
+        : undefined;
       return mergeChildren ? { ...formatted, mergeChildren } : formatted;
     });
 

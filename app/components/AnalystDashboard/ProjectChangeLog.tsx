@@ -33,6 +33,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTime } from 'luxon';
 import { getTableConfig } from 'utils/historyTableConfig';
+import {
+  buildMergeChildrenMap,
+  getMergeChildrenKey,
+} from 'utils/mergeChildren';
 import ClearFilters from 'components/Table/ClearFilters';
 import { getLabelForType } from 'components/Analyst/History/HistoryFilter';
 import { convertStatus } from 'backend/lib/dashboard/util';
@@ -343,6 +347,9 @@ const ProjectChangeLog: React.FC<Props> = () => {
     if (!allData?.allCbcs || !allData?.allApplications) {
       return { tableData: [] };
     }
+    const mergeChildrenByRecordId = buildMergeChildrenMap(
+      allData.allApplications
+    );
     const allCbcsFlatMap =
       allData.allCbcs?.map((item) => {
         const { record, oldRecord, createdAt, op, ts } = item;
@@ -725,6 +732,9 @@ const ProjectChangeLog: React.FC<Props> = () => {
           if (tableName === 'application_merge') {
             const recordParentId = record?.parent_application_id;
             const oldParentId = oldRecord?.parent_application_id;
+            const mergeChildren = mergeChildrenByRecordId.get(
+              getMergeChildrenKey(item, applicationId)
+            );
             const isRemoval =
               !!record?.archived_at &&
               oldRecord?.parent_application === record?.parent_application;
@@ -792,6 +802,47 @@ const ProjectChangeLog: React.FC<Props> = () => {
                     oldValue: removedParent || 'Unknown',
                   },
                 ];
+              }
+            }
+            if (isParentHistory && mergeChildren) {
+              const oldChildren = mergeChildren.before || [];
+              const newChildren = mergeChildren.after || [];
+              const oldChildrenValue = oldChildren.join(', ');
+              const newChildrenValue = newChildren.join(', ');
+              const childrenListChanged = oldChildrenValue !== newChildrenValue;
+              const childListRow = {
+                key: 'children',
+                field: 'Child Application',
+                newValue: newChildren.length ? newChildrenValue : 'N/A',
+                oldValue: oldChildren.length ? oldChildrenValue : 'N/A',
+              };
+
+              if (childrenListChanged) {
+                diffRows = diffRows.filter(
+                  (row) =>
+                    row.key !== 'child_ccbc_number' &&
+                    row.field !== 'Child Application'
+                );
+                diffRows = [childListRow, ...diffRows];
+              } else if (isRemoval) {
+                const childNumber =
+                  oldRecord?.child_ccbc_number || record?.child_ccbc_number;
+                const hasChildRow = diffRows.some(
+                  (row) =>
+                    row.key === 'child_ccbc_number' ||
+                    row.field === 'Child Application'
+                );
+                if (!hasChildRow && childNumber) {
+                  diffRows = [
+                    {
+                      key: 'child_ccbc_number',
+                      field: 'Child Application',
+                      newValue: 'N/A',
+                      oldValue: childNumber,
+                    },
+                    ...diffRows,
+                  ];
+                }
               }
             }
             // Special handling for application_communities

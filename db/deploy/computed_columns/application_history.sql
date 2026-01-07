@@ -280,10 +280,8 @@ union all
         u.family_name, u.given_name, u.session_sub, u.external_analyst,
         coalesce((v.record->>'updated_by')::int, v.created_by) as created_by
         from (
-          select distinct on (child_application_id, effective_at)
-            mv.*,
-            child_application_id,
-            effective_at
+          select distinct on (child_application_id, effective_at, is_archived)
+            mv.*
           from (
             select
               rv.*,
@@ -335,6 +333,31 @@ union all
         and (
             v.record->>'child_application_id' = application.id::varchar(10)
             or v.record->>'parent_application_id' = application.id::varchar(10)
+        )
+        and not (
+            v.is_archived
+            and v.child_application_id = application.id
+            and exists (
+              select 1
+              from (
+                select
+                  coalesce(
+                    (rv.record->>'child_application_id')::int,
+                    (rv.old_record->>'child_application_id')::int
+                  ) as child_application_id,
+                  coalesce((rv.record->>'updated_at')::timestamptz, rv.created_at) as effective_at,
+                  (
+                    (rv.record->>'archived_at') is not null
+                    or (rv.old_record->>'archived_at') is not null
+                  ) as is_archived
+                from ccbc_public.record_version rv
+                where rv.table_name = 'application_merge'
+                  and rv.op in ('INSERT', 'UPDATE')
+              ) as peers
+              where peers.child_application_id = v.child_application_id
+                and peers.effective_at = v.effective_at
+                and peers.is_archived = false
+            )
         )
 
     union all
