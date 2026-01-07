@@ -983,7 +983,10 @@ const HistoryContent = ({
           {op === 'UPDATE' && record.history_operation === 'deleted' && (
             <span>{displayName} deleted a </span>
           )}
-          <b> {fiscalQuarter} {fiscalYear} Milestone Report</b>
+          <b>
+            {' '}
+            {fiscalQuarter} {fiscalYear} Milestone Report
+          </b>
           <span> on {createdAtFormatted}</span>
         </StyledContent>
         {op === 'INSERT' && showHistoryDetails && (
