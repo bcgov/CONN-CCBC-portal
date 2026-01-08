@@ -46,7 +46,7 @@ export const convertStatus = (status: string): string => {
     case 'applicant_closed':
       return 'Not Selected';
     case 'applicant_complete':
-      return 'Complete';
+      return 'Reporting Complete';
     case 'applicant_conditionally_approved':
       return 'Conditionally Approved';
     case 'applicant_on_hold':
@@ -80,7 +80,7 @@ export const convertStatus = (status: string): string => {
     case 'recommendation':
       return 'Recommendation';
     case 'complete':
-      return 'Complete';
+      return 'Reporting Complete';
     default:
       return status;
   }
