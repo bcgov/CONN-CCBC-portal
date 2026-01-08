@@ -1,3 +1,9 @@
+# [1.280.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.279.1...v1.280.0) (2026-01-08)
+
+### Features
+
+- add bc/ised and 830m columns to gcpe ([7df7ba7](https://github.com/bcgov/CONN-CCBC-portal/commit/7df7ba7cb85c8b15ae956cca2b0d00b84ba4a9d4))
+
 ## [1.279.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.279.0...v1.279.1) (2026-01-08)
 
 ### Bug Fixes
