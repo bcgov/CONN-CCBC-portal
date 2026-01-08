@@ -51,10 +51,10 @@ const StyledError = styled.div`
 const CbcCreateForm = ({ formData, errors, isSubmitting, handleChange }) => {
   const externalStatusOptions = [
     { value: '', label: 'Select status' },
-    { value: 'conditionally_approved', label: 'Conditionally Approved' },
-    { value: 'approved', label: 'Agreement Signed' },
-    { value: 'complete', label: 'Reporting Complete' },
-    { value: 'withdrawn', label: 'Withdrawn' },
+    { value: 'Conditionally Approved', label: 'Conditionally Approved' },
+    { value: 'Agreement Signed', label: 'Agreement Signed' },
+    { value: 'Reporting Complete', label: 'Reporting Complete' },
+    { value: 'Withdrawn', label: 'Withdrawn' },
   ];
 
   const projectTypeOptions = [

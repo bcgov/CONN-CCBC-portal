@@ -175,6 +175,7 @@ const componentTestingHelper =
         },
         { description: 'Reporting Complete', name: 'complete', id: 2 },
         { description: 'Agreement Signed', name: 'approved', id: 3 },
+        { description: 'Withdrawn', name: 'withdrawn', id: 4 },
       ],
     }),
   });
@@ -289,5 +290,43 @@ describe('The application header component', () => {
 
     expect(screen.getByText('Agreement Signed')).toBeVisible();
     expect(screen.getByTestId('change-status')).toHaveValue('approved');
+  });
+
+  it('correctly converts withdrawn status', async () => {
+    componentTestingHelper.loadQuery();
+    componentTestingHelper.renderComponent();
+
+    const select = screen.getByTestId('change-status');
+
+    await act(async () => {
+      fireEvent.change(select, { target: { value: 'withdrawn' } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'updateCbcDataByRowIdMutation',
+      {
+        input: {
+          cbcDataPatch: {
+            jsonData: {
+              projectStatus: 'Withdrawn',
+            },
+          },
+        },
+      }
+    );
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          cbcDataByCbcId: {
+            jsonData: {
+              projectStatus: 'Withdrawn',
+            },
+          },
+        },
+      });
+    });
+
+    expect(screen.getByTestId('change-status')).toHaveValue('withdrawn');
   });
 });

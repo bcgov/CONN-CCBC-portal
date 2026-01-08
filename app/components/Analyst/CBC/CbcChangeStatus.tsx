@@ -62,6 +62,9 @@ const convertToCbcStatus = (status) => {
   if (status === 'approved') {
     return 'Agreement Signed';
   }
+  if (status === 'withdrawn') {
+    return 'Withdrawn';
+  }
   return status?.toLowerCase();
 };
 

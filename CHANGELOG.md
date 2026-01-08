@@ -1,3 +1,13 @@
+# [1.281.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.280.0...v1.281.0) (2026-01-08)
+
+### Bug Fixes
+
+- cbc status names ([d3e2605](https://github.com/bcgov/CONN-CCBC-portal/commit/d3e2605f810d0440c3c8ced1172f83f5185f5c94))
+
+### Features
+
+- add creator name to the GCPE report ([9f7a760](https://github.com/bcgov/CONN-CCBC-portal/commit/9f7a760989569417e2ff8c13be2e9ee8db535446))
+
 # [1.280.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.279.1...v1.280.0) (2026-01-08)
 
 ### Features

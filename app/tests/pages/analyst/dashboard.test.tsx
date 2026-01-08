@@ -1272,7 +1272,7 @@ describe('The index page', () => {
         target: { value: 'Test Project' },
       });
       fireEvent.change(externalStatusInput, {
-        target: { value: 'conditionally_approved' },
+        target: { value: 'Conditionally Approved' },
       });
       fireEvent.change(projectTypeInput, {
         target: { value: 'Transport' },
