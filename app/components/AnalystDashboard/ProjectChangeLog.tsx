@@ -743,70 +743,73 @@ const ProjectChangeLog: React.FC<Props> = () => {
             const isOldParentHistory =
               applicationId === oldParentId && applicationId !== recordParentId;
             const parentChanged =
-              (recordParentId &&
-                oldParentId &&
+              (recordParentId != null &&
+                oldParentId != null &&
                 recordParentId !== oldParentId) ||
               record?.parent_cbc_id !== oldRecord?.parent_cbc_id;
-            const excludedKeys = [
-              ...(tableConfig?.excludedKeys || []),
-              ...(isParentHistory
-                ? [
-                    'parent_application',
-                    'parent_ccbc_number',
-                    'parent_cbc_project_number',
-                  ]
-                : [
-                    'child_ccbc_number',
-                    'child_ccbc_numbers',
-                    'child_cbc_project_number',
-                    'child_application',
-                    'parent_ccbc_number',
-                    'parent_cbc_project_number',
-                  ]),
+
+            const excluded = tableConfig?.excludedKeys ?? [];
+            const parentHistoryExcluded = [
+              'parent_application',
+              'parent_ccbc_number',
+              'parent_cbc_project_number',
+            ];
+            const childHistoryExcluded = [
+              'child_ccbc_number',
+              'child_ccbc_numbers',
+              'child_cbc_project_number',
+              'child_application',
+              'parent_ccbc_number',
+              'parent_cbc_project_number',
             ];
 
+            const excludedKeys = [
+              ...excluded,
+              ...(isParentHistory
+                ? parentHistoryExcluded
+                : childHistoryExcluded),
+            ];
+
+            // main diff
             diffRows = generateRawDiff(
-              diff(oldRecord || {}, record || {}, {
+              diff(oldRecord ?? {}, record ?? {}, {
                 keepUnchangedValues: true,
               }),
-              tableConfig?.schema || {},
+              tableConfig?.schema ?? {},
               excludedKeys,
-              tableConfig?.overrideParent || tableName
+              tableConfig?.overrideParent ?? tableName
             );
 
+            // removal or update
             if ((isRemoval || parentChanged) && diffRows.length === 0) {
               const childNumber =
-                oldRecord?.child_ccbc_number || record?.child_ccbc_number;
+                oldRecord?.child_ccbc_number ?? record?.child_ccbc_number;
               if (isParentHistory) {
                 const isParentRemoval = isRemoval || isOldParentHistory;
                 diffRows = [
                   {
                     key: 'child_ccbc_number',
                     field: 'Child Application',
-                    newValue: isParentRemoval
-                      ? 'N/A'
-                      : childNumber || 'Unknown',
-                    oldValue: isParentRemoval
-                      ? childNumber || 'Unknown'
-                      : 'N/A',
+                    newValue: isParentRemoval ? 'N/A' : childNumber,
+                    oldValue: isParentRemoval ? childNumber : 'N/A',
                   },
                 ];
               } else if (isRemoval) {
                 const removedParent =
-                  oldRecord?.parent_application || record?.parent_application;
+                  oldRecord?.parent_application ?? record?.parent_application;
                 diffRows = [
                   {
                     key: 'parent_application',
                     field: 'Parent application',
                     newValue: 'N/A',
-                    oldValue: removedParent || 'Unknown',
+                    oldValue: removedParent,
                   },
                 ];
               }
             }
             if (isParentHistory && mergeChildren) {
-              const oldChildren = mergeChildren.before || [];
-              const newChildren = mergeChildren.after || [];
+              const oldChildren = mergeChildren.before ?? [];
+              const newChildren = mergeChildren.after ?? [];
               const oldChildrenValue = oldChildren.join(', ');
               const newChildrenValue = newChildren.join(', ');
               const childrenListChanged = oldChildrenValue !== newChildrenValue;
@@ -817,21 +820,19 @@ const ProjectChangeLog: React.FC<Props> = () => {
                 oldValue: oldChildren.length ? oldChildrenValue : 'N/A',
               };
 
+              const isChildRow = (row: any) =>
+                row.key === 'child_ccbc_number' ||
+                row.field === 'Child Application';
+
               if (childrenListChanged) {
-                diffRows = diffRows.filter(
-                  (row) =>
-                    row.key !== 'child_ccbc_number' &&
-                    row.field !== 'Child Application'
-                );
-                diffRows = [childListRow, ...diffRows];
+                diffRows = [
+                  childListRow,
+                  ...diffRows.filter((row) => !isChildRow(row)),
+                ];
               } else if (isRemoval) {
                 const childNumber =
-                  oldRecord?.child_ccbc_number || record?.child_ccbc_number;
-                const hasChildRow = diffRows.some(
-                  (row) =>
-                    row.key === 'child_ccbc_number' ||
-                    row.field === 'Child Application'
-                );
+                  oldRecord?.child_ccbc_number ?? record?.child_ccbc_number;
+                const hasChildRow = diffRows.some(isChildRow);
                 if (!hasChildRow && childNumber) {
                   diffRows = [
                     {

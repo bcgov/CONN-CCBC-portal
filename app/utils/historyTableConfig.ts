@@ -59,10 +59,6 @@ const applicationMergeSchema = {
   applicationMerge: {
     title: 'Merge details',
     properties: {
-      child_ccbc_number: {
-        title: 'Child Application',
-        type: 'string',
-      },
       parent_application: {
         title: 'Parent application',
         type: 'string',
@@ -76,7 +72,7 @@ const mergeChildrenSchema = {
     title: 'Child applications',
     properties: {
       children: {
-        title: 'Children',
+        title: 'Child Application',
         type: 'string',
       },
     },
@@ -381,7 +377,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
         'archived_by',
         'archived_at',
         'change_reason',
-        'user_info'
+        'user_info',
       ],
       overrideParent: 'applicationInternalNotes',
     },
@@ -420,6 +416,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
         'parent_application_id',
         'parent_cbc_id',
         'child_application_id',
+        'child_ccbc_number',
         'parent_type',
         'change_reason',
       ],

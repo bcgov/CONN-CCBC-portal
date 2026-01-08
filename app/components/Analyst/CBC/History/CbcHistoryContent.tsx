@@ -2,6 +2,7 @@ import HistoryDetails from 'components/Analyst/History/HistoryDetails';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
 import { DateTime } from 'luxon';
 import styled from 'styled-components';
+import { getTableConfig } from 'utils/historyTableConfig';
 import CommunitiesHistoryTable from '../../History/CommunitiesHistoryTable';
 
 const StyledContent = styled.span`
@@ -41,6 +42,7 @@ const HistoryContent = ({
   changeReason,
   op,
   tableName,
+  mergeChildren,
 }) => {
   const createdAtFormatted =
     op === 'UPDATE'
@@ -97,6 +99,9 @@ const HistoryContent = ({
   if (tableName === 'application_merge') {
     const childNumber = json?.child_ccbc_number || prevJson?.child_ccbc_number;
     const isDeletedChild = !!json?.archived_at;
+    const mergeChildrenConfig = getTableConfig('application_merge_children');
+    const oldChildren = mergeChildren?.before || [];
+    const newChildren = mergeChildren?.after || [];
 
     return (
       <>
@@ -106,6 +111,15 @@ const HistoryContent = ({
             <b>{childNumber || 'Unknown'}</b> on {createdAtFormatted}
           </span>
         </StyledContent>
+        {mergeChildren && (
+          <HistoryDetails
+            json={{ children: newChildren.join(', ') || 'N/A' }}
+            prevJson={{ children: oldChildren.join(', ') || 'N/A' }}
+            excludedKeys={mergeChildrenConfig?.excludedKeys || []}
+            diffSchema={mergeChildrenConfig?.schema}
+            overrideParent={mergeChildrenConfig?.overrideParent}
+          />
+        )}
         {changeReason && <ChangeReason reason={changeReason} />}
       </>
     );
