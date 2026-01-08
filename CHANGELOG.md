@@ -1,3 +1,9 @@
+## [1.279.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.279.0...v1.279.1) (2026-01-08)
+
+### Bug Fixes
+
+- reorting complete status in report downloads ([b172f40](https://github.com/bcgov/CONN-CCBC-portal/commit/b172f40426a6137575716bd185811fc3c0011b48))
+
 # [1.279.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.278.1...v1.279.0) (2026-01-07)
 
 ### Features

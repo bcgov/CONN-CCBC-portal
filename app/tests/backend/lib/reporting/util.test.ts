@@ -27,7 +27,7 @@ describe('Dashboard util functions', () => {
     expect(convertStatus('recommendation')).toBe('Recommendation');
   });
 
-  it('should return "Complete" for "complete"', () => {
-    expect(convertStatus('complete')).toBe('Complete');
+  it('should return "Reporting Complete" for "complete"', () => {
+    expect(convertStatus('complete')).toBe('Reporting Complete');
   });
 });
