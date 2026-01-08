@@ -12,6 +12,8 @@ const mockQueryPayload = {
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
         authRole: 'cbc_admin',
+        givenName: 'Test',
+        familyName: 'User',
       },
       allReportingGcpes: {
         edges: [
@@ -19,30 +21,50 @@ const mockQueryPayload = {
             node: {
               rowId: 1,
               createdAt: '2024-06-28T20:05:52.383864+00:00',
+              ccbcUserByCreatedBy: {
+                givenName: 'Analyst1',
+                familyName: 'CCBC',
+              },
             },
           },
           {
             node: {
               rowId: 2,
               createdAt: '2024-06-27T01:50:51.270249+00:00',
+              ccbcUserByCreatedBy: {
+                givenName: 'Analyst2',
+                familyName: 'CCBC',
+              },
             },
           },
           {
             node: {
               rowId: 3,
               createdAt: '2024-06-26T01:51:05.63794+00:00',
+              ccbcUserByCreatedBy: {
+                givenName: 'Analyst3',
+                familyName: 'CCBC',
+              },
             },
           },
           {
             node: {
               rowId: 4,
               createdAt: '2024-06-25T01:53:22.963979+00:00',
+              ccbcUserByCreatedBy: {
+                givenName: 'Analyst4',
+                familyName: 'CCBC',
+              },
             },
           },
           {
             node: {
               rowId: 5,
               createdAt: '2024-06-24T01:55:04.948302+00:00',
+              ccbcUserByCreatedBy: {
+                givenName: 'Analyst5',
+                familyName: 'CCBC',
+              },
             },
           },
         ],
@@ -112,6 +134,25 @@ describe('The Gcpe reporting page', () => {
     expect(screen.getByText('Download an existing report')).toBeInTheDocument();
     expect(screen.getByText('Generate and compare')).toBeInTheDocument();
     expect(screen.getAllByText('Compare')[1]).toBeInTheDocument();
+  });
+
+  it('shows creator names in report options', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const downloadSelect = screen.getByTestId(
+      'reportToDownload'
+    ) as HTMLSelectElement;
+    const optionTexts = Array.from(downloadSelect.options).map(
+      (option) => option.textContent
+    );
+
+    expect(optionTexts.some((text) => text?.includes('CCBC, Analyst1'))).toBe(
+      true
+    );
+    expect(optionTexts.some((text) => text?.includes('CCBC, Analyst5'))).toBe(
+      true
+    );
   });
 
   it('generates a report', async () => {

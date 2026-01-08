@@ -10,16 +10,22 @@ import Gcpe from 'components/Reporting/Gcpe';
 
 const getGcpeReportingQuery = graphql`
   query gcpeReportingQuery {
-    allReportingGcpes(orderBy: ID_DESC) {
+    allReportingGcpes(condition: { archivedAt: null }, orderBy: ID_DESC) {
       edges {
         node {
           rowId
           createdAt
+          ccbcUserByCreatedBy {
+            givenName
+            familyName
+          }
         }
       }
     }
     session {
       sub
+      givenName
+      familyName
       ...DashboardTabs_query
     }
   }
@@ -42,7 +48,7 @@ const GcpeReporting = ({
       <StyledContainer>
         <DashboardTabs session={session} />
         <Tabs />
-        <Gcpe reportList={gcpeEdges} />
+        <Gcpe reportList={gcpeEdges} session={session} />
       </StyledContainer>
     </Layout>
   );
