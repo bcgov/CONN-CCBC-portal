@@ -121,6 +121,7 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
     'Date Announced',
     'Primary News Release',
     'Secondary News Release',
+    'Notes',
   ];
 
   // Convert array2 to a map for quick look-up by ID
@@ -158,9 +159,9 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
         return { ...item };
       }
 
-      // Helper function to normalize values for comparison (remove all spaces)
+      // Helper function to normalize values for comparison (treat null/blank the same)
       const normalizeValue = (val) => {
-        if (val === null || val === undefined) return null;
+        if (val === null || val === undefined || val === '') return null;
         if (typeof val === 'string') return val.replace(/\s/g, '');
         return val;
       };
