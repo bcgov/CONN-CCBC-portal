@@ -147,10 +147,10 @@ describe('The Gcpe reporting page', () => {
       (option) => option.textContent
     );
 
-    expect(optionTexts.some((text) => text?.includes('Analyst1 CCBC'))).toBe(
+    expect(optionTexts.some((text) => text?.includes('CCBC, Analyst1'))).toBe(
       true
     );
-    expect(optionTexts.some((text) => text?.includes('Analyst5 CCBC'))).toBe(
+    expect(optionTexts.some((text) => text?.includes('CCBC, Analyst5'))).toBe(
       true
     );
   });
