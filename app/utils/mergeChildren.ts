@@ -1,3 +1,6 @@
+const getMergeRecordId = (item: any) =>
+  item?.recordId ?? item?.rowId ?? item?.record?.id ?? item?.oldRecord?.id;
+
 export const getMergeTimestamp = (item: any) => {
   if (item?.op === 'UPDATE') {
     return item?.record?.updated_at || item?.createdAt || item?.ts;
@@ -6,7 +9,9 @@ export const getMergeTimestamp = (item: any) => {
 };
 
 export const getMergeChildrenKey = (item: any, parentId?: number | string) =>
-  `${item?.recordId}-${getMergeTimestamp(item)}-${parentId ?? 'unknown'}`;
+  `${getMergeRecordId(item)}-${getMergeTimestamp(item)}-${
+    parentId ?? 'unknown'
+  }`;
 
 export const buildMergeChildrenMap = (items: any[]) => {
   const childrenByRecordId = new Map();
@@ -22,19 +27,29 @@ export const buildMergeChildrenMap = (items: any[]) => {
     });
 
   sortedMergeItems.forEach((historyItem) => {
-    const eventKey = `${historyItem.recordId}-${getMergeTimestamp(historyItem)}`;
+    const eventKey = `${getMergeRecordId(historyItem)}-${getMergeTimestamp(
+      historyItem
+    )}`;
     if (processedEvents.has(eventKey)) {
       return;
     }
     processedEvents.add(eventKey);
 
-    const recordParentId = Number(historyItem.record?.parent_application_id);
-    const oldParentId = Number(historyItem.oldRecord?.parent_application_id);
+    const recordParentId = Number(
+      historyItem.record?.parent_application_id ??
+        historyItem.record?.parent_cbc_id
+    );
+    const oldParentId = Number(
+      historyItem.oldRecord?.parent_application_id ??
+        historyItem.oldRecord?.parent_cbc_id
+    );
     const hasRecordParent = !Number.isNaN(recordParentId);
     const hasOldParent = !Number.isNaN(oldParentId);
     const childNumber =
       historyItem.record?.child_ccbc_number ||
-      historyItem.oldRecord?.child_ccbc_number;
+      historyItem.oldRecord?.child_ccbc_number ||
+      historyItem.record?.child_cbc_project_number ||
+      historyItem.oldRecord?.child_cbc_project_number;
     const isRemoval = !!historyItem.record?.archived_at;
     const parentChanged =
       hasRecordParent && hasOldParent && recordParentId !== oldParentId;

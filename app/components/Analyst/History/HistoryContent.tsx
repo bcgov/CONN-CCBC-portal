@@ -358,11 +358,12 @@ const HistoryContent = ({
   if (tableName === 'application_merge') {
     const user =
       createdBy === 1 && op === 'INSERT' ? 'The system' : displayName;
-    const parentApplicationId =
+    const parentId =
       historyItem?.record?.parent_application_id ??
       historyItem?.record?.parent_cbc_id;
-    const childApplicationId = historyItem?.record?.child_ccbc_number;
-    const isParentHistory = applicationId === parentApplicationId;
+
+    const childCcbcNumber = historyItem?.record?.child_ccbc_number;
+    const isParentHistory = applicationId === parentId;
 
     const mergeTableConfig = getTableConfig('application_merge');
     const mergeChildrenConfig = getTableConfig('application_merge_children');
@@ -376,14 +377,14 @@ const HistoryContent = ({
     };
 
     const mergePrevRecord = {
-      ...(prevHistoryItem?.record || {}),
+      ...(prevHistoryItem?.record ?? {}),
       parent_application:
         prevHistoryItem?.record?.parent_ccbc_number ??
         prevHistoryItem?.record?.parent_cbc_project_number ??
         null,
     };
 
-    const excluded = isParentHistory
+    const excludedKeys = isParentHistory
       ? [
           ...mergeTableConfig.excludedKeys,
           'parent_ccbc_number',
@@ -400,23 +401,22 @@ const HistoryContent = ({
         ];
 
     const isDeletedChild = isParentHistory && record.archived_at;
-    const oldChildren = mergeChildren?.before || [];
-    const newChildren = mergeChildren?.after || [];
+    const oldChildren = mergeChildren?.before ?? [];
+    const newChildren = mergeChildren?.after ?? [];
 
     return (
       <>
         {isParentHistory ? (
           <StyledContent data-testid="history-content-parent-merge">
             <span>
-              {user} {isDeletedChild ? 'deleted' : 'added'} a child application{' '}
-              <b> {childApplicationId}</b> on {createdAtFormatted}
+              {user} {isDeletedChild ? 'deleted' : 'added'} a child application
+              <b> {childCcbcNumber}</b> on {createdAtFormatted}
             </span>
           </StyledContent>
         ) : (
           <StyledContent data-testid="history-content-child-merge">
             <span>
-              {user} updated the{' '}
-              <b>{isParentHistory ? 'Child' : 'Parent'} Application</b> on{' '}
+              {user} updated the <b>Parent Application</b> on{' '}
               {createdAtFormatted}
             </span>
           </StyledContent>
@@ -425,7 +425,7 @@ const HistoryContent = ({
           <HistoryDetails
             json={{ children: newChildren.join(', ') || 'N/A' }}
             prevJson={{ children: oldChildren.join(', ') || 'N/A' }}
-            excludedKeys={mergeChildrenConfig?.excludedKeys || []}
+            excludedKeys={mergeChildrenConfig?.excludedKeys ?? []}
             diffSchema={mergeChildrenConfig?.schema}
             overrideParent={mergeChildrenConfig?.overrideParent}
           />
@@ -434,7 +434,7 @@ const HistoryContent = ({
           <HistoryDetails
             json={mergeRecord}
             prevJson={mergePrevRecord}
-            excludedKeys={excluded || []}
+            excludedKeys={excludedKeys}
             diffSchema={mergeTableConfig?.schema}
             overrideParent={mergeTableConfig?.overrideParent}
           />

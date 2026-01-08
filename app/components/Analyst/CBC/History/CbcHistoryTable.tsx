@@ -8,6 +8,10 @@ import HistoryFilter, {
   getTypeOptions,
   getUserOptions,
 } from 'components/Analyst/History/HistoryFilter';
+import {
+  buildMergeChildrenMap,
+  getMergeChildrenKey,
+} from 'utils/mergeChildren';
 import CbcHistoryRow from './CbcHistoryRow';
 
 const StyledTable = styled.table`
@@ -81,6 +85,11 @@ const CbcHistoryTable: React.FC<Props> = ({ query }) => {
     [history?.nodes]
   );
 
+  const mergeChildrenByRecordId = useMemo(
+    () => buildMergeChildrenMap(historyItems),
+    [historyItems]
+  );
+
   const typeOptions = useMemo(
     () => getTypeOptions(historyItems, filters),
     [historyItems, filters]
@@ -113,6 +122,17 @@ const CbcHistoryTable: React.FC<Props> = ({ query }) => {
           {filteredHistory.map((historyItem) => (
             <CbcHistoryRow
               key={historyItem.rowId}
+              mergeChildren={
+                historyItem.tableName === 'application_merge'
+                  ? mergeChildrenByRecordId.get(
+                      getMergeChildrenKey(
+                        historyItem,
+                        historyItem.record?.parent_cbc_id ??
+                          historyItem.oldRecord?.parent_cbc_id
+                      )
+                    )
+                  : undefined
+              }
               json={
                 historyItem.tableName === 'cbc_data'
                   ? {
