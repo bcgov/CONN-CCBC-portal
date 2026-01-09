@@ -8,6 +8,10 @@ import HistoryFilter, {
   getTypeOptions,
   getUserOptions,
 } from 'components/Analyst/History/HistoryFilter';
+import {
+  buildMergeChildrenMap,
+  getMergeChildrenKey,
+} from 'utils/mergeChildren';
 import CbcHistoryRow from './CbcHistoryRow';
 
 const StyledTable = styled.table`
@@ -81,6 +85,11 @@ const CbcHistoryTable: React.FC<Props> = ({ query }) => {
     [history?.nodes]
   );
 
+  const mergeChildrenByRecordId = useMemo(
+    () => buildMergeChildrenMap(historyItems),
+    [historyItems]
+  );
+
   const typeOptions = useMemo(
     () => getTypeOptions(historyItems, filters),
     [historyItems, filters]
@@ -113,18 +122,37 @@ const CbcHistoryTable: React.FC<Props> = ({ query }) => {
           {filteredHistory.map((historyItem) => (
             <CbcHistoryRow
               key={historyItem.rowId}
-              json={{
-                ...historyItem.record?.json_data,
-                project_number: historyItem.record?.project_number,
-                locations: {
-                  added: historyItem.record?.added_communities,
-                  removed: historyItem.record?.deleted_communities,
-                },
-              }}
-              prevJson={{
-                ...historyItem.oldRecord?.json_data,
-                project_number: historyItem.oldRecord?.project_number,
-              }}
+              mergeChildren={
+                historyItem.tableName === 'application_merge'
+                  ? mergeChildrenByRecordId.get(
+                      getMergeChildrenKey(
+                        historyItem,
+                        historyItem.record?.parent_cbc_id ??
+                          historyItem.oldRecord?.parent_cbc_id
+                      )
+                    )
+                  : undefined
+              }
+              json={
+                historyItem.tableName === 'cbc_data'
+                  ? {
+                      ...historyItem.record?.json_data,
+                      project_number: historyItem.record?.project_number,
+                      locations: {
+                        added: historyItem.record?.added_communities,
+                        removed: historyItem.record?.deleted_communities,
+                      },
+                    }
+                  : historyItem.record
+              }
+              prevJson={
+                historyItem.tableName === 'cbc_data'
+                  ? {
+                      ...historyItem.oldRecord?.json_data,
+                      project_number: historyItem.oldRecord?.project_number,
+                    }
+                  : historyItem.oldRecord
+              }
               changeReason={historyItem.record?.change_reason}
               tableName={historyItem.tableName}
               createdAt={historyItem.createdAt}

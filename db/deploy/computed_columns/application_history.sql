@@ -2,6 +2,7 @@
 
 begin;
 
+drop function if exists ccbc_public.application_history(application ccbc_public.application);
 create or replace function ccbc_public.application_history(application ccbc_public.application)
 returns setof ccbc_public.history_item as $$
 
@@ -248,6 +249,116 @@ union all
         inner join ccbc_public.ccbc_user u on u.id = (v.record->>'updated_by')::int
     where v.op='UPDATE' and v.table_name='application_dependencies' and v.record->>'archived_by' is null
         and v.record->>'application_id'=application.id::varchar(10)
+
+
+    union all
+    select
+        application.id, v.created_at, v.op, v.table_name, v.record_id,
+        jsonb_strip_nulls(
+            v.record || jsonb_build_object(
+            'child_ccbc_number', child_application.ccbc_number,
+            'parent_ccbc_number',
+                case
+                when v.record->>'archived_at' is not null then 'N/A'
+                else parent_application.ccbc_number
+                end,
+            'parent_cbc_project_number',
+                case
+                when v.record->>'archived_at' is not null then 'N/A'
+                else parent_cbc.project_number::text
+                end
+            )
+        ) as record,
+        jsonb_strip_nulls(
+            coalesce(v.old_record, '{}'::jsonb) || jsonb_build_object(
+            'child_ccbc_number', old_child_application.ccbc_number,
+            'parent_ccbc_number', old_parent_application.ccbc_number,
+            'parent_cbc_project_number', old_parent_cbc.project_number::text
+            )
+        ) as old_record,
+        v.record->>'application_merge' as item,
+        u.family_name, u.given_name, u.session_sub, u.external_analyst,
+        coalesce((v.record->>'updated_by')::int, v.created_by) as created_by
+        from (
+          select distinct on (child_application_id, effective_at, is_archived)
+            mv.*
+          from (
+            select
+              rv.*,
+              coalesce(
+                (rv.record->>'child_application_id')::int,
+                (rv.old_record->>'child_application_id')::int
+              ) as child_application_id,
+              coalesce((rv.record->>'updated_at')::timestamptz, rv.created_at) as effective_at,
+              (
+                (rv.record->>'archived_at') is not null
+                or (rv.old_record->>'archived_at') is not null
+              ) as is_archived
+            from ccbc_public.record_version rv
+            where rv.table_name = 'application_merge'
+              and rv.op in ('INSERT', 'UPDATE')
+          ) mv
+          order by
+            child_application_id,
+            effective_at,
+            is_archived asc,
+            created_at desc,
+            id desc
+        ) as v
+        inner join ccbc_public.ccbc_user u
+        on u.id = coalesce((v.record->>'updated_by')::int, v.created_by)
+        left join ccbc_public.application child_application
+        on child_application.id = coalesce(
+            (v.record->>'child_application_id')::int,
+            (v.old_record->>'child_application_id')::int
+        )
+        left join ccbc_public.application parent_application
+        on parent_application.id = coalesce(
+            (v.record->>'parent_application_id')::int,
+            (v.old_record->>'parent_application_id')::int
+        )
+        left join ccbc_public.cbc parent_cbc
+        on parent_cbc.id = coalesce(
+            (v.record->>'parent_cbc_id')::int,
+            (v.old_record->>'parent_cbc_id')::int
+        )
+        left join ccbc_public.application old_child_application
+        on old_child_application.id = (v.old_record->>'child_application_id')::int
+        left join ccbc_public.application old_parent_application
+        on old_parent_application.id = (v.old_record->>'parent_application_id')::int
+        left join ccbc_public.cbc old_parent_cbc
+        on old_parent_cbc.id = (v.old_record->>'parent_cbc_id')::int
+        where v.table_name = 'application_merge'
+        and v.op in ('INSERT', 'UPDATE')
+        and (
+            v.record->>'child_application_id' = application.id::varchar(10)
+            or v.record->>'parent_application_id' = application.id::varchar(10)
+        )
+        and not (
+            v.is_archived
+            and v.child_application_id = application.id
+            and exists (
+              select 1
+              from (
+                select
+                  coalesce(
+                    (rv.record->>'child_application_id')::int,
+                    (rv.old_record->>'child_application_id')::int
+                  ) as child_application_id,
+                  coalesce((rv.record->>'updated_at')::timestamptz, rv.created_at) as effective_at,
+                  (
+                    (rv.record->>'archived_at') is not null
+                    or (rv.old_record->>'archived_at') is not null
+                  ) as is_archived
+                from ccbc_public.record_version rv
+                where rv.table_name = 'application_merge'
+                  and rv.op in ('INSERT', 'UPDATE')
+              ) as peers
+              where peers.child_application_id = v.child_application_id
+                and peers.effective_at = v.effective_at
+                and peers.is_archived = false
+            )
+        )
 
     union all
     select application.id,  v.created_at, v.op, 'application_communities' as table_name, (array_agg(v.record_id))[1] AS record_id,

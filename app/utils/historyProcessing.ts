@@ -1,5 +1,9 @@
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
 import isEqual from 'lodash.isequal';
+import {
+  buildMergeChildrenMap,
+  getMergeChildrenKey,
+} from 'utils/mergeChildren';
 
 export const formatUserName = (historyItem: any) => {
   const isAnalyst =
@@ -43,11 +47,36 @@ export const processHistoryItems = (
     .map((historyItem) => historyItem.item)
     .indexOf('received');
 
-  // Get history from received onwards, reversed
-  const historyList = sortedHistory
-    .slice(receivedIndex >= 0 ? receivedIndex : 0)
+  // Get history from received onwards
+  const historyAfterReceived = sortedHistory.slice(
+    receivedIndex >= 0 ? receivedIndex : 0
+  );
+
+  const mergeChildrenByRecordId = buildMergeChildrenMap(historyAfterReceived);
+
+  // Reverse for display order
+  const historyList = historyAfterReceived
+    .slice()
     .reverse()
-    .map(applyUserFormatting ? formatUserName : (item) => item);
+    .map((historyItem) => {
+      const formatted = applyUserFormatting
+        ? formatUserName(historyItem)
+        : historyItem;
+      const parentApplicationId = Number(
+        historyItem.record?.parent_application_id ||
+          historyItem.oldRecord?.parent_application_id
+      );
+      const isParentHistory =
+        historyItem.tableName === 'application_merge' &&
+        !Number.isNaN(parentApplicationId) &&
+        parentApplicationId === Number(historyItem.applicationId);
+      const mergeChildren = isParentHistory
+        ? mergeChildrenByRecordId.get(
+            getMergeChildrenKey(historyItem, historyItem.applicationId)
+          )
+        : undefined;
+      return mergeChildren ? { ...formatted, mergeChildren } : formatted;
+    });
 
   // Process each history item with previous item matching logic
   const processedHistory = historyList
