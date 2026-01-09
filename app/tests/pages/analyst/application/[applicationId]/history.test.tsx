@@ -3682,7 +3682,7 @@ const mockRfiHistoryPayload = {
               recordId: 'c5ef0109-a7b4-56b6-a093-f2f47905a40a',
               sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
               tableName: 'rfi_data',
-            }
+            },
           ],
         },
         formData: {
@@ -3882,12 +3882,14 @@ describe('The index page', () => {
     expect(
       screen.getAllByTestId('history-content-community-progress-report')[1]
     ).toHaveTextContent(
-      'The applicant created a Community Progress Report on Aug 21, 2023'
+      'The applicant updated the Q2 (Jul-Sep) 2023-24 Community progress report on Aug 21, 2023'
     );
 
     expect(
       screen.getAllByTestId('history-content-community-progress-report')[0]
-    ).toHaveTextContent('The applicant deleted a Community Progress Report');
+    ).toHaveTextContent(
+      'The applicant deleted the Q2 (Jul-Sep) 2023-24 Community progress report'
+    );
   });
 
   it('shows the correct history for editing an application', async () => {
@@ -3934,13 +3936,13 @@ describe('The index page', () => {
     );
   });
 
-  it('shows all 35 diff tables', async () => {
+  it('shows all 36 diff tables', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(35);
+    expect(diffTables.length).toBe(36);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -4110,9 +4112,7 @@ describe('The index page', () => {
       'history-content-milestone-file'
     )[0];
 
-    expect(claimHistoryFile).toHaveTextContent(
-      'Milestone Report Excel'
-    );
+    expect(claimHistoryFile).toHaveTextContent('Milestone Report Excel');
     expect(claimHistoryFile).toHaveTextContent(
       'UBF-AA-00000-Milestone-Report.xlsx'
     );
@@ -4134,9 +4134,7 @@ describe('The index page', () => {
       'history-content-milestone-evidence-file'
     )[0];
 
-    expect(claimHistoryFile).toHaveTextContent(
-      'Milestone Completion Evidence'
-    );
+    expect(claimHistoryFile).toHaveTextContent('Milestone Completion Evidence');
     expect(claimHistoryFile).toHaveTextContent('evidence.pdf');
   });
 
