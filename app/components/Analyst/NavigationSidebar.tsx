@@ -18,6 +18,7 @@ import ProjectNavigationSidebar from './ProjectNavigationSidebar';
 
 const StyledAside = styled.aside`
   min-height: 100%;
+  min-width: 300px;
   @media (max-width: 1250px) {
     margin-left: 60px;
   }

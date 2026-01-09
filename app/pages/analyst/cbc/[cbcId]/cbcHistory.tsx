@@ -6,6 +6,7 @@ import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { cbcHistoryQuery } from '__generated__/cbcHistoryQuery.graphql';
 import CbcHistoryTable from 'components/Analyst/CBC/History/CbcHistoryTable';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 const getCbcHistoryQuery = graphql`
   query cbcHistoryQuery($rowId: Int!) {
@@ -24,9 +25,18 @@ const CbcHistory = ({
   const { cbcId } = router.query;
   const rowId = cbcId ? parseInt(cbcId.toString(), 10) : undefined;
   const query = usePreloadedQuery(getCbcHistoryQuery, preloadedQuery);
+  const [isMapExpanded, setIsMapExpanded] = useState(false);
+  const [mapData] = useState(null); // Empty map data for CBC
+
   return (
     <Layout session={null} title="Connecting Communities BC">
-      <CbcAnalystLayout key={rowId} query={query}>
+      <CbcAnalystLayout
+        key={rowId}
+        query={query}
+        mapData={mapData}
+        isMapExpanded={isMapExpanded}
+        setIsMapExpanded={setIsMapExpanded}
+      >
         <h2>History</h2>
         <CbcHistoryTable query={query} />
       </CbcAnalystLayout>
