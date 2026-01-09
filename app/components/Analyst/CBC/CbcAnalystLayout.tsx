@@ -13,10 +13,40 @@ const StyledContainer = styled.div`
 
 const StyledFlex = styled.div`
   display: flex;
+  width: 100%;
 `;
 
 const StyledFormDiv = styled(FormDiv)`
-  max-width: 100%;
+  margin: 0 auto;
+  transition:
+    max-width 0.2s,
+    margin 0.2s,
+    padding 0.2s;
+
+  h2 {
+    width: 100%;
+    display: block;
+    clear: both;
+  }
+
+  @media (max-width: 1200px) {
+    max-width: 700px;
+  }
+  @media (max-width: 1024px) {
+    max-width: calc(100vw - 56px);
+    margin-left: 56px;
+    margin-right: 0;
+    padding: 0 8px;
+  }
+  @media (max-width: 976px) {
+    max-width: 600px;
+    margin-left: 10px;
+    margin-right: 0;
+    padding: 0 4px;
+  }
+  @media (max-width: 600px) {
+    padding: 0 2px;
+  }
 `;
 
 const StyledOuterContainer = styled.div`
@@ -30,12 +60,18 @@ interface Props {
   children: JSX.Element[] | JSX.Element;
   query: any;
   isFormEditable?: boolean;
+  mapData?: any;
+  isMapExpanded?: boolean;
+  setIsMapExpanded?: (isMapExpanded: boolean) => void;
 }
 
 const CbcAnalystLayout: React.FC<Props> = ({
   children,
   query,
   isFormEditable = false,
+  mapData = null,
+  isMapExpanded = null,
+  setIsMapExpanded = null,
 }) => {
   const queryFragment = useFragment(
     graphql`
@@ -52,7 +88,12 @@ const CbcAnalystLayout: React.FC<Props> = ({
       <StyledContainer>
         <CbcHeader query={queryFragment} isFormEditable={isFormEditable} />
         <StyledFlex>
-          <NavigationSidebar query={queryFragment} />
+          <NavigationSidebar
+            mapData={mapData}
+            isMapExpanded={isMapExpanded}
+            setIsMapExpanded={setIsMapExpanded}
+            query={queryFragment}
+          />
           <StyledFormDiv>{children}</StyledFormDiv>
         </StyledFlex>
       </StyledContainer>
