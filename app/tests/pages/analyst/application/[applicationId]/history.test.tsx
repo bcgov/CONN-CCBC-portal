@@ -2492,6 +2492,42 @@ const mockQueryPayload = {
             },
             {
               applicationId: 1,
+              createdAt: '2023-10-13T10:25:30.000000-07:00',
+              externalAnalyst: null,
+              familyName: 'bar',
+              item: null,
+              givenName: 'foo1',
+              op: 'INSERT',
+              record: {
+                id: 3,
+                json_data: {
+                  claimsFile: [
+                    {
+                      id: 3,
+                      name: 'claims3.xlsx',
+                      size: 2232925,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: 'c7f59d90-2c5d-4fdf-9a7e-4b25247ad1d6',
+                    },
+                  ],
+                },
+                created_at: '2023-10-13T10:25:30.000000-07:00',
+                created_by: null,
+                updated_at: '2023-10-13T10:25:30.000000-07:00',
+                updated_by: null,
+                archived_at: null,
+                archived_by: null,
+                excel_data_id: 3,
+                application_id: 1,
+                history_operation: 'created',
+              },
+              oldRecord: null,
+              recordId: 'b9f4af5e-0c43-4b78-a06b-5bd0fa663f9c',
+              sessionSub: 'mockUser@ccbc_auth_user',
+              tableName: 'application_claims_data',
+            },
+            {
+              applicationId: 1,
               createdAt: '2023-10-17T15:09:09.334683+00:00',
               externalAnalyst: null,
               familyName: 'bar',
@@ -3682,7 +3718,7 @@ const mockRfiHistoryPayload = {
               recordId: 'c5ef0109-a7b4-56b6-a093-f2f47905a40a',
               sessionSub: 'feae2edcecbd418f9564bb170504321b@idir',
               tableName: 'rfi_data',
-            }
+            },
           ],
         },
         formData: {
@@ -3940,7 +3976,7 @@ describe('The index page', () => {
 
     const diffTables = screen.getAllByTestId('diff-table');
 
-    expect(diffTables.length).toBe(35);
+    expect(diffTables.length).toBe(36);
 
     diffTables.forEach((table) => {
       expect(table).toBeVisible();
@@ -4047,38 +4083,51 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const claimsHistory = screen.getAllByTestId('history-content-claims')[2];
+    const claimsHistory = screen.getAllByTestId('history-content-claims')[3];
 
     expect(claimsHistory).toHaveTextContent(
       /The applicant created a Claim & Progress Report on Oct 13, 2023, 10:24 a.m./
     );
 
-    const claimHistoryFile = screen.getAllByTestId(
+    const claimHistoryFiles = screen.getAllByTestId(
       'history-content-claims-file'
-    )[1];
-
-    expect(claimHistoryFile).toHaveTextContent(
-      /Uploaded Claims & Progress Report Excel/
     );
-    expect(claimHistoryFile).toHaveTextContent('claims.xlsx');
+    const createdClaimFile = claimHistoryFiles.find(
+      (element) =>
+        element.textContent?.includes('claims.xlsx') &&
+        element.textContent?.includes('Added file') &&
+        !element.textContent?.includes('Replaced file')
+    );
+    if (!createdClaimFile) throw new Error('Expected claims.xlsx history row');
+    expect(createdClaimFile).toHaveTextContent(
+      /Claims & Progress Report Excel/
+    );
+    expect(createdClaimFile).toHaveTextContent('Added file');
+    expect(createdClaimFile).toHaveTextContent('claims.xlsx');
   });
 
   it('shows the correct history for updating a claim', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const claimsHistory = screen.getAllByTestId('history-content-claims')[1];
+    const claimsHistory = screen.getAllByTestId('history-content-claims')[2];
 
     expect(claimsHistory).toHaveTextContent(
       /The applicant updated a Claim & Progress Report on Oct 13, 2023, 10:24 a.m./
     );
 
-    const claimHistoryFile = screen.getAllByTestId(
-      'history-content-claims-file'
-    )[0];
+    const claimHistoryFile = screen
+      .getAllByTestId('history-content-claims-file')
+      .find(
+        (element) =>
+          element.textContent?.includes('claims2.xlsx') &&
+          !element.textContent?.includes('Deleted file')
+      );
+    if (!claimHistoryFile)
+      throw new Error('Expected uploaded claims2.xlsx history row');
 
     expect(claimHistoryFile).toHaveTextContent(
-      /Uploaded Claims & Progress Report Excel/
+      /Claims & Progress Report Excel/
     );
     expect(claimHistoryFile).toHaveTextContent('claims2.xlsx');
   });
@@ -4087,11 +4136,47 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const claimsHistory = screen.getAllByTestId('history-content-claims')[0];
+    const claimsHistory = screen.getAllByTestId('history-content-claims')[1];
 
     expect(claimsHistory).toHaveTextContent(
       'The applicant deleted a Claim & Progress Report on Oct 13, 2023, 10:24 a.m.'
     );
+
+    const deletedClaimHistoryFile = screen
+      .getAllByTestId('history-content-claims-file')
+      .find(
+        (element) =>
+          element.textContent?.includes('claims2.xlsx') &&
+          element.textContent?.includes('Deleted file')
+      );
+    if (!deletedClaimHistoryFile)
+      throw new Error('Expected deleted claims2.xlsx history row');
+    expect(deletedClaimHistoryFile).toHaveTextContent(
+      /Claims & Progress Report Excel/
+    );
+    expect(deletedClaimHistoryFile).toHaveTextContent('Deleted file');
+    expect(deletedClaimHistoryFile).toHaveTextContent('claims2.xlsx');
+  });
+
+  it('shows a new upload after delete as added (not replaced)', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const claimsHistory = screen.getAllByTestId('history-content-claims')[0];
+    expect(claimsHistory).toHaveTextContent(
+      /The applicant created a Claim & Progress Report on Oct 13, 2023, 10:25 a.m./
+    );
+
+    const claimHistoryFile = screen
+      .getAllByTestId('history-content-claims-file')
+      .find((element) => element.textContent?.includes('claims3.xlsx'));
+    if (!claimHistoryFile) throw new Error('Expected claims3.xlsx history row');
+    expect(claimHistoryFile).toHaveTextContent(
+      /Claims & Progress Report Excel/
+    );
+    expect(claimHistoryFile).toHaveTextContent('Added file');
+    expect(claimHistoryFile).toHaveTextContent('claims3.xlsx');
+    expect(claimHistoryFile).not.toHaveTextContent('Replaced file');
   });
 
   it('shows the correct history for creating a milestone report', async () => {
@@ -4110,9 +4195,7 @@ describe('The index page', () => {
       'history-content-milestone-file'
     )[0];
 
-    expect(claimHistoryFile).toHaveTextContent(
-      'Milestone Report Excel'
-    );
+    expect(claimHistoryFile).toHaveTextContent('Milestone Report Excel');
     expect(claimHistoryFile).toHaveTextContent(
       'UBF-AA-00000-Milestone-Report.xlsx'
     );
@@ -4134,9 +4217,7 @@ describe('The index page', () => {
       'history-content-milestone-evidence-file'
     )[0];
 
-    expect(claimHistoryFile).toHaveTextContent(
-      'Milestone Completion Evidence'
-    );
+    expect(claimHistoryFile).toHaveTextContent('Milestone Completion Evidence');
     expect(claimHistoryFile).toHaveTextContent('evidence.pdf');
   });
 
