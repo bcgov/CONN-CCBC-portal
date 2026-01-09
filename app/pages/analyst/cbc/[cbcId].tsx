@@ -123,6 +123,8 @@ const Cbc = ({
   const [editMode, setEditMode] = useState(recent === 'true');
   const [changeReason, setChangeReason] = useState<null | string>(null);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+  const [isMapExpanded, setIsMapExpanded] = useState(false);
+  const [mapData] = useState({}); // Empty map data for CBC
 
   const { rowId, applicationMergesByParentCbcId } = query.cbcByRowId;
   const [formData, setFormData] = useState(null);
@@ -421,7 +423,14 @@ const Cbc = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <CbcAnalystLayout query={query} isFormEditable={allowEdit} key={rowId}>
+      <CbcAnalystLayout
+        query={query}
+        isFormEditable={allowEdit}
+        key={rowId}
+        mapData={mapData}
+        isMapExpanded={isMapExpanded}
+        setIsMapExpanded={setIsMapExpanded}
+      >
         <h2>Project</h2>
         <RightAlignText>
           <>

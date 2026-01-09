@@ -60,12 +60,18 @@ interface Props {
   children: JSX.Element[] | JSX.Element;
   query: any;
   isFormEditable?: boolean;
+  mapData?: any;
+  isMapExpanded?: boolean;
+  setIsMapExpanded?: (isMapExpanded: boolean) => void;
 }
 
 const CbcAnalystLayout: React.FC<Props> = ({
   children,
   query,
   isFormEditable = false,
+  mapData = null,
+  isMapExpanded = null,
+  setIsMapExpanded = null,
 }) => {
   const queryFragment = useFragment(
     graphql`
@@ -82,7 +88,12 @@ const CbcAnalystLayout: React.FC<Props> = ({
       <StyledContainer>
         <CbcHeader query={queryFragment} isFormEditable={isFormEditable} />
         <StyledFlex>
-          <NavigationSidebar query={queryFragment} />
+          <NavigationSidebar
+            mapData={mapData}
+            isMapExpanded={isMapExpanded}
+            setIsMapExpanded={setIsMapExpanded}
+            query={queryFragment}
+          />
           <StyledFormDiv>{children}</StyledFormDiv>
         </StyledFlex>
       </StyledContainer>

@@ -9,9 +9,11 @@ import {
 import useStickyHeader from 'lib/helpers/useStickyHeader';
 import NavItem from '../NavItem';
 import ProjectNavigationSidebar from '../ProjectNavigationSidebar';
+import SideMap from '../SideMap';
 
 const StyledAside = styled.aside`
   min-height: 100%;
+  min-width: 300px;
   @media (max-width: 1250px) {
     margin-left: 60px;
   }
@@ -35,7 +37,12 @@ const StyledLowerSection = styled.section`
   margin-top: 1em;
 `;
 
-const NavigationSidebar = ({ query = null }) => {
+const NavigationSidebar = ({
+  mapData = null,
+  isMapExpanded = null,
+  setIsMapExpanded = null,
+  query = null,
+}) => {
   const router = useRouter();
   const { extraOffset } = useStickyHeader();
   const { asPath } = router;
@@ -75,6 +82,13 @@ const NavigationSidebar = ({ query = null }) => {
             label="History"
           />
         </StyledLowerSection>
+        {mapData && (
+          <SideMap
+            mapData={mapData}
+            isMapExpanded={isMapExpanded}
+            setIsMapExpanded={setIsMapExpanded}
+          />
+        )}
       </StyledNav>
     </StyledAside>
   );
