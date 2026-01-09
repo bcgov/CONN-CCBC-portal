@@ -12,6 +12,12 @@ import ProjectNavigationSidebar from '../ProjectNavigationSidebar';
 
 const StyledAside = styled.aside`
   min-height: 100%;
+  @media (max-width: 1250px) {
+    margin-left: 60px;
+  }
+  @media (max-width: 975px) {
+    margin-left: 180px;
+  }
 `;
 
 const StyledNav = styled.nav<{ $offset: number }>`
@@ -22,6 +28,11 @@ const StyledNav = styled.nav<{ $offset: number }>`
 const StyledUpperSection = styled.section`
   border-bottom: 1px solid #d6d6d6;
   color: ${(props) => props.theme.color.navigationBlue};
+  padding-top: 45px;
+`;
+
+const StyledLowerSection = styled.section`
+  margin-top: 1em;
 `;
 
 const NavigationSidebar = ({ query = null }) => {
@@ -40,10 +51,9 @@ const NavigationSidebar = ({ query = null }) => {
   return (
     <StyledAside>
       <StyledNav $offset={extraOffset}>
+        <StyledUpperSection>
         {/* Project Navigation Components - always show when query is available */}
         {query && <ProjectNavigationSidebar query={query} />}
-
-        <StyledUpperSection>
           <NavItem
             currentPath={asPath}
             href="/analyst/dashboard"
@@ -51,7 +61,7 @@ const NavigationSidebar = ({ query = null }) => {
             label="Dashboard"
           />
         </StyledUpperSection>
-        <section>
+        <StyledLowerSection>
           <NavItem
             currentPath={asPath}
             href={`/analyst/cbc/${cbcId}`}
@@ -64,7 +74,7 @@ const NavigationSidebar = ({ query = null }) => {
             icon={faClockRotateLeft}
             label="History"
           />
-        </section>
+        </StyledLowerSection>
       </StyledNav>
     </StyledAside>
   );
