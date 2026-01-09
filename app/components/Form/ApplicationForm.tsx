@@ -495,6 +495,10 @@ const ApplicationForm: React.FC<Props> = ({
     });
   };
 
+  const createTemplateNineData = (id, uuid) => {
+    fetch(`/api/template-nine/${id}/${uuid}/application`);
+  };
+
   const saveForm = (
     newFormSectionData: any,
     mutationConfig?: Partial<
@@ -740,6 +744,13 @@ const ApplicationForm: React.FC<Props> = ({
         },
         onCompleted: () => {
           router.push(`/applicantportal/form/${rowId}/success`);
+          const templateNineUpload =
+            jsonData.templateUploads?.geographicNames?.[0];
+          if (templateNineUpload) {
+            const templateNineUuid = templateNineUpload?.uuid;
+            if (templateNineUuid)
+              createTemplateNineData(rowId, templateNineUuid);
+          }
           if (isRollingIntake) notifyRollingApplicationSubmission();
         },
       });
