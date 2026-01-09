@@ -27,6 +27,7 @@ const CbcHistory = ({
   return (
     <Layout session={null} title="Connecting Communities BC">
       <CbcAnalystLayout key={rowId} query={query}>
+        <h2>History</h2>
         <CbcHistoryTable query={query} />
       </CbcAnalystLayout>
     </Layout>
