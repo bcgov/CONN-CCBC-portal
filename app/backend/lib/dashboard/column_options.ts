@@ -23,73 +23,75 @@ const columnOptions: Columns = [
   {},
   // column 11 (current operating name)
   {},
-  // column 12 (830 million funding)
+  // column 12 (BC/ISED funded)
   {},
-  // column 13 (Federal Funding Source)
+  // column 13 (830 million funding)
+  {},
+  // column 14 (Federal Funding Source)
   { width: 20 },
-  // column 14 (Federal Project Number)
+  // column 15 (Federal Project Number)
   {},
-  // column 15 (Project type)
+  // column 16 (Project type)
   {},
-  // column 16 (transport project type)
+  // column 17 (transport project type)
   {},
-  // column 17 (highway project type)
+  // column 18 (highway project type)
   {},
-  // column 18 (last mile technology)
+  // column 19 (last mile technology)
   {},
-  // column 19 (last mile minimum speed)
+  // column 20 (last mile minimum speed)
   {},
-  // column 20 (Connected Coast Network Dependent)
+  // column 21 (Connected Coast Network Dependent)
   {},
-  // column 21 (Project location)
+  // column 22 (Project location)
   {},
-  // column 22 (Economic Region)
+  // column 23 (Economic Region)
   {},
-  // column 23 (Regional District)
+  // column 24 (Regional District)
   {},
-  // column 24 (Geographic Names)
+  // column 25 (Geographic Names)
   {},
-  // column 25 geo ids
+  // column 26 geo ids
   {},
-  // column 26 (Total communities and locales)
+  // column 27 (Total communities and locales)
   {},
-  // column 27 (Indigenous communities)
+  // column 28 (Indigenous communities)
   {},
-  // column 28 (Household count)
+  // column 29 (Household count)
   {},
-  // column 29 (Transport KM)
+  // column 30 (Transport KM)
   {},
-  // column 30 (Highway KM)
+  // column 31 (Highway KM)
   {},
-  // column 31 (Rest Areas)
+  // column 32 (Rest Areas)
   {},
-  // column 32 (bc funding)
+  // column 33 (bc funding)
   { width: 24 },
-  // column 33 (applicant amount)
+  // column 34 (applicant amount)
   { width: 24 },
-  // column 34 (other funds requested)
+  // column 35 (other funds requested)
   { width: 24 },
-  // column 35 (total fnha funding)
+  // column 36 (total fnha funding)
   { width: 24 },
-  // column 36 (total budget)
+  // column 37 (total budget)
   { width: 24 },
-  // column 37 (announced by bc/ised)
+  // column 38 (announced by bc/ised)
   {},
-  // column 38 (Date application received)
+  // column 39 (Date application received)
   {},
-  // column 39 (Date conditionally approved)
+  // column 40 (Date conditionally approved)
   {},
-  // column 40 (date agreement signed)
+  // column 41 (date agreement signed)
   {},
-  // column 41 (Proposed start date)
+  // column 42 (Proposed start date)
   {},
-  // column 42 (Proposed completion date)
+  // column 43 (Proposed completion date)
   // TODO: review all comments in this list to be consistent
   // with columnList and columnMap
   {},
-  // column 43 (% Project milestone completion)
+  // column 44 (% Project milestone completion)
   {},
-  // column 44 (Construction completed on)
+  // column 45 (Construction completed on)
   {},
   // column 45 (Notes)
   { width: 20 },
