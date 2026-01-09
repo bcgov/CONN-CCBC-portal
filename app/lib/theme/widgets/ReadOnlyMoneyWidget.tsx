@@ -44,30 +44,37 @@ const ReadOnlyWidget: React.FC<WidgetProps> = ({
   placeholder,
   required,
   value,
-}) => (
-  <StyledContainer>
-    <StyledValue
-      prefix="$"
-      id={id}
-      data-testid={id}
-      style={{ outline: error && '4px solid #E71F1F' }}
-      defaultValue={value || undefined}
-      allowNegativeValue={false}
-      maxLength={14}
-      decimalsLimit={2}
-      onValueChange={(val: any) => onChange(val || undefined)}
-      required={required}
-      aria-label={label}
-      placeholder={placeholder}
-      value={value || 0}
-      disabled
-    />
-    <StyledMessage>
-      {error && <StyledError>{error}</StyledError>}
+  options,
+}) => {
+  const decimals = (options?.decimals as number) ?? 2;
+  const formattedValue =
+    typeof value === 'number' ? Number(value.toFixed(decimals)) : value || 0;
 
-      {description && <Label>{description}</Label>}
-    </StyledMessage>
-  </StyledContainer>
-);
+  return (
+    <StyledContainer>
+      <StyledValue
+        prefix="$"
+        id={id}
+        data-testid={id}
+        style={{ outline: error && '4px solid #E71F1F' }}
+        defaultValue={value || undefined}
+        allowNegativeValue={false}
+        maxLength={14}
+        decimalsLimit={decimals}
+        onValueChange={(val: any) => onChange(val || undefined)}
+        required={required}
+        aria-label={label}
+        placeholder={placeholder}
+        value={formattedValue}
+        disabled
+      />
+      <StyledMessage>
+        {error && <StyledError>{error}</StyledError>}
+
+        {description && <Label>{description}</Label>}
+      </StyledMessage>
+    </StyledContainer>
+  );
+};
 
 export default ReadOnlyWidget;
