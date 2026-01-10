@@ -703,10 +703,12 @@ const HistoryContent = ({
       formattedApplicationData.projectTitle = originalProjectTitle;
     }
 
+    const verb = record.json_data?.isReimport ? 're-imported' : 'uploaded';
+
     return (
       <>
         <StyledContent data-testid="history-content-sow-data">
-          <span>{displayName} Uploaded the </span>
+          <span>{displayName} {verb} the </span>
           <b>Sow</b>
           <span> file on {createdAtFormatted}</span>
         </StyledContent>
