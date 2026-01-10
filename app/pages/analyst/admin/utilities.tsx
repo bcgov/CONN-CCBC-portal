@@ -178,9 +178,7 @@ const Utilities = ({
     const projectInformationData = project.projectInformation?.jsonData;
 
     // Check if there's a change request with SOW
-    if (
-      changeRequestData?.jsonData?.statementOfWorkUpload?.length > 0
-    ) {
+    if (changeRequestData?.jsonData?.statementOfWorkUpload?.length > 0) {
       return true;
     }
 
@@ -194,9 +192,9 @@ const Utilities = ({
 
   // Filter projects to only include those with SOW uploaded
   const projectsWithSow = useMemo(() => {
-    return allApplications?.edges?.filter((edge) =>
-      hasSowUploaded(edge.node)
-    ) || [];
+    return (
+      allApplications?.edges?.filter((edge) => hasSowUploaded(edge.node)) || []
+    );
   }, [allApplications, hasSowUploaded]);
 
   const selectedProject = projectsWithSow.find(
@@ -212,9 +210,7 @@ const Utilities = ({
     const projectInformationData = selectedProject.projectInformation?.jsonData;
 
     // Check if there's a change request with SOW
-    if (
-      changeRequestData?.jsonData?.statementOfWorkUpload?.length > 0
-    ) {
+    if (changeRequestData?.jsonData?.statementOfWorkUpload?.length > 0) {
       return {
         type: 'amendment',
         amendmentNumber: changeRequestData.amendmentNumber,
@@ -254,12 +250,15 @@ const Utilities = ({
     };
   }, [selectedProject]);
 
-  const downloadFile = async (uuid: string, fileName: string): Promise<File> => {
+  const downloadFile = async (
+    uuid: string,
+    fileName: string
+  ): Promise<File> => {
     const encodedFileName = encodeURIComponent(fileName);
     // Use the blob endpoint to avoid CORS issues
     const url = `/api/s3/download-blob/${uuid}/${encodedFileName}`;
     const response = await fetch(url);
-    
+
     // Check for AV status error
     if (response.status === 403) {
       const errorData = await response.json();
@@ -267,11 +266,11 @@ const Utilities = ({
         throw new Error('File is quarantined and cannot be downloaded');
       }
     }
-    
+
     if (!response.ok) {
       throw new Error(`Failed to download file: ${response.statusText}`);
     }
-    
+
     const blob = await response.blob();
     return new File([blob], fileName, { type: blob.type });
   };
@@ -313,7 +312,7 @@ const Utilities = ({
 
       const normalizedExisting = normalizeForComparison(existingSummary);
       const normalizedNew = normalizeForComparison(newSummary);
-      
+
       const summaryMatch =
         JSON.stringify(normalizedExisting) === JSON.stringify(normalizedNew);
 
@@ -330,34 +329,46 @@ const Utilities = ({
       // Flatten nested arrays (e.g., tab2 can be [[{...}]] or [{...}])
       const flattenArray = (data: any) => {
         const arr = normalizeToArray(data);
-        return arr.flatMap(item => 
-          Array.isArray(item) ? item : [item]
-        );
+        return arr.flatMap((item) => (Array.isArray(item) ? item : [item]));
       };
 
-      const existingTab1 = normalizeToArray(existingData.tab1).map(normalizeForComparison);
-      const newTab1 = normalizeToArray(validatedData.tab1).map(normalizeForComparison);
+      const existingTab1 = normalizeToArray(existingData.tab1).map(
+        normalizeForComparison
+      );
+      const newTab1 = normalizeToArray(validatedData.tab1).map(
+        normalizeForComparison
+      );
       const tab1Match =
         JSON.stringify(existingTab1.sort()) === JSON.stringify(newTab1.sort());
 
-      const existingTab2 = flattenArray(existingData.tab2).map(normalizeForComparison);
-      const newTab2 = flattenArray(validatedData.tab2).map(normalizeForComparison);
+      const existingTab2 = flattenArray(existingData.tab2).map(
+        normalizeForComparison
+      );
+      const newTab2 = flattenArray(validatedData.tab2).map(
+        normalizeForComparison
+      );
       const tab2Match =
         JSON.stringify(existingTab2.sort()) === JSON.stringify(newTab2.sort());
 
-      const existingTab7 = normalizeToArray(existingData.tab7).map(normalizeForComparison);
-      const newTab7 = normalizeToArray(validatedData.tab7).map(normalizeForComparison);
+      const existingTab7 = normalizeToArray(existingData.tab7).map(
+        normalizeForComparison
+      );
+      const newTab7 = normalizeToArray(validatedData.tab7).map(
+        normalizeForComparison
+      );
       const tab7Match =
         JSON.stringify(existingTab7.sort()) === JSON.stringify(newTab7.sort());
 
-      const existingTab8 = normalizeToArray(existingData.tab8).map(normalizeForComparison);
-      const newTab8 = normalizeToArray(validatedData.tab8).map(normalizeForComparison);
+      const existingTab8 = normalizeToArray(existingData.tab8).map(
+        normalizeForComparison
+      );
+      const newTab8 = normalizeToArray(validatedData.tab8).map(
+        normalizeForComparison
+      );
       const tab8Match =
         JSON.stringify(existingTab8.sort()) === JSON.stringify(newTab8.sort());
 
-      return (
-        summaryMatch && tab1Match && tab2Match && tab7Match && tab8Match
-      );
+      return summaryMatch && tab1Match && tab2Match && tab7Match && tab8Match;
     } catch (error) {
       // If comparison fails, assume data is different
       return false;
@@ -504,7 +515,8 @@ const Utilities = ({
                 const project = edge.node;
                 return (
                   <option key={project.rowId} value={project.rowId}>
-                    {project.ccbcNumber} - {project.projectName || project.organizationName}
+                    {project.ccbcNumber} -{' '}
+                    {project.projectName || project.organizationName}
                   </option>
                 );
               })}
@@ -546,7 +558,10 @@ const Utilities = ({
             )}
 
             {hasSuccessfullyImported && (
-              <Alert variant="info" content="For data consistency, please refresh the page to run another re-import" />
+              <Alert
+                variant="info"
+                content="For data consistency, please refresh the page to run another re-import"
+              />
             )}
 
             {showSuccessToast && (
@@ -555,7 +570,8 @@ const Utilities = ({
               </Toast>
             )}
 
-            {cellLevelErrors.length > 0 && renderCellLevelErrors(cellLevelErrors)}
+            {cellLevelErrors.length > 0 &&
+              renderCellLevelErrors(cellLevelErrors)}
             {otherExcelErrors.length > 0 &&
               otherExcelErrors.flatMap(displayExcelUploadErrors)}
           </div>
@@ -566,4 +582,3 @@ const Utilities = ({
 };
 
 export default withRelay(Utilities, getUtilitiesQuery, defaultRelayOptions);
-
