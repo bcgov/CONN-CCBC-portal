@@ -300,6 +300,8 @@ const Utilities = ({
           Object.keys(obj)
             .sort()
             .forEach((key) => {
+              // Skip isReimport field as it's metadata, not actual SOW data
+              if (key === 'isReimport') return;
               const value = normalizeForComparison(obj[key]);
               if (value !== undefined) {
                 normalized[key] = value;
@@ -312,39 +314,58 @@ const Utilities = ({
 
       const normalizedExisting = normalizeForComparison(existingSummary);
       const normalizedNew = normalizeForComparison(newSummary);
+      
+      console.log('Normalized existing summary:', JSON.stringify(normalizedExisting, null, 2));
+      console.log('Normalized new summary:', JSON.stringify(normalizedNew, null, 2));
+      
       const summaryMatch =
         JSON.stringify(normalizedExisting) === JSON.stringify(normalizedNew);
 
       // Compare tab data
       // Existing: arrays of jsonData objects
-      // Validated: arrays of data objects
-      const existingTab1 = (existingData.tab1 || []).map(normalizeForComparison);
-      const newTab1 = Array.isArray(validatedData.tab1)
-        ? validatedData.tab1.map(normalizeForComparison)
-        : [];
+      // Validated: can be objects or arrays depending on the tab
+      // Need to normalize both to arrays for comparison
+      const normalizeToArray = (data: any) => {
+        if (!data) return [];
+        if (Array.isArray(data)) return data;
+        return [data]; // Wrap single object in array
+      };
+
+      // Flatten nested arrays (e.g., tab2 can be [[{...}]] or [{...}])
+      const flattenArray = (data: any) => {
+        const arr = normalizeToArray(data);
+        return arr.flatMap(item => 
+          Array.isArray(item) ? item : [item]
+        );
+      };
+
+      const existingTab1 = normalizeToArray(existingData.tab1).map(normalizeForComparison);
+      const newTab1 = normalizeToArray(validatedData.tab1).map(normalizeForComparison);
       const tab1Match =
         JSON.stringify(existingTab1.sort()) === JSON.stringify(newTab1.sort());
 
-      const existingTab2 = (existingData.tab2 || []).map(normalizeForComparison);
-      const newTab2 = Array.isArray(validatedData.tab2)
-        ? validatedData.tab2.map(normalizeForComparison)
-        : [];
+      const existingTab2 = flattenArray(existingData.tab2).map(normalizeForComparison);
+      const newTab2 = flattenArray(validatedData.tab2).map(normalizeForComparison);
       const tab2Match =
         JSON.stringify(existingTab2.sort()) === JSON.stringify(newTab2.sort());
 
-      const existingTab7 = (existingData.tab7 || []).map(normalizeForComparison);
-      const newTab7 = Array.isArray(validatedData.tab7)
-        ? validatedData.tab7.map(normalizeForComparison)
-        : [];
+      const existingTab7 = normalizeToArray(existingData.tab7).map(normalizeForComparison);
+      const newTab7 = normalizeToArray(validatedData.tab7).map(normalizeForComparison);
       const tab7Match =
         JSON.stringify(existingTab7.sort()) === JSON.stringify(newTab7.sort());
 
-      const existingTab8 = (existingData.tab8 || []).map(normalizeForComparison);
-      const newTab8 = Array.isArray(validatedData.tab8)
-        ? validatedData.tab8.map(normalizeForComparison)
-        : [];
+      const existingTab8 = normalizeToArray(existingData.tab8).map(normalizeForComparison);
+      const newTab8 = normalizeToArray(validatedData.tab8).map(normalizeForComparison);
       const tab8Match =
         JSON.stringify(existingTab8.sort()) === JSON.stringify(newTab8.sort());
+
+      console.log('Match results:', {
+        summaryMatch,
+        tab1Match,
+        tab2Match,
+        tab7Match,
+        tab8Match,
+      });
 
       return (
         summaryMatch && tab1Match && tab2Match && tab7Match && tab8Match
@@ -408,14 +429,15 @@ const Utilities = ({
 
       // Get existing data for comparison
       const existingData = getExistingSowData();
-
+      console.log('existingData', existingData);
+      console.log('validateResult', validateResult);
       // If we have existing data, compare it with validated data
       if (existingData && validateResult.validatedData) {
         const isExactMatch = compareSowData(
           existingData,
           validateResult.validatedData
         );
-
+        console.log('isExactMatch', isExactMatch);
         if (isExactMatch) {
           setExactMatchMessage('Data is an exact match. No re-import needed.');
           setIsReimporting(false);
@@ -428,7 +450,7 @@ const Utilities = ({
       importFileFormData.append('file', file);
 
       const importResponse = await fetchWithTimeout(
-        `${apiPath}/?validate=false&operation=UPDATE`,
+        `${apiPath}/?validate=false&operation=UPDATE&isReimport=true`,
         {
           method: 'POST',
           body: importFileFormData,
