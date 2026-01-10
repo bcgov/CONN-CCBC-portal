@@ -314,9 +314,6 @@ const Utilities = ({
       const normalizedExisting = normalizeForComparison(existingSummary);
       const normalizedNew = normalizeForComparison(newSummary);
       
-      console.log('Normalized existing summary:', JSON.stringify(normalizedExisting, null, 2));
-      console.log('Normalized new summary:', JSON.stringify(normalizedNew, null, 2));
-      
       const summaryMatch =
         JSON.stringify(normalizedExisting) === JSON.stringify(normalizedNew);
 
@@ -357,14 +354,6 @@ const Utilities = ({
       const newTab8 = normalizeToArray(validatedData.tab8).map(normalizeForComparison);
       const tab8Match =
         JSON.stringify(existingTab8.sort()) === JSON.stringify(newTab8.sort());
-
-      console.log('Match results:', {
-        summaryMatch,
-        tab1Match,
-        tab2Match,
-        tab7Match,
-        tab8Match,
-      });
 
       return (
         summaryMatch && tab1Match && tab2Match && tab7Match && tab8Match
@@ -428,15 +417,12 @@ const Utilities = ({
 
       // Get existing data for comparison
       const existingData = getExistingSowData();
-      console.log('existingData', existingData);
-      console.log('validateResult', validateResult);
       // If we have existing data, compare it with validated data
       if (existingData && validateResult.validatedData) {
         const isExactMatch = compareSowData(
           existingData,
           validateResult.validatedData
         );
-        console.log('isExactMatch', isExactMatch);
         if (isExactMatch) {
           setExactMatchMessage('Data is an exact match. No re-import needed.');
           setIsReimporting(false);
