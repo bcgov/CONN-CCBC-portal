@@ -69,6 +69,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
   }
 
   const validate = req.query?.validate === 'true';
+  const isReimport = req.query?.isReimport === 'true';
   const result = await LoadSummaryData(wb, 'Summary_Sommaire', req);
 
   let exportError;
@@ -124,7 +125,7 @@ const processSow: ExpressMiddleware = async (req, res) => {
 
     return res
       .status(200)
-      .json({ result: { ...result, tab7Summary } })
+      .json({ result: { ...result, tab7Summary, isReimport } })
       .end();
   }
 
