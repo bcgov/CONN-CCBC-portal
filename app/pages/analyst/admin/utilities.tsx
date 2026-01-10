@@ -8,11 +8,9 @@ import { Layout } from 'components';
 import { AdminTabs } from 'components/Admin';
 import { utilitiesQuery } from '__generated__/utilitiesQuery.graphql';
 import DownloadLink from 'components/DownloadLink';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileExcel } from '@fortawesome/free-solid-svg-icons';
 import FileHeader from 'components/Analyst/Project/ProjectInformation/FileHeader';
 import Toast from 'components/Toast';
-import excelValidateGenerator from 'lib/helpers/excelValidate';
 import {
   displayExcelUploadErrors,
   renderCellLevelErrors,
@@ -169,6 +167,7 @@ const Utilities = ({
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [validationErrors, setValidationErrors] = useState([]);
   const [exactMatchMessage, setExactMatchMessage] = useState('');
+  const [hasSuccessfullyImported, setHasSuccessfullyImported] = useState(false);
 
   // Check if a project has a SOW uploaded
   const hasSowUploaded = useCallback((project: any) => {
@@ -461,6 +460,7 @@ const Utilities = ({
 
       if (importResponse.status === 200 && !Array.isArray(importResult)) {
         setShowSuccessToast(true);
+        setHasSuccessfullyImported(true);
         setTimeout(() => setShowSuccessToast(false), 5000);
       } else {
         const errorList = Array.isArray(importResult)
@@ -548,7 +548,7 @@ const Utilities = ({
                 </StyledInfoRow>
                 <StyledButton
                   onClick={handleReimport}
-                  disabled={isReimporting}
+                  disabled={isReimporting || hasSuccessfullyImported}
                 >
                   {isReimporting ? 'Re-importing...' : 'Re-import'}
                 </StyledButton>
@@ -557,6 +557,10 @@ const Utilities = ({
 
             {exactMatchMessage && (
               <Alert variant="info" content={exactMatchMessage} />
+            )}
+
+            {hasSuccessfullyImported && (
+              <Alert variant="info" content="For data consistency, please refresh the page to run another re-import" />
             )}
 
             {showSuccessToast && (
