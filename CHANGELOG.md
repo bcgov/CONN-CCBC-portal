@@ -1,3 +1,9 @@
+# [1.282.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.281.4...v1.282.0) (2026-01-12)
+
+### Features
+
+- add merged ccbc projects to gcpe report ([0f51e6c](https://github.com/bcgov/CONN-CCBC-portal/commit/0f51e6c9fe2317b37555be5d3f56dc5e19b99750))
+
 ## [1.281.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.281.3...v1.281.4) (2026-01-12)
 
 ## [1.281.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.281.2...v1.281.3) (2026-01-12)
