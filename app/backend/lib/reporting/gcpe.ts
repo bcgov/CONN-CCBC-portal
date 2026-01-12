@@ -519,7 +519,7 @@ const generateExcelData = async (
       },
       // other funding
       {
-        value: node?.formData?.jsonData?.otherFunding,
+        value: summaryData?.formData?.funding?.otherFunding,
         format: '$#,##0.00',
         type: Number,
       },
@@ -530,9 +530,9 @@ const generateExcelData = async (
         type: Number,
       },
       // communities and locales count
-      { value: node?.formData?.jsonData?.communitiesAndLocalesCount },
+      { value: summaryData?.formData?.counts?.communities || '' },
       // indigenous communities
-      { value: node?.formData?.jsonData?.householdsImpactedIndigenous },
+      { value: summaryData?.formData?.counts?.indigenousCommunities || '' },
       // project locations
       {
         value:
