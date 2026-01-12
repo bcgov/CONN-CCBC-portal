@@ -1,3 +1,9 @@
+## [1.281.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.281.2...v1.281.3) (2026-01-12)
+
+### Bug Fixes
+
+- notes compare change log in GCPE report ([4645ba2](https://github.com/bcgov/CONN-CCBC-portal/commit/4645ba277499ac7cb91a45669144254ec312dab7))
+
 ## [1.281.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.281.0...v1.281.2) (2026-01-09)
 
 ## [1.281.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.281.0...v1.281.1) (2026-01-09)
