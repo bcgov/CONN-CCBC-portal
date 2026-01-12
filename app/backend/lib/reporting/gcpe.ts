@@ -63,7 +63,7 @@ const getCbcDataQuery = `
 const getCcbcQuery = `
     query getCcbc {
       allApplications(
-        filter: {analystStatus: {in: ["conditionally_approved", "approved", "on_hold", "closed", "recommendation", "complete"]}}
+        filter: {analystStatus: {in: ["conditionally_approved", "approved", "on_hold", "closed", "recommendation", "complete", "merged"]}}
         orderBy: CCBC_NUMBER_ASC
       ) {
         edges {
