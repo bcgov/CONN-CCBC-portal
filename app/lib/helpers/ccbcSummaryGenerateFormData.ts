@@ -373,7 +373,7 @@ const getSowErrors = (sowData, schema, formDataSource, formData) => {
   Object.entries(schema?.properties || {}).forEach(([parentKey, value]) => {
     const sectionSchema = value['properties'];
     Object.keys(sectionSchema || {}).forEach((key) => {
-      if (formDataSource[key] === 'SOW') {
+      if (formDataSource[key]?.startsWith('SOW')) {
         errors[parentKey] = errors[parentKey] || {
           __errors: [
             'Highlighted cells are null because SOW Excel table has not been uploaded in the portal',
@@ -712,8 +712,8 @@ const getSowData = (sowData, baseSowData) => {
     },
   };
   const formDataSource = {
-    benefitingCommunities: `SOW${communitiesData?.amendmentNumber ? ` amendment ${communitiesData.amendmentNumber}` : ''}`,
-    benefitingIndigenousCommunities: `SOW${communitiesData?.amendmentNumber ? ` amendment ${communitiesData.amendmentNumber}` : ''}`,
+    benefitingCommunities: `SOW${communitiesData?.amendmentNumber ? ` amendment ${communitiesData.amendmentNumber}` : ''} - Tab 8`,
+    benefitingIndigenousCommunities: `SOW${communitiesData?.amendmentNumber ? ` amendment ${communitiesData.amendmentNumber}` : ''} - Tab 8`,
     communities: sowTextCommunityNumber,
     indigenousCommunities: sowTextCommunityNumber,
     nonIndigenousCommunities: sowTextCommunityNumber,
