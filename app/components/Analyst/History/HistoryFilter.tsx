@@ -32,6 +32,7 @@ const typeLabelMappings: Record<string, string> = {
   application_gis_assessment_hh: 'Assessment',
   application_fnha_contribution: 'FNHA Contribution',
   application_pending_change_request: 'Pending change request',
+  application_internal_notes: 'Internal Notes',
 };
 
 export const getLabelForType = (type: string) =>
