@@ -724,20 +724,15 @@ const ApplicationForm: React.FC<Props> = ({
 
   const handleSubmit = (e: IChangeEvent<any>) => {
     if (pageNumber < subschemaArray.length) {
-      console.log('isSubmitted', isSubmitted);
-      console.log('saving form');
       saveForm(
         e.formData,
         {
           onCompleted: () => {
             if (isSubmitted) {
-              console.log('creating template nine data');
               const templateNineUpload =
                 jsonData.templateUploads?.geographicNames?.[0];
-              console.log('templateNineUpload', templateNineUpload);
               if (templateNineUpload) {
                 const templateNineUuid = templateNineUpload?.uuid;
-                console.log('templateNineUuid', templateNineUuid);
                 if (templateNineUuid)
                   createTemplateNineData(rowId, templateNineUuid);
               }
