@@ -80,6 +80,12 @@ const getCcbcQuery = `
                 jsonData
               }
             }
+            applicationFormTemplate9DataByApplicationId {
+              nodes {
+                jsonData
+                source
+              }
+            }
             applicationAnnouncementsByApplicationId(condition: {archivedAt: null}) {
               nodes {
                 announcementByAnnouncementId {
