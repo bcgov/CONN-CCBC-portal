@@ -1643,7 +1643,8 @@ describe('The Summary page', () => {
     // milestone
     expect(screen.getByText('24%')).toBeInTheDocument();
     // application source
-    expect(screen.getAllByText(/SOW amendment 1/)).toHaveLength(7);
+    expect(screen.getAllByText('(SOW amendment 1)')).toHaveLength(5);
+    expect(screen.getAllByText('(SOW amendment 1 - Tab 8)')).toHaveLength(2);
     expect(screen.getAllByText('(SOW)')).toHaveLength(10);
   });
 
@@ -1653,7 +1654,7 @@ describe('The Summary page', () => {
       pageTestingHelper.renderPage();
     });
 
-    expect(screen.queryAllByText('(SOW)')).toHaveLength(0);
+    expect(screen.queryAllByText(/\(SOW/)).toHaveLength(0);
     const alerts = screen.getAllByTestId('styled-alert');
     expect(alerts).toHaveLength(4);
 
