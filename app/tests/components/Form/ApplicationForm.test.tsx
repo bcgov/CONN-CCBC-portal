@@ -734,4 +734,258 @@ describe('The application form', () => {
       }
     );
   });
+
+  it('calls createTemplateNineData when template nine upload exists and application is submitted', async () => {
+    const mockPayloadWithTemplateNine = {
+      Application() {
+        return {
+          rowId: 42,
+          formData: {
+            id: 'TestFormId',
+            rowId: 123,
+            jsonData: {
+              templateUploads: {
+                geographicNames: [
+                  {
+                    uuid: 'test-template-nine-uuid',
+                  },
+                ],
+              },
+            },
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
+            isEditable: true,
+            updatedAt: '2022-09-12T14:04:10.790848-07:00',
+          },
+          status: 'submitted',
+        };
+      },
+      Query() {
+        return {
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+          },
+          session: {
+            sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+            ccbcUserBySub: {
+              intakeUsersByUserId: {
+                nodes: [{ intakeId: 1 }],
+              },
+            },
+          },
+        };
+      },
+    };
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        status: 200,
+        ok: true,
+        json: () => Promise.resolve({}),
+      })
+    );
+
+    componentTestingHelper.loadQuery(mockPayloadWithTemplateNine);
+    componentTestingHelper.renderComponent();
+
+    await act(async () => {
+      await userEvent.click(
+        screen.getByRole('button', { name: 'Save and continue' })
+      );
+    });
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          updateApplicationForm: {
+            formData: {
+              id: 'TestFormId',
+              rowId: 123,
+              jsonData: {
+                templateUploads: {
+                  geographicNames: [
+                    {
+                      uuid: 'test-template-nine-uuid',
+                    },
+                  ],
+                },
+              },
+              formByFormSchemaId: {
+                jsonSchema: schema,
+              },
+              isEditable: true,
+              updatedAt: '2022-09-12T14:04:10.790848-07:00',
+            },
+          },
+        },
+      });
+    });
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/template-nine/42/test-template-nine-uuid/application'
+    );
+  });
+
+  it('does not call createTemplateNineData when template nine upload does not exist', async () => {
+    const mockPayloadWithoutTemplateNine = {
+      Application() {
+        return {
+          formData: {
+            id: 'TestFormId',
+            rowId: 123,
+            jsonData: {},
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
+            isEditable: true,
+            updatedAt: '2022-09-12T14:04:10.790848-07:00',
+          },
+          status: 'submitted',
+        };
+      },
+      Query() {
+        return {
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+          },
+          session: {
+            sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+            ccbcUserBySub: {
+              intakeUsersByUserId: {
+                nodes: [{ intakeId: 1 }],
+              },
+            },
+          },
+        };
+      },
+    };
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        status: 200,
+        ok: true,
+        json: () => Promise.resolve({}),
+      })
+    );
+
+    componentTestingHelper.loadQuery(mockPayloadWithoutTemplateNine);
+    componentTestingHelper.renderComponent();
+
+    await act(async () => {
+      await userEvent.click(
+        screen.getByRole('button', { name: 'Save and continue' })
+      );
+    });
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          updateApplicationForm: {
+            formData: {
+              id: 'TestFormId',
+              rowId: 123,
+              jsonData: {},
+              formByFormSchemaId: {
+                jsonSchema: schema,
+              },
+              isEditable: true,
+            },
+          },
+        },
+      });
+    });
+
+    expect(global.fetch).not.toHaveBeenCalledWith(
+      expect.stringContaining('/api/template-nine/')
+    );
+  });
+
+  it('does not call createTemplateNineData when template nine uuid is undefined', async () => {
+    const mockPayloadWithEmptyTemplateNine = {
+      Application() {
+        return {
+          rowId: 42,
+          formData: {
+            id: 'TestFormId',
+            rowId: 123,
+            jsonData: {
+              templateUploads: {
+                geographicNames: [
+                  {
+                    // uuid is undefined
+                  },
+                ],
+              },
+            },
+            formByFormSchemaId: {
+              jsonSchema: schema,
+            },
+            isEditable: true,
+            updatedAt: '2022-09-12T14:04:10.790848-07:00',
+          },
+          status: 'submitted',
+        };
+      },
+      Query() {
+        return {
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+          },
+          session: {
+            sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+            ccbcUserBySub: {
+              intakeUsersByUserId: {
+                nodes: [{ intakeId: 1 }],
+              },
+            },
+          },
+        };
+      },
+    };
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        status: 200,
+        ok: true,
+        json: () => Promise.resolve({}),
+      })
+    );
+
+    componentTestingHelper.loadQuery(mockPayloadWithEmptyTemplateNine);
+    componentTestingHelper.renderComponent();
+
+    await act(async () => {
+      await userEvent.click(
+        screen.getByRole('button', { name: 'Save and continue' })
+      );
+    });
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          updateApplicationForm: {
+            formData: {
+              id: 'TestFormId',
+              rowId: 123,
+              jsonData: {
+                templateUploads: {
+                  geographicNames: [{}],
+                },
+              },
+              formByFormSchemaId: {
+                jsonSchema: schema,
+              },
+              isEditable: true,
+              updatedAt: '2022-09-12T14:04:10.790848-07:00',
+            },
+          },
+        },
+      });
+    });
+
+    expect(global.fetch).not.toHaveBeenCalledWith(
+      expect.stringContaining('/api/template-nine/')
+    );
+  });
 });
