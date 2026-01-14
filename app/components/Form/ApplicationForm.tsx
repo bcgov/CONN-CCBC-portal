@@ -722,6 +722,13 @@ const ApplicationForm: React.FC<Props> = ({
     );
   };
 
+  const handleTemplateNineCreation = () => {
+    const templateNineUuid = jsonData.templateUploads?.geographicNames?.[0]?.uuid;
+    if (templateNineUuid) {
+      createTemplateNineData(rowId, templateNineUuid);
+    }
+  };
+
   const handleSubmit = (e: IChangeEvent<any>) => {
     if (pageNumber < subschemaArray.length) {
       saveForm(
@@ -729,13 +736,7 @@ const ApplicationForm: React.FC<Props> = ({
         {
           onCompleted: () => {
             if (isSubmitted) {
-              const templateNineUpload =
-                jsonData.templateUploads?.geographicNames?.[0];
-              if (templateNineUpload) {
-                const templateNineUuid = templateNineUpload?.uuid;
-                if (templateNineUuid)
-                  createTemplateNineData(rowId, templateNineUuid);
-              }
+              handleTemplateNineCreation();
             }
             //  TODO: update rerouting logic to handle when there are form errors etc.
             router.push(`/applicantportal/form/${rowId}/${pageNumber + 1}`);
@@ -753,13 +754,7 @@ const ApplicationForm: React.FC<Props> = ({
         },
         onCompleted: () => {
           router.push(`/applicantportal/form/${rowId}/success`);
-          const templateNineUpload =
-            jsonData.templateUploads?.geographicNames?.[0];
-          if (templateNineUpload) {
-            const templateNineUuid = templateNineUpload?.uuid;
-            if (templateNineUuid)
-              createTemplateNineData(rowId, templateNineUuid);
-          }
+          handleTemplateNineCreation();
           if (isRollingIntake) notifyRollingApplicationSubmission();
         },
       });
