@@ -126,25 +126,52 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
     'Notes',
   ];
 
+  const normalizeHeaderName = (name) =>
+    name ? String(name).replace(/\s+/g, '').toLowerCase() : '';
+
+  const getHeaderName = (headerRow, colIndex) =>
+    String(
+      headerRow?.[colIndex]?.value ??
+        columnNames[colIndex] ??
+        `Column ${colIndex + 1}`
+    );
+
+  const HEADER_ROW_INDEX = 1;
+  const headerRow1 = array1?.[HEADER_ROW_INDEX] || [];
+  const headerRow2 = array2?.[HEADER_ROW_INDEX] || [];
+  const headerIndexMap2 = new Map<string, number>();
+  headerRow2.forEach((cell, index) => {
+    const headerValue = normalizeHeaderName(cell?.value);
+    if (headerValue) {
+      headerIndexMap2.set(headerValue, index);
+    }
+  });
+
   // Convert array2 to a map for quick look-up by ID
   const idToArray2Map = new Map();
 
-  array2.forEach((row) => {
+  array2.forEach((row, rowIndex) => {
+    if (rowIndex <= HEADER_ROW_INDEX) {
+      return;
+    }
     const id = row[5]?.value;
-    if (id !== undefined || id !== null) {
-      idToArray2Map.set(id, row);
+    const normalizedId = id === null || id === undefined ? null : String(id);
+    if (normalizedId !== null) {
+      idToArray2Map.set(normalizedId, row);
     }
   });
 
   // Create a new array with marked differences
   return array1.map((row, rowIndex) => {
     // Skip header rows
-    if (rowIndex < 2) {
+    if (rowIndex <= HEADER_ROW_INDEX) {
       return row;
     }
 
-    const id = row[5].value;
-    const matchingRowInArray2 = idToArray2Map.get(id);
+    const id = row[5]?.value;
+    const normalizedId = id === null || id === undefined ? null : String(id);
+    const matchingRowInArray2 =
+      normalizedId === null ? undefined : idToArray2Map.get(normalizedId);
 
     if (!matchingRowInArray2) {
       return row;
@@ -153,7 +180,15 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
     const changes = [];
 
     const updatedRow = row.map((item, colIndex) => {
-      const item2 = matchingRowInArray2[colIndex];
+      const headerName = getHeaderName(headerRow1, colIndex);
+      const normalizedHeaderName = normalizeHeaderName(headerName);
+      const array2Index =
+        headerIndexMap2.get(normalizedHeaderName) ??
+        (headerIndexMap2.size === 0 ? colIndex : undefined);
+      const item2 =
+        array2Index === undefined
+          ? undefined
+          : matchingRowInArray2[array2Index];
 
       // Skip the changelog column itself (last column) from comparison
       if (colIndex === row.length - 1) {
@@ -161,9 +196,14 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
         return { ...item };
       }
 
+      if (item2 === undefined) {
+        return { ...item };
+      }
+
       // Helper function to normalize values for comparison (treat null/blank the same)
       const normalizeValue = (val) => {
         if (val === null || val === undefined || val === '') return null;
+        if (typeof val === 'number') return String(val);
         if (typeof val === 'string') return val.replace(/\s/g, '');
         return val;
       };
@@ -173,7 +213,7 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
 
       if (normalizedValue1 !== normalizedValue2) {
         // Track the change for the changelog
-        const columnName = columnNames[colIndex] || `Column ${colIndex + 1}`;
+        const columnName = headerName;
         let oldValue =
           item2?.value === null || item2?.value === undefined
             ? 'Null'
@@ -302,7 +342,11 @@ export const getFundingSource = (application: any): string => {
   // CCBC logic
   const status = analystStatus;
 
-  if (status === 'closed' || status === 'withdrawn' || status === 'analyst_withdrawn') {
+  if (
+    status === 'closed' ||
+    status === 'withdrawn' ||
+    status === 'analyst_withdrawn'
+  ) {
     return 'N/A';
   }
 
