@@ -1,3 +1,9 @@
+## [1.282.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.282.0...v1.282.1) (2026-01-14)
+
+### Bug Fixes
+
+- internal notes UI value ([59ea1e3](https://github.com/bcgov/CONN-CCBC-portal/commit/59ea1e39d0db04bd4df1a7363e2a27ac4c1a8d59))
+
 # [1.282.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.281.4...v1.282.0) (2026-01-12)
 
 ### Features
