@@ -1,3 +1,9 @@
+## [1.283.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.283.0...v1.283.1) (2026-01-15)
+
+### Bug Fixes
+
+- ccbc gcpe other funding, locale counts ([61a38c0](https://github.com/bcgov/CONN-CCBC-portal/commit/61a38c0aa31da57d085dc98e9fe0c14dca5538e6))
+
 # [1.283.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.282.3...v1.283.0) (2026-01-15)
 
 ### Features
