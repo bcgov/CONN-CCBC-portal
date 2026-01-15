@@ -6,14 +6,7 @@ import { act, screen, fireEvent } from '@testing-library/react';
 import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import ApplicationHeader from 'components/Analyst/ApplicationHeader';
 import * as moduleApi from '@growthbook/growthbook-react';
-import * as createProjectTypeModule from 'schema/mutations/application/createProjectType';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
-
-const mockCreateProjectType = jest.fn();
-
-jest.mock('schema/mutations/application/createProjectType', () => ({
-  useCreateProjectTypeMutation: jest.fn(),
-}));
 
 const testQuery = graphql`
   query ApplicationHeaderTestQuery($rowId: Int!) {
@@ -140,9 +133,6 @@ const componentTestingHelper =
 describe('The application header component', () => {
   beforeEach(() => {
     componentTestingHelper.reinit();
-    (
-      createProjectTypeModule.useCreateProjectTypeMutation as jest.Mock
-    ).mockReturnValue([mockCreateProjectType, false]);
   });
 
   it('displays the CCBC Number', () => {
@@ -260,17 +250,37 @@ describe('The application header component', () => {
       fireEvent.change(select, { target: { value: 'lastMileAndTransport' } });
     });
 
-    expect(mockCreateProjectType).toHaveBeenCalledWith(
-      expect.objectContaining({
-        variables: {
-          input: {
-            _applicationId: 1,
-            _projectType: 'lastMileAndTransport',
+    componentTestingHelper.expectMutationToBeCalled(
+      'createProjectTypeMutation',
+      {
+        input: {
+          _applicationId: 1,
+          _projectType: 'lastMileAndTransport',
+        },
+      }
+    );
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createProjectType: {
+            applicationProjectType: {
+              projectType: 'lastMileAndTransport',
+            },
           },
         },
-        updater: expect.any(Function),
-      })
-    );
+      });
+    });
+
+    const recordSource = componentTestingHelper.environment
+      .getStore()
+      .getSource();
+    const projectTypeValues = recordSource
+      .getRecordIDs()
+      .map((recordId) => recordSource.get(recordId))
+      .map((record) => (record as { projectType?: string }).projectType);
+
+    expect(projectTypeValues).toContain('lastMileAndTransport');
   });
 
   it('displays the header labels', () => {
