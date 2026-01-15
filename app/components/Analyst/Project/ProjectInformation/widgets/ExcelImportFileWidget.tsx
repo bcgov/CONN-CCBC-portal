@@ -143,7 +143,7 @@ const tabDisplayNames: Record<string, string> = {
   tab8: 'Tab 8 - Geograhical Names',
 };
 
-const isCellLevelError = (err) => {
+export const isCellLevelError = (err) => {
   const errorMessage = err?.error;
   return (
     Array.isArray(errorMessage) &&
@@ -190,7 +190,7 @@ export const displayExcelUploadErrors = (err) => {
   } = err;
   const title = getDefaultErrorTitle(errorType, filename);
 
-  if (typeof errorMessage !== 'string') {
+  if (typeof errorMessage !== 'string' && Array.isArray(errorMessage)) {
     return errorMessage.map(({ error: message }) => {
       return (
         <StyledAlert
@@ -207,15 +207,22 @@ export const displayExcelUploadErrors = (err) => {
       );
     });
   }
+  // Handle case where errorMessage is an object or other non-string, non-array type
+  const messageToDisplay =
+    typeof errorMessage === 'string'
+      ? errorMessage
+      : typeof errorMessage === 'object' && errorMessage !== null
+      ? JSON.stringify(errorMessage)
+      : String(errorMessage);
   return (
     <StyledAlert
-      key={errorMessage}
+      key={messageToDisplay}
       variant="danger"
       closable={false}
       content={
         <>
           <div> {title}</div>
-          <div>{parse(errorMessage)}</div>
+          <div>{parse(messageToDisplay)}</div>
         </>
       }
     />
@@ -253,7 +260,7 @@ const renderTabErrorRow = ({
   );
 };
 
-const renderCellLevelErrors = (errors) => {
+export const renderCellLevelErrors = (errors) => {
   if (!errors.length) return null;
   const filename = errors[0]?.filename ?? 'Statement of Work';
   const heading = `There were errors importing the file : ${filename} data`;

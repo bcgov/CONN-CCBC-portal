@@ -4164,7 +4164,7 @@ describe('The index page', () => {
     const sowHistory = screen.getAllByTestId('history-content-sow-data')[0];
 
     expect(sowHistory).toHaveTextContent(
-      'Foo Bar Uploaded the Sow file on Jan 13, 2024, 10:27 a.m'
+      'Foo Bar uploaded the Sow file on Jan 13, 2024, 10:27 a.m'
     );
 
     // should show correct number of times

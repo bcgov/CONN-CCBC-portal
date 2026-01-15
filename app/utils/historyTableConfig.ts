@@ -306,6 +306,7 @@ export const getTableConfig = (tableName: string, assessmentType?: string) => {
         'lastMileFixedWireless',
         'lastMileSatellite',
         'user_info',
+        'isReimport',
       ],
       overrideParent: 'application_sow_data',
     },

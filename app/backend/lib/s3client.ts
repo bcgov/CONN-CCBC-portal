@@ -57,6 +57,41 @@ export const getByteArrayFromS3 = async (uuid) => {
   }
 };
 
+export const streamFileFromS3 = async (uuid, filename, res) => {
+  const encodedFilename = encodeURIComponent(filename);
+  const params = {
+    Bucket: AWS_S3_BUCKET,
+    Key: uuid,
+  };
+
+  try {
+    const command = new GetObjectCommand(params);
+    const file = await s3ClientV3sdk.send(command);
+    const { Body, ContentType } = file;
+
+    if (!Body) {
+      throw new Error('File body is empty');
+    }
+
+    // Convert to byte array (consistent with getByteArrayFromS3)
+    const byteArray = await Body.transformToByteArray();
+    const buffer = Buffer.from(byteArray);
+
+    // Set appropriate headers
+    res.setHeader('Content-Type', ContentType || 'application/octet-stream');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="${encodedFilename}"`
+    );
+    res.setHeader('Content-Length', buffer.length);
+
+    // Send the buffer
+    res.send(buffer);
+  } catch (error) {
+    throw new Error(`Error streaming file from S3: ${error}`);
+  }
+};
+
 export const checkFileExists = async (params) => {
   try {
     const command = new HeadObjectCommand(params);
