@@ -17,8 +17,11 @@ CustomErrorComponent.getInitialProps = async (
   if (contextData?.req) {
     console.error('next-error-page', error);
     const req = contextData.req;
+    const forwardedProto = req?.headers?.['x-forwarded-proto'];
     const protocol =
-      req?.headers?.['x-forwarded-proto']?.split(',')[0] || 'http';
+      (Array.isArray(forwardedProto)
+        ? forwardedProto[0]
+        : forwardedProto?.split(',')[0]) || 'http';
     const host = req?.headers?.host;
     if (host) {
       try {
