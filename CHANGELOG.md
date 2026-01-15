@@ -1,3 +1,9 @@
+# [1.283.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.282.3...v1.283.0) (2026-01-15)
+
+### Features
+
+- admin sow re-import ([9dc36be](https://github.com/bcgov/CONN-CCBC-portal/commit/9dc36beb7ffb20a44665496d0adecce8256a3779))
+
 ## [1.282.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.282.2...v1.282.3) (2026-01-14)
 
 ### Bug Fixes
