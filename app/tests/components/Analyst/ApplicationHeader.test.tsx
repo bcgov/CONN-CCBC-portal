@@ -6,7 +6,14 @@ import { act, screen, fireEvent } from '@testing-library/react';
 import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import ApplicationHeader from 'components/Analyst/ApplicationHeader';
 import * as moduleApi from '@growthbook/growthbook-react';
+import * as createProjectTypeModule from 'schema/mutations/application/createProjectType';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
+
+const mockCreateProjectType = jest.fn();
+
+jest.mock('schema/mutations/application/createProjectType', () => ({
+  useCreateProjectTypeMutation: jest.fn(),
+}));
 
 const testQuery = graphql`
   query ApplicationHeaderTestQuery($rowId: Int!) {
@@ -133,6 +140,9 @@ const componentTestingHelper =
 describe('The application header component', () => {
   beforeEach(() => {
     componentTestingHelper.reinit();
+    (
+      createProjectTypeModule.useCreateProjectTypeMutation as jest.Mock
+    ).mockReturnValue([mockCreateProjectType, false]);
   });
 
   it('displays the CCBC Number', () => {
@@ -250,14 +260,16 @@ describe('The application header component', () => {
       fireEvent.change(select, { target: { value: 'lastMileAndTransport' } });
     });
 
-    componentTestingHelper.expectMutationToBeCalled(
-      'createProjectTypeMutation',
-      {
-        input: {
-          _applicationId: 1,
-          _projectType: 'lastMileAndTransport',
+    expect(mockCreateProjectType).toHaveBeenCalledWith(
+      expect.objectContaining({
+        variables: {
+          input: {
+            _applicationId: 1,
+            _projectType: 'lastMileAndTransport',
+          },
         },
-      }
+        updater: expect.any(Function),
+      })
     );
   });
 
