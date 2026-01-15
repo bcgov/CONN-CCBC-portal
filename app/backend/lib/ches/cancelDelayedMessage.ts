@@ -1,5 +1,5 @@
-import * as Sentry from '@sentry/nextjs';
 import config from '../../../config';
+import { reportServerError } from '../emails/errorNotification';
 
 const CHES_API_URL = config.get('CHES_API_URL');
 
@@ -34,7 +34,7 @@ export const cancelDelayedMessageByMsgId = async (
       status: 'unknown',
     };
   } catch (error: any) {
-    Sentry.captureException(new Error(error.message));
+    reportServerError(error, { source: 'cancelDelayedMessageByMsgId' });
     throw new Error(error.message);
   }
 };
@@ -73,7 +73,7 @@ export const cancelDelayedMessageByTxId = async (
       status: 'unknown',
     };
   } catch (error: any) {
-    Sentry.captureException(new Error(error.message));
+    reportServerError(error, { source: 'cancelDelayedMessageByTxId' });
     throw new Error(error.message);
   }
 };

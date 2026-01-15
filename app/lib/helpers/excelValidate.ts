@@ -1,5 +1,6 @@
 import { Dispatch } from 'react';
 import fetchWithTimeout from './fetchWithTimeout';
+import reportClientError from './reportClientError';
 
 /**
  * Function generator made to get around the "no code copying" for sonarcloud, to be used in a callback or by itself
@@ -45,6 +46,7 @@ function excelValidateGenerator(
         // return error list and status since response.json has been consumed and locked
         return { ...errorListResponse, status: response.status };
       } catch (error) {
+        reportClientError(error, { source: 'excel-validate' });
         if (setExcelValidationErrors) {
           setExcelValidationErrors([
             {

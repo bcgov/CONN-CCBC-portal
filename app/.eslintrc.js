@@ -46,6 +46,7 @@ module.exports = {
     'relay/unused-fields': 0,
     'class-methods-use-this': 1,
     'react/require-default-props': 0,
+    'no-console': ['error', { allow: ['error'] }],
   },
   overrides: [
     {

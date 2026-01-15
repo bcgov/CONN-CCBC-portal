@@ -1,3 +1,4 @@
+
 import { useMemo, useState } from 'react';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
@@ -10,11 +11,12 @@ import { coveragesQuery } from '__generated__/coveragesQuery.graphql';
 import FileComponent from 'lib/theme/components/FileComponent';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import * as Sentry from '@sentry/nextjs';
 import Tabs from 'components/Analyst/GIS/Tabs';
 import checkFileType from 'utils/checkFileType';
 import { useUnsavedChanges } from 'components/UnsavedChangesProvider';
 import HistoryFileUpload from 'components/Analyst/History/HistoryFileUpload';
+import reportClientError from 'lib/helpers/reportClientError';
+import config from '../../../config';
 
 const getCoveragesQuery = graphql`
   query coveragesQuery {
@@ -158,7 +160,7 @@ const CoveragesTab = ({ historyList }) => {
       }
     } catch (e) {
       setIsUploading(false);
-      Sentry.captureException(e);
+      reportClientError(e, { source: 'coverages-upload' });
     }
   };
 

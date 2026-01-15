@@ -6,7 +6,7 @@ const verifyFormFields = (formSectionData, schemaSection, handleError) => {
   //
   // formSectionData: the data from the form we are verifying. For the applicant form this is the data from each separate page eg: 'formData.otherFundingSources'
   // schemaSection: the section of the schema we verifying against. For the applicant form this is under 'schema.properties[sectionName].properties'
-  // handleError: the function to call if there is an error. In the applicant form we are using it to capture a Sentry exception
+  // handleError: the function to call if there is an error. In the applicant form we use it to report the issue.
 
   // read all new form data fields from incoming form data
   const newFormFieldNames = formSectionData && Object.keys(formSectionData);

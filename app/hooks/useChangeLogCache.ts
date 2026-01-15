@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import * as Sentry from '@sentry/nextjs';
+import reportClientError from 'lib/helpers/reportClientError';
 
 interface ChangeLogData {
   allCbcs: any[];
@@ -157,10 +157,9 @@ const useChangeLogCache = () => {
 
         // Only capture in production to avoid test noise
         if (process.env.NODE_ENV === 'production') {
-          Sentry.captureException({
-            name: 'Error getting change log data',
-            message: fetchError.message,
-            cause: fetchError,
+          reportClientError(fetchError, {
+            source: 'change-log-cache',
+            metadata: { message: fetchError.message },
           });
         }
       } finally {

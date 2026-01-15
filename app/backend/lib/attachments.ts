@@ -1,7 +1,7 @@
-import * as Sentry from '@sentry/nextjs';
 import config from '../../config';
 import getArchivePath from '../../utils/getArchivePath';
 import { getFileTagging } from './s3client';
+import { reportServerError } from './emails/errorNotification';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const INFECTED_FILE_PREFIX = 'BROKEN';
@@ -81,8 +81,12 @@ const getAttachmentList = async (allApplications) => {
           }
         });
       } else {
-        Sentry.captureException(
-          new Error(`non-array data in form_data: ${formData.rowId}`)
+        reportServerError(
+          new Error(`non-array data in form_data: ${formData.rowId}`),
+          {
+            source: 'attachments-detect-infected',
+            metadata: { rowId: formData.rowId },
+          }
         );
       }
     });
@@ -117,8 +121,12 @@ const getAttachmentList = async (allApplications) => {
           }
         });
       } else {
-        Sentry.captureException(
-          new Error(`non-array data in form_data: ${formDataRowId}`)
+        reportServerError(
+          new Error(`non-array data in form_data: ${formDataRowId}`),
+          {
+            source: 'attachments-append',
+            metadata: { rowId: formDataRowId },
+          }
         );
       }
     });

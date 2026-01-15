@@ -9,6 +9,7 @@ import {
 
 import config from '../../config/index';
 import { awsS3Config } from './awsCommon';
+import { reportServerError } from './emails/errorNotification';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 
@@ -34,7 +35,8 @@ export const getFileFromS3 = async (uuid, filename, res) => {
     .then((url) => {
       res.json(url);
     })
-    .catch(() => {
+    .catch((error) => {
+      reportServerError(error, { source: 's3-get-file-url' });
       res.status(500).end();
     });
 };
@@ -53,6 +55,7 @@ export const getByteArrayFromS3 = async (uuid) => {
     const byteArray = await Body.transformToByteArray();
     return byteArray;
   } catch (error) {
+    reportServerError(error, { source: 's3-get-byte-array' });
     throw new Error(`Error fetching file from S3: ${error}`);
   }
 };
@@ -103,6 +106,7 @@ export const checkFileExists = async (params) => {
       };
     }
   } catch (error) {
+    reportServerError(error, { source: 's3-check-file-exists' });
     return { alreadyExists: false };
   }
 
@@ -117,6 +121,7 @@ export const getFileTagging = async (params) => {
     if (response.$metadata?.httpStatusCode !== 200) return noData;
     return response;
   } catch (error) {
+    reportServerError(error, { source: 's3-get-file-tagging' });
     return noData;
   }
 };

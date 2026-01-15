@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import * as Sentry from '@sentry/nextjs';
 import { useState } from 'react';
+import reportClientError from 'lib/helpers/reportClientError';
 
 const StyledLink = styled.a`
   color: ${(props) => props.theme.color.links};
@@ -55,7 +55,7 @@ const DownloadLink: React.FC<Props> = ({
       onClick={(e) => {
         e.preventDefault();
         handleDownload(uuid, fileName, setQuarantinedLink).catch((error) => {
-          Sentry.captureException(error);
+          reportClientError(error, { source: 'download-link' });
         });
       }}
     >

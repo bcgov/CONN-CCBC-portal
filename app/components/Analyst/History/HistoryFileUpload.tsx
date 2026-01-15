@@ -8,10 +8,10 @@ import {
 import { useMemo } from 'react';
 import { TableCellProps } from '@mui/material';
 import styled from 'styled-components';
-import * as Sentry from '@sentry/nextjs';
 import { filterOutNullishs } from 'components/AnalystDashboard/AllDashboard';
 import ClearFilters from 'components/Table/ClearFilters';
 import DateFilter from '../../Table/Filters/DateFilter';
+import reportClientError from 'lib/helpers/reportClientError';
 
 const StyledLink = styled.button`
   color: ${(props) => props.theme.color.links};
@@ -53,7 +53,7 @@ const fileCell = ({ cell }) => {
         if (cell.row.original?.uuid) {
           handleDownload(cell.row.original?.uuid, cell.getValue()).catch(
             (err) => {
-              Sentry.captureException(err);
+              reportClientError(err, { source: 'history-file-download' });
             }
           );
         } else if (cell.row.original?.record) {

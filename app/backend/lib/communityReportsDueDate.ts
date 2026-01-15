@@ -6,6 +6,7 @@ import { performQuery } from './graphql';
 import handleEmailNotification from './emails/handleEmailNotification';
 import notifyCommunityReportDue from './emails/templates/notifyCommunityReportDue';
 import validateKeycloakToken from './keycloakValidate';
+import { reportServerError } from './emails/errorNotification';
 
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000,
@@ -59,6 +60,7 @@ const processCommunityReportsDueDates = async (req, res) => {
   try {
     result = await performQuery(sowCommunityProgressQuery, {}, req);
   } catch (error) {
+    reportServerError(error, { source: 'community-reports-due-query' }, req);
     return res.status(500).json({ error: result.error }).end();
   }
   let today = null;

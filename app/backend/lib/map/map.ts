@@ -4,6 +4,7 @@ import getAuthRole from '../../../utils/getAuthRole';
 import { getByteArrayFromS3 } from '../s3client';
 import { parseKMLFromBuffer, parseKMZ } from './utils';
 import { performQuery } from '../graphql';
+import { reportServerError } from '../emails/errorNotification';
 
 type RfiFile = {
   id: number;
@@ -382,6 +383,10 @@ map.get('/api/map/:id', limiter, async (req, res) => {
             }
             response.geographicCoverageMap.push(data);
           } catch (error) {
+            reportServerError(error, {
+              source: 'map-parse-geographic-coverage',
+              metadata: { fileName },
+            });
             errors.push({
               file: geographicCoverageMap,
               error: error.message,
@@ -416,6 +421,10 @@ map.get('/api/map/:id', limiter, async (req, res) => {
             }
             response.finalizedMapUpload.push(data);
           } catch (error) {
+            reportServerError(error, {
+              source: 'map-parse-finalized-upload',
+              metadata: { fileName },
+            });
             errors.push({
               file: finalizedMapUpload,
               error: error.message,
@@ -466,8 +475,7 @@ map.get('/api/map/:id', limiter, async (req, res) => {
 
     res.send(response);
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
+    reportServerError(error, { source: 'map-process', metadata: { exists } }, req);
     if (!exists) {
       await performQuery(
         createAppMapDataMutation,
@@ -529,6 +537,14 @@ map.get('/api/all/map', limiter, async (req, res) => {
         );
         return { rowId: application.rowId, responseCode: response.status };
       } catch (error) {
+        reportServerError(
+          error,
+          {
+            source: 'map-fetch-application',
+            metadata: { applicationId: application.rowId },
+          },
+          req
+        );
         return {
           rowId: application.rowId,
           responseCode: error.response?.status || 500,

@@ -1,6 +1,7 @@
 import { Issuer } from 'openid-client';
 import decodeJwt from '../../utils/decodeJwt';
 import config from '../../config';
+import { reportServerError } from './emails/errorNotification';
 
 const oidcIssuer = config.get('AUTH_SERVER_URL');
 const clientId = config.get('KEYCLOAK_SA_CLIENT_ID');
@@ -42,6 +43,7 @@ const validateKeycloakToken = (req, res, next) => {
       req.claims.client_roles = userInfo.client_roles;
       return next();
     } catch (error) {
+      reportServerError(error, { source: 'keycloak-validate' }, req);
       return res.status(401).json({ error: 'Unauthorized: Invalid token.' });
     }
   })();

@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
-import * as Sentry from '@sentry/nextjs';
 import { IChangeEvent } from '@rjsf/core';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
+import reportClientError from 'lib/helpers/reportClientError';
 import validate from 'formSchema/validate';
 import uiSchema from 'formSchema/uiSchema/uiSchema';
 import uiSchemaV3 from 'formSchema/uiSchema/uiSchemaV3';
@@ -109,9 +109,9 @@ export const mergeFormSectionData = (
   const schemaSection = jsonSchema.properties[formSectionName];
 
   const handleError = (error) => {
-    Sentry.captureException({
-      name: 'Invalid form field error',
-      message: error,
+    reportClientError(error, {
+      source: 'application-form-invalid-field',
+      metadata: { message: error },
     });
   };
 
@@ -486,9 +486,8 @@ const ApplicationForm: React.FC<Props> = ({
       }),
     }).then((response) => {
       if (!response.ok) {
-        Sentry.captureException({
-          name: 'Error sending email notification for application submit',
-          message: response,
+        reportClientError(response, {
+          source: 'application-submit-email',
         });
       }
       return response.json();

@@ -1,8 +1,8 @@
 import type { Pool, PoolClient } from 'pg';
 import type { Lightship } from 'lightship';
-import * as Sentry from '@sentry/nextjs';
 import { getSignedUrlPromise } from './s3client';
 import config from '../../config';
+import { reportServerError } from './emails/errorNotification';
 
 const CLAM_BUCKET = config.get('AWS_CLAM_S3_BUCKET');
 
@@ -27,7 +27,7 @@ async function readinessTest(pgPool: Pool, lightship: Lightship) {
       await client.query('rollback');
     }
     lightship.signalNotReady();
-    Sentry.captureException(e);
+    reportServerError(e, { source: 'readiness-test' });
     // rethrow so we don't silently fail without finding out the issue
     throw e;
   } finally {

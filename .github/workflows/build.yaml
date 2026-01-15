@@ -3,8 +3,6 @@ name: build
 
 on:
   workflow_call:
-    secrets:
-      SENTRY_AUTH_TOKEN: { required: true }
 
 concurrency:
   group: build-${{ github.ref }}
@@ -88,8 +86,6 @@ jobs:
           file: ${{ matrix.dockerfile }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          secrets: |
-            "sentry_auth_token=${{ secrets.SENTRY_AUTH_TOKEN }}"
           # cache-from: type=registry,ref=${{ matrix.image }}:buildcache
           # cache-to: type=registry,ref=${{ matrix.image }}:buildcache,mode=max
           # cache-to: ${{ github.ref == 'refs/heads/main' && format('type=registry,ref={0}:buildcache,mode=max', matrix.image) || '' }}

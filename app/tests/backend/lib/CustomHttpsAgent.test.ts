@@ -3,11 +3,11 @@
  * @jest-environment node
  */
 
-jest.mock('@sentry/nextjs', () => ({
-  captureException: jest.fn(),
+jest.mock('../../../backend/lib/emails/errorNotification', () => ({
+  reportServerError: jest.fn(),
 }));
 
-import * as Sentry from '@sentry/nextjs';
+import { reportServerError } from '../../../backend/lib/emails/errorNotification';
 import CustomHttpsAgent from '../../../backend/lib/CustomHttpsAgent';
 
 describe('Custom https agent', () => {
@@ -186,7 +186,7 @@ describe('Custom https agent', () => {
     expect(socket).toHaveProperty('write');
   });
 
-  it('should call console.log on error', async () => {
+  it('should report error on socket failure', async () => {
     const agent = new CustomHttpsAgent({
       keepAlive: true,
       keepAliveMsecs: 10000,
@@ -214,6 +214,6 @@ describe('Custom https agent', () => {
 
     socket.emit('error', new Error('boom'));
 
-    expect(Sentry.captureException).toHaveBeenCalledTimes(1);
+    expect(reportServerError).toHaveBeenCalledTimes(1);
   });
 });

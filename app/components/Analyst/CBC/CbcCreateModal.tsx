@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import Modal from 'components/Modal';
 import CbcCreateForm from './CbcCreateForm';
+import reportClientError from 'lib/helpers/reportClientError';
 
 const StyledContent = styled.div`
   display: flex;
@@ -92,6 +93,7 @@ const CbcCreateModal = ({ isOpen, setIsOpen }) => {
       } catch (error) {
         setErrors({ submit: 'An error occurred while submitting the form' });
         setIsSubmitting(false);
+        reportClientError(error, { source: 'cbc-create' });
       }
     }
   };

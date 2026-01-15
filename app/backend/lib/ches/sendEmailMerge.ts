@@ -1,7 +1,7 @@
-import * as Sentry from '@sentry/nextjs';
 import getConfig from 'next/config';
 import config from '../../../config';
 import toTitleCase from '../../../utils/formatString';
+import { reportServerError } from '../emails/errorNotification';
 
 const CHES_API_URL = config.get('CHES_API_URL');
 
@@ -48,7 +48,7 @@ const sendEmailMerge = async (
     const sendEmailResult = await response.json();
     return sendEmailResult;
   } catch (error: any) {
-    Sentry.captureException(new Error(error.message));
+    reportServerError(error, { source: 'sendEmailMerge' });
     throw new Error(error.message);
   }
 };

@@ -13,10 +13,7 @@ const mockLocalStorage = {
 };
 Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
 
-// Mock Sentry
-jest.mock('@sentry/nextjs', () => ({
-  captureException: jest.fn(),
-}));
+jest.mock('lib/helpers/reportClientError', () => jest.fn());
 
 describe('useChangeLogCache', () => {
   beforeEach(() => {

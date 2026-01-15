@@ -17,6 +17,7 @@ import {
   getDelayedAndNonCancelledEmailRecord,
   setIsCancelledEmailRecord,
 } from './utils/emailRecord';
+import { reportServerError, sendErrorNotification } from './errorNotification';
 import getAccessToken from '../ches/getAccessToken';
 import { cancelDelayedMessageByMsgId } from '../ches/cancelDelayedMessage';
 
@@ -188,6 +189,28 @@ email.post('/api/email/notifyDocumentUpload', limiter, (req, res) => {
   return handleEmailNotification(req, res, notifyDocumentUpload, {
     ...params,
   });
+});
+
+email.post('/api/email/notifyError', limiter, async (req, res) => {
+  try {
+    const { error, context, location, userAgent } = req.body || {};
+    await sendErrorNotification(
+      error,
+      {
+        ...context,
+        location,
+        metadata: {
+          ...(context?.metadata || {}),
+          userAgent,
+        },
+      },
+      req
+    );
+    return res.status(200).json({ status: 'ok' }).end();
+  } catch (error: any) {
+    reportServerError(error, { source: 'email-notify-error' }, req);
+    return res.status(500).json({ error: 'Internal server error' }).end();
+  }
 });
 
 export default email;

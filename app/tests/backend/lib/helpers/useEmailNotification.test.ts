@@ -1,8 +1,8 @@
 import { renderHook } from '@testing-library/react-hooks';
 import useEmailNotification from 'lib/helpers/useEmailNotification';
-import * as Sentry from '@sentry/nextjs';
+import reportClientError from 'lib/helpers/reportClientError';
 
-jest.mock('@sentry/nextjs');
+jest.mock('lib/helpers/reportClientError');
 const mockResponse = {
   ok: true,
   json: async () => ({}),
@@ -53,7 +53,7 @@ describe('notifyHHCountUpdate', () => {
     });
   });
 
-  it('should call Sentry.captureException if fetch fails', async () => {
+  it('should call reportClientError if fetch fails', async () => {
     const mockResponseFail = {
       ok: false,
       json: async () => ({}),
@@ -69,12 +69,7 @@ describe('notifyHHCountUpdate', () => {
       {}
     );
 
-    expect(Sentry.captureException).toHaveBeenCalledWith(
-      expect.objectContaining({
-        name: 'Email sending failed',
-        message: expect.anything(),
-      })
-    );
+    expect(reportClientError).toHaveBeenCalled();
   });
 });
 
@@ -105,7 +100,7 @@ describe('notifyDocumentUpload', () => {
     });
   });
 
-  it('should call Sentry.captureException if fetch fails', async () => {
+  it('should call reportClientError if fetch fails', async () => {
     const mockResponseFail = {
       ok: false,
       json: jest.fn().mockResolvedValue({}),
@@ -120,11 +115,6 @@ describe('notifyDocumentUpload', () => {
       documentNames: ['sow.xls'],
     });
 
-    expect(Sentry.captureException).toHaveBeenCalledWith(
-      expect.objectContaining({
-        name: 'Error sending email to notify Claim & Progress Report upload',
-        message: expect.anything(),
-      })
-    );
+    expect(reportClientError).toHaveBeenCalled();
   });
 });

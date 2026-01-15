@@ -4,6 +4,5 @@
   "ARCHIVE_REQUEST_TOPIC_ARN": "arn:aws:sns:ca-central-1:780887525069:ccbc-export-files",
   "ENABLE_MOCK_TIME": true,
   "ENABLE_MOCK_COOKIES": true,
-  "SENTRY_ENVIRONMENT": "dev",
   "NEXT_PUBLIC_GROWTHBOOK_API_KEY": ""
 }

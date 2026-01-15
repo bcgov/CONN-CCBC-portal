@@ -8,10 +8,10 @@ import LoadingSpinner from 'components/LoadingSpinner';
 import { useCreateAssessmentMutation } from 'schema/mutations/assessment/createAssessment';
 import assessmentsUiSchema from 'formSchema/uiSchema/analyst/assessmentsUiSchema';
 import { RJSFSchema } from '@rjsf/utils';
-import * as Sentry from '@sentry/nextjs';
 import { useToast } from 'components/AppProvider';
 import { FormBaseRef } from 'components/Form/FormBase';
 import isEqual from 'lodash.isequal';
+import reportClientError from 'lib/helpers/reportClientError';
 
 interface Props {
   addedContext?: any;
@@ -188,10 +188,7 @@ const AssessmentsForm: React.FC<Props> = ({
             'error',
             5000
           );
-          Sentry.captureException({
-            name: 'Email sending failed',
-            message: response,
-          });
+          reportClientError(response, { source: 'second-review-email' });
           setEmailStatus('idle');
         } else {
           showToast('Email notification sent successfully', 'success', 5000);

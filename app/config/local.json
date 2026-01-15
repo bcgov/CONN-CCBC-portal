@@ -4,6 +4,5 @@
   "ARCHIVE_REQUEST_TOPIC_ARN": "arn:aws:sns:ca-central-1:780887525069:ccbc-export-files",
   "ENABLE_MOCK_TIME": false,
   "ENABLE_MOCK_COOKIES": true,
-  "CHECK_TAGS": true,
-  "SENTRY_RELEASE": "local_development"
+  "CHECK_TAGS": true
 }

@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import reportClientError from 'lib/helpers/reportClientError';
 
 type FormatType = {
   date_year_first: string;
@@ -45,7 +46,7 @@ export const ensureFullTimestamp = (
       return fullTimestamp.replace('T',' ');
     }
     catch(e) {
-      console.log(e);
+      reportClientError(e, { source: 'format-dates-ensure-full-timestamp' });
       return dateStr;
     }
 }
@@ -62,8 +63,7 @@ export const dateTimeFormat = (
       const fullDate = DateTime.fromSeconds(dateValue).setZone(TIMEZONE);
       return fullDate.toFormat(FORMAT_TYPE[format]); 
     } catch (e) {
-      console.log(e);
-
+      reportClientError(e, { source: 'format-dates-date-time-format' });
       throw e;
     }
   }

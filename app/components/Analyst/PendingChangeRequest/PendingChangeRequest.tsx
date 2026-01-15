@@ -5,10 +5,10 @@ import styled from 'styled-components';
 import useModal from 'lib/helpers/useModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons';
-import * as Sentry from '@sentry/nextjs';
 import { useCreateCbcPendingChangeRequestMutation } from 'schema/mutations/application/createCbcPendingChangeRequest';
 import { CreatePendingChangeRequestInput } from '__generated__/createPendingChangeRequestMutation.graphql';
 import { CreateCbcPendingChangeRequestInput } from '__generated__/createCbcPendingChangeRequestMutation.graphql';
+import reportClientError from 'lib/helpers/reportClientError';
 import PendingChangeRequestModal from './PendingChangeRequestModal';
 import ClosePendingRequestModal from './ClosePendingRequestModal';
 
@@ -124,9 +124,9 @@ const PendingChangeRequest = ({
         setComment(isPendingRequest ? reasonForChange : null);
       },
       onError: (err: any) => {
-        Sentry.captureException({
-          name: 'Create Pending Change Request Error',
-          message: err.message,
+        reportClientError(err, {
+          source: 'pending-change-request',
+          metadata: { message: err.message },
         });
       },
     });

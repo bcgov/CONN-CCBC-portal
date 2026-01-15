@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/nextjs';
+import reportClientError from 'lib/helpers/reportClientError';
 
 const useRfiCoverageMapKmzUploadedEmail = () => {
   const notifyRfiCoverageMapKmzUploaded = async (
@@ -38,9 +38,8 @@ const useRfiCoverageMapKmzUploadedEmail = () => {
         commonEmailObject
       ).then((r) => {
         if (!r.ok) {
-          Sentry.captureException({
-            name: 'Email sending Agreement Signed Data Team failed',
-            message: r,
+          reportClientError(r, {
+            source: 'rfi-coverage-map-email',
           });
         }
         return r.json();

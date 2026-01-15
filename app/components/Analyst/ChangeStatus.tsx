@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
 import { useCreateApplicationStatusMutation } from 'schema/mutations/assessment/createApplicationStatus';
 import useModal from 'lib/helpers/useModal';
-import * as Sentry from '@sentry/nextjs';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import useApplicationMerge from 'lib/helpers/useApplicationMerge';
+import reportClientError from 'lib/helpers/reportClientError';
 import ChangeModal from './ChangeModal';
 import ExternalChangeModal from './ExternalChangeModal';
 
@@ -257,9 +257,9 @@ const ChangeStatus: React.FC<Props> = ({
       }),
     }).then((response) => {
       if (!response.ok) {
-        Sentry.captureException({
-          name: errorMessage,
-          message: response,
+        reportClientError(response, {
+          source: 'change-status-email',
+          metadata: { errorMessage },
         });
       }
       return response.json();
@@ -297,7 +297,7 @@ const ChangeStatus: React.FC<Props> = ({
           if (!updatedParent?.rowId) setMergeParent(null);
         },
         (error: any) => {
-          Sentry.captureException(error);
+          reportClientError(error, { source: 'change-status-update' });
         }
       );
     }

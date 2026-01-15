@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import * as Sentry from '@sentry/nextjs';
+import reportClientError from 'lib/helpers/reportClientError';
 
 const StyledLink = styled.button`
   color: ${(props) => props.theme.color.links};
@@ -26,7 +26,7 @@ const HistoryAttachment = ({ displayName, record, createdAtFormatted }) => {
         onClick={(e) => {
           e.preventDefault();
           handleDownload(record.file, record.file_name).catch((error) => {
-            Sentry.captureException(error);
+            reportClientError(error, { source: 'history-attachment-download' });
           });
         }}
       >

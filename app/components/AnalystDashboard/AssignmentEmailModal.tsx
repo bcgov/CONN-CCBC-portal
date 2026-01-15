@@ -1,8 +1,8 @@
 import Modal from 'components/Modal';
-import * as Sentry from '@sentry/nextjs';
 import { useCreateEmailNotificationsMutation } from 'schema/mutations/application/createEmailNotifications';
 import { useToast } from 'components/AppProvider';
 import { useState } from 'react';
+import reportClientError from 'lib/helpers/reportClientError';
 
 interface Props {
   isOpen: boolean;
@@ -58,9 +58,9 @@ const AssignmentEmailModal: React.FC<Props> = ({
         connections: assignments.map((email) => email.notificationConnectionId),
       },
       onError: (error) => {
-        Sentry.captureException({
-          name: 'Save Email Notification Records Error',
-          message: error.message,
+        reportClientError(error, {
+          source: 'assignment-email-notification-records',
+          metadata: { message: error.message },
         });
       },
     });
@@ -88,9 +88,9 @@ const AssignmentEmailModal: React.FC<Props> = ({
       );
       showToast('Email notification sent successfully', 'success', 5000);
     } catch (error) {
-      Sentry.captureException({
-        name: 'Notify Analysts Error',
-        message: error.message,
+      reportClientError(error, {
+        source: 'assignment-email-send',
+        metadata: { message: error.message },
       });
       showToast(
         'Email notification did not work, please try again',

@@ -1,3 +1,5 @@
+import reportClientError from './reportClientError';
+
 const fetchWithTimeout = async (
   url: string,
   options: RequestInit = {},
@@ -17,6 +19,7 @@ const fetchWithTimeout = async (
     return response;
   } catch (error) {
     clearTimeout(timeoutId);
+    reportClientError(error, { source: 'fetch-with-timeout', metadata: { url } });
     if (error.name === 'AbortError') {
       throw new Error(`Fetch request to ${url} timed out after ${timeout}ms`);
     }

@@ -1,11 +1,11 @@
 import crypto from 'crypto';
 import { Upload } from '@aws-sdk/lib-storage';
-import * as Sentry from '@sentry/nextjs';
 import { CompleteMultipartUploadCommandOutput } from '@aws-sdk/client-s3';
 import fs from 'fs';
 import { Readable, EventEmitter } from 'node:stream';
 import { s3ClientV3 } from '../s3client';
 import config from '../../../config';
+import { reportServerError } from '../emails/errorNotification';
 
 const AWS_S3_BUCKET = config.get('AWS_S3_BUCKET');
 const AWS_S3_REGION = config.get('AWS_S3_REGION');
@@ -63,7 +63,7 @@ export const saveRemoteFile = async (stream) => {
 
     (parallelUploads3 as EventEmitter).on('uncaughtException', (error) => {
       if (error instanceof Error) {
-        Sentry.captureException(error);
+        reportServerError(error, { source: 's3-upload-uncaught' });
         throw error;
       }
     });
@@ -83,8 +83,8 @@ export const saveRemoteFile = async (stream) => {
 
     return key;
   } catch (err) {
-    console.log('Error', err);
-    throw new Error(err);
+    reportServerError(err, { source: 'save-remote-file' });
+    throw new Error(err instanceof Error ? err.message : String(err));
   } finally {
     console.timeEnd('saveRemoteFile');
   }

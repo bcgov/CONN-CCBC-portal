@@ -14,6 +14,7 @@ import useDisposeOnRouteChange from 'lib/helpers/useDisposeOnRouteChange';
 import { DateTime } from 'luxon';
 import { useToast } from 'components/AppProvider';
 import { ToastType } from 'components/Toast';
+import reportClientError from 'lib/helpers/reportClientError';
 
 type File = {
   id: string | number;
@@ -117,6 +118,7 @@ export async function processFileTemplate(
           templateNumber,
           error: true,
         });
+        reportClientError(error, { source: 'file-widget-template-validate' });
       }
     }
   }

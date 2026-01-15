@@ -3,9 +3,9 @@ import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { StyledDropdown } from 'components/Analyst/AssignLead';
 import { useToast } from 'components/AppProvider';
-import * as Sentry from '@sentry/nextjs';
 import styled from 'styled-components';
 import LoadingSpinner from 'components/LoadingSpinner';
+import reportClientError from 'lib/helpers/reportClientError';
 
 const formatReportDate = (date) =>
   DateTime.fromISO(date)
@@ -94,7 +94,7 @@ const Gcpe = ({ reportList, session }) => {
   };
 
   const handleError = (error) => {
-    Sentry.captureException(error);
+    reportClientError(error, { source: 'gcpe-reporting' });
     showToast('An error occurred. Please try again.', 'error', 15000);
   };
 

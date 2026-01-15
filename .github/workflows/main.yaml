@@ -15,8 +15,6 @@ jobs:
 
   build:
     uses: ./.github/workflows/build.yaml
-    secrets:
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
   install-env:
     uses: ./.github/workflows/install-env.yaml

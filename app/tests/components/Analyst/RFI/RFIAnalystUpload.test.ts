@@ -25,12 +25,6 @@ mocked(useRfiCoverageMapKmzUploadedEmail).mockReturnValue({
   notifyRfiCoverageMapKmzUploaded: mockNotifyRfiCoverageMapKmzUploaded,
 });
 
-jest.mock('@sentry/nextjs', () => ({
-  init: jest.fn(),
-  captureException: jest.fn(),
-  withSentry: (handler: any) => handler,
-}));
-
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));

@@ -12,6 +12,7 @@ import communityDueDate from '../../../backend/lib/communityReportsDueDate';
 import { performQuery } from '../../../backend/lib/graphql';
 import handleEmailNotification from '../../../backend/lib/emails/handleEmailNotification';
 import getAuthRole from '../../../utils/getAuthRole';
+import reportClientError from 'lib/helpers/reportClientError';
 
 jest.mock('../../../backend/lib/graphql');
 jest.mock('../../../utils/getAuthRole');
@@ -88,6 +89,7 @@ describe('The Community Progress Report api route', () => {
       });
     } catch (err) {
       console.error(err);
+      reportClientError(err, { source: 'community-due-date-test' });
     }
   });
 
@@ -140,6 +142,7 @@ describe('The Community Progress Report api route', () => {
       expect(response.body).toEqual({ emails: 'sent' });
     } catch (err) {
       console.error(err);
+      reportClientError(err, { source: 'community-due-date-test-email' });
     }
   });
 
