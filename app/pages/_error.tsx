@@ -1,4 +1,5 @@
 import Error from 'next/error';
+import type { NextPageContext } from 'next';
 import reportClientError from 'lib/helpers/reportClientError';
 
 const CustomErrorComponent = (props) => {
@@ -6,9 +7,13 @@ const CustomErrorComponent = (props) => {
   return <Error statusCode={props.statusCode} />;
 };
 
-CustomErrorComponent.getInitialProps = async (contextData) => {
+CustomErrorComponent.getInitialProps = async (
+  contextData: NextPageContext & { err?: Error | null }
+) => {
   const error =
-    contextData?.err || new Error('Unexpected error in _error handler');
+    contextData?.err instanceof Error
+      ? contextData.err
+      : new Error('Unexpected error in _error handler');
   if (contextData?.req) {
     console.error('next-error-page', error);
     const req = contextData.req;
