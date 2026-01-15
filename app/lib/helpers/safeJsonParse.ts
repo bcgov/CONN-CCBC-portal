@@ -2,6 +2,9 @@ import reportClientError from './reportClientError';
 
 export default function safeJsonParse(toParse: string) {
   try {
+    if (toParse == null) {
+      return {};
+    }
     if (typeof toParse !== 'string') {
       return toParse;
     }

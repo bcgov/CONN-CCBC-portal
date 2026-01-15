@@ -57,7 +57,6 @@ describe('the authenticationPgSettings function', () => {
       expect.anything(),
       'ccbc_public',
       expect.objectContaining({
-        handleErrors: expect.any(Function),
         extendedErrors: ['hint', 'detail', 'errcode'],
         showErrorStack: 'json',
       })

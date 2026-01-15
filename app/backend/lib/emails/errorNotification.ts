@@ -1,6 +1,4 @@
 import config from '../../../config';
-import getAccessToken from '../ches/getAccessToken';
-import sendEmail from '../ches/sendEmail';
 
 type ErrorMetadata = Record<string, unknown>;
 
@@ -9,6 +7,7 @@ export interface ErrorNotificationContext {
   location?: string;
   requestId?: string;
   metadata?: ErrorMetadata;
+  logMessage?: string;
 }
 
 const SKIP_NOTIFICATION_SOURCES = new Set([
@@ -136,6 +135,11 @@ export const sendErrorNotification = async (
   }
 
   try {
+    const [{ default: getAccessToken }, { default: sendEmail }] =
+      await Promise.all([
+        import('../ches/getAccessToken'),
+        import('../ches/sendEmail'),
+      ]);
     const token = await getAccessToken();
     const errorInfo = normalizeError(error);
     const body = buildEmailBody(errorInfo, context, getRequestMetadata(req));
@@ -160,6 +164,10 @@ export const reportServerError = (
   context: ErrorNotificationContext = {},
   req?: any
 ) => {
-  console.error(context.source || 'Server error', error);
+  if (context.logMessage) {
+    console.error(context.logMessage, error);
+  } else {
+    console.error(context.source || 'Server error', error);
+  }
   void sendErrorNotification(error, context, req);
 };

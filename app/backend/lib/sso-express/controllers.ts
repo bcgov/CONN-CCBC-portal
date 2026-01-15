@@ -85,9 +85,9 @@ export const tokenSetController =
         req.session.tokenSet = tokenSet;
         req.claims = tokenSet.claims();
       } catch (err) {
-        console.error('sso-express could not refresh the access token.');
         reportServerError(err, {
           source: 'sso-token-refresh',
+          logMessage: 'sso-express could not refresh the access token.',
           metadata: { token: tokenSet },
         });
         delete req.session.tokenSet;
@@ -224,11 +224,11 @@ export const authCallbackController =
           : options.getLandingRoute(req)
       );
     } catch (err) {
-      console.error('sso-express could not get the access token.');
       reportServerError(
         err,
         {
           source: 'sso-auth-callback',
+          logMessage: 'sso-express could not get the access token.',
           metadata: {
             session: req.session,
             query: req.query,
