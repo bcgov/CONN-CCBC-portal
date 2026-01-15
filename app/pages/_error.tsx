@@ -1,10 +1,10 @@
-import Error from 'next/error';
+import NextError from 'next/error';
 import type { NextPageContext } from 'next';
 import reportClientError from 'lib/helpers/reportClientError';
 
 const CustomErrorComponent = (props) => {
   // eslint-disable-next-line react/destructuring-assignment
-  return <Error statusCode={props.statusCode} />;
+  return <NextError statusCode={props.statusCode} />;
 };
 
 CustomErrorComponent.getInitialProps = async (
@@ -13,7 +13,7 @@ CustomErrorComponent.getInitialProps = async (
   const error =
     contextData?.err instanceof Error
       ? contextData.err
-      : new Error('Unexpected error in _error handler');
+      : new globalThis.Error('Unexpected error in _error handler');
   if (contextData?.req) {
     console.error('next-error-page', error);
     const req = contextData.req;
@@ -58,7 +58,7 @@ CustomErrorComponent.getInitialProps = async (
   }
 
   // This will contain the status code of the response
-  return Error.getInitialProps(contextData);
+  return NextError.getInitialProps(contextData);
 };
 
 export default CustomErrorComponent;
