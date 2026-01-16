@@ -259,6 +259,28 @@ describe('The application header component', () => {
         },
       }
     );
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createProjectType: {
+            applicationProjectType: {
+              projectType: 'lastMileAndTransport',
+            },
+          },
+        },
+      });
+    });
+
+    const recordSource = componentTestingHelper.environment
+      .getStore()
+      .getSource();
+    const projectTypeValues = recordSource
+      .getRecordIDs()
+      .map((recordId) => recordSource.get(recordId))
+      .map((record) => (record as { projectType?: string }).projectType);
+
+    expect(projectTypeValues).toContain('lastMileAndTransport');
   });
 
   it('displays the header labels', () => {

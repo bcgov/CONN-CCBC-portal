@@ -31,7 +31,7 @@ const AssignProjectType = ({ application }) => {
     application
   );
   const { applicationProjectTypesByApplicationId, rowId } = queryFragment;
-  const { id, projectType: applicationProjectType } =
+  const { projectType: applicationProjectType } =
     applicationProjectTypesByApplicationId.nodes?.[0] || {};
 
   const [createProjectType] = useCreateProjectTypeMutation();
@@ -47,7 +47,8 @@ const AssignProjectType = ({ application }) => {
         },
       },
       updater: (store) => {
-        const record = store.get(id);
+        const payload = store.getRootField('createProjectType');
+        const record = payload?.getLinkedRecord('applicationProjectType');
         record.setValue(projectType, 'projectType');
       },
     });

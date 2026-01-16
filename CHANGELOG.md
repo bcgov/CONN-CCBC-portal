@@ -1,3 +1,9 @@
+## [1.283.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.283.1...v1.283.2) (2026-01-15)
+
+### Bug Fixes
+
+- project type updater error ([13a08dd](https://github.com/bcgov/CONN-CCBC-portal/commit/13a08dd66eb7c65c0b352e5507cdee65f290eac1))
+
 ## [1.283.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.283.0...v1.283.1) (2026-01-15)
 
 ### Bug Fixes
