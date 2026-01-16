@@ -1,3 +1,9 @@
+# [1.284.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.283.2...v1.284.0) (2026-01-16)
+
+### Features
+
+- process template nine data on app submission ([f2389b9](https://github.com/bcgov/CONN-CCBC-portal/commit/f2389b99deeff2ba10816b29c74409f9fd63e611))
+
 ## [1.283.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.283.1...v1.283.2) (2026-01-15)
 
 ### Bug Fixes

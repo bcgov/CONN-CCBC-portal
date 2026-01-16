@@ -495,6 +495,10 @@ const ApplicationForm: React.FC<Props> = ({
     });
   };
 
+  const createTemplateNineData = (id, uuid) => {
+    fetch(`/api/template-nine/${id}/${uuid}/application`);
+  };
+
   const saveForm = (
     newFormSectionData: any,
     mutationConfig?: Partial<
@@ -718,12 +722,22 @@ const ApplicationForm: React.FC<Props> = ({
     );
   };
 
+  const handleTemplateNineCreation = () => {
+    const templateNineUuid = jsonData.templateUploads?.geographicNames?.[0]?.uuid;
+    if (templateNineUuid) {
+      createTemplateNineData(rowId, templateNineUuid);
+    }
+  };
+
   const handleSubmit = (e: IChangeEvent<any>) => {
     if (pageNumber < subschemaArray.length) {
       saveForm(
         e.formData,
         {
           onCompleted: () => {
+            if (isSubmitted) {
+              handleTemplateNineCreation();
+            }
             //  TODO: update rerouting logic to handle when there are form errors etc.
             router.push(`/applicantportal/form/${rowId}/${pageNumber + 1}`);
           },
@@ -740,6 +754,7 @@ const ApplicationForm: React.FC<Props> = ({
         },
         onCompleted: () => {
           router.push(`/applicantportal/form/${rowId}/success`);
+          handleTemplateNineCreation();
           if (isRollingIntake) notifyRollingApplicationSubmission();
         },
       });
