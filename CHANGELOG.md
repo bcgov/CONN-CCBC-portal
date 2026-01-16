@@ -1,3 +1,9 @@
+## [1.284.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.284.0...v1.284.1) (2026-01-16)
+
+### Bug Fixes
+
+- update config for coverages file name ([4a04678](https://github.com/bcgov/CONN-CCBC-portal/commit/4a04678d658007a1bc513e656b6f17f0c5d11c0f))
+
 # [1.284.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.283.2...v1.284.0) (2026-01-16)
 
 ### Features
