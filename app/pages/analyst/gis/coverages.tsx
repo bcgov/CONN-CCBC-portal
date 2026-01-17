@@ -48,6 +48,8 @@ const {
 const StyledContainer = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 const StyledError = styled('div')`
   color: #e71f1f;
@@ -59,14 +61,18 @@ const StyledSuccess = styled('div')`
   margin-top: 10px;
 `;
 
-const StyledBtnContainer = styled.div`
-  width: 100%;
+const StyledHeaderContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1.25rem;
   margin-top: 2rem;
-  flex-direction: row;
-  justify-content: left;
+  width: 100%;
+`;
+
+const StyledBtnContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 const acceptedFileTypes = ['.zip'];
@@ -177,7 +183,19 @@ const CoveragesTab = ({ historyList }) => {
   return (
     <div>
       <Tabs />
-      <h2>Application Coverages Upload</h2>
+      <StyledHeaderContainer>
+        <h2>Application Coverages Upload</h2>
+        <StyledBtnContainer>
+          <ButtonLink
+            onClick={handleUpload}
+            href="#"
+            disabled={isUploading || !selectedFile}
+            data-skip-unsaved-warning
+          >
+            {isUploading ? 'Saving' : 'Save'}
+          </ButtonLink>
+        </StyledBtnContainer>
+      </StyledHeaderContainer>
       <div>
         <strong>
           Upload a ZIP file containing the shapefiles for the CCBC Application
@@ -214,16 +232,6 @@ const CoveragesTab = ({ historyList }) => {
             </div>
           </>
         )}
-        <StyledBtnContainer>
-          <ButtonLink
-            onClick={handleUpload}
-            href="#"
-            disabled={isUploading || !selectedFile}
-            data-skip-unsaved-warning
-          >
-            {isUploading ? 'Uploading' : 'Upload'}
-          </ButtonLink>
-        </StyledBtnContainer>
         {uploadSuccess && (
           <StyledSuccess>
             <p>Upload successful!</p>
