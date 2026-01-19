@@ -16,7 +16,6 @@ import checkFileType from 'utils/checkFileType';
 import { useUnsavedChanges } from 'components/UnsavedChangesProvider';
 import HistoryFileUpload from 'components/Analyst/History/HistoryFileUpload';
 import reportClientError from 'lib/helpers/reportClientError';
-import config from '../../../config';
 
 const getCoveragesQuery = graphql`
   query coveragesQuery {
