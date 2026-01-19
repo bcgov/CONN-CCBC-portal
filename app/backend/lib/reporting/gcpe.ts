@@ -5,8 +5,13 @@ import generateFormData, {
   getFundingData,
 } from '../../../lib/helpers/ccbcSummaryGenerateFormData';
 import { performQuery } from '../graphql';
-import { HEADER_ROW, generateHeaderInfoRow } from './header';
-import columnOptions from './column_options';
+import {
+  CHANGE_LOG_HEADER_CELL,
+  HEADER_ROW,
+  HEADER_ROW_WITH_CHANGE_LOG,
+  generateHeaderInfoRow,
+} from './header';
+import columnOptions, { columnOptionsWithChangeLog } from './column_options';
 import {
   cleanDateTime,
   compareAndMarkArrays,
@@ -214,6 +219,17 @@ const getReportingGcpeQuery = `
   }
 `;
 
+/**
+ * To determine whether old saved reports have a change log column
+ */
+const hasChangeLogColumn = (excelData: Row[]) => {
+  const headerRow = excelData?.[1];
+  return (
+    headerRow?.some((cell) => cell?.value === CHANGE_LOG_HEADER_CELL.value) ??
+    false
+  );
+};
+
 export const regenerateGcpeReport = async (rowId, req) => {
   const queryResult = await performQuery(
     getReportingGcpeQuery,
@@ -230,13 +246,14 @@ export const regenerateGcpeReport = async (rowId, req) => {
       }
     });
   });
+  const includeChangeLog = hasChangeLogColumn(excelData);
   const blob = await writeXlsxFile(excelData as any, {
     fontFamily: 'BC Sans',
     fontSize: 12,
     dateFormat: 'yyyy-mm-dd',
     stickyColumnsCount: 7,
     sheet: 'GCPE Report',
-    columns: columnOptions,
+    columns: includeChangeLog ? columnOptionsWithChangeLog : columnOptions,
   });
   return blob;
 };
@@ -249,7 +266,8 @@ const generateExcelData = async (
 ) => {
   const infoRow = generateHeaderInfoRow();
 
-  const excelData = [infoRow, HEADER_ROW];
+  const headerRow = compare ? HEADER_ROW_WITH_CHANGE_LOG : HEADER_ROW;
+  const excelData = [infoRow, headerRow];
 
   cbcData?.data?.allCbcData?.edges?.forEach(async (edges) => {
     const { node } = edges;
@@ -392,9 +410,10 @@ const generateExcelData = async (
       { value: node?.jsonData?.secondaryNewsRelease },
       // notes
       { value: node?.jsonData?.notes },
-      // change log (empty for non-comparison)
-      { value: '' },
     ];
+    if (compare) {
+      row.push({ value: '' });
+    }
     excelData.push(row);
   });
 
@@ -612,9 +631,10 @@ const generateExcelData = async (
             ?.map((edge) => edge?.node?.note)
             .join('\n') || '',
       },
-      // change log (empty for non-comparison)
-      { value: '' },
     ];
+    if (compare) {
+      row.push({ value: '' });
+    }
     excelData.push(row);
   });
   if (compare) {
@@ -702,7 +722,7 @@ export const compareAndGenerateGcpeReport = async (compareRowId, req) => {
     dateFormat: 'yyyy-mm-dd',
     stickyColumnsCount: 7,
     sheet: 'GCPE Report',
-    columns: columnOptions,
+    columns: columnOptionsWithChangeLog,
   });
   let mutationResult;
   if (blob) {
@@ -760,7 +780,7 @@ export const compareGcpeReports = async (sourceRowId, targetRowId, req) => {
     dateFormat: 'yyyy-mm-dd',
     stickyColumnsCount: 7,
     sheet: 'GCPE Report',
-    columns: columnOptions,
+    columns: columnOptionsWithChangeLog,
   });
   return blob;
 };
