@@ -25,7 +25,7 @@ describe('reportClientError', () => {
 
     reportClientError(new Error('boom'), { source: 'unit-test' });
 
-    await new Promise((resolve) => setImmediate(resolve));
+    await Promise.resolve();
 
     expect(consoleSpy).toHaveBeenCalledWith(
       'unit-test',
@@ -57,7 +57,7 @@ describe('reportClientError', () => {
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
     reportClientError(new Error('boom'), { source: 'unit-test' });
-    await new Promise((resolve) => setImmediate(resolve));
+    await Promise.resolve();
 
     expect(consoleSpy).toHaveBeenCalled();
     expect(global.fetch).not.toHaveBeenCalled();
@@ -70,7 +70,7 @@ describe('reportClientError', () => {
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
     reportClientError('boom', { source: 'unit-test' });
-    await new Promise((resolve) => setImmediate(resolve));
+    await Promise.resolve();
 
     expect(consoleSpy).toHaveBeenCalledWith('unit-test', 'boom');
     expect(global.fetch).not.toHaveBeenCalled();
@@ -84,7 +84,7 @@ describe('reportClientError', () => {
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
     reportClientError('boom', { source: 'unit-test' });
-    await new Promise((resolve) => setImmediate(resolve));
+    await Promise.resolve();
 
     expect(consoleSpy).toHaveBeenCalledWith(
       'Failed to send error notification.',
