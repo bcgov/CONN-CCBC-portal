@@ -16,39 +16,31 @@ CustomErrorComponent.getInitialProps = async (
       : new globalThis.Error('Unexpected error in _error handler');
   if (contextData?.req) {
     console.error('next-error-page', error);
-    const req = contextData.req;
-    const forwardedProto = req?.headers?.['x-forwarded-proto'];
-    const protocol =
-      (Array.isArray(forwardedProto)
-        ? forwardedProto[0]
-        : forwardedProto?.split(',')[0]) || 'http';
-    const host = req?.headers?.host;
-    if (host) {
-      try {
-        const payload = {
-          error: {
-            name: error.name,
-            message: error.message,
-            stack: error.stack,
+    const {req} = contextData;
+    try {
+      const payload = {
+        error: {
+          name: error.name,
+          message: error.message,
+          stack: error.stack,
+        },
+        context: {
+          source: 'next-error-page',
+          metadata: {
+            statusCode: contextData?.res?.statusCode,
+            pathname: contextData?.pathname,
           },
-          context: {
-            source: 'next-error-page',
-            metadata: {
-              statusCode: contextData?.res?.statusCode,
-              pathname: contextData?.pathname,
-            },
-          },
-          location: req?.url,
-          userAgent: req?.headers?.['user-agent'],
-        };
-        await fetch(`${protocol}://${host}/api/email/notifyError`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-      } catch (notifyError) {
-        console.error('Failed to notify error email', notifyError);
-      }
+        },
+        location: req?.url,
+        userAgent: req?.headers?.['user-agent'],
+      };
+      await fetch('/api/email/notifyError', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch (notifyError) {
+      console.error('Failed to notify error email', notifyError);
     }
   } else {
     reportClientError(error, {
