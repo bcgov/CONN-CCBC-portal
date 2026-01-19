@@ -474,7 +474,18 @@ const generateExcelData = async (
       { value: convertStatus(node?.analystStatus) },
       // project milestone complete percent
       {
-        value: `${summaryData?.formData?.milestone?.percentProjectMilestoneComplete || ''}`,
+        value: summaryData?.formData?.milestone?.percentProjectMilestoneComplete
+          ? Number.parseFloat(
+              String(
+                summaryData?.formData?.milestone
+                  ?.percentProjectMilestoneComplete
+              )
+                .replace('%', '')
+                .trim()
+            ) / 100
+          : null,
+        format: '0%',
+        type: Number,
       },
       // project milestone completion date
       {
