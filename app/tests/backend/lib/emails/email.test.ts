@@ -21,6 +21,10 @@ import notifyDocumentUpload from 'backend/lib/emails/templates/notifyDocumentUpl
 import * as emailRecordUtils from 'backend/lib/emails/utils/emailRecord';
 import * as ches from 'backend/lib/ches/cancelDelayedMessage';
 import getAccessToken from 'backend/lib/ches/getAccessToken';
+import {
+  reportServerError,
+  sendErrorNotification,
+} from 'backend/lib/emails/errorNotification';
 
 jest.mock('backend/lib/emails/utils/emailRecord', () => ({
   __esModule: true,
@@ -31,6 +35,11 @@ jest.mock('backend/lib/emails/utils/emailRecord', () => ({
 jest.mock('backend/lib/emails/handleEmailNotification');
 jest.mock('backend/lib/ches/cancelDelayedMessage');
 jest.mock('backend/lib/ches/getAccessToken');
+jest.mock('backend/lib/emails/errorNotification', () => ({
+  __esModule: true,
+  sendErrorNotification: jest.fn(),
+  reportServerError: jest.fn(),
+}));
 
 describe('Email API Endpoints', () => {
   let app;
@@ -350,6 +359,44 @@ describe('Email API Endpoints', () => {
         timestamp: '2024-06-26',
         documentNames: ['file1', 'file2'],
       }
+    );
+  });
+
+  it('notifyError returns 200 and sends notification', async () => {
+    (sendErrorNotification as jest.Mock).mockResolvedValue('sent');
+    const res = await request(app).post('/api/email/notifyError').send({
+      error: { name: 'Error', message: 'boom' },
+      context: { source: 'client-test', metadata: { foo: 'bar' } },
+      location: 'http://localhost/foo',
+      userAgent: 'jest',
+    });
+
+    expect(res.status).toBe(200);
+    expect(sendErrorNotification).toHaveBeenCalledWith(
+      { name: 'Error', message: 'boom' },
+      {
+        source: 'client-test',
+        location: 'http://localhost/foo',
+        metadata: { foo: 'bar', userAgent: 'jest' },
+      },
+      expect.anything()
+    );
+  });
+
+  it('notifyError returns 500 and reports error on failure', async () => {
+    (sendErrorNotification as jest.Mock).mockImplementation(() => {
+      throw new Error('send failed');
+    });
+
+    const res = await request(app).post('/api/email/notifyError').send({
+      error: { name: 'Error', message: 'boom' },
+    });
+
+    expect(res.status).toBe(500);
+    expect(reportServerError).toHaveBeenCalledWith(
+      expect.any(Error),
+      { source: 'email-notify-error' },
+      expect.anything()
     );
   });
 });
