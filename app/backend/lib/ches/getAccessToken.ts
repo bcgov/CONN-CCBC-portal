@@ -1,5 +1,4 @@
 import config from '../../../config';
-import { reportServerError } from '../emails/errorNotification';
 
 const CHES_CLIENT = config.get('CHES_CLIENT');
 const CHES_CLIENT_SECRET = config.get('CHES_CLIENT_SECRET');
@@ -27,7 +26,7 @@ const getAccessToken = async () => {
     const token: string = data.access_token;
     return token;
   } catch (error: any) {
-    reportServerError(error, { source: 'getAccessToken' });
+    console.error('Error getting CHES access token', error);
     throw new Error(error.message);
   }
 };
