@@ -41,7 +41,10 @@ class AppErrorBoundary extends React.Component<
   { children: React.ReactNode },
   { hasError: boolean }
 > {
-  state = { hasError: false };
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
   static getDerivedStateFromError() {
     return { hasError: true };
@@ -55,10 +58,13 @@ class AppErrorBoundary extends React.Component<
   }
 
   render() {
-    if (this.state.hasError) {
+    const { hasError } = this.state;
+    const { children } = this.props;
+
+    if (hasError) {
       return <Error500 />;
     }
-    return this.props.children;
+    return children;
   }
 }
 

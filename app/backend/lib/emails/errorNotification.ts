@@ -169,5 +169,6 @@ export const reportServerError = (
   } else {
     console.error(context.source || 'Server error', error);
   }
+  // eslint-disable-next-line no-void
   void sendErrorNotification(error, context, req);
 };

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import Modal from 'components/Modal';
-import CbcCreateForm from './CbcCreateForm';
 import reportClientError from 'lib/helpers/reportClientError';
+import CbcCreateForm from './CbcCreateForm';
 
 const StyledContent = styled.div`
   display: flex;

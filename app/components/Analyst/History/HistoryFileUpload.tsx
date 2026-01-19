@@ -10,8 +10,8 @@ import { TableCellProps } from '@mui/material';
 import styled from 'styled-components';
 import { filterOutNullishs } from 'components/AnalystDashboard/AllDashboard';
 import ClearFilters from 'components/Table/ClearFilters';
-import DateFilter from '../../Table/Filters/DateFilter';
 import reportClientError from 'lib/helpers/reportClientError';
+import DateFilter from '../../Table/Filters/DateFilter';
 
 const StyledLink = styled.button`
   color: ${(props) => props.theme.color.links};

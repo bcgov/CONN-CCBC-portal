@@ -8,11 +8,11 @@ import session from 'express-session';
 import crypto from 'crypto';
 import getConfig from 'next/config';
 import cookieParser from 'cookie-parser';
+import reportClientError from 'lib/helpers/reportClientError';
 import communityDueDate from '../../../backend/lib/communityReportsDueDate';
 import { performQuery } from '../../../backend/lib/graphql';
 import handleEmailNotification from '../../../backend/lib/emails/handleEmailNotification';
 import getAuthRole from '../../../utils/getAuthRole';
-import reportClientError from 'lib/helpers/reportClientError';
 
 jest.mock('../../../backend/lib/graphql');
 jest.mock('../../../utils/getAuthRole');

@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { DateTime } from 'luxon';
 import { useArchiveReportingGcpeMutation } from 'schema/mutations/reporting/archiveReportingGcpeMutation';
 import { ConnectionHandler } from 'relay-runtime';
-import ReportRow from './ReportRow';
 import reportClientError from 'lib/helpers/reportClientError';
+import ReportRow from './ReportRow';
 
 const StyledH2 = styled.h2`
   margin-top: 12px;

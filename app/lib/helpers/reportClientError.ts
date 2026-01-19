@@ -59,6 +59,7 @@ const reportClientError = (
   context: ClientErrorContext = {}
 ) => {
   console.error(context.source || 'Client error', error);
+  // eslint-disable-next-line no-void
   void notifyError(error, context);
 };
 
