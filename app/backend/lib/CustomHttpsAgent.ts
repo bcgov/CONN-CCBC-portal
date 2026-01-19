@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import https from 'https';
 import { Socket } from 'net';
 import { reportServerError } from './emails/errorNotification';
