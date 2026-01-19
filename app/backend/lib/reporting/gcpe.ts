@@ -426,6 +426,10 @@ const generateExcelData = async (
       node,
       node?.applicationSowDataByApplicationId
     );
+    const milestoneProgress =
+      node?.applicationMilestoneExcelDataByApplicationId?.nodes[0]?.jsonData
+        ?.overallMilestoneProgress ?? null;
+
     const row: Row = [
       // program
       { value: node?.program },
@@ -474,15 +478,8 @@ const generateExcelData = async (
       { value: convertStatus(node?.analystStatus) },
       // project milestone complete percent
       {
-        value: summaryData?.formData?.milestone?.percentProjectMilestoneComplete
-          ? Number.parseFloat(
-              String(
-                summaryData?.formData?.milestone
-                  ?.percentProjectMilestoneComplete
-              )
-                .replace('%', '')
-                .trim()
-            ) / 100
+        value: milestoneProgress
+          ? Math.trunc(milestoneProgress * 100) / 100
           : null,
         format: '0%',
         type: Number,
