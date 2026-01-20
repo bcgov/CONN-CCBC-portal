@@ -345,7 +345,8 @@ export const getFundingSource = (application: any): string => {
   if (
     status === 'closed' ||
     status === 'withdrawn' ||
-    status === 'analyst_withdrawn'
+    status === 'analyst_withdrawn' ||
+    status === 'merged'
   ) {
     return 'N/A';
   }
@@ -356,7 +357,6 @@ export const getFundingSource = (application: any): string => {
     'assessment',
     'recommendation',
     'conditionally_approved',
-    'merged',
     'on_hold',
   ];
 
