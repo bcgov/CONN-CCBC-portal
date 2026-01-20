@@ -1,6 +1,7 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
+import isEqual from 'lodash.isequal';
 import claimsSchema from 'formSchema/analyst/claims';
 import claimsUiSchema from 'formSchema/uiSchema/analyst/claimsUiSchema';
 import { useCreateClaimsMutation } from 'schema/mutations/project/createClaimsData';
@@ -101,6 +102,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
+  const [initialFormData, setInitialFormData] = useState({} as FormData);
   // store the current community progress data node for edit mode so we have access to row id and relay connection
   const [currentClaimsData, setCurrentClaimsData] = useState(null);
   const [isFormEditMode, setIsFormEditMode] = useState(false);
@@ -114,6 +116,10 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
   const [showToast, setShowToast] = useState(false);
   const [claimsValidationErrors, setClaimsValidationErrors] = useState([]);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+
+  const isFormDirty = useMemo(() => {
+    return !isEqual(formData, initialFormData);
+  }, [formData, initialFormData]);
 
   const deleteConfirmationModal = useModal();
 
@@ -156,6 +162,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
     setCurrentClaimsData(null);
     setIsFormEditMode(false);
     setFormData({} as FormData);
+    setInitialFormData({} as FormData);
     setIsSubmitAttempted(false);
     setExcelFile(null);
     setShowToast(false);
@@ -287,7 +294,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
         submitting={isFormSubmitting}
         submittingText="Importing claim data. Please wait."
         showEditBtn={false}
-        saveBtnDisabled={isFormSubmitting}
+        saveBtnDisabled={isFormSubmitting || !isFormDirty}
         cancelBtnDisabled={isFormSubmitting}
         resetFormData={handleResetFormData}
         liveValidate={isSubmitAttempted}
@@ -298,6 +305,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
               isFormEditMode={isFormEditMode}
               onClick={() => {
                 setCurrentClaimsData(null);
+                setInitialFormData({} as FormData);
                 setIsSubmitAttempted(false);
                 setIsFormEditMode(true);
               }}
@@ -326,6 +334,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
               }}
               onFormEdit={() => {
                 setFormData(node.jsonData);
+                setInitialFormData(node.jsonData);
                 setCurrentClaimsData(node);
                 setIsFormEditMode(true);
               }}

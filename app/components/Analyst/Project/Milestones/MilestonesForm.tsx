@@ -1,6 +1,7 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
+import isEqual from 'lodash.isequal';
 import milestonesSchema from 'formSchema/analyst/milestones';
 import milestonesUiSchema from 'formSchema/uiSchema/analyst/milestonesUiSchema';
 import { useCreateMilestoneMutation } from 'schema/mutations/project/createMilestoneData';
@@ -128,6 +129,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
 
   const { notifyDocumentUpload } = useEmailNotification();
   const [formData, setFormData] = useState({} as FormData);
+  const [initialFormData, setInitialFormData] = useState({} as FormData);
   const deleteConfirmationModal = useModal();
   // store the current community progress data node for edit mode so we have access to row id and relay connection
   const [currentMilestoneData, setCurrentMilestoneData] = useState(null);
@@ -164,6 +166,10 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
   const hasValidationErrors =
     milestoneValidationErrors.length > 0 || excelFile === null;
 
+  const isFormDirty = useMemo(() => {
+    return !isEqual(formData, initialFormData);
+  }, [formData, initialFormData]);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const validateMilestone = useCallback(
     excelValidateGenerator(apiPath, setExcelFile, setMilestoneValidationErrors),
@@ -173,6 +179,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
   const handleResetFormData = () => {
     setIsFormEditMode(false);
     setFormData({} as FormData);
+    setInitialFormData({} as FormData);
     setCurrentMilestoneData(null);
     setIsSubmitAttempted(false);
     setExcelFile(null);
@@ -320,7 +327,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
         }
         submittingText="Importing milestone data. Please wait."
         showEditBtn={false}
-        saveBtnDisabled={isFormSubmitting}
+        saveBtnDisabled={isFormSubmitting || !isFormDirty}
         cancelBtnDisabled={isFormSubmitting}
         resetFormData={handleResetFormData}
         liveValidate={isSubmitAttempted && isFormEditMode}
@@ -331,6 +338,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
             onClick={() => {
               setShowToast(false);
               setFormData({} as FormData);
+              setInitialFormData({} as FormData);
               setCurrentMilestoneData(null);
               setIsSubmitAttempted(false);
               setIsFormEditMode(true);
@@ -363,6 +371,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
               }}
               onFormEdit={() => {
                 setFormData(node.jsonData);
+                setInitialFormData(node.jsonData);
                 setCurrentMilestoneData(node);
                 setIsFormEditMode(true);
               }}
