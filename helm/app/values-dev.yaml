@@ -34,7 +34,7 @@ crunchy-postgres:
       storage: 20Gi
   instances:
     dataVolumeClaimSpec:
-      storage: 20Gi
+      storage: 85Gi
 
 metabase:
   prodIngress:
