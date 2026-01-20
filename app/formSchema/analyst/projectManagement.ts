@@ -9,11 +9,16 @@ const projectManagement: RJSFSchema = {
     'assignedTo',
     'targetDate',
     'nextStep',
+    'notesAndConsiderations',
     'completedAssessment',
     'otherFiles',
   ],
   properties: {
     ...sharedAssessmentFields.properties,
+    notesAndConsiderations: {
+      title: 'Notes & Considerations',
+      type: 'string',
+    },
     completedAssessment: {
       title: 'Completed assessment',
       type: 'string',
