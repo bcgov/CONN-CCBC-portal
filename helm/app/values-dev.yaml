@@ -27,6 +27,8 @@ db:
 
 crunchy-postgres:
   pgBackRest:
+    repo1:
+      enabled: false
     retention: '1'
     volume:
       storage: 20Gi
