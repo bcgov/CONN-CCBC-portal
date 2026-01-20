@@ -236,7 +236,7 @@ export const regenerateGcpeReport = async (rowId, req) => {
     { rowId: parseInt(rowId, 10) },
     req
   );
-  const excelData = queryResult.data.reportingGcpeByRowId.reportData;
+  let excelData = queryResult.data.reportingGcpeByRowId.reportData;
   // due to the way GraphQL mutation handles de/serialization, we need to reformat the data
   excelData.forEach((row) => {
     row.forEach((cell) => {
@@ -247,13 +247,17 @@ export const regenerateGcpeReport = async (rowId, req) => {
     });
   });
   const includeChangeLog = hasChangeLogColumn(excelData);
+  // skip changelog data for regeneration
+  if (includeChangeLog) {
+    excelData = excelData.map((row) => row.slice(0, -1));
+  }
   const blob = await writeXlsxFile(excelData as any, {
     fontFamily: 'BC Sans',
     fontSize: 12,
     dateFormat: 'yyyy-mm-dd',
     stickyColumnsCount: 7,
     sheet: 'GCPE Report',
-    columns: includeChangeLog ? columnOptionsWithChangeLog : columnOptions,
+    columns: columnOptions,
   });
   return blob;
 };
@@ -411,6 +415,7 @@ const generateExcelData = async (
       // notes
       { value: node?.jsonData?.notes },
     ];
+    // when a comparison report --> add changeLog placeholder
     if (compare) {
       row.push({ value: '' });
     }
@@ -632,6 +637,7 @@ const generateExcelData = async (
             .join('\n') || '',
       },
     ];
+    // when a comparison report --> add changeLog placeholder
     if (compare) {
       row.push({ value: '' });
     }
