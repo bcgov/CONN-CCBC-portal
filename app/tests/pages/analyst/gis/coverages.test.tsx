@@ -219,7 +219,7 @@ describe('The Gis coverages upload page', () => {
 
     fireEvent.change(inputFile, { target: { files: [goodfile] } });
 
-    const button = screen.getByRole('button', { name: 'Upload' });
+    const button = screen.getByRole('button', { name: 'Save' });
     expect(button.parentElement).toHaveAttribute('href', '/#');
     await act(async () => {
       await userEvent.click(button);
