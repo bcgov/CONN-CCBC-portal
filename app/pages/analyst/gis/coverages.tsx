@@ -192,7 +192,7 @@ const CoveragesTab = ({ historyList }) => {
             disabled={isUploading || !selectedFile}
             data-skip-unsaved-warning
           >
-            {isUploading ? 'Saving' : 'Save'}
+            {isUploading ? 'Saving' : 'Save & Import Data'}
           </ButtonLink>
         </StyledBtnContainer>
       </StyledHeaderContainer>

@@ -145,7 +145,7 @@ describe('The Gis coverages upload page', () => {
     expect(screen.getByTestId('file-test')).toBeInTheDocument();
 
     const button = screen.getByRole('button', {
-      name: 'Save',
+      name: 'Save & Import Data',
     });
     expect(button.parentElement).toHaveAttribute('href', '/#');
     await act(async () => {
@@ -219,7 +219,7 @@ describe('The Gis coverages upload page', () => {
 
     fireEvent.change(inputFile, { target: { files: [goodfile] } });
 
-    const button = screen.getByRole('button', { name: 'Save' });
+    const button = screen.getByRole('button', { name: 'Save & Import Data' });
     expect(button.parentElement).toHaveAttribute('href', '/#');
     await act(async () => {
       await userEvent.click(button);
@@ -249,7 +249,7 @@ describe('The Gis coverages upload page', () => {
 
     fireEvent.change(inputFile, { target: { files: [goodfile] } });
 
-    const button = screen.getByRole('button', { name: 'Save' });
+    const button = screen.getByRole('button', { name: 'Save & Import Data' });
     expect(button.parentElement).toHaveAttribute('href', '/#');
 
     await act(async () => {
