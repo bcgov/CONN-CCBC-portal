@@ -51,6 +51,15 @@ const CbcStatusInformation = () => {
           }}
         />
         <span>Applicant has withdrawn their submitted application</span>
+        <Chip
+          label="Merged"
+          sx={{
+            bgcolor: '#8250DF',
+            color: '#FFFF',
+            fontFamily: 'BCSans, Verdana, Arial, sans-serif',
+          }}
+        />
+        <span>Application was combined with another project during negotiations and is now part of that ‘Agreement Signed’ project</span>
       </TwoColumnDiv>
     </>
   );
