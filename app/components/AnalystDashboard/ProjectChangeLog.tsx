@@ -385,7 +385,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
             'projectNumber',
           ],
           'cbcData'
-        );
+        ).filter((row) => row.oldValue !== row.newValue);
 
         const meta = {
           createdAt: DateTime.fromJSDate(effectiveDate).toLocaleString(
@@ -768,7 +768,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
               tableConfig.schema,
               tableConfig.excludedKeys,
               tableConfig.overrideParent || tableName
-            );
+            ).filter((row) => row.oldValue !== row.newValue);
             overrideField = isExternal ? 'External Status' : 'Internal Status';
             // special handling for analyst lead
           } else if (tableName === 'application_analyst_lead') {
@@ -785,7 +785,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
               tableConfig.schema,
               tableConfig.excludedKeys,
               tableConfig.overrideParent || tableName
-            );
+            ).filter((row) => row.oldValue !== row.newValue);
           } else if (tableName === 'application_project_type') {
             diffRows = generateRawDiff(
               diff(
@@ -800,11 +800,13 @@ const ProjectChangeLog: React.FC<Props> = () => {
               tableConfig.schema,
               tableConfig.excludedKeys,
               tableConfig.overrideParent || tableName
-            ).map((row) => ({
-              ...row,
-              newValue: formatProjectType(row.newValue),
-              oldValue: formatProjectType(row.oldValue),
-            }));
+            )
+              .map((row) => ({
+                ...row,
+                newValue: formatProjectType(row.newValue),
+                oldValue: formatProjectType(row.oldValue),
+              }))
+              .filter((row) => row.oldValue !== row.newValue);
             overrideField = 'Project Type';
           } else if (tableName === 'application_package') {
             diffRows = generateRawDiff(
@@ -820,7 +822,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
               tableConfig.schema,
               tableConfig.excludedKeys,
               tableConfig.overrideParent || tableName
-            );
+            ).filter((row) => row.oldValue !== row.newValue);
           } else {
             // Standard processing for other tables
             let json = {};
@@ -865,7 +867,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
               tableName === 'form_data'
                 ? null
                 : tableConfig?.overrideParent || tableName
-            );
+            ).filter((row) => row.oldValue !== row.newValue);
           }
 
           const meta = {

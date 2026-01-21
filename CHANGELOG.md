@@ -1,3 +1,9 @@
+# [1.285.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.284.1...v1.285.0) (2026-01-21)
+
+### Features
+
+- history exclude if old is the same as new ([1d40516](https://github.com/bcgov/CONN-CCBC-portal/commit/1d40516195a57951c0cf8daa5f22f19dff7e7876))
+
 ## [1.284.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.284.0...v1.284.1) (2026-01-16)
 
 ### Bug Fixes
