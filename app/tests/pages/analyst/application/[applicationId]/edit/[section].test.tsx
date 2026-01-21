@@ -518,7 +518,7 @@ describe('The analyst edit miscellaneous page - Internal Notes', () => {
     expect(screen.getByLabelText(/Internal Notes/i)).toBeInTheDocument();
   });
 
-  it('does not display internal notes field for non-admin users', () => {
+  it('internal notes field is disabled for non-admin users', () => {
     const mockPayloadRegularUser = {
       ...mockQueryPayloadWithoutInternalNotes,
       Query() {
@@ -535,7 +535,8 @@ describe('The analyst edit miscellaneous page - Internal Notes', () => {
     pageTestingHelper.loadQuery(mockPayloadRegularUser);
     pageTestingHelper.renderPage();
 
-    expect(screen.queryByLabelText(/Internal Notes/i)).not.toBeInTheDocument();
+    const internalNotesField = screen.getByLabelText(/Internal Notes/i);
+    expect(internalNotesField).toBeDisabled();
   });
 
   it('displays existing internal note value', () => {
@@ -558,14 +559,6 @@ describe('The analyst edit miscellaneous page - Internal Notes', () => {
       fireEvent.click(formSaveButton);
     });
 
-    const textarea = screen.getAllByTestId('reason-for-change')[0];
-    fireEvent.change(textarea, { target: { value: 'reason for change' } });
-
-    const saveButton = screen.getAllByTestId('status-change-save-btn')[0];
-    await act(async () => {
-      fireEvent.click(saveButton);
-    });
-
     pageTestingHelper.expectMutationToBeCalled(
       'createApplicationInternalNoteMutation',
       {
@@ -573,7 +566,7 @@ describe('The analyst edit miscellaneous page - Internal Notes', () => {
           applicationInternalNote: {
             applicationId: 1,
             note: 'New internal note text',
-            changeReason: 'reason for change',
+            changeReason: '',
           },
         },
       }
@@ -606,14 +599,6 @@ describe('The analyst edit miscellaneous page - Internal Notes', () => {
       fireEvent.click(formSaveButton);
     });
 
-    const textarea = screen.getAllByTestId('reason-for-change')[0];
-    fireEvent.change(textarea, { target: { value: 'reason for update' } });
-
-    const saveButton = screen.getAllByTestId('status-change-save-btn')[0];
-    await act(async () => {
-      fireEvent.click(saveButton);
-    });
-
     pageTestingHelper.expectMutationToBeCalled(
       'updateApplicationInternalNoteMutation',
       {
@@ -621,7 +606,7 @@ describe('The analyst edit miscellaneous page - Internal Notes', () => {
           id: 'internal-note-id-1',
           applicationInternalNotePatch: {
             note: 'Updated internal note',
-            changeReason: 'reason for update',
+            changeReason: '',
           },
         },
       }
@@ -668,14 +653,6 @@ describe('The analyst edit miscellaneous page - Internal Notes', () => {
       fireEvent.click(formSaveButton);
     });
 
-    const textarea = screen.getAllByTestId('reason-for-change')[0];
-    fireEvent.change(textarea, { target: { value: 'clearing note' } });
-
-    const saveButton = screen.getAllByTestId('status-change-save-btn')[0];
-    await act(async () => {
-      fireEvent.click(saveButton);
-    });
-
     pageTestingHelper.expectMutationToBeCalled(
       'updateApplicationInternalNoteMutation',
       {
@@ -683,7 +660,7 @@ describe('The analyst edit miscellaneous page - Internal Notes', () => {
           id: 'internal-note-id-1',
           applicationInternalNotePatch: {
             note: '',
-            changeReason: 'clearing note',
+            changeReason: '',
           },
         },
       }
