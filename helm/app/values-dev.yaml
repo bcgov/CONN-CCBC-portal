@@ -27,12 +27,14 @@ db:
 
 crunchy-postgres:
   pgBackRest:
+    repo1:
+      enabled: false
     retention: '1'
     volume:
       storage: 20Gi
   instances:
     dataVolumeClaimSpec:
-      storage: 20Gi
+      storage: 85Gi
 
 metabase:
   prodIngress:
