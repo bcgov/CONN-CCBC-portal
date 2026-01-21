@@ -4428,7 +4428,7 @@ describe('The index page', () => {
       latestRemoval.closest('td') as HTMLTableCellElement
     ).getByTestId('diff-table');
     const removalRow = within(removalTable)
-      .getByText('Children')
+      .getByText('Child Application')
       .closest('tr') as HTMLTableRowElement;
     const removalCells = removalRow.querySelectorAll('td');
     expect(removalCells[1]).toHaveTextContent('N/A');
@@ -4439,7 +4439,7 @@ describe('The index page', () => {
       initialAddition.closest('td') as HTMLTableCellElement
     ).getByTestId('diff-table');
     const additionRow = within(additionTable)
-      .getByText('Children')
+      .getByText('Child Application')
       .closest('tr') as HTMLTableRowElement;
     const additionCells = additionRow.querySelectorAll('td');
     expect(additionCells[1]).toHaveTextContent('CCBC-010099');
