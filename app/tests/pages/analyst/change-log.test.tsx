@@ -1590,6 +1590,133 @@ const mockData = {
         ccbcNumber: 'CCBC-010004',
       },
       {
+        rowId: '39210',
+        recordId: '0f3fd01f-9282-4a86-b5f2-8b0a4b2c5d6a',
+        oldRecordId: null,
+        op: 'INSERT',
+        ts: '2025-08-01T17:00:00.000000+00:00',
+        tableOid: '71201',
+        tableSchema: 'ccbc_public',
+        tableName: 'application_merge',
+        createdBy: 185,
+        createdAt: '2025-08-01T17:00:00.000000+00:00',
+        record: {
+          id: 9101,
+          parent_application_id: 51,
+          parent_application: 'CCBC-010004',
+          child_application_id: 201,
+          child_ccbc_number: 'CCBC-020001',
+          user_info: {
+            given_name: 'Rafael',
+            family_name: 'Solorzano',
+            session_sub: '7af64dcb31b8419e8830b297e4b51df6@idir',
+            external_analyst: null,
+          },
+          created_at: '2025-08-01T17:00:00.000000+00:00',
+          created_by: 185,
+          updated_at: '2025-08-01T17:00:00.000000+00:00',
+          updated_by: 185,
+          archived_at: null,
+          archived_by: null,
+          change_reason: 'merge add',
+        },
+        oldRecord: null,
+        program: 'CCBC',
+        applicationId: 51,
+        ccbcNumber: 'CCBC-010004',
+      },
+      {
+        rowId: '39220',
+        recordId: '7f4b7d6b-50d4-4c25-9cd3-24a6f4db3db1',
+        oldRecordId: null,
+        op: 'INSERT',
+        ts: '2025-08-02T17:00:00.000000+00:00',
+        tableOid: '71201',
+        tableSchema: 'ccbc_public',
+        tableName: 'application_merge',
+        createdBy: 185,
+        createdAt: '2025-08-02T17:00:00.000000+00:00',
+        record: {
+          id: 9102,
+          parent_application_id: 51,
+          parent_application: 'CCBC-010004',
+          child_application_id: 202,
+          child_ccbc_number: 'CCBC-020002',
+          user_info: {
+            given_name: 'Rafael',
+            family_name: 'Solorzano',
+            session_sub: '7af64dcb31b8419e8830b297e4b51df6@idir',
+            external_analyst: null,
+          },
+          created_at: '2025-08-02T17:00:00.000000+00:00',
+          created_by: 185,
+          updated_at: '2025-08-02T17:00:00.000000+00:00',
+          updated_by: 185,
+          archived_at: null,
+          archived_by: null,
+          change_reason: 'merge add',
+        },
+        oldRecord: null,
+        program: 'CCBC',
+        applicationId: 51,
+        ccbcNumber: 'CCBC-010004',
+      },
+      {
+        rowId: '39230',
+        recordId: '7f4b7d6b-50d4-4c25-9cd3-24a6f4db3db1',
+        oldRecordId: '7f4b7d6b-50d4-4c25-9cd3-24a6f4db3db1',
+        op: 'UPDATE',
+        ts: '2025-08-03T17:00:00.000000+00:00',
+        tableOid: '71201',
+        tableSchema: 'ccbc_public',
+        tableName: 'application_merge',
+        createdBy: 185,
+        createdAt: '2025-08-02T17:00:00.000000+00:00',
+        record: {
+          id: 9102,
+          parent_application_id: 51,
+          parent_application: 'CCBC-010004',
+          child_application_id: 202,
+          child_ccbc_number: 'CCBC-020002',
+          user_info: {
+            given_name: 'Rafael',
+            family_name: 'Solorzano',
+            session_sub: '7af64dcb31b8419e8830b297e4b51df6@idir',
+            external_analyst: null,
+          },
+          created_at: '2025-08-02T17:00:00.000000+00:00',
+          created_by: 185,
+          updated_at: '2025-08-03T17:00:00.000000+00:00',
+          updated_by: 185,
+          archived_at: '2025-08-03T17:00:00.000000+00:00',
+          archived_by: 185,
+          change_reason: 'merge remove',
+        },
+        oldRecord: {
+          id: 9102,
+          parent_application_id: 51,
+          parent_application: 'CCBC-010004',
+          child_application_id: 202,
+          child_ccbc_number: 'CCBC-020002',
+          user_info: {
+            given_name: 'Rafael',
+            family_name: 'Solorzano',
+            session_sub: '7af64dcb31b8419e8830b297e4b51df6@idir',
+            external_analyst: null,
+          },
+          created_at: '2025-08-02T17:00:00.000000+00:00',
+          created_by: 185,
+          updated_at: '2025-08-02T17:00:00.000000+00:00',
+          updated_by: 185,
+          archived_at: null,
+          archived_by: null,
+          change_reason: 'merge add',
+        },
+        program: 'CCBC',
+        applicationId: 51,
+        ccbcNumber: 'CCBC-010004',
+      },
+      {
         rowId: '36456',
         recordId: '55776cd2-264a-5594-b561-bcf0f01fa699',
         oldRecordId: null,
@@ -7595,6 +7722,34 @@ describe('The index page', () => {
       screen.getAllByText(/Regional District of Kitimat-Stikine/)
     ).toHaveLength(2);
     expect(screen.getAllByText('40 Mile Flats')).toHaveLength(2);
+  });
+
+  it('displays application merge child list updates', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Child Application')[0]).toBeInTheDocument();
+    });
+
+    expect(screen.getAllByText('CCBC-020001')[0]).toBeInTheDocument();
+    expect(
+      screen.getAllByText('CCBC-020001, CCBC-020002')[0]
+    ).toBeInTheDocument();
+  });
+
+  it('displays application merge removal history', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    await waitFor(() => {
+      expect(
+        screen.getAllByText('CCBC-020001, CCBC-020002')[0]
+      ).toBeInTheDocument();
+    });
+
+    expect(screen.getAllByText('CCBC-020001')[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/CCBC-020002/)[0]).toBeInTheDocument();
   });
 
   it('correctly filters field changed', async () => {

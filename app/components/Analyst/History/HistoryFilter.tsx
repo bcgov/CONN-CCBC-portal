@@ -25,6 +25,7 @@ const typeLabelMappings: Record<string, string> = {
   form_data: 'Application',
   rfi_data: 'RFI',
   application_package: 'Package',
+  application_merge: 'Application Merge',
   application_analyst_lead: 'Lead',
   application_milestone_data: 'Milestone report',
   change_request_data: 'Amendment',

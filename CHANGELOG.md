@@ -1,3 +1,9 @@
+# [1.286.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.285.0...v1.286.0) (2026-01-21)
+
+### Features
+
+- add merge application history ([e29f482](https://github.com/bcgov/CONN-CCBC-portal/commit/e29f482f64a7f489833cd0e7ef48ba33d65a518a))
+
 # [1.285.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.284.1...v1.285.0) (2026-01-21)
 
 ### Features

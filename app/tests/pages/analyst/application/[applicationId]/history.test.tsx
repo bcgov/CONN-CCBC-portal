@@ -3700,6 +3700,191 @@ const mockRfiHistoryPayload = {
   },
 };
 
+const mockParentMergeHistoryPayload = {
+  Query() {
+    return {
+      session: {
+        sub: 'mockUser@ccbc_auth_user',
+      },
+      applicationByRowId: {
+        history: {
+          nodes: [
+            {
+              applicationId: 42,
+              createdAt: '2024-07-30T09:00:00.000-08:00',
+              createdBy: 2,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: 'received',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 1,
+                status: 'received',
+                created_at: '2024-07-30T09:00:00.000-08:00',
+                created_by: 2,
+                change_reason: null,
+                application_id: 42,
+              },
+              oldRecord: null,
+              recordId: 'status-received-parent',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_status',
+            },
+            {
+              applicationId: 42,
+              createdAt: '2024-08-01T09:00:00.000-08:00',
+              createdBy: 2,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: 'application_merge',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 77,
+                parent_application_id: 42,
+                parent_ccbc_number: 'CCBC-000042',
+                child_ccbc_number: 'CCBC-010099',
+                created_at: '2024-08-01T09:00:00.000-08:00',
+                created_by: 2,
+                updated_at: '2024-08-01T09:00:00.000-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+              },
+              oldRecord: null,
+              recordId: 'merge-record-add',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_merge',
+            },
+            {
+              applicationId: 42,
+              createdAt: '2024-09-01T11:00:00.000-08:00',
+              createdBy: 2,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: 'application_merge',
+              givenName: 'Foo',
+              op: 'UPDATE',
+              record: {
+                id: 77,
+                parent_application_id: 42,
+                parent_ccbc_number: 'CCBC-000042',
+                child_ccbc_number: 'CCBC-010099',
+                created_at: '2024-08-01T09:00:00.000-08:00',
+                created_by: 2,
+                updated_at: '2024-09-01T11:00:00.000-08:00',
+                updated_by: 2,
+                archived_at: '2024-09-01T11:00:00.000-08:00',
+                archived_by: 2,
+              },
+              oldRecord: {
+                id: 77,
+                parent_application_id: 42,
+                parent_ccbc_number: 'CCBC-000042',
+                child_ccbc_number: 'CCBC-010099',
+                created_at: '2024-08-01T09:00:00.000-08:00',
+                created_by: 2,
+                updated_at: '2024-08-01T09:00:00.000-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+              },
+              recordId: 'merge-record-remove',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_merge',
+            },
+          ],
+        },
+        formData: {
+          jsonData: {
+            projectInformation: {
+              projectTitle: 'originalProjectTitle',
+            },
+            organizationProfile: {
+              organizationName: 'originalOrganizationName',
+            },
+          },
+        },
+      },
+    };
+  },
+};
+
+const mockChildMergeHistoryPayload = {
+  Query() {
+    return {
+      session: {
+        sub: 'mockUser@ccbc_auth_user',
+      },
+      applicationByRowId: {
+        history: {
+          nodes: [
+            {
+              applicationId: 99,
+              createdAt: '2024-07-30T09:00:00.000-08:00',
+              createdBy: 2,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: 'received',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 1,
+                status: 'received',
+                created_at: '2024-07-30T09:00:00.000-08:00',
+                created_by: 2,
+                change_reason: null,
+                application_id: 99,
+              },
+              oldRecord: null,
+              recordId: 'status-received-child',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_status',
+            },
+            {
+              applicationId: 99,
+              createdAt: '2024-08-01T09:00:00.000-08:00',
+              createdBy: 2,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: 'application_merge',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 88,
+                parent_application_id: 42,
+                parent_ccbc_number: 'CCBC-000042',
+                child_ccbc_number: 'CCBC-000099',
+                created_at: '2024-08-01T09:00:00.000-08:00',
+                created_by: 2,
+                updated_at: '2024-08-01T09:00:00.000-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+              },
+              oldRecord: null,
+              recordId: 'merge-record-child',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_merge',
+            },
+          ],
+        },
+        formData: {
+          jsonData: {
+            projectInformation: {
+              projectTitle: 'originalProjectTitle',
+            },
+            organizationProfile: {
+              organizationName: 'originalOrganizationName',
+            },
+          },
+        },
+      },
+    };
+  },
+};
+
 const mockShowHistory: FeatureResult<JSONValue> = {
   value: true,
   source: 'defaultValue',
@@ -4219,6 +4404,66 @@ describe('The index page', () => {
     expect(fnhaHistory).toHaveTextContent(
       'Foo Bar updated FNHA Contribution on Mar 6, 2025, 11:50 a.m.'
     );
+  });
+
+  it('shows merge history for a parent application', async () => {
+    pageTestingHelper.loadQuery(mockParentMergeHistoryPayload);
+    pageTestingHelper.renderPage();
+
+    const parentMergeRows = screen.getAllByTestId(
+      'history-content-parent-merge'
+    );
+    expect(parentMergeRows).toHaveLength(2);
+
+    const [latestRemoval, initialAddition] = parentMergeRows;
+    expect(latestRemoval).toHaveTextContent(
+      /deleted a child application\s+CCBC-010099/
+    );
+    expect(initialAddition).toHaveTextContent(
+      /added a child application\s+CCBC-010099/
+    );
+
+    // Removed child should move from after -> before
+    const removalTable = within(
+      latestRemoval.closest('td') as HTMLTableCellElement
+    ).getByTestId('diff-table');
+    const removalRow = within(removalTable)
+      .getByText('Child Application')
+      .closest('tr') as HTMLTableRowElement;
+    const removalCells = removalRow.querySelectorAll('td');
+    expect(removalCells[1]).toHaveTextContent('N/A');
+    expect(removalCells[2]).toHaveTextContent('CCBC-010099');
+
+    // Added child should move from before -> after
+    const additionTable = within(
+      initialAddition.closest('td') as HTMLTableCellElement
+    ).getByTestId('diff-table');
+    const additionRow = within(additionTable)
+      .getByText('Child Application')
+      .closest('tr') as HTMLTableRowElement;
+    const additionCells = additionRow.querySelectorAll('td');
+    expect(additionCells[1]).toHaveTextContent('CCBC-010099');
+    expect(additionCells[2]).toHaveTextContent('N/A');
+  });
+
+  it('shows merge history for a child application', async () => {
+    pageTestingHelper.loadQuery(mockChildMergeHistoryPayload);
+    pageTestingHelper.renderPage();
+
+    const childMergeContent = screen.getByTestId('history-content-child-merge');
+    expect(childMergeContent).toHaveTextContent(
+      'Foo Bar updated the Parent Application'
+    );
+
+    const childMergeTable = within(
+      childMergeContent.closest('td') as HTMLTableCellElement
+    ).getByTestId('diff-table');
+    const parentRow = within(childMergeTable)
+      .getByText('Parent application')
+      .closest('tr') as HTMLTableRowElement;
+    const parentCells = parentRow.querySelectorAll('td');
+    expect(parentCells[1]).toHaveTextContent('CCBC-000042');
+    expect(parentCells[2]).toHaveTextContent('N/A');
   });
 });
 
