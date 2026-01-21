@@ -69,7 +69,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
         maxLength={maxLength}
       />
 
-      {showCharacterCount && (
+      {showCharacterCount && !disabled && (
         <Label>{maxLength - characterCount} characters remaining</Label>
       )}
       {help && <Label>{help}</Label>}
