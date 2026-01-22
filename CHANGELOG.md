@@ -1,3 +1,9 @@
+# [1.287.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.4...v1.287.0) (2026-01-22)
+
+### Features
+
+- add notes to all assessments except gis ([e7cf69d](https://github.com/bcgov/CONN-CCBC-portal/commit/e7cf69dbe0d2e53e8863a9ffcd61333b6ce3f170))
+
 ## [1.286.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.3...v1.286.4) (2026-01-22)
 
 ## [1.286.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.2...v1.286.3) (2026-01-22)
