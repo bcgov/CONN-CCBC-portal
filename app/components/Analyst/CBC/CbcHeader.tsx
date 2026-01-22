@@ -16,6 +16,7 @@ const StyledCallout = styled.div`
   padding-bottom: 0;
   border-left: 4px solid ${(props) => props.theme.color.links};
   width: 100%;
+  min-height: 191px;
   @media (max-width: 900px) {
     flex-direction: column;
     gap: 16px;
