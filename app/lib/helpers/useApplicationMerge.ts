@@ -74,7 +74,7 @@ const useApplicationMerge = () => {
         'ui:label': 'Internal Notes',
         'ui:disabled': !canEditInternalNotes,
         'ui:help': !canEditInternalNotes
-          ? 'This field is managed by CCBC Admin.'
+          ? '(This field is managed by CCBC Admin.)'
           : null,
         'ui:options': {
           rows: 5,

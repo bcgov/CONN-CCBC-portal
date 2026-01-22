@@ -28,6 +28,13 @@ const StyledDiv = styled('div')`
   margin-bottom: 16px !important;
 `;
 
+const StyledHint = styled.span`
+  display: block;
+  color: ${(props) => props.theme.color.darkGrey};
+  font-style: italic;
+  font-size: 13px;
+`;
+
 const TextAreaWidget: React.FC<WidgetProps> = ({
   disabled,
   id,
@@ -72,7 +79,7 @@ const TextAreaWidget: React.FC<WidgetProps> = ({
       {showCharacterCount && !disabled && (
         <Label>{maxLength - characterCount} characters remaining</Label>
       )}
-      {help && <Label>{help}</Label>}
+      {help && <StyledHint>{help}</StyledHint>}
     </StyledDiv>
   );
 };
