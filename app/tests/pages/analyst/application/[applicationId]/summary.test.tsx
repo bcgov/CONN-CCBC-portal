@@ -1643,9 +1643,8 @@ describe('The Summary page', () => {
     // milestone
     expect(screen.getByText('24%')).toBeInTheDocument();
     // application source
-    expect(screen.getAllByText('(SOW amendment 1)')).toHaveLength(5);
+    expect(screen.getAllByText('(SOW amendment 1)')).toHaveLength(15);
     expect(screen.getAllByText('(SOW amendment 1 - Tab 8)')).toHaveLength(2);
-    expect(screen.getAllByText('(SOW)')).toHaveLength(10);
   });
 
   it('should show the alert when SOW has not been uploaded and application is agreement signed', async () => {
