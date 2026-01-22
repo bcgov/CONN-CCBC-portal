@@ -1,3 +1,9 @@
+## [1.286.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.2...v1.286.3) (2026-01-22)
+
+### Bug Fixes
+
+- amendment number not showing on summary sow ([611d74f](https://github.com/bcgov/CONN-CCBC-portal/commit/611d74f74f5b6293a69985e3d777693c0ad42dbb))
+
 ## [1.286.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.1...v1.286.2) (2026-01-22)
 
 ### Bug Fixes
