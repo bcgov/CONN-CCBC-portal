@@ -64,15 +64,37 @@ const StyledSuccess = styled('div')`
 const StyledHeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  // align-items: flex-start;
   align-items: center;
   margin-bottom: 1.25rem;
   margin-top: 2rem;
   width: 100%;
 `;
 
+const StyledLeftSection = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledRightSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const StyledBtnContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+`;
+
+const StyledLeftNoteText = styled.p`
+  font-size: 18px;
+  text-align: left;
+`;
+
+const StyledRightNoteText = styled.p`
+  font-size: 18px;
+  text-align: center;
 `;
 
 const acceptedFileTypes = ['.zip'];
@@ -184,17 +206,27 @@ const CoveragesTab = ({ historyList }) => {
     <div>
       <Tabs />
       <StyledHeaderContainer>
-        <h2>Application Coverages Upload</h2>
-        <StyledBtnContainer>
-          <ButtonLink
-            onClick={handleUpload}
-            href="#"
-            disabled={isUploading || !selectedFile}
-            data-skip-unsaved-warning
-          >
-            {isUploading ? 'Saving' : 'Save & Import Data'}
-          </ButtonLink>
-        </StyledBtnContainer>
+        <StyledLeftSection>
+          <h2>Application Coverages Upload</h2>
+          <StyledLeftNoteText>
+            Coverage uploads are necessary to update the Economic Regions and Regional Districts for CCBC applications/projects.
+          </StyledLeftNoteText>
+        </StyledLeftSection>
+        <StyledRightSection>
+          <StyledBtnContainer>
+            <ButtonLink
+              onClick={handleUpload}
+              href="#"
+              disabled={isUploading || !selectedFile}
+              data-skip-unsaved-warning
+            >
+              {isUploading ? 'Saving' : 'Save'}
+            </ButtonLink>
+          </StyledBtnContainer>
+          <StyledRightNoteText>
+            Note:  Changes from this upload will be reflected in the system the following morning
+          </StyledRightNoteText>
+        </StyledRightSection>
       </StyledHeaderContainer>
       <div>
         <strong>
