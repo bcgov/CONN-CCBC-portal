@@ -52,7 +52,17 @@ begin
 
   if old_row_id <> -1 then
     update ccbc_public.announcement set archived_at = now(), archived_by = user_id where id = old_row_id;
-    update ccbc_public.application_announcement set archived_at = now(), archived_by = user_id where announcement_id = old_row_id;
+    update ccbc_public.application_announcement
+    set archived_at = now(),
+        archived_by = user_id,
+        history_operation = case
+          when application_id in (
+            select id from ccbc_public.application where ccbc_number
+              in (select ccbc_number from unnest(string_to_array(project_numbers, ',')) ccbc_number group by ccbc_number)
+          ) then history_operation
+          else 'deleted'
+        end
+    where announcement_id = old_row_id and archived_at is null;
   end if;
 
   select * from ccbc_public.announcement where id=new_row_id into result;

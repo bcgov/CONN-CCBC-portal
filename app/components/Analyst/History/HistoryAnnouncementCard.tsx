@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { DateTime } from 'luxon';
 import { useEffect, useMemo, useState } from 'react';
 
-const StyledAnnouncement = styled.div<{ $isDeleted?: boolean }>`
+const StyledAnnouncement = styled.div<{ $isStriked?: boolean }>`
   font-style: normal;
   display: grid;
   grid-template-columns: 10% 55% 35%;
@@ -14,8 +14,8 @@ const StyledAnnouncement = styled.div<{ $isDeleted?: boolean }>`
   border-style: solid;
   border-color: #dbe6f0;
   margin-bottom: 12px;
-  ${({ $isDeleted }) =>
-    $isDeleted &&
+  ${({ $isStriked }) =>
+    $isStriked &&
     css`
       color: #6b6b6b;
       text-decoration: line-through;
@@ -87,7 +87,7 @@ const fallbackPreview = {
 const HistoryAnnouncementCard = ({
   announcement,
   applicationId,
-  isDeleted = false,
+  isStriked = false,
 }) => {
   const { jsonData } = announcement || {};
   const [preview, setPreview] = useState(() =>
@@ -159,7 +159,7 @@ const HistoryAnnouncementCard = ({
   };
 
   return (
-    <StyledAnnouncement $isDeleted={isDeleted}>
+    <StyledAnnouncement $isStriked={isStriked}>
       <div>{formattedDate}</div>
       <StyledPreview onClick={handlePreviewClick}>
         <Image

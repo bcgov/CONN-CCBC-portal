@@ -224,7 +224,7 @@ const HistoryContent = ({
             <HistoryAnnouncementCard
               announcement={announcement}
               applicationId={record.application_id}
-              isDeleted={isDeleted}
+              isStriked={isDeleted}
             />
             {isUpdated && (
               <>
@@ -232,6 +232,7 @@ const HistoryContent = ({
                 <HistoryAnnouncementCard
                   announcement={previousAnnouncement}
                   applicationId={record.application_id}
+                  isStriked
                 />
               </>
             )}
