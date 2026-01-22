@@ -188,17 +188,17 @@ describe('The Conditional Approval form', () => {
       fireEvent.click(editButton);
     });
 
-    expect(screen.getByText(`Minister's decision`)).toBeInTheDocument();
-    expect(screen.getByText('BC')).toBeInTheDocument();
-    expect(screen.getByText('ISED')).toBeInTheDocument();
+    expect(screen.getAllByText(`Minister's decision`)[0]).toBeInTheDocument();
+    expect(screen.getAllByText('BC')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('ISED')[0]).toBeInTheDocument();
     expect(
-      screen.getByText("Minister's decision, letter, and response")
+      screen.getAllByText("Minister's decision, letter, and response")[0]
     ).toBeInTheDocument();
-    expect(screen.getByText(`Applicant's response`)).toBeInTheDocument();
+    expect(screen.getAllByText(`Applicant's response`)[0]).toBeInTheDocument();
     expect(
-      screen.getByText('Date letter sent to applicant')
+      screen.getAllByText('Date letter sent to applicant')[0]
     ).toBeInTheDocument();
-    expect(screen.getByText('Status that applicant sees')).toBeInTheDocument();
+    expect(screen.getAllByText('Status that applicant sees')[0]).toBeInTheDocument();
   });
 
   it('should open by default the read only form when json data exists', async () => {

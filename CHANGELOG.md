@@ -1,3 +1,9 @@
+## [1.286.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.1...v1.286.2) (2026-01-22)
+
+### Bug Fixes
+
+- prevent conditional approval accordion remount ([7ab092e](https://github.com/bcgov/CONN-CCBC-portal/commit/7ab092ee3bf3a7817533510c75a39c69dd78ef8e))
+
 ## [1.286.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.0...v1.286.1) (2026-01-21)
 
 # [1.286.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.285.0...v1.286.0) (2026-01-21)
