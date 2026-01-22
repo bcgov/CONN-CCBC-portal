@@ -198,10 +198,6 @@ const EditApplication = ({
     sectionName === 'funding' || sectionName === 'miscellaneous';
   const shouldRequireChangeReason = sectionName !== 'miscellaneous';
 
-  // Check if user has permission to view internal notes
-  const canViewInternalNotes =
-    session?.authRole === 'super_admin' || session?.authRole === 'ccbc_admin';
-
   // custom schema for miscellaneous edit with project options
   const { schema: miscSchema, uiSchema: miscUiSchema } = getMiscellaneousSchema(
     query?.applicationByRowId,
@@ -248,7 +244,7 @@ const EditApplication = ({
     sectionName === 'miscellaneous'
       ? {
           linkedProject: miscellaneousData?.length ? miscellaneousData : [],
-          ...(canViewInternalNotes && { internalNotes: internalNotesData }),
+          internalNotes: internalNotesData,
         }
       : fundingSummaryData;
   const [sectionFormData, setSectionFormData] = useState(
