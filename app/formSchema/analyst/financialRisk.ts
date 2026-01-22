@@ -17,6 +17,7 @@ const financialRisk: RJSFSchema = {
     'targetDate',
     'nextStep',
     'decision',
+    'notesAndConsiderations',
     'completedAssessment',
     'otherFiles',
   ],
@@ -34,6 +35,10 @@ const financialRisk: RJSFSchema = {
         highRisk,
       ],
       default: noDecision,
+    },
+    notesAndConsiderations: {
+      title: 'Notes & Considerations',
+      type: 'string',
     },
     completedAssessment: {
       title: 'Completed assessment',

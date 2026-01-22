@@ -20,6 +20,7 @@ const screening: RJSFSchema = {
     'decision',
     'contestingMap',
     'assessmentTemplate',
+    'notesAndConsiderations',
     'otherFiles',
   ],
   properties: {
@@ -41,6 +42,10 @@ const screening: RJSFSchema = {
     },
     assessmentTemplate: {
       title: 'Assessment template',
+      type: 'string',
+    },
+    notesAndConsiderations: {
+      title: 'Notes & Considerations',
       type: 'string',
     },
   },
