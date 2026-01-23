@@ -59,7 +59,7 @@ const CbcStatusInformation = () => {
             fontFamily: 'BCSans, Verdana, Arial, sans-serif',
           }}
         />
-        <span>Application was combined with another project during negotiations and is now part of that &apos;'Agreement Signed&apos;' project</span>
+        <span>Application was combined with another project during negotiations and is now part of that &apos;Agreement Signed&apos; project</span>
       </TwoColumnDiv>
     </>
   );
