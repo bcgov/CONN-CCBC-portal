@@ -48,8 +48,6 @@ const {
 const StyledContainer = styled.div`
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
 `;
 const StyledError = styled('div')`
   color: #e71f1f;
@@ -61,40 +59,30 @@ const StyledSuccess = styled('div')`
   margin-top: 10px;
 `;
 
-const StyledHeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  // align-items: flex-start;
-  align-items: center;
-  margin-bottom: 1.25rem;
-  margin-top: 2rem;
-  width: 100%;
-`;
-
-const StyledLeftSection = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledRightSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
 const StyledBtnContainer = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  margin-bottom: 2.5rem;
+  margin-top: 0.5rem;
+  flex-direction: row;
+  justify-content: left;
 `;
 
-const StyledLeftNoteText = styled.p`
+const StyledHeading = styled.h2`
+  margin-bottom: 2.5rem;
+`;
+
+const StyledNoteText = styled.p`
   font-size: 18px;
   text-align: left;
+  margin-top: -2rem;
 `;
 
-const StyledRightNoteText = styled.p`
-  font-size: 18px;
-  text-align: center;
+const StyledStrongHeading = styled.h3`
+  font-weight: bold;
+  font-size: 22px;
+  padding-bottom: 1.1rem;
 `;
 
 const acceptedFileTypes = ['.zip'];
@@ -205,38 +193,19 @@ const CoveragesTab = ({ historyList }) => {
   return (
     <div>
       <Tabs />
-      <StyledHeaderContainer>
-        <StyledLeftSection>
-          <h2>Application Coverages Upload</h2>
-          <StyledLeftNoteText>
-            Coverage uploads are necessary to update the Economic Regions and Regional Districts for CCBC applications/projects.
-          </StyledLeftNoteText>
-        </StyledLeftSection>
-        <StyledRightSection>
-          <StyledBtnContainer>
-            <ButtonLink
-              onClick={handleUpload}
-              href="#"
-              disabled={isUploading || !selectedFile}
-              data-skip-unsaved-warning
-            >
-              {isUploading ? 'Saving' : 'Save'}
-            </ButtonLink>
-          </StyledBtnContainer>
-          <StyledRightNoteText>
-            Note:  Changes from this upload will be reflected in the system the following morning
-          </StyledRightNoteText>
-        </StyledRightSection>
-      </StyledHeaderContainer>
+      <StyledHeading>Application Coverages Upload</StyledHeading>
+      <StyledNoteText>
+        Coverage uploads are necessary to update the Economic Regions and Regional Districts for CCBC applications/projects.
+      </StyledNoteText>
       <div>
-        <strong>
+        <StyledStrongHeading>
           Upload a ZIP file containing the shapefiles for the CCBC Application
           Coverages. The file must be named {COVERAGES_FILE_NAME}.
-        </strong>
-        <p>
+        </StyledStrongHeading>
+        <StyledNoteText>
           The ZIP file should contain the .shp as well as it&apos;s accompanying
           files and should not be inside a folder.
-        </p>
+        </StyledNoteText>
         <FileComponent
           allowMultipleFiles={false}
           buttonVariant="primary"
@@ -264,6 +233,19 @@ const CoveragesTab = ({ historyList }) => {
             </div>
           </>
         )}
+        <StyledBtnContainer>
+          <ButtonLink
+            onClick={handleUpload}
+            href="#"
+            disabled={isUploading || !selectedFile}
+            data-skip-unsaved-warning
+          >
+            {isUploading ? 'Saving' : 'Save'}
+          </ButtonLink>
+        </StyledBtnContainer>
+        <StyledNoteText>
+          Note:  Changes from this upload will be reflected in the system the following morning
+        </StyledNoteText>
         {uploadSuccess && (
           <StyledSuccess>
             <p>Upload successful!</p>
