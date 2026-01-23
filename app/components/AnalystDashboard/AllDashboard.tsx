@@ -780,7 +780,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         ? [...zones].sort((a, b) => a - b).join(', ')
         : zones;
 
-    const columnDefs = [
+    const columnDefs: MRT_ColumnDef<Application>[] = [
       {
         accessorKey: 'intakeNumber',
         header: 'Intake',
@@ -853,7 +853,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         filterFn: genericFilterMultiSelect,
       },
       // adding dummy columns for filter purposes
-      ...additionalFilterColumns,
+      ...(additionalFilterColumns as MRT_ColumnDef<Application>[]),
     ];
     console.timeEnd('[AllDashboardTable] buildColumns');
     console.log('[AllDashboardTable] columnOptions counts', {
