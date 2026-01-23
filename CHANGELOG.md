@@ -1,3 +1,37 @@
+# [1.287.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.4...v1.287.0) (2026-01-22)
+
+### Features
+
+- add notes to all assessments except gis ([e7cf69d](https://github.com/bcgov/CONN-CCBC-portal/commit/e7cf69dbe0d2e53e8863a9ffcd61333b6ce3f170))
+
+## [1.286.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.3...v1.286.4) (2026-01-22)
+
+## [1.286.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.2...v1.286.3) (2026-01-22)
+
+### Bug Fixes
+
+- amendment number not showing on summary sow ([611d74f](https://github.com/bcgov/CONN-CCBC-portal/commit/611d74f74f5b6293a69985e3d777693c0ad42dbb))
+
+## [1.286.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.1...v1.286.2) (2026-01-22)
+
+### Bug Fixes
+
+- prevent conditional approval accordion remount ([7ab092e](https://github.com/bcgov/CONN-CCBC-portal/commit/7ab092ee3bf3a7817533510c75a39c69dd78ef8e))
+
+## [1.286.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.0...v1.286.1) (2026-01-21)
+
+# [1.286.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.285.0...v1.286.0) (2026-01-21)
+
+### Features
+
+- add merge application history ([e29f482](https://github.com/bcgov/CONN-CCBC-portal/commit/e29f482f64a7f489833cd0e7ef48ba33d65a518a))
+
+# [1.285.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.284.1...v1.285.0) (2026-01-21)
+
+### Features
+
+- history exclude if old is the same as new ([1d40516](https://github.com/bcgov/CONN-CCBC-portal/commit/1d40516195a57951c0cf8daa5f22f19dff7e7876))
+
 ## [1.284.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.284.0...v1.284.1) (2026-01-16)
 
 ### Bug Fixes

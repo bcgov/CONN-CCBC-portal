@@ -142,11 +142,6 @@ const ConditionalApprovalForm: React.FC<Props> = ({
         {...conditionalApprovalModal}
       />
       <StyledProjectForm
-        key={
-          isFormEditMode
-            ? 'conditional-approval-form-edit'
-            : 'conditional-approval-form-read'
-        }
         clearFormDataOnEdit={false}
         formData={newFormData}
         handleChange={(e) => {

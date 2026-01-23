@@ -33,6 +33,10 @@ interface Props {
   createdAt: string;
   user: string;
   op: string;
+  mergeChildren?: {
+    before?: string[];
+    after?: string[];
+  };
 }
 
 const CbcHistoryRow: React.FC<Props> = ({
@@ -44,6 +48,7 @@ const CbcHistoryRow: React.FC<Props> = ({
   user,
   updatedAt,
   op,
+  mergeChildren,
 }) => {
   return (
     <tr>
@@ -60,6 +65,7 @@ const CbcHistoryRow: React.FC<Props> = ({
           tableName={tableName}
           changeReason={changeReason}
           op={op}
+          mergeChildren={mergeChildren}
         />
       </StyledCell>
     </tr>

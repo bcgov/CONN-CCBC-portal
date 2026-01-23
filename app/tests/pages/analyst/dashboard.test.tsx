@@ -1665,6 +1665,49 @@ describe('The index page', () => {
       expect(screen.getByText('TBD')).toBeInTheDocument();
     });
 
+    it('shows N/A funding source for merged CCBC applications', async () => {
+      const mockPayload = {
+        ...mockQueryPayload,
+        Query() {
+          return {
+            ...mockQueryPayload.Query(),
+            allApplications: {
+              edges: [
+                {
+                  node: {
+                    id: '1',
+                    rowId: 1,
+                    analystStatus: 'merged',
+                    externalStatus: 'closed',
+                    projectName: 'Test Merged Project',
+                    ccbcNumber: 'CCBC-010001',
+                    organizationName: 'Test Org',
+                    intakeNumber: 1,
+                    zones: [1],
+                    program: 'CCBC',
+                    status: 'merged',
+                    package: '1',
+                    applicationSowDataByApplicationId: {
+                      totalCount: 0,
+                      nodes: [],
+                    },
+                    applicationFormTemplate9DataByApplicationId: {
+                      nodes: [],
+                    },
+                  },
+                },
+              ],
+            },
+          };
+        },
+      };
+
+      pageTestingHelper.loadQuery(mockPayload);
+      pageTestingHelper.renderPage();
+
+      expect(screen.getByText('N/A')).toBeInTheDocument();
+    });
+
     it('shows TBD funding source for CCBC applications without SOW data', async () => {
       const mockPayload = {
         ...mockQueryPayload,

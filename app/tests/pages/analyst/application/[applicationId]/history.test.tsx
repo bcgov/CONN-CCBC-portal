@@ -2492,6 +2492,42 @@ const mockQueryPayload = {
             },
             {
               applicationId: 1,
+              createdAt: '2023-10-13T10:25:30.000000-07:00',
+              externalAnalyst: null,
+              familyName: 'bar',
+              item: null,
+              givenName: 'foo1',
+              op: 'INSERT',
+              record: {
+                id: 3,
+                json_data: {
+                  claimsFile: [
+                    {
+                      id: 3,
+                      name: 'claims3.xlsx',
+                      size: 2232925,
+                      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                      uuid: 'c7f59d90-2c5d-4fdf-9a7e-4b25247ad1d6',
+                    },
+                  ],
+                },
+                created_at: '2023-10-13T10:25:30.000000-07:00',
+                created_by: null,
+                updated_at: '2023-10-13T10:25:30.000000-07:00',
+                updated_by: null,
+                archived_at: null,
+                archived_by: null,
+                excel_data_id: 3,
+                application_id: 1,
+                history_operation: 'created',
+              },
+              oldRecord: null,
+              recordId: 'b9f4af5e-0c43-4b78-a06b-5bd0fa663f9c',
+              sessionSub: 'mockUser@ccbc_auth_user',
+              tableName: 'application_claims_data',
+            },
+            {
+              applicationId: 1,
               createdAt: '2023-10-17T15:09:09.334683+00:00',
               externalAnalyst: null,
               familyName: 'bar',
@@ -3700,6 +3736,191 @@ const mockRfiHistoryPayload = {
   },
 };
 
+const mockParentMergeHistoryPayload = {
+  Query() {
+    return {
+      session: {
+        sub: 'mockUser@ccbc_auth_user',
+      },
+      applicationByRowId: {
+        history: {
+          nodes: [
+            {
+              applicationId: 42,
+              createdAt: '2024-07-30T09:00:00.000-08:00',
+              createdBy: 2,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: 'received',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 1,
+                status: 'received',
+                created_at: '2024-07-30T09:00:00.000-08:00',
+                created_by: 2,
+                change_reason: null,
+                application_id: 42,
+              },
+              oldRecord: null,
+              recordId: 'status-received-parent',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_status',
+            },
+            {
+              applicationId: 42,
+              createdAt: '2024-08-01T09:00:00.000-08:00',
+              createdBy: 2,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: 'application_merge',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 77,
+                parent_application_id: 42,
+                parent_ccbc_number: 'CCBC-000042',
+                child_ccbc_number: 'CCBC-010099',
+                created_at: '2024-08-01T09:00:00.000-08:00',
+                created_by: 2,
+                updated_at: '2024-08-01T09:00:00.000-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+              },
+              oldRecord: null,
+              recordId: 'merge-record-add',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_merge',
+            },
+            {
+              applicationId: 42,
+              createdAt: '2024-09-01T11:00:00.000-08:00',
+              createdBy: 2,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: 'application_merge',
+              givenName: 'Foo',
+              op: 'UPDATE',
+              record: {
+                id: 77,
+                parent_application_id: 42,
+                parent_ccbc_number: 'CCBC-000042',
+                child_ccbc_number: 'CCBC-010099',
+                created_at: '2024-08-01T09:00:00.000-08:00',
+                created_by: 2,
+                updated_at: '2024-09-01T11:00:00.000-08:00',
+                updated_by: 2,
+                archived_at: '2024-09-01T11:00:00.000-08:00',
+                archived_by: 2,
+              },
+              oldRecord: {
+                id: 77,
+                parent_application_id: 42,
+                parent_ccbc_number: 'CCBC-000042',
+                child_ccbc_number: 'CCBC-010099',
+                created_at: '2024-08-01T09:00:00.000-08:00',
+                created_by: 2,
+                updated_at: '2024-08-01T09:00:00.000-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+              },
+              recordId: 'merge-record-remove',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_merge',
+            },
+          ],
+        },
+        formData: {
+          jsonData: {
+            projectInformation: {
+              projectTitle: 'originalProjectTitle',
+            },
+            organizationProfile: {
+              organizationName: 'originalOrganizationName',
+            },
+          },
+        },
+      },
+    };
+  },
+};
+
+const mockChildMergeHistoryPayload = {
+  Query() {
+    return {
+      session: {
+        sub: 'mockUser@ccbc_auth_user',
+      },
+      applicationByRowId: {
+        history: {
+          nodes: [
+            {
+              applicationId: 99,
+              createdAt: '2024-07-30T09:00:00.000-08:00',
+              createdBy: 2,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: 'received',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 1,
+                status: 'received',
+                created_at: '2024-07-30T09:00:00.000-08:00',
+                created_by: 2,
+                change_reason: null,
+                application_id: 99,
+              },
+              oldRecord: null,
+              recordId: 'status-received-child',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_status',
+            },
+            {
+              applicationId: 99,
+              createdAt: '2024-08-01T09:00:00.000-08:00',
+              createdBy: 2,
+              externalAnalyst: null,
+              familyName: 'Bar',
+              item: 'application_merge',
+              givenName: 'Foo',
+              op: 'INSERT',
+              record: {
+                id: 88,
+                parent_application_id: 42,
+                parent_ccbc_number: 'CCBC-000042',
+                child_ccbc_number: 'CCBC-000099',
+                created_at: '2024-08-01T09:00:00.000-08:00',
+                created_by: 2,
+                updated_at: '2024-08-01T09:00:00.000-08:00',
+                updated_by: 2,
+                archived_at: null,
+                archived_by: null,
+              },
+              oldRecord: null,
+              recordId: 'merge-record-child',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_merge',
+            },
+          ],
+        },
+        formData: {
+          jsonData: {
+            projectInformation: {
+              projectTitle: 'originalProjectTitle',
+            },
+            organizationProfile: {
+              organizationName: 'originalOrganizationName',
+            },
+          },
+        },
+      },
+    };
+  },
+};
+
 const mockShowHistory: FeatureResult<JSONValue> = {
   value: true,
   source: 'defaultValue',
@@ -4049,38 +4270,51 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const claimsHistory = screen.getAllByTestId('history-content-claims')[2];
+    const claimsHistory = screen.getAllByTestId('history-content-claims')[3];
 
     expect(claimsHistory).toHaveTextContent(
       /The applicant created a Claim & Progress Report on Oct 13, 2023, 10:24 a.m./
     );
 
-    const claimHistoryFile = screen.getAllByTestId(
+    const claimHistoryFiles = screen.getAllByTestId(
       'history-content-claims-file'
-    )[1];
-
-    expect(claimHistoryFile).toHaveTextContent(
-      /Uploaded Claims & Progress Report Excel/
     );
-    expect(claimHistoryFile).toHaveTextContent('claims.xlsx');
+    const createdClaimFile = claimHistoryFiles.find(
+      (element) =>
+        element.textContent?.includes('claims.xlsx') &&
+        element.textContent?.includes('Added file') &&
+        !element.textContent?.includes('Replaced file')
+    );
+    if (!createdClaimFile) throw new Error('Expected claims.xlsx history row');
+    expect(createdClaimFile).toHaveTextContent(
+      /Claims & Progress Report Excel/
+    );
+    expect(createdClaimFile).toHaveTextContent('Added file');
+    expect(createdClaimFile).toHaveTextContent('claims.xlsx');
   });
 
   it('shows the correct history for updating a claim', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const claimsHistory = screen.getAllByTestId('history-content-claims')[1];
+    const claimsHistory = screen.getAllByTestId('history-content-claims')[2];
 
     expect(claimsHistory).toHaveTextContent(
       /The applicant updated a Claim & Progress Report on Oct 13, 2023, 10:24 a.m./
     );
 
-    const claimHistoryFile = screen.getAllByTestId(
-      'history-content-claims-file'
-    )[0];
+    const claimHistoryFile = screen
+      .getAllByTestId('history-content-claims-file')
+      .find(
+        (element) =>
+          element.textContent?.includes('claims2.xlsx') &&
+          !element.textContent?.includes('Deleted file')
+      );
+    if (!claimHistoryFile)
+      throw new Error('Expected uploaded claims2.xlsx history row');
 
     expect(claimHistoryFile).toHaveTextContent(
-      /Uploaded Claims & Progress Report Excel/
+      /Claims & Progress Report Excel/
     );
     expect(claimHistoryFile).toHaveTextContent('claims2.xlsx');
   });
@@ -4089,11 +4323,47 @@ describe('The index page', () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const claimsHistory = screen.getAllByTestId('history-content-claims')[0];
+    const claimsHistory = screen.getAllByTestId('history-content-claims')[1];
 
     expect(claimsHistory).toHaveTextContent(
       'The applicant deleted a Claim & Progress Report on Oct 13, 2023, 10:24 a.m.'
     );
+
+    const deletedClaimHistoryFile = screen
+      .getAllByTestId('history-content-claims-file')
+      .find(
+        (element) =>
+          element.textContent?.includes('claims2.xlsx') &&
+          element.textContent?.includes('Deleted file')
+      );
+    if (!deletedClaimHistoryFile)
+      throw new Error('Expected deleted claims2.xlsx history row');
+    expect(deletedClaimHistoryFile).toHaveTextContent(
+      /Claims & Progress Report Excel/
+    );
+    expect(deletedClaimHistoryFile).toHaveTextContent('Deleted file');
+    expect(deletedClaimHistoryFile).toHaveTextContent('claims2.xlsx');
+  });
+
+  it('shows a new upload after delete as added (not replaced)', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const claimsHistory = screen.getAllByTestId('history-content-claims')[0];
+    expect(claimsHistory).toHaveTextContent(
+      /The applicant created a Claim & Progress Report on Oct 13, 2023, 10:25 a.m./
+    );
+
+    const claimHistoryFile = screen
+      .getAllByTestId('history-content-claims-file')
+      .find((element) => element.textContent?.includes('claims3.xlsx'));
+    if (!claimHistoryFile) throw new Error('Expected claims3.xlsx history row');
+    expect(claimHistoryFile).toHaveTextContent(
+      /Claims & Progress Report Excel/
+    );
+    expect(claimHistoryFile).toHaveTextContent('Added file');
+    expect(claimHistoryFile).toHaveTextContent('claims3.xlsx');
+    expect(claimHistoryFile).not.toHaveTextContent('Replaced file');
   });
 
   it('shows the correct history for creating a milestone report', async () => {
@@ -4219,6 +4489,66 @@ describe('The index page', () => {
     expect(fnhaHistory).toHaveTextContent(
       'Foo Bar updated FNHA Contribution on Mar 6, 2025, 11:50 a.m.'
     );
+  });
+
+  it('shows merge history for a parent application', async () => {
+    pageTestingHelper.loadQuery(mockParentMergeHistoryPayload);
+    pageTestingHelper.renderPage();
+
+    const parentMergeRows = screen.getAllByTestId(
+      'history-content-parent-merge'
+    );
+    expect(parentMergeRows).toHaveLength(2);
+
+    const [latestRemoval, initialAddition] = parentMergeRows;
+    expect(latestRemoval).toHaveTextContent(
+      /deleted a child application\s+CCBC-010099/
+    );
+    expect(initialAddition).toHaveTextContent(
+      /added a child application\s+CCBC-010099/
+    );
+
+    // Removed child should move from after -> before
+    const removalTable = within(
+      latestRemoval.closest('td') as HTMLTableCellElement
+    ).getByTestId('diff-table');
+    const removalRow = within(removalTable)
+      .getByText('Child Application')
+      .closest('tr') as HTMLTableRowElement;
+    const removalCells = removalRow.querySelectorAll('td');
+    expect(removalCells[1]).toHaveTextContent('N/A');
+    expect(removalCells[2]).toHaveTextContent('CCBC-010099');
+
+    // Added child should move from before -> after
+    const additionTable = within(
+      initialAddition.closest('td') as HTMLTableCellElement
+    ).getByTestId('diff-table');
+    const additionRow = within(additionTable)
+      .getByText('Child Application')
+      .closest('tr') as HTMLTableRowElement;
+    const additionCells = additionRow.querySelectorAll('td');
+    expect(additionCells[1]).toHaveTextContent('CCBC-010099');
+    expect(additionCells[2]).toHaveTextContent('N/A');
+  });
+
+  it('shows merge history for a child application', async () => {
+    pageTestingHelper.loadQuery(mockChildMergeHistoryPayload);
+    pageTestingHelper.renderPage();
+
+    const childMergeContent = screen.getByTestId('history-content-child-merge');
+    expect(childMergeContent).toHaveTextContent(
+      'Foo Bar updated the Parent Application'
+    );
+
+    const childMergeTable = within(
+      childMergeContent.closest('td') as HTMLTableCellElement
+    ).getByTestId('diff-table');
+    const parentRow = within(childMergeTable)
+      .getByText('Parent application')
+      .closest('tr') as HTMLTableRowElement;
+    const parentCells = parentRow.querySelectorAll('td');
+    expect(parentCells[1]).toHaveTextContent('CCBC-000042');
+    expect(parentCells[2]).toHaveTextContent('N/A');
   });
 });
 

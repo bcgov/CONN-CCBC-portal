@@ -84,6 +84,13 @@ const createRow = (
   );
 };
 
+const handleNullForComparison = (value) => {
+  if (value === null || value === undefined) {
+    return 'N/A';
+  }
+  return value;
+}
+
 const handleRow = (
   schema,
   parentObject,
@@ -95,6 +102,9 @@ const handleRow = (
 ) => {
   const rows = [];
   if (excludedKeys.some((e) => key === e)) {
+    return rows;
+  }
+  if (handleNullForComparison(newValue) === handleNullForComparison(oldValue)){
     return rows;
   }
   if (schema[parentObject]?.properties[key]?.requiresHeading) {

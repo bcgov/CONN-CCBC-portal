@@ -199,7 +199,11 @@ export const getFundingSource = (application) => {
   // CCBC logic
   const internalStatus = normalizeStatusName(analystStatus);
 
-  if (internalStatus === 'Not selected' || internalStatus === 'Withdrawn') {
+  if (
+    internalStatus === 'Not selected' ||
+    internalStatus === 'Withdrawn' ||
+    internalStatus === 'Merged'
+  ) {
     return 'N/A';
   }
 
@@ -209,7 +213,6 @@ export const getFundingSource = (application) => {
     'Assessment',
     'Recommendation',
     'Conditionally approved',
-    'Merged',
     'On Hold',
   ];
 

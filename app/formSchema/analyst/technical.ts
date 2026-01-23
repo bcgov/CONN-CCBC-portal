@@ -10,6 +10,7 @@ const technical: RJSFSchema = {
     'targetDate',
     'nextStep',
     'decision',
+    'notesAndConsiderations',
     'completedAssessment',
     'otherFiles',
     'connectedCoastNetworkDependent',
@@ -25,6 +26,10 @@ const technical: RJSFSchema = {
     },
     completedAssessment: {
       title: 'Completed assessment',
+      type: 'string',
+    },
+    notesAndConsiderations: {
+      title: 'Notes & Considerations',
       type: 'string',
     },
     connectedCoastNetworkDependent: {

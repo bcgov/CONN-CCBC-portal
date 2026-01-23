@@ -711,6 +711,10 @@ const getSowData = (sowData, baseSowData) => {
         baseSowData?.nodes[0]?.jsonData?.dateFundingAgreementSigned,
     },
   };
+  const sowAmendmentNumber = sowData?.nodes?.[0]?.amendmentNumber;
+  const sowAmendmentLabel = `SOW${
+    sowAmendmentNumber ? ` amendment ${sowAmendmentNumber}` : ''
+  }`;
   const formDataSource = {
     benefitingCommunities: `SOW${communitiesData?.amendmentNumber ? ` amendment ${communitiesData.amendmentNumber}` : ''} - Tab 8`,
     benefitingIndigenousCommunities: `SOW${communitiesData?.amendmentNumber ? ` amendment ${communitiesData.amendmentNumber}` : ''} - Tab 8`,
@@ -719,17 +723,17 @@ const getSowData = (sowData, baseSowData) => {
     nonIndigenousCommunities: sowTextCommunityNumber,
     totalHouseholdsImpacted: sowTextHouseholdsImpacted,
     numberOfIndigenousHouseholds: sowTextHouseholdsImpacted,
-    bcFundingRequested: 'SOW',
-    federalFunding: 'SOW',
-    fundingRequestedCcbc: 'SOW',
-    applicantAmount: 'SOW',
-    cibFunding: 'SOW',
-    fnhaFunding: 'SOW',
-    otherFunding: 'SOW',
-    totalProjectBudget: 'SOW',
-    effectiveStartDate: 'SOW',
-    proposedStartDate: 'SOW',
-    proposedCompletionDate: 'SOW',
+    bcFundingRequested: sowAmendmentLabel,
+    federalFunding: sowAmendmentLabel,
+    fundingRequestedCcbc: sowAmendmentLabel,
+    applicantAmount: sowAmendmentLabel,
+    cibFunding: sowAmendmentLabel,
+    fnhaFunding: sowAmendmentLabel,
+    otherFunding: sowAmendmentLabel,
+    totalProjectBudget: sowAmendmentLabel,
+    effectiveStartDate: sowAmendmentLabel,
+    proposedStartDate: sowAmendmentLabel,
+    proposedCompletionDate: sowAmendmentLabel,
     dateAgreementSigned: 'Funding Agreement',
   };
   const errors = getSowErrors(sowData?.nodes, review, formDataSource, formData);

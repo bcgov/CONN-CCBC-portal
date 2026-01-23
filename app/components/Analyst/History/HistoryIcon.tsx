@@ -18,7 +18,8 @@ import {
   faSignsPost,
   faWifi,
   faHourglass,
-  faStickyNote
+  faStickyNote,
+  faCodeMerge,
 } from '@fortawesome/free-solid-svg-icons';
 
 const StyledIcon = styled.div`
@@ -47,6 +48,7 @@ const iconMap = {
   application_dependencies: faCheckDouble,
   application_analyst_lead: faUser,
   application_package: faBox,
+  application_merge: faCodeMerge,
   conditional_approval_data: faStamp,
   application_gis_data: faMap,
   project_information_data: faChartGantt,
@@ -58,7 +60,7 @@ const iconMap = {
   application_communities: faClipboardList,
   application_fnha_contribution: faDollarSign,
   application_pending_change_request: faHourglass,
-  application_internal_notes: faStickyNote
+  application_internal_notes: faStickyNote,
 };
 
 interface Props {
