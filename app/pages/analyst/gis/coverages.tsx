@@ -79,12 +79,6 @@ const StyledNoteText = styled.p`
   margin-top: -2rem;
 `;
 
-const StyledStrongHeading = styled.h3`
-  font-weight: bold;
-  font-size: 22px;
-  padding-bottom: 1.1rem;
-`;
-
 const acceptedFileTypes = ['.zip'];
 
 const UploadError = ({ error }) => {
@@ -198,14 +192,14 @@ const CoveragesTab = ({ historyList }) => {
         Coverage uploads are necessary to update the Economic Regions and Regional Districts for CCBC applications/projects.
       </StyledNoteText>
       <div>
-        <StyledStrongHeading>
+        <strong>
           Upload a ZIP file containing the shapefiles for the CCBC Application
           Coverages. The file must be named {COVERAGES_FILE_NAME}.
-        </StyledStrongHeading>
-        <StyledNoteText>
+        </strong>
+        <p>
           The ZIP file should contain the .shp as well as it&apos;s accompanying
           files and should not be inside a folder.
-        </StyledNoteText>
+        </p>
         <FileComponent
           allowMultipleFiles={false}
           buttonVariant="primary"
