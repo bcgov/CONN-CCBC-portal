@@ -1,7 +1,7 @@
 // import { ErrorContext } from 'contexts/ErrorContext';
 // import { useContext } from 'react';
 import { Environment, useMutation } from 'react-relay';
-import * as Sentry from '@sentry/nextjs';
+import reportClientError from 'lib/helpers/reportClientError';
 import {
   commitMutation as baseCommitMutation,
   Disposable,
@@ -31,7 +31,7 @@ export default function useMutationWithErrorMessage<
       onError: (error) => {
         config.onError?.(error);
         // setError(getErrorMessage(error));
-        Sentry.captureException(error);
+        reportClientError(error, { source: 'relay-mutation' });
       },
     };
 

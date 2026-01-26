@@ -1,10 +1,10 @@
 import type { Request, Response, NextFunction } from 'express';
 import { BaseClient, generators, TokenSet } from 'openid-client';
 import { URL } from 'whatwg-url';
-import * as Sentry from '@sentry/nextjs';
 import { getSessionRemainingTime, isAuthenticated } from './helpers';
 import { SSOExpressOptions } from './types';
 import config from '../../../config';
+import { reportServerError } from '../emails/errorNotification';
 
 const shouldBypassAuthentication = (bypassConfig, routeKey) => {
   return (
@@ -85,8 +85,11 @@ export const tokenSetController =
         req.session.tokenSet = tokenSet;
         req.claims = tokenSet.claims();
       } catch (err) {
-        console.error('sso-express could not refresh the access token.');
-        Sentry.captureException({ token: tokenSet, error: err });
+        reportServerError(err, {
+          source: 'sso-token-refresh',
+          logMessage: 'sso-express could not refresh the access token.',
+          metadata: { token: tokenSet },
+        });
         delete req.session.tokenSet;
       }
     }
@@ -129,12 +132,18 @@ export const loginController =
     req.session.codeVerifier = codeVerifier;
 
     if (req.session.tokenSet) {
-      Sentry.captureException({
-        session: req.session,
-        codeVerifier,
-        codeChallenge,
-        message: 'loginController: req.session.tokenSet exists',
-      });
+      reportServerError(
+        new Error('loginController: req.session.tokenSet exists'),
+        {
+          source: 'sso-login-token-set',
+          metadata: {
+            session: req.session,
+            codeVerifier,
+            codeChallenge,
+          },
+        },
+        req
+      );
       delete req.session.tokenSet;
     }
 
@@ -177,7 +186,6 @@ export const authCallbackController =
     // callback will check the state
     /*
     if (state !== cachedState) {
-      Sentry.captureException({ state, cachedState });
       res.redirect(options.oidcConfig.baseUrl);
       return;
     }
@@ -216,13 +224,19 @@ export const authCallbackController =
           : options.getLandingRoute(req)
       );
     } catch (err) {
-      console.error('sso-express could not get the access token.');
-      Sentry.captureException({
-        error: err,
-        session: req.session,
-        query: req.query,
-        sessionCodeVerifier,
-      });
+      reportServerError(
+        err,
+        {
+          source: 'sso-auth-callback',
+          logMessage: 'sso-express could not get the access token.',
+          metadata: {
+            session: req.session,
+            query: req.query,
+            sessionCodeVerifier,
+          },
+        },
+        req
+      );
       res.redirect(options.oidcConfig.baseUrl);
     }
   };

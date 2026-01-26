@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { DateTime } from 'luxon';
 import { useArchiveReportingGcpeMutation } from 'schema/mutations/reporting/archiveReportingGcpeMutation';
 import { ConnectionHandler } from 'relay-runtime';
-import * as Sentry from '@sentry/nextjs';
+import reportClientError from 'lib/helpers/reportClientError';
 import ReportRow from './ReportRow';
 
 const StyledH2 = styled.h2`
@@ -46,9 +46,9 @@ const ManageReports = ({ reportList, connectionId }) => {
           'error',
           5000
         );
-        Sentry.captureException({
-          name: `Error archiving GCPE file: ${formattedFileName}`,
-          message: response,
+        reportClientError(response, {
+          source: 'archive-gcpe-report',
+          metadata: { fileName: formattedFileName },
         });
       },
       onCompleted: () => {
@@ -85,6 +85,7 @@ const ManageReports = ({ reportList, connectionId }) => {
       })
       .catch((error) => {
         showToast('Error downloading file. Please try again later.', error);
+        reportClientError(error, { source: 'download-gcpe-report' });
       });
   };
 

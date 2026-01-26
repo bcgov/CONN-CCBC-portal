@@ -40,10 +40,10 @@ import {
 import ClearFilters from 'components/Table/ClearFilters';
 import { getLabelForType } from 'components/Analyst/History/HistoryFilter';
 import { convertStatus } from 'backend/lib/dashboard/util';
-import * as Sentry from '@sentry/nextjs';
 import { useFeature } from '@growthbook/growthbook-react';
 import getCbcSectionFromKey from 'utils/historyCbcSection';
 import { useChangeLogCache } from 'hooks/useChangeLogCache';
+import reportClientError from 'lib/helpers/reportClientError';
 import AdditionalFilters from './AdditionalFilters';
 import { HighlightFilterMatch } from './AllDashboardDetailPanel';
 
@@ -335,10 +335,9 @@ const ProjectChangeLog: React.FC<Props> = () => {
 
   // Show error if needed
   if (error) {
-    Sentry.captureException({
-      name: 'Error getting change log data',
-      message: error.message,
-      cause: error,
+    reportClientError(error, {
+      source: 'project-change-log',
+      metadata: { message: error.message },
     });
   }
 

@@ -10,11 +10,11 @@ import FileComponent from 'lib/theme/components/FileComponent';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import * as Sentry from '@sentry/nextjs';
 import Tabs from 'components/Analyst/GIS/Tabs';
 import checkFileType from 'utils/checkFileType';
 import { useUnsavedChanges } from 'components/UnsavedChangesProvider';
 import HistoryFileUpload from 'components/Analyst/History/HistoryFileUpload';
+import reportClientError from 'lib/helpers/reportClientError';
 
 const getUploadedJsonQuery = graphql`
   query gisUploadedJsonQuery {
@@ -153,11 +153,11 @@ const GisTab = ({ historyList }) => {
         try {
           await router.push(`/analyst/gis/${result?.batchId}/`);
         } catch (e) {
-          Sentry.captureException(e);
+          reportClientError(e, { source: 'gis-upload-redirect' });
         }
       }
     } catch (e) {
-      Sentry.captureException(e);
+      reportClientError(e, { source: 'gis-upload' });
     }
   };
 

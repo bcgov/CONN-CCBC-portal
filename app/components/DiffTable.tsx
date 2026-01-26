@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import styled from 'styled-components';
 import formatMoney from 'utils/formatMoney';
+import reportClientError from 'lib/helpers/reportClientError';
 
 const StyledTable = styled.table`
   table-layout: auto;
@@ -712,6 +713,7 @@ const DiffTable: React.FC<Props> = ({
       overrideParent
     );
   } catch (error) {
+    reportClientError(error, { source: 'diff-table' });
     diffTable = (
       <div>
         An error occurred and the edits could not be determined. If this

@@ -200,18 +200,6 @@ const config = convict({
     default: false,
     env: 'ENABLE_MOCK_COOKIES',
   },
-  SENTRY_ENVIRONMENT: {
-    doc: 'This can be any string, should be left empty for local development unless working on Sentry setup',
-    format: String,
-    default: '',
-    env: 'SENTRY_ENVIRONMENT',
-  },
-  SENTRY_RELEASE: {
-    doc: 'App release tag',
-    format: String,
-    default: 'local_development',
-    env: 'SENTRY_RELEASE',
-  },
   CHECK_TAGS: {
     doc: 'Enable checking tags on s3 object',
     format: Boolean,
@@ -327,8 +315,8 @@ const env =
 try {
   config.loadFile(`./config/${env}.json`);
 } catch (e) {
-  console.log(e);
-  console.log(env);
+  console.error(e);
+  console.error(env);
 }
 config.validate({ allowed: 'warn' });
 if (

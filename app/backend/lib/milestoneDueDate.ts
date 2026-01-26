@@ -5,6 +5,7 @@ import { performQuery } from './graphql';
 import handleEmailNotification from './emails/handleEmailNotification';
 import notifyMilestoneReportDue from './emails/templates/notifyMilestoneReportDue';
 import validateKeycloakToken from './keycloakValidate';
+import { reportServerError } from './emails/errorNotification';
 
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000,
@@ -47,6 +48,7 @@ const processMilestones = async (req, res) => {
   try {
     result = await performQuery(sowMilestoneQuery, {}, req);
   } catch (error) {
+    reportServerError(error, { source: 'milestone-due-query' }, req);
     return res.status(500).json({ error: result.error }).end();
   }
 

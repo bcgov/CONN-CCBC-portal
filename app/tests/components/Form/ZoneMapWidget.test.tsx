@@ -1,13 +1,11 @@
 /* eslint-disable import/first */
-jest.mock('@sentry/nextjs', () => ({
-  captureException: jest.fn(),
-}));
+jest.mock('lib/helpers/reportClientError', () => jest.fn());
 
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { ZONE_MAP_URL } from 'data/externalConstants';
 import { ZoneMapWidget } from 'lib/theme/widgets';
 import FormTestRenderer from 'tests/utils/formTestRenderer';
-import * as Sentry from '@sentry/nextjs';
+import reportClientError from 'lib/helpers/reportClientError';
 import { RJSFSchema } from '@rjsf/utils';
 
 const mockSchema = {
@@ -124,7 +122,6 @@ describe('The Area Map Widget', () => {
       formContextMock
     );
     global.fetch = jest.fn(() => Promise.reject(new Error('Failed to fetch')));
-    const spySentry = jest.spyOn(Sentry, 'captureException');
     const downloadLink = screen.getByTestId(
       'internet-blocking-map-download-link'
     );
@@ -132,6 +129,9 @@ describe('The Area Map Widget', () => {
       fireEvent.click(downloadLink);
     });
 
-    expect(spySentry).toHaveBeenCalledWith(new Error('Failed to fetch'));
+    expect(reportClientError).toHaveBeenCalledWith(
+      new Error('Failed to fetch'),
+      { source: 'zone-map-widget' }
+    );
   });
 });

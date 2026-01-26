@@ -5,7 +5,7 @@ import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import cookie from 'js-cookie';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import * as Sentry from '@sentry/nextjs';
+import reportClientError from 'lib/helpers/reportClientError';
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -345,7 +345,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   };
 
   const handleError = (error) => {
-    Sentry.captureException(error);
+    reportClientError(error, { source: 'all-dashboard' });
     showToast('An error occurred. Please try again.', 'error', 15000);
   };
 

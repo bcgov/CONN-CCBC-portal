@@ -196,8 +196,6 @@ spec:
               value: {{ .Values.objectStorage.awsS3SecretKey }}
             - name: AWS_ROLE_ARN
               value: {{ .Values.objectStorage.awsRoleArn }}
-            - name: SENTRY_RELEASE
-              value: {{ .Values.image.app.tag }}
             - name: ENABLE_MOCK_AUTH
               value: {{ .Values.loadTest.enable | quote }}
           resources:

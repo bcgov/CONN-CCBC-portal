@@ -152,7 +152,6 @@ runs:
           --set metabase.prodNamespace=${{ inputs.openshift_metabase_prod_namespace }} \
           --set metabase.siteUrl=${{ inputs.metabase_site_url }} \
           --set metabase.embedSecret=${{ inputs.metabase_embed_secret }} \
-          --set sentry.release="$SHA_ONLY" \
           --set image.app.tag=${{ inputs.tag  }} \
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.cronsp.tag=${{ inputs.tag  }} \

@@ -6,7 +6,6 @@ import http from 'http';
 import { createLightship } from 'lightship';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import * as Sentry from '@sentry/nextjs';
 // eslint-disable-next-line import/extensions
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 import morgan from 'morgan';
@@ -21,6 +20,7 @@ import linkPreview from './backend/lib/linkPreview';
 import readinessTest from './backend/lib/readinessTests';
 import { pgPool } from './backend/lib/setup-pg';
 import config from './config';
+import { reportServerError } from './backend/lib/emails/errorNotification';
 import session from './backend/lib/session';
 import ssoMiddleware from './backend/lib/sso-middleware';
 import headersMiddleware from './backend/lib/headers';
@@ -98,9 +98,10 @@ app.prepare().then(async () => {
     res.on('finish', () => {
       // if we get a 404 on a static resource, we want to log it
       if (res.statusCode === 404 && req.url.includes('static')) {
-        if (config.get('SENTRY_ENVIRONMENT')) {
-          Sentry.captureException(new Error(`Static Resource 404: ${req.url}`));
-        }
+        reportServerError(new Error(`Static Resource 404: ${req.url}`), {
+          source: 'static-resource-404',
+          metadata: { url: req.url },
+        });
       }
     });
     // continue logging
@@ -191,9 +192,7 @@ app.prepare().then(async () => {
     .on('error', (err) => {
       // eslint-disable-next-line no-console
       console.error(err);
-      if (config.get('SENTRY_ENVIRONMENT')) {
-        Sentry.captureException(err);
-      }
+      reportServerError(err, { source: 'http-server' });
       lightship.shutdown();
     });
 });

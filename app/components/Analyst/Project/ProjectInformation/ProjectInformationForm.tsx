@@ -16,10 +16,10 @@ import Toast from 'components/Toast';
 import Ajv8Validator from '@rjsf/validator-ajv8';
 import excelValidateGenerator from 'lib/helpers/excelValidate';
 import ReadOnlyView from 'components/Analyst/Project/ProjectInformation/ReadOnlyView';
-import * as Sentry from '@sentry/nextjs';
 import useEmailNotification from 'lib/helpers/useEmailNotification';
 import GenericConfirmationModal from 'lib/theme/widgets/GenericConfirmationModal';
 import useModal from 'lib/helpers/useModal';
+import reportClientError from 'lib/helpers/reportClientError';
 import { formatCurrency } from 'backend/lib/dashboard/util';
 import { useArchiveApplicationChangeRequestMutation } from 'schema/mutations/project/archiveApplicationChangeRequest';
 import ChangeRequestTheme from '../ChangeRequestTheme';
@@ -256,9 +256,8 @@ const ProjectInformationForm: React.FC<Props> = ({
       }),
     }).then((response) => {
       if (!response.ok) {
-        Sentry.captureException({
-          name: 'Error cancelling agreement signed email',
-          message: response,
+        reportClientError(response, {
+          source: 'agreement-signed-cancel-email',
         });
       }
       return response.json();
@@ -277,9 +276,8 @@ const ProjectInformationForm: React.FC<Props> = ({
       }),
     }).then((response) => {
       if (!response.ok) {
-        Sentry.captureException({
-          name: 'Error sending email to notify SOW upload',
-          message: response,
+        reportClientError(response, {
+          source: 'sow-upload-email',
         });
       }
       return response.json();

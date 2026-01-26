@@ -7,13 +7,13 @@ import { RelayEnvironmentProvider } from 'react-relay';
 import { useRelayNextjs } from 'relay-nextjs/app';
 import { newTracker, trackPageView } from '@snowplow/browser-tracker';
 import { Settings } from 'luxon';
-import * as Sentry from '@sentry/nextjs';
 import type { AppProps } from 'next/app';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { GrowthBook, GrowthBookProvider } from '@growthbook/growthbook-react';
 import Error500 from 'pages/500';
 import { getClientEnvironment } from 'lib/relay/client';
+import reportClientError from 'lib/helpers/reportClientError';
 import GlobalStyle from 'styles/GobalStyles';
 import GlobalTheme from 'styles/GlobalTheme';
 import BCGovTypography from 'components/BCGovTypography';
@@ -34,7 +34,38 @@ try {
       growthbook.setFeatures(res.features);
     });
 } catch (err) {
-  Sentry.captureException(err);
+  reportClientError(err, { source: 'growthbook-bootstrap' });
+}
+
+class AppErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: unknown, info: React.ErrorInfo) {
+    reportClientError(error, {
+      source: 'app-error-boundary',
+      metadata: { componentStack: info.componentStack },
+    });
+  }
+
+  render() {
+    const { hasError } = this.state;
+    const { children } = this.props;
+
+    if (hasError) {
+      return <Error500 />;
+    }
+    return children;
+  }
 }
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
@@ -68,7 +99,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           });
         return data;
       } catch (err) {
-        Sentry.captureException(err);
+        reportClientError(err, { source: 'growthbook-refresh' });
       }
       return null;
     };
@@ -89,7 +120,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <ThemeProvider theme={theme}>
           {React.createElement(GlobalStyle as any)}
           <BCGovTypography />
-          <Sentry.ErrorBoundary fallback={<Error500 />}>
+          <AppErrorBoundary>
             {React.createElement(
               RelayEnvironmentProvider as any,
               { environment: env },
@@ -98,7 +129,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                 {component}
               </AppProvider>
             )}
-          </Sentry.ErrorBoundary>
+          </AppErrorBoundary>
         </ThemeProvider>
       </GlobalTheme>
     </GrowthBookProvider>

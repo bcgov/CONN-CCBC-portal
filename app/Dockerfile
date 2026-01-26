@@ -52,11 +52,9 @@ COPY app/ .
 # Remove test folder
 RUN rm -rf ${APP_HOME}/tests
 
-# Build the app (compile Relay, server, and Next.js) load sentry auth token from secret
+# Build the app (compile Relay, server, and Next.js)
 ENV NODE_ENV=production
-RUN --mount=type=secret,id=sentry_auth_token \
-  SENTRY_AUTH_TOKEN="$(cat /run/secrets/sentry_auth_token)" && \
-  yarn build:relay && yarn build:server && yarn build:next
+RUN yarn build:relay && yarn build:server && yarn build:next
 
 # -- END OF 2ND STAGE --
 

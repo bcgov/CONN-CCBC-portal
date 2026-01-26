@@ -2,6 +2,7 @@ import { Router } from 'express';
 import RateLimit from 'express-rate-limit';
 import { performQuery } from '../graphql';
 import { gbClient } from '../growthbook-client';
+import { reportServerError } from '../emails/errorNotification';
 
 const changeLog = Router();
 
@@ -97,6 +98,7 @@ changeLog.get('/api/change-log', limiter, async (req, res) => {
     // Return the feature value
     return res.json(responseData);
   } catch (error) {
+    reportServerError(error, { source: 'change-log' }, req);
     return res.status(500).json({
       error,
       success: false,

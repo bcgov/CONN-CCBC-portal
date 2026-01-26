@@ -23,6 +23,7 @@ export function createServerNetwork({ cookieHeader }: any) {
     try {
       return await response.json();
     } catch (e) {
+      // Server-side relay fetch failures should not pull backend-only deps into client bundles.
       console.error(e);
     }
   });

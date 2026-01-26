@@ -7,6 +7,7 @@ import getAuthRole from '../../../utils/getAuthRole';
 import limiter from './excel-limiter';
 import { getByteArrayFromS3 } from '../s3client';
 import { commonFormidableConfig, parseForm } from '../express-helper';
+import { reportServerError } from '../emails/errorNotification';
 
 const createTemplateNineDataMutation = `
   mutation createTemplateNineData($input: CreateApplicationFormTemplate9DataInput!) {
@@ -243,6 +244,7 @@ const handleTemplateNine = async (
     const result = await loadTemplateNineData(wb);
     return result;
   } catch (e) {
+    reportServerError(e, { source: 'template-nine-handle' });
     return null;
     // throw new Error(`Error handling template nine: ${e}`);
   }
@@ -319,6 +321,7 @@ templateNine.get('/api/template-nine/all', limiter, async (req, res) => {
     );
     return res.status(200).json({ result: 'success' });
   } catch (e) {
+    reportServerError(e, { source: 'template-nine-all', metadata: { route: 'all' } }, req);
     return res.status(500).json({ e });
   }
 });
@@ -414,6 +417,11 @@ templateNine.get('/api/template-nine/rfi/all', limiter, async (req, res) => {
 
     return res.status(200).json({ result: 'success' });
   } catch (e) {
+    reportServerError(
+      e,
+      { source: 'template-nine-rfi', metadata: { route: 'rfi-all' } },
+      req
+    );
     return res.status(500).json({ e });
   }
 });
@@ -534,6 +542,7 @@ templateNine.post(
       files = await parseForm(form, req);
     } catch (err) {
       errorList.push({ level: 'file', error: err });
+      reportServerError(err, { source: 'template-nine-parse-form' }, req);
       return res.status(400).json({ errors: errorList }).end();
     }
     const filename = Object.keys(files)[0];
@@ -550,6 +559,7 @@ templateNine.post(
       templateNineData = await loadTemplateNineData(wb);
     } catch (err) {
       errorList.push({ level: 'file', error: err });
+      reportServerError(err, { source: 'template-nine-load-data' }, req);
       return res.status(400).json({ errors: errorList }).end();
     }
 

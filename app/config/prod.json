@@ -2,6 +2,5 @@
   "AUTH_SERVER_URL": "https://loginproxy.gov.bc.ca/auth/realms/standard",
   "SITEMINDER_LOGOUT_URL": "https://logon7.gov.bc.ca/clp-cgi/logoff.cgi",
   "ARCHIVE_REQUEST_TOPIC_ARN": "arn:aws:sns:ca-central-1:443109034040:ccbc-export-files",
-  "SENTRY_ENVIRONMENT": "prod",
   "ENABLE_AWS_LOGS": true
 }

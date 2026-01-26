@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
 import { useRouter } from 'next/router';
 import { useParseGisAnalysisMutation } from 'schema/mutations/gis/parseGisAnalysis';
-import * as Sentry from '@sentry/nextjs';
+import reportClientError from 'lib/helpers/reportClientError';
 
 const StyledContainer = styled.div`
   width: 100%;
@@ -82,7 +82,7 @@ const BatchIdPage: React.FC<
         router
           .push(`/analyst/gis/${router.query.batchId}/success`)
           .catch((e) => {
-            Sentry.captureException(e);
+            reportClientError(e, { source: 'gis-batch-redirect' });
           });
       },
     });

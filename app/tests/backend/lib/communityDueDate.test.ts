@@ -8,6 +8,7 @@ import session from 'express-session';
 import crypto from 'crypto';
 import getConfig from 'next/config';
 import cookieParser from 'cookie-parser';
+import reportClientError from 'lib/helpers/reportClientError';
 import communityDueDate from '../../../backend/lib/communityReportsDueDate';
 import { performQuery } from '../../../backend/lib/graphql';
 import handleEmailNotification from '../../../backend/lib/emails/handleEmailNotification';
@@ -88,6 +89,7 @@ describe('The Community Progress Report api route', () => {
       });
     } catch (err) {
       console.error(err);
+      reportClientError(err, { source: 'community-due-date-test' });
     }
   });
 
@@ -140,6 +142,7 @@ describe('The Community Progress Report api route', () => {
       expect(response.body).toEqual({ emails: 'sent' });
     } catch (err) {
       console.error(err);
+      reportClientError(err, { source: 'community-due-date-test-email' });
     }
   });
 

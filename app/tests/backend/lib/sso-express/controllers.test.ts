@@ -198,7 +198,10 @@ describe('the tokenSet controller', () => {
     expect(next).toHaveBeenCalled();
     expect(consoleErrorMock).toHaveBeenCalledTimes(1);
     expect(consoleErrorMock.mock.calls).toEqual([
-      ['sso-express could not refresh the access token.'],
+      [
+        'sso-express could not refresh the access token.',
+        expect.any(Error),
+      ],
     ]);
     consoleErrorMock.mockRestore();
   });
@@ -492,7 +495,7 @@ describe('the authCallbackController', () => {
     expect(req.claims).toBe(undefined);
     expect(req.session.tokenSet).toBe(undefined);
     expect(consoleErrorMock.mock.calls).toEqual([
-      ['sso-express could not get the access token.'],
+      ['sso-express could not get the access token.', expect.any(Error)],
     ]);
     expect(middlewareOptions.onAuthCallback).toHaveBeenCalledTimes(0);
     consoleErrorMock.mockRestore();

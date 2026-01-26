@@ -4,6 +4,7 @@ import { useUpdateCbcProjectNumberMutation } from 'schema/mutations/cbc/updateCb
 import styled from 'styled-components';
 import { Input } from '@button-inc/bcgov-theme';
 import CircularProgress from '@mui/material/CircularProgress';
+import reportClientError from 'lib/helpers/reportClientError';
 
 interface Props {
   cbc: any;
@@ -110,6 +111,7 @@ const CbcEditProjectNumber: React.FC<Props> = ({
               'An error occurred while attempting to update the project number.'
             );
           }
+          reportClientError(e, { source: 'cbc-project-number-update' });
           setIsSaving(false);
           setIsEditing(false);
           setProjectNumber(baseProjectNumber);
@@ -148,6 +150,7 @@ const CbcEditProjectNumber: React.FC<Props> = ({
       setError(
         'An error occurred while attempting to validate the project number.'
       );
+      reportClientError(e, { source: 'cbc-project-number-validate' });
       return false;
     }
   };

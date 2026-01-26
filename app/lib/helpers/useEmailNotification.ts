@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/nextjs';
+import reportClientError from 'lib/helpers/reportClientError';
 
 const useEmailNotification = () => {
   const notifyHHCountUpdate = async (
@@ -39,10 +39,7 @@ const useEmailNotification = () => {
       }),
     }).then((response) => {
       if (!response.ok) {
-        Sentry.captureException({
-          name: 'Email sending failed',
-          message: response,
-        });
+        reportClientError(response, { source: 'household-count-email' });
       }
       return response.json();
     });
@@ -62,9 +59,9 @@ const useEmailNotification = () => {
       }),
     }).then((response) => {
       if (!response.ok) {
-        Sentry.captureException({
-          name: `Error sending email to notify ${params.documentType} upload`,
-          message: response,
+        reportClientError(response, {
+          source: 'document-upload-email',
+          metadata: { documentType: params.documentType },
         });
       }
       return response.json();

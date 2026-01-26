@@ -1,5 +1,6 @@
 import { NextRouter } from 'next/router';
 import { createMockEnvironment, RelayMockEnvironment } from 'relay-test-utils';
+import reportClientError from 'lib/helpers/reportClientError';
 import createMockRouter from './mockNextRouter';
 
 class TestingHelper {
@@ -36,6 +37,7 @@ class TestingHelper {
         ])
       );
     } catch (e) {
+      reportClientError(e, { source: 'testing-helper-mutation-assert' });
       const allOperations = this.environment.mock.getAllOperations();
       const mutationsWithExpectedName = allOperations.filter(
         ({ fragment: { node } }) => {

@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import * as Sentry from '@sentry/nextjs';
 import { useEffect, useState } from 'react';
 import useModal from 'lib/helpers/useModal';
 import { RJSFSchema } from '@rjsf/utils';
+import reportClientError from 'lib/helpers/reportClientError';
 import Announcement from './Announcement';
 import AnnouncementsHeader from './AnnouncementsHeader';
 import AnnouncementDeleteModal from './AnnouncementDeleteModal';
@@ -99,12 +99,12 @@ const ViewAnnouncements: React.FC<Props> = ({
         );
         setFullAnnouncements(previews);
       } catch (error) {
-        Sentry.captureException(error);
+        reportClientError(error, { source: 'announcements-preview' });
       }
     };
 
     getLinkPreview(announcements).catch((error) => {
-      Sentry.captureException(error);
+      reportClientError(error, { source: 'announcements-link-preview' });
     });
 
     return () => {

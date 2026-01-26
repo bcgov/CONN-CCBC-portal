@@ -36,37 +36,9 @@ describe('the authenticationPgSettings function', () => {
     );
   });
 
-  it('returns the function enabling Sentry error handling if sentry environment env is set', () => {
+  it('returns the correct options for non-production', () => {
     mocked(config.get).mockImplementation((name: any) => {
       const mockConfig = {
-        SENTRY_ENVIRONMENT: 'test',
-        OPENSHIFT_APP_NAMESPACE: 'test-dev',
-        PGSCHEMA: 'ccbc_public',
-      };
-      return mockConfig[name] as any;
-    });
-
-    let postgraphileMiddleware;
-    jest.isolateModules(() => {
-      // eslint-disable-next-line global-require
-      postgraphileMiddleware = require('backend/lib/graphql').default;
-    });
-
-    postgraphileMiddleware();
-
-    expect(mocked(postgraphile)).toHaveBeenCalledWith(
-      expect.anything(),
-      'ccbc_public',
-      expect.objectContaining({
-        handleErrors: expect.any(Function),
-      })
-    );
-  });
-
-  it('returns the correct options if sentry environment env is empty', () => {
-    mocked(config.get).mockImplementation((name: any) => {
-      const mockConfig = {
-        SENTRY_ENVIRONMENT: '',
         OPENSHIFT_APP_NAMESPACE: 'test-dev',
         PGSCHEMA: 'ccbc_public',
       };

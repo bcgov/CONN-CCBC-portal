@@ -9,6 +9,7 @@ import { performQuery } from './graphql';
 import getAuthRole from '../../utils/getAuthRole';
 import { commonFormidableConfig, parseForm } from './express-helper';
 import { jsonProcessor } from './json-lint';
+import { reportServerError } from './emails/errorNotification';
 
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
@@ -108,6 +109,7 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
     }
     data = JSON.parse(file);
   } catch (e) {
+    reportServerError(e, { source: 'gis-upload-parse' }, req);
     return res.status(400).json({ error: e }).end();
   }
   let isValid: boolean;
@@ -115,6 +117,7 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
   try {
     isValid = ajv.validate(schema, data);
   } catch (e) {
+    reportServerError(e, { source: 'gis-upload-validate' }, req);
     return res.status(400).json({ error: e }).end();
   }
 
@@ -128,6 +131,7 @@ gisUpload.post('/api/analyst/gis', limiter, async (req, res) => {
     { input: data, fileName: originalFileName },
     req
   ).catch((e) => {
+    reportServerError(e, { source: 'gis-upload-save' }, req);
     return res.status(400).json({ error: e }).end();
   });
 

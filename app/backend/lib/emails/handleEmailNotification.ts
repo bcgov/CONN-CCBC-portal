@@ -6,6 +6,7 @@ import { performQuery } from '../graphql';
 import config from '../../../config';
 import sendEmail from '../ches/sendEmail';
 import sendEmailMerge, { Context } from '../ches/sendEmailMerge';
+import { reportServerError } from './errorNotification';
 
 const getAnalystEmailsByIds = `
   query getAnalystEmailsByIds($_rowIds: [Int!]!) {
@@ -107,6 +108,7 @@ const handleEmailBatch = async (
     }
     return res.status(400).json({ error: 'Failed to send email' }).end();
   } catch (error) {
+    reportServerError(error, { source: 'handle-email-batch' });
     return res.status(500).json({ error: 'Internal server error' }).end();
   }
 };
@@ -143,6 +145,7 @@ const sendEmailSingle = async (
     }
     return res.status(400).json({ error: 'Failed to send email' }).end();
   } catch (error) {
+    reportServerError(error, { source: 'send-email-single' });
     return res.status(500).json({ error: 'Internal server error' }).end();
   }
 };

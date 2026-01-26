@@ -125,8 +125,6 @@ spec:
                   name: s3-secret-shp
             - name: AWS_ROLE_ARN
               value: {{ .Values.objectStorage.awsRoleArn }}
-            - name: SENTRY_RELEASE
-              value: {{ .Values.sentry.release }}
             - name: ENABLE_MOCK_AUTH
               value: {{ .Values.loadTest.enable | quote }}
             - name: METABASE_SITE_URL

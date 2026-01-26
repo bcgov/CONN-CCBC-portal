@@ -13,9 +13,6 @@ image:
     pullPolicy: IfNotPresent
     tag: 'sha-d53715434b85fd10f07e9976014e2dfa6166b818' # The tag value must be passed in via the deploy script
 
-sentry:
-  release: '' # The release value must be passed in via the deploy script
-
 app:
   port: '3000'
   probesPort: '9000'

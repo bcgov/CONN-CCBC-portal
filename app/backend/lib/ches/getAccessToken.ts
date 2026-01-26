@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/nextjs';
 import config from '../../../config';
 
 const CHES_CLIENT = config.get('CHES_CLIENT');
@@ -27,7 +26,7 @@ const getAccessToken = async () => {
     const token: string = data.access_token;
     return token;
   } catch (error: any) {
-    Sentry.captureException(new Error(error.message));
+    console.error('Error getting CHES access token', error);
     throw new Error(error.message);
   }
 };

@@ -3,6 +3,7 @@ import RateLimit from 'express-rate-limit';
 import getLinkPreview from '../../utils/getLinkPreview';
 import getAuthRole from '../../utils/getAuthRole';
 import { performQuery } from './graphql';
+import { reportServerError } from './emails/errorNotification';
 
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
@@ -56,6 +57,7 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
       return res.status(400).json({ error: 'Invalid URL' }).end();
     }
   } catch (e) {
+    reportServerError(e, { source: 'link-preview-url-parse', metadata: { url } }, req);
     return res.status(400).json({ error: 'Invalid URL' }).end();
   }
   if (!allowedHostnames.includes(urlObj.hostname)) {
@@ -72,6 +74,11 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
         { input: jsonData, id: rowId, ccbcNumbers, updateOnly: true },
         req
       ).catch((e) => {
+        reportServerError(
+          e,
+          { source: 'link-preview-save-no-preview' },
+          req
+        );
         return res.status(400).json({ error: e }).end();
       });
     })();
@@ -90,6 +97,7 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
       `https://${urlObj.hostname}${urlObj.pathname}`,
       allowedHostnames
     ).catch((e) => {
+      reportServerError(e, { source: 'link-preview-fetch' }, req);
       return res.status(400).json({ error: e }).end();
     });
     if (preview) {
@@ -101,6 +109,7 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
         { input: jsonData, id: rowId, ccbcNumbers, updateOnly: true },
         req
       ).catch((e) => {
+        reportServerError(e, { source: 'link-preview-save' }, req);
         return res.status(400).json({ error: e }).end();
       });
       return res.status(200).json(preview).end();

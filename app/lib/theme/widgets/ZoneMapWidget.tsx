@@ -1,8 +1,8 @@
 import { WidgetProps } from '@rjsf/utils';
-import * as Sentry from '@sentry/nextjs';
 import styled from 'styled-components';
 import { ZONE_MAP_URL, ZONE_MAP_URL_INTAKE_4 } from 'data/externalConstants';
 import { Toast } from 'components';
+import reportClientError from 'lib/helpers/reportClientError';
 import { useState } from 'react';
 
 const StyledLink = styled.a`
@@ -84,7 +84,7 @@ const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
       })
       .catch((error) => {
         setShowToast(true);
-        Sentry.captureException(error);
+        reportClientError(error, { source: 'zone-map-widget' });
       });
   };
 

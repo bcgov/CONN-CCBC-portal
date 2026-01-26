@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/nextjs';
 import PgManyToManyPlugin from '@graphile-contrib/pg-many-to-many';
 import {
   postgraphile,
@@ -19,6 +18,7 @@ import { generateDatabaseMockOptions } from './helpers';
 import config from '../../../config';
 import resolveFileUpload from './resolveFileUpload';
 import PostGraphileUploadFieldPlugin from './uploadFieldPlugin';
+import { reportServerError } from '../emails/errorNotification';
 
 export const pgSettings: any = (req: Request) => {
   const opts = {
@@ -59,23 +59,23 @@ let postgraphileOptions: PostGraphileOptions = {
   },
 };
 
-if (config.get('SENTRY_ENVIRONMENT')) {
-  postgraphileOptions = {
-    ...postgraphileOptions,
-    handleErrors: (errors) => {
-      Sentry.captureException(errors);
-      return errors;
-    },
-  };
-} else {
-  postgraphileOptions = {
-    ...postgraphileOptions,
-    extendedErrors: ['hint', 'detail', 'errcode'],
-    showErrorStack: 'json',
-  };
-}
+const isProd = config.get('NODE_ENV') === 'production';
+postgraphileOptions = {
+  ...postgraphileOptions,
+  ...(isProd
+    ? {
+        handleErrors: (errors) => {
+          reportServerError(errors, { source: 'postgraphile' });
+          return errors;
+        },
+      }
+    : {
+        extendedErrors: ['hint', 'detail', 'errcode'],
+        showErrorStack: 'json',
+      }),
+};
 
-if (config.get('NODE_ENV') === 'production') {
+if (isProd) {
   postgraphileOptions = {
     ...postgraphileOptions,
     retryOnInitFail: true,

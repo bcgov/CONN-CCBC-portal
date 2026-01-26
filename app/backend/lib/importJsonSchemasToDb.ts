@@ -10,6 +10,7 @@ import {
   screening,
   technical,
 } from '../../formSchema/analyst';
+import { reportServerError } from './emails/errorNotification';
 
 const importJsonSchemasToDb = async () => {
   const client = await pgPool.connect();
@@ -88,7 +89,7 @@ const importJsonSchemasToDb = async () => {
   } catch (e) {
     await client.query('rollback');
     // rethrow so we don't silently fail without finding out the issue
-    console.error(e);
+    reportServerError(e, { source: 'import-json-schemas' });
     throw e;
   } finally {
     // release the client so it becomes available again to the pool

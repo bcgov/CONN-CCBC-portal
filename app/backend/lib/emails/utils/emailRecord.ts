@@ -1,4 +1,5 @@
 import { performQuery } from '../../graphql';
+import { reportServerError } from '../errorNotification';
 
 const emailRecordMutation = `
   mutation emailRecordMutation($input: CreateEmailRecordInput!) {
@@ -43,8 +44,7 @@ export const recordEmailRecord = async (input, req) => {
     const result = await performQuery(emailRecordMutation, { input }, req);
     return result;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Error recording email record:', error);
+    reportServerError(error, { source: 'email-record-create' }, req);
     throw error;
   }
 };
@@ -69,11 +69,7 @@ export const getDelayedAndNonCancelledEmailRecord = async (
     );
     return result;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(
-      'Error fetching delayed and non-cancelled email records:',
-      error
-    );
+    reportServerError(error, { source: 'email-record-fetch-delayed' }, req);
     throw error;
   }
 };
@@ -90,8 +86,7 @@ export const setIsCancelledEmailRecord = async (
       req
     );
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Error setting email record as cancelled:', error);
+    reportServerError(error, { source: 'email-record-cancel' }, req);
     throw error;
   }
 };
