@@ -1,3 +1,23 @@
+## [1.288.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.288.0...v1.288.2) (2026-01-26)
+
+## [1.288.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.288.0...v1.288.1) (2026-01-26)
+
+# [1.288.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.287.3...v1.288.0) (2026-01-26)
+
+### Features
+
+- disable save on no change for claim, community and milestone ([626f3f0](https://github.com/bcgov/CONN-CCBC-portal/commit/626f3f0118e848fbaba10aff299ec0b554f7d595))
+
+## [1.287.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.287.2...v1.287.3) (2026-01-24)
+
+## [1.287.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.287.0...v1.287.2) (2026-01-24)
+
+### Bug Fixes
+
+- milestone percentage format ([83d9d70](https://github.com/bcgov/CONN-CCBC-portal/commit/83d9d70389d41764da36ba984ebe039825653531))
+
+## [1.287.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.287.0...v1.287.1) (2026-01-22)
+
 # [1.287.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.286.4...v1.287.0) (2026-01-22)
 
 ### Features

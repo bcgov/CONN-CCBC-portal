@@ -204,7 +204,19 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
       const normalizeValue = (val) => {
         if (val === null || val === undefined || val === '') return null;
         if (typeof val === 'number') return String(val);
-        if (typeof val === 'string') return val.replace(/\s/g, '');
+        if (typeof val === 'string') {
+          const trimmed = val.replace(/\s/g, '');
+          // check to see if two different types of percentages are getting compared
+          // eg: 0.13 vs 13%
+          if (trimmed.endsWith('%')) {
+            const numberPortion = trimmed.slice(0, -1);
+            const parsed = Number(numberPortion);
+            if (!Number.isNaN(parsed)) {
+              return String(parsed / 100);
+            }
+          }
+          return trimmed;
+        }
         return val;
       };
 

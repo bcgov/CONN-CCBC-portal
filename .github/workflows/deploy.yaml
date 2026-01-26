@@ -405,9 +405,9 @@ jobs:
           generate_release_notes: true
           tag_name: ${{ steps.fetch_tag.outputs.tagVersion }}
 
-  create_hotfix_branch:
-    needs: ['deploy-to-openshift-production']
-    uses: ./.github/workflows/recreate-hotfix.yaml
-    secrets:
-      RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
-      RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
+  # create_hotfix_branch:
+  #   needs: ['deploy-to-openshift-production']
+  #   uses: ./.github/workflows/recreate-hotfix.yaml
+  #   secrets:
+  #     RENOVATE_GITHUB_TOKEN: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
+  #     RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}

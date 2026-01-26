@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
+import isEqual from 'lodash.isequal';
 import communityProgressReport from 'formSchema/analyst/communityProgressReport';
 import communityProgressReportUiSchema from 'formSchema/uiSchema/analyst/communityProgressReportUiSchema';
 import { useCreateCommunityProgressReportMutation } from 'schema/mutations/project/createCommunityProgressReport';
@@ -102,6 +103,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
   } = queryFragment;
 
   const [formData, setFormData] = useState({} as FormData);
+  const [initialFormData, setInitialFormData] = useState({} as FormData);
   // store the current community progress data node for edit mode so we have access to row id and relay connection
   const [currentCommunityProgressData, setCurrentCommunityProgressData] =
     useState(null);
@@ -122,6 +124,10 @@ const CommunityProgressReportForm: React.FC<Props> = ({
   ] = useState([]);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const deleteConfirmationModal = useModal();
+
+  const isFormDirty = useMemo(() => {
+    return !isEqual(formData, initialFormData);
+  }, [formData, initialFormData]);
 
   const communityProgressConnectionId = communityProgressData?.__id;
   const communityProgressList = communityProgressData?.edges
@@ -165,6 +171,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
   const handleResetFormData = () => {
     setIsFormEditMode(false);
     setFormData({} as FormData);
+    setInitialFormData({} as FormData);
     setCurrentCommunityProgressData(null);
     setIsSubmitAttempted(false);
     setExcelFile(null);
@@ -322,7 +329,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
         }
         submittingText="Importing community progress report. Please wait."
         showEditBtn={false}
-        saveBtnDisabled={isFormSubmitting}
+        saveBtnDisabled={isFormSubmitting || !isFormDirty}
         cancelBtnDisabled={isFormSubmitting}
         resetFormData={handleResetFormData}
         liveValidate={isSubmitAttempted}
@@ -334,6 +341,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
               onClick={() => {
                 setIsSubmitAttempted(false);
                 setCurrentCommunityProgressData(null);
+                setInitialFormData({} as FormData);
                 setIsFormEditMode(true);
               }}
               title="Add community progress report"
@@ -364,6 +372,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
                 }}
                 onFormEdit={() => {
                   setFormData(node.jsonData);
+                  setInitialFormData(node.jsonData);
                   setCurrentCommunityProgressData(node);
                   setIsFormEditMode(true);
                 }}

@@ -1,5 +1,13 @@
 import { DateTime } from 'luxon';
-import { Row } from 'write-excel-file';
+import { Cell, Row } from 'write-excel-file';
+
+const CHANGE_LOG_HEADER_CELL: Cell = {
+  value: 'Change log',
+  fontWeight: 'bold',
+  type: String,
+  height: 95,
+  wrap: true,
+};
 
 const HEADER_ROW: Row = [
   {
@@ -290,14 +298,9 @@ const HEADER_ROW: Row = [
     height: 95,
     wrap: true,
   },
-  {
-    value: 'Change log',
-    fontWeight: 'bold',
-    type: String,
-    height: 95,
-    wrap: true,
-  },
 ];
+
+const HEADER_ROW_WITH_CHANGE_LOG: Row = [...HEADER_ROW, CHANGE_LOG_HEADER_CELL];
 
 const generateHeaderInfoRow = () => {
   const INFO_ROW: Row = [
@@ -327,4 +330,9 @@ const generateHeaderInfoRow = () => {
   return INFO_ROW;
 };
 
-export { HEADER_ROW, generateHeaderInfoRow };
+export {
+  CHANGE_LOG_HEADER_CELL,
+  HEADER_ROW,
+  HEADER_ROW_WITH_CHANGE_LOG,
+  generateHeaderInfoRow,
+};

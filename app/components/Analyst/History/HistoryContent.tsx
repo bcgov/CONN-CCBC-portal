@@ -14,6 +14,7 @@ import HistoryAttachment from './HistoryAttachment';
 import HistoryFile from './HistoryFile';
 import CommunitiesHistoryTable from './CommunitiesHistoryTable';
 import HistoryRfiFile from './HistoryRfiFile';
+import HistoryAnnouncementCard from './HistoryAnnouncementCard';
 
 const StyledContent = styled.span`
   display: flex;
@@ -33,6 +34,11 @@ const StyledContent = styled.span`
 
 const StyledChange = styled.div`
   padding: 8px 16px;
+`;
+
+const StyledAnnouncementLabel = styled.div`
+  font-weight: bold;
+  font-size: 16px;
 `;
 
 const ChangeReason = ({ reason }) => {
@@ -64,6 +70,7 @@ const HistoryContent = ({
   originalProjectTitle,
   recordWithOrgChange,
   recordWithTitleChange,
+  announcements,
 }) => {
   const {
     givenName,
@@ -195,12 +202,42 @@ const HistoryContent = ({
 
   if (tableName === 'application_announcement') {
     const operation = historyItem.record?.history_operation;
+    const announcementId = historyItem.record?.announcement_id;
+    const previousAnnouncementId = prevHistoryItem?.record?.announcement_id;
+    const announcement = announcements?.get?.(String(announcementId));
+    const previousAnnouncement = announcements?.get?.(
+      String(previousAnnouncementId)
+    );
+    const isDeleted = operation === 'deleted';
+    const isUpdated = operation === 'updated';
 
     return (
-      <StyledContent data-testid="history-content-attachment">
+      <StyledContent data-testid="history-content-announcement">
         <span>
           {displayName} {operation} an announcement on {createdAtFormatted}
         </span>
+        {showHistoryDetails && (
+          <div>
+            {isUpdated && (
+              <StyledAnnouncementLabel>New</StyledAnnouncementLabel>
+            )}
+            <HistoryAnnouncementCard
+              announcement={announcement}
+              applicationId={record.application_id}
+              isStriked={isDeleted}
+            />
+            {isUpdated && (
+              <>
+                <StyledAnnouncementLabel>Old</StyledAnnouncementLabel>
+                <HistoryAnnouncementCard
+                  announcement={previousAnnouncement}
+                  applicationId={record.application_id}
+                  isStriked
+                />
+              </>
+            )}
+          </div>
+        )}
       </StyledContent>
     );
   }

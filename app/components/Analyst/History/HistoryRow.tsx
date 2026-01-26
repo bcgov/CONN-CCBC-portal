@@ -30,6 +30,7 @@ const HistoryRow = ({
   originalProjectTitle,
   recordWithOrgChange,
   recordWithTitleChange,
+  announcements,
 }) => {
   const { tableName, user } = historyItem;
 
@@ -59,6 +60,7 @@ const HistoryRow = ({
             originalProjectTitle={originalProjectTitle}
             recordWithOrgChange={recordWithOrgChange}
             recordWithTitleChange={recordWithTitleChange}
+            announcements={announcements}
           />
         </StyledCell>
       </tr>

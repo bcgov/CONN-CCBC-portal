@@ -10,6 +10,10 @@ const miscellaneous: RJSFSchema = {
       type: 'string',
       title: 'Parent/Child Project(s)',
     },
+    internalNotes: {
+      type: 'string',
+      title: 'Internal Notes',
+    },
   },
 };
 

@@ -5,8 +5,13 @@ import generateFormData, {
   getFundingData,
 } from '../../../lib/helpers/ccbcSummaryGenerateFormData';
 import { performQuery } from '../graphql';
-import { HEADER_ROW, generateHeaderInfoRow } from './header';
-import columnOptions from './column_options';
+import {
+  CHANGE_LOG_HEADER_CELL,
+  HEADER_ROW,
+  HEADER_ROW_WITH_CHANGE_LOG,
+  generateHeaderInfoRow,
+} from './header';
+import columnOptions, { columnOptionsWithChangeLog } from './column_options';
 import {
   cleanDateTime,
   compareAndMarkArrays,
@@ -214,13 +219,24 @@ const getReportingGcpeQuery = `
   }
 `;
 
+/**
+ * To determine whether old saved reports have a change log column
+ */
+const hasChangeLogColumn = (excelData: Row[]) => {
+  const headerRow = excelData?.[1];
+  return (
+    headerRow?.some((cell) => cell?.value === CHANGE_LOG_HEADER_CELL.value) ??
+    false
+  );
+};
+
 export const regenerateGcpeReport = async (rowId, req) => {
   const queryResult = await performQuery(
     getReportingGcpeQuery,
     { rowId: parseInt(rowId, 10) },
     req
   );
-  const excelData = queryResult.data.reportingGcpeByRowId.reportData;
+  let excelData = queryResult.data.reportingGcpeByRowId.reportData;
   // due to the way GraphQL mutation handles de/serialization, we need to reformat the data
   excelData.forEach((row) => {
     row.forEach((cell) => {
@@ -230,6 +246,11 @@ export const regenerateGcpeReport = async (rowId, req) => {
       }
     });
   });
+  const includeChangeLog = hasChangeLogColumn(excelData);
+  // skip changelog data for regeneration
+  if (includeChangeLog) {
+    excelData = excelData.map((row) => row.slice(0, -1));
+  }
   const blob = await writeXlsxFile(excelData as any, {
     fontFamily: 'BC Sans',
     fontSize: 12,
@@ -249,7 +270,8 @@ const generateExcelData = async (
 ) => {
   const infoRow = generateHeaderInfoRow();
 
-  const excelData = [infoRow, HEADER_ROW];
+  const headerRow = compare ? HEADER_ROW_WITH_CHANGE_LOG : HEADER_ROW;
+  const excelData = [infoRow, headerRow];
 
   cbcData?.data?.allCbcData?.edges?.forEach(async (edges) => {
     const { node } = edges;
@@ -392,9 +414,11 @@ const generateExcelData = async (
       { value: node?.jsonData?.secondaryNewsRelease },
       // notes
       { value: node?.jsonData?.notes },
-      // change log (empty for non-comparison)
-      { value: '' },
     ];
+    // when a comparison report --> add changeLog placeholder
+    if (compare) {
+      row.push({ value: '' });
+    }
     excelData.push(row);
   });
 
@@ -426,6 +450,10 @@ const generateExcelData = async (
       node,
       node?.applicationSowDataByApplicationId
     );
+    const milestoneProgress =
+      node?.applicationMilestoneExcelDataByApplicationId?.nodes[0]?.jsonData
+        ?.overallMilestoneProgress ?? null;
+
     const row: Row = [
       // program
       { value: node?.program },
@@ -474,7 +502,11 @@ const generateExcelData = async (
       { value: convertStatus(node?.analystStatus) },
       // project milestone complete percent
       {
-        value: `${summaryData?.formData?.milestone?.percentProjectMilestoneComplete || ''}`,
+        value: milestoneProgress
+          ? Math.trunc(milestoneProgress * 100) / 100
+          : null,
+        format: '0%',
+        type: Number,
       },
       // project milestone completion date
       {
@@ -604,9 +636,11 @@ const generateExcelData = async (
             ?.map((edge) => edge?.node?.note)
             .join('\n') || '',
       },
-      // change log (empty for non-comparison)
-      { value: '' },
     ];
+    // when a comparison report --> add changeLog placeholder
+    if (compare) {
+      row.push({ value: '' });
+    }
     excelData.push(row);
   });
   if (compare) {
@@ -694,7 +728,7 @@ export const compareAndGenerateGcpeReport = async (compareRowId, req) => {
     dateFormat: 'yyyy-mm-dd',
     stickyColumnsCount: 7,
     sheet: 'GCPE Report',
-    columns: columnOptions,
+    columns: columnOptionsWithChangeLog,
   });
   let mutationResult;
   if (blob) {
@@ -752,7 +786,7 @@ export const compareGcpeReports = async (sourceRowId, targetRowId, req) => {
     dateFormat: 'yyyy-mm-dd',
     stickyColumnsCount: 7,
     sheet: 'GCPE Report',
-    columns: columnOptions,
+    columns: columnOptionsWithChangeLog,
   });
   return blob;
 };

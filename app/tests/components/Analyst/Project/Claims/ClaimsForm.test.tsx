@@ -207,6 +207,11 @@ describe('The Claims form', () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({ status: 200, json: () => {} })
+    );
+
     expect(screen.queryByText('Save')).not.toBeInTheDocument();
     const editButton = screen.getByText('Edit').closest('button');
 
@@ -214,14 +219,59 @@ describe('The Claims form', () => {
       fireEvent.click(editButton);
     });
 
+    const file = new File([new ArrayBuffer(1)], 'updated.xls', {
+      type: 'application/vnd.ms-excel',
+    });
+
+    const inputFile = screen.getByTestId('file-test');
+
+    await act(async () => {
+      fireEvent.change(inputFile, { target: { files: [file] } });
+    });
+
+    componentTestingHelper.expectMutationToBeCalled(
+      'createAttachmentMutation',
+      {
+        input: {
+          attachment: {
+            file,
+            fileName: 'updated.xls',
+            fileSize: '1 Bytes',
+            fileType: 'application/vnd.ms-excel',
+            applicationId: 1,
+          },
+        },
+      }
+    );
+
+    act(() => {
+      componentTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {
+          createAttachment: {
+            attachment: {
+              rowId: 1,
+              file: 'string',
+            },
+          },
+        },
+      });
+    });
+
     const saveButton = screen.getByRole('button', {
-      name: 'Save',
+      name: 'Save & Import',
     });
 
     expect(saveButton).toBeInTheDocument();
+    expect(saveButton).not.toBeDisabled();
 
     await act(async () => {
       fireEvent.click(saveButton);
+    });
+
+    await act(async () => {
+      await new Promise((resolve) => {
+        setTimeout(resolve, 0);
+      });
     });
 
     componentTestingHelper.expectMutationToBeCalled(
@@ -233,10 +283,10 @@ describe('The Claims form', () => {
             claimsFile: [
               {
                 id: 1,
-                name: 'claims.xlsx',
-                size: 121479,
-                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                uuid: '541089ee-8f80-4dd9-844f-093d7739792b',
+                uuid: 'string',
+                name: 'updated.xls',
+                size: 1,
+                type: 'application/vnd.ms-excel',
               },
             ],
           },

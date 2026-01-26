@@ -78,19 +78,29 @@ jobs:
                 "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY")
               status=$(echo "$response" | jq -r '.fields.status.name')
               echo "Issue status: $status"
-              if [ "$status" == "PO REVIEW" ] || [ "$status" == "SPRINT DONE" ]; then
-                echo "Moving issue $JIRA_KEY to Merge Conflict column"
+              # Determine transition ID based on current status
+              transition_id=""
+              case "$status" in
+                "PO Review")
+                  transition_id="13"
+                  ;;
+                "SPRINT Done")
+                  transition_id="18"
+                  ;;
+              esac
+              if [ -n "$transition_id" ]; then
+                echo "Moving issue $JIRA_KEY to Merge Conflict column (transition $transition_id)"
                 curl -X POST \
                   -H "Authorization: Basic $JIRA_AUTH" \
                   -H "Content-Type: application/json" \
-                  -d '{
-                        "transition": {
-                            "id": "9"
+                  -d "{
+                        \"transition\": {
+                            \"id\": \"$transition_id\"
                         }
-                    }' \
+                    }" \
                   "https://connectivitydivision.atlassian.net/rest/api/3/issue/$JIRA_KEY/transitions"
               else
-                echo "Issue $JIRA_KEY is not in PO REVIEW status"
+               echo "Issue $JIRA_KEY is not in PO REVIEW or SPRINT DONE status"
               fi
             else
               echo "No merge conflict in branch $BRANCH"

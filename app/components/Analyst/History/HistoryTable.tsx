@@ -60,6 +60,19 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
           formData {
             jsonData
           }
+          applicationAnnouncementsByApplicationId(first: 1000) {
+            edges {
+              node {
+                announcementId
+                announcementByAnnouncementId {
+                  id
+                  rowId
+                  jsonData
+                  ccbcNumbers
+                }
+              }
+            }
+          }
         }
       }
     `,
@@ -69,7 +82,11 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
   const [filters, setFilters] = useState({ types: [], users: [] });
 
   const {
-    applicationByRowId: { history, formData },
+    applicationByRowId: {
+      history,
+      formData,
+      applicationAnnouncementsByApplicationId,
+    },
   } = queryFragment;
   const originalProjectTitle =
     formData?.jsonData?.projectInformation?.projectTitle;
@@ -82,6 +99,16 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
       applyUserFormatting: true,
     });
   }, [history.nodes]);
+
+  const announcements = useMemo(() => {
+    const announcementMap = new Map<string, any>();
+    applicationAnnouncementsByApplicationId?.edges?.forEach((edge) => {
+      const announcement = edge?.node?.announcementByAnnouncementId;
+      if (announcement)
+        announcementMap.set(String(announcement.rowId), announcement);
+    });
+    return announcementMap;
+  }, [applicationAnnouncementsByApplicationId]);
 
   const filteredHistory = useMemo(() => {
     return processedHistory
@@ -158,6 +185,7 @@ const HistoryTable: React.FC<Props> = ({ query }) => {
                   originalOrganizationName={originalOrganizationName}
                   recordWithOrgChange={recordWithOrgChange}
                   recordWithTitleChange={recordWithTitleChange}
+                  announcements={announcements}
                 />
               );
             })}

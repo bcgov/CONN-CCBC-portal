@@ -2975,6 +2975,56 @@ const mockQueryPayload = {
               tableName: 'application_announced',
             },
             {
+              applicationId: 1,
+              createdAt: '2024-08-01T14:00:00.000+00:00',
+              externalAnalyst: null,
+              familyName: 'Foo',
+              item: null,
+              givenName: 'Bar',
+              op: 'INSERT',
+              record: {
+                id: 9,
+                announcement_id: 9,
+                application_id: 1,
+                is_primary: true,
+                history_operation: 'created',
+                created_at: '2024-08-01T14:00:00.000+00:00',
+                created_by: 243,
+                updated_at: '2024-08-01T14:00:00.000+00:00',
+                updated_by: 243,
+                archived_at: null,
+                archived_by: null,
+              },
+              recordId: 'c8c1a6ea-5e5f-4f33-8f31-1e2a0b75bc5a',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_announcement',
+            },
+            {
+              applicationId: 1,
+              createdAt: '2024-08-01T15:00:00.000+00:00',
+              externalAnalyst: null,
+              familyName: 'Foo',
+              item: null,
+              givenName: 'Bar',
+              op: 'INSERT',
+              record: {
+                id: 10,
+                announcement_id: 10,
+                application_id: 1,
+                is_primary: true,
+                history_operation: 'updated',
+                created_at: '2024-08-01T15:00:00.000+00:00',
+                created_by: 243,
+                updated_at: '2024-08-01T15:00:00.000+00:00',
+                updated_by: 243,
+                archived_at: null,
+                archived_by: null,
+              },
+              recordId: '8b195f87-e22e-4c86-9c0b-3e5f6eb6f6e1',
+              sessionSub: 'test-session-sub@idir',
+              tableName: 'application_announcement',
+            },
+            {
               createdBy: 2,
               applicationId: 1,
               createdAt: '2024-11-12T00:00:43.851664+00:00',
@@ -3288,6 +3338,58 @@ const mockQueryPayload = {
               organizationName: 'originalOrganizationName',
             },
           },
+        },
+        applicationAnnouncementsByApplicationId: {
+          edges: [
+            {
+              node: {
+                announcementId: 9,
+                announcementByAnnouncementId: {
+                  id: 'announcement-9',
+                  rowId: 9,
+                  jsonData: {
+                    announcementUrl: 'https://example.com/old',
+                    announcementDate: '2024-08-01',
+                    previewed: true,
+                    preview: {
+                      image: '/images/noPreview.png',
+                      title: 'Old announcement title',
+                      description: 'Old announcement description',
+                    },
+                    otherProjectsInAnnouncement: [
+                      { ccbcNumber: 'CCBC-010001', rowId: 1, id: 'p-1' },
+                      { ccbcNumber: 'CCBC-010002', rowId: 2, id: 'p-2' },
+                    ],
+                  },
+                  ccbcNumbers: ['CCBC-010001', 'CCBC-010002'],
+                },
+              },
+            },
+            {
+              node: {
+                announcementId: 10,
+                announcementByAnnouncementId: {
+                  id: 'announcement-10',
+                  rowId: 10,
+                  jsonData: {
+                    announcementUrl: 'https://example.com/new',
+                    announcementDate: '2024-08-01',
+                    previewed: true,
+                    preview: {
+                      image: '/images/noPreview.png',
+                      title: 'New announcement title',
+                      description: 'New announcement description',
+                    },
+                    otherProjectsInAnnouncement: [
+                      { ccbcNumber: 'CCBC-010001', rowId: 1, id: 'p-1' },
+                      { ccbcNumber: 'CCBC-010002', rowId: 2, id: 'p-2' },
+                    ],
+                  },
+                  ccbcNumbers: ['CCBC-010001', 'CCBC-010002'],
+                },
+              },
+            },
+          ],
         },
       },
     };
@@ -4452,6 +4554,40 @@ describe('The index page', () => {
     expect(sowHistory).toHaveTextContent(
       'Bar Foo updated Announcement info on Jul 31, 2024, 8:25 a.m.'
     );
+  });
+
+  it('shows the correct history for announcement updates', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const announcementHistory = screen.getAllByTestId(
+      'history-content-announcement'
+    )[0];
+
+    expect(announcementHistory).toBeInTheDocument();
+    expect(announcementHistory).toHaveTextContent(
+      /Bar Foo updated an announcement on Aug 1, 2024, 8:00/
+    );
+
+    expect(within(announcementHistory).getByText('New')).toBeInTheDocument();
+    expect(within(announcementHistory).getByText('Old')).toBeInTheDocument();
+    expect(
+      within(announcementHistory).getByText('New announcement title')
+    ).toBeInTheDocument();
+    expect(
+      within(announcementHistory).getByText('New announcement description')
+    ).toBeInTheDocument();
+    expect(
+      within(announcementHistory).getByText('Old announcement title')
+    ).toBeInTheDocument();
+    expect(
+      within(announcementHistory).getByText('Old announcement description')
+    ).toBeInTheDocument();
+
+    const otherProjectLabels = within(announcementHistory).getAllByText(
+      'Other projects in this announcement'
+    );
+    expect(otherProjectLabels).toHaveLength(2);
   });
 
   it('should show the correct history for added and removed communities', async () => {

@@ -155,6 +155,30 @@ export const processHistoryItems = (
                 historyItem.record?.json_data?.amendmentNumber
             );
           }
+          // announcements should not pair updates with deleted entries,
+          // and should match primary/secondary when available
+          if (previousItem.tableName === 'application_announcement') {
+            const isUpdated =
+              historyItem.record?.history_operation === 'updated';
+            const hasPrimaryFlag =
+              historyItem.record?.is_primary !== null &&
+              historyItem.record?.is_primary !== undefined;
+            if (isUpdated) {
+              if (hasPrimaryFlag) {
+                return (
+                  previousItem.tableName === historyItem.tableName &&
+                  previousItem.record?.history_operation !== 'deleted' &&
+                  previousItem.record?.is_primary ===
+                    historyItem.record?.is_primary
+                );
+              }
+              return (
+                previousItem.tableName === historyItem.tableName &&
+                previousItem.record?.history_operation !== 'deleted'
+              );
+            }
+            return previousItem.tableName === historyItem.tableName;
+          }
           return previousItem.tableName === historyItem.tableName;
         });
       }

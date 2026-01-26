@@ -2,9 +2,9 @@
 
 begin;
 
-drop function if exists ccbc_public.update_announcement(project_numbers varchar, json_data jsonb, old_row_id int);
+drop function if exists ccbc_public.update_announcement(project_numbers varchar, json_data jsonb, old_row_id int, update_only boolean);
 
-create or replace function ccbc_public.update_announcement(project_numbers varchar, json_data jsonb, old_row_id int, update_only boolean default false)
+create or replace function ccbc_public.update_announcement(project_numbers varchar, json_data jsonb, old_row_id int)
 returns ccbc_public.announcement
 as $function$
 declare
@@ -15,7 +15,6 @@ declare
   announcement_type varchar;
   primary_flag bool;
   operation varchar;
-  new_json_data alias for json_data;
 begin
   user_sub := (select sub from ccbc_public.session());
   user_id := (select id from ccbc_public.ccbc_user where ccbc_user.session_sub = user_sub);
@@ -30,20 +29,10 @@ begin
     operation := 'created';
   end if;
 
-  -- if update_only is true and old_row_id is valid, only update json_data
-  if update_only = true and old_row_id <> -1 then
-    update ccbc_public.announcement
-    set json_data = new_json_data
-    where id = old_row_id
-    returning * into result;
-
-    return result;
-  end if;
-
   -- insert into ccbc_public.announcement table
   insert into ccbc_public.announcement (id, ccbc_numbers, json_data)
     overriding system value
-    values (new_row_id, project_numbers, new_json_data);
+    values (new_row_id, project_numbers, json_data);
 
   -- split project_numbers into ccbc_numbers and insert into ccbc_public.application_announcement
   insert into  ccbc_public.application_announcement (announcement_id, application_id, is_primary, history_operation)
@@ -60,7 +49,7 @@ begin
 end;
 $function$ language plpgsql strict volatile;
 
-grant execute on function ccbc_public.update_announcement(project_numbers varchar, json_data jsonb, old_row_id int, update_only boolean) to ccbc_analyst;
-grant execute on function ccbc_public.update_announcement(project_numbers varchar, json_data jsonb, old_row_id int, update_only boolean) to ccbc_admin;
+grant execute on function ccbc_public.update_announcement(project_numbers varchar, json_data jsonb, old_row_id int) to ccbc_analyst;
+grant execute on function ccbc_public.update_announcement(project_numbers varchar, json_data jsonb, old_row_id int) to ccbc_admin;
 
 commit;

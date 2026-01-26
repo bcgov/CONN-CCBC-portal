@@ -1,9 +1,7 @@
 name: Deploy on Merge to Hotfix
 
 on:
-  push:
-    branches:
-      - hotfix
+  workflow_dispatch:
 
 env:
   TAG: sha-${{ github.sha }}

@@ -281,8 +281,7 @@ const Summary = ({
   const { schema: miscSchema, uiSchema: miscUiSchema } = getMiscellaneousSchema(
     applicationByRowId,
     false,
-    session?.authRole,
-    true
+    session?.authRole
   );
 
   // to handle dynamic titles and widgets based on the status
