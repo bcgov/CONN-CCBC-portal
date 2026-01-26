@@ -1,0 +1,303 @@
+{
+    "title": "RFI data",
+    "type": "object",
+    "required": [
+        "rfiType",
+        "rfiDueBy",
+        "rfiEmailCorrespondance",
+        "rfiAdditionalFiles"
+    ],
+    "properties": {
+        "rfiType": {
+            "title": "RFI type",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "Missing files or information",
+                    "Technical"
+                ]
+            },
+            "uniqueItems": true
+        },
+        "rfiDueBy": {
+            "title": "Due by",
+            "description": "Files should be uploaded by the specified date",
+            "type": "string"
+        },
+        "rfiEmailCorrespondance": {
+            "title": "Email correspondence",
+            "description": "Files with email correspondence",
+            "type": "string"
+        },
+        "rfiAdditionalFiles": {
+            "type": "object",
+            "description": "Additional files included in RFI response",
+            "properties": {
+                "eligibilityAndImpactsCalculatorRfi": {
+                    "title": "Template 1 - Eligibility and Impacts Calculator",
+                    "description": "Template 1 - Eligibility and Impacts Calculator included",
+                    "type": "boolean"
+                },
+                "detailedBudgetRfi": {
+                    "title": "Template 2 - Detailed Budget",
+                    "description": "Template 2 - Detailed Budget included",
+                    "type": "boolean"
+                },
+                "financialForecastRfi": {
+                    "title": "Template 3 - Financial Forecast",
+                    "description": "Template 3 - Financial Forecast included",
+                    "type": "boolean"
+                },
+                "lastMileIspOfferingRfi": {
+                    "title": "Template 4 - Last Mile Internet Service Offering",
+                    "description": "Template 4 - Last Mile Internet Service Offering included",
+                    "type": "boolean"
+                },
+                "popWholesalePricingRfi": {
+                    "title": "Template 5 - List of Points of Presence and Wholesale Pricing",
+                    "description": "Template 5 - List of Points of Presence and Wholesale Pricing included",
+                    "type": "boolean"
+                },
+                "communityRuralDevelopmentBenefitsTemplateRfi": {
+                    "title": "Template 6 - Community and Rural Development Benefits",
+                    "description": "Template 6 - Community and Rural Development Benefits included",
+                    "type": "boolean"
+                },
+                "wirelessAddendumRfi": {
+                    "title": "Template 7 - Wireless Addendum",
+                    "description": "Template 7 - Wireless Addendum included",
+                    "type": "boolean"
+                },
+                "supportingConnectivityEvidenceRfi": {
+                    "title": "Template 8 - Supporting Connectivity Evidence",
+                    "description": "Template 8 - Supporting Connectivity Evidence included",
+                    "type": "boolean"
+                },
+                "geographicNamesRfi": {
+                    "title": "Template 9 - Backbone and Geographic Names",
+                    "description": "Template 9 - Backbone and Geographic Names included",
+                    "type": "boolean"
+                },
+                "equipmentDetailsRfi": {
+                    "title": "Template 10 - Equipment Details",
+                    "description": "Template 10 - Equipment Details included",
+                    "type": "boolean"
+                },
+                "copiesOfRegistrationRfi": {
+                    "title": "Copies of registration and other relevant documents",
+                    "description": "Copies of registration and other relevant documents included",
+                    "type": "boolean"
+                },
+                "preparedFinancialStatementsRfi": {
+                    "title": "Financial statements",
+                    "description": "Financial statements included",
+                    "type": "boolean"
+                },
+                "logicalNetworkDiagramRfi": {
+                    "title": "Logical Network Diagram",
+                    "description": "Logical Network Diagram included",
+                    "type": "boolean"
+                },
+                "projectScheduleRfi": {
+                    "title": "Project schedule",
+                    "description": "TProject schedule included",
+                    "type": "boolean"
+                },
+                "communityRuralDevelopmentBenefitsRfi": {
+                    "title": "Benefits supporting documents",
+                    "description": "Benefits supporting documents included",
+                    "type": "boolean"
+                },
+                "otherSupportingMaterialsRfi": {
+                    "title": "Other supporting materials",
+                    "description": "Other supporting materials included",
+                    "type": "boolean"
+                },
+                "geographicCoverageMapRfi": {
+                    "title": "Coverage map from Eligibility Mapping Tool",
+                    "description": "Coverage map from Eligibility Mapping Tool included",
+                    "type": "boolean"
+                },
+                "coverageAssessmentStatisticsRfi": {
+                    "title": "Coverage Assessment and Statistics",
+                    "description": "Coverage Assessment and Statistics included",
+                    "type": "boolean"
+                },
+                "currentNetworkInfastructureRfi": {
+                    "title": "Current network infrastructure",
+                    "description": "Current network infrastructure included",
+                    "type": "boolean"
+                },
+                "upgradedNetworkInfrastructureRfi": {
+                    "title": "Proposed or Upgraded Network Infrastructure",
+                    "description": "Proposed or Upgraded Network Infrastructure included",
+                    "type": "boolean"
+                }
+            },
+            "dependencies": {
+                "eligibilityAndImpactsCalculatorRfi": {
+                    "properties": {
+                        "eligibilityAndImpactsCalculator": {
+                            "title": "Template 1 - Eligibility and Impacts Calculator",
+                            "type": "string"
+                        }
+                    }
+                },
+                "detailedBudgetRfi": {
+                    "properties": {
+                        "detailedBudget": {
+                            "title": "Template 2 - Detailed Budget",
+                            "type": "string"
+                        }
+                    }
+                },
+                "financialForecastRfi": {
+                    "properties": {
+                        "financialForecast": {
+                            "title": "Template 3 - Financial Forecast",
+                            "type": "string"
+                        }
+                    }
+                },
+                "lastMileIspOfferingRfi": {
+                    "properties": {
+                        "lastMileIspOffering": {
+                            "title": "Template 4 - Last Mile Internet Service Offering",
+                            "type": "string"
+                        }
+                    }
+                },
+                "popWholesalePricingRfi": {
+                    "properties": {
+                        "popWholesalePricing": {
+                            "title": "Template 5 - List of Points of Presence and Wholesale Pricing",
+                            "type": "string"
+                        }
+                    }
+                },
+                "communityRuralDevelopmentBenefitsTemplateRfi": {
+                    "properties": {
+                        "communityRuralDevelopmentBenefitsTemplate": {
+                            "title": "Template 6 - Community and Rural Development Benefits",
+                            "type": "string"
+                        }
+                    }
+                },
+                "wirelessAddendumRfi": {
+                    "properties": {
+                        "wirelessAddendum": {
+                            "title": "Template 7 - Wireless Addendum",
+                            "type": "string"
+                        }
+                    }
+                },
+                "supportingConnectivityEvidenceRfi": {
+                    "properties": {
+                        "supportingConnectivityEvidence": {
+                            "title": "Template 8 - Supporting Connectivity Evidence",
+                            "type": "string"
+                        }
+                    }
+                },
+                "geographicNamesRfi": {
+                    "properties": {
+                        "geographicNames": {
+                            "title": "Template 9 - Backbone and Geographic Names",
+                            "type": "string"
+                        }
+                    }
+                },
+                "equipmentDetailsRfi": {
+                    "properties": {
+                        "equipmentDetails": {
+                            "title": "Template 10 - Equipment Details",
+                            "type": "string"
+                        }
+                    }
+                },
+                "copiesOfRegistrationRfi": {
+                    "properties": {
+                        "copiesOfRegistration": {
+                            "title": "Copies of registration and other relevant documents",
+                            "type": "string"
+                        }
+                    }
+                },
+                "preparedFinancialStatementsRfi": {
+                    "properties": {
+                        "preparedFinancialStatements": {
+                            "title": "Financial statements",
+                            "type": "string"
+                        }
+                    }
+                },
+                "logicalNetworkDiagramRfi": {
+                    "properties": {
+                        "logicalNetworkDiagram": {
+                            "title": "Logical Network Diagram",
+                            "type": "string"
+                        }
+                    }
+                },
+                "projectScheduleRfi": {
+                    "properties": {
+                        "projectSchedule": {
+                            "title": "Project schedule",
+                            "type": "string"
+                        }
+                    }
+                },
+                "communityRuralDevelopmentBenefitsRfi": {
+                    "properties": {
+                        "communityRuralDevelopmentBenefits": {
+                            "title": "Benefits supporting documents",
+                            "type": "string"
+                        }
+                    }
+                },
+                "otherSupportingMaterialsRfi": {
+                    "properties": {
+                        "otherSupportingMaterials": {
+                            "title": "Other supporting materials",
+                            "type": "string"
+                        }
+                    }
+                },
+                "geographicCoverageMapRfi": {
+                    "properties": {
+                        "geographicCoverageMap": {
+                            "title": "Coverage map from Eligibility Mapping Tool",
+                            "type": "string"
+                        }
+                    }
+                },
+                "coverageAssessmentStatisticsRfi": {
+                    "properties": {
+                        "coverageAssessmentStatistics": {
+                            "title": "Coverage Assessment and Statistics",
+                            "type": "string"
+                        }
+                    }
+                },
+                "currentNetworkInfastructureRfi": {
+                    "properties": {
+                        "currentNetworkInfastructure": {
+                            "title": "Current network infrastructure",
+                            "type": "string"
+                        }
+                    }
+                },
+                "upgradedNetworkInfrastructureRfi": {
+                    "properties": {
+                        "upgradedNetworkInfrastructure": {
+                            "title": "Proposed or Upgraded Network Infrastructure",
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "uniqueItems": true
+        }
+    }
+}
