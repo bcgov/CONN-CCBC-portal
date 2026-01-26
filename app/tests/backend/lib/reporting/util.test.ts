@@ -58,23 +58,23 @@ describe('Dashboard util functions', () => {
     ];
 
     it('treats "13%" and "0.13" as equivalent', () => {
-      const array1 = [[], headerRow, buildRow('ID1', '13%')];
-      const array2 = [[], headerRow, buildRow('ID1', '0.13')];
+      const array1 = [headerRow, buildRow('ID1', '13%')];
+      const array2 = [headerRow, buildRow('ID1', '0.13')];
 
       const result = compareAndMarkArrays(array1, array2);
 
-      expect(result[2][6].backgroundColor).toBeUndefined();
-      expect(result[2][7].value).toBe('');
+      expect(result[1][6].backgroundColor).toBeUndefined();
+      expect(result[1][7].value).toBe('');
     });
 
     it('marks changes when normalized percentage differs', () => {
-      const array1 = [[], headerRow, buildRow('ID1', '13%')];
-      const array2 = [[], headerRow, buildRow('ID1', '0.12')];
+      const array1 = [headerRow, buildRow('ID1', '13%')];
+      const array2 = [headerRow, buildRow('ID1', '0.12')];
 
       const result = compareAndMarkArrays(array1, array2);
 
-      expect(result[2][6].backgroundColor).toBe('#2FA7DD');
-      expect(result[2][7].value).toContain('% Project Milestone Complete');
+      expect(result[1][6].backgroundColor).toBe('#2FA7DD');
+      expect(result[1][7].value).toContain('% Project Milestone Complete');
     });
   });
 });
