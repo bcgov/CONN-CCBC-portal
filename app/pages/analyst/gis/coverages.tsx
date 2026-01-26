@@ -237,7 +237,7 @@ const CoveragesTab = ({ historyList }) => {
           </ButtonLink>
         </StyledBtnContainer>
         <StyledNoteText>
-          Note:  Changes from this upload will be reflected in the system the following morning
+          Note: Changes from this upload will be reflected in the system by the following morning.
         </StyledNoteText>
         {uploadSuccess && (
           <StyledSuccess>
