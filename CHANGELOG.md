@@ -1,3 +1,9 @@
+# [1.289.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.288.2...v1.289.0) (2026-01-26)
+
+### Features
+
+- error notifier, remove sentry ([3defe39](https://github.com/bcgov/CONN-CCBC-portal/commit/3defe3961bf6d91ca14d27b16900315b8f300a12))
+
 ## [1.288.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.288.0...v1.288.2) (2026-01-26)
 
 ## [1.288.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.288.0...v1.288.1) (2026-01-26)
