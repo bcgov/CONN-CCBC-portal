@@ -20,6 +20,7 @@ const LinkArrayWidget: React.FC<WidgetProps> = ({
   const StyledHint = styled.span`
     display: block;
     margin-top: 4px;
+    margin-bottom: ${(props) => props.theme.spacing.large};
     color: ${(props) => props.theme.color.darkGrey};
     font-style: italic;
     font-size: 13px;

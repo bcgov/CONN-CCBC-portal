@@ -196,10 +196,7 @@ const EditApplication = ({
   };
   const isSummaryEdit =
     sectionName === 'funding' || sectionName === 'miscellaneous';
-
-  // Check if user has permission to view internal notes
-  const canViewInternalNotes =
-    session?.authRole === 'super_admin' || session?.authRole === 'ccbc_admin';
+  const shouldRequireChangeReason = sectionName !== 'miscellaneous';
 
   // custom schema for miscellaneous edit with project options
   const { schema: miscSchema, uiSchema: miscUiSchema } = getMiscellaneousSchema(
@@ -247,7 +244,7 @@ const EditApplication = ({
     sectionName === 'miscellaneous'
       ? {
           linkedProject: miscellaneousData?.length ? miscellaneousData : [],
-          ...(canViewInternalNotes && { internalNotes: internalNotesData }),
+          internalNotes: internalNotesData,
         }
       : fundingSummaryData;
   const [sectionFormData, setSectionFormData] = useState(
@@ -445,6 +442,14 @@ const EditApplication = ({
     changeModal.open();
   };
 
+  const handleSave = () => {
+    if (shouldRequireChangeReason) {
+      triggerModal();
+      return;
+    }
+    handleSummaryEdit();
+  };
+
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
@@ -461,7 +466,7 @@ const EditApplication = ({
           onChange={handleChange}
           schema={sectionSchema}
           uiSchema={isSummaryEdit ? sectionUiSchema : uiSchema[sectionName]}
-          onSubmit={triggerModal}
+          onSubmit={handleSave}
           formContext={{
             ccbcIdList: miscellaneousOptions,
           }}
@@ -478,7 +483,7 @@ const EditApplication = ({
             onClick={(e: React.MouseEvent<HTMLInputElement>) => {
               e.preventDefault();
               if (!isFormSaved) {
-                triggerModal();
+                handleSave();
               }
             }}
           >

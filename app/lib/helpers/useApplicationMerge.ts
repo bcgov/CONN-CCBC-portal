@@ -31,8 +31,7 @@ const useApplicationMerge = () => {
   const getMiscellaneousSchema = (
     applicationByRowId,
     isEditView = false,
-    authRole?: string,
-    alwaysShowInternalNotes = false
+    authRole?: string
   ) => {
     const isMergedStatus = MERGED_STATUSES.includes(applicationByRowId?.status);
     const isApprovedStatus = APPROVED_STATUSES.includes(
@@ -42,12 +41,9 @@ const useApplicationMerge = () => {
       applicationByRowId?.status
     );
 
-    // Check if user has permission to view internal notes
-    // Always show on summary page, role-restricted on edit page
-    const canViewInternalNotes =
-      alwaysShowInternalNotes ||
-      authRole === 'super_admin' ||
-      authRole === 'ccbc_admin';
+    // Check if user has permission to update internal notes
+    const canEditInternalNotes =
+      authRole === 'super_admin' || authRole === 'ccbc_admin';
 
     const miscellaneousUiSchema = {
       ...reviewUiSchema.miscellaneous,
@@ -73,15 +69,19 @@ const useApplicationMerge = () => {
                 boldTitle: true,
               },
             },
-      ...(canViewInternalNotes && {
-        internalNotes: {
-          'ui:widget': 'TextAreaWidget',
-          'ui:label': 'Internal Notes',
-          'ui:options': {
-            rows: 5,
-          },
+      internalNotes: {
+        'ui:widget': 'TextAreaWidget',
+        'ui:label': 'Internal Notes',
+        'ui:disabled': !canEditInternalNotes,
+        'ui:help': !canEditInternalNotes
+          ? '(This field is managed by CCBC Admin.)'
+          : null,
+        'ui:options': {
+          rows: 5,
+          boldTitle: true,
+          hideOptional: true,
         },
-      }),
+      },
     };
 
     const miscellaneousSchema: RJSFSchema = {
@@ -94,12 +94,6 @@ const useApplicationMerge = () => {
             ? `${miscLinkedProjectLabel}: `
             : miscLinkedProjectLabel,
         },
-        ...(canViewInternalNotes && {
-          internalNotes: {
-            type: 'string',
-            title: 'Internal Notes',
-          },
-        }),
       },
     };
 
