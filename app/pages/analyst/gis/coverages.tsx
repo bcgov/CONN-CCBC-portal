@@ -74,7 +74,6 @@ const StyledHeading = styled.h2`
 `;
 
 const StyledNoteText = styled.p`
-  font-size: 18px;
   text-align: left;
   margin-top: -2rem;
 `;
