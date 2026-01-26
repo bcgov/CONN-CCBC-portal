@@ -865,3 +865,5 @@ change-cbc-project-number-to-text 2025-12-04T23:10:44Z Rafael Solorzano <6128925
 computed_columns/cbc_history [computed_columns/cbc_history@1.272.0] 2026-01-02T19:19:31Z ,,, <rranathu@NH504670> # add application merge to history
 computed_columns/application_history [computed_columns/application_history@1.278.1] 2026-01-06T21:35:17Z ,,, <rranathu@NH504670> # add application merge to history
 computed_columns/change_log [computed_columns/change_log@1.278.1] 2026-01-07T00:28:29Z ,,, <rranathu@NH504670> # add application merge to history
+mutations/update_announcement [mutations/update_announcement@1.278.1] 2026-01-22T03:07:40Z ,,, <rranathu@NH504670> # add history_operation delete to application removals
+@1.288.2 2026-01-26T17:18:28Z CCBC Service Account <ccbc@button.is> # release v1.288.2
