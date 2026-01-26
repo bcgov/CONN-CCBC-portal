@@ -81,8 +81,13 @@ const columnOptions: Columns = [
   { width: 20 },
   // column 40
   {},
+];
+
+const columnOptionsWithChangeLog: Columns = [
+  ...columnOptions,
   // column 41 (change log)
   { width: 40 },
 ];
 
+export { columnOptionsWithChangeLog };
 export default columnOptions;
