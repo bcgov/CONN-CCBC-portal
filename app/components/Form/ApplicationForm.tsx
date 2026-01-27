@@ -166,6 +166,7 @@ const ApplicationForm: React.FC<Props> = ({
         intakeByIntakeId {
           ccbcIntakeNumber
           closeTimestamp
+          allowUnlistedFnLedZones
           zones
         }
         ...ApplicationFormStatus_application
@@ -181,6 +182,7 @@ const ApplicationForm: React.FC<Props> = ({
           closeTimestamp
           ccbcIntakeNumber
           rollingIntake
+          allowUnlistedFnLedZones
           zones
           rowId
         }
@@ -192,6 +194,7 @@ const ApplicationForm: React.FC<Props> = ({
           edges {
             node {
               ccbcIntakeNumber
+              allowUnlistedFnLedZones
               zones
             }
           }
@@ -247,6 +250,11 @@ const ApplicationForm: React.FC<Props> = ({
     openIntake?.ccbcIntakeNumber ??
     allIntakes?.edges[0]?.node?.ccbcIntakeNumber;
   const isRollingIntake = openIntake?.rollingIntake ?? false;
+  const allowUnlistedFnLedZones =
+    application.intakeByIntakeId?.allowUnlistedFnLedZones ??
+    openIntake?.allowUnlistedFnLedZones ??
+    allIntakes?.edges[0]?.node?.allowUnlistedFnLedZones ??
+    true;
 
   const intakeZones =
     application.intakeByIntakeId?.zones ??
@@ -313,7 +321,7 @@ const ApplicationForm: React.FC<Props> = ({
   const [isProjectAreaInvalid, setIsProjectAreaInvalid] = useState(
     !acceptedProjectAreasArray.includes(
       jsonData?.projectArea?.geographicArea?.[0]
-    ) && !jsonData?.projectArea?.firstNationsLed
+    ) && !(allowUnlistedFnLedZones && jsonData?.projectArea?.firstNationsLed)
   );
   const [projectAreaModalType, setProjectAreaModalType] = useState('');
   const [areAllAcknowledgementsChecked, setAreAllacknowledgementsChecked] =
@@ -349,6 +357,7 @@ const ApplicationForm: React.FC<Props> = ({
       isProjectAreaSelected,
       intakeNumber,
       isRollingIntake,
+      allowUnlistedFnLedZones,
       skipUnsavedWarning: true,
     };
   }, [
@@ -366,6 +375,7 @@ const ApplicationForm: React.FC<Props> = ({
     latestIntakeNumber,
     ccbcIntakeNumber,
     isRollingIntake,
+    allowUnlistedFnLedZones,
   ]);
 
   const updateAreAllAcknowledgementFieldsSet = (
@@ -415,9 +425,11 @@ const ApplicationForm: React.FC<Props> = ({
   ) => {
     // null selection not allowed in submitted project area page
     if (!isNullAllowed && geographicAreaInput?.length === 0) return false;
+    const isFirstNationsException =
+      allowUnlistedFnLedZones && isFirstNationsLed;
     return (
       isAllZoneIntake ||
-      isFirstNationsLed ||
+      isFirstNationsException ||
       acceptedProjectAreasArray.includes(geographicAreaInput?.[0])
     );
   };
@@ -434,7 +446,9 @@ const ApplicationForm: React.FC<Props> = ({
     if (isSubmitted && firstNationsLedInputChanged) {
       // display modal saying
       // Invalid selection. Please first choose from zones 1,2,3 or 6 if this project is not supported or led by First Nations
-      return 'first-nations-led';
+      return allowUnlistedFnLedZones
+        ? 'first-nations-led'
+        : 'invalid-geographic-area';
     }
     return 'pre-submitted';
   };
@@ -558,14 +572,17 @@ const ApplicationForm: React.FC<Props> = ({
             ...jsonData,
           };
         }
-        setProjectAreaModalType(
-          getProjectAreaModalType(
-            geographicAreaInputChanged,
-            firstNationsLedInputChanged
-          )
-        );
+        const shouldOpenProjectAreaModal =
+          (geographicAreaInputChanged || firstNationsLedInputChanged) &&
+          !(firstNationsLedInputChanged && !firstNationsLed);
 
-        if (geographicAreaInputChanged || firstNationsLedInputChanged) {
+        if (shouldOpenProjectAreaModal) {
+          setProjectAreaModalType(
+            getProjectAreaModalType(
+              geographicAreaInputChanged,
+              firstNationsLedInputChanged
+            )
+          );
           projectAreaModal.open();
         }
       }
@@ -827,6 +844,7 @@ const ApplicationForm: React.FC<Props> = ({
         {...projectAreaModal}
         projectAreaModalType={projectAreaModalType}
         acceptedProjectAreasArray={acceptedProjectAreasArray}
+        allowUnlistedFnLedZones={allowUnlistedFnLedZones}
       />
       <GenericConfirmationModal
         id="submission-confirm-modal"

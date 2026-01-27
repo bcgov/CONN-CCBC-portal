@@ -36,9 +36,11 @@ const ZoneMapWidget: React.FC<WidgetProps> = ({ formContext }) => {
   const [showToast, setShowToast] = useState(false);
 
   const formData = formContext?.fullFormData || {};
-  const updatedMap = formData?.projectArea?.firstNationsLed
-    ? '/images/zone-map.png'
-    : '/images/zone-map-intake-3.png';
+  const allowUnlistedFnLedZones = formContext?.allowUnlistedFnLedZones ?? true;
+  const updatedMap =
+    allowUnlistedFnLedZones && formData?.projectArea?.firstNationsLed
+      ? '/images/zone-map.png'
+      : '/images/zone-map-intake-3.png';
 
   const updatedMapIntakeFour = '/images/zone-map-intake-4.png';
 
