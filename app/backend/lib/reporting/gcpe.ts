@@ -545,7 +545,7 @@ const generateExcelData = async (
     ];
     // when a comparison report --> add changeLog placeholder
     if (compare) {
-      row.push({ value: '' });
+      row.push({ value: ' ' });
     }
     excelData.push(row);
   });
@@ -783,7 +783,7 @@ const generateExcelData = async (
     ];
     // when a comparison report --> add changeLog placeholder
     if (compare) {
-      row.push({ value: '' });
+      row.push({ value: ' ' });
     }
     excelData.push(row);
   });
