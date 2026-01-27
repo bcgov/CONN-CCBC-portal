@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import {
@@ -9,22 +8,20 @@ import {
 import useStickyHeader from 'lib/helpers/useStickyHeader';
 import NavItem from '../NavItem';
 import ProjectNavigationSidebar from '../ProjectNavigationSidebar';
+import SideMap from '../SideMap';
+import {
+  StyledAside,
+  StyledNav,
+  StyledUpperSection,
+  StyledLowerSection,
+} from '../NavigationSidebar.styles';
 
-const StyledAside = styled.aside`
-  min-height: 100%;
-`;
-
-const StyledNav = styled.nav<{ $offset: number }>`
-  position: sticky;
-  top: ${({ $offset }) => `${$offset + 140}px`};
-`;
-
-const StyledUpperSection = styled.section`
-  border-bottom: 1px solid #d6d6d6;
-  color: ${(props) => props.theme.color.navigationBlue};
-`;
-
-const NavigationSidebar = ({ query = null }) => {
+const NavigationSidebar = ({
+  mapData = null,
+  isMapExpanded = null,
+  setIsMapExpanded = null,
+  query = null,
+}) => {
   const router = useRouter();
   const { extraOffset } = useStickyHeader();
   const { asPath } = router;
@@ -40,10 +37,9 @@ const NavigationSidebar = ({ query = null }) => {
   return (
     <StyledAside>
       <StyledNav $offset={extraOffset}>
+        <StyledUpperSection>
         {/* Project Navigation Components - always show when query is available */}
         {query && <ProjectNavigationSidebar query={query} />}
-
-        <StyledUpperSection>
           <NavItem
             currentPath={asPath}
             href="/analyst/dashboard"
@@ -51,7 +47,7 @@ const NavigationSidebar = ({ query = null }) => {
             label="Dashboard"
           />
         </StyledUpperSection>
-        <section>
+        <StyledLowerSection>
           <NavItem
             currentPath={asPath}
             href={`/analyst/cbc/${cbcId}`}
@@ -64,7 +60,14 @@ const NavigationSidebar = ({ query = null }) => {
             icon={faClockRotateLeft}
             label="History"
           />
-        </section>
+        </StyledLowerSection>
+        {mapData && (
+          <SideMap
+            mapData={mapData}
+            isMapExpanded={isMapExpanded}
+            setIsMapExpanded={setIsMapExpanded}
+          />
+        )}
       </StyledNav>
     </StyledAside>
   );

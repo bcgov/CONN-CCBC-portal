@@ -25,6 +25,9 @@ import customValidate, { CBC_WARN_COLOR } from 'utils/cbcCustomValidator';
 import CbcRecordLock from 'components/Analyst/CBC/CbcRecordLock';
 import useModal from 'lib/helpers/useModal';
 import { useRouter } from 'next/router';
+import cookie from 'js-cookie';
+import map from 'formSchema/analyst/summary/map';
+import mapUiSchema from 'formSchema/uiSchema/summary/mapUiSchema';
 
 const getCbcQuery = graphql`
   query CbcIdQuery($rowId: Int!) {
@@ -123,6 +126,10 @@ const Cbc = ({
   const [editMode, setEditMode] = useState(recent === 'true');
   const [changeReason, setChangeReason] = useState<null | string>(null);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
+  const [isMapExpanded, setIsMapExpanded] = useState(
+    cookie.get('map_expanded') === 'true'
+  );
+  const [mapData, setMapData] = useState({}); // Empty map data for CBC
 
   const { rowId, applicationMergesByParentCbcId } = query.cbcByRowId;
   const [formData, setFormData] = useState(null);
@@ -279,6 +286,44 @@ const Cbc = ({
     applicationMergesByParentCbcId,
   ]);
 
+  // Update mapData when isMapExpanded changes
+  useEffect(() => {
+    if (isMapExpanded) {
+      setMapData({ map: { setIsMapExpanded } });
+    }
+  }, [isMapExpanded]);
+
+  // Create final schemas with map when expanded
+  const finalReviewUiSchema = isMapExpanded
+    ? {
+        map: { ...mapUiSchema },
+        ...reviewUiSchema,
+      }
+    : reviewUiSchema;
+
+  const finalEditUiSchema = isMapExpanded
+    ? {
+        map: { ...mapUiSchema },
+        ...editUiSchema,
+      }
+    : editUiSchema;
+
+  const finalReviewSchema = isMapExpanded
+    ? {
+        ...review,
+        properties: {
+          map: {
+            required: map.required,
+            title: map.title,
+            properties: {
+              ...map.properties,
+            },
+          },
+          ...review.properties,
+        },
+      }
+    : review;
+
   const [updateFormData] = useUpdateCbcDataAndInsertChangeRequest();
 
   const handleChangeRequestModal = () => {
@@ -421,7 +466,15 @@ const Cbc = ({
 
   return (
     <Layout session={session} title="Connecting Communities BC">
-      <CbcAnalystLayout query={query} isFormEditable={allowEdit} key={rowId}>
+      <CbcAnalystLayout
+        query={query}
+        isFormEditable={allowEdit}
+        key={rowId}
+        mapData={mapData}
+        isMapExpanded={isMapExpanded}
+        setIsMapExpanded={setIsMapExpanded}
+      >
+        <h2>Project</h2>
         <RightAlignText>
           <>
             <StyledButton
@@ -475,7 +528,9 @@ const Cbc = ({
             addCommunitySource: addCommunity,
             deleteCommunitySource: removeCommunity,
           }}
-          formData={formData}
+          formData={
+            isMapExpanded && mapData ? { map: mapData, ...formData } : formData
+          }
           handleChange={(e) => {
             setFormData(handleAddClick(e.formData));
           }}
@@ -484,9 +539,9 @@ const Cbc = ({
           isFormAnimated={false}
           isFormEditMode={editMode}
           title="CBC Form"
-          schema={review}
+          schema={finalReviewSchema}
           theme={editMode ? CbcTheme : ReviewTheme}
-          uiSchema={editMode ? editUiSchema : reviewUiSchema}
+          uiSchema={editMode ? finalEditUiSchema : finalReviewUiSchema}
           resetFormData={handleResetFormData}
           onSubmit={handleChangeRequestModal}
           setIsFormEditMode={setEditMode}
