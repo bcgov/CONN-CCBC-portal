@@ -61,6 +61,7 @@ const StyledEdit = styled.button`
 const StyledFlex = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 24px;
 
   & div {
     margin-bottom: 16px;
@@ -88,9 +89,17 @@ const StyledFlex = styled.div`
   }
 `;
 
-const StyledDescription = styled.h4`
-  font-weight: 400;
-  color: ${({ theme }) => theme.color.components};
+const StyledLinkFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  & div {
+    margin-bottom: 16px;
+  }
+
+  & h4 {
+    margin-bottom: 4px;
+  }
 `;
 
 interface IntakeProps {
@@ -117,15 +126,23 @@ const Intake: React.FC<IntakeProps> = ({
         description
         closeTimestamp
         openTimestamp
+        hiddenCode
         rollingIntake
+        zones
         rowId
       }
     `,
     intake
   );
 
-  const { ccbcIntakeNumber, closeTimestamp, description, openTimestamp } =
-    queryFragment;
+  const {
+    ccbcIntakeNumber,
+    closeTimestamp,
+    description,
+    hiddenCode,
+    openTimestamp,
+    zones,
+  } = queryFragment;
 
   const [archiveIntake] = useArchiveIntakeMutation();
 
@@ -136,6 +153,9 @@ const Intake: React.FC<IntakeProps> = ({
   const formattedCloseDate = DateTime.fromISO(closeTimestamp).toLocaleString(
     DateTime.DATETIME_FULL
   );
+  const displayCloseDate = DateTime.fromISO(closeTimestamp)
+    .minus({ minutes: 30 })
+    .toLocaleString(DateTime.DATETIME_FULL);
 
   const mockedDateCookie = cookie.get('mocks.mocked_date');
   const currentDateTime = mockedDateCookie
@@ -146,6 +166,10 @@ const Intake: React.FC<IntakeProps> = ({
   const endDateTime = DateTime.fromISO(closeTimestamp);
   const isAllowedDelete = currentDateTime <= startDateTime;
   const isAllowedEdit = currentDateTime <= endDateTime;
+  const hiddenIntakeLink =
+    origin && hiddenCode
+      ? `${window.location.origin}/api/intake?code=${hiddenCode}`
+      : null;
 
   const handleDelete = () => {
     archiveIntake({
@@ -191,16 +215,34 @@ const Intake: React.FC<IntakeProps> = ({
           <span>{formattedOpenDate}</span>
         </div>
         <div>
-          <h4>End date & time</h4>
+          <h4>Actual end date and time</h4>
           <span>{formattedCloseDate}</span>
+        </div>
+        <div>
+          <h4>Display end date and time</h4>
+          <span>{displayCloseDate}</span>
         </div>
         {description && (
           <div>
-            <StyledDescription>Description</StyledDescription>
+            <h4>Description</h4>
             <span>{description}</span>
           </div>
         )}
+        {zones && (
+          <div>
+            <h4>Zones</h4>
+            <span>{zones.length ? zones.join(', ') : 'None'}</span>
+          </div>
+        )}
       </StyledFlex>
+      {!isFormEditMode && hiddenIntakeLink && (
+        <StyledLinkFlex>
+          <div>
+            <h4>Applicant access link</h4>
+            <em>{hiddenIntakeLink}</em>
+          </div>
+        </StyledLinkFlex>
+      )}
     </StyledContainer>
   );
 };

@@ -3,7 +3,7 @@
 begin;
 
 drop function if exists ccbc_public.update_intake;
-create or replace function ccbc_public.update_intake(intake_number int, start_time timestamp with time zone, end_time timestamp with time zone, intake_description text default '', is_rolling_intake boolean default false)
+create or replace function ccbc_public.update_intake(intake_number int, start_time timestamp with time zone, end_time timestamp with time zone, intake_description text default '', is_rolling_intake boolean default false, hidden_intake_code uuid default null, is_allow_unlisted_fn_led_zones boolean default true, intake_zones int[] default ARRAY[]::int[])
 returns ccbc_public.intake as $$
 declare
   next_intake int;
@@ -39,14 +39,20 @@ begin
   end if;
 
   update ccbc_public.intake
-  set open_timestamp = start_time, close_timestamp = end_time, description = intake_description, rolling_intake = is_rolling_intake
+  set open_timestamp = start_time,
+      close_timestamp = end_time,
+      description = intake_description,
+      rolling_intake = is_rolling_intake,
+      hidden_code = hidden_intake_code,
+      allow_unlisted_fn_led_zones = is_allow_unlisted_fn_led_zones,
+      zones = intake_zones
   where ccbc_intake_number = intake_number and archived_at is null;
 
   return (select row(ccbc_public.intake.*) from ccbc_public.intake where ccbc_intake_number = intake_number and archived_at is null
   order by id desc limit 1);
 
 end;
-$$ language plpgsql strict volatile;
+$$ language plpgsql volatile;
 
 comment on function ccbc_public.update_intake is 'Function to update intakes for the ccbc admin';
 
