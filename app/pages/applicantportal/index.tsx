@@ -6,7 +6,7 @@ import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
 import { useMemo } from 'react';
 import { Button, Callout } from '@button-inc/bcgov-theme';
-// import dateTimeSubtracted from 'utils/dateTimeSubtracted';
+import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import { ButtonLink, DynamicAlert, Layout, LoginForm } from '../../components';
 import defaultRelayOptions from '../../lib/relay/withRelayOptions';
 import { applicantportalQuery } from '../../__generated__/applicantportalQuery.graphql';
@@ -58,6 +58,7 @@ const getApplicantportalQuery = graphql`
       sub
     }
     openIntake {
+      ccbcIntakeNumber
       openTimestamp
       closeTimestamp
       rollingIntake
@@ -79,7 +80,7 @@ const Home = ({
 
   const openIntakeBanner = useFeature('open_intake_alert').value || {};
   const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
-  // const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
+  const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
 
   const intakeCalloutChildren = useMemo(() => {
     if (!openIntake)
@@ -95,15 +96,18 @@ const Home = ({
         </>
       );
 
-    // const formattedClosingDate = dateTimeSubtracted(
-    //   openIntake.closeTimestamp,
-    //   showSubtractedTime
-    // );
+    const formattedClosingDate = dateTimeSubtracted(
+      openIntake.closeTimestamp,
+      showSubtractedTime
+    );
+    const intakeLabel = openIntake?.ccbcIntakeNumber
+      ? `Intake ${openIntake.ccbcIntakeNumber}`
+      : 'The intake';
 
     return (
       <BoldText>
         <>
-          Intake 7 is now open until February 26, 2026, at 2:30 PM PT. <br />
+          {intakeLabel} is now open until {formattedClosingDate}. <br />
           If you are interested in submitting an application, or for any
           questions about connectivity projects in your area, please email{' '}
           <a href="mailto:connectingcommunitiesbc@gov.bc.ca">
@@ -112,7 +116,7 @@ const Home = ({
         </>
       </BoldText>
     );
-  }, [openIntake]);
+  }, [openIntake, showSubtractedTime]);
 
   return (
     <Layout session={session} title="Connecting Communities BC">

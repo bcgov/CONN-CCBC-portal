@@ -61,6 +61,7 @@ const getDashboardQuery = graphql`
       }
     }
     openIntake {
+      ccbcIntakeNumber
       closeTimestamp
       rollingIntake
     }
@@ -91,6 +92,9 @@ const Dashboard = ({
 
   const closeTimestamp = openIntake?.closeTimestamp;
   const isRollingIntake = openIntake?.rollingIntake ?? false;
+  const intakeLabel = openIntake?.ccbcIntakeNumber
+    ? `Intake ${openIntake.ccbcIntakeNumber}`
+    : 'The intake';
   const isInternalIntakeEnabled = useFeature('internal_intake').value ?? false;
   const [isApplicationCreated, setIsApplicationCreated] = useState(false);
 
@@ -166,8 +170,9 @@ const Dashboard = ({
             <p>
               {isRollingIntake ? (
                 <>
-                  Intake 7 is now open until February 26, 2026, at 2:30 PM PT.
-                  If you are interested in submitting an application, or for any
+                  {intakeLabel} is now open until{' '}
+                  {dateTimeSubtracted(closeTimestamp, showSubtractedTime)}. If
+                  you are interested in submitting an application, or for any
                   questions about connectivity projects in your area, please
                   email{' '}
                   <a href="mailto:connectingcommunitiesbc@gov.bc.ca">

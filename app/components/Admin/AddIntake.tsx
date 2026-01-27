@@ -13,6 +13,7 @@ import { DateTime } from 'luxon';
 import styled from 'styled-components';
 import { IChangeEvent, ThemeProps } from '@rjsf/core';
 import { CustomValidator, RJSFValidationError } from '@rjsf/utils';
+import ALL_INTAKE_ZONES from 'data/intakeZones';
 
 interface EditProps {
   isFormEditMode: boolean;
@@ -41,10 +42,10 @@ const StyledBtnContainer = styled.div<EditProps>`
 
 const StyledForm = styled.section<EditProps>`
   overflow: hidden;
-  max-height: ${({ isFormEditMode }) => (isFormEditMode ? '560px' : '0px')};
+  max-height: ${({ isFormEditMode }) => (isFormEditMode ? '760px' : '0px')};
   transition: max-height 0.5s;
   padding-left: 4px;
-  max-width: 480px;
+  max-width: 680px;
   margin-top: ${({ isFormEditMode }) => (isFormEditMode ? '24px' : '0px')};
 
   .datetime-widget {
@@ -160,12 +161,22 @@ const AddIntake: React.FC<Props> = ({
     setIsStartDateDisabled(false);
     setFormData({
       intakeNumber: newIntakeNumber,
+      zones: [...ALL_INTAKE_ZONES],
+      allowUnlistedFnLedZones: false,
     });
   };
 
   const handleSubmit = (e) => {
-    const { startDate, endDate, intakeNumber, description, rollingIntake } =
-      e.formData;
+    const {
+      startDate,
+      endDate,
+      intakeNumber,
+      description,
+      rollingIntake,
+      inviteOnlyIntake,
+      zones,
+      allowUnlistedFnLedZones,
+    } = e.formData;
 
     if (isIntakeEdit) {
       updateIntake({
@@ -176,6 +187,9 @@ const AddIntake: React.FC<Props> = ({
             endTime: endDate,
             intakeDescription: description,
             isRollingIntake: rollingIntake,
+            intakeZones: zones,
+            isAllowUnlistedFnLedZones: allowUnlistedFnLedZones ?? false,
+            hiddenIntakeCode: inviteOnlyIntake ? crypto.randomUUID() : null,
           },
         },
         onCompleted: () => {
@@ -191,6 +205,9 @@ const AddIntake: React.FC<Props> = ({
             endTime: endDate,
             startTime: startDate,
             rollingIntake,
+            zones,
+            allowUnlistedFnLedZones: allowUnlistedFnLedZones ?? false,
+            hiddenCode: inviteOnlyIntake ? crypto.randomUUID() : null,
           },
         },
         onCompleted: () => {
@@ -238,6 +255,10 @@ const AddIntake: React.FC<Props> = ({
       errors?.endDate.addError('End date & time must be entered');
     }
 
+    if ((!jsonData?.zones || jsonData.zones.length === 0) && isFormSubmitting) {
+      errors?.zones.addError('At least one zone must be selected');
+    }
+
     if (isEdit && nextIntake && endDateTime >= nextIntakeStartDateTime) {
       errors?.endDate.addError(
         'End date & time must not overlap with the next intake'
@@ -283,6 +304,8 @@ const AddIntake: React.FC<Props> = ({
               setIsFormEditMode(true);
               setFormData({
                 intakeNumber: newIntakeNumber,
+                zones: [...ALL_INTAKE_ZONES],
+                allowUnlistedFnLedZones: false,
               });
             }}
             variant="secondary"

@@ -16,6 +16,9 @@ const mutation = graphql`
           closeTimestamp
           openTimestamp
           rollingIntake
+          zones
+          allowUnlistedFnLedZones
+          hiddenCode
           rowId
         }
       }
