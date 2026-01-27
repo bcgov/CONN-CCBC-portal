@@ -1,3 +1,10 @@
+# [1.290.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.289.1...v1.290.0) (2026-01-27)
+
+### Features
+
+- add map to cbc page, min width aside ([e554525](https://github.com/bcgov/CONN-CCBC-portal/commit/e55452547c56cc9fbaee14bead4132ed0e8bcdf3))
+- add titles to cbc pages, extend header ([5fb2633](https://github.com/bcgov/CONN-CCBC-portal/commit/5fb26339573b41a2663feaf1bb58dcce1bec9cd5))
+
 ## [1.289.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.289.0...v1.289.1) (2026-01-27)
 
 # [1.289.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.288.2...v1.289.0) (2026-01-26)
