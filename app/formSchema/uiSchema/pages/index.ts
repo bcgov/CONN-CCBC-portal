@@ -12,7 +12,6 @@ export { default as organizationLocation } from './organizationLocation';
 export { default as organizationProfile } from './organizationProfile';
 export { default as otherFundingSources } from './otherFundingSources';
 export { default as projectArea } from './projectArea';
-export { default as projectAreaIntakeFour } from './projectAreaIntakeFour';
 export { default as projectFunding } from './projectFunding';
 export { default as projectInformation } from './projectInformation';
 export { default as projectPlan } from './projectPlan';
