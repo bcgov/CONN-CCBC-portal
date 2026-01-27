@@ -282,6 +282,26 @@ const normalizeReportData = (reportData) => {
   return { mainSheet: normalizedMainSheet, methodsSheet, generatedOn };
 };
 
+const replaceNullCellValues = (rows: Row[]) => {
+  rows.forEach((row) => {
+    row.forEach((cell) => {
+      if (!cell || typeof cell !== 'object') {
+        return;
+      }
+      if (cell.value === null || cell.value === undefined) {
+        // Use a single space so adjacent cells don't overflow into blanks.
+        // eslint-disable-next-line no-param-reassign
+        cell.value = ' ';
+        // Remove number formatting/types for blank placeholder cells.
+        // eslint-disable-next-line no-param-reassign
+        delete cell.type;
+        // eslint-disable-next-line no-param-reassign
+        delete cell.format;
+      }
+    });
+  });
+};
+
 const buildMethodsSheet = ({
   generatedOn,
   comparingWith,
@@ -335,6 +355,7 @@ export const regenerateGcpeReport = async (rowId, req) => {
     methodsSheet?.length > 0
       ? methodsSheet
       : buildMethodsSheet({ generatedOn: reportGeneratedOn });
+  replaceNullCellValues(mainSheet);
   // due to the way GraphQL mutation handles de/serialization, we need to reformat the data
   mainSheet.forEach((row) => {
     row.forEach((cell) => {
@@ -756,9 +777,14 @@ const generateExcelData = async (
     excelData.push(row);
   });
   if (compare) {
+    replaceNullCellValues(excelData);
+    if (prevExcelData) {
+      replaceNullCellValues(prevExcelData);
+    }
     const markedExcelData = compareAndMarkArrays(excelData, prevExcelData);
     return { marked: markedExcelData, unmarked: excelData };
   }
+  replaceNullCellValues(excelData);
   return excelData;
 };
 
@@ -771,7 +797,8 @@ export const generateGcpeReport = async (req) => {
     return e;
   });
 
-  const excelData = await generateExcelData(cbcData, ccbcData);
+  const excelData = (await generateExcelData(cbcData, ccbcData)) as Row[];
+  replaceNullCellValues(excelData);
   const generatedOn = formatReportTimestamp();
   const methodsSheet = buildMethodsSheet({ generatedOn });
   const blob = await writeXlsxFile([excelData, methodsSheet] as any, {
@@ -820,6 +847,7 @@ export const compareAndGenerateGcpeReport = async (compareRowId, req) => {
   const previousReportData = queryResult.data.reportingGcpeByRowId.reportData;
   const { mainSheet: previousMainSheet, generatedOn: previousGeneratedOn } =
     normalizeReportData(previousReportData);
+  replaceNullCellValues(previousMainSheet);
   // due to the way GraphQL mutation handles de/serialization, we need to reformat the data
   previousMainSheet.forEach((row) => {
     row.forEach((cell) => {
@@ -838,6 +866,8 @@ export const compareAndGenerateGcpeReport = async (compareRowId, req) => {
   );
   const excelData = data.marked;
   const unmarkedExcelData = data.unmarked;
+  replaceNullCellValues(excelData);
+  replaceNullCellValues(unmarkedExcelData);
   const generatedOn = formatReportTimestamp();
   const comparingWith = previousGeneratedOn || formatReportTimestamp();
   const methodsSheet = buildMethodsSheet({ generatedOn, comparingWith });
@@ -889,6 +919,8 @@ export const compareGcpeReports = async (sourceRowId, targetRowId, req) => {
     normalizeReportData(sourceExcelData);
   const { mainSheet: targetMainSheet, generatedOn: targetGeneratedOn } =
     normalizeReportData(targetExcelData);
+  replaceNullCellValues(sourceMainSheet);
+  replaceNullCellValues(targetMainSheet);
   const markedExcelData = compareAndMarkArrays(
     sourceMainSheet,
     targetMainSheet
