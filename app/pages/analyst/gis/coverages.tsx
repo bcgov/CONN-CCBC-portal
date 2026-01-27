@@ -63,10 +63,19 @@ const StyledBtnContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 1.25rem;
-  margin-top: 2rem;
+  margin-bottom: 2.5rem;
+  margin-top: 0.5rem;
   flex-direction: row;
   justify-content: left;
+`;
+
+const StyledHeading = styled.h2`
+  margin-bottom: 2.5rem;
+`;
+
+const StyledNoteText = styled.p`
+  text-align: left;
+  margin-top: -2rem;
 `;
 
 const acceptedFileTypes = ['.zip'];
@@ -177,7 +186,10 @@ const CoveragesTab = ({ historyList }) => {
   return (
     <div>
       <Tabs />
-      <h2>Application Coverages Upload</h2>
+      <StyledHeading>Application Coverages Upload</StyledHeading>
+      <StyledNoteText>
+        Coverage uploads are necessary to update the Economic Regions and Regional Districts for CCBC applications/projects.
+      </StyledNoteText>
       <div>
         <strong>
           Upload a ZIP file containing the shapefiles for the CCBC Application
@@ -221,9 +233,12 @@ const CoveragesTab = ({ historyList }) => {
             disabled={isUploading || !selectedFile}
             data-skip-unsaved-warning
           >
-            {isUploading ? 'Uploading' : 'Upload'}
+            {isUploading ? 'Saving' : 'Save'}
           </ButtonLink>
         </StyledBtnContainer>
+        <StyledNoteText>
+          Note: Changes from this upload will be reflected in the system by the following morning.
+        </StyledNoteText>
         {uploadSuccess && (
           <StyledSuccess>
             <p>Upload successful!</p>
