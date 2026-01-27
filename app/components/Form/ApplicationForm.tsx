@@ -22,6 +22,7 @@ import { applicantBenefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
 import { RJSFSchema } from '@rjsf/utils';
 import GenericConfirmationModal from 'lib/theme/widgets/GenericConfirmationModal';
+import ALL_INTAKE_ZONES from 'data/intakeZones';
 import SubmitButtons from './SubmitButtons';
 import FormBase from './FormBase';
 import {
@@ -165,6 +166,7 @@ const ApplicationForm: React.FC<Props> = ({
         intakeByIntakeId {
           ccbcIntakeNumber
           closeTimestamp
+          zones
         }
         ...ApplicationFormStatus_application
       }
@@ -179,6 +181,7 @@ const ApplicationForm: React.FC<Props> = ({
           closeTimestamp
           ccbcIntakeNumber
           rollingIntake
+          zones
           rowId
         }
         allIntakes(
@@ -189,6 +192,7 @@ const ApplicationForm: React.FC<Props> = ({
           edges {
             node {
               ccbcIntakeNumber
+              zones
             }
           }
         }
@@ -244,9 +248,11 @@ const ApplicationForm: React.FC<Props> = ({
     allIntakes?.edges[0]?.node?.ccbcIntakeNumber;
   const isRollingIntake = openIntake?.rollingIntake ?? false;
 
-  const acceptedProjectAreas = useFeature('intake_zones_json');
-  const acceptedProjectAreasArray =
-    acceptedProjectAreas?.value?.[ccbcIntakeNumber ?? latestIntakeNumber] || [];
+  const intakeZones =
+    application.intakeByIntakeId?.zones ??
+    openIntake?.zones ??
+    allIntakes?.edges[0]?.node?.zones;
+  const acceptedProjectAreasArray = intakeZones ?? ALL_INTAKE_ZONES;
 
   let jsonSchema: any;
   let formSchemaId: number;
@@ -722,7 +728,8 @@ const ApplicationForm: React.FC<Props> = ({
   };
 
   const handleTemplateNineCreation = () => {
-    const templateNineUuid = jsonData.templateUploads?.geographicNames?.[0]?.uuid;
+    const templateNineUuid =
+      jsonData.templateUploads?.geographicNames?.[0]?.uuid;
     if (templateNineUuid) {
       createTemplateNineData(rowId, templateNineUuid);
     }
