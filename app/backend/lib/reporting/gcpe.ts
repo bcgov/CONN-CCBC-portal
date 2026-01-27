@@ -174,6 +174,11 @@ const getCcbcQuery = `
                 }
               }
             }
+            applicationStatusesByApplicationId {
+              nodes {
+                status
+              }
+            }
             ccbcNumber
             externalStatus
             internalDescription
@@ -545,6 +550,18 @@ const generateExcelData = async (
       node?.applicationMilestoneExcelDataByApplicationId?.nodes[0]?.jsonData
         ?.overallMilestoneProgress ?? null;
 
+    const statusHistory = node?.applicationStatusesByApplicationId?.nodes
+      ?.map((statusNode) => statusNode?.status)
+      .filter(Boolean);
+    const currentStatusFromHistory =
+      statusHistory?.length > 0
+        ? statusHistory[statusHistory.length - 1]
+        : null;
+    const previousStatusFromHistory =
+      statusHistory?.length > 1
+        ? statusHistory[statusHistory.length - 2]
+        : null;
+
     const row: Row = [
       // program
       { value: node?.program },
@@ -590,7 +607,11 @@ const generateExcelData = async (
       // federal funding source
       { value: getCCBCFederalFundingSource(node) },
       // status
-      { value: convertStatus(node?.analystStatus) },
+      {
+        value: convertStatus(node?.analystStatus),
+        previousStatus: previousStatusFromHistory,
+        currentStatus: currentStatusFromHistory,
+      } as any,
       // project milestone complete percent
       {
         value: milestoneProgress
