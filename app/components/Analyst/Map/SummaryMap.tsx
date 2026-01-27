@@ -39,6 +39,11 @@ const StyledMapContainer = styled(MapContainer)<SummaryMapProps>`
     height: ${(props) => (!props?.expanded ? props.height : '100%')} !important;
     width: ${(props) => (!props?.expanded ? props.width : '100%')} !important;
   }
+  .leaflet-top,
+  .leaflet-bottom,
+  .leaflet-control {
+    z-index: 400;
+  }
   .leaflet-control-layers {
     visibility: ${(props) => (props.expanded ? 'visible' : 'hidden')};
   }
