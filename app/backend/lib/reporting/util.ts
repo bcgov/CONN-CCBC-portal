@@ -23,6 +23,14 @@ export const convertStatus = (status: string): string => {
       return 'Reporting Complete';
     case 'merged':
       return 'Merged';
+    case 'assessment':
+      return 'Assessment';
+    case 'screening':
+      return 'Screening';
+    case 'received':
+      return 'Received';
+    case 'withdrawn':
+      return 'Withdrawn';
     default:
       return status;
   }
@@ -193,15 +201,21 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
       );
       const statusIndex =
         statusHeaderIndex >= 0 ? statusHeaderIndex : fallbackStatusIndex;
-      const statusValue =
-        statusIndex >= 0 ? row?.[statusIndex]?.value : null;
+      const statusCell = statusIndex >= 0 ? row?.[statusIndex] : null;
+      const statusValue = statusCell?.value ?? null;
+      const previousStatus =
+        statusCell?.previousStatus ||
+        statusCell?.previousAnalystStatus ||
+        null;
+      const currentStatus =
+        statusCell?.currentStatus || statusValue || null;
       const programValue = row?.[0]?.value;
       const changeLogValue =
         programValue === 'CBC'
           ? `New record added to Connectivity Portal on ${getCurrentTimestamp()}`
-          : `Record added to GCPE list as status changed to ${
-              statusValue || 'Unknown'
-            }`;
+          : `Record added to GCPE list due to status change ${convertStatus(
+              previousStatus || 'Unknown'
+            )} --> ${convertStatus(currentStatus || 'Unknown')}`;
       const highlightedRow = row.map((item) =>
         item ? { ...item, backgroundColor: '#2FA7DD' } : item
       );

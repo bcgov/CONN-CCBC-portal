@@ -90,14 +90,20 @@ describe('Dashboard util functions', () => {
       { value: 'Change log' },
     ];
 
-    const buildRow = (program: string, id: string, status: string) => [
+    const buildRow = (
+      program: string,
+      id: string,
+      status: string,
+      previousStatus?: string,
+      currentStatus?: string
+    ) => [
       { value: program },
       { value: 'v1' },
       { value: 'v2' },
       { value: 'v3' },
       { value: 'v4' },
       { value: id },
-      { value: status },
+      { value: status, previousStatus, currentStatus },
       { value: '' },
     ];
 
@@ -115,15 +121,24 @@ describe('Dashboard util functions', () => {
       );
     });
 
-    it('highlights and logs new CCBC records with status', () => {
-      const array1 = [headerRow, buildRow('CCBC', 'ID2', 'Agreement Signed')];
+    it('highlights and logs new CCBC records with status history', () => {
+      const array1 = [
+        headerRow,
+        buildRow(
+          'CCBC',
+          'ID2',
+          'Agreement Signed',
+          'conditionally_approved',
+          'approved'
+        ),
+      ];
       const array2 = [headerRow];
 
       const result = compareAndMarkArrays(array1, array2);
 
       expect(result[1][0].backgroundColor).toBe('#2FA7DD');
       expect(result[1][7].value).toBe(
-        'Record added to GCPE list as status changed to Agreement Signed'
+        'Record added to GCPE list due to status change Conditionally Approved --> Agreement Signed'
       );
       expect(result[1][7].backgroundColor).toBe('#2FA7DD');
     });
