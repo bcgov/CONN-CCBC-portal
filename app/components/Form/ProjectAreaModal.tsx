@@ -1,7 +1,16 @@
 import Modal from 'components/Modal';
 import styled from 'styled-components';
 
-function getModalText(intakeZones, modalType) {
+function getModalText(intakeZones, modalType, allowUnlistedFnLedZones) {
+  if (!allowUnlistedFnLedZones) {
+    if (
+      modalType === 'invalid-geographic-area' ||
+      modalType === 'first-nations-led'
+    ) {
+      return `Invalid selection. You may only choose from Zones ${intakeZones}.`;
+    }
+    return `For this intake, CCBC is considering projects that are in Zones ${intakeZones}.`;
+  }
   if (modalType === 'invalid-geographic-area') {
     return `Invalid selection. You have indicated that this project is not led or supported by First Nations, therefore, you may only choose from Zones ${intakeZones}.`;
   }
@@ -16,6 +25,7 @@ const ProjectAreaModal = ({
   close,
   projectAreaModalType,
   acceptedProjectAreasArray = [],
+  allowUnlistedFnLedZones = true,
 }) => {
   const acceptedIntakeZones =
     acceptedProjectAreasArray?.length >= 2
@@ -43,7 +53,13 @@ const ProjectAreaModal = ({
       ]}
     >
       <StyledContainer>
-        <p>{getModalText(acceptedIntakeZones, projectAreaModalType)}</p>
+        <p>
+          {getModalText(
+            acceptedIntakeZones,
+            projectAreaModalType,
+            allowUnlistedFnLedZones
+          )}
+        </p>
       </StyledContainer>
     </Modal>
   );

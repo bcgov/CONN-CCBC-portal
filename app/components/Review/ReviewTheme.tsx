@@ -38,7 +38,6 @@ const ReviewTheme: ThemeProps = {
     NumericStringWidget: DefaultWidget,
     ReadOnlyWidget: DefaultWidget,
     ReadOnlyProjectAreaWidget: DefaultWidget,
-    ReadOnlyProjectAreaWidgetIntakeFour: DefaultWidget,
     DateWidget,
     LinkArrayWidget,
     MapWidget,
