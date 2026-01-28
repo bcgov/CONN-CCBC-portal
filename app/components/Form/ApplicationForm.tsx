@@ -184,6 +184,8 @@ const ApplicationForm: React.FC<Props> = ({
           rollingIntake
           allowUnlistedFnLedZones
           zones
+          hiddenCode
+          hidden
           rowId
         }
         allIntakes(
@@ -241,9 +243,14 @@ const ApplicationForm: React.FC<Props> = ({
     },
     status,
   } = application;
-  // NOTE: if there are future intakes this logic should be adjusted to check intake id
+  const isInviteOnlyIntake = openIntake?.hiddenCode && !openIntake?.hidden;
+  const hasIntakeAccess =
+    session?.ccbcUserBySub?.intakeUsersByUserId?.nodes.some(
+      (node) => node.intakeId === openIntake?.rowId
+    );
+  // disable edit if user does not have access to invite only intake
   const isApplicationEditable =
-    isEditable && session?.ccbcUserBySub?.intakeUsersByUserId?.nodes.length > 0;
+    isEditable && !(isInviteOnlyIntake && !hasIntakeAccess);
   const ccbcIntakeNumber =
     application.intakeByIntakeId?.ccbcIntakeNumber || null;
   const latestIntakeNumber =
@@ -260,7 +267,7 @@ const ApplicationForm: React.FC<Props> = ({
     application.intakeByIntakeId?.zones ??
     openIntake?.zones ??
     allIntakes?.edges[0]?.node?.zones;
-  const acceptedProjectAreasArray = intakeZones ?? ALL_INTAKE_ZONES;
+  const acceptedProjectAreasArray = [...(intakeZones ?? ALL_INTAKE_ZONES)];
 
   let jsonSchema: any;
   let formSchemaId: number;

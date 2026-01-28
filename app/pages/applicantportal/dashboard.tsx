@@ -61,9 +61,12 @@ const getDashboardQuery = graphql`
       }
     }
     openIntake {
+      rowId
       ccbcIntakeNumber
       closeTimestamp
       rollingIntake
+      hidden
+      hiddenCode
     }
     nextIntake {
       openTimestamp
@@ -85,18 +88,23 @@ const Dashboard = ({
   const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
   const { allApplications, nextIntake, openIntake, session, openHiddenIntake } =
     query;
-  // NOTE: if there are future intakes this logic should be adjusted to check intake id
-  const disableIntake =
-    !session?.ccbcUserBySub ||
-    session.ccbcUserBySub.intakeUsersByUserId?.nodes.length === 0;
+  const hasIntakeAccess =
+    session?.ccbcUserBySub?.intakeUsersByUserId?.nodes.some(
+      (node) => node.intakeId === openIntake?.rowId
+    );
 
   const closeTimestamp = openIntake?.closeTimestamp;
   const isRollingIntake = openIntake?.rollingIntake ?? false;
+  const isInviteOnlyIntake = !!openIntake?.hiddenCode && !openIntake?.hidden;
   const intakeLabel = openIntake?.ccbcIntakeNumber
     ? `Intake ${openIntake.ccbcIntakeNumber}`
     : 'The intake';
+
   const isInternalIntakeEnabled = useFeature('internal_intake').value ?? false;
   const [isApplicationCreated, setIsApplicationCreated] = useState(false);
+
+  // Disable intake if user does not have access to invite only intake
+  const disableIntake = isInviteOnlyIntake && !hasIntakeAccess;
 
   const sub: string = session?.sub;
 
