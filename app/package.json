@@ -96,7 +96,7 @@
     "luxon": "^3.7.2",
     "material-react-table": "2.13",
     "morgan": "^1.10.1",
-    "next": "15.5.10",
+    "next": "16.1.5",
     "openid-client": "^5.7.1",
     "passport": "^0.7.0",
     "patch-package": "^8.0.1",
