@@ -33,6 +33,24 @@ const StyledDashboardContainer = styled.div`
 const AnalystDashboard = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, dashboardAnalystQuery>) => {
+  /* ---- BEGIN DEBUG ---- */
+  if (typeof window !== 'undefined') {
+    const { origin } = window.location;
+    const env =
+      process?.env?.NODE_ENV ||
+      (process?.env?.NEXT_PUBLIC_ENV as string) ||
+      'unknown';
+    // Log once per page load for cross-env comparisons
+    if (!(window as any).__ccbcDashboardLogBoot) {
+      (window as any).__ccbcDashboardLogBoot = true;
+      console.log('[AnalystDashboard] boot', {
+        origin,
+        env,
+        time: new Date().toISOString(),
+      });
+    }
+  }
+  /* ---- END DEGUG ---- */
   const query = usePreloadedQuery(getDashboardAnalystQuery, preloadedQuery);
   const router = useRouter();
   const { session } = query;
@@ -43,6 +61,11 @@ const AnalystDashboard = ({
   };
 
   useEffect(() => {
+    /* ---- BEGIN DEBUG ---- */
+    console.log('[AnalystDashboard] effect:init', {
+      authRole: session?.authRole,
+      isMaxWidthOverride,
+    });
     // Scroll to saved scroll position
     const scrollPosition = sessionStorage.getItem('dashboard_scroll_position');
 
@@ -62,17 +85,26 @@ const AnalystDashboard = ({
         })
         .then(() => {
           if (scrollPosition) scrollTo();
+          console.log('[AnalystDashboard] router.replace done', {
+            orderByParam,
+            scrollPosition,
+          });
         });
     } else if (scrollPosition) {
       scrollTo();
     }
 
     window.addEventListener('scroll', scrollHandler);
+    console.log('[AnalystDashboard] scroll listener attached');
 
     // remove assessment_last_visited cookie
     cookie.remove('assessment_last_visited');
 
-    return () => window.removeEventListener('scroll', scrollHandler);
+    return () => {
+      window.removeEventListener('scroll', scrollHandler);
+      console.log('[AnalystDashboard] scroll listener removed');
+      /* ---- END DEGUG ---- */
+    };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -89,9 +121,17 @@ const AnalystDashboard = ({
         <Profiler
           id="AnalystDashboard"
           onRender={(id, phase, actualDuration) => {
+            /* ---- BEGIN DEBUG ---- */
             if (phase === 'update') {
               console.log(`AnalystDashboard render time: ${actualDuration}ms`);
             }
+            console.log('[AnalystDashboard] profiler', {
+              id,
+              phase,
+              actualDuration,
+              now: performance.now(),
+            });
+            /* ---- END DEGUG ---- */
           }}
         >
           <AllDashboardTable query={query} />
