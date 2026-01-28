@@ -140,6 +140,21 @@ const CcbcStatusInformation = () => {
                 edited until the intake closes.
               </td>
             </tr>
+            <tr>
+              <td>
+                <Chip
+                  label="Merged"
+                  sx={{
+                    bgcolor: '#8250DF',
+                    color: '#FFFF',
+                    fontFamily: 'BCSans, Verdana, Arial, sans-serif',
+                  }}
+                />
+              </td>
+              <td>
+                <span>Application was combined with another project during negotiations and is now part of that &apos;Agreement Signed&apos; project</span>
+              </td>
+            </tr>
           </tbody>
         </StyledTable>
       </div>
