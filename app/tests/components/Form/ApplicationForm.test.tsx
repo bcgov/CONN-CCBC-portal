@@ -44,6 +44,8 @@ const mockQueryPayload = {
     return {
       openIntake: {
         closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+        hiddenCode: null,
+        hidden: false,
       },
       session: {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -260,6 +262,8 @@ describe('The application form', () => {
         return {
           openIntake: {
             closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
+            hiddenCode: null,
+            hidden: false,
           },
         };
       },
@@ -291,6 +295,8 @@ describe('The application form', () => {
         return {
           openIntake: {
             closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+            hiddenCode: null,
+            hidden: false,
           },
         };
       },
@@ -334,6 +340,8 @@ describe('The application form', () => {
           openIntake: {
             closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
             ccbcIntakeNumber: 5,
+            hiddenCode: null,
+            hidden: false,
           },
           allIntakes: {
             edges: [
@@ -378,6 +386,8 @@ describe('The application form', () => {
         return {
           openIntake: {
             closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+            hiddenCode: null,
+            hidden: false,
           },
         };
       },
@@ -765,6 +775,8 @@ describe('The application form', () => {
         return {
           openIntake: {
             closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+            hiddenCode: null,
+            hidden: false,
           },
           session: {
             sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -848,6 +860,8 @@ describe('The application form', () => {
         return {
           openIntake: {
             closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+            hiddenCode: null,
+            hidden: false,
           },
           session: {
             sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -931,6 +945,8 @@ describe('The application form', () => {
         return {
           openIntake: {
             closeTimestamp: '2022-08-27T12:51:26.69172-04:00',
+            hiddenCode: null,
+            hidden: false,
           },
           session: {
             sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
