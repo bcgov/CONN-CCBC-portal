@@ -5,17 +5,17 @@ const intakeUiSchema = {
       hideErrors: true,
     },
   },
-  zones: {
-    'ui:widget': 'CheckboxesWidget',
-    'ui:options': {
-      checkboxDirection: 'column',
-    },
-  },
   startDate: {
     'ui:widget': 'DateTimePickerWidget',
   },
   endDate: {
     'ui:widget': 'DateTimePickerWidget',
+  },
+  zones: {
+    'ui:widget': 'CheckboxesWidget',
+    'ui:options': {
+      checkboxDirection: 'column',
+    },
   },
   description: {
     'ui:options': {

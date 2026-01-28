@@ -17,6 +17,7 @@ const mockQueryPayload = {
         openTimestamp: '2022-08-19T09:00:00-07:00',
         closeTimestamp: '2027-08-19T09:00:00-07:00',
         rollingIntake: false,
+        ccbcIntakeNumber: 7,
       },
     };
   },
@@ -51,6 +52,7 @@ const mockQueryPayloadRollingIntake = {
         sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
       },
       openIntake: {
+        ccbcIntakeNumber: 7,
         openTimestamp: '2022-08-19T09:00:00-07:00',
         closeTimestamp: '2027-08-19T09:00:00-07:00',
         rollingIntake: true,
@@ -154,7 +156,7 @@ describe('The index page', () => {
 
     expect(
       screen.getByText(
-        /Intake 7 is now open until February 26, 2026, at 2:30 PM PT. If you are interested in submitting an application, or for any questions about connectivity projects in your area, please email/
+        /Intake 7 is now open until August 19, 2027, 8:30:00 a.m. PDT. If you are interested in submitting an application, or for any questions about connectivity projects in your area, please email/
       )
     ).toBeInTheDocument();
     // expect(

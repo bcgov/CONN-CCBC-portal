@@ -5,6 +5,7 @@ import compiledApplicationIntakesQuery, {
 } from '__generated__/applicationIntakesQuery.graphql';
 import cookie from 'js-cookie';
 import { DateTime } from 'luxon';
+import ALL_INTAKE_ZONES from 'data/intakeZones';
 import PageTestingHelper from '../../../utils/pageTestingHelper';
 import { checkTabStyles, checkRouteAuthorization } from './shared-admin-tests';
 
@@ -19,6 +20,11 @@ const mockQueryPayload = {
               closeTimestamp: '2022-11-06T09:00:00-08:00',
               description: 'Intake 1 description',
               openTimestamp: '2022-08-19T09:00:00-07:00',
+              rollingIntake: false,
+              zones: [1, 2],
+              allowUnlistedFnLedZones: false,
+              hidden: false,
+              hiddenCode: null,
               rowId: 1,
             },
           },
@@ -28,6 +34,11 @@ const mockQueryPayload = {
               closeTimestamp: '2024-01-15T23:00:00-08:00',
               description: 'Intake 2 description',
               openTimestamp: '2023-01-15T00:00:00-08:00',
+              rollingIntake: true,
+              zones: [1, 2],
+              allowUnlistedFnLedZones: false,
+              hidden: false,
+              hiddenCode: null,
               rowId: 2,
             },
           },
@@ -55,6 +66,11 @@ const mockDeleteQueryPayload = {
               closeTimestamp: '2030-01-15T23:00:00-08:00',
               description: 'Intake 3 description',
               openTimestamp: '2031-01-15T00:00:00-08:00',
+              rollingIntake: false,
+              zones: [1],
+              allowUnlistedFnLedZones: false,
+              hidden: false,
+              hiddenCode: null,
               rowId: 3,
             },
           },
@@ -84,6 +100,10 @@ const mockEditQueryPayload = {
               openTimestamp: '2031-01-15T00:00:00-08:00',
               rowId: 3,
               rollingIntake: false,
+              zones: [1],
+              allowUnlistedFnLedZones: false,
+              hidden: false,
+              hiddenCode: null,
             },
           },
           {
@@ -94,6 +114,10 @@ const mockEditQueryPayload = {
               openTimestamp: '2024-01-15T00:00:00-08:00',
               rowId: 3,
               rollingIntake: true,
+              zones: [1, 2],
+              allowUnlistedFnLedZones: false,
+              hidden: false,
+              hiddenCode: null,
             },
           },
         ],
@@ -120,6 +144,11 @@ const mockTimeMachineQueryPayload = {
               closeTimestamp: '2022-01-15T23:00:00-08:00',
               description: 'Intake 3 description',
               openTimestamp: '2021-01-15T00:00:00-08:00',
+              rollingIntake: false,
+              zones: [1],
+              allowUnlistedFnLedZones: false,
+              hidden: false,
+              hiddenCode: null,
               rowId: 1,
             },
           },
@@ -200,7 +229,7 @@ describe('The Application intakes admin page', () => {
 
     expect(
       screen.getAllByRole('heading', {
-        name: 'End date & time',
+        name: 'Actual end date and time',
       })[0]
     ).toBeVisible();
 
@@ -297,6 +326,9 @@ describe('The Application intakes admin page', () => {
         intakeDescription: 'Test description',
         startTime: startDate.toUTC().toISO(),
         endTime: endDate.toUTC().toISO(),
+        zones: [...ALL_INTAKE_ZONES],
+        allowUnlistedFnLedZones: false,
+        hiddenCode: null,
       },
     });
 
@@ -422,6 +454,9 @@ describe('The Application intakes admin page', () => {
         endTime: '2025-07-02T07:00:00.000Z',
         intakeDescription: 'Test description',
         isRollingIntake: true,
+        intakeZones: [1, 2],
+        isAllowUnlistedFnLedZones: false,
+        hiddenIntakeCode: null,
       },
     });
 

@@ -18,19 +18,18 @@ const intake: RJSFSchema = {
       title: 'End date & time',
       type: 'string',
     },
-    description: {
-      type: 'string',
-      title: 'Description (optional)',
-    },
     zones: {
       title: 'Zones',
       type: 'array',
-      minItems: 1,
       items: {
         type: 'number',
         enum: ALL_INTAKE_ZONES,
       },
       uniqueItems: true,
+    },
+    description: {
+      type: 'string',
+      title: 'Description (optional)',
     },
     rollingIntake: {
       type: 'boolean',
