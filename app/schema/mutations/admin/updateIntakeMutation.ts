@@ -13,6 +13,9 @@ const mutation = graphql`
         closeTimestamp
         ccbcIntakeNumber
         rollingIntake
+        hiddenCode
+        zones
+        allowUnlistedFnLedZones
       }
     }
   }

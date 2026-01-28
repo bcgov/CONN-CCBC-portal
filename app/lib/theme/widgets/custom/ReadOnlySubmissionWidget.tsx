@@ -37,6 +37,7 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
 }) => {
   const uiSchema = formContext.finalUiSchema['ui:order'];
   const acceptedProjectAreas = formContext?.acceptedProjectAreasArray || null;
+  const allowUnlistedFnLedZones = formContext?.allowUnlistedFnLedZones ?? true;
   const noErrors = Object.keys(formContext?.formErrorSchema).length === 0;
 
   const projectAreaLink = (
@@ -106,24 +107,35 @@ const ReadOnlySubmissionWidget: React.FC<WidgetProps> = ({
         )}
       </StyledError>
       <StyledError>
-        {formContext.isProjectAreaSelected && formContext.isProjectAreaInvalid && (
-          <>
-            <br />
-            For this intake CCBC is considering 2 types of projects;
-            <StyledList>
-              <StyledListItem>
-                ones that are Zones: {acceptedProjectAreas?.toString()}, or
-              </StyledListItem>
-              <StyledListItem>
-                projects that are First Nations-led or First Nations-supported
-                in any area of the province.
-              </StyledListItem>
-            </StyledList>
-            Please review your selections on the {projectAreaLink} page to
-            ensure your project meets these requirements to be able to submit it
-            during this intake.
-          </>
-        )}
+        {formContext.isProjectAreaSelected &&
+          formContext.isProjectAreaInvalid && (
+            <>
+              <br />
+              {allowUnlistedFnLedZones ? (
+                <>
+                  For this intake CCBC is considering 2 types of projects;
+                  <StyledList>
+                    <StyledListItem>
+                      ones that are Zones: {acceptedProjectAreas?.toString()},
+                      or
+                    </StyledListItem>
+                    <StyledListItem>
+                      projects that are First Nations-led or First
+                      Nations-supported in any area of the province.
+                    </StyledListItem>
+                  </StyledList>
+                </>
+              ) : (
+                <>
+                  For this intake CCBC is considering projects in Zones:{' '}
+                  {acceptedProjectAreas?.toString()}.
+                </>
+              )}
+              Please review your selections on the {projectAreaLink} page to
+              ensure your project meets these requirements to be able to submit
+              it during this intake.
+            </>
+          )}
       </StyledError>
     </>
   );

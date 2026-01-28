@@ -26607,6 +26607,12 @@ input IntakeFilter {
   """Filter by the object’s `rollingIntake` field."""
   rollingIntake: BooleanFilter
 
+  """Filter by the object’s `zones` field."""
+  zones: IntListFilter
+
+  """Filter by the object’s `allowUnlistedFnLedZones` field."""
+  allowUnlistedFnLedZones: BooleanFilter
+
   """Filter by the object’s `applicationsByIntakeId` relation."""
   applicationsByIntakeId: IntakeToManyApplicationFilter
 
@@ -26699,6 +26705,69 @@ input UUIDFilter {
 A universally unique identifier as defined by [RFC 4122](https://tools.ietf.org/html/rfc4122).
 """
 scalar UUID
+
+"""
+A filter to be used against Int List fields. All fields are combined with a logical ‘and.’
+"""
+input IntListFilter {
+  """
+  Is null (if `true` is specified) or is not null (if `false` is specified).
+  """
+  isNull: Boolean
+
+  """Equal to the specified value."""
+  equalTo: [Int]
+
+  """Not equal to the specified value."""
+  notEqualTo: [Int]
+
+  """
+  Not equal to the specified value, treating null like an ordinary value.
+  """
+  distinctFrom: [Int]
+
+  """Equal to the specified value, treating null like an ordinary value."""
+  notDistinctFrom: [Int]
+
+  """Less than the specified value."""
+  lessThan: [Int]
+
+  """Less than or equal to the specified value."""
+  lessThanOrEqualTo: [Int]
+
+  """Greater than the specified value."""
+  greaterThan: [Int]
+
+  """Greater than or equal to the specified value."""
+  greaterThanOrEqualTo: [Int]
+
+  """Contains the specified list of values."""
+  contains: [Int]
+
+  """Contained by the specified list of values."""
+  containedBy: [Int]
+
+  """Overlaps the specified list of values."""
+  overlaps: [Int]
+
+  """Any array item is equal to the specified value."""
+  anyEqualTo: Int
+
+  """Any array item is not equal to the specified value."""
+  anyNotEqualTo: Int
+
+  """Any array item is less than the specified value."""
+  anyLessThan: Int
+
+  """Any array item is less than or equal to the specified value."""
+  anyLessThanOrEqualTo: Int
+
+  """Any array item is greater than the specified value."""
+  anyGreaterThan: Int
+
+  """Any array item is greater than or equal to the specified value."""
+  anyGreaterThanOrEqualTo: Int
+}
 
 """
 A filter to be used against many `Application` object types. All fields are combined with a logical ‘and.’
@@ -27075,69 +27144,6 @@ input ApplicationFilter {
 
   """Negates the expression."""
   not: ApplicationFilter
-}
-
-"""
-A filter to be used against Int List fields. All fields are combined with a logical ‘and.’
-"""
-input IntListFilter {
-  """
-  Is null (if `true` is specified) or is not null (if `false` is specified).
-  """
-  isNull: Boolean
-
-  """Equal to the specified value."""
-  equalTo: [Int]
-
-  """Not equal to the specified value."""
-  notEqualTo: [Int]
-
-  """
-  Not equal to the specified value, treating null like an ordinary value.
-  """
-  distinctFrom: [Int]
-
-  """Equal to the specified value, treating null like an ordinary value."""
-  notDistinctFrom: [Int]
-
-  """Less than the specified value."""
-  lessThan: [Int]
-
-  """Less than or equal to the specified value."""
-  lessThanOrEqualTo: [Int]
-
-  """Greater than the specified value."""
-  greaterThan: [Int]
-
-  """Greater than or equal to the specified value."""
-  greaterThanOrEqualTo: [Int]
-
-  """Contains the specified list of values."""
-  contains: [Int]
-
-  """Contained by the specified list of values."""
-  containedBy: [Int]
-
-  """Overlaps the specified list of values."""
-  overlaps: [Int]
-
-  """Any array item is equal to the specified value."""
-  anyEqualTo: Int
-
-  """Any array item is not equal to the specified value."""
-  anyNotEqualTo: Int
-
-  """Any array item is less than the specified value."""
-  anyLessThan: Int
-
-  """Any array item is less than or equal to the specified value."""
-  anyLessThanOrEqualTo: Int
-
-  """Any array item is greater than the specified value."""
-  anyGreaterThan: Int
-
-  """Any array item is greater than or equal to the specified value."""
-  anyGreaterThanOrEqualTo: Int
 }
 
 """
@@ -33564,6 +33570,14 @@ type Intake implements Node {
   """A column to denote whether the intake is a rolling intake"""
   rollingIntake: Boolean
 
+  """A list of zones accepted for the intake"""
+  zones: [Int]
+
+  """
+  Allows applicants to select zones not in the intake list if First Nations based or led
+  """
+  allowUnlistedFnLedZones: Boolean!
+
   """Reads a single `CcbcUser` that is related to this `Intake`."""
   ccbcUserByCreatedBy: CcbcUser
 
@@ -34068,6 +34082,10 @@ enum IntakesOrderBy {
   HIDDEN_CODE_DESC
   ROLLING_INTAKE_ASC
   ROLLING_INTAKE_DESC
+  ZONES_ASC
+  ZONES_DESC
+  ALLOW_UNLISTED_FN_LED_ZONES_ASC
+  ALLOW_UNLISTED_FN_LED_ZONES_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -34125,6 +34143,12 @@ input IntakeCondition {
 
   """Checks for equality with the object’s `rollingIntake` field."""
   rollingIntake: Boolean
+
+  """Checks for equality with the object’s `zones` field."""
+  zones: [Int]
+
+  """Checks for equality with the object’s `allowUnlistedFnLedZones` field."""
+  allowUnlistedFnLedZones: Boolean
 }
 
 """A connection to a list of `CcbcUser` values, with data from `Intake`."""
@@ -111532,6 +111556,9 @@ input CreateIntakeInput {
   endTime: Datetime!
   intakeDescription: String
   rollingIntake: Boolean
+  hiddenCode: UUID
+  allowUnlistedFnLedZones: Boolean
+  zones: [Int]
 }
 
 """The output of our `createNewFormData` mutation."""
@@ -112871,6 +112898,9 @@ input UpdateIntakeInput {
   endTime: Datetime!
   intakeDescription: String
   isRollingIntake: Boolean
+  hiddenIntakeCode: UUID
+  isAllowUnlistedFnLedZones: Boolean
+  intakeZones: [Int]
 }
 
 """The output of our `updateRfi` mutation."""
