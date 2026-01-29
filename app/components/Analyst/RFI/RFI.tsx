@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useUpdateRfiJsonDataMutation } from 'schema/mutations/application/updateRfiJsonData';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
 
 interface Props {
   id: string;
@@ -50,20 +51,37 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
         jsonData
         rfiNumber
         rowId
+        applicationByApplicationId {
+          ccbcNumber
+          rowId
+        }
       }
     `,
     rfiDataByRfiDataId
   );
 
   const { jsonData, rfiNumber, rowId } = queryFragment;
+  const ccbcNumber = queryFragment.applicationByApplicationId?.ccbcNumber;
+  const appRowId = queryFragment.applicationByApplicationId?.rowId;
 
   const [updateRfiJsonData] = useUpdateRfiJsonDataMutation();
+  const { notifyDocumentUpload } = useEmailNotification();
 
   const handleClickEditButton = () => {
     router.push(`/analyst/application/${applicationId}/rfi/${rowId}`);
   };
 
   const handleChange = (e: IChangeEvent<any>) => {
+    // Check if email correspondence files were uploaded
+    const oldEmailFiles = jsonData?.rfiEmailCorrespondance || [];
+    const newEmailFiles = e.formData?.rfiEmailCorrespondance || [];
+    
+    // Detect new file uploads
+    const hasNewFiles = newEmailFiles.length > oldEmailFiles.length;
+    const newFiles = hasNewFiles 
+      ? newEmailFiles.slice(oldEmailFiles.length) 
+      : [];
+
     updateRfiJsonData({
       variables: {
         input: {
@@ -75,6 +93,26 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
       },
       optimisticResponse: {
         jsonData: e.formData,
+      },
+      onCompleted: () => {
+        // Send email notification if new files were uploaded
+        if (hasNewFiles && newFiles.length > 0) {
+          const fileNames = newFiles.map((file: any) => file.name);
+          const fileDetails = newFiles.map((file: any) => ({
+            name: file.name,
+            type: file.type || 'Unknown',
+            uploadedAt: file.uploadedAt,
+          }));
+
+          notifyDocumentUpload(appRowId?.toString() || applicationId, {
+            ccbcNumber,
+            documentType: 'Email Correspondence',
+            documentNames: fileNames,
+            fileDetails,
+            timestamp: new Date().toLocaleString(),
+            rfiNumber,
+          });
+        }
       },
       onError: (err) => {
         // eslint-disable-next-line no-console
