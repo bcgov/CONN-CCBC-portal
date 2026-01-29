@@ -5,6 +5,7 @@ query getIntakeIdQuery($ccbcIntakeNumber: Int!) {
   allIntakes (condition: {ccbcIntakeNumber: $ccbcIntakeNumber }) {
     nodes {
       closeTimestamp
+      ccbcIntakeNumber
       rowId
     }
   }
@@ -22,7 +23,11 @@ const getIntakeId = async (req) => {
       `Failed to retrieve intake data:\n${intakes.errors.join('\n')}`
     );
   }
-  return intakes.data.allIntakes.nodes[0].rowId;
+  const intake = intakes.data.allIntakes.nodes[0];
+  return {
+    intakeId: intake?.rowId,
+    intakeNumber: intake?.ccbcIntakeNumber,
+  };
 };
 
 export default getIntakeId;
