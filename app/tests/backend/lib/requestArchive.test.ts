@@ -73,6 +73,7 @@ describe('The attachments archive', () => {
           allIntakes: {
             nodes: [
               {
+                ccbcIntakeNumber: 1,
                 rowId: 1,
               },
             ],
@@ -103,6 +104,47 @@ describe('The attachments archive', () => {
     );
   });
 
+  it('should name archive using ccbc intake number', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async () => {
+      return {
+        data: {
+          allIntakes: {
+            nodes: [
+              {
+                ccbcIntakeNumber: 6,
+                rowId: 99,
+              },
+            ],
+          },
+          allApplications: {
+            nodes: [
+              {
+                formData: {
+                  jsonData: {},
+                },
+                ccbcNumber: 'CCBC-100001',
+              },
+            ],
+          },
+        },
+      };
+    });
+    mockObjectExists = { alreadyExists: true, requestedAt: null };
+    const response = await request(app).get('/api/analyst/admin-archive/6');
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-disposition']).toMatch(
+      /attachment; filename=Intake_6_attachments.zip/
+    );
+  });
+
   it('should receive the correct response when archive is not ready', async () => {
     mocked(getAuthRole).mockImplementation(() => {
       return {
@@ -117,6 +159,7 @@ describe('The attachments archive', () => {
           allIntakes: {
             nodes: [
               {
+                ccbcIntakeNumber: 1,
                 rowId: 1,
               },
             ],
@@ -157,6 +200,7 @@ describe('The attachments archive', () => {
           allIntakes: {
             nodes: [
               {
+                ccbcIntakeNumber: 1,
                 rowId: 1,
               },
             ],
@@ -209,6 +253,7 @@ describe('The attachments archive', () => {
           allIntakes: {
             nodes: [
               {
+                ccbcIntakeNumber: 1,
                 rowId: 1,
               },
             ],
