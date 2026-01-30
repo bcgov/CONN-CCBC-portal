@@ -5,6 +5,7 @@ query getAllIntakeQuery {
   allIntakes {
     nodes {
       closeTimestamp
+      ccbcIntakeNumber
       rowId
     }
   }
@@ -26,7 +27,13 @@ const getLastIntakeId = async (req) => {
   const index = sorted.findIndex(
     (x) => Date.parse(x.closeTimestamp) < Date.now()
   );
-  return index === -1 ? index : sorted[index].rowId;
+  if (index === -1) {
+    return { intakeId: index, intakeNumber: index };
+  }
+  return {
+    intakeId: sorted[index].rowId,
+    intakeNumber: sorted[index].ccbcIntakeNumber,
+  };
 };
 
 export default getLastIntakeId;

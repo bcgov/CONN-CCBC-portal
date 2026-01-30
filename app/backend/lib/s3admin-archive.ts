@@ -84,15 +84,20 @@ s3adminArchive.get('/api/analyst/admin-archive/:intake', async (req, res) => {
   }
   let { intake } = req.params;
   const { isRollingIntake } = req.query;
+  let intakeNumber = intake;
   if (intake === '-1') {
-    intake = await getLastIntakeId(req);
+    const latest = await getLastIntakeId(req);
+    intake = latest?.intakeId;
+    intakeNumber = latest?.intakeNumber;
   } else {
-    intake = await getIntakeId(req);
+    const selected = await getIntakeId(req);
+    intake = selected?.intakeId;
+    intakeNumber = selected?.intakeNumber ?? intakeNumber;
   }
   if (intake === '-1') {
     throw new Error('Wrong intake id');
   }
-  const s3Key = `Intake_${intake}_attachments`;
+  const s3Key = `Intake_${intakeNumber}_attachments`;
   const s3params = {
     Bucket: AWS_S3_DATA_BUCKET,
     Key: `${s3Key}.zip`,
