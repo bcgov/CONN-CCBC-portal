@@ -9,7 +9,6 @@ import {
   CHANGE_LOG_HEADER_CELL,
   HEADER_ROW,
   HEADER_ROW_WITH_CHANGE_LOG,
-  generateHeaderInfoRow,
 } from './header';
 import columnOptions, { columnOptionsWithChangeLog } from './column_options';
 import {
@@ -175,6 +174,11 @@ const getCcbcQuery = `
                 }
               }
             }
+            applicationStatusesByApplicationId {
+              nodes {
+                status
+              }
+            }
             ccbcNumber
             externalStatus
             internalDescription
@@ -219,11 +223,118 @@ const getReportingGcpeQuery = `
   }
 `;
 
+const REPORT_TIMEZONE = 'America/Los_Angeles';
+const GENERATED_ON_PREFIX = 'Generated on ';
+const COMPARING_WITH_PREFIX = 'Comparing with ';
+
+const methodsColumnOptions = [{ width: 80 }];
+
+const formatReportTimestamp = (): string =>
+  DateTime.now()
+    .setZone(REPORT_TIMEZONE)
+    .toLocaleString(DateTime.DATETIME_FULL);
+
+const extractGeneratedOnFromMethodsSheet = (methodsSheet) => {
+  const value = methodsSheet?.[0]?.[0]?.value;
+  if (typeof value !== 'string') {
+    return null;
+  }
+  if (value.startsWith(GENERATED_ON_PREFIX)) {
+    return value.slice(GENERATED_ON_PREFIX.length).trim();
+  }
+  return null;
+};
+
+const extractGeneratedOnFromLegacyInfoRow = (mainSheet) => {
+  const value = mainSheet?.[0]?.[0]?.value;
+  if (typeof value !== 'string') {
+    return null;
+  }
+  const match = value.match(/GENERATED:\s*(.*)$/);
+  return match?.[1]?.trim() || null;
+};
+
+const splitReportData = (reportData) => {
+  if (Array.isArray(reportData?.[0]?.[0])) {
+    return { mainSheet: reportData[0], methodsSheet: reportData[1] };
+  }
+  return { mainSheet: reportData, methodsSheet: null };
+};
+
+const stripLegacyHeaderRow = (mainSheet) => {
+  const value = mainSheet?.[0]?.[0]?.value;
+  if (
+    typeof value === 'string' &&
+    value.includes('INTERNAL USE ONLY') &&
+    value.includes('GENERATED:')
+  ) {
+    return mainSheet.slice(1);
+  }
+  return mainSheet;
+};
+
+const normalizeReportData = (reportData) => {
+  const { mainSheet, methodsSheet } = splitReportData(reportData || []);
+  const normalizedMainSheet = stripLegacyHeaderRow(mainSheet || []);
+  const generatedOn =
+    extractGeneratedOnFromMethodsSheet(methodsSheet) ||
+    extractGeneratedOnFromLegacyInfoRow(mainSheet);
+  return { mainSheet: normalizedMainSheet, methodsSheet, generatedOn };
+};
+
+const replaceNullCellValues = (rows: Row[]) => {
+  rows.forEach((row) => {
+    row.forEach((cell) => {
+      if (!cell || typeof cell !== 'object') {
+        return;
+      }
+      if (cell.value === null || cell.value === undefined) {
+        // Use a single space so adjacent cells don't overflow into blanks.
+        // eslint-disable-next-line no-param-reassign
+        cell.value = ' ';
+        // Remove number formatting/types for blank placeholder cells.
+        // eslint-disable-next-line no-param-reassign
+        delete cell.type;
+        // eslint-disable-next-line no-param-reassign
+        delete cell.format;
+      }
+    });
+  });
+};
+
+const buildMethodsSheet = ({
+  generatedOn,
+  comparingWith,
+}: {
+  generatedOn: string;
+  comparingWith?: string | null;
+}): Row[] => {
+  const rows: Row[] = [
+    [
+      {
+        value: `${GENERATED_ON_PREFIX}${generatedOn}`,
+        type: String,
+        wrap: true,
+      },
+    ],
+  ];
+  if (comparingWith) {
+    rows.push([
+      {
+        value: `${COMPARING_WITH_PREFIX}${comparingWith}`,
+        type: String,
+        wrap: true,
+      },
+    ]);
+  }
+  return rows;
+};
+
 /**
  * To determine whether old saved reports have a change log column
  */
 const hasChangeLogColumn = (excelData: Row[]) => {
-  const headerRow = excelData?.[1];
+  const headerRow = excelData?.[0];
   return (
     headerRow?.some((cell) => cell?.value === CHANGE_LOG_HEADER_CELL.value) ??
     false
@@ -236,9 +347,17 @@ export const regenerateGcpeReport = async (rowId, req) => {
     { rowId: parseInt(rowId, 10) },
     req
   );
-  let excelData = queryResult.data.reportingGcpeByRowId.reportData;
+  const { reportData } = queryResult.data.reportingGcpeByRowId;
+  const { mainSheet, methodsSheet, generatedOn } =
+    normalizeReportData(reportData);
+  const reportGeneratedOn = generatedOn || formatReportTimestamp();
+  const normalizedMethodsSheet =
+    methodsSheet?.length > 0
+      ? methodsSheet
+      : buildMethodsSheet({ generatedOn: reportGeneratedOn });
+  replaceNullCellValues(mainSheet);
   // due to the way GraphQL mutation handles de/serialization, we need to reformat the data
-  excelData.forEach((row) => {
+  mainSheet.forEach((row) => {
     row.forEach((cell) => {
       if (cell?.format === '$#,##0.00' || cell?.format === '0%') {
         // eslint-disable-next-line no-param-reassign
@@ -246,18 +365,18 @@ export const regenerateGcpeReport = async (rowId, req) => {
       }
     });
   });
-  const includeChangeLog = hasChangeLogColumn(excelData);
-  // skip changelog data for regeneration
-  if (includeChangeLog) {
-    excelData = excelData.map((row) => row.slice(0, -1));
-  }
-  const blob = await writeXlsxFile(excelData as any, {
+  const includeChangeLog = hasChangeLogColumn(mainSheet);
+  const mainSheetColumns = includeChangeLog
+    ? columnOptionsWithChangeLog
+    : columnOptions;
+  const blob = await writeXlsxFile([mainSheet, normalizedMethodsSheet] as any, {
     fontFamily: 'BC Sans',
     fontSize: 12,
     dateFormat: 'yyyy-mm-dd',
     stickyColumnsCount: 7,
-    sheet: 'GCPE Report',
-    columns: columnOptions,
+    stickyRowsCount: 1,
+    sheets: ['GCPE Report', 'Methods'],
+    columns: [mainSheetColumns, methodsColumnOptions],
   });
   return blob;
 };
@@ -268,10 +387,8 @@ const generateExcelData = async (
   compare = false,
   prevExcelData?
 ) => {
-  const infoRow = generateHeaderInfoRow();
-
   const headerRow = compare ? HEADER_ROW_WITH_CHANGE_LOG : HEADER_ROW;
-  const excelData = [infoRow, headerRow];
+  const excelData = [headerRow];
 
   cbcData?.data?.allCbcData?.edges?.forEach(async (edges) => {
     const { node } = edges;
@@ -417,7 +534,7 @@ const generateExcelData = async (
     ];
     // when a comparison report --> add changeLog placeholder
     if (compare) {
-      row.push({ value: '' });
+      row.push({ value: ' ' });
     }
     excelData.push(row);
   });
@@ -453,6 +570,18 @@ const generateExcelData = async (
     const milestoneProgress =
       node?.applicationMilestoneExcelDataByApplicationId?.nodes[0]?.jsonData
         ?.overallMilestoneProgress ?? null;
+
+    const statusHistory = node?.applicationStatusesByApplicationId?.nodes
+      ?.map((statusNode) => statusNode?.status)
+      .filter(Boolean);
+    const currentStatusFromHistory =
+      statusHistory?.length > 0
+        ? statusHistory[statusHistory.length - 1]
+        : null;
+    const previousStatusFromHistory =
+      statusHistory?.length > 1
+        ? statusHistory[statusHistory.length - 2]
+        : null;
 
     const row: Row = [
       // program
@@ -499,7 +628,11 @@ const generateExcelData = async (
       // federal funding source
       { value: getCCBCFederalFundingSource(node) },
       // status
-      { value: convertStatus(node?.analystStatus) },
+      {
+        value: convertStatus(node?.analystStatus),
+        previousStatus: previousStatusFromHistory,
+        currentStatus: currentStatusFromHistory,
+      } as any,
       // project milestone complete percent
       {
         value: milestoneProgress
@@ -639,14 +772,19 @@ const generateExcelData = async (
     ];
     // when a comparison report --> add changeLog placeholder
     if (compare) {
-      row.push({ value: '' });
+      row.push({ value: ' ' });
     }
     excelData.push(row);
   });
   if (compare) {
+    replaceNullCellValues(excelData);
+    if (prevExcelData) {
+      replaceNullCellValues(prevExcelData);
+    }
     const markedExcelData = compareAndMarkArrays(excelData, prevExcelData);
     return { marked: markedExcelData, unmarked: excelData };
   }
+  replaceNullCellValues(excelData);
   return excelData;
 };
 
@@ -659,15 +797,18 @@ export const generateGcpeReport = async (req) => {
     return e;
   });
 
-  const excelData = await generateExcelData(cbcData, ccbcData);
-
-  const blob = await writeXlsxFile(excelData as any, {
+  const excelData = (await generateExcelData(cbcData, ccbcData)) as Row[];
+  replaceNullCellValues(excelData);
+  const generatedOn = formatReportTimestamp();
+  const methodsSheet = buildMethodsSheet({ generatedOn });
+  const blob = await writeXlsxFile([excelData, methodsSheet] as any, {
     fontFamily: 'BC Sans',
     fontSize: 12,
     dateFormat: 'yyyy-mm-dd',
     stickyColumnsCount: 7,
-    sheet: 'GCPE Report',
-    columns: columnOptions,
+    stickyRowsCount: 1,
+    sheets: ['GCPE Report', 'Methods'],
+    columns: [columnOptions, methodsColumnOptions],
   });
   let mutationResult;
   if (blob) {
@@ -676,7 +817,7 @@ export const generateGcpeReport = async (req) => {
       {
         input: {
           reportingGcpe: {
-            reportData: excelData,
+            reportData: [excelData, methodsSheet],
           },
         },
       },
@@ -703,9 +844,12 @@ export const compareAndGenerateGcpeReport = async (compareRowId, req) => {
     { rowId: parseInt(compareRowId, 10) },
     req
   );
-  const previousExcelData = queryResult.data.reportingGcpeByRowId.reportData;
+  const previousReportData = queryResult.data.reportingGcpeByRowId.reportData;
+  const { mainSheet: previousMainSheet, generatedOn: previousGeneratedOn } =
+    normalizeReportData(previousReportData);
+  replaceNullCellValues(previousMainSheet);
   // due to the way GraphQL mutation handles de/serialization, we need to reformat the data
-  previousExcelData.forEach((row) => {
+  previousMainSheet.forEach((row) => {
     row.forEach((cell) => {
       if (cell?.format === '$#,##0.00' || cell?.format === '0%') {
         // eslint-disable-next-line no-param-reassign
@@ -718,17 +862,23 @@ export const compareAndGenerateGcpeReport = async (compareRowId, req) => {
     cbcData,
     ccbcData,
     true,
-    previousExcelData
+    previousMainSheet
   );
   const excelData = data.marked;
   const unmarkedExcelData = data.unmarked;
-  const blob = await writeXlsxFile(excelData as any, {
+  replaceNullCellValues(excelData);
+  replaceNullCellValues(unmarkedExcelData);
+  const generatedOn = formatReportTimestamp();
+  const comparingWith = previousGeneratedOn || formatReportTimestamp();
+  const methodsSheet = buildMethodsSheet({ generatedOn, comparingWith });
+  const blob = await writeXlsxFile([excelData, methodsSheet] as any, {
     fontFamily: 'BC Sans',
     fontSize: 12,
     dateFormat: 'yyyy-mm-dd',
     stickyColumnsCount: 7,
-    sheet: 'GCPE Report',
-    columns: columnOptionsWithChangeLog,
+    stickyRowsCount: 1,
+    sheets: ['GCPE Report', 'Methods'],
+    columns: [columnOptionsWithChangeLog, methodsColumnOptions],
   });
   let mutationResult;
   if (blob) {
@@ -737,7 +887,7 @@ export const compareAndGenerateGcpeReport = async (compareRowId, req) => {
       {
         input: {
           reportingGcpe: {
-            reportData: unmarkedExcelData,
+            reportData: [unmarkedExcelData, methodsSheet],
           },
         },
       },
@@ -765,9 +915,15 @@ export const compareGcpeReports = async (sourceRowId, targetRowId, req) => {
     sourceQueryResult.data.reportingGcpeByRowId.reportData;
   const targetExcelData =
     targetQueryResult.data.reportingGcpeByRowId.reportData;
+  const { mainSheet: sourceMainSheet } =
+    normalizeReportData(sourceExcelData);
+  const { mainSheet: targetMainSheet, generatedOn: targetGeneratedOn } =
+    normalizeReportData(targetExcelData);
+  replaceNullCellValues(sourceMainSheet);
+  replaceNullCellValues(targetMainSheet);
   const markedExcelData = compareAndMarkArrays(
-    sourceExcelData,
-    targetExcelData
+    sourceMainSheet,
+    targetMainSheet
   );
   // due to the way GraphQL mutation handles de/serialization, we need to reformat the data
   markedExcelData.forEach((row) => {
@@ -778,15 +934,17 @@ export const compareGcpeReports = async (sourceRowId, targetRowId, req) => {
       }
     });
   });
-  // modify header to show correct time of comparison
-  markedExcelData[0][0].value = `INTERNAL USE ONLY: Not to be distributed outside Ministry of Citizens' Services\nGENERATED: ${DateTime.now().setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}`;
-  const blob = await writeXlsxFile(markedExcelData as any, {
+  const generatedOn = formatReportTimestamp();
+  const comparingWith = targetGeneratedOn || formatReportTimestamp();
+  const methodsSheet = buildMethodsSheet({ generatedOn, comparingWith });
+  const blob = await writeXlsxFile([markedExcelData, methodsSheet] as any, {
     fontFamily: 'BC Sans',
     fontSize: 12,
     dateFormat: 'yyyy-mm-dd',
     stickyColumnsCount: 7,
-    sheet: 'GCPE Report',
-    columns: columnOptionsWithChangeLog,
+    stickyRowsCount: 1,
+    sheets: ['GCPE Report', 'Methods'],
+    columns: [columnOptionsWithChangeLog, methodsColumnOptions],
   });
   return blob;
 };
