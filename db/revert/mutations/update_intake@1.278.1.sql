@@ -1,9 +1,8 @@
 -- Deploy ccbc:mutations/update_intake to pg
 
 begin;
-
-drop function if exists ccbc_public.update_intake;
-create or replace function ccbc_public.update_intake(intake_number int, start_time timestamp with time zone, end_time timestamp with time zone, intake_description text default '', is_rolling_intake boolean default false)
+drop function if exists ccbc_public.update_intake(intake_number int, start_time timestamp with time zone, end_time timestamp with time zone, intake_description text, is_rolling_intake boolean);
+create or replace function ccbc_public.update_intake(intake_number int, start_time timestamp with time zone, end_time timestamp with time zone, intake_description text default '')
 returns ccbc_public.intake as $$
 declare
   next_intake int;
@@ -39,7 +38,7 @@ begin
   end if;
 
   update ccbc_public.intake
-  set open_timestamp = start_time, close_timestamp = end_time, description = intake_description, rolling_intake = is_rolling_intake
+  set open_timestamp = start_time, close_timestamp = end_time, description = intake_description
   where ccbc_intake_number = intake_number and archived_at is null;
 
   return (select row(ccbc_public.intake.*) from ccbc_public.intake where ccbc_intake_number = intake_number and archived_at is null

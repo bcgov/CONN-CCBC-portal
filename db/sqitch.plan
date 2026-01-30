@@ -868,3 +868,7 @@ computed_columns/change_log [computed_columns/change_log@1.278.1] 2026-01-07T00:
 mutations/update_announcement [mutations/update_announcement@1.278.1] 2026-01-22T03:07:40Z ,,, <rranathu@NH504670> # add history_operation delete to application removals
 @1.288.2 2026-01-26T17:18:28Z CCBC Service Account <ccbc@button.is> # release v1.288.2
 @1.289.0 2026-01-26T18:34:57Z CCBC Service Account <ccbc@button.is> # release v1.289.0
+tables/intake_010_add_zones_column 2026-01-26T23:19:39Z ,,, <rranathu@NH504670> # add zones column to intake table
+tables/intake_011_add_allow_unlisted_fn_led_zones_column 2026-01-27T18:40:00Z ,,, <rranathu@NH504670> # add allow_unlisted_fn_led_zones column to intake table
+mutations/create_intake [mutations/create_intake@1.278.1] 2026-01-27T01:55:46Z ,,, <rranathu@NH504670> # add hidden code and zones when creating an invite only intake
+mutations/update_intake [mutations/update_intake@1.278.1] 2026-01-27T02:16:02Z ,,, <rranathu@NH504670> # add hidden code and zones when creating an invite only intake

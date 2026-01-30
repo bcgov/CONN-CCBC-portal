@@ -47,6 +47,7 @@ const mockQueryPayload = {
       intakeByIntakeId: {
         ccbcIntakeNumber: 1,
         closeTimestamp: null,
+        zones: [1],
       },
       status: 'draft',
     };
@@ -100,6 +101,7 @@ const submissionPayload = {
       },
       intakeByIntakeId: {
         ccbcIntakeNumber: 1,
+        zones: [1],
       },
     };
   },
@@ -144,6 +146,7 @@ const mockQueryPayloadRollingIntake = {
       intakeByIntakeId: {
         ccbcIntakeNumber: 1,
         closeTimestamp: null,
+        zones: [1],
       },
       status: 'draft',
     };
@@ -360,6 +363,7 @@ describe('The submission form page', () => {
           },
           intakeByIntakeId: {
             ccbcIntakeNumber: 1,
+            zones: [1],
           },
         };
       },
@@ -370,6 +374,7 @@ describe('The submission form page', () => {
       query: data.query,
     }));
 
+    expect(screen.getByRole('button', { name: 'Submit' })).toBeEnabled();
     await userEvent.click(screen.getByRole('button', { name: 'Submit' }));
 
     // After the first mutation completes, we still don't redirect

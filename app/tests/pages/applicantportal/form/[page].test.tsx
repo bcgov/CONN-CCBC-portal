@@ -19,6 +19,8 @@ const mockQueryPayload = {
         intakeByIntakeId: {
           ccbcIntakeNumber: 1,
           closeTimestamp: '2022-09-06T23:59:59-07:00',
+          zones: [1, 2, 3, 4, 5],
+          allowUnlistedFnLedZones: true,
         },
         projectName: 'Project testing title',
         updatedAt: '2022-08-15T16:43:28.973734-04:00',
@@ -126,6 +128,8 @@ describe('The form page', () => {
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
               closeTimestamp: '2022-09-06T23:59:59-07:00',
+              zones: [1, 2, 3, 4, 5],
+              allowUnlistedFnLedZones: true,
             },
             projectName: 'Project testing title',
             updatedAt: '2022-08-15T16:43:28.973734-04:00',
@@ -159,6 +163,8 @@ describe('The form page', () => {
             intakeByIntakeId: {
               ccbcIntakeNumber: 1,
               closeTimestamp: '2022-09-06T23:59:59-07:00',
+              zones: [1, 2, 3, 4, 5],
+              allowUnlistedFnLedZones: true,
             },
             projectName: 'Project testing title',
             updatedAt: '2022-08-15T16:43:28.973734-04:00',
@@ -231,6 +237,8 @@ describe('The form page', () => {
             intakeByIntakeId: {
               ccbcIntakeNumber: 3,
               closeTimestamp: '2022-09-06T23:59:59-07:00',
+              zones: [9, 10],
+              allowUnlistedFnLedZones: true,
             },
             formData: {
               formByFormSchemaId: {
@@ -249,6 +257,8 @@ describe('The form page', () => {
           openIntake: {
             closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
             ccbcIntakeNumber: 3,
+            zones: [9, 10],
+            allowUnlistedFnLedZones: true,
           },
           session: {
             sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
@@ -300,6 +310,8 @@ describe('The form page', () => {
                 node: {
                   ccbcIntakeNumber: 3,
                   closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
+                  zones: [9, 10],
+                  allowUnlistedFnLedZones: true,
                 },
               },
             ],
@@ -321,6 +333,62 @@ describe('The form page', () => {
 
     const projectAreasText = screen.getByText(/within zones 9,10/);
     expect(projectAreasText).toBeInTheDocument();
+  });
+
+  it('shows non-first-nation-led project area messgae when allowUnlistedFnLedZones is false', async () => {
+    const payload = {
+      Query() {
+        return {
+          applicationByRowId: {
+            status: 'draft',
+            ccbcNumber: 'CCBC-010001',
+            projectName: 'Project testing title',
+            updatedAt: '2022-08-15T16:43:28.973734-04:00',
+            intakeByIntakeId: null,
+            formData: {
+              formByFormSchemaId: {
+                jsonSchema: schema,
+              },
+            },
+          },
+          allForms: {
+            nodes: [
+              {
+                rowId: 10,
+                jsonSchema: schemaV2,
+              },
+            ],
+          },
+          openIntake: {
+            closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
+            ccbcIntakeNumber: 3,
+            zones: [9, 10],
+            allowUnlistedFnLedZones: false,
+          },
+          session: {
+            sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+          },
+        };
+      },
+    };
+    pageTestingHelper.setMockRouterValues({
+      query: { id: '1', page: '2' },
+    });
+
+    pageTestingHelper.loadQuery(payload);
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText(
+        /IMPORTANT: For Intake 3, CCBC is considering the following projects:/i
+      )
+    ).toBeInTheDocument();
+    expect(screen.getByText(/within zones 9,10/i)).toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        /Projects that are First Nation-led or First Nation-supported/i
+      )
+    ).not.toBeInTheDocument();
   });
 
   it('shows intake 4 project area text', async () => {
@@ -354,6 +422,8 @@ describe('The form page', () => {
                 node: {
                   ccbcIntakeNumber: 4,
                   closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
+                  zones: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+                  allowUnlistedFnLedZones: true,
                 },
               },
             ],
@@ -377,6 +447,120 @@ describe('The form page', () => {
       /CCBC will accept applications for all eligible areas in the Province/
     );
     expect(projectAreasText).toBeInTheDocument();
+  });
+
+  it('shows first-nation-led acceptance message for intake 4 when allowUnlistedFnLedZones is true', async () => {
+    const payload = {
+      Query() {
+        return {
+          applicationByRowId: {
+            status: 'draft',
+            ccbcNumber: 'CCBC-010001',
+            projectName: 'Project testing title',
+            updatedAt: '2022-08-15T16:43:28.973734-04:00',
+            formData: {
+              formByFormSchemaId: {
+                jsonSchema: schema,
+              },
+            },
+            intakeByIntakeId: null,
+          },
+          allForms: {
+            nodes: [
+              {
+                rowId: 10,
+                jsonSchema: schemaV2,
+              },
+            ],
+          },
+          openIntake: null,
+          allIntakes: {
+            edges: [
+              {
+                node: {
+                  ccbcIntakeNumber: 4,
+                  closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
+                  zones: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+                  allowUnlistedFnLedZones: true,
+                },
+              },
+            ],
+          },
+          session: {
+            sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+          },
+        };
+      },
+    };
+    pageTestingHelper.setMockRouterValues({
+      query: { id: '1', page: '2' },
+    });
+
+    pageTestingHelper.loadQuery(payload);
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.getByText(
+        /Projects that are First Nation-led or First Nation-supported/i
+      )
+    ).toBeInTheDocument();
+  });
+
+  it('does not show FN-led acceptance copy for intake 4 when allowUnlistedFnLedZones is false', async () => {
+    const payload = {
+      Query() {
+        return {
+          applicationByRowId: {
+            status: 'draft',
+            ccbcNumber: 'CCBC-010001',
+            projectName: 'Project testing title',
+            updatedAt: '2022-08-15T16:43:28.973734-04:00',
+            formData: {
+              formByFormSchemaId: {
+                jsonSchema: schema,
+              },
+            },
+            intakeByIntakeId: null,
+          },
+          allForms: {
+            nodes: [
+              {
+                rowId: 10,
+                jsonSchema: schemaV2,
+              },
+            ],
+          },
+          openIntake: null,
+          allIntakes: {
+            edges: [
+              {
+                node: {
+                  ccbcIntakeNumber: 4,
+                  closeTimestamp: '2022-08-27T12:52:00.00000-04:00',
+                  zones: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+                  allowUnlistedFnLedZones: false,
+                },
+              },
+            ],
+          },
+          session: {
+            sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+          },
+        };
+      },
+    };
+    pageTestingHelper.setMockRouterValues({
+      query: { id: '1', page: '2' },
+    });
+
+    pageTestingHelper.loadQuery(payload);
+    pageTestingHelper.renderPage();
+
+    expect(
+      screen.queryByText(
+        /Projects that are First Nation-led or First Nation-supported/i
+      )
+    ).not.toBeInTheDocument();
   });
 
   it('shows accepted project areas and handles modal', async () => {
@@ -421,6 +605,8 @@ describe('The form page', () => {
           intakeByIntakeId: {
             ccbcIntakeNumber: 3,
             closeTimestamp: '2022-09-06T23:59:59-07:00',
+            zones: [9, 10],
+            allowUnlistedFnLedZones: true,
           },
           formData: {
             formByFormSchemaId: {
@@ -518,6 +704,8 @@ describe('The form page', () => {
           intakeByIntakeId: {
             ccbcIntakeNumber: 3,
             closeTimestamp: '2022-09-06T23:59:59-07:00',
+            zones: [9, 10],
+            allowUnlistedFnLedZones: true,
           },
           formData: {
             formByFormSchemaId: {
@@ -588,11 +776,9 @@ describe('The form page', () => {
         },
       }
     );
-    const modal = screen.getByText(
-      /Invalid selection. Please first choose from Zones/i
-    );
-
-    expect(modal).toBeInTheDocument();
+    expect(
+      screen.queryByText(/Invalid selection. Please first choose from Zones/i)
+    ).not.toBeInTheDocument();
   });
 
   it('project area page should not allow null on geographic area after submission', async () => {

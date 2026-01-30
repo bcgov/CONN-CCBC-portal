@@ -11,6 +11,12 @@ const intakeUiSchema = {
   endDate: {
     'ui:widget': 'DateTimePickerWidget',
   },
+  zones: {
+    'ui:widget': 'CheckboxesWidget',
+    'ui:options': {
+      checkboxDirection: 'column',
+    },
+  },
   description: {
     'ui:options': {
       maxLength: 150,
@@ -22,6 +28,18 @@ const intakeUiSchema = {
     'ui:widget': 'CheckboxWidget',
     'ui:options': {
       title: 'Is Rolling intake',
+    },
+  },
+  inviteOnlyIntake: {
+    'ui:widget': 'CheckboxWidget',
+    'ui:options': {
+      title: 'Invite only intake',
+    },
+  },
+  allowUnlistedFnLedZones: {
+    'ui:widget': 'CheckboxWidget',
+    'ui:options': {
+      title: 'Allow unlisted zones if FN based/led',
     },
   },
 };

@@ -8,6 +8,7 @@ import { Layout } from 'components';
 import { AddIntake, AdminTabs, Intake } from 'components/Admin';
 import { applicationIntakesQuery } from '__generated__/applicationIntakesQuery.graphql';
 import { DateTime } from 'luxon';
+import ALL_INTAKE_ZONES from 'data/intakeZones';
 
 const getApplicationIntakesQuery = graphql`
   query applicationIntakesQuery {
@@ -25,6 +26,10 @@ const getApplicationIntakesQuery = graphql`
           closeTimestamp
           openTimestamp
           rollingIntake
+          zones
+          allowUnlistedFnLedZones
+          hidden
+          hiddenCode
           rowId
 
           ...Intake_query
@@ -59,6 +64,8 @@ const ApplicationIntakes = ({
   const [isIntakeEdit, setIsIntakeEdit] = useState(false);
   const [formData, setFormData] = useState({
     intakeNumber: newIntakeNumber,
+    zones: [...ALL_INTAKE_ZONES],
+    allowUnlistedFnLedZones: false,
   } as any);
   const [isStartDateDisabled, setIsStartDateDisabled] = useState(false);
 
@@ -76,6 +83,9 @@ const ApplicationIntakes = ({
       description,
       openTimestamp,
       rollingIntake,
+      zones,
+      hiddenCode,
+      allowUnlistedFnLedZones,
     } = intake;
 
     const currentDateTime = DateTime.now();
@@ -90,6 +100,9 @@ const ApplicationIntakes = ({
       endDate: closeTimestamp,
       description,
       rollingIntake,
+      zones: zones?.length ? zones : [...ALL_INTAKE_ZONES],
+      inviteOnlyIntake: !!hiddenCode,
+      allowUnlistedFnLedZones: allowUnlistedFnLedZones ?? false,
     });
     if (currentDateTime >= intakeStartDate) {
       setIsStartDateDisabled(true);
