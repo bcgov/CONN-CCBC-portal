@@ -1,3 +1,9 @@
+## [1.290.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.290.2...v1.290.3) (2026-01-30)
+
+### Bug Fixes
+
+- leaflet controls above header ([d6a5db7](https://github.com/bcgov/CONN-CCBC-portal/commit/d6a5db7ec6962ec4ab9e2d664ca616adae1b0527))
+
 ## [1.290.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.290.0...v1.290.2) (2026-01-30)
 
 ### Bug Fixes
