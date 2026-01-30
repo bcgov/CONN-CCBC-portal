@@ -52,6 +52,7 @@ const moduleExports = {
     ENABLE_MOCK_TIME: convictConfig.get('ENABLE_MOCK_TIME'),
     OPENSHIFT_APP_NAMESPACE: convictConfig.get('OPENSHIFT_APP_NAMESPACE'),
     SITEMINDER_LOGOUT_URL: convictConfig.get('SITEMINDER_LOGOUT_URL'),
+    COVERAGES_FILE_NAME: convictConfig.get('COVERAGES_FILE_NAME'),
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if

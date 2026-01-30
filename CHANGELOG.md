@@ -1,3 +1,9 @@
+## [1.290.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.290.0...v1.290.2) (2026-01-30)
+
+### Bug Fixes
+
+- add missing coverages file name ([5ed0b64](https://github.com/bcgov/CONN-CCBC-portal/commit/5ed0b641adcb39bd68bb5d4299538c07c2f43afc))
+
 ## [1.290.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.290.0...v1.290.1) (2026-01-27)
 
 # [1.290.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.289.1...v1.290.0) (2026-01-27)
