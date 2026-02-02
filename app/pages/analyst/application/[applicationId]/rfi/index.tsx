@@ -16,6 +16,8 @@ const GuideContainer = styled.div`
 const getRfiQuery = graphql`
   query rfiQuery($rowId: Int!) {
     applicationByRowId(rowId: $rowId) {
+      rowId
+      ccbcNumber
       applicationRfiDataByApplicationId(orderBy: RFI_DATA_ID_DESC) {
         edges {
           node {
@@ -68,6 +70,8 @@ const RFIPage = ({
                   key={rfi.id}
                   rfiDataByRfiDataId={rfi}
                   id={rfi.id as string}
+                  ccbcNumber={applicationByRowId.ccbcNumber}
+                  applicationRowId={applicationByRowId.rowId}
                 />
               );
             }
