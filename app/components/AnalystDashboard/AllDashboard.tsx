@@ -29,7 +29,7 @@ import statusStyles from 'data/statusStyles';
 import StatusInformationIcon from 'components/Analyst/StatusInformationIcon';
 import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
-import { Box, IconButton, MenuItem, TableCellProps } from '@mui/material';
+import { Box, MenuItem, TableCellProps } from '@mui/material';
 import { useFeature } from '@growthbook/growthbook-react';
 import getConfig from 'next/config';
 import { DateTime } from 'luxon';
@@ -996,22 +996,22 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     renderToolbarInternalActions: ({ table }) => (
       <Box>
         {(authRole === 'super_admin' || authRole === 'cbc_admin') && (
-          <IconButton size="small">
+          <Box component="span" sx={{ display: 'inline-flex' }}>
             <CbcCreateIcon handleClick={() => setIsCreateCbcModalOpen(true)} />
-          </IconButton>
+          </Box>
         )}
-        <IconButton size="small">
+        <Box component="span" sx={{ display: 'inline-flex' }}>
           <DownloadIcon
             handleClick={() => handleDownload(table.getRowModel().rows)}
             isLoading={isLoading}
           />
-        </IconButton>
+        </Box>
         <MRT_ShowHideColumnsButton table={table} />
         <MRT_ToggleDensePaddingButton table={table} />
         <MRT_ToggleFullScreenButton table={table} />
-        <IconButton size="small">
+        <Box component="span" sx={{ display: 'inline-flex' }}>
           <StatusInformationIcon />
-        </IconButton>
+        </Box>
       </Box>
     ),
     renderTopToolbarCustomActions: () => (
