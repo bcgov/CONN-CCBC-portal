@@ -225,7 +225,7 @@ const getReportingGcpeQuery = `
 
 const REPORT_TIMEZONE = 'America/Los_Angeles';
 const GENERATED_ON_PREFIX = 'Generated on ';
-const COMPARING_WITH_PREFIX = 'Comparing with ';
+const COMPARING_WITH_PREFIX = 'Comparing to previously created GCPE report on ';
 
 const methodsColumnOptions = [{ width: 80 }];
 
