@@ -14,6 +14,8 @@ import useEmailNotification from 'lib/helpers/useEmailNotification';
 interface Props {
   id: string;
   rfiDataByRfiDataId: any;
+  ccbcNumber?: string;
+  applicationRowId?: number;
 }
 
 const StyledContainer = styled.div`
@@ -41,7 +43,7 @@ const StyledFontAwesome = styled(FontAwesomeIcon)`
   cursor: pointer;
 `;
 
-const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
+const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id, ccbcNumber, applicationRowId }) => {
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
 
@@ -51,18 +53,12 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
         jsonData
         rfiNumber
         rowId
-        applicationByApplicationId {
-          ccbcNumber
-          rowId
-        }
       }
     `,
     rfiDataByRfiDataId
   );
 
   const { jsonData, rfiNumber, rowId } = queryFragment;
-  const ccbcNumber = queryFragment.applicationByApplicationId?.ccbcNumber;
-  const appRowId = queryFragment.applicationByApplicationId?.rowId;
 
   const [updateRfiJsonData] = useUpdateRfiJsonDataMutation();
   const { notifyDocumentUpload } = useEmailNotification();
@@ -104,7 +100,7 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
             uploadedAt: file.uploadedAt,
           }));
 
-          notifyDocumentUpload(appRowId?.toString() || applicationId, {
+          notifyDocumentUpload(applicationRowId?.toString() || applicationId, {
             ccbcNumber,
             documentType: 'Email Correspondence',
             documentNames: fileNames,

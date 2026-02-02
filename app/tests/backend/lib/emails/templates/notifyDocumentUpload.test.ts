@@ -112,4 +112,115 @@ describe('notifyDocumentUpload template', () => {
       `<li><em>template_1.xls</em></li><li><em>template_2.xls</em></li><li><em>template_9.xls</em></li>`
     );
   });
+
+  it('should include file type information when fileDetails are provided', () => {
+    const applicationId = '1';
+    const url = 'http://mock_host.ca';
+
+    const emailTemplate: any = notifyDocumentUpload(
+      applicationId,
+      url,
+      {},
+      {
+        ccbcNumber: 'CCBC-10001',
+        documentType: 'Email Correspondence',
+        documentNames: ['document.pdf', 'report.docx'],
+        fileDetails: [
+          {
+            name: 'document.pdf',
+            type: 'application/pdf',
+            uploadedAt: '2024/08/24 11:00:00',
+          },
+          {
+            name: 'report.docx',
+            type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            uploadedAt: '2024/08/24 11:05:00',
+          },
+        ],
+        timeStamp: '2024/08/24 11:00:00',
+      }
+    );
+
+    expect(emailTemplate.body).toContain(
+      `<li><em>document.pdf</em> <strong>(Type: application/pdf)</strong></li>`
+    );
+    expect(emailTemplate.body).toContain(
+      `<li><em>report.docx</em> <strong>(Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document)</strong></li>`
+    );
+  });
+
+  it('should handle Email Correspondence document type with correct RFI link', () => {
+    const applicationId = '1';
+    const url = 'http://mock_host.ca';
+
+    const emailTemplate: any = notifyDocumentUpload(
+      applicationId,
+      url,
+      {},
+      {
+        ccbcNumber: 'CCBC-10001',
+        documentType: 'Email Correspondence',
+        documentNames: ['email_file.pdf'],
+        fileDetails: [
+          {
+            name: 'email_file.pdf',
+            type: 'application/pdf',
+            uploadedAt: '2024/08/24 11:00:00',
+          },
+        ],
+        timeStamp: '2024/08/24 11:00:00',
+      }
+    );
+
+    expect(emailTemplate.subject).toBe('Email Correspondence uploaded in Portal');
+    expect(emailTemplate.body).toContain(
+      `<a href='http://mock_host.ca/analyst/application/1/rfi'>CCBC-10001</a>`
+    );
+    expect(emailTemplate.body).toContain(
+      `<li><em>email_file.pdf</em> <strong>(Type: application/pdf)</strong></li>`
+    );
+  });
+
+  it('should fall back to documentNames when fileDetails are not provided', () => {
+    const applicationId = '1';
+    const url = 'http://mock_host.ca';
+
+    const emailTemplate: any = notifyDocumentUpload(
+      applicationId,
+      url,
+      {},
+      {
+        ccbcNumber: 'CCBC-10001',
+        documentType: 'Email Correspondence',
+        documentNames: ['file1.pdf', 'file2.docx'],
+        timeStamp: '2024/08/24 11:00:00',
+      }
+    );
+
+    // Should not include type information
+    expect(emailTemplate.body).toContain(`<li><em>file1.pdf</em></li>`);
+    expect(emailTemplate.body).toContain(`<li><em>file2.docx</em></li>`);
+    expect(emailTemplate.body).not.toContain('Type:');
+  });
+
+  it('should handle empty fileDetails array gracefully', () => {
+    const applicationId = '1';
+    const url = 'http://mock_host.ca';
+
+    const emailTemplate: any = notifyDocumentUpload(
+      applicationId,
+      url,
+      {},
+      {
+        ccbcNumber: 'CCBC-10001',
+        documentType: 'Email Correspondence',
+        documentNames: [],
+        fileDetails: [],
+        timeStamp: '2024/08/24 11:00:00',
+      }
+    );
+
+    expect(emailTemplate.body).toContain('Email Correspondence uploaded in Portal');
+    expect(emailTemplate.body).toContain('<ul>');
+  });
 });
