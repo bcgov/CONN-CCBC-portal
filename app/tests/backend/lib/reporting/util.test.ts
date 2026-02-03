@@ -34,6 +34,10 @@ describe('Dashboard util functions', () => {
     expect(convertStatus('complete')).toBe('Reporting Complete');
   });
 
+  it('should return "Withdrawn" for "withdrawn"', () => {
+    expect(convertStatus('withdrawn')).toBe('Withdrawn');
+  });
+
   describe('compareAndMarkArrays percentage normalization', () => {
     const headerRow = [
       { value: 'Col0' },

@@ -14,6 +14,8 @@ export const convertStatus = (status: string): string => {
       return 'Reporting Complete';
     case 'merged':
       return 'Merged';
+    case 'withdrawn':
+      return 'Withdrawn';
     default:
       return status;
   }
@@ -126,6 +128,10 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
     'Notes',
   ];
 
+  // Columns that should be compared case-insensitively
+  // add more column names here as needed
+  const CASE_INSENSITIVE_COLUMNS = new Set(['status']);
+
   const normalizeHeaderName = (name) =>
     name ? String(name).replace(/\s+/g, '').toLowerCase() : '';
 
@@ -214,6 +220,9 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
             if (!Number.isNaN(parsed)) {
               return String(parsed / 100);
             }
+          }
+          if (CASE_INSENSITIVE_COLUMNS.has(normalizedHeaderName)) {
+            return trimmed.toLowerCase();
           }
           return trimmed;
         }
