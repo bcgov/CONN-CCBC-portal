@@ -121,7 +121,7 @@
     "url": "^0.11.4",
     "validator": "13.15.26",
     "vscode-json-languageservice": "^5.7.1",
-    "whatwg-url": "^15.1.0",
+    "whatwg-url": "^16.0.0",
     "write-excel-file": "^2.3.10",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.3/xlsx-0.19.3.tgz"
   },
