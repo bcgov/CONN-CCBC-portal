@@ -39,14 +39,17 @@ describe('Get Last Intake', () => {
             nodes: [
               {
                 closeTimestamp: '2022-11-06T09:00:00-08:00',
+                ccbcIntakeNumber: 22,
                 rowId: 1,
               },
               {
                 closeTimestamp: '2090-11-06T09:00:00-08:00',
+                ccbcIntakeNumber: 90,
                 rowId: 3,
               },
               {
                 closeTimestamp: '2023-01-06T09:00:00-08:00',
+                ccbcIntakeNumber: 23,
                 rowId: 2,
               },
             ],
@@ -56,7 +59,7 @@ describe('Get Last Intake', () => {
     });
 
     const response = await getLastIntakeId(request);
-    expect(response).toBe(2);
+    expect(response).toEqual({ intakeId: 2, intakeNumber: 23 });
   });
 
   it('should not throw error if no intakes matched', async () => {
@@ -74,6 +77,7 @@ describe('Get Last Intake', () => {
             nodes: [
               {
                 closeTimestamp: '2023-11-06T09:00:00-08:00',
+                ccbcIntakeNumber: 23,
                 rowId: 1,
               },
             ],
@@ -86,7 +90,7 @@ describe('Get Last Intake', () => {
     // Temporarily changing this as it has randomly stopped failing
     // so that the pipeline will pass and deploy
     // Note: no code change has happened between last success and failures
-    expect(response).toBe(1);
+    expect(response).toEqual({ intakeId: 1, intakeNumber: 23 });
   });
 
   jest.resetAllMocks();
