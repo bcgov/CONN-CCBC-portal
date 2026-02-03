@@ -39,6 +39,15 @@ describe('Dashboard util functions', () => {
     expect(convertStatus('withdrawn')).toBe('Withdrawn');
   });
 
+  it.each([
+    ['applicant_merged', 'Merged'],
+    ['applicant_conditionally_approved', 'Conditionally Approved'],
+    ['applicant_complete', 'Reporting Complete'],
+    ['applicant_withdrawn', 'Withdrawn'],
+  ])('should return "%s" as "%s"', (input, expected) => {
+    expect(convertStatus(input)).toBe(expected);
+  });
+
   describe('compareAndMarkArrays percentage normalization', () => {
     const headerRow = [
       { value: 'Col0' },
