@@ -346,6 +346,34 @@ const ProjectChangeLog: React.FC<Props> = () => {
     if (!allData?.allCbcs || !allData?.allApplications) {
       return { tableData: [] };
     }
+
+    // Original values taken from formData for SOW changes
+    // Mirrors history page behaviour
+    const sowOriginalValues = new Map<
+      string,
+      { projectTitle?: string; organizationName?: string }
+    >();
+
+    allData.allApplications.forEach((historyItem) => {
+      if (historyItem.tableName !== 'form_data') return;
+
+      const key = String(historyItem.applicationId);
+      if (!key) return;
+
+      const projectTitle =
+        historyItem.record?.json_data?.projectInformation?.projectTitle;
+      const organizationName =
+        historyItem.record?.json_data?.organizationProfile?.organizationName;
+
+      if (projectTitle == null && organizationName == null) return;
+      if (!sowOriginalValues.has(key)) {
+        sowOriginalValues.set(key, {
+          projectTitle,
+          organizationName,
+        });
+      }
+    });
+
     const mergeChildrenByRecordId = buildMergeChildrenMap(
       allData.allApplications
     );
@@ -966,6 +994,20 @@ const ProjectChangeLog: React.FC<Props> = () => {
             ) {
               json = record?.json_data || {};
               prevJson = oldRecord?.json_data || {};
+
+              // For SOW uploads, oldRecord can be missing; use form_data as fallback
+              // so old project title/organization name do not show as N/A.
+              if (tableName === 'application_sow_data') {
+                const fallbackKey = String(applicationId);
+                const fallback = sowOriginalValues.get(fallbackKey);
+                if (fallback) {
+                  prevJson = {
+                    projectTitle: fallback.projectTitle,
+                    organizationName: fallback.organizationName,
+                    ...prevJson,
+                  };
+                }
+              }
 
               // Exclude form_data entries when prevJson is empty
               if (
