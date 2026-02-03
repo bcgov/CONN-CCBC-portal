@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 
+import { DateTime } from 'luxon';
 import {
   compareAndMarkArrays,
   convertStatus,
@@ -114,14 +115,20 @@ describe('Dashboard util functions', () => {
     it('highlights and logs new CBC records', () => {
       const array1 = [headerRow, buildRow('CBC', 'ID1', 'Reporting Complete')];
       const array2 = [headerRow];
+      const createdAt = '2024-01-02T03:04:05.000Z';
+      const expectedTimestamp = DateTime.fromISO(createdAt)
+        .setZone('America/Los_Angeles')
+        .toLocaleString(DateTime.DATETIME_FULL);
 
-      const result = compareAndMarkArrays(array1, array2);
+      const result = compareAndMarkArrays(array1, array2, {
+        cbcCreatedAtByProjectNumber: new Map([['ID1', createdAt]]),
+      });
 
       expect(result[1][0].backgroundColor).toBe('#2FA7DD');
       expect(result[1][6].backgroundColor).toBe('#2FA7DD');
       expect(result[1][7].backgroundColor).toBe('#2FA7DD');
-      expect(result[1][7].value).toContain(
-        'New record added to Connectivity Portal on'
+      expect(result[1][7].value).toBe(
+        `New record added to Connectivity Portal on ${expectedTimestamp}`
       );
     });
 

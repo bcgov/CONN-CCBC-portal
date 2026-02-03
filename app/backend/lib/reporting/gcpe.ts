@@ -35,6 +35,7 @@ const getCbcDataQuery = `
     ) {
       edges {
         node {
+          createdAt
           projectNumber
           jsonData
           cbcByCbcId {
@@ -366,6 +367,16 @@ const generateExcelData = async (
   compare = false,
   prevExcelData?
 ) => {
+  const cbcCreatedAtByProjectNumber = new Map<string, string>();
+  cbcData?.data?.allCbcData?.edges?.forEach((edges) => {
+    const { node } = edges || {};
+    if (node?.projectNumber && node?.createdAt) {
+      cbcCreatedAtByProjectNumber.set(
+        String(node.projectNumber),
+        node.createdAt
+      );
+    }
+  });
   const headerRow = compare ? HEADER_ROW_WITH_CHANGE_LOG : HEADER_ROW;
   const excelData = [headerRow];
 
@@ -756,7 +767,9 @@ const generateExcelData = async (
     excelData.push(row);
   });
   if (compare) {
-    const markedExcelData = compareAndMarkArrays(excelData, prevExcelData);
+    const markedExcelData = compareAndMarkArrays(excelData, prevExcelData, {
+      cbcCreatedAtByProjectNumber,
+    });
     return { marked: markedExcelData, unmarked: excelData };
   }
   return excelData;

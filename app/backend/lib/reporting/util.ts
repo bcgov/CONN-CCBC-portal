@@ -2,10 +2,15 @@ import { DateTime } from 'luxon';
 
 const REPORT_TIMEZONE = 'America/Los_Angeles';
 
-const getCurrentTimestamp = (): string =>
-  DateTime.now()
-    .setZone(REPORT_TIMEZONE)
-    .toLocaleString(DateTime.DATETIME_FULL);
+const formatTimestamp = (timestamp?: string): string | null => {
+  if (!timestamp) {
+    return null;
+  }
+  const parsed = DateTime.fromISO(timestamp);
+  return parsed.isValid
+    ? parsed.setZone(REPORT_TIMEZONE).toLocaleString(DateTime.DATETIME_FULL)
+    : timestamp;
+};
 
 export const convertStatus = (status: string): string => {
   switch (status) {
@@ -97,7 +102,13 @@ export const cleanDateTime = (date: string): string => {
   return splitDate[0];
 };
 
-export const compareAndMarkArrays = (array1: any, array2: any) => {
+export const compareAndMarkArrays = (
+  array1: any,
+  array2: any,
+  options?: { cbcCreatedAtByProjectNumber?: Map<string, string> }
+) => {
+  const cbcCreatedAtByProjectNumber =
+    options?.cbcCreatedAtByProjectNumber || new Map<string, string>();
   // Column names mapping (index to name)
   const columnNames = [
     'Program',
@@ -214,10 +225,15 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
       const currentStatus =
         statusCell?.currentStatus || statusValue || null;
       const programValue = row?.[0]?.value;
+      const cbcCreatedAt = formatTimestamp(
+        cbcCreatedAtByProjectNumber.get(normalizedId)
+      );
       const changeLogValue =
         programValue === 'CBC'
-          ? `New record added to Connectivity Portal on ${getCurrentTimestamp()}`
-          : `Record added to GCPE list due to status change ${convertStatus(
+          ? `New record added to Connectivity Portal on ${
+              cbcCreatedAt || 'Unknown'
+            }`
+          : `Record added to GCPE list due to status change: ${convertStatus(
               previousStatus || 'Unknown'
             )} --> ${convertStatus(currentStatus || 'Unknown')}`;
       const highlightedRow = row.map((item) =>
