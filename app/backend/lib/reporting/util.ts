@@ -36,6 +36,14 @@ export const convertStatus = (status: string): string => {
       return 'Received';
     case 'withdrawn':
       return 'Withdrawn';
+    case 'applicant_merged':
+      return 'Merged';
+    case 'applicant_conditionally_approved':
+      return 'Conditionally Approved';
+    case 'applicant_complete':
+      return 'Reporting Complete';
+    case 'applicant_withdrawn':
+      return 'Withdrawn';
     default:
       return status;
   }
