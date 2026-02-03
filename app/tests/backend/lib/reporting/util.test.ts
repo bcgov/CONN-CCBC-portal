@@ -149,7 +149,7 @@ describe('Dashboard util functions', () => {
 
       expect(result[1][0].backgroundColor).toBe('#2FA7DD');
       expect(result[1][7].value).toBe(
-        'Record added to GCPE list due to status change Conditionally Approved --> Agreement Signed'
+        'Record added to GCPE list due to status change: Conditionally Approved --> Agreement Signed'
       );
       expect(result[1][7].backgroundColor).toBe('#2FA7DD');
     });

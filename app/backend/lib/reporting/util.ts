@@ -313,7 +313,7 @@ export const compareAndMarkArrays = (
         if (newValue === '') {
           newValue = 'Blank';
         }
-        changes.push(`${columnName}: ${oldValue} -> ${newValue}`);
+        changes.push(`${columnName}: ${oldValue} --> ${newValue}`);
 
         return {
           ...item,
