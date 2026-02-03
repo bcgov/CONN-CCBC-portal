@@ -1,3 +1,10 @@
+## [1.290.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.290.2...v1.290.5) (2026-02-03)
+
+### Bug Fixes
+
+- fallback for sow upload values from formData for changelog ([cbd5629](https://github.com/bcgov/CONN-CCBC-portal/commit/cbd56295379b21a67f996026ca96fa66a2a04fad))
+- leaflet controls above header ([0410d65](https://github.com/bcgov/CONN-CCBC-portal/commit/0410d65fa2d29952f638ad29d869b579a173bc72))
+
 ## [1.290.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.290.2...v1.290.4) (2026-02-03)
 
 ### Bug Fixes
