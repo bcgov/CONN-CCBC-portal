@@ -17,13 +17,80 @@ jobs:
   jest:
     runs-on: ubuntu-latest
     steps:
+      - name: Release commit skip check
+        id: release-check
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const isReleaseCommit = (message) => (message || '').includes('chore: release');
+            let message = '';
+
+            if (context.payload.pull_request?.head?.sha) {
+              const { data } = await github.rest.repos.getCommit({
+                owner,
+                repo,
+                ref: context.payload.pull_request.head.sha
+              });
+              message = data?.commit?.message || '';
+            } else if (context.payload.head_commit?.message) {
+              message = context.payload.head_commit.message;
+            } else {
+              const { data } = await github.rest.repos.getCommit({ owner, repo, ref: context.sha });
+              message = data?.commit?.message || '';
+            }
+
+            const skipRelease = isReleaseCommit(message);
+            core.info(`Release skip check message: ${message}`);
+            core.setOutput('skip_release', skipRelease.toString());
+
+      - name: Debug last successful test code run for PR
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            if (!pr) {
+              core.info('No PR context; skipping last successful run lookup.');
+              return;
+            }
+
+            const workflowId = 'test-code.yaml';
+            const runs = await github.rest.actions.listWorkflowRuns({
+              owner,
+              repo,
+              workflow_id: workflowId,
+              event: 'pull_request',
+              per_page: 50
+            });
+
+            const matchingRuns = runs.data.workflow_runs.filter((run) =>
+              run.conclusion === 'success' &&
+              run.pull_requests?.some((p) => p.number === pr.number)
+            );
+
+            const last = matchingRuns[0];
+            if (!last) {
+              core.info(`No successful ${workflowId} runs found for PR #${pr.number}.`);
+              return;
+            }
+
+            core.info(`Last successful ${workflowId} run for PR #${pr.number}:`);
+            core.info(`- run id: ${last.id}`);
+            core.info(`- head sha: ${last.head_sha}`);
+            core.info(`- updated at: ${last.updated_at}`);
+            core.info(`- html url: ${last.html_url}`);
+
       - uses: actions/checkout@v6
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
       - name: dev env setup
+        if: ${{ !(steps.release-check.outputs.skip_release == 'true' && github.ref != 'refs/heads/main') }}
         uses: ./.github/actions/dev-env-setup
       - name: run jest tests with coverage
+        if: ${{ !(steps.release-check.outputs.skip_release == 'true' && github.ref != 'refs/heads/main') }}
         uses: Wandalen/wretry.action@master
         with:
           current_path: ./app
@@ -31,6 +98,7 @@ jobs:
           attempt_limit: 2
           attempt_delay: 2000
       - name: SonarCloud Scan
+        if: ${{ !(steps.release-check.outputs.skip_release == 'true' && github.ref != 'refs/heads/main') }}
         uses: SonarSource/sonarqube-scan-action@v7.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

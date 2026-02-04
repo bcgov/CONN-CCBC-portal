@@ -56,6 +56,7 @@ jobs:
       RENOVATE_PRIVATE_KEY: ${{ secrets.RENOVATE_PRIVATE_KEY }}
 
   setup-s3-backup:
+    if: github.event_name != 'pull_request' || github.event.pull_request.user.login != 'dependabot[bot]'
     uses: ./.github/workflows/s3-backup.yaml
     secrets:
       AWS_ARN_DEV: ${{ secrets.AWS_ARN_DEV }}
@@ -225,7 +226,7 @@ jobs:
       TEST_PG_PASSWORD: ${{ secrets.TEST_PG_PASSWORD }}
 
   deploy-feature:
-    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot[bot]'
     needs: [build]
     uses: ./.github/workflows/deploy_feature.yaml
     secrets:
