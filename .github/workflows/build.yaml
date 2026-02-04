@@ -52,9 +52,75 @@ jobs:
             build_only_on_main: false
     permissions:
       contents: read
+      actions: read
       packages: write
     name: ${{ matrix.name }}
     steps:
+      - name: Release commit skip check
+        id: release-check
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const isReleaseCommit = (message) => (message || '').includes('chore: release');
+            let message = '';
+
+            if (context.payload.pull_request?.head?.sha) {
+              const { data } = await github.rest.repos.getCommit({
+                owner,
+                repo,
+                ref: context.payload.pull_request.head.sha
+              });
+              message = data?.commit?.message || '';
+            } else if (context.payload.head_commit?.message) {
+              message = context.payload.head_commit.message;
+            } else {
+              const { data } = await github.rest.repos.getCommit({ owner, repo, ref: context.sha });
+              message = data?.commit?.message || '';
+            }
+
+            const skipRelease = isReleaseCommit(message);
+            core.info(`Release skip check message: ${message}`);
+            core.setOutput('skip_release', skipRelease.toString());
+
+      - name: Debug last successful build run for PR
+        if: ${{ github.event_name == 'pull_request' && matrix.name == 'app' }}
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            if (!pr) {
+              core.info('No PR context; skipping last successful run lookup.');
+              return;
+            }
+
+            const workflowId = 'build.yaml';
+            const runs = await github.rest.actions.listWorkflowRuns({
+              owner,
+              repo,
+              workflow_id: workflowId,
+              event: 'pull_request',
+              per_page: 50
+            });
+
+            const matchingRuns = runs.data.workflow_runs.filter((run) =>
+              run.conclusion === 'success' &&
+              run.pull_requests?.some((p) => p.number === pr.number)
+            );
+
+            const last = matchingRuns[0];
+            if (!last) {
+              core.info(`No successful ${workflowId} runs found for PR #${pr.number}.`);
+              return;
+            }
+
+            core.info(`Last successful ${workflowId} run for PR #${pr.number}:`);
+            core.info(`- run id: ${last.id}`);
+            core.info(`- head sha: ${last.head_sha}`);
+            core.info(`- updated at: ${last.updated_at}`);
+            core.info(`- html url: ${last.html_url}`);
+
       - name: Checkout
         uses: actions/checkout@v6
       - name: Set up QEMU
@@ -77,7 +143,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-        if: ${{ matrix.build_only_on_main != true || github.ref == 'refs/heads/main' || matrix.name == 'app' }}
+        if: ${{ (matrix.build_only_on_main != true || github.ref == 'refs/heads/main' || matrix.name == 'app') && !(steps.release-check.outputs.skip_release == 'true' && matrix.name == 'app' && github.ref != 'refs/heads/main') }}
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
