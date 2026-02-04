@@ -1,3 +1,17 @@
+import { DateTime } from 'luxon';
+
+const REPORT_TIMEZONE = 'America/Los_Angeles';
+
+const formatTimestamp = (timestamp?: string): string | null => {
+  if (!timestamp) {
+    return null;
+  }
+  const parsed = DateTime.fromISO(timestamp);
+  return parsed.isValid
+    ? parsed.setZone(REPORT_TIMEZONE).toLocaleString(DateTime.DATETIME_FULL)
+    : timestamp;
+};
+
 export const convertStatus = (status: string): string => {
   switch (status) {
     case 'conditionally_approved':
@@ -14,7 +28,21 @@ export const convertStatus = (status: string): string => {
       return 'Reporting Complete';
     case 'merged':
       return 'Merged';
+    case 'assessment':
+      return 'Assessment';
+    case 'screening':
+      return 'Screening';
+    case 'received':
+      return 'Received';
     case 'withdrawn':
+      return 'Withdrawn';
+    case 'applicant_merged':
+      return 'Merged';
+    case 'applicant_conditionally_approved':
+      return 'Conditionally Approved';
+    case 'applicant_complete':
+      return 'Reporting Complete';
+    case 'applicant_withdrawn':
       return 'Withdrawn';
     default:
       return status;
@@ -82,7 +110,13 @@ export const cleanDateTime = (date: string): string => {
   return splitDate[0];
 };
 
-export const compareAndMarkArrays = (array1: any, array2: any) => {
+export const compareAndMarkArrays = (
+  array1: any,
+  array2: any,
+  options?: { cbcCreatedAtByProjectNumber?: Map<string, string> }
+) => {
+  const cbcCreatedAtByProjectNumber =
+    options?.cbcCreatedAtByProjectNumber || new Map<string, string>();
   // Column names mapping (index to name)
   const columnNames = [
     'Program',
@@ -142,7 +176,7 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
         `Column ${colIndex + 1}`
     );
 
-  const HEADER_ROW_INDEX = 1;
+  const HEADER_ROW_INDEX = 0;
   const headerRow1 = array1?.[HEADER_ROW_INDEX] || [];
   const headerRow2 = array2?.[HEADER_ROW_INDEX] || [];
   const headerIndexMap2 = new Map<string, number>();
@@ -180,7 +214,44 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
       normalizedId === null ? undefined : idToArray2Map.get(normalizedId);
 
     if (!matchingRowInArray2) {
-      return row;
+      const normalizeHeaderNameForLookup = (name) =>
+        name ? String(name).replace(/\s+/g, '').toLowerCase() : '';
+      const statusHeaderIndex = headerRow1.findIndex(
+        (cell) => normalizeHeaderNameForLookup(cell?.value) === 'status'
+      );
+      const fallbackStatusIndex = columnNames.findIndex(
+        (name) => normalizeHeaderNameForLookup(name) === 'status'
+      );
+      const statusIndex =
+        statusHeaderIndex >= 0 ? statusHeaderIndex : fallbackStatusIndex;
+      const statusCell = statusIndex >= 0 ? row?.[statusIndex] : null;
+      const statusValue = statusCell?.value ?? null;
+      const previousStatus =
+        statusCell?.previousStatus ||
+        statusCell?.previousAnalystStatus ||
+        null;
+      const currentStatus =
+        statusCell?.currentStatus || statusValue || null;
+      const programValue = row?.[0]?.value;
+      const cbcCreatedAt = formatTimestamp(
+        cbcCreatedAtByProjectNumber.get(normalizedId)
+      );
+      const changeLogValue =
+        programValue === 'CBC'
+          ? `New record added to Connectivity Portal on ${
+              cbcCreatedAt || 'Unknown'
+            }`
+          : `Record added to GCPE list due to status change: ${convertStatus(
+              previousStatus || 'Unknown'
+            )} --> ${convertStatus(currentStatus || 'Unknown')}`;
+      const highlightedRow = row.map((item) =>
+        item ? { ...item, backgroundColor: '#2FA7DD' } : item
+      );
+      highlightedRow[highlightedRow.length - 1] = {
+        value: changeLogValue,
+        backgroundColor: '#2FA7DD',
+      };
+      return highlightedRow;
     }
 
     const changes = [];
@@ -250,7 +321,7 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
         if (newValue === '') {
           newValue = 'Blank';
         }
-        changes.push(`${columnName}: ${oldValue} -> ${newValue}`);
+        changes.push(`${columnName}: ${oldValue} --> ${newValue}`);
 
         return {
           ...item,
@@ -263,7 +334,9 @@ export const compareAndMarkArrays = (array1: any, array2: any) => {
 
     // Replace the last column with the generated changelog
     const changelogValue = changes.length > 0 ? changes.join('\n') : '';
-    updatedRow[updatedRow.length - 1] = { value: changelogValue };
+    updatedRow[updatedRow.length - 1] = changelogValue
+      ? { value: changelogValue, backgroundColor: '#2FA7DD' }
+      : { value: changelogValue };
 
     return updatedRow;
   });
