@@ -1,3 +1,9 @@
+# [1.291.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.290.6...v1.291.0) (2026-02-04)
+
+### Features
+
+- gcpe report improvements ([cdf091c](https://github.com/bcgov/CONN-CCBC-portal/commit/cdf091cad53f25e3ac41009af3164e9ca625e8b6))
+
 ## [1.290.6](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.290.5...v1.290.6) (2026-02-03)
 
 ## [1.290.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.290.2...v1.290.5) (2026-02-03)
