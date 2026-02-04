@@ -143,6 +143,9 @@ describe('The attachments archive', () => {
     expect(response.headers['content-disposition']).toMatch(
       /attachment; filename=Intake_6_attachments.zip/
     );
+    expect(response.headers['content-disposition']).not.toMatch(
+      /attachment; filename=Intake_99_attachments.zip/
+    );
   });
 
   it('should receive the correct response when archive is not ready', async () => {
@@ -236,6 +239,65 @@ describe('The attachments archive', () => {
     expect(response.status).toBe(200);
     expect(response.headers['content-type']).toBe(
       'application/json; charset=utf-8'
+    );
+  });
+
+  it('should use the latest intake when intake is -1', async () => {
+    mocked(getAuthRole).mockImplementation(() => {
+      return {
+        pgRole: 'ccbc_admin',
+        landingRoute: '/',
+      };
+    });
+
+    mocked(performQuery).mockImplementation(async (query) => {
+      if ((query as string).includes('getAllIntakeQuery')) {
+        return {
+          data: {
+            allIntakes: {
+              nodes: [
+                {
+                  closeTimestamp: '2022-11-06T09:00:00-08:00',
+                  ccbcIntakeNumber: 22,
+                  rowId: 1,
+                },
+                {
+                  closeTimestamp: '2090-11-06T09:00:00-08:00',
+                  ccbcIntakeNumber: 90,
+                  rowId: 3,
+                },
+                {
+                  closeTimestamp: '2023-01-06T09:00:00-08:00',
+                  ccbcIntakeNumber: 23,
+                  rowId: 2,
+                },
+              ],
+            },
+          },
+        };
+      }
+      return {
+        data: {
+          allApplications: {
+            nodes: [
+              {
+                formData: {
+                  jsonData: {},
+                },
+                ccbcNumber: 'CCBC-100001',
+              },
+            ],
+          },
+        },
+      };
+    });
+    mockObjectExists = { alreadyExists: true, requestedAt: null };
+
+    const response = await request(app).get('/api/analyst/admin-archive/-1');
+
+    expect(response.status).toBe(200);
+    expect(response.headers['content-disposition']).toMatch(
+      /attachment; filename=Intake_23_attachments.zip/
     );
   });
 
