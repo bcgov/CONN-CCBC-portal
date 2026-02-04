@@ -124,7 +124,7 @@ Please refer to [Authentication in Sqitch](https://sqitch.org/docs/manual/sqitch
 # Set up the Application
 
 ## Prerequisites
-- [Node.js 20.16.0](https://nodejs.org/en/download/)
+- [Node.js 24.0.0](https://nodejs.org/en/download/)
 - [yarn classic](https://classic.yarnpkg.com/lang/en/docs/install)
 
 ## Environment variables
