@@ -333,10 +333,11 @@ export const compareAndMarkArrays = (
     });
 
     // Replace the last column with the generated changelog
-    const changelogValue = changes.length > 0 ? changes.join('\n') : '';
-    updatedRow[updatedRow.length - 1] = changelogValue
-      ? { value: changelogValue, backgroundColor: '#2FA7DD' }
-      : { value: changelogValue };
+    const changelogValue = changes.length > 0 ? changes.join('\n') : ' ';
+    updatedRow[updatedRow.length - 1] =
+      changes.length > 0
+        ? { value: changelogValue, backgroundColor: '#2FA7DD' }
+        : { value: changelogValue };
 
     return updatedRow;
   });
