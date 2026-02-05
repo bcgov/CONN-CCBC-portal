@@ -248,19 +248,19 @@ const AddIntake: React.FC<Props> = ({
       nextIntake && DateTime.fromISO(nextIntake?.openTimestamp);
 
     if (!startDate && isFormSubmitting) {
-      errors?.startDate.addError('Start date & time must be entered');
+      errors?.startDate?.addError('Start date & time must be entered');
     }
 
     if (!endDate && isFormSubmitting) {
-      errors?.endDate.addError('End date & time must be entered');
+      errors?.endDate?.addError('End date & time must be entered');
     }
 
     if ((!jsonData?.zones || jsonData.zones.length === 0) && isFormSubmitting) {
-      errors?.zones.addError('At least one zone must be selected');
+      errors?.zones?.addError('At least one zone must be selected');
     }
 
     if (isEdit && nextIntake && endDateTime >= nextIntakeStartDateTime) {
-      errors?.endDate.addError(
+      errors?.endDate?.addError(
         'End date & time must not overlap with the next intake'
       );
     }
@@ -272,7 +272,7 @@ const AddIntake: React.FC<Props> = ({
         currentDateTime <= intakeStartDate &&
         startDateTime <= currentDateTime)
     ) {
-      errors?.startDate.addError(
+      errors?.startDate?.addError(
         'Start date & time must be after current date & time'
       );
     } else if (
@@ -281,13 +281,13 @@ const AddIntake: React.FC<Props> = ({
       // check previous intake end date overlap if editing an intake
       (isEdit && startDateTime <= previousIntakeEndDateTime)
     ) {
-      errors?.startDate.addError(
+      errors?.startDate?.addError(
         'Start date & time must not overlap with the previous intake'
       );
     }
 
     if (endDateTime <= startDateTime) {
-      errors?.endDate.addError(
+      errors?.endDate?.addError(
         'End date & time must be after start date & time'
       );
     }
@@ -342,7 +342,7 @@ const AddIntake: React.FC<Props> = ({
             >
               Save
             </StyledSaveBtn>
-            <Button onClick={handleResetForm} variant="secondary">
+            <Button type="button" onClick={handleResetForm} variant="secondary">
               Cancel
             </Button>
           </FormBase>
