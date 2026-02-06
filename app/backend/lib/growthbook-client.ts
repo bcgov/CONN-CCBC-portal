@@ -11,9 +11,10 @@ export const gbClient = new GrowthBookClient({
 // Initialize the GrowthBook client (async)
 export const initializeGrowthBook = async () => {
   try {
-    await gbClient.init({ timeout: 3000 });
+    await gbClient.init({ timeout: 1 });
     return gbClient;
   } catch (error) {
+    console.error('Error initializing GrowthBook:', error);
     reportServerError(error, { source: 'growthbook-init' });
     throw error;
   }
