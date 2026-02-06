@@ -19,6 +19,7 @@ import config from '../../../config';
 import resolveFileUpload from './resolveFileUpload';
 import PostGraphileUploadFieldPlugin from './uploadFieldPlugin';
 import { reportServerError } from '../emails/errorNotification';
+import { logConnection } from '../../lib/helpers/connectionLogger';
 
 export const pgSettings: any = (req: Request) => {
   const opts = {
@@ -65,6 +66,10 @@ postgraphileOptions = {
   ...(isProd
     ? {
         handleErrors: (errors) => {
+          logConnection('graphql.handle-errors', {
+            note: `errors: ${errors?.length ?? 0}`,
+            service: 'postgraphile',
+          });
           reportServerError(errors, { source: 'postgraphile' });
           return errors;
         },
@@ -92,8 +97,66 @@ if (isProd) {
   };
 }
 
-const postgraphileMiddleware = () =>
-  postgraphile(pgPool, config.get('PGSCHEMA'), postgraphileOptions);
+const postgraphileMiddleware = () => {
+  logConnection('graphql.middleware.init', {
+    service: 'postgraphile',
+    note: isProd ? 'prod mode' : 'dev mode',
+  });
+  const middleware = postgraphile(
+    pgPool,
+    config.get('PGSCHEMA'),
+    postgraphileOptions
+  );
+
+  return (req: Request, res: any, next: any) => {
+    const operation =
+      req?.body?.operationName ||
+      req?.body?.id ||
+      req?.query?.operationName ||
+      req?.query?.id;
+    const start = Date.now();
+    logConnection('graphql.request.start', {
+      method: req.method,
+      url: req.originalUrl || req.url,
+      service: 'postgraphile',
+      note: operation ? `operation: ${operation}` : 'operation: unknown',
+    });
+
+    res.on('finish', () => {
+      logConnection('graphql.request.finish', {
+        method: req.method,
+        url: req.originalUrl || req.url,
+        status: res.statusCode,
+        durationMs: Date.now() - start,
+        service: 'postgraphile',
+      });
+    });
+
+    res.on('close', () => {
+      if (!res.writableEnded) {
+        logConnection('graphql.request.close', {
+          method: req.method,
+          url: req.originalUrl || req.url,
+          durationMs: Date.now() - start,
+          service: 'postgraphile',
+          note: 'connection closed before response finished',
+        });
+      }
+    });
+
+    res.on('error', (error: Error) => {
+      logConnection('graphql.request.error', {
+        method: req.method,
+        url: req.originalUrl || req.url,
+        durationMs: Date.now() - start,
+        service: 'postgraphile',
+        note: error?.message,
+      });
+    });
+
+    return middleware(req, res, next);
+  };
+};
 
 export default postgraphileMiddleware;
 
