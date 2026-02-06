@@ -3,6 +3,7 @@ import { IDP_HINTS, IDP_HINT_PARAM } from '../../data/ssoConstants';
 import config from '../../config';
 import createUserMiddleware from './createUser';
 import getAuthRole from '../../utils/getAuthRole';
+import { logConnection } from '../../lib/helpers/connectionLogger';
 
 const baseUrl =
   config.get('NODE_ENV') === 'production'
@@ -14,6 +15,11 @@ const mockAuth = config.get('ENABLE_MOCK_AUTH');
 const oidcIssuer = config.get('AUTH_SERVER_URL');
 
 export default async function ssoMiddleware() {
+  logConnection('startup.oidc.config', {
+    url: oidcIssuer,
+    note: mockAuth ? 'mock auth enabled' : 'mock auth disabled',
+    service: 'sso',
+  });
   return ssoExpress({
     applicationDomain: '.gov.bc.ca',
     getLandingRoute: (req) => {

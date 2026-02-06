@@ -1,5 +1,6 @@
 import { GrowthBookClient } from '@growthbook/growthbook';
 import config from '../../config';
+import { logConnection } from '../../lib/helpers/connectionLogger';
 import { reportServerError } from './emails/errorNotification';
 
 // Initialize GrowthBook client
@@ -11,6 +12,12 @@ export const gbClient = new GrowthBookClient({
 // Initialize the GrowthBook client (async)
 export const initializeGrowthBook = async () => {
   try {
+    logConnection('startup.growthbook.init', {
+      url: 'https://cdn.growthbook.io',
+      note: config.get('NEXT_PUBLIC_GROWTHBOOK_API_KEY')
+        ? 'client key set'
+        : 'client key missing',
+    });
     await gbClient.init({ timeout: 1 });
     return gbClient;
   } catch (error) {

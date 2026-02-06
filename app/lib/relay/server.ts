@@ -1,5 +1,6 @@
 import { Network, Environment, Store, RecordSource } from 'relay-runtime';
 import getConfig from 'next/config';
+import { logConnection } from '../helpers/connectionLogger';
 
 const {
   serverRuntimeConfig: { PORT },
@@ -7,7 +8,13 @@ const {
 
 export function createServerNetwork({ cookieHeader }: any) {
   return Network.create(async (params, variables) => {
-    const response = await fetch(`http://localhost:3000/graphql`, {
+    const url = 'http://localhost:3000/graphql';
+    logConnection('ssr.graphql.request', {
+      url,
+      method: 'POST',
+      service: 'relay-ssr',
+    });
+    const response = await fetch(url, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -21,6 +28,12 @@ export function createServerNetwork({ cookieHeader }: any) {
     });
 
     try {
+      logConnection('ssr.graphql.response', {
+        url,
+        method: 'POST',
+        service: 'relay-ssr',
+        status: response.status,
+      });
       return await response.json();
     } catch (e) {
       // Server-side relay fetch failures should not pull backend-only deps into client bundles.

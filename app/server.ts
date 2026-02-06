@@ -47,6 +47,7 @@ import dashboardExport from './backend/lib/dashboard/dashboard_export';
 import intake from './backend/lib/intake';
 import cbc from './backend/lib/cbc/cbc';
 import changeLog from './backend/lib/change_log/change_log';
+import { logConnection } from './lib/helpers/connectionLogger';
 
 // Function to exclude middleware from certain routes
 // The paths argument takes an array of strings containing routes to exclude from the middleware
@@ -64,6 +65,53 @@ const unless = (paths, middleware) => {
 };
 
 importJsonSchemasToDb();
+
+declare global {
+  // eslint-disable-next-line no-var
+  var __connectionLoggedFetch: boolean | undefined;
+}
+
+if (typeof global.fetch === 'function' && !global.__connectionLoggedFetch) {
+  const originalFetch = global.fetch;
+  global.__connectionLoggedFetch = true;
+
+  global.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+    const url =
+      typeof input === 'string'
+        ? input
+        : input instanceof URL
+        ? input.toString()
+        : input.url;
+    const method =
+      init?.method ||
+      (typeof input !== 'string' && !(input instanceof URL)
+        ? (input as Request).method
+        : 'GET');
+    const start = Date.now();
+
+    logConnection('fetch.start', { url, method, service: 'server' });
+    try {
+      const response = await originalFetch(input, init);
+      logConnection('fetch.end', {
+        url,
+        method,
+        status: response.status,
+        durationMs: Date.now() - start,
+        service: 'server',
+      });
+      return response;
+    } catch (error) {
+      logConnection('fetch.error', {
+        url,
+        method,
+        durationMs: Date.now() - start,
+        service: 'server',
+        note: error?.message,
+      });
+      throw error;
+    }
+  };
+}
 
 const port = config.get('PORT');
 const dev = config.get('NODE_ENV') !== 'production';
@@ -186,6 +234,9 @@ app.prepare().then(async () => {
       if (!isDeployedToOpenShift) {
         lightship.signalReady();
       } else {
+        logConnection('startup.readiness-test', {
+          note: 'running readiness test checks',
+        });
         await readinessTest(pgPool, lightship);
       }
     })
