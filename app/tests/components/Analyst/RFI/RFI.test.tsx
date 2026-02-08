@@ -1,4 +1,4 @@
-import { act, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { graphql } from 'react-relay';
 import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
 import RFI, { detectNewFiles, transformFilesForNotification } from 'components/Analyst/RFI/RFI';
