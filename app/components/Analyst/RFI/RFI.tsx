@@ -11,6 +11,34 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useUpdateRfiJsonDataMutation } from 'schema/mutations/application/updateRfiJsonData';
 import useEmailNotification from 'lib/helpers/useEmailNotification';
 
+// Detects if new files were added to the email correspondence array
+export const detectNewFiles = (oldFiles: any[] = [], newFiles: any[] = []) => {
+  const hasNewFiles = newFiles.length > oldFiles.length;
+  const newlyAddedFiles = hasNewFiles 
+    ? newFiles.slice(oldFiles.length) 
+    : [];
+  
+  return {
+    hasNewFiles,
+    newlyAddedFiles,
+  };
+};
+
+// Transforms file objects into the format needed for email notifications
+export const transformFilesForNotification = (files: any[]) => {
+  const fileNames = files.map((file: any) => file.name);
+  const fileDetails = files.map((file: any) => ({
+    name: file.name,
+    type: file.type || 'Unknown',
+    uploadedAt: file.uploadedAt,
+  }));
+
+  return {
+    fileNames,
+    fileDetails,
+  };
+};
+
 interface Props {
   id: string;
   rfiDataByRfiDataId: any;
@@ -72,11 +100,8 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id, ccbcNumber, applicationR
     const oldEmailFiles = jsonData?.rfiEmailCorrespondance || [];
     const newEmailFiles = e.formData?.rfiEmailCorrespondance || [];
     
-    // Detect new file uploads
-    const hasNewFiles = newEmailFiles.length > oldEmailFiles.length;
-    const newFiles = hasNewFiles 
-      ? newEmailFiles.slice(oldEmailFiles.length) 
-      : [];
+    // Detect new file uploads using extracted function
+    const { hasNewFiles, newlyAddedFiles } = detectNewFiles(oldEmailFiles, newEmailFiles);
 
     updateRfiJsonData({
       variables: {
@@ -92,13 +117,9 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id, ccbcNumber, applicationR
       },
       onCompleted: () => {
         // Send email notification if new files were uploaded
-        if (hasNewFiles && newFiles.length > 0) {
-          const fileNames = newFiles.map((file: any) => file.name);
-          const fileDetails = newFiles.map((file: any) => ({
-            name: file.name,
-            type: file.type || 'Unknown',
-            uploadedAt: file.uploadedAt,
-          }));
+        if (hasNewFiles && newlyAddedFiles.length > 0) {
+          // Transform files using extracted function
+          const { fileNames, fileDetails } = transformFilesForNotification(newlyAddedFiles);
 
           notifyDocumentUpload(applicationRowId?.toString() || applicationId, {
             ccbcNumber,
