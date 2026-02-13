@@ -14,6 +14,7 @@ describe('getIntakeId', () => {
           nodes: [
             {
               rowId: 1,
+              ccbcIntakeNumber: 10,
             },
           ],
         },
@@ -28,7 +29,7 @@ describe('getIntakeId', () => {
 
     const result = await getIntakeId(mockReq);
 
-    expect(result).toBe(1);
+    expect(result).toEqual({ intakeId: 1, intakeNumber: 10 });
   });
 
   it('should throw an error on failed query', async () => {
