@@ -1,3 +1,16 @@
+# [1.293.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.291.0...v1.293.0) (2026-02-13)
+
+### Bug Fixes
+
+- show deleted data in changelog ([1736831](https://github.com/bcgov/CONN-CCBC-portal/commit/17368318ed4fd8c88cbcb5248d40cbe3705745c3))
+- update users with intake access in intake_users ([c690ced](https://github.com/bcgov/CONN-CCBC-portal/commit/c690cedeef180fc6a397ea39cf257b45be1c1b4f))
+
+### Features
+
+- automate intake openning ([04279dd](https://github.com/bcgov/CONN-CCBC-portal/commit/04279dde7a86326b25376e2c2df20e0e7d0d7606))
+- empty space on gcpe report instead of null ([8983b78](https://github.com/bcgov/CONN-CCBC-portal/commit/8983b78ede34496eea8de8bb0231f41f812fdce0))
+- skip build and jest on release ([efeed13](https://github.com/bcgov/CONN-CCBC-portal/commit/efeed137a5b7f06de14be92160dd9095b6956b42))
+
 # [1.292.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.291.0...v1.292.0) (2026-02-12)
 
 ### Features
