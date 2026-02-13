@@ -83,10 +83,11 @@ intake.get('/api/intake', limiter, async (req, res) => {
       },
     };
     // first check if the user is already on the table
-    // NOTE: adjust logic if there are future intakes
-    const intakeUsers =
-      currentIntake?.data?.session?.ccbcUserBySub?.intakeUsersByUserId?.nodes;
-    if (intakeUsers.length > 0) {
+    const userAlreadyOnIntake =
+      currentIntake?.data?.session?.ccbcUserBySub?.intakeUsersByUserId?.nodes?.some(
+        (node) => node.intakeId === intakeRowId
+      ) ?? false;
+    if (userAlreadyOnIntake) {
       return res.redirect('/applicantportal/dashboard');
     }
     const userResult = await performQuery(
