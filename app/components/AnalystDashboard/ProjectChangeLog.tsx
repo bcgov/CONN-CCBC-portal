@@ -980,6 +980,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
             let prevJson = {};
 
             // Handle different data sources based on table type
+            const isDeleted = record?.history_operation === 'deleted';
             if (
               tableName === 'form_data' ||
               tableName === 'rfi_data' ||
@@ -992,8 +993,13 @@ const ProjectChangeLog: React.FC<Props> = () => {
               tableName === 'application_milestone_data' ||
               tableName === 'application_dependencies'
             ) {
-              json = record?.json_data || {};
-              prevJson = oldRecord?.json_data || {};
+              if (isDeleted) {
+                json = {};
+                prevJson = oldRecord?.json_data || record?.json_data || {};
+              } else {
+                json = record?.json_data || {};
+                prevJson = oldRecord?.json_data || {};
+              }
 
               // For SOW uploads, oldRecord can be missing; use form_data as fallback
               // so old project title/organization name do not show as N/A.
