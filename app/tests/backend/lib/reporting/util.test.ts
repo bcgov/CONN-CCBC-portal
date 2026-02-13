@@ -78,7 +78,7 @@ describe('Dashboard util functions', () => {
       const result = compareAndMarkArrays(array1, array2);
 
       expect(result[1][6].backgroundColor).toBeUndefined();
-      expect(result[1][7].value).toBe('');
+      expect(result[1][7].value).toBe(' ');
     });
 
     it('marks changes when normalized percentage differs', () => {

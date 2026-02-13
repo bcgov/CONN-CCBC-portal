@@ -1,3 +1,10 @@
+# [1.292.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.291.0...v1.292.0) (2026-02-12)
+
+### Features
+
+- empty space on gcpe report instead of null ([6d9425a](https://github.com/bcgov/CONN-CCBC-portal/commit/6d9425a6a700403fc55520ee1ca37def20c4a7a4))
+- skip build and jest on release ([efeed13](https://github.com/bcgov/CONN-CCBC-portal/commit/efeed137a5b7f06de14be92160dd9095b6956b42))
+
 # [1.291.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.290.6...v1.291.0) (2026-02-04)
 
 ### Features
