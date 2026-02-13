@@ -2,6 +2,7 @@
  * @jest-environment node
  */
 import { mocked } from 'jest-mock';
+import writeXlsxFile from 'write-excel-file';
 import { performQuery } from '../../../../backend/lib/graphql';
 import {
   regenerateGcpeReport,
@@ -17,8 +18,20 @@ import {
 } from './testData';
 
 jest.mock('../../../../backend/lib/graphql');
+jest.mock('write-excel-file', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
 
 describe('Gcpe reporting functions', () => {
+  const mockedWriteXlsxFile = mocked(writeXlsxFile);
+
+  beforeEach(() => {
+    mockedWriteXlsxFile.mockReset();
+    mockedWriteXlsxFile.mockResolvedValue(Buffer.from('test'));
+    mocked(performQuery).mockReset();
+  });
+
   it('should regenerate a gcpe report', async () => {
     mocked(performQuery).mockImplementation(async () => {
       return regenerateGcpeReportQueryResult;
@@ -81,6 +94,26 @@ describe('Gcpe reporting functions', () => {
     });
     const blob = await compareGcpeReports(1, 2, null);
     expect(blob).toBeDefined();
+  });
+
+  it('should replace null cell values with a space', async () => {
+    mocked(performQuery).mockImplementation(async () => {
+      return ccbcDataQueryResult;
+    });
+    await generateGcpeReport(null);
+    const lastCall =
+      mockedWriteXlsxFile.mock.calls[mockedWriteXlsxFile.mock.calls.length - 1];
+    const [sheets] = lastCall;
+    const [mainSheet] = sheets as any[];
+
+    mainSheet.forEach((row) => {
+      row.forEach((cell) => {
+        if (cell && typeof cell === 'object' && 'value' in cell) {
+          expect(cell.value).not.toBeNull();
+          expect(cell.value).not.toBeUndefined();
+        }
+      });
+    });
   });
 
   it('should return BC for CCBC with Agreement Signed status and BC funding only', async () => {
