@@ -61,10 +61,12 @@ export const HighlightFilterMatch = ({ text, filters = [] }) => {
 
 const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
   const communities = (row.original.communities as any[]) || [];
+  const isCbcProject = Boolean(row?.original?.isCbcProject);
+  const federalProjectNumber = row?.original?.federalProjectNumber;
 
   return (
     <div>
-      <StyledSpan>Communities</StyledSpan>
+      <StyledSpan>Communities: </StyledSpan>
       {/* Add space between label and data */}{' '}
       {communities.length > 0 ? (
         communities.map((item, index) => (
@@ -85,18 +87,26 @@ const AllDashboardDetailPanel: React.FC<Props> = ({ row, filterValue }) => {
       ) : (
         <StyledSpan>N/A</StyledSpan>
       )}
-      {/* Add a new line between Communities and Original Project Number */}
-      <br />
-      <StyledSpan>Original Project Number</StyledSpan>
-      {/* Add space between label and data */}{' '}
-      <HighlightFilterMatch
-        text={
-          row.original.originalProjectNumber
-            ? row.original.originalProjectNumber
-            : 'N/A'
-        }
-        filters={[filterValue]}
-      />
+      {isCbcProject && (
+        <>
+          <br />
+          <StyledSpan>Original Project Number: </StyledSpan>{' '}
+          <HighlightFilterMatch
+            text={
+              row.original.originalProjectNumber
+                ? row.original.originalProjectNumber
+                : 'N/A'
+            }
+            filters={[filterValue]}
+          />
+          <br />
+          <StyledSpan>Federal Project Number: </StyledSpan>{' '}
+          <HighlightFilterMatch
+            text={federalProjectNumber || 'N/A'}
+            filters={[filterValue]}
+          />
+        </>
+      )}
     </div>
   );
 };
