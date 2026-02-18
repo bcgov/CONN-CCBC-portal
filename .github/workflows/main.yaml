@@ -312,3 +312,16 @@ jobs:
       OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
       OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
       OPENSHIFT_APP_NAMESPACE: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
+
+  ci-status:
+    if: always()
+    needs: [build, test-code, test-db, test-checks, test-containers, test-zap, test-e2e]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check CI status
+        run: |
+          if [ "${{ contains(needs.*.result, 'failure') }}" == "true" ]; then
+            echo "One or more jobs failed"
+            exit 1
+          fi
+          echo "All jobs passed or were skipped"
