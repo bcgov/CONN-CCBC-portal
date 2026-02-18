@@ -12,6 +12,7 @@ import {
   MRT_ToggleDensePaddingButton,
   MRT_ToggleFullScreenButton,
   MRT_ShowHideColumnsButton,
+  MRT_GlobalFilterTextField,
   MRT_ColumnSizingState,
 } from 'material-react-table';
 import { diff } from 'json-diff';
@@ -52,21 +53,20 @@ interface Props {
 
 const StyledTableHeader = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
+  gap: 8px;
 `;
 
 const StyledHeaderRow = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
 `;
 
 const StyledLastUpdated = styled.div`
   font-size: 13px;
   color: #555;
-  margin-left: auto;
+  align-self: flex-end;
+  white-space: nowrap;
 `;
 
 const UpdateBanner = styled.div`
@@ -1313,16 +1313,8 @@ const ProjectChangeLog: React.FC<Props> = () => {
     globalFilterFn: filterVariant,
     enableBottomToolbar: false,
     onColumnFiltersChange: setColumnFilters,
-    renderToolbarInternalActions: ({ table }) => (
-      <Box>
-        <MRT_ToggleGlobalFilterButton table={table} />
-        <MRT_ShowHideColumnsButton table={table} />
-        <MRT_ToggleDensePaddingButton table={table} />
-        <MRT_ToggleFullScreenButton table={table} />
-      </Box>
-    ),
-    renderTopToolbarCustomActions: () => (
-      <StyledTableHeader>
+    renderTopToolbar: ({ table }) => (
+      <Box sx={{ padding: '8px 8px 0 8px' }}>
         {hasUpdates && (
           <UpdateBanner>
             <span>New updates available.</span>
@@ -1338,31 +1330,51 @@ const ProjectChangeLog: React.FC<Props> = () => {
             <span>to see the latest changes.</span>
           </UpdateBanner>
         )}
-        <StyledHeaderRow>
-          <ClearFilters
-            table={table}
-            filters={table.getState().columnFilters}
-            defaultFilters={defaultFilters}
-          />
-          {cacheUpdatedAt && (
+        {cacheUpdatedAt && (
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <StyledLastUpdated>
               Last updated:{' '}
               {DateTime.fromISO(cacheUpdatedAt)
                 .setZone('America/Vancouver')
                 .toFormat("LLLL d, yyyy, h:mm a 'PT'")}
             </StyledLastUpdated>
-          )}
-        </StyledHeaderRow>
-        <AdditionalFilters
-          filters={columnFilters}
-          setFilters={setColumnFilters}
-          disabledFilters={
-            !isLoading && enableProjectTypeFilters
-              ? []
-              : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
-          }
-        />
-      </StyledTableHeader>
+          </Box>
+        )}
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            paddingTop: '4px',
+          }}
+        >
+          <StyledTableHeader>
+            <StyledHeaderRow>
+              <ClearFilters
+                table={table}
+                filters={table.getState().columnFilters}
+                defaultFilters={defaultFilters}
+              />
+            </StyledHeaderRow>
+            <AdditionalFilters
+              filters={columnFilters}
+              setFilters={setColumnFilters}
+              disabledFilters={
+                !isLoading && enableProjectTypeFilters
+                  ? []
+                  : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
+              }
+            />
+          </StyledTableHeader>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <MRT_GlobalFilterTextField table={table} />
+            <MRT_ToggleGlobalFilterButton table={table} />
+            <MRT_ShowHideColumnsButton table={table} />
+            <MRT_ToggleDensePaddingButton table={table} />
+            <MRT_ToggleFullScreenButton table={table} />
+          </Box>
+        </Box>
+      </Box>
     ),
   });
 
