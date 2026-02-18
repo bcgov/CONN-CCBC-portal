@@ -9,11 +9,46 @@ on:
     branches: [main]
 
 jobs:
+  release-commit-check:
+    runs-on: ubuntu-latest
+    outputs:
+      skip_job: ${{ steps.release-check.outputs.skip_job }}
+    steps:
+      - name: Release commit skip check
+        id: release-check
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const isReleaseCommit = (message) => (message || '').includes('chore: release');
+            let message = '';
+
+            if (context.payload.pull_request?.head?.sha) {
+              const { data } = await github.rest.repos.getCommit({
+                owner,
+                repo,
+                ref: context.payload.pull_request.head.sha
+              });
+              message = data?.commit?.message || '';
+            } else if (context.payload.head_commit?.message) {
+              message = context.payload.head_commit.message;
+            } else {
+              const { data } = await github.rest.repos.getCommit({ owner, repo, ref: context.sha });
+              message = data?.commit?.message || '';
+            }
+
+            const skipJob = isReleaseCommit(message) && context.ref !== 'refs/heads/main';
+            core.info(`Release skip check message: ${message}`);
+            core.info(`Skip job: ${skipJob}`);
+            core.setOutput('skip_job', skipJob.toString());
+
   has-merge-conflict:
     uses: ./.github/workflows/move-on-merge-conflict.yaml
     secrets: inherit
 
   build:
+    needs: [release-commit-check]
+    if: ${{ needs.release-commit-check.outputs.skip_job != 'true' }}
     uses: ./.github/workflows/build.yaml
 
   install-env:
@@ -21,7 +56,8 @@ jobs:
     secrets: inherit
 
   test-code:
-    needs: [install-env]
+    needs: [install-env, release-commit-check]
+    if: ${{ needs.release-commit-check.outputs.skip_job != 'true' }}
     uses: ./.github/workflows/test-code.yaml
     secrets: inherit
 
@@ -226,7 +262,7 @@ jobs:
       TEST_PG_PASSWORD: ${{ secrets.TEST_PG_PASSWORD }}
 
   deploy-feature:
-    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot[bot]'
+    if: ${{ needs.build.result == 'success' && github.event_name == 'pull_request' && github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot[bot]' }}
     needs: [build]
     uses: ./.github/workflows/deploy_feature.yaml
     secrets:
