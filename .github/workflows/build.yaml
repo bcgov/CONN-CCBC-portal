@@ -56,33 +56,6 @@ jobs:
       packages: write
     name: ${{ matrix.name }}
     steps:
-      - name: Release commit skip check
-        id: release-check
-        uses: actions/github-script@v8
-        with:
-          script: |
-            const { owner, repo } = context.repo;
-            const isReleaseCommit = (message) => (message || '').includes('chore: release');
-            let message = '';
-
-            if (context.payload.pull_request?.head?.sha) {
-              const { data } = await github.rest.repos.getCommit({
-                owner,
-                repo,
-                ref: context.payload.pull_request.head.sha
-              });
-              message = data?.commit?.message || '';
-            } else if (context.payload.head_commit?.message) {
-              message = context.payload.head_commit.message;
-            } else {
-              const { data } = await github.rest.repos.getCommit({ owner, repo, ref: context.sha });
-              message = data?.commit?.message || '';
-            }
-
-            const skipRelease = isReleaseCommit(message);
-            core.info(`Release skip check message: ${message}`);
-            core.setOutput('skip_release', skipRelease.toString());
-
       - name: Debug last successful build run for PR
         if: ${{ github.event_name == 'pull_request' && matrix.name == 'app' }}
         uses: actions/github-script@v8
@@ -143,7 +116,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-        if: ${{ (matrix.build_only_on_main != true || github.ref == 'refs/heads/main' || matrix.name == 'app') && !(steps.release-check.outputs.skip_release == 'true' && matrix.name == 'app' && github.ref != 'refs/heads/main') }}
+        if: ${{ matrix.build_only_on_main != true || github.ref == 'refs/heads/main' || matrix.name == 'app' }}
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
