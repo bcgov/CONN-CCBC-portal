@@ -12,7 +12,6 @@ import {
   MRT_ToggleDensePaddingButton,
   MRT_ToggleFullScreenButton,
   MRT_ShowHideColumnsButton,
-  MRT_GlobalFilterTextField,
   MRT_ColumnSizingState,
 } from 'material-react-table';
 import { diff } from 'json-diff';
@@ -65,8 +64,9 @@ const StyledHeaderRow = styled.div`
 const StyledLastUpdated = styled.div`
   font-size: 13px;
   color: #555;
-  align-self: flex-end;
+  text-align: right;
   white-space: nowrap;
+  padding: 4px 8px 0 0;
 `;
 
 const UpdateBanner = styled.div`
@@ -1313,73 +1313,61 @@ const ProjectChangeLog: React.FC<Props> = () => {
     globalFilterFn: filterVariant,
     enableBottomToolbar: false,
     onColumnFiltersChange: setColumnFilters,
-    renderTopToolbar: ({ table }) => (
-      <Box sx={{ padding: '8px 8px 0 8px' }}>
-        {hasUpdates && (
-          <UpdateBanner>
-            <span>New updates available.</span>
-            <UpdateBannerLink
-              href="#"
-              onClick={(event) => {
-                event.preventDefault();
-                window.location.reload();
-              }}
-            >
-              Refresh
-            </UpdateBannerLink>
-            <span>to see the latest changes.</span>
-          </UpdateBanner>
-        )}
-        {cacheUpdatedAt && (
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <StyledLastUpdated>
-              Last updated:{' '}
-              {DateTime.fromISO(cacheUpdatedAt)
-                .setZone('America/Vancouver')
-                .toFormat("LLLL d, yyyy, h:mm a 'PT'")}
-            </StyledLastUpdated>
-          </Box>
-        )}
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            paddingTop: '4px',
-          }}
-        >
-          <StyledTableHeader>
-            <StyledHeaderRow>
-              <ClearFilters
-                table={table}
-                filters={table.getState().columnFilters}
-                defaultFilters={defaultFilters}
-              />
-            </StyledHeaderRow>
-            <AdditionalFilters
-              filters={columnFilters}
-              setFilters={setColumnFilters}
-              disabledFilters={
-                !isLoading && enableProjectTypeFilters
-                  ? []
-                  : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
-              }
-            />
-          </StyledTableHeader>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <MRT_GlobalFilterTextField table={table} />
-            <MRT_ToggleGlobalFilterButton table={table} />
-            <MRT_ShowHideColumnsButton table={table} />
-            <MRT_ToggleDensePaddingButton table={table} />
-            <MRT_ToggleFullScreenButton table={table} />
-          </Box>
-        </Box>
+    renderToolbarInternalActions: ({ table }) => (
+      <Box>
+        <MRT_ToggleGlobalFilterButton table={table} />
+        <MRT_ShowHideColumnsButton table={table} />
+        <MRT_ToggleDensePaddingButton table={table} />
+        <MRT_ToggleFullScreenButton table={table} />
       </Box>
+    ),
+    renderTopToolbarCustomActions: () => (
+      <StyledTableHeader>
+        <StyledHeaderRow>
+          <ClearFilters
+            table={table}
+            filters={table.getState().columnFilters}
+            defaultFilters={defaultFilters}
+          />
+        </StyledHeaderRow>
+        <AdditionalFilters
+          filters={columnFilters}
+          setFilters={setColumnFilters}
+          disabledFilters={
+            !isLoading && enableProjectTypeFilters
+              ? []
+              : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
+          }
+        />
+      </StyledTableHeader>
     ),
   });
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
+      {hasUpdates && (
+        <UpdateBanner>
+          <span>New updates available.</span>
+          <UpdateBannerLink
+            href="#"
+            onClick={(event) => {
+              event.preventDefault();
+              window.location.reload();
+            }}
+          >
+            Refresh
+          </UpdateBannerLink>
+          <span>to see the latest changes.</span>
+        </UpdateBanner>
+      )}
+      {cacheUpdatedAt && (
+        <StyledLastUpdated>
+          Last updated:{' '}
+          {DateTime.fromISO(cacheUpdatedAt)
+            .setZone('America/Vancouver')
+            .toFormat("LLLL d, yyyy, h:mm a 'PT'")}
+        </StyledLastUpdated>
+      )}
       <MaterialReactTable table={table} />
     </LocalizationProvider>
   );
