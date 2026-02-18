@@ -61,6 +61,16 @@ jobs:
     uses: ./.github/workflows/test-code.yaml
     secrets: inherit
 
+  test-eslint:
+    needs: [install-env]
+    uses: ./.github/workflows/test-eslint.yaml
+    secrets: inherit
+
+  test-schema:
+    needs: [install-env]
+    uses: ./.github/workflows/test-schema.yaml
+    secrets: inherit
+
   test-db:
     uses: ./.github/workflows/test-db.yaml
     secrets: inherit
@@ -315,7 +325,7 @@ jobs:
 
   ci-status:
     if: always()
-    needs: [build, test-code, test-db, test-checks, test-containers, test-zap, test-e2e]
+    needs: [build, test-code, test-eslint, test-schema, test-db, test-checks, test-containers, test-zap, test-e2e]
     runs-on: ubuntu-latest
     steps:
       - name: Check CI status
