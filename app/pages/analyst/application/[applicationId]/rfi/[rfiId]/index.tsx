@@ -9,6 +9,10 @@ import GuideLink from 'components/Analyst/GuideLink';
 
 const getRfiIdQuery = graphql`
   query RfiIdQuery($rowId: Int!, $rfiId: Int!) {
+    applicationByRowId(rowId: $rowId) {
+      ccbcNumber
+      rowId
+    }
     rfiDataByRowId(rowId: $rfiId) {
       ...RfiForm_RfiData
     }
@@ -23,14 +27,18 @@ const RfiId = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, RfiIdQuery>) => {
   const query = usePreloadedQuery(getRfiIdQuery, preloadedQuery);
-  const { session, rfiDataByRowId } = query;
+  const { session, rfiDataByRowId, applicationByRowId } = query;
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <h2>RFI</h2>
         <hr />
         <GuideLink />
-        <RfiForm rfiDataKey={rfiDataByRowId} />
+        <RfiForm 
+          rfiDataKey={rfiDataByRowId}
+          ccbcNumber={applicationByRowId?.ccbcNumber} 
+          applicationRowId={applicationByRowId?.rowId} 
+        />
       </AnalystLayout>
     </Layout>
   );
