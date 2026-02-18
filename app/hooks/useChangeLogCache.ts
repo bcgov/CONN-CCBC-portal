@@ -60,6 +60,7 @@ const useChangeLogCache = () => {
       setCacheUpdatedAt(result.updatedAt ?? null);
       setHasUpdates(false);
 
+      // eslint-disable-next-line no-void
       void refreshInBackground();
     } catch (err) {
       const fetchError =
