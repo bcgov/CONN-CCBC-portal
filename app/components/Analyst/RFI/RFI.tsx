@@ -11,33 +11,6 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useUpdateRfiJsonDataMutation } from 'schema/mutations/application/updateRfiJsonData';
 import useEmailNotification from 'lib/helpers/useEmailNotification';
 
-// Detects if new files were added to the email correspondence array
-export const detectNewFiles = (oldFiles: any[] = [], newFiles: any[] = []) => {
-  const hasNewFiles = newFiles.length > oldFiles.length;
-  const newlyAddedFiles = hasNewFiles 
-    ? newFiles.slice(oldFiles.length) 
-    : [];
-  
-  return {
-    hasNewFiles,
-    newlyAddedFiles,
-  };
-};
-
-// Transforms file objects into the format needed for email notifications
-export const transformFilesForNotification = (files: any[]) => {
-  const fileNames = files.map((file: any) => file.name);
-  const fileDetails = files.map((file: any) => ({
-    name: file.name,
-    type: file.type || 'Unknown',
-    uploadedAt: file.uploadedAt,
-  }));
-
-  return {
-    fileNames,
-    fileDetails,
-  };
-};
 
 interface Props {
   id: string;
@@ -70,6 +43,36 @@ const StyledFontAwesome = styled(FontAwesomeIcon)`
   color: ${(props) => props.theme.color.links};
   cursor: pointer;
 `;
+
+
+// Detects if new files were added to the email correspondence array
+export const detectNewFiles = (oldFiles: any[] = [], newFiles: any[] = []) => {
+  const hasNewFiles = newFiles.length > oldFiles.length;
+  const newlyAddedFiles = hasNewFiles 
+    ? newFiles.slice(oldFiles.length) 
+    : [];
+  
+  return {
+    hasNewFiles,
+    newlyAddedFiles,
+  };
+};
+
+// Transforms file objects into the format needed for email notifications
+export const transformFilesForNotification = (files: any[]) => {
+  const fileNames = files.map((file: any) => file.name);
+  // map file types to useful names and types
+  const fileDetails = files.map((file: any) => ({
+    name: file.name,
+    type: file.type || 'Unknown',
+    uploadedAt: file.uploadedAt,
+  }));
+
+  return {
+    fileNames,
+    fileDetails,
+  };
+};
 
 const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id, ccbcNumber, applicationRowId }) => {
   const router = useRouter();

@@ -12,7 +12,33 @@ import { RfiForm_RfiData$key } from '__generated__/RfiForm_RfiData.graphql';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import removeFalseyValuesFromObject from 'utils/removeFalseValuesFromObject';
 import { useState } from 'react';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
+import { detectNewFiles, transformFilesForNotification } from './RFI';
 import RfiTheme from './RfiTheme';
+
+// Mapping of RFI additional file fields to human-readable names
+const RFI_FILE_LABELS = {
+  eligibilityAndImpactsCalculatorRfi: 'Template 1 - Eligibility and Impacts Calculator',
+  detailedBudgetRfi: 'Template 2 - Detailed Budget',
+  financialForecastRfi: 'Template 3 - Financial Forecast',
+  lastMileIspOfferingRfi: 'Template 4 - Last Mile Internet Service Offering',
+  popWholesalePricingRfi: 'Template 5 - List of Points of Presence and Wholesale Pricing',
+  communityRuralDevelopmentBenefitsTemplateRfi: 'Template 6 - Community and Rural Development Benefits',
+  wirelessAddendumRfi: 'Template 7 - Wireless Addendum',
+  supportingConnectivityEvidenceRfi: 'Template 8 - Supporting Connectivity Evidence',
+  geographicNamesRfi: 'Template 9 - Backbone and Geographic Names',
+  equipmentDetailsRfi: 'Template 10 - Equipment Details',
+  copiesOfRegistrationRfi: 'Copies of registration and other relevant documents',
+  preparedFinancialStatementsRfi: 'Financial statements',
+  logicalNetworkDiagramRfi: 'Logical Network Diagram',
+  projectScheduleRfi: 'Project schedule',
+  communityRuralDevelopmentBenefitsRfi: 'Benefits supporting documents',
+  otherSupportingMaterialsRfi: 'Other supporting materials',
+  geographicCoverageMapRfi: 'Coverage map from Eligibility Mapping Tool',
+  coverageAssessmentStatisticsRfi: 'Coverage Assessment and Statistics',
+  currentNetworkInfastructureRfi: 'Current network infrastructure',
+  upgradedNetworkInfrastructureRfi: 'Proposed or Upgraded Network Infrastructure',
+};
 
 const StyledCancel = styled(Button)`
   margin-left: 24px;
@@ -20,6 +46,8 @@ const StyledCancel = styled(Button)`
 
 interface RfiFormProps {
   rfiDataKey: RfiForm_RfiData$key;
+  ccbcNumber?: string;
+  applicationRowId?: number;
 }
 
 const StyledH4 = styled.h4`
@@ -28,7 +56,59 @@ const StyledH4 = styled.h4`
   font-size: 24px;
 `;
 
-const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
+export const extractRequestedFiles = (oldFiles: any = {}, newFiles: any = {}): string[] => {
+  const requestedFiles: string[] = [];
+  
+  // Check each boolean field in the new files
+  Object.keys(newFiles).forEach((key) => {
+    // Only process boolean checkbox fields (ending with 'Rfi')
+    if (key.endsWith('Rfi') && typeof newFiles[key] === 'boolean') {
+      // Check if this is a new request (wasn't true before, is true now)
+      const wasRequested = oldFiles[key] === true;
+      const isRequested = newFiles[key] === true;
+      
+      if (isRequested && !wasRequested) {
+        const label = RFI_FILE_LABELS[key] || key;
+        requestedFiles.push(label);
+      }
+    }
+  });
+  
+  return requestedFiles;
+};
+
+const getEmailParams = (
+    hasNewFiles: boolean, 
+    hasNewAdditionalFiles: boolean,
+    newlyAddedFiles: string [],
+    requestedAdditionalFiles: string [],
+    ccbcNumber: string,
+    rfiNumber: string
+  ): string => {
+    
+  const emailParams: any = {
+      ccbcNumber,
+      documentType: 'RFI Additional Documents',
+      timestamp: new Date().toLocaleString(),
+      rfiNumber,
+    };
+
+  // Add email correspondence files if present
+  if (hasNewFiles && newlyAddedFiles.length > 0) {
+    const { fileNames, fileDetails } = transformFilesForNotification(newlyAddedFiles);
+    emailParams.documentNames = fileNames;
+    emailParams.fileDetails = fileDetails;
+  }
+
+  // Add requested additional files if present
+  if (hasNewAdditionalFiles) {
+    emailParams.requestedFiles = requestedAdditionalFiles;
+  }
+
+  return emailParams
+};
+
+const RfiForm = ({ rfiDataKey, ccbcNumber, applicationRowId }: RfiFormProps) => {
   const router = useRouter();
   const { applicationId, rfiId } = router.query;
   const isNewRfiForm = rfiId === '0';
@@ -46,6 +126,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
   const [createRfi] = useCreateRfiMutation();
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
   const [formData, setFormData] = useState(rfiFormData?.jsonData ?? {});
+  const { notifyDocumentUpload } = useEmailNotification();
 
   const handleSubmit = (e: IChangeEvent<any>) => {
     const newFormData = {
@@ -57,15 +138,34 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
       },
     };
 
+    // Track old data for file upload detection
+    const oldEmailFiles = rfiFormData?.jsonData?.rfiEmailCorrespondance || [];
+    const newEmailFiles = newFormData?.rfiEmailCorrespondance || [];
+    const oldAdditionalFiles = rfiFormData?.jsonData?.rfiAdditionalFiles || {};
+    const newAdditionalFiles = newFormData?.rfiAdditionalFiles || {};
+    const appId = Array.isArray(applicationId) ? applicationId[0] : applicationId;
+
     if (isNewRfiForm) {
       createRfi({
         variables: {
           input: {
-            applicationRowId: parseInt(applicationId as string, 10),
+            applicationRowId: parseInt(appId, 10),
             jsonData: newFormData,
           },
         },
-        onCompleted: () => {
+        onCompleted: (response) => {
+          const rfiNumber = response.createRfi.rfiData.rfiNumber;
+
+          // Check if email correspondence files were uploaded OR additional files were requested
+          const { hasNewFiles, newlyAddedFiles } = detectNewFiles(oldEmailFiles, newEmailFiles);
+          const requestedAdditionalFiles = extractRequestedFiles(oldAdditionalFiles, newAdditionalFiles);
+          const hasNewAdditionalFiles = requestedAdditionalFiles.length > 0;
+
+          if (hasNewFiles || hasNewAdditionalFiles) {
+            const emailParams: any = getEmailParams(hasNewFiles, hasNewAdditionalFiles, newlyAddedFiles, requestedAdditionalFiles, ccbcNumber, rfiNumber)
+            notifyDocumentUpload(applicationRowId?.toString() || appId, emailParams);
+          }
+
           router.push(rfiUrl);
         },
         onError: (err) => {
@@ -82,6 +182,18 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
           },
         },
         onCompleted: () => {
+          const rfiNumber = rfiFormData?.rfiNumber;
+
+          // Check if email correspondence files were uploaded OR additional files were requested
+          const { hasNewFiles, newlyAddedFiles } = detectNewFiles(oldEmailFiles, newEmailFiles);
+          const requestedAdditionalFiles = extractRequestedFiles(oldAdditionalFiles, newAdditionalFiles);
+          const hasNewAdditionalFiles = requestedAdditionalFiles.length > 0;
+
+          if (hasNewFiles || hasNewAdditionalFiles) {
+            const emailParams: any = getEmailParams(hasNewFiles, hasNewAdditionalFiles, newlyAddedFiles, requestedAdditionalFiles, ccbcNumber, rfiNumber)
+            notifyDocumentUpload(applicationRowId?.toString() || appId, emailParams);
+          }
+
           router.push(rfiUrl);
         },
         onError: (err) => {

@@ -221,6 +221,270 @@ describe('notifyDocumentUpload template', () => {
     );
 
     expect(emailTemplate.body).toContain('Email Correspondence uploaded in Portal');
-    expect(emailTemplate.body).toContain('<ul>');
+    expect(emailTemplate.body).toContain('CCBC-1000');
+    expect(emailTemplate.body).not.toContain('<ul>');
+  });
+
+  // Tests for RFI Additional Documents functionality
+  describe('RFI Additional Documents with requestedFiles', () => {
+    it('should display requested additional files when provided', () => {
+      const applicationId = '1';
+      const url = 'http://mock_host.ca';
+
+      const emailTemplate: any = notifyDocumentUpload(
+        applicationId,
+        url,
+        {},
+        {
+          ccbcNumber: 'CCBC-10001',
+          documentType: 'RFI Additional Documents',
+          requestedFiles: [
+            'Template 1 - Eligibility and Impacts Calculator',
+            'Template 2 - Detailed Budget',
+            'Financial statements',
+          ],
+          timestamp: '2024/08/24 11:00:00',
+        }
+      );
+
+      expect(emailTemplate.subject).toBe('RFI Additional Documents uploaded in Portal');
+      expect(emailTemplate.body).toContain('<h3>Requested Additional Documents:</h3>');
+      expect(emailTemplate.body).toContain('<li><strong>Template 1 - Eligibility and Impacts Calculator</strong></li>');
+      expect(emailTemplate.body).toContain('<li><strong>Template 2 - Detailed Budget</strong></li>');
+      expect(emailTemplate.body).toContain('<li><strong>Financial statements</strong></li>');
+    });
+
+    it('should link to RFI page for RFI Additional Documents type', () => {
+      const applicationId = '123';
+      const url = 'http://mock_host.ca';
+
+      const emailTemplate: any = notifyDocumentUpload(
+        applicationId,
+        url,
+        {},
+        {
+          ccbcNumber: 'CCBC-10001',
+          documentType: 'RFI Additional Documents',
+          requestedFiles: ['Template 1 - Eligibility and Impacts Calculator'],
+          timestamp: '2024/08/24 11:00:00',
+        }
+      );
+
+      expect(emailTemplate.body).toContain(
+        `<a href='http://mock_host.ca/analyst/application/123/rfi'>CCBC-10001</a>`
+      );
+    });
+
+    it('should display both uploaded files and requested documents when both are provided', () => {
+      const applicationId = '1';
+      const url = 'http://mock_host.ca';
+
+      const emailTemplate: any = notifyDocumentUpload(
+        applicationId,
+        url,
+        {},
+        {
+          ccbcNumber: 'CCBC-10001',
+          documentType: 'RFI Additional Documents',
+          documentNames: ['response_letter.pdf'],
+          fileDetails: [
+            {
+              name: 'response_letter.pdf',
+              type: 'application/pdf',
+              uploadedAt: '2024/08/24 11:00:00',
+            },
+          ],
+          requestedFiles: [
+            'Template 1 - Eligibility and Impacts Calculator',
+            'Template 3 - Financial Forecast',
+            'Project schedule',
+          ],
+          timestamp: '2024/08/24 11:00:00',
+        }
+      );
+
+      // Check uploaded files section
+      expect(emailTemplate.body).toContain('<h3>Uploaded Files:</h3>');
+      expect(emailTemplate.body).toContain('<li><em>response_letter.pdf</em> <strong>(Type: application/pdf)</strong></li>');
+
+      // Check requested documents section
+      expect(emailTemplate.body).toContain('<h3>Requested Additional Documents:</h3>');
+      expect(emailTemplate.body).toContain('<li><strong>Template 1 - Eligibility and Impacts Calculator</strong></li>');
+      expect(emailTemplate.body).toContain('<li><strong>Template 3 - Financial Forecast</strong></li>');
+      expect(emailTemplate.body).toContain('<li><strong>Project schedule</strong></li>');
+    });
+
+    it('should handle only uploaded files without requested documents', () => {
+      const applicationId = '1';
+      const url = 'http://mock_host.ca';
+
+      const emailTemplate: any = notifyDocumentUpload(
+        applicationId,
+        url,
+        {},
+        {
+          ccbcNumber: 'CCBC-10001',
+          documentType: 'RFI Additional Documents',
+          documentNames: ['file1.pdf', 'file2.docx'],
+          fileDetails: [
+            {
+              name: 'file1.pdf',
+              type: 'application/pdf',
+              uploadedAt: '2024/08/24 11:00:00',
+            },
+            {
+              name: 'file2.docx',
+              type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+              uploadedAt: '2024/08/24 11:05:00',
+            },
+          ],
+          timestamp: '2024/08/24 11:00:00',
+        }
+      );
+
+      expect(emailTemplate.body).toContain('<h3>Uploaded Files:</h3>');
+      expect(emailTemplate.body).not.toContain('<h3>Requested Additional Documents:</h3>');
+    });
+
+    it('should handle only requested documents without uploaded files', () => {
+      const applicationId = '1';
+      const url = 'http://mock_host.ca';
+
+      const emailTemplate: any = notifyDocumentUpload(
+        applicationId,
+        url,
+        {},
+        {
+          ccbcNumber: 'CCBC-10001',
+          documentType: 'RFI Additional Documents',
+          requestedFiles: [
+            'Template 1 - Eligibility and Impacts Calculator',
+            'Logical Network Diagram',
+          ],
+          timestamp: '2024/08/24 11:00:00',
+        }
+      );
+
+      expect(emailTemplate.body).not.toContain('<h3>Uploaded Files:</h3>');
+      expect(emailTemplate.body).toContain('<h3>Requested Additional Documents:</h3>');
+    });
+
+    it('should handle empty requestedFiles array', () => {
+      const applicationId = '1';
+      const url = 'http://mock_host.ca';
+
+      const emailTemplate: any = notifyDocumentUpload(
+        applicationId,
+        url,
+        {},
+        {
+          ccbcNumber: 'CCBC-10001',
+          documentType: 'RFI Additional Documents',
+          requestedFiles: [],
+          timestamp: '2024/08/24 11:00:00',
+        }
+      );
+
+      expect(emailTemplate.body).not.toContain('<h3>Requested Additional Documents:</h3>');
+    });
+
+    it('should handle all 20 document types in requestedFiles', () => {
+      const applicationId = '1';
+      const url = 'http://mock_host.ca';
+
+      const emailTemplate: any = notifyDocumentUpload(
+        applicationId,
+        url,
+        {},
+        {
+          ccbcNumber: 'CCBC-10001',
+          documentType: 'RFI Additional Documents',
+          requestedFiles: [
+            'Template 1 - Eligibility and Impacts Calculator',
+            'Template 2 - Detailed Budget',
+            'Template 3 - Financial Forecast',
+            'Template 4 - Last Mile Internet Service Offering',
+            'Template 5 - List of Points of Presence and Wholesale Pricing',
+            'Template 6 - Community and Rural Development Benefits',
+            'Template 7 - Wireless Addendum',
+            'Template 8 - Supporting Connectivity Evidence',
+            'Template 9 - Backbone and Geographic Names',
+            'Template 10 - Equipment Details',
+            'Copies of registration and other relevant documents',
+            'Financial statements',
+            'Logical Network Diagram',
+            'Project schedule',
+            'Benefits supporting documents',
+            'Other supporting materials',
+            'Coverage map from Eligibility Mapping Tool',
+            'Coverage Assessment and Statistics',
+            'Current network infrastructure',
+            'Proposed or Upgraded Network Infrastructure',
+          ],
+          timestamp: '2024/08/24 11:00:00',
+        }
+      );
+
+      expect(emailTemplate.body).toContain('<h3>Requested Additional Documents:</h3>');
+      expect(emailTemplate.body).toContain('<li><strong>Template 1 - Eligibility and Impacts Calculator</strong></li>');
+      expect(emailTemplate.body).toContain('<li><strong>Template 10 - Equipment Details</strong></li>');
+      expect(emailTemplate.body).toContain('<li><strong>Financial statements</strong></li>');
+      expect(emailTemplate.body).toContain('<li><strong>Proposed or Upgraded Network Infrastructure</strong></li>');
+    });
+
+    it('should display multiple uploaded files and multiple requested documents correctly', () => {
+      const applicationId = '1';
+      const url = 'http://mock_host.ca';
+
+      const emailTemplate: any = notifyDocumentUpload(
+        applicationId,
+        url,
+        {},
+        {
+          ccbcNumber: 'CCBC-10001',
+          documentType: 'RFI Additional Documents',
+          documentNames: ['email1.pdf', 'email2.docx', 'email3.xlsx'],
+          fileDetails: [
+            {
+              name: 'email1.pdf',
+              type: 'application/pdf',
+              uploadedAt: '2024/08/24 11:00:00',
+            },
+            {
+              name: 'email2.docx',
+              type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+              uploadedAt: '2024/08/24 11:01:00',
+            },
+            {
+              name: 'email3.xlsx',
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+              uploadedAt: '2024/08/24 11:02:00',
+            },
+          ],
+          requestedFiles: [
+            'Template 1 - Eligibility and Impacts Calculator',
+            'Template 2 - Detailed Budget',
+            'Financial statements',
+            'Logical Network Diagram',
+            'Project schedule',
+          ],
+          timestamp: '2024/08/24 11:00:00',
+        }
+      );
+
+      // Verify uploaded files section has all 3 files
+      expect(emailTemplate.body).toContain('<h3>Uploaded Files:</h3>');
+      expect(emailTemplate.body).toContain('<li><em>email1.pdf</em>');
+      expect(emailTemplate.body).toContain('<li><em>email2.docx</em>');
+      expect(emailTemplate.body).toContain('<li><em>email3.xlsx</em>');
+
+      // Verify requested documents section has all 5 documents
+      expect(emailTemplate.body).toContain('<h3>Requested Additional Documents:</h3>');
+      expect(emailTemplate.body).toContain('<li><strong>Template 1 - Eligibility and Impacts Calculator</strong></li>');
+      expect(emailTemplate.body).toContain('<li><strong>Template 2 - Detailed Budget</strong></li>');
+      expect(emailTemplate.body).toContain('<li><strong>Financial statements</strong></li>');
+      expect(emailTemplate.body).toContain('<li><strong>Logical Network Diagram</strong></li>');
+      expect(emailTemplate.body).toContain('<li><strong>Project schedule</strong></li>');
+    });
   });
 });

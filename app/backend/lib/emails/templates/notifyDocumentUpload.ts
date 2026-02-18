@@ -9,7 +9,7 @@ const notifyDocumentUpload: EmailTemplateProvider = (
   initiator: any,
   params: any
 ): EmailTemplate => {
-  const { ccbcNumber, documentType, timestamp, documentNames, fileDetails } = params;
+  const { ccbcNumber, documentType, timestamp, documentNames, fileDetails, requestedFiles } = params;
 
   const section = {
     'Claim & Progress Report': 'project?section=claimsReport',
@@ -17,6 +17,7 @@ const notifyDocumentUpload: EmailTemplateProvider = (
     'Milestone Report': 'project?section=milestoneReport',
     'Statement of Work': 'project?section=projectInformation',
     'Email Correspondence': 'rfi',
+    'RFI Additional Documents': 'rfi',
   };
 
   const link = `<a href='${url}/analyst/application/${applicationId}/${section[documentType] ?? 'rfi'}'>${ccbcNumber}</a>`;
@@ -27,8 +28,35 @@ const notifyDocumentUpload: EmailTemplateProvider = (
     fileList = fileDetails
       .map((file) => `<li><em>${file.name}</em> <strong>(Type: ${file.type})</strong></li>`)
       .join('');
-  } else {
+  } else if (documentNames && Array.isArray(documentNames)) {
     fileList = documentNames.map((file) => `<li><em>${file}</em></li>`).join('');
+  }
+
+  // Build requested additional files list
+  let requestedFilesList = '';
+  if (requestedFiles && Array.isArray(requestedFiles) && requestedFiles.length > 0) {
+    requestedFilesList = requestedFiles
+      .map((file) => `<li><strong>${file}</strong></li>`)
+      .join('');
+  }
+
+  // Build email body based on what's included
+  let bodyContent = `<p>Notification: A ${documentType} has been uploaded in the Portal for ${link} on ${timestamp}.</p>`;
+  
+  if (fileList) {
+    bodyContent += `
+      <h3>Uploaded Files:</h3>
+      <ul>
+        ${fileList}
+      </ul>`;
+  }
+  
+  if (requestedFilesList) {
+    bodyContent += `
+      <h3>Requested Additional Documents:</h3>
+      <ul>
+        ${requestedFilesList}
+      </ul>`;
   }
 
   return {
@@ -38,11 +66,7 @@ const notifyDocumentUpload: EmailTemplateProvider = (
     subject: `${documentType} uploaded in Portal`,
     body: `
         <h1>${documentType} uploaded in Portal</h1>
-
-        <p>Notification: A ${documentType} has been uploaded in the Portal for ${link} on ${timestamp}.</p>
-        <ul>
-          ${fileList}
-        </ul>
+        ${bodyContent}
     `,
   };
 };
