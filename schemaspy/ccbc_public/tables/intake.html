@@ -423,6 +423,40 @@
                                     </td>
                                     <td><p>A column to denote whether the intake is a rolling intake</p></td>
                                 </tr>
+                                <tr>
+                                    <td><span id="zones">zones</span></td>
+                                    <td>_int4</td>
+                                    <td>10</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>ARRAY[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>A list of zones accepted for the intake</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="allow_unlisted_fn_led_zones">allow_unlisted_fn_led_zones</span></td>
+                                    <td>bool</td>
+                                    <td>1</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>true</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>Allows applicants to select zones not in the intake list if First Nations based or led</p></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -514,9 +548,9 @@
                                         <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
 <area shape="rect" id="node1" href="application.html" target="_top" title="application" alt="" coords="841,5,1033,269">
 <area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="21,439,232,673">
-<area shape="rect" id="node3" href="intake.html" target="_top" title="intake" alt="" coords="292,231,789,769">
+<area shape="rect" id="node3" href="intake.html" target="_top" title="intake" alt="" coords="292,231,789,828">
 <area shape="rect" id="node4" href="gapless_counter.html" target="_top" title="gapless_counter" alt="" coords="5,691,248,808">
-<area shape="rect" id="node5" href="intake_users.html" target="_top" title="intake_users" alt="" coords="833,695,1040,959">
+<area shape="rect" id="node5" href="intake_users.html" target="_top" title="intake_users" alt="" coords="833,753,1040,1017">
 </map>
                                         <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/intake.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
@@ -526,7 +560,7 @@
 <area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="37,1931,216,2019">
 <area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="426,341,655,429">
 <area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="980,1609,1172,1697">
-<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="292,3224,789,3763">
+<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="292,3224,789,3821">
 <area shape="rect" id="node47" href="gapless_counter.html" target="_top" title="gapless_counter" alt="" coords="5,3549,248,3667">
 <area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="1465,5,1787,93">
 <area shape="rect" id="node7" href="application_announced.html" target="_top" title="application_announced" alt="" coords="1472,111,1780,199">
@@ -555,7 +589,7 @@
 <area shape="rect" id="node30" href="application_project_type.html" target="_top" title="application_project_type" alt="" coords="1465,2427,1787,2515">
 <area shape="rect" id="node31" href="application_rfi_data.html" target="_top" title="application_rfi_data" alt="" coords="1488,2532,1764,2620">
 <area shape="rect" id="node32" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="461,2221,620,2309">
-<area shape="rect" id="node33" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="1480,4279,1772,4367">
+<area shape="rect" id="node33" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="1480,4337,1772,4425">
 <area shape="rect" id="node34" href="application_status.html" target="_top" title="application_status" alt="" coords="1495,705,1757,793">
 <area shape="rect" id="node35" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="1501,2637,1751,2725">
 <area shape="rect" id="node36" href="attachment.html" target="_top" title="attachment" alt="" coords="1933,405,2129,493">
@@ -568,16 +602,16 @@
 <area shape="rect" id="node43" href="change_request_data.html" target="_top" title="change_request_data" alt="" coords="1481,3029,1771,3117">
 <area shape="rect" id="node44" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="1456,3135,1796,3223">
 <area shape="rect" id="node45" href="coverages_upload.html" target="_top" title="coverages_upload" alt="" coords="411,2877,670,2965">
-<area shape="rect" id="node46" href="email_record.html" target="_top" title="email_record" alt="" coords="436,3932,645,4020">
-<area shape="rect" id="node48" href="intake_users.html" target="_top" title="intake_users" alt="" coords="973,3759,1179,3847">
-<area shape="rect" id="node49" href="notification.html" target="_top" title="notification" alt="" coords="1528,3843,1724,3931">
-<area shape="rect" id="node50" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="1462,4016,1790,4104">
-<area shape="rect" id="node51" href="record_version.html" target="_top" title="record_version" alt="" coords="427,4105,655,4193">
-<area shape="rect" id="node52" href="reporting_gcpe.html" target="_top" title="reporting_gcpe" alt="" coords="425,4211,656,4299">
+<area shape="rect" id="node46" href="email_record.html" target="_top" title="email_record" alt="" coords="436,3991,645,4079">
+<area shape="rect" id="node48" href="intake_users.html" target="_top" title="intake_users" alt="" coords="973,3817,1179,3905">
+<area shape="rect" id="node49" href="notification.html" target="_top" title="notification" alt="" coords="1528,3901,1724,3989">
+<area shape="rect" id="node50" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="1462,4075,1790,4163">
+<area shape="rect" id="node51" href="record_version.html" target="_top" title="record_version" alt="" coords="427,4164,655,4252">
+<area shape="rect" id="node52" href="reporting_gcpe.html" target="_top" title="reporting_gcpe" alt="" coords="425,4269,656,4357">
 <area shape="rect" id="node53" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1939,2721,2123,2809">
-<area shape="rect" id="node54" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1939,4316,2123,4404">
-<area shape="rect" id="node55" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1939,4421,2123,4509">
-<area shape="rect" id="node56" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1939,4527,2123,4615">
+<area shape="rect" id="node54" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1939,4375,2123,4463">
+<area shape="rect" id="node55" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1939,4480,2123,4568">
+<area shape="rect" id="node56" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1939,4585,2123,4673">
 </map>
                                         <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/intake.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>

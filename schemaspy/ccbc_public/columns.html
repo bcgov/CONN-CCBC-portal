@@ -6957,6 +6957,34 @@
         "comments": "<p>A column to denote whether the intake is a rolling intake</p>"
     },
     {
+        "tableName": "intake",
+        "tableFileName": "intake",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "zones",
+        "type": "_int4",
+        "length": 10,
+        "nullable": "√",
+        "autoUpdated": "",
+        "defaultValue": "ARRAY[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]",
+        "comments": "<p>A list of zones accepted for the intake</p>"
+    },
+    {
+        "tableName": "intake",
+        "tableFileName": "intake",
+        "tableType": "Table",
+        "keyClass": "",
+        "keyTitle": "",
+        "name": "allow_unlisted_fn_led_zones",
+        "type": "bool",
+        "length": 1,
+        "nullable": "",
+        "autoUpdated": "",
+        "defaultValue": "true",
+        "comments": "<p>Allows applicants to select zones not in the intake list if First Nations based or led</p>"
+    },
+    {
         "tableName": "intake_users",
         "tableFileName": "intake_users",
         "tableType": "Table",
