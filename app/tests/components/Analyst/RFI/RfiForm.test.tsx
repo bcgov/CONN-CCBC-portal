@@ -1,5 +1,4 @@
 import { extractRequestedFiles, getEmailParams, processRfiEmailNotification } from 'components/Analyst/RFI/RfiForm';
-import { detectNewFiles, transformFilesForNotification } from 'components/Analyst/RFI/RFI';
 
 describe('RfiForm - Additional Files Email Notification Logic', () => {
   describe('extractRequestedFiles', () => {
