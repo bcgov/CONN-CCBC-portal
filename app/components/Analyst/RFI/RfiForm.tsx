@@ -182,7 +182,7 @@ const RfiForm = ({ rfiDataKey, ccbcNumber, applicationRowId }: RfiFormProps) => 
           },
         },
         onCompleted: (response) => {
-          const rfiNumber = response.createRfi.rfiData.rfiNumber;
+          const { createRfi: { rfiData: { rfiNumber } } } = response;
 
           processRfiEmailNotification(
             oldEmailFiles,
