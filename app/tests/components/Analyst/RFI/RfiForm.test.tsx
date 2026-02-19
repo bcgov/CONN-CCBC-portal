@@ -1,4 +1,5 @@
-import { extractRequestedFiles } from 'components/Analyst/RFI/RfiForm';
+import { extractRequestedFiles, getEmailParams, processRfiEmailNotification } from 'components/Analyst/RFI/RfiForm';
+import { detectNewFiles, transformFilesForNotification } from 'components/Analyst/RFI/RFI';
 
 describe('RfiForm - Additional Files Email Notification Logic', () => {
   describe('extractRequestedFiles', () => {
@@ -434,6 +435,451 @@ describe('RfiForm - Additional Files Email Notification Logic', () => {
           'Proposed or Upgraded Network Infrastructure',
         ]);
       });
+    });
+  });
+
+  describe('getEmailParams', () => {
+    it('should create email params with only email correspondence files', () => {
+      const newlyAddedFiles = [
+        { name: 'file1.pdf', type: 'application/pdf', uploadedAt: '2024-08-24' },
+      ];
+
+      const params = getEmailParams(
+        true,  // hasNewFiles
+        false, // hasNewAdditionalFiles
+        newlyAddedFiles,
+        [],
+        'CCBC-12345',
+        'CCBC-12345-1'
+      );
+
+      expect(params.ccbcNumber).toBe('CCBC-12345');
+      expect(params.documentType).toBe('RFI Additional Documents');
+      expect(params.rfiNumber).toBe('CCBC-12345-1');
+      expect(params.documentNames).toEqual(['file1.pdf']);
+      expect(params.fileDetails).toHaveLength(1);
+      expect(params.requestedFiles).toBeUndefined();
+    });
+
+    it('should create email params with only requested additional files', () => {
+      const params = getEmailParams(
+        false, // hasNewFiles
+        true,  // hasNewAdditionalFiles
+        [],
+        ['Template 1 - Eligibility and Impacts Calculator', 'Financial statements'],
+        'CCBC-12345',
+        'CCBC-12345-1'
+      );
+
+      expect(params.ccbcNumber).toBe('CCBC-12345');
+      expect(params.documentType).toBe('RFI Additional Documents');
+      expect(params.rfiNumber).toBe('CCBC-12345-1');
+      expect(params.requestedFiles).toEqual([
+        'Template 1 - Eligibility and Impacts Calculator',
+        'Financial statements'
+      ]);
+      expect(params.documentNames).toBeUndefined();
+      expect(params.fileDetails).toBeUndefined();
+    });
+
+    it('should create email params with both email files and requested documents', () => {
+      const newlyAddedFiles = [
+        { name: 'email.pdf', type: 'application/pdf', uploadedAt: '2024-08-24' },
+        { name: 'response.docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', uploadedAt: '2024-08-24' },
+      ];
+
+      const params = getEmailParams(
+        true,
+        true,
+        newlyAddedFiles,
+        ['Template 1 - Eligibility and Impacts Calculator', 'Project schedule'],
+        'CCBC-12345',
+        'CCBC-12345-1'
+      );
+
+      expect(params.documentNames).toEqual(['email.pdf', 'response.docx']);
+      expect(params.fileDetails).toHaveLength(2);
+      expect(params.requestedFiles).toEqual([
+        'Template 1 - Eligibility and Impacts Calculator',
+        'Project schedule'
+      ]);
+    });
+
+    it('should not include documentNames/fileDetails when hasNewFiles is false', () => {
+      const params = getEmailParams(
+        false,
+        true,
+        [{ name: 'file.pdf', type: 'application/pdf', uploadedAt: '2024-08-24' }],
+        ['Template 1 - Eligibility and Impacts Calculator'],
+        'CCBC-12345',
+        'CCBC-12345-1'
+      );
+
+      expect(params.documentNames).toBeUndefined();
+      expect(params.fileDetails).toBeUndefined();
+      expect(params.requestedFiles).toBeDefined();
+    });
+
+    it('should not include requestedFiles when hasNewAdditionalFiles is false', () => {
+      const newlyAddedFiles = [
+        { name: 'file.pdf', type: 'application/pdf', uploadedAt: '2024-08-24' },
+      ];
+
+      const params = getEmailParams(
+        true,
+        false,
+        newlyAddedFiles,
+        ['Template 1 - Eligibility and Impacts Calculator'],
+        'CCBC-12345',
+        'CCBC-12345-1'
+      );
+
+      expect(params.documentNames).toBeDefined();
+      expect(params.fileDetails).toBeDefined();
+      expect(params.requestedFiles).toBeUndefined();
+    });
+
+    it('should include timestamp in email params', () => {
+      const params = getEmailParams(
+        false,
+        true,
+        [],
+        ['Template 1 - Eligibility and Impacts Calculator'],
+        'CCBC-12345',
+        'CCBC-12345-1'
+      );
+
+      expect(params.timestamp).toBeDefined();
+      expect(typeof params.timestamp).toBe('string');
+    });
+  });
+
+  describe('processRfiEmailNotification', () => {
+    let mockNotifyDocumentUpload: jest.Mock;
+
+    beforeEach(() => {
+      mockNotifyDocumentUpload = jest.fn();
+    });
+
+    it('should call notifyDocumentUpload when email files are uploaded', () => {
+      const oldEmailFiles = [];
+      const newEmailFiles = [
+        { name: 'file1.pdf', type: 'application/pdf', uploadedAt: '2024-08-24' },
+      ];
+
+      processRfiEmailNotification(
+        oldEmailFiles,
+        newEmailFiles,
+        {},
+        {},
+        'CCBC-12345',
+        'CCBC-12345-1',
+        1,
+        '1',
+        mockNotifyDocumentUpload
+      );
+
+      expect(mockNotifyDocumentUpload).toHaveBeenCalledTimes(1);
+      expect(mockNotifyDocumentUpload).toHaveBeenCalledWith(
+        '1',
+        expect.objectContaining({
+          ccbcNumber: 'CCBC-12345',
+          documentType: 'RFI Additional Documents',
+          rfiNumber: 'CCBC-12345-1',
+          documentNames: ['file1.pdf'],
+        })
+      );
+    });
+
+    it('should call notifyDocumentUpload when additional files are requested', () => {
+      const oldAdditionalFiles = {};
+      const newAdditionalFiles = {
+        eligibilityAndImpactsCalculatorRfi: true,
+        detailedBudgetRfi: true,
+      };
+
+      processRfiEmailNotification(
+        [],
+        [],
+        oldAdditionalFiles,
+        newAdditionalFiles,
+        'CCBC-12345',
+        'CCBC-12345-1',
+        1,
+        '1',
+        mockNotifyDocumentUpload
+      );
+
+      expect(mockNotifyDocumentUpload).toHaveBeenCalledTimes(1);
+      expect(mockNotifyDocumentUpload).toHaveBeenCalledWith(
+        '1',
+        expect.objectContaining({
+          ccbcNumber: 'CCBC-12345',
+          requestedFiles: [
+            'Template 1 - Eligibility and Impacts Calculator',
+            'Template 2 - Detailed Budget'
+          ],
+        })
+      );
+    });
+
+    it('should call notifyDocumentUpload when both files and requests are present', () => {
+      const oldEmailFiles = [];
+      const newEmailFiles = [
+        { name: 'email.pdf', type: 'application/pdf', uploadedAt: '2024-08-24' },
+      ];
+      const oldAdditionalFiles = {};
+      const newAdditionalFiles = {
+        projectScheduleRfi: true,
+      };
+
+      processRfiEmailNotification(
+        oldEmailFiles,
+        newEmailFiles,
+        oldAdditionalFiles,
+        newAdditionalFiles,
+        'CCBC-12345',
+        'CCBC-12345-1',
+        1,
+        '1',
+        mockNotifyDocumentUpload
+      );
+
+      expect(mockNotifyDocumentUpload).toHaveBeenCalledTimes(1);
+      const callArgs = mockNotifyDocumentUpload.mock.calls[0][1];
+      expect(callArgs.documentNames).toEqual(['email.pdf']);
+      expect(callArgs.requestedFiles).toEqual(['Project schedule']);
+    });
+
+    it('should NOT call notifyDocumentUpload when no files or requests are present', () => {
+      processRfiEmailNotification(
+        [],
+        [],
+        {},
+        {},
+        'CCBC-12345',
+        'CCBC-12345-1',
+        1,
+        '1',
+        mockNotifyDocumentUpload
+      );
+
+      expect(mockNotifyDocumentUpload).not.toHaveBeenCalled();
+    });
+
+    it('should NOT call notifyDocumentUpload when files remain unchanged', () => {
+      const existingFiles = [
+        { name: 'file1.pdf', type: 'application/pdf', uploadedAt: '2024-08-24' },
+      ];
+      const existingAdditionalFiles = {
+        eligibilityAndImpactsCalculatorRfi: true,
+      };
+
+      processRfiEmailNotification(
+        existingFiles,
+        existingFiles, // Same files
+        existingAdditionalFiles,
+        existingAdditionalFiles, // Same checkboxes
+        'CCBC-12345',
+        'CCBC-12345-1',
+        1,
+        '1',
+        mockNotifyDocumentUpload
+      );
+
+      expect(mockNotifyDocumentUpload).not.toHaveBeenCalled();
+    });
+
+    it('should use applicationRowId when provided', () => {
+      const newEmailFiles = [
+        { name: 'file.pdf', type: 'application/pdf', uploadedAt: '2024-08-24' },
+      ];
+
+      processRfiEmailNotification(
+        [],
+        newEmailFiles,
+        {},
+        {},
+        'CCBC-12345',
+        'CCBC-12345-1',
+        999, // applicationRowId
+        '1',
+        mockNotifyDocumentUpload
+      );
+
+      expect(mockNotifyDocumentUpload).toHaveBeenCalledWith('999', expect.any(Object));
+    });
+
+    it('should fall back to appId when applicationRowId is undefined', () => {
+      const newEmailFiles = [
+        { name: 'file.pdf', type: 'application/pdf', uploadedAt: '2024-08-24' },
+      ];
+
+      processRfiEmailNotification(
+        [],
+        newEmailFiles,
+        {},
+        {},
+        'CCBC-12345',
+        'CCBC-12345-1',
+        undefined, // No applicationRowId
+        '123',
+        mockNotifyDocumentUpload
+      );
+
+      expect(mockNotifyDocumentUpload).toHaveBeenCalledWith('123', expect.any(Object));
+    });
+
+    it('should handle multiple email files and multiple requested documents', () => {
+      const newEmailFiles = [
+        { name: 'file1.pdf', type: 'application/pdf', uploadedAt: '2024-08-24' },
+        { name: 'file2.docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', uploadedAt: '2024-08-24' },
+      ];
+      const newAdditionalFiles = {
+        eligibilityAndImpactsCalculatorRfi: true,
+        detailedBudgetRfi: true,
+        financialForecastRfi: true,
+        projectScheduleRfi: true,
+      };
+
+      processRfiEmailNotification(
+        [],
+        newEmailFiles,
+        {},
+        newAdditionalFiles,
+        'CCBC-12345',
+        'CCBC-12345-1',
+        1,
+        '1',
+        mockNotifyDocumentUpload
+      );
+
+      expect(mockNotifyDocumentUpload).toHaveBeenCalledTimes(1);
+      const callArgs = mockNotifyDocumentUpload.mock.calls[0][1];
+      expect(callArgs.documentNames).toHaveLength(2);
+      expect(callArgs.fileDetails).toHaveLength(2);
+      expect(callArgs.requestedFiles).toHaveLength(4);
+    });
+
+    it('should correctly integrate detectNewFiles output into email params', () => {
+      const oldEmailFiles = [
+        { name: 'existing.pdf', type: 'application/pdf', uploadedAt: '2024-08-23' },
+      ];
+      const newEmailFiles = [
+        { name: 'existing.pdf', type: 'application/pdf', uploadedAt: '2024-08-23' },
+        { name: 'new.pdf', type: 'application/pdf', uploadedAt: '2024-08-24' },
+        { name: 'another.docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', uploadedAt: '2024-08-24' },
+      ];
+
+      processRfiEmailNotification(
+        oldEmailFiles,
+        newEmailFiles,
+        {},
+        {},
+        'CCBC-12345',
+        'CCBC-12345-1',
+        1,
+        '1',
+        mockNotifyDocumentUpload
+      );
+
+      const callArgs = mockNotifyDocumentUpload.mock.calls[0][1];
+      expect(callArgs.documentNames).toEqual(['new.pdf', 'another.docx']);
+      expect(callArgs.fileDetails).toHaveLength(2);
+    });
+
+    it('should correctly integrate extractRequestedFiles output into email params', () => {
+      const oldAdditionalFiles = {
+        eligibilityAndImpactsCalculatorRfi: true,
+      };
+      const newAdditionalFiles = {
+        eligibilityAndImpactsCalculatorRfi: true,
+        detailedBudgetRfi: true,
+        financialForecastRfi: true,
+      };
+
+      processRfiEmailNotification(
+        [],
+        [],
+        oldAdditionalFiles,
+        newAdditionalFiles,
+        'CCBC-12345',
+        'CCBC-12345-1',
+        1,
+        '1',
+        mockNotifyDocumentUpload
+      );
+
+      const callArgs = mockNotifyDocumentUpload.mock.calls[0][1];
+      expect(callArgs.requestedFiles).toEqual([
+        'Template 2 - Detailed Budget',
+        'Template 3 - Financial Forecast'
+      ]);
+      expect(callArgs.requestedFiles).not.toContain('Template 1 - Eligibility and Impacts Calculator');
+    });
+  });
+
+  describe('getEmailParams - additional edge cases', () => {
+    it('should handle empty newlyAddedFiles array even when hasNewFiles is true', () => {
+      const params = getEmailParams(
+        true,
+        false,
+        [], // Empty array
+        [],
+        'CCBC-12345',
+        'CCBC-12345-1'
+      );
+
+      expect(params.documentNames).toBeUndefined();
+      expect(params.fileDetails).toBeUndefined();
+    });
+
+    it('should handle empty requestedAdditionalFiles when hasNewAdditionalFiles is true', () => {
+      const params = getEmailParams(
+        false,
+        true,
+        [],
+        [], // Empty array but flag is true
+        'CCBC-12345',
+        'CCBC-12345-1'
+      );
+
+      expect(params.requestedFiles).toEqual([]);
+    });
+
+    it('should always include base fields regardless of file presence', () => {
+      const params = getEmailParams(
+        false,
+        false,
+        [],
+        [],
+        'CCBC-99999',
+        'CCBC-99999-5'
+      );
+
+      expect(params.ccbcNumber).toBe('CCBC-99999');
+      expect(params.documentType).toBe('RFI Additional Documents');
+      expect(params.rfiNumber).toBe('CCBC-99999-5');
+      expect(params.timestamp).toBeDefined();
+    });
+
+    it('should transform file details correctly via transformFilesForNotification', () => {
+      const newlyAddedFiles = [
+        { name: 'doc.pdf', type: 'application/pdf', uploadedAt: '2024-08-24' },
+        { name: 'sheet.xlsx', uploadedAt: '2024-08-24' }, // No type
+      ];
+
+      const params = getEmailParams(
+        true,
+        false,
+        newlyAddedFiles,
+        [],
+        'CCBC-12345',
+        'CCBC-12345-1'
+      );
+
+      expect(params.fileDetails[0].type).toBe('application/pdf');
+      expect(params.fileDetails[1].type).toBe('Unknown'); // Default for missing type
     });
   });
 });

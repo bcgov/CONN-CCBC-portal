@@ -77,21 +77,20 @@ export const extractRequestedFiles = (oldFiles: any = {}, newFiles: any = {}): s
   return requestedFiles;
 };
 
-const getEmailParams = (
-    hasNewFiles: boolean, 
-    hasNewAdditionalFiles: boolean,
-    newlyAddedFiles: string [],
-    requestedAdditionalFiles: string [],
-    ccbcNumber: string,
-    rfiNumber: string
-  ): string => {
-    
+export const getEmailParams = (
+  hasNewFiles: boolean,
+  hasNewAdditionalFiles: boolean,
+  newlyAddedFiles: any[],
+  requestedAdditionalFiles: string[],
+  ccbcNumber: string,
+  rfiNumber: string
+) => {
   const emailParams: any = {
-      ccbcNumber,
-      documentType: 'RFI Additional Documents',
-      timestamp: new Date().toLocaleString(),
-      rfiNumber,
-    };
+    ccbcNumber,
+    documentType: 'RFI Additional Documents',
+    timestamp: new Date().toLocaleString(),
+    rfiNumber,
+  };
 
   // Add email correspondence files if present
   if (hasNewFiles && newlyAddedFiles.length > 0) {
@@ -105,7 +104,36 @@ const getEmailParams = (
     emailParams.requestedFiles = requestedAdditionalFiles;
   }
 
-  return emailParams
+  return emailParams;
+};
+
+export const processRfiEmailNotification = (
+  oldEmailFiles: any[],
+  newEmailFiles: any[],
+  oldAdditionalFiles: any,
+  newAdditionalFiles: any,
+  ccbcNumber: string,
+  rfiNumber: string,
+  applicationRowId: number | undefined,
+  appId: string,
+  notifyDocumentUpload: (appId: string, params: any) => void
+) => {
+  // Check if email correspondence files were uploaded OR additional files were requested
+  const { hasNewFiles, newlyAddedFiles } = detectNewFiles(oldEmailFiles, newEmailFiles);
+  const requestedAdditionalFiles = extractRequestedFiles(oldAdditionalFiles, newAdditionalFiles);
+  const hasNewAdditionalFiles = requestedAdditionalFiles.length > 0;
+
+  if (hasNewFiles || hasNewAdditionalFiles) {
+    const emailParams = getEmailParams(
+      hasNewFiles,
+      hasNewAdditionalFiles,
+      newlyAddedFiles,
+      requestedAdditionalFiles,
+      ccbcNumber,
+      rfiNumber
+    );
+    notifyDocumentUpload(applicationRowId?.toString() || appId, emailParams);
+  }
 };
 
 const RfiForm = ({ rfiDataKey, ccbcNumber, applicationRowId }: RfiFormProps) => {
@@ -156,15 +184,17 @@ const RfiForm = ({ rfiDataKey, ccbcNumber, applicationRowId }: RfiFormProps) => 
         onCompleted: (response) => {
           const rfiNumber = response.createRfi.rfiData.rfiNumber;
 
-          // Check if email correspondence files were uploaded OR additional files were requested
-          const { hasNewFiles, newlyAddedFiles } = detectNewFiles(oldEmailFiles, newEmailFiles);
-          const requestedAdditionalFiles = extractRequestedFiles(oldAdditionalFiles, newAdditionalFiles);
-          const hasNewAdditionalFiles = requestedAdditionalFiles.length > 0;
-
-          if (hasNewFiles || hasNewAdditionalFiles) {
-            const emailParams: any = getEmailParams(hasNewFiles, hasNewAdditionalFiles, newlyAddedFiles, requestedAdditionalFiles, ccbcNumber, rfiNumber)
-            notifyDocumentUpload(applicationRowId?.toString() || appId, emailParams);
-          }
+          processRfiEmailNotification(
+            oldEmailFiles,
+            newEmailFiles,
+            oldAdditionalFiles,
+            newAdditionalFiles,
+            ccbcNumber,
+            rfiNumber,
+            applicationRowId,
+            appId,
+            notifyDocumentUpload
+          );
 
           router.push(rfiUrl);
         },
@@ -184,15 +214,17 @@ const RfiForm = ({ rfiDataKey, ccbcNumber, applicationRowId }: RfiFormProps) => 
         onCompleted: () => {
           const rfiNumber = rfiFormData?.rfiNumber;
 
-          // Check if email correspondence files were uploaded OR additional files were requested
-          const { hasNewFiles, newlyAddedFiles } = detectNewFiles(oldEmailFiles, newEmailFiles);
-          const requestedAdditionalFiles = extractRequestedFiles(oldAdditionalFiles, newAdditionalFiles);
-          const hasNewAdditionalFiles = requestedAdditionalFiles.length > 0;
-
-          if (hasNewFiles || hasNewAdditionalFiles) {
-            const emailParams: any = getEmailParams(hasNewFiles, hasNewAdditionalFiles, newlyAddedFiles, requestedAdditionalFiles, ccbcNumber, rfiNumber)
-            notifyDocumentUpload(applicationRowId?.toString() || appId, emailParams);
-          }
+          processRfiEmailNotification(
+            oldEmailFiles,
+            newEmailFiles,
+            oldAdditionalFiles,
+            newAdditionalFiles,
+            ccbcNumber,
+            rfiNumber,
+            applicationRowId,
+            appId,
+            notifyDocumentUpload
+          );
 
           router.push(rfiUrl);
         },
