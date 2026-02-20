@@ -20,13 +20,29 @@ const notifyDocumentUpload: EmailTemplateProvider = (
     'RFI Additional Documents': 'rfi',
   };
 
+  const DOCUMENT_TYPES: Record<string, string> = {
+    // PDF
+    'application/pdf': 'PDF Document',
+    // KMZ (Google Earth compressed)
+    'application/vnd.google-earth.kmz': 'KMZ File',
+    // KML (Google Earth markup)
+    'application/vnd.google-earth.kml+xml': 'KML File',
+    // XML
+    'application/xml': 'XML Document',
+    'text/xml': 'XML Document',
+    // XLSX (Excel)
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'Excel Document',
+    // DOCX (Word)
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'Word Document',
+  }
+
   const link = `<a href='${url}/analyst/application/${applicationId}/${section[documentType] ?? 'rfi'}'>${ccbcNumber}</a>`;
   
   // Build file list with type information if available
   let fileList = '';
   if (fileDetails && Array.isArray(fileDetails)) {
     fileList = fileDetails
-      .map((file) => `<li><em>${file.name}</em> <strong>(Type: ${file.type})</strong></li>`)
+      .map((file) => `<li><em>${file.name}</em> <strong> (Type: ${DOCUMENT_TYPES[file.type] ?? file.type})</strong></li>`)
       .join('');
   } else if (documentNames && Array.isArray(documentNames)) {
     fileList = documentNames.map((file) => `<li><em>${file}</em></li>`).join('');
