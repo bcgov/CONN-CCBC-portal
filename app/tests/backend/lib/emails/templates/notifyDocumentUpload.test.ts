@@ -142,10 +142,10 @@ describe('notifyDocumentUpload template', () => {
     );
 
     expect(emailTemplate.body).toContain(
-      `<li><em>document.pdf</em> <strong>(Type: application/pdf)</strong></li>`
+      `<li><em>document.pdf</em> <strong> (Type: PDF Document)</strong></li>`
     );
     expect(emailTemplate.body).toContain(
-      `<li><em>report.docx</em> <strong>(Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document)</strong></li>`
+      `<li><em>report.docx</em> <strong> (Type: Word Document)</strong></li>`
     );
   });
 
@@ -177,7 +177,7 @@ describe('notifyDocumentUpload template', () => {
       `<a href='http://mock_host.ca/analyst/application/1/rfi'>CCBC-10001</a>`
     );
     expect(emailTemplate.body).toContain(
-      `<li><em>email_file.pdf</em> <strong>(Type: application/pdf)</strong></li>`
+      `<li><em>email_file.pdf</em> <strong> (Type: PDF Document)</strong></li>`
     );
   });
 
@@ -305,7 +305,7 @@ describe('notifyDocumentUpload template', () => {
 
       // Check uploaded files section
       expect(emailTemplate.body).toContain('<h3>Uploaded Files:</h3>');
-      expect(emailTemplate.body).toContain('<li><em>response_letter.pdf</em> <strong>(Type: application/pdf)</strong></li>');
+      expect(emailTemplate.body).toContain('<li><em>response_letter.pdf</em> <strong> (Type: PDF Document)</strong></li>');
 
       // Check requested documents section
       expect(emailTemplate.body).toContain('<h3>Requested Additional Documents:</h3>');
