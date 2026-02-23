@@ -108,8 +108,7 @@ describe('Dashboard util functions', () => {
       program: string,
       id: string,
       status: string,
-      previousStatus?: string,
-      currentStatus?: string
+      statusNodes?: any[]
     ) => [
       { value: program },
       { value: 'v1' },
@@ -117,7 +116,7 @@ describe('Dashboard util functions', () => {
       { value: 'v3' },
       { value: 'v4' },
       { value: id },
-      { value: status, previousStatus, currentStatus },
+      { value: status, statusNodes },
       { value: '' },
     ];
 
@@ -144,13 +143,16 @@ describe('Dashboard util functions', () => {
     it('highlights and logs new CCBC records with status history', () => {
       const array1 = [
         headerRow,
-        buildRow(
-          'CCBC',
-          'ID2',
-          'Agreement Signed',
-          'conditionally_approved',
-          'approved'
-        ),
+        buildRow('CCBC', 'ID2', 'Agreement Signed', [
+          {
+            status: 'conditionally_approved',
+            applicationStatusTypeByStatus: { visibleByApplicant: false },
+          },
+          {
+            status: 'approved',
+            applicationStatusTypeByStatus: { visibleByApplicant: false },
+          },
+        ]),
       ];
       const array2 = [headerRow];
 
