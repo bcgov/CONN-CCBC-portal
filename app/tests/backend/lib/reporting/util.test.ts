@@ -4,6 +4,7 @@
 
 import { DateTime } from 'luxon';
 import {
+  buildStatusTransition,
   compareAndMarkArrays,
   convertStatus,
 } from 'backend/lib/reporting/util';
@@ -46,6 +47,179 @@ describe('Dashboard util functions', () => {
     ['applicant_withdrawn', 'Withdrawn'],
   ])('should return "%s" as "%s"', (input, expected) => {
     expect(convertStatus(input)).toBe(expected);
+  });
+
+  describe('buildStatusTransition', () => {
+    const node = (
+      status: string,
+      visibleByApplicant: boolean,
+      description?: string
+    ) => ({
+      status,
+      applicationStatusTypeByStatus: { visibleByApplicant, description },
+    });
+
+    it('returns "Unknown" for empty statusNodes', () => {
+      expect(buildStatusTransition([])).toBe('Unknown');
+    });
+
+    it('returns "Unknown" when all statuses are filtered out', () => {
+      const nodes = [
+        node('draft', true, 'Draft'),
+        node('submitted', true, 'Submitted'),
+      ];
+      expect(buildStatusTransition(nodes)).toBe('Unknown');
+    });
+
+    it('filters out draft and submitted statuses', () => {
+      const nodes = [
+        node('draft', true, 'Draft'),
+        node('submitted', true, 'Submitted'),
+        node('screening', false, 'Screening'),
+        node('approved', false, 'Agreement Signed'),
+      ];
+      expect(buildStatusTransition(nodes)).toBe(
+        'Screening --> Agreement Signed'
+      );
+    });
+
+    it('filters out visibleByApplicant statuses', () => {
+      const nodes = [
+        node('screening', false, 'Screening'),
+        node('approved', false, 'Agreement Signed'),
+        node('applicant_approved', true, 'Agreement Signed'),
+      ];
+      expect(buildStatusTransition(nodes)).toBe(
+        'Screening --> Agreement Signed'
+      );
+    });
+
+    it('uses description when available', () => {
+      const nodes = [
+        node('approved', false, 'Custom Description'),
+      ];
+      expect(buildStatusTransition(nodes)).toBe('Custom Description');
+    });
+
+    it('falls back to convertStatus when description is missing', () => {
+      const nodes = [
+        { status: 'approved', applicationStatusTypeByStatus: { visibleByApplicant: false } },
+      ];
+      expect(buildStatusTransition(nodes)).toBe('Agreement Signed');
+    });
+
+    it('deduplicates consecutive identical descriptions', () => {
+      const nodes = [
+        node('conditionally_approved', false, 'Conditionally Approved'),
+        node('applicant_conditionally_approved', false, 'Conditionally Approved'),
+        node('approved', false, 'Agreement Signed'),
+      ];
+      expect(buildStatusTransition(nodes)).toBe(
+        'Conditionally Approved --> Agreement Signed'
+      );
+    });
+
+    it('shows full transition when no fromStatus is provided', () => {
+      const nodes = [
+        node('screening', false, 'Screening'),
+        node('assessment', false, 'Assessment'),
+        node('recommendation', false, 'Recommendation'),
+        node('approved', false, 'Agreement Signed'),
+      ];
+      expect(buildStatusTransition(nodes)).toBe(
+        'Screening --> Assessment --> Recommendation --> Agreement Signed'
+      );
+    });
+
+    it('starts from fromStatus when it matches by description', () => {
+      const nodes = [
+        node('screening', false, 'Screening'),
+        node('assessment', false, 'Assessment'),
+        node('recommendation', false, 'Recommendation'),
+        node('approved', false, 'Agreement Signed'),
+      ];
+      expect(buildStatusTransition(nodes, 'Assessment')).toBe(
+        'Assessment --> Recommendation --> Agreement Signed'
+      );
+    });
+
+    it('starts from fromStatus when it matches by convertStatus', () => {
+      const nodes = [
+        node('screening', false, 'Screening'),
+        node('conditionally_approved', false, undefined),
+        node('approved', false, undefined),
+      ];
+      expect(buildStatusTransition(nodes, 'Conditionally Approved')).toBe(
+        'Conditionally Approved --> Agreement Signed'
+      );
+    });
+
+    it('uses last matching index when fromStatus appears multiple times', () => {
+      const nodes = [
+        node('on_hold', false, 'On Hold'),
+        node('screening', false, 'Screening'),
+        node('on_hold', false, 'On Hold'),
+        node('approved', false, 'Agreement Signed'),
+      ];
+      expect(buildStatusTransition(nodes, 'On Hold')).toBe(
+        'On Hold --> Agreement Signed'
+      );
+    });
+
+    it('starts from beginning when fromStatus is not found', () => {
+      const nodes = [
+        node('screening', false, 'Screening'),
+        node('approved', false, 'Agreement Signed'),
+      ];
+      expect(buildStatusTransition(nodes, 'Nonexistent Status')).toBe(
+        'Screening --> Agreement Signed'
+      );
+    });
+
+    it('matches fromStatus case-insensitively', () => {
+      const nodes = [
+        node('screening', false, 'Screening'),
+        node('assessment', false, 'Assessment'),
+        node('approved', false, 'Agreement Signed'),
+      ];
+      expect(buildStatusTransition(nodes, 'assessment')).toBe(
+        'Assessment --> Agreement Signed'
+      );
+    });
+
+    it('handles a realistic full status history', () => {
+      const nodes = [
+        node('draft', true, 'Draft'),
+        node('submitted', true, 'Submitted'),
+        node('received', true, 'Received'),
+        node('screening', false, 'Screening'),
+        node('assessment', false, 'Assessment'),
+        node('conditionally_approved', false, 'Conditionally Approved'),
+        node('applicant_conditionally_approved', true, 'Conditionally Approved'),
+        node('approved', false, 'Agreement signed'),
+        node('applicant_approved', true, 'Agreement signed'),
+      ];
+      expect(buildStatusTransition(nodes)).toBe(
+        'Screening --> Assessment --> Conditionally Approved --> Agreement signed'
+      );
+    });
+
+    it('handles a realistic transition from a previous status', () => {
+      const nodes = [
+        node('draft', true, 'Draft'),
+        node('submitted', true, 'Submitted'),
+        node('received', true, 'Received'),
+        node('screening', false, 'Screening'),
+        node('assessment', false, 'Assessment'),
+        node('conditionally_approved', false, 'Conditionally Approved'),
+        node('applicant_conditionally_approved', true, 'Conditionally Approved'),
+        node('approved', false, 'Agreement signed'),
+        node('applicant_approved', true, 'Agreement signed'),
+      ];
+      expect(buildStatusTransition(nodes, 'Conditionally Approved')).toBe(
+        'Agreement signed'
+      );
+    });
   });
 
   describe('compareAndMarkArrays percentage normalization', () => {
