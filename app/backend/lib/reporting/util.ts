@@ -227,11 +227,8 @@ export const compareAndMarkArrays = (
       const statusCell = statusIndex >= 0 ? row?.[statusIndex] : null;
       const statusValue = statusCell?.value ?? null;
       const previousStatus =
-        statusCell?.previousStatus ||
-        statusCell?.previousAnalystStatus ||
-        null;
-      const currentStatus =
-        statusCell?.currentStatus || statusValue || null;
+        statusCell?.previousStatus || statusCell?.previousAnalystStatus || null;
+      const currentStatus = statusCell?.currentStatus || statusValue || null;
       const programValue = row?.[0]?.value;
       const cbcCreatedAt = formatTimestamp(
         cbcCreatedAtByProjectNumber.get(normalizedId)
@@ -333,7 +330,7 @@ export const compareAndMarkArrays = (
     });
 
     // Replace the last column with the generated changelog
-    const changelogValue = changes.length > 0 ? changes.join('\n') : ' ';
+    const changelogValue = changes.length > 0 ? changes.join('; \n') : ' ';
     updatedRow[updatedRow.length - 1] =
       changes.length > 0
         ? { value: changelogValue, backgroundColor: '#2FA7DD' }
