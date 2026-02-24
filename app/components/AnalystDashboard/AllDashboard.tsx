@@ -455,8 +455,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     console.log('[AllDashboardTable] counts', {
       allApplications: allApplications?.edges?.length ?? 0,
       allCbcData: allCbcData?.edges?.length ?? 0,
-      allApplicationStatusTypes:
-        allApplicationStatusTypes?.nodes?.length ?? 0,
+      allApplicationStatusTypes: allApplicationStatusTypes?.nodes?.length ?? 0,
     });
     /* ---- END DEGUG ---- */
   }, [allApplications?.edges?.length, allCbcData?.edges?.length]);
@@ -590,7 +589,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       ?.map((item) => item.geoName)
       .join(',')
       ?.toLowerCase();
-    const detailsMatch = communitiesString?.includes(filterValue.toLowerCase());
+    const communitiesMatch = communitiesString?.includes(
+      filterValue.toLowerCase()
+    );
 
     // Match for original project number
     const originalProjectNumber = row?.original?.originalProjectNumber;
@@ -616,7 +617,22 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       }
     }
 
-    const shouldExpand = detailsMatch || projectNumberMatch;
+    // Match for federal project number (CBC)
+    const federalProjectNumber = row?.original?.federalProjectNumber;
+    const federalProjectNumberMatch =
+      federalProjectNumber !== undefined &&
+      federalProjectNumber !== null &&
+      filterValue !== undefined &&
+      filterValue !== null &&
+      filterValue !== ''
+        ? federalProjectNumber
+            .toString()
+            .toLowerCase()
+            .includes(filterValue.toString().toLowerCase())
+        : false;
+
+    const shouldExpand =
+      communitiesMatch || projectNumberMatch || federalProjectNumberMatch;
 
     expandedRowsRef.current[row.id] = shouldExpand;
 
