@@ -164,16 +164,15 @@ export const processHistoryItems = (
               historyItem.record?.is_primary !== null &&
               historyItem.record?.is_primary !== undefined;
             if (isUpdated) {
-              if (hasPrimaryFlag) {
+              const nearestAnnouncement = a.find((item) => {
                 return (
-                  previousItem.tableName === historyItem.tableName &&
-                  previousItem.record?.history_operation !== 'deleted' &&
-                  previousItem.record?.is_primary ===
-                    historyItem.record?.is_primary
+                  item.tableName === historyItem.tableName &&
+                  (!hasPrimaryFlag ||
+                    item.record?.is_primary === historyItem.record?.is_primary)
                 );
-              }
+              });
               return (
-                previousItem.tableName === historyItem.tableName &&
+                previousItem === nearestAnnouncement &&
                 previousItem.record?.history_operation !== 'deleted'
               );
             }
