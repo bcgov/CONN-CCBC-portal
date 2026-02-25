@@ -1,3 +1,9 @@
+# [1.294.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.293.3...v1.294.0) (2026-02-25)
+
+### Features
+
+- change log cache ([b8e2546](https://github.com/bcgov/CONN-CCBC-portal/commit/b8e25465cb7fadd02731075e0f44d7517e8f0ae8))
+
 ## [1.293.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.293.2...v1.293.3) (2026-02-24)
 
 ## [1.293.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.293.1...v1.293.2) (2026-02-24)
