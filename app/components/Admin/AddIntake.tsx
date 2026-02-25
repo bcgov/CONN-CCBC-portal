@@ -177,6 +177,7 @@ const AddIntake: React.FC<Props> = ({
       zones,
       allowUnlistedFnLedZones,
     } = e.formData;
+    const currentHiddenIntakeCode = formData?.hiddenCode;
 
     if (isIntakeEdit) {
       updateIntake({
@@ -189,7 +190,9 @@ const AddIntake: React.FC<Props> = ({
             isRollingIntake: rollingIntake,
             intakeZones: zones,
             isAllowUnlistedFnLedZones: allowUnlistedFnLedZones ?? false,
-            hiddenIntakeCode: inviteOnlyIntake ? crypto.randomUUID() : null,
+            hiddenIntakeCode: inviteOnlyIntake
+              ? currentHiddenIntakeCode || crypto.randomUUID()
+              : null,
           },
         },
         onCompleted: () => {
