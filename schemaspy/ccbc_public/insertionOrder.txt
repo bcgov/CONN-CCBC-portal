@@ -23,6 +23,7 @@ record_version
 application_form_data
 application_rfi_data
 cbc_project
+change_log_data
 coverages_upload
 reporting_gcpe
 application_announced

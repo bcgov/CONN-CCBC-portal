@@ -38,6 +38,7 @@ application_claims_data
 application_announced
 reporting_gcpe
 coverages_upload
+change_log_data
 cbc_project
 application_rfi_data
 application_form_data

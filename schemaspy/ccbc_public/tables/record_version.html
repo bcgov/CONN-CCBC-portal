@@ -419,24 +419,24 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>record_version_check2</td>
-                                    <td>(((op &#61; ANY (ARRAY[&#39;INSERT&#39;::audit.operation, &#39;UPDATE&#39;::audit.operation])) &#61; (record IS NOT NULL)))</td>
-                                </tr>
-                                <tr>
-                                    <td>record_version_check4</td>
-                                    <td>(((op &#61; ANY (ARRAY[&#39;UPDATE&#39;::audit.operation, &#39;DELETE&#39;::audit.operation])) &#61; (old_record IS NOT NULL)))</td>
-                                </tr>
-                                <tr>
-                                    <td>record_version_check3</td>
-                                    <td>(((op &#61; ANY (ARRAY[&#39;UPDATE&#39;::audit.operation, &#39;DELETE&#39;::audit.operation])) &#61; (old_record_id IS NOT NULL)))</td>
-                                </tr>
-                                <tr>
                                     <td>record_version_check1</td>
                                     <td>(((op &#61; ANY (ARRAY[&#39;INSERT&#39;::audit.operation, &#39;UPDATE&#39;::audit.operation])) &#61; (record_id IS NOT NULL)))</td>
                                 </tr>
                                 <tr>
                                     <td>record_version_check</td>
                                     <td>(((COALESCE(record_id, old_record_id) IS NOT NULL) OR (op &#61; &#39;TRUNCATE&#39;::audit.operation)))</td>
+                                </tr>
+                                <tr>
+                                    <td>record_version_check4</td>
+                                    <td>(((op &#61; ANY (ARRAY[&#39;UPDATE&#39;::audit.operation, &#39;DELETE&#39;::audit.operation])) &#61; (old_record IS NOT NULL)))</td>
+                                </tr>
+                                <tr>
+                                    <td>record_version_check2</td>
+                                    <td>(((op &#61; ANY (ARRAY[&#39;INSERT&#39;::audit.operation, &#39;UPDATE&#39;::audit.operation])) &#61; (record IS NOT NULL)))</td>
+                                </tr>
+                                <tr>
+                                    <td>record_version_check3</td>
+                                    <td>(((op &#61; ANY (ARRAY[&#39;UPDATE&#39;::audit.operation, &#39;DELETE&#39;::audit.operation])) &#61; (old_record_id IS NOT NULL)))</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -469,7 +469,7 @@
                                     <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
                                         <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
 <area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="919,140,1073,228">
-<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,1965,216,2200">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,2033,216,2268">
 <area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="370,381,599,469">
 <area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="900,1408,1092,1496">
 <area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="412,1680,557,1768">
@@ -496,7 +496,7 @@
 <area shape="rect" id="node26" href="application_package.html" target="_top" title="application_package" alt="" coords="1405,2043,1687,2131">
 <area shape="rect" id="node27" href="application_pending_change_request.html" target="_top" title="application_pending_change_request" alt="" coords="1324,2148,1768,2236">
 <area shape="rect" id="node28" href="application_project_type.html" target="_top" title="application_project_type" alt="" coords="1385,2253,1707,2341">
-<area shape="rect" id="node29" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="1400,4201,1692,4289">
+<area shape="rect" id="node29" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="1400,4307,1692,4395">
 <area shape="rect" id="node30" href="application_status.html" target="_top" title="application_status" alt="" coords="1415,1516,1677,1604">
 <area shape="rect" id="node31" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="1421,2427,1671,2515">
 <area shape="rect" id="node32" href="attachment.html" target="_top" title="attachment" alt="" coords="1853,2337,2049,2425">
@@ -504,23 +504,24 @@
 <area shape="rect" id="node34" href="cbc_data.html" target="_top" title="cbc_data" alt="" coords="911,2465,1081,2553">
 <area shape="rect" id="node35" href="cbc_data_change_reason.html" target="_top" title="cbc_data_change_reason" alt="" coords="1384,2600,1708,2688">
 <area shape="rect" id="node36" href="cbc_project.html" target="_top" title="cbc_project" alt="" coords="387,2639,582,2727">
-<area shape="rect" id="node37" href="cbc_project_communities.html" target="_top" title="cbc_project_communities" alt="" coords="832,2812,1160,2900">
-<area shape="rect" id="node38" href="communities_source_data.html" target="_top" title="communities_source_data" alt="" coords="317,2744,652,2832">
-<area shape="rect" id="node39" href="change_request_data.html" target="_top" title="change_request_data" alt="" coords="1401,2859,1691,2947">
-<area shape="rect" id="node40" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="1376,2964,1716,3052">
-<area shape="rect" id="node41" href="coverages_upload.html" target="_top" title="coverages_upload" alt="" coords="355,3053,614,3141">
-<area shape="rect" id="node42" href="email_record.html" target="_top" title="email_record" alt="" coords="380,3416,589,3504">
-<area shape="rect" id="node43" href="form_data.html" target="_top" title="form_data" alt="" coords="393,3227,576,3315">
-<area shape="rect" id="node44" href="intake_users.html" target="_top" title="intake_users" alt="" coords="893,3319,1099,3407">
-<area shape="rect" id="node45" href="notification.html" target="_top" title="notification" alt="" coords="1448,3137,1644,3225">
-<area shape="rect" id="node46" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="1382,3500,1710,3588">
-<area shape="rect" id="node47" href="record_version.html" target="_top" title="record_version" alt="" coords="260,3589,709,4011">
-<area shape="rect" id="node48" href="reporting_gcpe.html" target="_top" title="reporting_gcpe" alt="" coords="369,4028,600,4116">
-<area shape="rect" id="node49" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="405,4133,564,4221">
-<area shape="rect" id="node50" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1859,2511,2043,2599">
-<area shape="rect" id="node51" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1859,4239,2043,4327">
-<area shape="rect" id="node52" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1859,4344,2043,4432">
-<area shape="rect" id="node53" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1859,4449,2043,4537">
+<area shape="rect" id="node37" href="cbc_project_communities.html" target="_top" title="cbc_project_communities" alt="" coords="832,2723,1160,2811">
+<area shape="rect" id="node38" href="communities_source_data.html" target="_top" title="communities_source_data" alt="" coords="317,2812,652,2900">
+<area shape="rect" id="node39" href="change_log_data.html" target="_top" title="change_log_data" alt="" coords="362,2917,607,3005">
+<area shape="rect" id="node40" href="change_request_data.html" target="_top" title="change_request_data" alt="" coords="1401,2964,1691,3052">
+<area shape="rect" id="node41" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="1376,3069,1716,3157">
+<area shape="rect" id="node42" href="coverages_upload.html" target="_top" title="coverages_upload" alt="" coords="355,3159,614,3247">
+<area shape="rect" id="node43" href="email_record.html" target="_top" title="email_record" alt="" coords="380,3521,589,3609">
+<area shape="rect" id="node44" href="form_data.html" target="_top" title="form_data" alt="" coords="393,3332,576,3420">
+<area shape="rect" id="node45" href="intake_users.html" target="_top" title="intake_users" alt="" coords="893,3424,1099,3512">
+<area shape="rect" id="node46" href="notification.html" target="_top" title="notification" alt="" coords="1448,3243,1644,3331">
+<area shape="rect" id="node47" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="1382,3605,1710,3693">
+<area shape="rect" id="node48" href="record_version.html" target="_top" title="record_version" alt="" coords="260,3695,709,4116">
+<area shape="rect" id="node49" href="reporting_gcpe.html" target="_top" title="reporting_gcpe" alt="" coords="369,4133,600,4221">
+<area shape="rect" id="node50" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="405,4239,564,4327">
+<area shape="rect" id="node51" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1859,2511,2043,2599">
+<area shape="rect" id="node52" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1859,4344,2043,4432">
+<area shape="rect" id="node53" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1859,4449,2043,4537">
+<area shape="rect" id="node54" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1859,4555,2043,4643">
 </map>
                                         <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/record_version.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
                                     </div>
