@@ -31,6 +31,8 @@ const mockQueryPayload = {
             record: {
               id: 3,
               uuid: '56c849c1badc0b0ea5aa80001',
+              file_name:
+                'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip',
               created_at: '2025-01-07T15:28:41.793888+00:00',
               created_by: 336,
               updated_at: '2025-01-07T15:28:41.793888+00:00',
@@ -52,6 +54,7 @@ const mockQueryPayload = {
             record: {
               id: 1,
               uuid: '116dae201f3ac6563e438a200',
+              file_name: 'CBC_Coverage.zip',
               created_at: '2025-01-06T21:11:47.915184+00:00',
               created_by: 336,
               updated_at: '2025-01-06T21:11:47.915184+00:00',
@@ -132,6 +135,31 @@ describe('The Gis coverages upload page', () => {
     ).toBeVisible();
   });
 
+  it('renders both upload sections and one save button', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    const fileInputs = screen.getAllByTestId('file-test');
+    expect(fileInputs).toHaveLength(2);
+
+    expect(
+      screen.getByText(/CCBC Coverage uploads are necessary/)
+    ).toBeVisible();
+    expect(
+      screen.getByText(/CBC Coverage uploads are necessary/)
+    ).toBeVisible();
+
+    expect(
+      screen.getByText('ZIP of CCBC Application Coverages')
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText('ZIP of CBC Project Coverages')
+    ).toBeInTheDocument();
+
+    const saveButtons = screen.getAllByRole('button', { name: 'Save' });
+    expect(saveButtons).toHaveLength(1);
+  });
+
   it('renders correct controls', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
@@ -142,7 +170,7 @@ describe('The Gis coverages upload page', () => {
       })
     ) as jest.Mock;
 
-    expect(screen.getByTestId('file-test')).toBeInTheDocument();
+    expect(screen.getAllByTestId('file-test').length).toBe(2);
 
     const button = screen.getByRole('button', {
       name: 'Save',
@@ -153,7 +181,7 @@ describe('The Gis coverages upload page', () => {
     });
   });
 
-  it('handles incorrect file extension', async () => {
+  it('handles incorrect file extension for CCBC upload', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
     const badfile = new File([new ArrayBuffer(1)], 'file.kmz', {
@@ -169,9 +197,9 @@ describe('The Gis coverages upload page', () => {
     );
 
     const inputFile = screen.getAllByTestId('file-test')[0];
-    const uploadBtn = screen.getByRole('button', {
+    const uploadBtn = screen.getAllByRole('button', {
       name: 'Upload Drop files (or click to upload)',
-    });
+    })[0];
 
     fireEvent.change(inputFile, { target: { files: [badfile] } });
     await act(async () => {
@@ -196,7 +224,23 @@ describe('The Gis coverages upload page', () => {
     ).toBe(0);
   });
 
-  it('handles success response from backend', async () => {
+  it('handles incorrect file name for CBC upload', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+    const wrongNameFile = new File(
+      [new ArrayBuffer(1)],
+      'wrong_name.zip',
+      { type: 'application/zip' }
+    );
+
+    const inputFile = screen.getAllByTestId('file-test')[1];
+
+    fireEvent.change(inputFile, { target: { files: [wrongNameFile] } });
+
+    expect(screen.getByText(/CBC_Coverage.zip/)).toBeVisible();
+  });
+
+  it('handles success response from backend with CCBC file only', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -205,7 +249,6 @@ describe('The Gis coverages upload page', () => {
         json: () => Promise.resolve({ status: 'success' }),
       })
     ) as jest.Mock;
-    global.alert = jest.fn() as jest.Mock;
 
     const goodfile = new File(
       [new ArrayBuffer(1)],
@@ -224,6 +267,47 @@ describe('The Gis coverages upload page', () => {
     await act(async () => {
       await userEvent.click(button);
     });
+
+    await waitFor(() => {
+      expect(screen.getByText('Upload successful!')).toBeVisible();
+    });
+  });
+
+  it('handles success response when uploading both files', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({ status: 'success' }),
+      })
+    ) as jest.Mock;
+
+    const ccbcFile = new File(
+      [new ArrayBuffer(1)],
+      'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip',
+      { type: 'application/zip' }
+    );
+    const cbcFile = new File(
+      [new ArrayBuffer(1)],
+      'CBC_Coverage.zip',
+      { type: 'application/zip' }
+    );
+
+    const fileInputs = screen.getAllByTestId('file-test');
+    fireEvent.change(fileInputs[0], { target: { files: [ccbcFile] } });
+    fireEvent.change(fileInputs[1], { target: { files: [cbcFile] } });
+
+    const button = screen.getByRole('button', { name: 'Save' });
+    await act(async () => {
+      await userEvent.click(button);
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Upload successful!')).toBeVisible();
+    });
+
+    expect(global.fetch).toHaveBeenCalledTimes(2);
   });
 
   it('handles fetch error from backend', async () => {
@@ -235,7 +319,6 @@ describe('The Gis coverages upload page', () => {
         json: () => Promise.reject(new Error('oops')),
       })
     ) as jest.Mock;
-    global.alert = jest.fn() as jest.Mock;
 
     const goodfile = new File(
       [new ArrayBuffer(1)],
@@ -286,7 +369,7 @@ describe('The Gis history page', () => {
     expect(screen.getByText('Date uploaded')).toBeVisible();
   });
 
-  it('renders correct history records', async () => {
+  it('renders correct history records with file names', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -294,7 +377,7 @@ describe('The Gis history page', () => {
     expect(rows).toHaveLength(3);
 
     const firstRowCells = rows[0].querySelectorAll('td');
-    expect(firstRowCells[0]).toHaveTextContent('User1 Tester');
+    expect(firstRowCells[0]).toHaveTextContent('User2 Tester');
     expect(firstRowCells[1].querySelector('button')).toHaveTextContent(
       'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip'
     );
@@ -303,15 +386,16 @@ describe('The Gis history page', () => {
     );
 
     const secondRowCells = rows[1].querySelectorAll('td');
-    expect(secondRowCells[0]).toHaveTextContent('User1 Tester');
-    expect(secondRowCells[2]).toHaveTextContent(
-      'January 6, 2025 at 1:11 p.m. PST'
+    expect(secondRowCells[0]).toHaveTextContent('User2 Tester');
+    expect(secondRowCells[1].querySelector('button')).toHaveTextContent(
+      'CBC_Coverage.zip'
     );
 
+    // Third record has no file_name, should fall back to COVERAGES_FILE_NAME
     const thirdRowCells = rows[2].querySelectorAll('td');
     expect(thirdRowCells[0]).toHaveTextContent('User1 Tester');
-    expect(thirdRowCells[2]).toHaveTextContent(
-      'January 6, 2025 at 3:47 p.m. PST'
+    expect(thirdRowCells[1].querySelector('button')).toHaveTextContent(
+      'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip'
     );
   });
 
