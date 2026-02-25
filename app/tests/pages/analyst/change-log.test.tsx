@@ -7632,8 +7632,8 @@ describe('The index page', () => {
       data: mockData.data,
       isLoading: false,
       error: null,
-      refreshData: jest.fn(),
-      clearCache: jest.fn(),
+      cacheUpdatedAt: '2026-02-04T18:00:00.000Z',
+      hasUpdates: false,
     });
 
     jest.spyOn(moduleApi, 'useFeature').mockImplementation(() => {

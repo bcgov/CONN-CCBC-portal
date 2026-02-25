@@ -27,8 +27,7 @@ import {
   getFileArraysFromRecord,
   getFileFieldsForTable,
 } from 'utils/historyFileUtils';
-import { Box, Link, TableCellProps, IconButton, Tooltip } from '@mui/material';
-import { Refresh } from '@mui/icons-material';
+import { Box, Link, TableCellProps } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTime } from 'luxon';
@@ -53,8 +52,38 @@ interface Props {
 
 const StyledTableHeader = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
+  gap: 8px;
+`;
+
+const StyledHeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledLastUpdated = styled.div`
+  font-size: 13px;
+  color: #555;
+  text-align: right;
+  white-space: nowrap;
+  padding: 4px 8px 0 0;
+`;
+
+const UpdateBanner = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: #fff2bf;
+  border: 1px solid #f2d37a;
+  color: #3c3c3c;
+  border-radius: 4px;
+`;
+
+const UpdateBannerLink = styled(Link)`
+  color: ${(props) => props.theme.color.links};
+  text-decoration: underline;
+  cursor: pointer;
 `;
 
 const StyledLink = styled(Link)`
@@ -329,7 +358,8 @@ const ProjectChangeLog: React.FC<Props> = () => {
     useState<MRT_ColumnFiltersState>(defaultFilters);
 
   // Use the caching hook instead of local state and useEffect
-  const { data: allData, isLoading, error, refreshData } = useChangeLogCache();
+  const { data: allData, isLoading, error, cacheUpdatedAt, hasUpdates } =
+    useChangeLogCache();
 
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
@@ -1285,11 +1315,6 @@ const ProjectChangeLog: React.FC<Props> = () => {
     onColumnFiltersChange: setColumnFilters,
     renderToolbarInternalActions: ({ table }) => (
       <Box>
-        <Tooltip title="Refresh data">
-          <IconButton onClick={refreshData} disabled={isLoading}>
-            <Refresh />
-          </IconButton>
-        </Tooltip>
         <MRT_ToggleGlobalFilterButton table={table} />
         <MRT_ShowHideColumnsButton table={table} />
         <MRT_ToggleDensePaddingButton table={table} />
@@ -1298,11 +1323,13 @@ const ProjectChangeLog: React.FC<Props> = () => {
     ),
     renderTopToolbarCustomActions: () => (
       <StyledTableHeader>
-        <ClearFilters
-          table={table}
-          filters={table.getState().columnFilters}
-          defaultFilters={defaultFilters}
-        />
+        <StyledHeaderRow>
+          <ClearFilters
+            table={table}
+            filters={table.getState().columnFilters}
+            defaultFilters={defaultFilters}
+          />
+        </StyledHeaderRow>
         <AdditionalFilters
           filters={columnFilters}
           setFilters={setColumnFilters}
@@ -1318,6 +1345,29 @@ const ProjectChangeLog: React.FC<Props> = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
+      {hasUpdates && (
+        <UpdateBanner>
+          <span>New updates available.</span>
+          <UpdateBannerLink
+            href="#"
+            onClick={(event) => {
+              event.preventDefault();
+              window.location.reload();
+            }}
+          >
+            Refresh
+          </UpdateBannerLink>
+          <span>to see the latest changes.</span>
+        </UpdateBanner>
+      )}
+      {cacheUpdatedAt && (
+        <StyledLastUpdated>
+          Last updated:{' '}
+          {DateTime.fromISO(cacheUpdatedAt)
+            .setZone('America/Vancouver')
+            .toFormat("LLLL d, yyyy, h:mm a 'PT'")}
+        </StyledLastUpdated>
+      )}
       <MaterialReactTable table={table} />
     </LocalizationProvider>
   );
