@@ -102,6 +102,7 @@ const ApplicationIntakes = ({
       rollingIntake,
       zones: zones?.length ? zones : [...ALL_INTAKE_ZONES],
       inviteOnlyIntake: !!hiddenCode,
+      hiddenCode,
       allowUnlistedFnLedZones: allowUnlistedFnLedZones ?? false,
     });
     if (currentDateTime >= intakeStartDate) {
