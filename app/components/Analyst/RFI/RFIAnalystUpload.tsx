@@ -67,12 +67,12 @@ export const buildRfiUploadEmailParams = (
     ),
   ] as string[];
 
-  const documentType =
-    excelImportFiles.length > 0
-      ? joinWithAnd(excelImportFields)
-      : uploadedFieldLabels.length > 0
-        ? joinWithAnd(uploadedFieldLabels)
-        : 'RFI Additional Documents';
+  let documentType = 'RFI Additional Documents';
+  if (excelImportFiles.length > 0) {
+    documentType = joinWithAnd(excelImportFields);
+  } else if (uploadedFieldLabels.length > 0) {
+    documentType = joinWithAnd(uploadedFieldLabels);
+  }
 
   return {
     documentType,

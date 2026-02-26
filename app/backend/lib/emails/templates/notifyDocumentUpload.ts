@@ -23,12 +23,12 @@ const notifyDocumentUpload: EmailTemplateProvider = (
   const link = `<a href='${url}/analyst/application/${applicationId}/${section[documentType] ?? 'rfi'}'>${ccbcNumber}</a>`;
   
   // Build file list with type information if available
-  const uploadedFiles: { name: string }[] =
-    fileDetails && Array.isArray(fileDetails)
-      ? fileDetails
-      : documentNames && Array.isArray(documentNames)
-        ? documentNames.map((name: string) => ({ name }))
-        : [];
+  let uploadedFiles: { name: string }[] = [];
+  if (fileDetails && Array.isArray(fileDetails)) {
+    uploadedFiles = fileDetails;
+  } else if (documentNames && Array.isArray(documentNames)) {
+    uploadedFiles = documentNames.map((name: string) => ({ name }));
+  }
 
   const isMultiple = uploadedFiles.length > 1;
 
