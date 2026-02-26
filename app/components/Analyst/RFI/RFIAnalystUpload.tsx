@@ -20,6 +20,7 @@ import { useUpdateRfiAndCreateTemplateNineDataMutation } from 'schema/mutations/
 import { useUpdateFormRfiAndCreateTemplateNineDataMutation } from 'schema/mutations/application/updateFormRfiAndCreateTemplateNineDataMutation';
 import { useUpdateRfiAndFormDataMutation } from 'schema/mutations/application/updateRfiAndFormDataMutation';
 import useTemplateUpload from 'lib/helpers/useTemplateUpload';
+import { RFI_FILE_LABELS } from 'components/Analyst/RFI/RfiForm';
 
 const Flex = styled('header')`
   display: flex;
@@ -120,7 +121,7 @@ const RfiAnalystUpload = ({ query }) => {
     </>
   );
 
-  const processUpload = async (mutation, payload) => {
+  const processUpload = async (mutation, payload, emailNotificationParams) => {
     const successCallback = () => {
       setTemplateData(null);
       // show toast messages for uploaded/updated data
@@ -140,11 +141,20 @@ const RfiAnalystUpload = ({ query }) => {
         );
         showToast(message, 'success', 100000000);
       }
-      notifyDocumentUpload(applicationId, {
-        ccbcNumber,
-        documentType: joinWithAnd(excelImportFields),
-        documentNames: excelImportFiles,
-      });
+
+      // Send email notification with file names and types
+      const { documentType, documentNames, fileDetails } =
+        emailNotificationParams;
+      if (documentNames.length > 0) {
+        notifyDocumentUpload(applicationId, {
+          ccbcNumber,
+          documentType,
+          documentNames,
+          fileDetails,
+          rfiNumber,
+        });
+      }
+
       if (rfiFormData?.rfiAdditionalFiles?.geographicCoverageMap?.length > 0) {
         notifyRfiCoverageMapKmzUploaded(
           rfiDataByRowId,
@@ -210,29 +220,84 @@ const RfiAnalystUpload = ({ query }) => {
       _errors: templateNineData?.data?.errors || {},
     };
 
+    // Detect all newly uploaded files in rfiAdditionalFiles by UUID comparison
+    const oldAdditionalEntries = Object.entries(
+      rfiDataByRowId?.jsonData?.rfiAdditionalFiles ?? {}
+    );
+    const oldUuids = new Set(
+      oldAdditionalEntries
+        .flatMap(([, v]) => (Array.isArray(v) ? v : []))
+        .map((f: any) => f?.uuid)
+        .filter(Boolean)
+    );
+    const newAdditionalEntries = Object.entries(
+      rfiFormData?.rfiAdditionalFiles ?? {}
+    );
+    // Carry the field key alongside each newly uploaded file so we can resolve
+    // its human-readable label from RFI_FILE_LABELS (keys end with 'Rfi').
+    const newlyUploadedFiles = newAdditionalEntries.flatMap(([fieldKey, v]) =>
+      Array.isArray(v)
+        ? v
+            .filter((f: any) => f?.uuid && !oldUuids.has(f.uuid))
+            .map((f: any) => ({ ...f, _fieldKey: fieldKey }))
+        : []
+    );
+
+    // Resolve distinct human-readable labels for each uploaded file's field.
+    const uploadedFieldLabels = [
+      ...new Set(
+        newlyUploadedFiles.map(
+          (f: any) =>
+            RFI_FILE_LABELS[`${f._fieldKey}Rfi`] ?? f._fieldKey
+        )
+      ),
+    ] as string[];
+
+    // Build email notification params from newly uploaded files
+    const emailNotificationParams = {
+      documentType:
+        excelImportFiles.length > 0
+          ? joinWithAnd(excelImportFields)
+          : uploadedFieldLabels.length > 0
+            ? joinWithAnd(uploadedFieldLabels)
+            : 'RFI Additional Documents',
+      documentNames: newlyUploadedFiles.map((f: any) => f.name),
+      fileDetails: newlyUploadedFiles.map((f: any) => ({
+        name: f.name,
+        type: f.type || 'Unknown',
+        uploadedAt: f.uploadedAt,
+      })),
+    };
+
     const hasTemplateNine = templatesUpdated?.[9];
     if (!hasApplicationFormDataUpdated && !hasTemplateNine) {
       // only update rfi
-      processUpload(updateRfi, { input: payloadRfi });
+      processUpload(updateRfi, { input: payloadRfi }, emailNotificationParams);
     } else if (!hasApplicationFormDataUpdated && hasTemplateNine) {
       // form data not updated but template nine updated, update rfi and create template nine record
-      processUpload(updateRfiAndCreateTemplateNineData, {
-        rfiInput: payloadRfi,
-        templateNineInput: payloadTemplateNine,
-      });
+      processUpload(
+        updateRfiAndCreateTemplateNineData,
+        { rfiInput: payloadRfi, templateNineInput: payloadTemplateNine },
+        emailNotificationParams
+      );
     } else if (hasApplicationFormDataUpdated && !hasTemplateNine) {
       // only update rfi and form data since no template nine data
-      processUpload(updateRfiAndFormData, {
-        formInput: payloadFormData,
-        rfiInput: payloadRfi,
-      });
+      processUpload(
+        updateRfiAndFormData,
+        { formInput: payloadFormData, rfiInput: payloadRfi },
+        emailNotificationParams
+      );
     } else if (hasApplicationFormDataUpdated && hasTemplateNine) {
       // update rfi, form data, and template nine data (all three)
-      processUpload(updateFormRfiAndCreateTemplateNineData, {
-        formInput: payloadFormData,
-        rfiInput: payloadRfi,
-        templateNineInput: payloadTemplateNine,
-      });
+      processUpload(
+        updateFormRfiAndCreateTemplateNineData,
+        {
+          formInput: payloadFormData,
+          rfiInput: payloadRfi,
+          templateNineInput: payloadTemplateNine,
+        },
+        emailNotificationParams
+      );
     }
   };
 

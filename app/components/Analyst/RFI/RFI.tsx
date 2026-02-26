@@ -126,7 +126,7 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id, ccbcNumber, applicationR
 
           notifyDocumentUpload(applicationRowId?.toString() || applicationId, {
             ccbcNumber,
-            documentType: 'Email Correspondence',
+            documentType: ' RFI Email Correspondence',
             documentNames: fileNames,
             fileDetails,
             timestamp: new Date().toLocaleString(),

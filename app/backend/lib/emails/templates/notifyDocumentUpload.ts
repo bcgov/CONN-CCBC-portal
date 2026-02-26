@@ -20,32 +20,23 @@ const notifyDocumentUpload: EmailTemplateProvider = (
     'RFI Additional Documents': 'rfi',
   };
 
-  const DOCUMENT_TYPES: Record<string, string> = {
-    // PDF
-    'application/pdf': 'PDF Document',
-    // KMZ (Google Earth compressed)
-    'application/vnd.google-earth.kmz': 'KMZ File',
-    // KML (Google Earth markup)
-    'application/vnd.google-earth.kml+xml': 'KML File',
-    // XML
-    'application/xml': 'XML Document',
-    'text/xml': 'XML Document',
-    // XLSX (Excel)
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'Excel Document',
-    // DOCX (Word)
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'Word Document',
-  }
-
   const link = `<a href='${url}/analyst/application/${applicationId}/${section[documentType] ?? 'rfi'}'>${ccbcNumber}</a>`;
   
   // Build file list with type information if available
+  const uploadedFiles: { name: string }[] =
+    fileDetails && Array.isArray(fileDetails)
+      ? fileDetails
+      : documentNames && Array.isArray(documentNames)
+        ? documentNames.map((name: string) => ({ name }))
+        : [];
+
+  const isMultiple = uploadedFiles.length > 1;
+
   let fileList = '';
-  if (fileDetails && Array.isArray(fileDetails)) {
-    fileList = fileDetails
-      .map((file) => `<li><em>${file.name}</em> <strong> (Type: ${DOCUMENT_TYPES[file.type] ?? file.type})</strong></li>`)
+  if (uploadedFiles.length > 0) {
+    fileList = uploadedFiles
+      .map((file) => `<li><em>${file.name}</em> (${documentType})</li>`)
       .join('');
-  } else if (documentNames && Array.isArray(documentNames)) {
-    fileList = documentNames.map((file) => `<li><em>${file}</em></li>`).join('');
   }
 
   // Build requested additional files list
@@ -56,12 +47,28 @@ const notifyDocumentUpload: EmailTemplateProvider = (
       .join('');
   }
 
+  // Files were uploaded when fileList is populated; otherwise this is a new RFI creation.
+  const action = fileList ? 'uploaded' : 'created';
+
+  // Use specific template name for a single upload; generic title for multiple.
+  const title = isMultiple
+    ? 'Multiple other files uploaded to RFI'
+    : `${documentType} ${action}`;
+
   // Build email body based on what's included
-  let bodyContent = `<p>Notification: A ${documentType} has been uploaded in the Portal for ${link} on ${timestamp}.</p>`;
+  const notificationText = isMultiple
+    ? `Multiple other files uploaded for ${link} on ${timestamp}.`
+    : `A ${documentType} has been ${action} in the RFI page for ${link} on ${timestamp}.`;
+
+  let bodyContent = `<p>Notification: ${notificationText}</p>`;
   
   if (fileList) {
+    const uploadedFilesHeading = isMultiple
+      ? `Multiple files uploaded for ${ccbcNumber}`
+      : `Uploaded Files (${documentType})`;
+
     bodyContent += `
-      <h3>Uploaded Files:</h3>
+      <h3>${uploadedFilesHeading}:</h3>
       <ul>
         ${fileList}
       </ul>`;
@@ -79,9 +86,9 @@ const notifyDocumentUpload: EmailTemplateProvider = (
     emailTo: [112, 10, 111],
     emailCC: [],
     tag: 'document-upload-notification',
-    subject: `${documentType} uploaded in Portal`,
+    subject: title,
     body: `
-        <h1>${documentType} uploaded in Portal</h1>
+        <h1>${title}</h1>
         ${bodyContent}
     `,
   };
