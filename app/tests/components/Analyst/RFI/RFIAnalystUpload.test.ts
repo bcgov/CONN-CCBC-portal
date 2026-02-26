@@ -1,7 +1,9 @@
 import { act, fireEvent, screen } from '@testing-library/react';
 import { graphql } from 'react-relay';
 import ComponentTestingHelper from 'tests/utils/componentTestingHelper';
-import RFIAnalystUpload from 'components/Analyst/RFI/RFIAnalystUpload';
+import RFIAnalystUpload, {
+  buildRfiUploadEmailParams,
+} from 'components/Analyst/RFI/RFIAnalystUpload';
 import compiledQuery, {
   RFIAnalystUploadTestQuery,
 } from '__generated__/RFIAnalystUploadTestQuery.graphql';
@@ -358,11 +360,17 @@ describe('The RFIAnalystUpload component', () => {
       }
     );
 
-    expect(mockNotifyDocumentUpload).toHaveBeenCalledWith(1, {
-      ccbcNumber: 'CCBC-12345',
-      documentType: 'Template 1',
-      documentNames: ['template_one.xlsx'],
-    });
+    expect(mockNotifyDocumentUpload).toHaveBeenCalledWith(
+      1,
+      expect.objectContaining({
+        ccbcNumber: 'CCBC-12345',
+        documentType: 'Template 1',
+        documentNames: ['template_one.xlsx'],
+        fileDetails: expect.arrayContaining([
+          expect.objectContaining({ name: 'template_one.xlsx' }),
+        ]),
+      })
+    );
 
     expect(
       screen.getByText(/Template 1 data changed successfully/)
@@ -1147,7 +1155,7 @@ describe('The RFIAnalystUpload component', () => {
     );
   });
 
-  it('when cancelled user should get redirected to rfi page with toast', async () => {
+  it('when cancelled user should be redirected to rfi page with toast', async () => {
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 
@@ -1162,5 +1170,145 @@ describe('The RFIAnalystUpload component', () => {
     expect(routerPush).toHaveBeenCalledWith('/analyst/application/123/rfi');
 
     expect(screen.getByText(/File upload cancelled/)).toBeVisible();
+  });
+});
+
+// testing buildRfiUploadEmailParams 
+describe('buildRfiUploadEmailParams', () => {
+  const makeFile = (uuid: string, name: string, type = 'application/pdf') => ({
+    uuid,
+    name,
+    type,
+    uploadedAt: '2024-08-24T11:00:00.000Z',
+  });
+
+  describe('no newly uploaded files', () => {
+    it('returns empty documentNames and fileDetails with fallback documentType', () => {
+      const result = buildRfiUploadEmailParams({}, {}, [], []);
+
+      expect(result.documentNames).toEqual([]);
+      expect(result.fileDetails).toEqual([]);
+      expect(result.documentType).toBe('RFI Additional Documents');
+    });
+
+    it('returns empty results when old and new files are identical', () => {
+      const files = { detailedBudget: [makeFile('uuid-1', 'budget.xlsx')] };
+      const result = buildRfiUploadEmailParams(files, files, [], []);
+
+      expect(result.documentNames).toEqual([]);
+      expect(result.fileDetails).toEqual([]);
+    });
+  });
+
+  describe('newly uploaded files detection by UUID', () => {
+    it('detects a single new file not present in old data', () => {
+      const oldFiles = {};
+      const newFiles = {
+        detailedBudget: [makeFile('uuid-new', 'budget.xlsx')],
+      };
+
+      const result = buildRfiUploadEmailParams(oldFiles, newFiles, [], []);
+
+      expect(result.documentNames).toEqual(['budget.xlsx']);
+      expect(result.fileDetails).toHaveLength(1);
+      expect(result.fileDetails[0]).toEqual({
+        name: 'budget.xlsx',
+        type: 'application/pdf',
+        uploadedAt: '2024-08-24T11:00:00.000Z',
+        fieldLabel: 'Template 2 - Detailed Budget',
+      });
+    });
+
+    it('detects only new files when old files already exist', () => {
+      const existing = makeFile('uuid-old', 'old.xlsx');
+      const newFile = makeFile('uuid-new', 'new.xlsx');
+      const oldFiles = { detailedBudget: [existing] };
+      const newFiles = { detailedBudget: [existing, newFile] };
+
+      const result = buildRfiUploadEmailParams(oldFiles, newFiles, [], []);
+
+      expect(result.documentNames).toEqual(['new.xlsx']);
+    });
+
+    it('detects new files across multiple fields', () => {
+      const oldFiles = {};
+      const newFiles = {
+        detailedBudget: [makeFile('uuid-1', 'budget.xlsx')],
+        financialForecast: [makeFile('uuid-2', 'forecast.xlsx')],
+      };
+
+      const result = buildRfiUploadEmailParams(oldFiles, newFiles, [], []);
+
+      expect(result.documentNames).toEqual(['budget.xlsx', 'forecast.xlsx']);
+    });
+
+    it('ignores file entries without a uuid', () => {
+      const oldFiles = {};
+      const newFiles = {
+        detailedBudget: [{ name: 'no-uuid.pdf', type: 'application/pdf' }],
+      };
+
+      const result = buildRfiUploadEmailParams(oldFiles, newFiles, [], []);
+
+      expect(result.documentNames).toEqual([]);
+    });
+
+    it('defaults type to "Unknown" when file has no type', () => {
+      const oldFiles = {};
+      const newFiles = {
+        detailedBudget: [{ uuid: 'uuid-1', name: 'file.bin', uploadedAt: '' }],
+      };
+
+      const result = buildRfiUploadEmailParams(oldFiles, newFiles, [], []);
+
+      expect(result.fileDetails[0].type).toBe('Unknown');
+    });
+
+    it('includes the per-file fieldLabel in fileDetails', () => {
+      const newFiles = {
+        detailedBudget: [makeFile('uuid-1', 'budget.xlsx')],
+        financialForecast: [makeFile('uuid-2', 'forecast.xlsx')],
+      };
+
+      const result = buildRfiUploadEmailParams({}, newFiles, [], []);
+
+      expect(result.fileDetails[0].fieldLabel).toBe('Template 2 - Detailed Budget');
+      expect(result.fileDetails[1].fieldLabel).toBe('Template 3 - Financial Forecast');
+    });
+
+    it('uses raw field key as fieldLabel when not found in RFI_FILE_LABELS', () => {
+      const newFiles = {
+        unknownField: [makeFile('uuid-1', 'custom.pdf')],
+      };
+
+      const result = buildRfiUploadEmailParams({}, newFiles, [], []);
+
+      expect(result.fileDetails[0].fieldLabel).toBe('unknownField');
+    });
+  });
+
+  describe('documentType resolution', () => {
+    it('uses excelImportFields when excelImportFiles are present, overriding field labels', () => {
+      const newFiles = {
+        detailedBudget: [makeFile('uuid-1', 'budget.xlsx')],
+      };
+      const excelImportFiles = [{ name: 'template_one.xlsx' }];
+      const excelImportFields = ['Template 1'];
+
+      const result = buildRfiUploadEmailParams(
+        {},
+        newFiles,
+        excelImportFiles,
+        excelImportFields
+      );
+
+      expect(result.documentType).toBe('Template 1');
+    });
+
+    it('falls back to "RFI Additional Documents" when no files and no excelImportFiles', () => {
+      const result = buildRfiUploadEmailParams({}, {}, [], []);
+
+      expect(result.documentType).toBe('RFI Additional Documents');
+    });
   });
 });

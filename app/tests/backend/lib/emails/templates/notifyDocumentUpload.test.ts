@@ -308,7 +308,7 @@ describe('notifyDocumentUpload template', () => {
       );
 
       // Check uploaded files section
-      expect(emailTemplate.body).toContain('<h3>Uploaded Files (RFI Additional Documents):</h3>');
+      expect(emailTemplate.body).toContain('<h3>File(s) uploaded:</h3>');
       expect(emailTemplate.body).toContain('<li><em>response_letter.pdf</em> (RFI Additional Documents)</li>');
 
       // Check requested documents section
@@ -346,7 +346,7 @@ describe('notifyDocumentUpload template', () => {
         }
       );
 
-      expect(emailTemplate.body).toContain('<h3>Multiple files uploaded for CCBC-10001:</h3>');
+      expect(emailTemplate.body).toContain('<h3>File(s) uploaded:</h3>');
       expect(emailTemplate.body).not.toContain('<h3>Requested Additional Documents:</h3>');
     });
 
@@ -477,7 +477,7 @@ describe('notifyDocumentUpload template', () => {
       );
 
       // Verify uploaded files section has all 3 files
-      expect(emailTemplate.body).toContain('<h3>Multiple files uploaded for CCBC-10001:</h3>');
+      expect(emailTemplate.body).toContain('<h3>File(s) uploaded:</h3>');
       expect(emailTemplate.body).toContain('<li><em>email1.pdf</em>');
       expect(emailTemplate.body).toContain('<li><em>email2.docx</em>');
       expect(emailTemplate.body).toContain('<li><em>email3.xlsx</em>');
