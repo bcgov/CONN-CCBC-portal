@@ -22,7 +22,7 @@ describe('notifyDocumentUpload template', () => {
         emailTo: [112, 10, 111],
         emailCC: [],
         tag: 'document-upload-notification',
-        subject: 'Claim & Progress Report uploaded in Portal',
+        subject: 'Claim & Progress Report uploaded',
         body: expect.anything(),
       })
     );
@@ -109,7 +109,13 @@ describe('notifyDocumentUpload template', () => {
       }
     );
     expect(emailTemplate.body).toContain(
-      `<li><em>template_1.xls</em></li><li><em>template_2.xls</em></li><li><em>template_9.xls</em></li>`
+      `<li><em>template_1.xls</em> (Template 1, Template 2 and Template 9)</li>`
+    );
+    expect(emailTemplate.body).toContain(
+      `<li><em>template_2.xls</em> (Template 1, Template 2 and Template 9)</li>`
+    );
+    expect(emailTemplate.body).toContain(
+      `<li><em>template_9.xls</em> (Template 1, Template 2 and Template 9)</li>`
     );
   });
 
@@ -142,10 +148,10 @@ describe('notifyDocumentUpload template', () => {
     );
 
     expect(emailTemplate.body).toContain(
-      `<li><em>document.pdf</em> <strong> (Type: PDF Document)</strong></li>`
+      `<li><em>document.pdf</em> (Email Correspondence)</li>`
     );
     expect(emailTemplate.body).toContain(
-      `<li><em>report.docx</em> <strong> (Type: Word Document)</strong></li>`
+      `<li><em>report.docx</em> (Email Correspondence)</li>`
     );
   });
 
@@ -172,12 +178,12 @@ describe('notifyDocumentUpload template', () => {
       }
     );
 
-    expect(emailTemplate.subject).toBe('Email Correspondence uploaded in Portal');
+    expect(emailTemplate.subject).toBe('Email Correspondence uploaded');
     expect(emailTemplate.body).toContain(
       `<a href='http://mock_host.ca/analyst/application/1/rfi'>CCBC-10001</a>`
     );
     expect(emailTemplate.body).toContain(
-      `<li><em>email_file.pdf</em> <strong> (Type: PDF Document)</strong></li>`
+      `<li><em>email_file.pdf</em> (Email Correspondence)</li>`
     );
   });
 
@@ -197,10 +203,8 @@ describe('notifyDocumentUpload template', () => {
       }
     );
 
-    // Should not include type information
-    expect(emailTemplate.body).toContain(`<li><em>file1.pdf</em></li>`);
-    expect(emailTemplate.body).toContain(`<li><em>file2.docx</em></li>`);
-    expect(emailTemplate.body).not.toContain('Type:');
+    expect(emailTemplate.body).toContain(`<li><em>file1.pdf</em> (Email Correspondence)</li>`);
+    expect(emailTemplate.body).toContain(`<li><em>file2.docx</em> (Email Correspondence)</li>`);
   });
 
   it('should handle empty fileDetails array gracefully', () => {
@@ -220,7 +224,7 @@ describe('notifyDocumentUpload template', () => {
       }
     );
 
-    expect(emailTemplate.body).toContain('Email Correspondence uploaded in Portal');
+    expect(emailTemplate.body).toContain('Email Correspondence created');
     expect(emailTemplate.body).toContain('CCBC-1000');
     expect(emailTemplate.body).not.toContain('<ul>');
   });
@@ -247,7 +251,7 @@ describe('notifyDocumentUpload template', () => {
         }
       );
 
-      expect(emailTemplate.subject).toBe('RFI Additional Documents uploaded in Portal');
+      expect(emailTemplate.subject).toBe('RFI Additional Documents created');
       expect(emailTemplate.body).toContain('<h3>Requested Additional Documents:</h3>');
       expect(emailTemplate.body).toContain('<li><strong>Template 1 - Eligibility and Impacts Calculator</strong></li>');
       expect(emailTemplate.body).toContain('<li><strong>Template 2 - Detailed Budget</strong></li>');
@@ -304,8 +308,8 @@ describe('notifyDocumentUpload template', () => {
       );
 
       // Check uploaded files section
-      expect(emailTemplate.body).toContain('<h3>Uploaded Files:</h3>');
-      expect(emailTemplate.body).toContain('<li><em>response_letter.pdf</em> <strong> (Type: PDF Document)</strong></li>');
+      expect(emailTemplate.body).toContain('<h3>Uploaded Files (RFI Additional Documents):</h3>');
+      expect(emailTemplate.body).toContain('<li><em>response_letter.pdf</em> (RFI Additional Documents)</li>');
 
       // Check requested documents section
       expect(emailTemplate.body).toContain('<h3>Requested Additional Documents:</h3>');
@@ -342,7 +346,7 @@ describe('notifyDocumentUpload template', () => {
         }
       );
 
-      expect(emailTemplate.body).toContain('<h3>Uploaded Files:</h3>');
+      expect(emailTemplate.body).toContain('<h3>Multiple files uploaded for CCBC-10001:</h3>');
       expect(emailTemplate.body).not.toContain('<h3>Requested Additional Documents:</h3>');
     });
 
@@ -473,7 +477,7 @@ describe('notifyDocumentUpload template', () => {
       );
 
       // Verify uploaded files section has all 3 files
-      expect(emailTemplate.body).toContain('<h3>Uploaded Files:</h3>');
+      expect(emailTemplate.body).toContain('<h3>Multiple files uploaded for CCBC-10001:</h3>');
       expect(emailTemplate.body).toContain('<li><em>email1.pdf</em>');
       expect(emailTemplate.body).toContain('<li><em>email2.docx</em>');
       expect(emailTemplate.body).toContain('<li><em>email3.xlsx</em>');

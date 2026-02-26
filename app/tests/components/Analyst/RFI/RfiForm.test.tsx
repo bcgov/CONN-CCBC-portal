@@ -453,7 +453,7 @@ describe('RfiForm - Additional Files Email Notification Logic', () => {
       );
 
       expect(params.ccbcNumber).toBe('CCBC-12345');
-      expect(params.documentType).toBe('RFI Additional Documents');
+      expect(params.documentType).toBe('New RFI Document');
       expect(params.rfiNumber).toBe('CCBC-12345-1');
       expect(params.documentNames).toEqual(['file1.pdf']);
       expect(params.fileDetails).toHaveLength(1);
@@ -471,7 +471,7 @@ describe('RfiForm - Additional Files Email Notification Logic', () => {
       );
 
       expect(params.ccbcNumber).toBe('CCBC-12345');
-      expect(params.documentType).toBe('RFI Additional Documents');
+      expect(params.documentType).toBe('New RFI Document');
       expect(params.rfiNumber).toBe('CCBC-12345-1');
       expect(params.requestedFiles).toEqual([
         'Template 1 - Eligibility and Impacts Calculator',
@@ -583,7 +583,7 @@ describe('RfiForm - Additional Files Email Notification Logic', () => {
         '1',
         expect.objectContaining({
           ccbcNumber: 'CCBC-12345',
-          documentType: 'RFI Additional Documents',
+          documentType: 'New RFI Document',
           rfiNumber: 'CCBC-12345-1',
           documentNames: ['file1.pdf'],
         })
@@ -857,7 +857,7 @@ describe('RfiForm - Additional Files Email Notification Logic', () => {
       );
 
       expect(params.ccbcNumber).toBe('CCBC-99999');
-      expect(params.documentType).toBe('RFI Additional Documents');
+      expect(params.documentType).toBe('New RFI Document');
       expect(params.rfiNumber).toBe('CCBC-99999-5');
       expect(params.timestamp).toBeDefined();
     });

@@ -17,7 +17,7 @@ import { detectNewFiles, transformFilesForNotification } from './RFI';
 import RfiTheme from './RfiTheme';
 
 // Mapping of RFI additional file fields to human-readable names
-const RFI_FILE_LABELS = {
+export const RFI_FILE_LABELS = {
   eligibilityAndImpactsCalculatorRfi: 'Template 1 - Eligibility and Impacts Calculator',
   detailedBudgetRfi: 'Template 2 - Detailed Budget',
   financialForecastRfi: 'Template 3 - Financial Forecast',
@@ -87,7 +87,7 @@ export const getEmailParams = (
 ) => {
   const emailParams: any = {
     ccbcNumber,
-    documentType: 'RFI Additional Documents',
+    documentType: 'New RFI Document',
     timestamp: new Date().toLocaleString(),
     rfiNumber,
   };
