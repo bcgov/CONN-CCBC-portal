@@ -35,7 +35,10 @@ const notifyDocumentUpload: EmailTemplateProvider = (
   let fileList = '';
   if (uploadedFiles.length > 0) {
     fileList = uploadedFiles
-      .map((file) => `<li><em>${file.name}</em> (${documentType})</li>`)
+      .map((file: any) => {
+        const label = file.fieldLabel ?? documentType;
+        return `<li><em>${file.name}</em> (${label})</li>`;
+      })
       .join('');
   }
 
@@ -63,12 +66,12 @@ const notifyDocumentUpload: EmailTemplateProvider = (
   let bodyContent = `<p>Notification: ${notificationText}</p>`;
   
   if (fileList) {
-    const uploadedFilesHeading = isMultiple
-      ? `Multiple files uploaded for ${ccbcNumber}`
-      : `Uploaded Files (${documentType})`;
+    // const uploadedFilesHeading = isMultiple
+    //   ? `Multiple files uploaded for ${ccbcNumber}`
+    //   : `Uploaded Files (${documentType})`;
 
     bodyContent += `
-      <h3>${uploadedFilesHeading}:</h3>
+      <h3>File(s) uploaded:</h3>
       <ul>
         ${fileList}
       </ul>`;
