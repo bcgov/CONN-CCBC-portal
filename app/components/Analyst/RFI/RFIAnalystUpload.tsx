@@ -22,6 +22,7 @@ import { useUpdateRfiAndFormDataMutation } from 'schema/mutations/application/up
 import useTemplateUpload from 'lib/helpers/useTemplateUpload';
 import { RFI_FILE_LABELS } from 'components/Analyst/RFI/RfiForm';
 
+
 const Flex = styled('header')`
   display: flex;
   justify-content: space-between;
@@ -31,6 +32,59 @@ const Flex = styled('header')`
 const StyledLink = styled(Link)`
   color: ${(props) => props.theme.color.white};
 `;
+
+export const buildRfiUploadEmailParams = (
+  oldRfiAdditionalFiles: Record<string, any>,
+  newRfiAdditionalFiles: Record<string, any>,
+  excelImportFiles: any[],
+  excelImportFields: string[]
+): {
+  documentType: string;
+  documentNames: string[];
+  fileDetails: { name: string; type: string; uploadedAt: any; fieldLabel: string }[];
+} => {
+  const oldUuids = new Set(
+    Object.values(oldRfiAdditionalFiles)
+      .flatMap((v) => (Array.isArray(v) ? v : []))
+      .map((f: any) => f?.uuid)
+      .filter(Boolean)
+  );
+
+  const newlyUploadedFiles = Object.entries(newRfiAdditionalFiles).flatMap(
+    ([fieldKey, v]) =>
+      Array.isArray(v)
+        ? v
+            .filter((f: any) => f?.uuid && !oldUuids.has(f.uuid))
+            .map((f: any) => ({ ...f, _fieldKey: fieldKey }))
+        : []
+  );
+
+  const uploadedFieldLabels = [
+    ...new Set(
+      newlyUploadedFiles.map(
+        (f: any) => RFI_FILE_LABELS[`${f._fieldKey}Rfi`] ?? f._fieldKey
+      )
+    ),
+  ] as string[];
+
+  const documentType =
+    excelImportFiles.length > 0
+      ? joinWithAnd(excelImportFields)
+      : uploadedFieldLabels.length > 0
+        ? joinWithAnd(uploadedFieldLabels)
+        : 'RFI Additional Documents';
+
+  return {
+    documentType,
+    documentNames: newlyUploadedFiles.map((f: any) => f.name),
+    fileDetails: newlyUploadedFiles.map((f: any) => ({
+      name: f.name,
+      type: f.type || 'Unknown',
+      uploadedAt: f.uploadedAt,
+      fieldLabel: RFI_FILE_LABELS[`${f._fieldKey}Rfi`] ?? f._fieldKey,
+    })),
+  };
+};
 
 const RfiAnalystUpload = ({ query }) => {
   const queryFragment = useFragment(
@@ -220,54 +274,13 @@ const RfiAnalystUpload = ({ query }) => {
       _errors: templateNineData?.data?.errors || {},
     };
 
-    // Detect all newly uploaded files in rfiAdditionalFiles by UUID comparison
-    const oldAdditionalEntries = Object.entries(
-      rfiDataByRowId?.jsonData?.rfiAdditionalFiles ?? {}
+    // Build email parameters based on newly detected additional files
+    const emailNotificationParams = buildRfiUploadEmailParams(
+      rfiDataByRowId?.jsonData?.rfiAdditionalFiles ?? {},
+      rfiFormData?.rfiAdditionalFiles ?? {},
+      excelImportFiles,
+      excelImportFields
     );
-    const oldUuids = new Set(
-      oldAdditionalEntries
-        .flatMap(([, v]) => (Array.isArray(v) ? v : []))
-        .map((f: any) => f?.uuid)
-        .filter(Boolean)
-    );
-    const newAdditionalEntries = Object.entries(
-      rfiFormData?.rfiAdditionalFiles ?? {}
-    );
-    // Carry the field key alongside each newly uploaded file so we can resolve
-    // its human-readable label from RFI_FILE_LABELS (keys end with 'Rfi').
-    const newlyUploadedFiles = newAdditionalEntries.flatMap(([fieldKey, v]) =>
-      Array.isArray(v)
-        ? v
-            .filter((f: any) => f?.uuid && !oldUuids.has(f.uuid))
-            .map((f: any) => ({ ...f, _fieldKey: fieldKey }))
-        : []
-    );
-
-    // Resolve distinct human-readable labels for each uploaded file's field.
-    const uploadedFieldLabels = [
-      ...new Set(
-        newlyUploadedFiles.map(
-          (f: any) =>
-            RFI_FILE_LABELS[`${f._fieldKey}Rfi`] ?? f._fieldKey
-        )
-      ),
-    ] as string[];
-
-    // Build email notification params from newly uploaded files
-    const emailNotificationParams = {
-      documentType:
-        excelImportFiles.length > 0
-          ? joinWithAnd(excelImportFields)
-          : uploadedFieldLabels.length > 0
-            ? joinWithAnd(uploadedFieldLabels)
-            : 'RFI Additional Documents',
-      documentNames: newlyUploadedFiles.map((f: any) => f.name),
-      fileDetails: newlyUploadedFiles.map((f: any) => ({
-        name: f.name,
-        type: f.type || 'Unknown',
-        uploadedAt: f.uploadedAt,
-      })),
-    };
 
     const hasTemplateNine = templatesUpdated?.[9];
     if (!hasApplicationFormDataUpdated && !hasTemplateNine) {
