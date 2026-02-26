@@ -94540,6 +94540,7 @@ type CbcLastMileCoverageGeojsonsConnection {
   totalCount: Int!
 }
 
+"""View returning CBC last mile coverage geometries as GeoJSON"""
 type CbcLastMileCoverageGeojson {
   gid: Int
   project__: String
@@ -95235,6 +95236,7 @@ type CbcTransportsGeojsonsConnection {
   totalCount: Int!
 }
 
+"""View returning CBC transport geometries as GeoJSON"""
 type CbcTransportsGeojson {
   gid: Int
   project__: String
