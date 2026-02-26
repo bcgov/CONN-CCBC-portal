@@ -6,7 +6,8 @@ create or replace view ccbc_public.cbc_transports_geojson as
 select
   gid,
   project__,
-  st_asgeojson(geom)::json as geometry
+  -- Shapefile data is in BC Albers (EPSG:3005); transform to WGS84 (EPSG:4326) for Leaflet
+  st_asgeojson(st_transform(st_setsrid(geom, 3005), 4326))::json as geometry
 from ccbc_public.cbc_transport;
 
 do
