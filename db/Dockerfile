@@ -1,5 +1,5 @@
 # Docker build should be run from parent directory
-FROM postgres:17-bookworm
+FROM postgis/postgis:17-3.5-alpine
 
 ENV SUMMARY="DB Schema for bcgov/CONN-CCBC-portal" \
   DESCRIPTION="Sqitch migrations for the accompanying app container image"
