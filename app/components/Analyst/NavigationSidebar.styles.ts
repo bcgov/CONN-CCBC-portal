@@ -22,5 +22,5 @@ export const StyledUpperSection = styled.section`
 `;
 
 export const StyledLowerSection = styled.section`
-  margin-top: 4px;
+  margin-top: 1px;
 `;
