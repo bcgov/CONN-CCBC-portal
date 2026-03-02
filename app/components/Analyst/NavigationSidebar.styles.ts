@@ -20,7 +20,3 @@ export const StyledUpperSection = styled.section`
   border-bottom: 1px solid #d6d6d6;
   color: ${(props) => props.theme.color.navigationBlue};
 `;
-
-export const StyledLowerSection = styled.section`
-  margin-top: 1px;
-`;
