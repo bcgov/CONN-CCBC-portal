@@ -16,7 +16,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 // Project navigation components for left sidebar
 const StyledProjectNavigation = styled.div`
   width: 100%;
-  margin-bottom: 12px;
   z-index: 10;
 `;
 
@@ -28,7 +27,6 @@ const StyledNavigationButtons = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 12px;
 `;
 
 const StyledNavButton = styled.button`
