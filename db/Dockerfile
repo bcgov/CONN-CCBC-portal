@@ -18,10 +18,7 @@ ENV HOME=/opt/app-root/src
 WORKDIR ${HOME}
 
 # Install required dependencies and sqitch
-RUN apt-get update \
-  && apt-get install -y sqitch libdbd-pg-perl \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache perl-app-sqitch perl-dbd-pg
 
 COPY db/ ${HOME}
 COPY mocks_schema/ ${HOME}/mocks_schema
