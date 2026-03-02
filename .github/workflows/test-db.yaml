@@ -37,6 +37,7 @@ jobs:
           done
           make drop_db PSQL="psql -h localhost -U postgres"
           make create_db PSQL="psql -h localhost -U postgres"
+          psql -h localhost -U postgres -d ccbc -c "CREATE EXTENSION IF NOT EXISTS postgis;"
           # Deploy migrations
           docker pull sqitch/sqitch
           curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
