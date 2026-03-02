@@ -1199,7 +1199,20 @@ const ProjectChangeLog: React.FC<Props> = () => {
       id: 'rowId',
       Cell: ProjectIdCell,
       header: 'ID',
-      filterFn: filterVariant,
+      filterFn: (row, _columnId, filterValue: string) => {
+        const trimmedFilterValue = filterValue?.toString().trim();
+        // if no filter value, show everything
+        if (!trimmedFilterValue) return true;
+        // if the row is not visible, don't show it
+        if (!row.original?.isVisibleRow) return false;
+        // if the value is not a number, don't show it
+        const value = row.original?.rowId;
+        if (!value && value !== 0) return false;
+        return value
+          .toString()
+          .toLowerCase()
+          .includes(trimmedFilterValue.toLowerCase());
+      },
     },
     {
       accessorKey: 'program',
@@ -1208,37 +1221,83 @@ const ProjectChangeLog: React.FC<Props> = () => {
       Cell: MergedCell,
     },
     {
-      // accessorKey: 'section',
       accessorFn: (row) => row?.section || 'N/A',
       header: 'Section',
-      filterFn: filterVariant,
       filterVariant: 'multi-select',
       filterSelectOptions: sectionOptions,
+      filterFn: (row, columnId, filterValues: string[]) => {
+        if (!filterValues || filterValues.length === 0) return true;
+        return filterValues.includes(row.getValue(columnId));
+      },
     },
     {
       accessorKey: 'field',
       header: 'Fields changed',
-      filterFn: filterVariant,
+      filterFn: (row, _columnId, filterValue: string) => {
+        const trimmedFilter = filterValue?.toString().trim();
+        if (!trimmedFilter) return true;
+        const value = row.original?.field;
+        if (!value) return false;
+        return value
+          .toString()
+          .toLowerCase()
+          .includes(trimmedFilter.toLowerCase());
+      },
     },
     {
-      accessorKey: 'oldValue',
+      accessorFn: (row) => {
+        if (row.oldValueString != null) return row.oldValueString;
+        if (typeof row.oldValue === 'object' && row.oldValue !== null) {
+          return JSON.stringify(row.oldValue);
+        }
+        return row.oldValue ?? '';
+      },
+      id: 'oldValue',
       header: 'Old Value',
       Cell: OldValueCell,
-      filterFn: filterVariant,
+      filterFn: (row, columnId, filterValue: string) => {
+        const trimmedFilter = filterValue?.toString().trim();
+        if (!trimmedFilter) return true;
+        const value = row.getValue(columnId);
+        if (value === null || value === undefined || value === '') return false;
+        return value
+          .toString()
+          .toLowerCase()
+          .includes(trimmedFilter.toLowerCase());
+      },
     },
     {
-      accessorKey: 'newValue',
+      accessorFn: (row) => {
+        if (row.newValueString != null) return row.newValueString;
+        if (typeof row.newValue === 'object' && row.newValue !== null) {
+          return JSON.stringify(row.newValue);
+        }
+        return row.newValue ?? '';
+      },
+      id: 'newValue',
       header: 'New Value',
       Cell: HistoryValueCell,
-      filterFn: filterVariant,
+      filterFn: (row, columnId, filterValue: string) => {
+        const trimmedFilter = filterValue?.toString().trim();
+        if (!trimmedFilter) return true;
+        const value = row.getValue(columnId);
+        if (value === null || value === undefined || value === '') return false;
+        return value
+          .toString()
+          .toLowerCase()
+          .includes(trimmedFilter.toLowerCase());
+      },
     },
     {
       accessorKey: 'createdBy',
       header: 'User',
-      filterFn: filterVariant,
       filterVariant: 'multi-select',
       filterSelectOptions: createdByOptions,
       Cell: MergedCell,
+      filterFn: (row, columnId, filterValues: string[]) => {
+        if (!filterValues || filterValues.length === 0) return true;
+        return filterValues.includes(row.getValue(columnId));
+      },
     },
     {
       accessorKey: 'createdAt',
