@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
       - name: deploy db migrations
         run: |
-          docker run --name ccbc-db -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres:15
+          docker run --name ccbc-db -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgis/postgis:17-3.5-alpine
           # Wait for PostgreSQL to be ready
           until docker exec ccbc-db pg_isready -U postgres; do
             echo "Waiting for PostgreSQL to be ready..."
