@@ -18,9 +18,9 @@ ENV HOME=/opt/app-root/src
 WORKDIR ${HOME}
 
 # Install sqitch and DBD::Pg via cpanm (no native Alpine package for sqitch)
-RUN apk add --no-cache perl perl-dev make gcc musl-dev postgresql-dev curl \
-  && curl -L https://cpanmin.us | perl - --notest App::Sqitch DBD::Pg \
-  && apk del perl-dev make gcc musl-dev postgresql-dev curl
+RUN apk add --no-cache perl perl-dev make gcc musl-dev postgresql-dev wget \
+  && wget -q -O- https://cpanmin.us | perl - --notest App::Sqitch DBD::Pg \
+  && apk del perl-dev make gcc musl-dev postgresql-dev wget
 
 COPY db/ ${HOME}
 COPY mocks_schema/ ${HOME}/mocks_schema
