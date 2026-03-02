@@ -35,7 +35,7 @@ const StyledNavButton = styled.button`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8px 4px;
+  padding: 4px 4px 8px 4px;
   background: none;
   border: none;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
