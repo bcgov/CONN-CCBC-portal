@@ -23,6 +23,7 @@ runs:
         done
         make drop_db PSQL="psql -h localhost -U postgres"
         make create_db PSQL="psql -h localhost -U postgres"
+        psql -h localhost -U postgres -d ccbc -c "CREATE EXTENSION IF NOT EXISTS postgis;"
     - name: deploy migrations
       shell: bash
       env:
