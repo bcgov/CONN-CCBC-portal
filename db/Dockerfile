@@ -17,8 +17,10 @@ ENV USER_ID=1001
 ENV HOME=/opt/app-root/src
 WORKDIR ${HOME}
 
-# Install required dependencies and sqitch
-RUN apk add --no-cache perl-app-sqitch perl-dbd-pg
+# Install sqitch and DBD::Pg via cpanm (no native Alpine package for sqitch)
+RUN apk add --no-cache perl perl-dev make gcc musl-dev postgresql-dev curl \
+  && curl -L https://cpanmin.us | perl - --notest App::Sqitch DBD::Pg \
+  && apk del perl-dev make gcc musl-dev postgresql-dev curl
 
 COPY db/ ${HOME}
 COPY mocks_schema/ ${HOME}/mocks_schema
