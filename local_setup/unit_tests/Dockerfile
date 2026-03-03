@@ -10,7 +10,7 @@ RUN apk add --no-cache git make gcc musl-dev perl perl-dev perl-utils wget
 # Clone pgTap repository from GitHub and install it
 RUN git clone https://github.com/theory/pgtap.git /tmp/pgtap \
     && cd /tmp/pgtap \
-    && git checkout v1.1.0 \
+    && git checkout v1.3.4 \
     && make \
     && make install
 
