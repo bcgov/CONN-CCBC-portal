@@ -67,7 +67,6 @@ jobs:
         run: |
           docker run --rm --name ccbc-pgtap -p 5432:5432 -d ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db:latest
           sleep 5
-          psql -h localhost -U postgres -c "CREATE EXTENSION IF NOT EXISTS postgis;"
           docker pull sqitch/sqitch
           curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
           make create_test_db PSQL="docker exec ccbc-pgtap psql -h localhost -U postgres"
