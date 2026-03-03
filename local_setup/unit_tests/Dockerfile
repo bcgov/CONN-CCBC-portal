@@ -5,7 +5,7 @@ FROM postgis/postgis:17-3.5-alpine
 ENV POSTGRES_PASSWORD=mysecretpassword
 
 # Install required dependencies and tools
-RUN apk add --no-cache git make gcc musl-dev perl perl-dev perl-utils wget
+RUN apk add --no-cache git make gcc musl-dev perl perl-dev perl-utils wget patch
 
 # Clone pgTap repository from GitHub and install it
 RUN git clone https://github.com/theory/pgtap.git /tmp/pgtap \
