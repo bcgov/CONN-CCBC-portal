@@ -68,6 +68,7 @@ jobs:
           # Image digest is the manifest list for ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db:latest (2026-03-25); verify: docker buildx imagetools inspect ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db:latest
           docker run --rm --name ccbc-pgtap -p 5432:5432 -d ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db@sha256:17e91ce378943255af32e4c641f2c50839f07c3ca1777035b0d992c5c757921d
           sleep 5
+          psql -h localhost -U postgres -c "CREATE EXTENSION IF NOT EXISTS postgis;"
           docker pull sqitch/sqitch
           curl -L https://git.io/JJKCn -o sqitch && chmod +x sqitch
           make create_test_db PSQL="docker exec ccbc-pgtap psql -h localhost -U postgres"
