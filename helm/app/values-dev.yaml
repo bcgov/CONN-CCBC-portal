@@ -8,7 +8,7 @@ cronsp:
   schedule: '0 0 15 10 *' # dev run once a year on October 15
 
 cronshp:
-  enabled: false
+  enabled: true
 
 croncommunity:
   deploy:
