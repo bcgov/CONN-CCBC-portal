@@ -118,6 +118,9 @@ inputs:
   coverages_file:
     description: 'Coverages file'
     required: true
+  cbc_coverage_file:
+    description: 'CBC Coverage file'
+    required: true
   session_secret:
     description: 'Session secret'
     required: true
@@ -202,6 +205,7 @@ runs:
           --set cronshp.erFile="${{ inputs.er_file }}" \
           --set cronshp.rdFile="${{ inputs.rd_file }}" \
           --set cronshp.coveragesFile="${{ inputs.coverages_file }}" \
+          --set cronshp.cbcCoverageFile="${{ inputs.cbc_coverage_file }}" \
           --set app.sessionSecret="${{ inputs.session_secret }}" \
           --set db.test.password="${{ inputs.test_pg_password }}" \
           --values values-${{ inputs.environment }}.yaml

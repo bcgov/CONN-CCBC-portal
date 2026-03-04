@@ -39,6 +39,8 @@ cronshp:
   erFile: '' # The value must be passed in via the deploy script
   rdFile: '' # The value must be passed in via the deploy script
   coveragesFile: '' # The value must be passed in via the deploy script
+  cbcCoverageFile: '' # The value must be passed in via the deploy script
+  dbNameOverride: '' # The value must be passed in via the deploy script
 
 cronmilestone:
   path: '/api/analyst/cron-milestones'
