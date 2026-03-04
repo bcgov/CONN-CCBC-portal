@@ -17,6 +17,15 @@ ENV USER_ID=1001
 ENV HOME=/opt/app-root/src
 WORKDIR ${HOME}
 
+# Install required dependencies and tools
+# tzdata + TZ ensure sqitch/perl can resolve local time zone
+RUN apk add --no-cache git make gcc musl-dev perl perl-dev perl-utils wget patch tzdata
+
+# Set a deterministic time zone and provide /etc/localtime
+ENV TZ=Etc/UTC
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime \
+    && echo ${TZ} > /etc/timezone
+
 # Install sqitch and DBD::Pg via cpanm (no native Alpine package for sqitch)
 RUN apk add --no-cache perl perl-dev make gcc musl-dev postgresql-dev wget \
   && wget -q -O- https://cpanmin.us | perl - --notest App::Sqitch DBD::Pg \
