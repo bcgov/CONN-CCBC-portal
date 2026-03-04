@@ -37,7 +37,7 @@ jobs:
             context: .
             dockerfile: cron/shp/Dockerfile
             name: cron-shp
-            build_only_on_main: true
+            build_only_on_main: false
           # build unit test db only on main, testing image, does not change
           # will use cache from registry
           - image: ghcr.io/bcgov/conn-ccbc-portal/ccbc-unit-test-db
