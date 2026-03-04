@@ -64,6 +64,9 @@ if [[ "$last_modified_epoch" -gt "$latest_record_date_epoch" ]]; then
     CREATE TABLE IF NOT EXISTS ccbc_public.cbc_lastmile_coverage (
         id SERIAL PRIMARY KEY
     );
+
+    DROP VIEW ccbc_public.cbc_last_mile_coverage_geojson;
+    DROP VIEW ccbc_public.cbc_transports_geojson;
     "
 
     echo "Running shp2pgsql and sql scripts..."
