@@ -13,7 +13,6 @@ import {
   StyledAside,
   StyledNav,
   StyledUpperSection,
-  StyledLowerSection,
 } from '../NavigationSidebar.styles';
 
 const NavigationSidebar = ({
@@ -38,8 +37,8 @@ const NavigationSidebar = ({
     <StyledAside>
       <StyledNav $offset={extraOffset}>
         <StyledUpperSection>
-        {/* Project Navigation Components - always show when query is available */}
-        {query && <ProjectNavigationSidebar query={query} />}
+          {/* Project Navigation Components - always show when query is available */}
+          {query && <ProjectNavigationSidebar query={query} />}
           <NavItem
             currentPath={asPath}
             href="/analyst/dashboard"
@@ -47,7 +46,7 @@ const NavigationSidebar = ({
             label="Dashboard"
           />
         </StyledUpperSection>
-        <StyledLowerSection>
+        <section>
           <NavItem
             currentPath={asPath}
             href={`/analyst/cbc/${cbcId}`}
@@ -60,7 +59,7 @@ const NavigationSidebar = ({
             icon={faClockRotateLeft}
             label="History"
           />
-        </StyledLowerSection>
+        </section>
         {mapData && (
           <SideMap
             mapData={mapData}
