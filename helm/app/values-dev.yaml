@@ -9,6 +9,7 @@ cronsp:
 
 cronshp:
   enabled: true
+  dbNameOverride: 'ndt-818-show-map-for-cbc-proje'
 
 croncommunity:
   deploy:
