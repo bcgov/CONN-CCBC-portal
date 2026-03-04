@@ -5,7 +5,13 @@ FROM postgis/postgis:17-3.5-alpine
 ENV POSTGRES_PASSWORD=mysecretpassword
 
 # Install required dependencies and tools
-RUN apk add --no-cache git make gcc musl-dev perl perl-dev perl-utils wget patch
+# tzdata + TZ ensure sqitch/perl can resolve local time zone
+RUN apk add --no-cache git make gcc musl-dev perl perl-dev perl-utils wget patch tzdata
+
+# Set a deterministic time zone and provide /etc/localtime
+ENV TZ=Etc/UTC
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime \
+    && echo ${TZ} > /etc/timezone
 
 # Clone pgTap repository from GitHub and install it
 RUN git clone https://github.com/theory/pgtap.git /tmp/pgtap \
