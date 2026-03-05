@@ -282,7 +282,7 @@ const CoveragesTab = ({ historyList }) => {
         <p>
           The ZIP file should contain two folders named CBC_Transport and CBC_LastMile_Coverage.
           Each folder should contain the .shp as well as it&apos;s accompanying
-          files and should not be inside a folder.
+          files.
         </p>
         <FileComponent
           allowMultipleFiles={false}
