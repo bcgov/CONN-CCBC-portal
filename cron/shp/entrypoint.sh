@@ -61,7 +61,7 @@ if [[ "$last_modified_epoch" -gt "$latest_record_date_epoch" ]]; then
         id SERIAL PRIMARY KEY
     );
 
-    CREATE TABLE IF NOT EXISTS ccbc_public.cbc_lastmile_coverage (
+    CREATE TABLE IF NOT EXISTS ccbc_public.cbc_last_mile_coverage (
         id SERIAL PRIMARY KEY
     );
 
@@ -81,7 +81,11 @@ if [[ "$last_modified_epoch" -gt "$latest_record_date_epoch" ]]; then
     # Process CBC Coverage shapefiles (each subfolder has its own .shp)
     for dir in /data/cbc_coverage/CBC_Transport /data/cbc_coverage/CBC_LastMile_Coverage; do
         base_dir=$(basename $dir)
-        table_name=$(echo $base_dir | tr '[:upper:]' '[:lower:]')
+        if [[ "$base_dir" == "CBC_LastMile_Coverage" ]]; then
+            table_name="cbc_last_mile_coverage"
+        else
+            table_name=$(echo $base_dir | tr '[:upper:]' '[:lower:]')
+        fi
         for shp in $dir/*.shp; do
             shp2pgsql -d -I -s 4326 $shp $SCHEMA_NAME.$table_name | psql -d $DB_NAME
         done
