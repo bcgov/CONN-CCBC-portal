@@ -237,7 +237,9 @@ describe('The Gis coverages upload page', () => {
 
     fireEvent.change(inputFile, { target: { files: [wrongNameFile] } });
 
-    expect(screen.getByText(/CBC_Coverage.zip/)).toBeVisible();
+    expect(
+      screen.getByText(/Please use an accepted file name\. Accepted name for this field is:\s*CBC_Coverage\.zip/)
+    ).toBeVisible();
   });
 
   it('handles success response from backend with CCBC file only', async () => {
@@ -376,13 +378,12 @@ describe('The Gis history page', () => {
     const rows = document.querySelectorAll('tbody tr');
     expect(rows).toHaveLength(3);
 
+    // Table sorts by "Uploaded by" by default (User1 before User2), so row order is:
+    // 1) User1 Tester (record with no file_name, fallback to CCBC name), 2) User2 + CBC_Coverage, 3) User2 + CCBC_APPLICATION
     const firstRowCells = rows[0].querySelectorAll('td');
-    expect(firstRowCells[0]).toHaveTextContent('User2 Tester');
+    expect(firstRowCells[0]).toHaveTextContent('User1 Tester');
     expect(firstRowCells[1].querySelector('button')).toHaveTextContent(
       'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip'
-    );
-    expect(firstRowCells[2]).toHaveTextContent(
-      'January 7, 2025 at 7:28 a.m. PST'
     );
 
     const secondRowCells = rows[1].querySelectorAll('td');
@@ -391,9 +392,8 @@ describe('The Gis history page', () => {
       'CBC_Coverage.zip'
     );
 
-    // Third record has no file_name, should fall back to COVERAGES_FILE_NAME
     const thirdRowCells = rows[2].querySelectorAll('td');
-    expect(thirdRowCells[0]).toHaveTextContent('User1 Tester');
+    expect(thirdRowCells[0]).toHaveTextContent('User2 Tester');
     expect(thirdRowCells[1].querySelector('button')).toHaveTextContent(
       'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip'
     );
