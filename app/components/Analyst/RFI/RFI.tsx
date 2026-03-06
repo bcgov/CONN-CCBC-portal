@@ -9,10 +9,14 @@ import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useUpdateRfiJsonDataMutation } from 'schema/mutations/application/updateRfiJsonData';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
+
 
 interface Props {
   id: string;
   rfiDataByRfiDataId: any;
+  ccbcNumber?: string;
+  applicationRowId?: number;
 }
 
 const StyledContainer = styled.div`
@@ -40,7 +44,37 @@ const StyledFontAwesome = styled(FontAwesomeIcon)`
   cursor: pointer;
 `;
 
-const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
+
+// Detects if new files were added to the email correspondence array
+export const detectNewFiles = (oldFiles: any[] = [], newFiles: any[] = []) => {
+  const hasNewFiles = newFiles.length > oldFiles.length;
+  const newlyAddedFiles = hasNewFiles 
+    ? newFiles.slice(oldFiles.length) 
+    : [];
+  
+  return {
+    hasNewFiles,
+    newlyAddedFiles,
+  };
+};
+
+// Transforms file objects into the format needed for email notifications
+export const transformFilesForNotification = (files: any[]) => {
+  const fileNames = files.map((file: any) => file.name);
+  // map file types to useful names and types
+  const fileDetails = files.map((file: any) => ({
+    name: file.name,
+    type: file.type || 'Unknown',
+    uploadedAt: file.uploadedAt,
+  }));
+
+  return {
+    fileNames,
+    fileDetails,
+  };
+};
+
+const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id, ccbcNumber, applicationRowId }) => {
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
 
@@ -58,12 +92,20 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
   const { jsonData, rfiNumber, rowId } = queryFragment;
 
   const [updateRfiJsonData] = useUpdateRfiJsonDataMutation();
+  const { notifyDocumentUpload } = useEmailNotification();
 
   const handleClickEditButton = () => {
     router.push(`/analyst/application/${applicationId}/rfi/${rowId}`);
   };
 
   const handleChange = (e: IChangeEvent<any>) => {
+    // Check if email correspondence files were uploaded
+    const oldEmailFiles = jsonData?.rfiEmailCorrespondance || [];
+    const newEmailFiles = e.formData?.rfiEmailCorrespondance || [];
+    
+    // Detect new file uploads using extracted function
+    const { hasNewFiles, newlyAddedFiles } = detectNewFiles(oldEmailFiles, newEmailFiles);
+
     updateRfiJsonData({
       variables: {
         input: {
@@ -75,6 +117,22 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
       },
       optimisticResponse: {
         jsonData: e.formData,
+      },
+      onCompleted: () => {
+        // Send email notification if new files were uploaded
+        if (hasNewFiles && newlyAddedFiles.length > 0) {
+          // Transform files using extracted function
+          const { fileNames, fileDetails } = transformFilesForNotification(newlyAddedFiles);
+
+          notifyDocumentUpload(applicationRowId?.toString() || applicationId, {
+            ccbcNumber,
+            documentType: ' RFI Email Correspondence',
+            documentNames: fileNames,
+            fileDetails,
+            timestamp: new Date().toLocaleString(),
+            rfiNumber,
+          });
+        }
       },
       onError: (err) => {
         // eslint-disable-next-line no-console
