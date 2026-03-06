@@ -1,19 +1,22 @@
-# Use the official PostgreSQL 15 image as the base image
-FROM postgres:15
+# Use the PostGIS image to ensure geometry types are available
+FROM postgis/postgis:17-3.5-alpine
 
 # Set environment variables for PostgreSQL
 ENV POSTGRES_PASSWORD=mysecretpassword
 
 # Install required dependencies and tools
-RUN apt-get update \
-    && apt-get install -y git build-essential postgresql-server-dev-15 \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# tzdata + TZ ensure sqitch/perl can resolve local time zone
+RUN apk add --no-cache git make gcc musl-dev perl perl-dev perl-utils wget patch tzdata
+
+# Set a deterministic time zone and provide /etc/localtime
+ENV TZ=Etc/UTC
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime \
+    && echo ${TZ} > /etc/timezone
 
 # Clone pgTap repository from GitHub and install it
 RUN git clone https://github.com/theory/pgtap.git /tmp/pgtap \
     && cd /tmp/pgtap \
-    && git checkout v1.1.0 \
+    && git checkout v1.3.4 \
     && make \
     && make install
 

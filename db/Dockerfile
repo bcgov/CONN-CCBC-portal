@@ -1,5 +1,5 @@
 # Docker build should be run from parent directory
-FROM postgres:17-bookworm
+FROM postgis/postgis:17-3.5-alpine
 
 ENV SUMMARY="DB Schema for bcgov/CONN-CCBC-portal" \
   DESCRIPTION="Sqitch migrations for the accompanying app container image"
@@ -17,11 +17,19 @@ ENV USER_ID=1001
 ENV HOME=/opt/app-root/src
 WORKDIR ${HOME}
 
-# Install required dependencies and sqitch
-RUN apt-get update \
-  && apt-get install -y sqitch libdbd-pg-perl \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+# Install required dependencies and tools
+# tzdata + TZ ensure sqitch/perl can resolve local time zone
+RUN apk add --no-cache git make gcc musl-dev perl perl-dev perl-utils wget patch tzdata
+
+# Set a deterministic time zone and provide /etc/localtime
+ENV TZ=Etc/UTC
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime \
+    && echo ${TZ} > /etc/timezone
+
+# Install sqitch and DBD::Pg via cpanm (no native Alpine package for sqitch)
+RUN apk add --no-cache perl perl-dev make gcc musl-dev postgresql-dev wget \
+  && wget -q -O- https://cpanmin.us | perl - --notest App::Sqitch DBD::Pg \
+  && apk del perl-dev make gcc musl-dev postgresql-dev wget
 
 COPY db/ ${HOME}
 COPY mocks_schema/ ${HOME}/mocks_schema

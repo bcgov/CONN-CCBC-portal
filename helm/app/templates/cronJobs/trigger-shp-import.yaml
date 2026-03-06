@@ -20,7 +20,11 @@ spec:
           containers:
             - env:
               - name: PGDATABASE
+              {{- if .Values.cronshp.dbNameOverride }}
+                value: {{ .Values.cronshp.dbNameOverride }}
+              {{- else }}
                 value: {{ template "ccbc.fullname" . }}
+              {{- end }}
               - name: PGUSER
                 value: postgres
               - name: PGPASSWORD
@@ -29,10 +33,14 @@ spec:
                     key: password
                     name: ccbc-pguser-postgres
               - name: DATABASE_NAME
+              {{- if .Values.cronshp.dbNameOverride }}
+                value: {{ .Values.cronshp.dbNameOverride }}
+              {{- else }}
                 valueFrom:
                   secretKeyRef:
                     key: database-name
                     name: {{ template "ccbc.fullname" . }}
+              {{- end }}
               - name: PGPORT
                 valueFrom:
                   secretKeyRef:
@@ -58,16 +66,22 @@ spec:
                     key: secret
                     name: s3-secret-shp
               - name: DB_NAME
+              {{- if .Values.cronshp.dbNameOverride }}
+                value: {{ .Values.cronshp.dbNameOverride }}
+              {{- else }}
                 valueFrom:
                   secretKeyRef:
                     key: database-name
                     name: {{ template "ccbc.fullname" . }}
+              {{- end }}
               - name: ER_FILE
                 value: {{ .Values.cronshp.erFile }}
               - name: RD_FILE
                 value: {{ .Values.cronshp.rdFile }}
               - name: COVERAGES_FILE
                 value: {{ .Values.cronshp.coveragesFile }}
+              - name: CBC_COVERAGE_FILE_NAME
+                value: {{ .Values.cronshp.cbcCoverageFile }}
               - name: SCHEMA_NAME
                 value: ccbc_public
               name: {{ template "ccbc.fullname" . }}-cron-shp

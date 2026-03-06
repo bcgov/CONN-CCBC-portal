@@ -8,7 +8,8 @@ cronsp:
   schedule: '0 0 15 10 *' # dev run once a year on October 15
 
 cronshp:
-  enabled: false
+  enabled: true
+  dbNameOverride: 'ndt-818-show-map-for-cbc-proje'
 
 croncommunity:
   deploy:
