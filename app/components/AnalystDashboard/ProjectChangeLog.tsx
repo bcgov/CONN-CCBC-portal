@@ -346,6 +346,50 @@ const OldValueCell = (props) => (
   <HistoryValueCell {...props} historyType="old" />
 );
 
+
+// ID column filter — child rows (isVisibleRow=false) are always hidden.
+export const filterRowById = (
+  rowId: any,
+  isVisibleRow: boolean,
+  filterValue: string
+): boolean => {
+  const trimmedFilter = filterValue?.toString().trim();
+  if (!trimmedFilter) return true;
+  if (!isVisibleRow) return false;
+  if (!rowId && rowId !== 0) return false;
+  return rowId.toString().toLowerCase().includes(trimmedFilter.toLowerCase());
+};
+
+// text-contains filter — used by the field, oldValue, and newValue columns.
+export const textContainsFilter = (value: any, filterValue: string): boolean => {
+  const trimmedFilter = filterValue?.toString().trim();
+  if (!trimmedFilter) return true;
+  if (value === null || value === undefined || value === '') return false;
+  return value.toString().toLowerCase().includes(trimmedFilter.toLowerCase());
+};
+
+// multi-select filter — used by the section and createdBy columns. 
+export const multiSelectFilter = (
+  value: string,
+  filterValues: string[]
+): boolean => {
+  if (!filterValues || filterValues.length === 0) return true;
+  return filterValues.includes(value);
+};
+
+// Resolves a display / filter string for the oldValue and newValue columns.
+// Priority: pre-serialised *String field → JSON.stringify for objects → raw value.
+export const getValueString = (
+  valueString: string | null | undefined,
+  value: any
+): string => {
+  if (valueString != null) return valueString;
+  if (typeof value === 'object' && value !== null) return JSON.stringify(value);
+  return value ?? '';
+};
+
+// ---------------------------------------------------------------------------
+
 const ProjectChangeLog: React.FC<Props> = () => {
   const enableTimeMachine =
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
@@ -1199,20 +1243,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
       id: 'rowId',
       Cell: ProjectIdCell,
       header: 'ID',
-      filterFn: (row, _columnId, filterValue: string) => {
-        const trimmedFilterValue = filterValue?.toString().trim();
-        // if no filter value, show everything
-        if (!trimmedFilterValue) return true;
-        // if the row is not visible, don't show it
-        if (!row.original?.isVisibleRow) return false;
-        // if the value is not a number, don't show it
-        const value = row.original?.rowId;
-        if (!value && value !== 0) return false;
-        return value
-          .toString()
-          .toLowerCase()
-          .includes(trimmedFilterValue.toLowerCase());
-      },
+      filterFn: filterVariant,
     },
     {
       accessorKey: 'program',
@@ -1221,83 +1252,37 @@ const ProjectChangeLog: React.FC<Props> = () => {
       Cell: MergedCell,
     },
     {
+      // accessorKey: 'section',
       accessorFn: (row) => row?.section || 'N/A',
       header: 'Section',
+      filterFn: filterVariant,
       filterVariant: 'multi-select',
       filterSelectOptions: sectionOptions,
-      filterFn: (row, columnId, filterValues: string[]) => {
-        if (!filterValues || filterValues.length === 0) return true;
-        return filterValues.includes(row.getValue(columnId));
-      },
     },
     {
       accessorKey: 'field',
       header: 'Fields changed',
-      filterFn: (row, _columnId, filterValue: string) => {
-        const trimmedFilter = filterValue?.toString().trim();
-        if (!trimmedFilter) return true;
-        const value = row.original?.field;
-        if (!value) return false;
-        return value
-          .toString()
-          .toLowerCase()
-          .includes(trimmedFilter.toLowerCase());
-      },
+      filterFn: filterVariant,
     },
     {
-      accessorFn: (row) => {
-        if (row.oldValueString != null) return row.oldValueString;
-        if (typeof row.oldValue === 'object' && row.oldValue !== null) {
-          return JSON.stringify(row.oldValue);
-        }
-        return row.oldValue ?? '';
-      },
-      id: 'oldValue',
+      accessorKey: 'oldValue',
       header: 'Old Value',
       Cell: OldValueCell,
-      filterFn: (row, columnId, filterValue: string) => {
-        const trimmedFilter = filterValue?.toString().trim();
-        if (!trimmedFilter) return true;
-        const value = row.getValue(columnId);
-        if (value === null || value === undefined || value === '') return false;
-        return value
-          .toString()
-          .toLowerCase()
-          .includes(trimmedFilter.toLowerCase());
-      },
+      filterFn: filterVariant,
     },
     {
-      accessorFn: (row) => {
-        if (row.newValueString != null) return row.newValueString;
-        if (typeof row.newValue === 'object' && row.newValue !== null) {
-          return JSON.stringify(row.newValue);
-        }
-        return row.newValue ?? '';
-      },
-      id: 'newValue',
+      accessorKey: 'newValue',
       header: 'New Value',
       Cell: HistoryValueCell,
-      filterFn: (row, columnId, filterValue: string) => {
-        const trimmedFilter = filterValue?.toString().trim();
-        if (!trimmedFilter) return true;
-        const value = row.getValue(columnId);
-        if (value === null || value === undefined || value === '') return false;
-        return value
-          .toString()
-          .toLowerCase()
-          .includes(trimmedFilter.toLowerCase());
-      },
+      filterFn: filterVariant,
     },
     {
       accessorKey: 'createdBy',
       header: 'User',
+      filterFn: filterVariant,
       filterVariant: 'multi-select',
       filterSelectOptions: createdByOptions,
       Cell: MergedCell,
-      filterFn: (row, columnId, filterValues: string[]) => {
-        if (!filterValues || filterValues.length === 0) return true;
-        return filterValues.includes(row.getValue(columnId));
-      },
     },
     {
       accessorKey: 'createdAt',
