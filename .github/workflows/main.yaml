@@ -220,7 +220,7 @@ jobs:
   #     - run: ./.bin/sqitch-last-change-is-tag.sh db
 
   deploy:
-    if: github.event.ref == 'refs/heads/main'
+    # if: github.event.ref == 'refs/heads/main'
     needs: [build]
     uses: ./.github/workflows/deploy.yaml
     secrets:
@@ -268,6 +268,7 @@ jobs:
       ER_FILE: ${{ secrets.ER_FILE }}
       RD_FILE: ${{ secrets.RD_FILE }}
       COVERAGES_FILE: ${{ secrets.COVERAGES_FILE }}
+      CBC_COVERAGE_FILE: ${{ secrets.CBC_COVERAGE_FILE }}
       SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
       TEST_PG_PASSWORD: ${{ secrets.TEST_PG_PASSWORD }}
 

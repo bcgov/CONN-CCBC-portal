@@ -45,6 +45,8 @@ const {
   publicRuntimeConfig: { COVERAGES_FILE_NAME },
 } = getConfig();
 
+const CBC_COVERAGE_FILE_NAME = 'CBC_Coverage.zip';
+
 const StyledContainer = styled.div`
   width: 100%;
   height: 100%;
@@ -78,9 +80,15 @@ const StyledNoteText = styled.p`
   margin-top: -2rem;
 `;
 
+const StyledSectionDivider = styled.hr`
+  margin: 2rem 0;
+  border: none;
+  border-top: 1px solid #d6d6d6;
+`;
+
 const acceptedFileTypes = ['.zip'];
 
-const UploadError = ({ error }) => {
+const UploadError = ({ error, expectedFileName }) => {
   if (error === 'uploadFailed') {
     return <StyledError>File failed to upload, please try again</StyledError>;
   }
@@ -97,7 +105,7 @@ const UploadError = ({ error }) => {
     return (
       <StyledError>
         Please use an accepted file name. Accepted name for this field is:{' '}
-        {COVERAGES_FILE_NAME}
+        {expectedFileName}
       </StyledError>
     );
   }
@@ -105,70 +113,109 @@ const UploadError = ({ error }) => {
   return null;
 };
 
-const validateFile = (file: globalThis.File) => {
+const validateFile = (
+  file: globalThis.File,
+  expectedFileName?: string
+) => {
   if (!file) return { isValid: false, error: '' };
 
   if (!checkFileType(file.name, acceptedFileTypes)) {
     return { isValid: false, error: 'fileType' };
   }
 
-  if (file.name !== COVERAGES_FILE_NAME) {
+  if (expectedFileName && file.name !== expectedFileName) {
     return { isValid: false, error: 'fileName' };
   }
 
   return { isValid: true, error: null };
 };
 
+const uploadFile = async (file: File) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await fetch('/api/coverages/upload', {
+    method: 'POST',
+    body: formData,
+  });
+  const result = await response.json();
+  if (result.status !== 'success') {
+    throw new Error('Upload failed');
+  }
+};
+
+const makeFileComponentValue = (file: File) => [
+  {
+    id: '',
+    name: file?.name,
+    size: file?.size,
+    type: '.zip',
+    uuid: '',
+  },
+];
+
 const CoveragesTab = ({ historyList }) => {
-  const [selectedFile, setSelectedFile] = useState<File>();
+  const [ccbcFile, setCcbcFile] = useState<File>();
+  const [cbcFile, setCbcFile] = useState<File>();
+  const [ccbcError, setCcbcError] = useState<string>('');
+  const [cbcError, setCbcError] = useState<string>('');
+  const [uploadErrors, setUploadErrors] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const { updateDirtyState } = useUnsavedChanges();
-  const fileComponentValue = [
-    {
-      id: '',
-      name: selectedFile?.name,
-      size: selectedFile?.size,
-      type: '.zip',
-      uuid: '',
-    },
-  ];
-  const [error, setError] = useState<Array<any> | string>([]);
-  const hasUploadErrors = error?.length > 0 && Array.isArray(error);
 
-  const changeHandler = (event) => {
+  const hasAnyFile = !!ccbcFile || !!cbcFile;
+
+  const handleCcbcChange = (event) => {
     setUploadSuccess(false);
+    setUploadErrors(false);
     const file: File = event.target.files?.[0];
 
-    const { isValid, error: newError } = validateFile(file);
+    const { isValid, error } = validateFile(file, COVERAGES_FILE_NAME);
     if (!isValid) {
-      setError(newError);
+      setCcbcError(error);
       return;
     }
-    setError('');
-    setSelectedFile(file);
+    setCcbcError('');
+    setCcbcFile(file);
     updateDirtyState(true);
   };
 
-  const handleUpload = async () => {
+  const handleCbcChange = (event) => {
+    setUploadSuccess(false);
+    setUploadErrors(false);
+    const file: File = event.target.files?.[0];
+
+    const { isValid, error } = validateFile(file, CBC_COVERAGE_FILE_NAME);
+    if (!isValid) {
+      setCbcError(error);
+      return;
+    }
+    setCbcError('');
+    setCbcFile(file);
+    updateDirtyState(true);
+  };
+
+  const handleSave = async () => {
     setIsUploading(true);
-    const formData = new FormData();
-    formData.append('file', selectedFile);
+    setUploadSuccess(false);
+    setUploadErrors(false);
+
+    const filesToUpload = [ccbcFile, cbcFile].filter(Boolean);
+
     try {
-      const response = await fetch('/api/coverages/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const result = await response.json();
-      if (result.status === 'success') {
-        setSelectedFile(null);
-        setIsUploading(false);
-        setUploadSuccess(true);
-        updateDirtyState(false);
+      for (const file of filesToUpload) {
+        // eslint-disable-next-line no-await-in-loop
+        await uploadFile(file);
       }
+      setCcbcFile(null);
+      setCbcFile(null);
+      setUploadSuccess(true);
+      updateDirtyState(false);
     } catch (e) {
-      setIsUploading(false);
+      setUploadErrors(true);
       reportClientError(e, { source: 'coverages-upload' });
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -176,7 +223,7 @@ const CoveragesTab = ({ historyList }) => {
     () =>
       historyList.map((historyItem) => ({
         name: `${historyItem.ccbcUserByCreatedBy.givenName} ${historyItem.ccbcUserByCreatedBy.familyName}`,
-        file: COVERAGES_FILE_NAME,
+        file: historyItem.record.file_name || COVERAGES_FILE_NAME,
         createdAt: historyItem.createdAt,
         uuid: historyItem.record.uuid,
       })),
@@ -188,8 +235,13 @@ const CoveragesTab = ({ historyList }) => {
       <Tabs />
       <StyledHeading>Application Coverages Upload</StyledHeading>
       <StyledNoteText>
-        Coverage uploads are necessary to update the Economic Regions and Regional Districts for CCBC applications/projects.
+        CCBC Coverage uploads are necessary to update the Economic Regions and
+        Regional Districts for CCBC applications/projects.
+        <br />
+        CBC Coverage uploads are necessary to show project areas on the Summary
+        Page map.
       </StyledNoteText>
+
       <div>
         <strong>
           Upload a ZIP file containing the shapefiles for the CCBC Application
@@ -205,46 +257,84 @@ const CoveragesTab = ({ historyList }) => {
           fileTypes=".zip"
           label="ZIP of CCBC Application Coverages"
           id="coverages-upload"
-          onChange={changeHandler}
+          onChange={handleCcbcChange}
           handleDelete={() => {
-            setSelectedFile(null);
-            updateDirtyState(false);
+            setCcbcFile(null);
+            if (!cbcFile) updateDirtyState(false);
           }}
           hideFailedUpload={false}
-          value={selectedFile ? fileComponentValue : []}
+          value={ccbcFile ? makeFileComponentValue(ccbcFile) : []}
           allowDragAndDrop
         />
-
-        {error && <UploadError error={error} />}
-        {hasUploadErrors && (
-          <>
-            <br />
-            <div>
-              {' '}
-              <FontAwesomeIcon icon={faCircleXmark} color="#D8292F" /> Error
-              uploading ZIP file
-            </div>
-          </>
-        )}
-        <StyledBtnContainer>
-          <ButtonLink
-            onClick={handleUpload}
-            href="#"
-            disabled={isUploading || !selectedFile}
-            data-skip-unsaved-warning
-          >
-            {isUploading ? 'Saving' : 'Save'}
-          </ButtonLink>
-        </StyledBtnContainer>
-        <StyledNoteText>
-          Note: Changes from this upload will be reflected in the system by the following morning.
-        </StyledNoteText>
-        {uploadSuccess && (
-          <StyledSuccess>
-            <p>Upload successful!</p>
-          </StyledSuccess>
+        {ccbcError && (
+          <UploadError error={ccbcError} expectedFileName={COVERAGES_FILE_NAME} />
         )}
       </div>
+
+      <StyledSectionDivider />
+
+      <div>
+        <strong>
+          Upload a ZIP file containing the Last Mile and Transport shapefiles
+          for the CBC Project Coverages. The file must be named{' '}
+          {CBC_COVERAGE_FILE_NAME}.
+        </strong>
+        <p>
+          The ZIP file should contain two folders named CBC_Transport and CBC_LastMile_Coverage.
+          Each folder should contain the .shp as well as it&apos;s accompanying
+          files.
+        </p>
+        <FileComponent
+          allowMultipleFiles={false}
+          buttonVariant="primary"
+          fileTypes=".zip"
+          label="ZIP of CBC Project Coverages"
+          id="cbc-coverages-upload"
+          onChange={handleCbcChange}
+          handleDelete={() => {
+            setCbcFile(null);
+            if (!ccbcFile) updateDirtyState(false);
+          }}
+          hideFailedUpload={false}
+          value={cbcFile ? makeFileComponentValue(cbcFile) : []}
+          allowDragAndDrop
+        />
+        {cbcError && (
+          <UploadError error={cbcError} expectedFileName={CBC_COVERAGE_FILE_NAME} />
+        )}
+      </div>
+
+      {uploadErrors && (
+        <>
+          <br />
+          <div>
+            {' '}
+            <FontAwesomeIcon icon={faCircleXmark} color="#D8292F" /> Error
+            uploading ZIP file
+          </div>
+        </>
+      )}
+
+      <StyledBtnContainer>
+        <ButtonLink
+          onClick={handleSave}
+          href="#"
+          disabled={isUploading || !hasAnyFile}
+          data-skip-unsaved-warning
+        >
+          {isUploading ? 'Saving' : 'Save'}
+        </ButtonLink>
+      </StyledBtnContainer>
+      <StyledNoteText>
+        Note: Changes from this upload will be reflected in the system by the
+        following morning.
+      </StyledNoteText>
+      {uploadSuccess && (
+        <StyledSuccess>
+          <p>Upload successful!</p>
+        </StyledSuccess>
+      )}
+
       <HistoryFileUpload historyTableList={historyTableList} />
     </div>
   );
