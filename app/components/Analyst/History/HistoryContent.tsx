@@ -201,7 +201,11 @@ const HistoryContent = ({
   }
 
   if (tableName === 'application_announcement') {
-    const operation = historyItem.record?.history_operation;
+    const rawOperation = historyItem.record?.history_operation;
+    const operation =
+      rawOperation === 'updated' && !prevHistoryItem?.record
+        ? 'added'
+        : rawOperation;
     const announcementId = historyItem.record?.announcement_id;
     const previousAnnouncementId = prevHistoryItem?.record?.announcement_id;
     const announcement = announcements?.get?.(String(announcementId));
@@ -836,7 +840,9 @@ const HistoryContent = ({
     return (
       <>
         <StyledContent data-testid="history-content-sow-data">
-          <span>{displayName} {verb} the </span>
+          <span>
+            {displayName} {verb} the{' '}
+          </span>
           <b>Sow</b>
           <span> file on {createdAtFormatted}</span>
         </StyledContent>
