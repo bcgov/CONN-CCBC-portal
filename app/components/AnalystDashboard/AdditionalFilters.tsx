@@ -51,6 +51,7 @@ const AdditionalFilters = ({ filters, setFilters, disabledFilters = [] }) => {
       <StyledCheckbox
         type="checkbox"
         data-testid="programFilterCcbc"
+        aria-label="Filter by CCBC program"
         checked={programFilters.includes('CCBC')}
         disabled={disabledProgramFilters.includes('CCBC')}
         onChange={() => handleProgramFilterChange('CCBC')}
@@ -59,6 +60,7 @@ const AdditionalFilters = ({ filters, setFilters, disabledFilters = [] }) => {
       <StyledCheckbox
         type="checkbox"
         data-testid="programFilterCbc"
+        aria-label="Filter by CBC program"
         checked={programFilters.includes('CBC')}
         disabled={disabledProgramFilters.includes('CBC')}
         onChange={() => handleProgramFilterChange('CBC')}
@@ -67,6 +69,7 @@ const AdditionalFilters = ({ filters, setFilters, disabledFilters = [] }) => {
       <StyledCheckbox
         type="checkbox"
         data-testid="programFilterOther"
+        aria-label="Filter by Other program"
         checked={programFilters.includes('OTHER')}
         disabled={disabledProgramFilters.includes('OTHER')}
         onChange={() => handleProgramFilterChange('OTHER')}
