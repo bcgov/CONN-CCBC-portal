@@ -346,6 +346,50 @@ const OldValueCell = (props) => (
   <HistoryValueCell {...props} historyType="old" />
 );
 
+
+// ID column filter — child rows (isVisibleRow=false) are always hidden.
+export const filterRowById = (
+  rowId: any,
+  isVisibleRow: boolean,
+  filterValue: string
+): boolean => {
+  const trimmedFilter = filterValue?.toString().trim();
+  if (!trimmedFilter) return true;
+  if (!isVisibleRow) return false;
+  if (!rowId && rowId !== 0) return false;
+  return rowId.toString().toLowerCase().includes(trimmedFilter.toLowerCase());
+};
+
+// text-contains filter — used by the field, oldValue, and newValue columns.
+export const textContainsFilter = (value: any, filterValue: string): boolean => {
+  const trimmedFilter = filterValue?.toString().trim();
+  if (!trimmedFilter) return true;
+  if (value === null || value === undefined || value === '') return false;
+  return value.toString().toLowerCase().includes(trimmedFilter.toLowerCase());
+};
+
+// multi-select filter — used by the section and createdBy columns. 
+export const multiSelectFilter = (
+  value: string,
+  filterValues: string[]
+): boolean => {
+  if (!filterValues || filterValues.length === 0) return true;
+  return filterValues.includes(value);
+};
+
+// Resolves a display / filter string for the oldValue and newValue columns.
+// Priority: pre-serialised *String field → JSON.stringify for objects → raw value.
+export const getValueString = (
+  valueString: string | null | undefined,
+  value: any
+): string => {
+  if (valueString != null) return valueString;
+  if (typeof value === 'object' && value !== null) return JSON.stringify(value);
+  return value ?? '';
+};
+
+// ---------------------------------------------------------------------------
+
 const ProjectChangeLog: React.FC<Props> = () => {
   const enableTimeMachine =
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
