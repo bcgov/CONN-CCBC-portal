@@ -175,7 +175,7 @@
     "happo-e2e": "^5.0.0",
     "happo.io": "^13.0.1",
     "jest": "^30.3.0",
-    "jest-environment-jsdom": "^29.7.0",
+    "jest-environment-jsdom": "^30.3.0",
     "jest-extended": "^7.0.0",
     "jest-mock": "^30.3.0",
     "nodemon": "^3.1.14",
