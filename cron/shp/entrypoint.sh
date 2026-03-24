@@ -78,18 +78,25 @@ if [[ "$last_modified_epoch" -gt "$latest_record_date_epoch" ]]; then
         done
     done
 
-    # Process CBC Coverage shapefiles (each subfolder has its own .shp)
-    for dir in /data/cbc_coverage/CBC_Transport /data/cbc_coverage/CBC_LastMile_Coverage; do
-        base_dir=$(basename $dir)
-        if [[ "$base_dir" == "CBC_LastMile_Coverage" ]]; then
-            table_name="cbc_last_mile_coverage"
-        else
-            table_name=$(echo $base_dir | tr '[:upper:]' '[:lower:]')
+    # Process CBC Coverage shapefiles: either per subfolder or flat at zip root (same basenames)
+    process_cbc_layer() {
+        local name="$1"
+        local table_name="$2"
+        local cbc_dir="/data/cbc_coverage/$name"
+        local processed=0
+        if [[ -d "$cbc_dir" ]]; then
+            for shp in "$cbc_dir"/*.shp; do
+                [[ -f "$shp" ]] || continue
+                shp2pgsql -d -I -s 4326 "$shp" $SCHEMA_NAME.$table_name | psql -d $DB_NAME
+                processed=1
+            done
         fi
-        for shp in $dir/*.shp; do
-            shp2pgsql -d -I -s 4326 $shp $SCHEMA_NAME.$table_name | psql -d $DB_NAME
-        done
-    done
+        if [[ "$processed" -eq 0 ]] && [[ -f "/data/cbc_coverage/${name}.shp" ]]; then
+            shp2pgsql -d -I -s 4326 "/data/cbc_coverage/${name}.shp" $SCHEMA_NAME.$table_name | psql -d $DB_NAME
+        fi
+    }
+    process_cbc_layer "CBC_LastMile_Coverage" "cbc_last_mile_coverage"
+    process_cbc_layer "CBC_Transport" "cbc_transport"
 
     # Execute the sql scripts
     for sql in /data/sql/*.sql; do
