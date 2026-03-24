@@ -280,8 +280,8 @@ const CoveragesTab = ({ historyList }) => {
           {CBC_COVERAGE_FILE_NAME}.
         </strong>
         <p>
-          The ZIP file should contain two folders named CBC_Transport and CBC_LastMile_Coverage.
-          Each folder should contain the .shp as well as it&apos;s accompanying
+          The ZIP file should contain the data for both CBC_Transport and CBC_LastMile_Coverage.
+          It should contain the .shp files as well as their accompanying
           files.
         </p>
         <FileComponent
