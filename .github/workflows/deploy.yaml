@@ -60,7 +60,7 @@ jobs:
       tagVersion: ${{steps.tagVersion.outputs.tagVersion}}
     steps:
       - name: Git Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
         with:
           fetch-depth: 0
       - name: Is Tagged Commit
@@ -82,7 +82,7 @@ jobs:
       # url: 'https://ccbc-dev.apps.silver.devops.gov.bc.ca'
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
       - name: Deploy
         uses: ./.github/actions/app
         with:
@@ -136,8 +136,8 @@ jobs:
     needs: [is-tagged-release]
     if: contains(needs.is-tagged-release.outputs.tagVersion, 'v')
     steps:
-      - uses: actions/checkout@v6
-      - uses: dorny/paths-filter@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # tag=v4
         id: changes
         with:
           filters: |
@@ -159,7 +159,7 @@ jobs:
       url: 'https://ccbc-test.apps.silver.devops.gov.bc.ca'
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
       - name: Deploy
         uses: ./.github/actions/app
         with:
@@ -215,7 +215,7 @@ jobs:
       url: 'https://ccbc.apps.silver.devops.gov.bc.ca'
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
       - name: Deploy
         uses: ./.github/actions/app
         with:
@@ -393,14 +393,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
         with:
           fetch-depth: 0
       - name: Fetch latest tag
         id: fetch_tag
         run: echo "tagVersion=$(git describe --tags $(git rev-list --tags --max-count=1))" >>$GITHUB_OUTPUT
       - name: Release
-        uses: softprops/action-gh-release@v2.6.1
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # tag=v2.6.1
         with:
           generate_release_notes: true
           tag_name: ${{ steps.fetch_tag.outputs.tagVersion }}

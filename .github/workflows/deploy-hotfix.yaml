@@ -32,7 +32,7 @@ jobs:
       url: 'https://ccbc-hotfix.apps.silver.devops.gov.bc.ca'
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
       - name: Deploy
         uses: ./.github/actions/hotfix
         with:
@@ -60,7 +60,7 @@ jobs:
       url: 'https://ccbc.apps.silver.devops.gov.bc.ca'
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
       - name: Deploy
         uses: ./.github/actions/app
         with:
