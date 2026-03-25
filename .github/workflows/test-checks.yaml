@@ -17,7 +17,7 @@ jobs:
   # install-test-env:
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - uses: actions/checkout@v6
+  #     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
   #     - name: dev env setup
   #       uses: ./.github/actions/dev-env-setup
   #     - run: make install_dev_tools
@@ -30,9 +30,9 @@ jobs:
     timeout-minutes: 60
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
       - name: Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # branch=master
         with:
           scan-type: fs
           format: sarif
@@ -41,7 +41,7 @@ jobs:
           ignore-unfixed: false
           severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@0499de31b99561a6d14a36a5f662c2a54f91beee
+        uses: github/codeql-action/upload-sarif@0499de31b99561a6d14a36a5f662c2a54f91beee # tag=v4.31.2
         with:
           sarif_file: 'trivy-results.sarif'
 
@@ -59,21 +59,21 @@ jobs:
         os: ['linux']
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@0499de31b99561a6d14a36a5f662c2a54f91beee
+        uses: github/codeql-action/init@0499de31b99561a6d14a36a5f662c2a54f91beee # tag=v4.31.2
         with:
           languages: ${{ matrix.language }}
       - name: Autobuild
-        uses: github/codeql-action/autobuild@0499de31b99561a6d14a36a5f662c2a54f91beee
+        uses: github/codeql-action/autobuild@0499de31b99561a6d14a36a5f662c2a54f91beee # tag=v4.31.2
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@0499de31b99561a6d14a36a5f662c2a54f91beee
+        uses: github/codeql-action/analyze@0499de31b99561a6d14a36a5f662c2a54f91beee # tag=v4.31.2
 
   cocogitto:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
         with:
           fetch-depth: 0
       - name: Tag the base ref for pull requests
@@ -82,7 +82,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: git checkout "$GITHUB_BASE_REF" && git tag latest && git checkout "$GITHUB_HEAD_REF"
       - name: Conventional commits check
-        uses: cocogitto/cocogitto-action@v4
+        uses: cocogitto/cocogitto-action@390bda87a19bf627e03ad075c67a11e9ddbb7547 # tag=v4
         with:
           command: check
           args: --from-latest-tag
@@ -90,17 +90,17 @@ jobs:
   gitleaks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
       - run: ./.bin/install-gitleaks-linux-x64.sh
       - run: ./gitleaks detect --exit-code 0 --report-format sarif --report-path "gitleaks.sarif"
-      - uses: github/codeql-action/upload-sarif@v4
+      - uses: github/codeql-action/upload-sarif@0499de31b99561a6d14a36a5f662c2a54f91beee # tag=v4.31.2
         with:
           sarif_file: 'gitleaks.sarif'
 
   check_immutable_sqitch_files:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
         with:
           fetch-depth: 0
       - run: ./.bin/sqitch-check-immutable-files.sh db origin/main
@@ -108,10 +108,10 @@ jobs:
   check_deleted_sqitch_tags:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # tag=v6
         with:
           node-version: 24
       - run: |
@@ -161,13 +161,13 @@ jobs:
       name: tools
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
       - name: Install OpenShift CLI (oc)
-        uses: redhat-actions/openshift-tools-installer@v1
+        uses: redhat-actions/openshift-tools-installer@144527c7d98999f2652264c048c7a9bd103f8a82 # tag=v1
         with:
           oc: latest
       - name: Authenticate to OpenShift Linter namespace
-        uses: redhat-actions/oc-login@v1
+        uses: redhat-actions/oc-login@5eb45e848b168b6bf6b8fe7f1561003c12e3c99d # tag=v1
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token: ${{ secrets.OPENSHIFT_LINTER_TOKEN }}

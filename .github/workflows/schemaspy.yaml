@@ -13,7 +13,7 @@ jobs:
   generate_schemaspy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
         with:
           fetch-depth: 0
       - name: deploy db migrations
@@ -45,12 +45,12 @@ jobs:
       - name: Run Schemaspy
         run: docker run --network host -v "$PWD/output:/output" schemaspy/schemaspy:latest -t pgsql -db ccbc -host 127.0.0.1 -port 5432 -u postgres -p mysecretpassword -schemas ccbc_public
       - name: Deploy to Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # tag=v4
         with:
           folder: output
           target-folder: schemaspy
       - name: Deploy to Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # tag=v4
         with:
           folder: app/public/data
           target-folder: schemaspy/data

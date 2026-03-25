@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Debug last successful test code run for PR
         if: ${{ github.event_name == 'pull_request' }}
-        uses: actions/github-script@v8
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # tag=v8
         with:
           script: |
             const { owner, repo } = context.repo;
@@ -50,21 +50,21 @@ jobs:
             core.info(`- updated at: ${last.updated_at}`);
             core.info(`- html url: ${last.html_url}`);
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - name: run jest tests with coverage
-        uses: Wandalen/wretry.action@master
+        uses: Wandalen/wretry.action@e94c43bf2e865e7dbbd90b0c1061053f5888932a # branch=master
         with:
           current_path: ./app
           command: yarn test --coverage --silent
           attempt_limit: 2
           attempt_delay: 2000
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v7.0.0
+        uses: SonarSource/sonarqube-scan-action@a31c9398be7ace6bbfaf30c0bd5d415f843d45e9 # tag=v7.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
