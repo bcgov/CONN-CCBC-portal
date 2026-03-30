@@ -37,7 +37,7 @@ jobs:
           severity: CRITICAL
           timeout: 10m0s
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@0499de31b99561a6d14a36a5f662c2a54f91beee # tag=v4.31.2
+        uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13 # tag=v4.35.1
         with:
           sarif_file: 'trivy-results.sarif'
       - name: Get Results Length From Sarif
@@ -65,7 +65,7 @@ jobs:
           severity: CRITICAL
           timeout: 10m0s
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@0499de31b99561a6d14a36a5f662c2a54f91beee # tag=v4.31.2
+        uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13 # tag=v4.35.1
         with:
           sarif_file: 'trivy-results.sarif'
       - name: Get Results Length From Sarif
@@ -82,7 +82,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # tag=v6
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@68a3ea99af6ad249940b5a9fdf44fc6d7f14378b # tag=v46.1.6
+        uses: renovatebot/github-action@3633cede7d4d4598438e654eac4a695e46004420 # tag=v46.1.7
         with:
           configurationFile: ./.github/renovate.json
           token: ${{ secrets.RENOVATE_GITHUB_TOKEN }}
