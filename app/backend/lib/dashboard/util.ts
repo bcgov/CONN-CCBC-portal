@@ -143,6 +143,14 @@ export const getFnhaValue = (data) => {
 export const getSortedZones = (zones?: number[] | null) =>
   Array.isArray(zones) ? [...zones].sort((a, b) => a - b) : zones;
 
+export const getSortedPhases = (
+  phases?: Array<string | number> | string | number | null
+) => {
+  if (Array.isArray(phases)) return [...phases].sort().join(', ');
+  if (phases === null || phases === undefined) return phases;
+  return String(phases);
+};
+
 export const normalizeStatusName = (status?: string) => {
   return statusStyles[status]?.description;
 };

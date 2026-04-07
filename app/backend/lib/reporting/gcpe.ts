@@ -25,7 +25,7 @@ import {
   getFundingSource,
 } from './util';
 import toTitleCase from '../../../utils/formatString';
-import { getFnhaValue } from '../dashboard/util';
+import { getFnhaValue, getSortedPhases } from '../dashboard/util';
 
 const getCbcDataQuery = `
   query getCbcData {
@@ -421,7 +421,7 @@ const generateExcelData = async (
           node?.jsonData?.projectStatus === 'Reporting Complete' ? 'YES' : 'NO',
       },
       // phase
-      { value: node?.jsonData?.phase },
+      { value: getSortedPhases(node?.jsonData?.phase) },
       // project #
       { value: node?.projectNumber },
       // ubf/federal project #
@@ -928,8 +928,7 @@ export const compareGcpeReports = async (sourceRowId, targetRowId, req) => {
     sourceQueryResult.data.reportingGcpeByRowId.reportData;
   const targetExcelData =
     targetQueryResult.data.reportingGcpeByRowId.reportData;
-  const { mainSheet: sourceMainSheet } =
-    normalizeReportData(sourceExcelData);
+  const { mainSheet: sourceMainSheet } = normalizeReportData(sourceExcelData);
   const { mainSheet: targetMainSheet, generatedOn: targetGeneratedOn } =
     normalizeReportData(targetExcelData);
   replaceNullCellValues(sourceMainSheet);
