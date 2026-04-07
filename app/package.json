@@ -91,7 +91,7 @@
     "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
-    "lightship": "7.2.0",
+    "lightship": "9.0.4",
     "lodash.isequal": "^4.5.0",
     "luxon": "^3.7.2",
     "material-react-table": "2.13",
