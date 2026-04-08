@@ -33,7 +33,7 @@ rabbitmq:
   replicas: 1
   image:
     repository: docker.io/rabbitmq
-    tag: '4.0.7-management'
+    tag: '4.0.9-management'
   defaultUser: 'guest'
   defaultPass: 'guest'
   resources:
