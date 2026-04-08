@@ -60,6 +60,12 @@ export const buildStatusTransition = (
     const normalizedFrom = fromStatus.toLowerCase().replace(/\s+/g, '');
     let lastMatchIdx = -1;
     statusNodes.forEach((node, idx) => {
+      // Only anchor on analyst-visible nodes so the fromStatus survives the
+      // visibleByApplicant filter below (applicant_* mirror nodes share the
+      // same description but are filtered out, which would drop the "from"
+      // side of the transition).
+      const { visibleByApplicant } = node?.applicationStatusTypeByStatus || {};
+      if (visibleByApplicant) return;
       const desc = (
         node?.applicationStatusTypeByStatus?.description || ''
       )
