@@ -216,8 +216,24 @@ describe('Dashboard util functions', () => {
         node('approved', false, 'Agreement signed'),
         node('applicant_approved', true, 'Agreement signed'),
       ];
+      // The anchor should land on the analyst-visible conditionally_approved node
+      // (not the applicant_conditionally_approved mirror), so the "from" status
+      // is preserved in the transition output.
       expect(buildStatusTransition(nodes, 'Conditionally Approved')).toBe(
-        'Agreement signed'
+        'Conditionally Approved --> Agreement signed'
+      );
+    });
+
+    it('falls back to full history when all fromStatus matches are applicant-visible', () => {
+      const nodes = [
+        node('screening', false, 'Screening'),
+        node('applicant_conditionally_approved', true, 'Conditionally Approved'),
+        node('approved', false, 'Agreement signed'),
+      ];
+      // No analyst-visible node matches "Conditionally Approved", so startIndex
+      // stays at 0 and the full analyst-visible history is shown.
+      expect(buildStatusTransition(nodes, 'Conditionally Approved')).toBe(
+        'Screening --> Agreement signed'
       );
     });
   });
