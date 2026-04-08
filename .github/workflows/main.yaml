@@ -51,10 +51,6 @@ jobs:
     if: ${{ needs.release-commit-check.outputs.skip_job != 'true' }}
     uses: ./.github/workflows/build.yaml
 
-  cleanup-feature-environments:
-    uses: ./.github/workflows/cleanup-feature-environments.yaml
-    secrets: inherit
-
   install-env:
     uses: ./.github/workflows/install-env.yaml
     secrets: inherit
