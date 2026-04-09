@@ -100,7 +100,7 @@ describe('Dashboard export functions', () => {
     const cbcRowData = [
       'CBC',
       5070,
-      2,
+      '2',
       null,
       1,
       'Agreement Signed',
@@ -186,5 +186,46 @@ describe('Dashboard export functions', () => {
     expect(cellEr).not.toBeDefined();
 
     expect(cellRd).not.toBeDefined();
+  });
+
+  it('should sort and export CBC phases when multiple phases are present', async () => {
+    const datasetWithMultiplePhases = {
+      ...testCbcData,
+      data: {
+        ...testCbcData.data,
+        cbcByRowId: {
+          ...testCbcData.data.cbcByRowId,
+          cbcDataByCbcId: {
+            ...testCbcData.data.cbcByRowId.cbcDataByCbcId,
+            edges: [
+              {
+                ...testCbcData.data.cbcByRowId.cbcDataByCbcId.edges[0],
+                node: {
+                  ...testCbcData.data.cbcByRowId.cbcDataByCbcId.edges[0].node,
+                  jsonData: {
+                    ...testCbcData.data.cbcByRowId.cbcDataByCbcId.edges[0].node
+                      .jsonData,
+                    phase: [3, 1, 2],
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+    };
+
+    const blob = await generateDashboardExport(
+      [testApplicationData],
+      [datasetWithMultiplePhases]
+    );
+
+    const arrayBuffer = await blob.arrayBuffer();
+    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+    const phaseCell = sheet[XLSX.utils.encode_cell({ r: 2, c: 2 })];
+
+    expect(phaseCell).toBeDefined();
+    expect(phaseCell.v).toBe('1, 2, 3');
   });
 });
