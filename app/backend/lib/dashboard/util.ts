@@ -146,7 +146,13 @@ export const getSortedZones = (zones?: number[] | null) =>
 export const getSortedPhases = (
   phases?: Array<string | number> | string | number | null
 ) => {
-  if (Array.isArray(phases)) return [...phases].sort().join(', ');
+  if (Array.isArray(phases)) {
+    return [...phases]
+      .sort((a, b) =>
+        String(a).localeCompare(String(b), undefined, { numeric: true })
+      )
+      .join(', ');
+  }
   if (phases === null || phases === undefined) return phases;
   return String(phases);
 };
