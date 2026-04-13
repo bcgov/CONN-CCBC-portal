@@ -54,7 +54,7 @@ jobs:
       - name: Setup Sqitch User
         run: |
           sqitch config --user user.name 'CCBC Service Account'
-          sqitch config --user user.email 'ccbc@button.is'
+          sqitch config --user user.email '116113628+ccbc-service-account@users.noreply.github.com'
       - name: Make Release
         run: |
           git checkout chore/release
