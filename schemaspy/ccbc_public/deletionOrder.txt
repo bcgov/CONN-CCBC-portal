@@ -1,4 +1,9 @@
+regional_districts
 history_item
+economic_regions
+ccbc_applications_coverages
+cbc_transport
+cbc_last_mile_coverage
 application_rd
 application_er
 application_merge

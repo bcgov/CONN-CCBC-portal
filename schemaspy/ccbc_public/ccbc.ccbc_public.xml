@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="ccbc" schema="ccbc_public" type="PostgreSQL - 15.17 (Debian 15.17-1.pgdg13+1)">
+<database name="ccbc" schema="ccbc_public" type="PostgreSQL - 17.9">
    <sequences>
+      <sequence increment="1" name="application_er_id_seq" startValue="1"/>
+      <sequence increment="1" name="application_rd_id_seq" startValue="1"/>
       <sequence increment="1" name="cbc_data_change_reason_id_seq" startValue="1"/>
+      <sequence increment="1" name="cbc_last_mile_coverage_gid_seq" startValue="1"/>
+      <sequence increment="1" name="cbc_transport_gid_seq" startValue="1"/>
+      <sequence increment="1" name="ccbc_applications_coverages_gid_seq" startValue="1"/>
+      <sequence increment="1" name="economic_regions_gid_seq" startValue="1"/>
       <sequence increment="1" name="record_version_id_seq" startValue="1"/>
+      <sequence increment="1" name="regional_districts_gid_seq" startValue="1"/>
    </sequences>
    <tables>
       <table name="analyst" remarks="Table containing list of analysts" schema="ccbc_public" type="TABLE">
@@ -432,8 +439,13 @@
       </table>
       <table name="application_er" remarks="" schema="ccbc_public" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="application_id" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="ccbc_number" nullable="true" remarks="" size="255" type="varchar" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="er" nullable="true" remarks="" size="255" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="ccbc_number" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="er" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="true" defaultValue="nextval('ccbc_public.application_er_id_seq'::regclass)" digits="0" id="3" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="application_er_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
       </table>
       <table name="application_fnha_contribution" remarks="Table containing the data about the fnha contribution for the project" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the row" size="10" type="int4" typeCode="4"/>
@@ -830,7 +842,7 @@
          <index name="ccbc_public_application_package_updated_by_foreign_key" unique="false">
             <column ascending="true" name="updated_by"/>
          </index>
-         <checkConstraint constraint="((package &gt; 0))" name="application_package_package_check"/>
+         <checkConstraint constraint="(package &gt; 0)" name="application_package_package_check"/>
       </table>
       <table name="application_pending_change_request" remarks="Table containing the pending change request details of the application" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the application_pending_change_request" size="10" type="int4" typeCode="4"/>
@@ -896,12 +908,18 @@
          <index name="ccbc_public_application_project_type_updated_by_foreign_key" unique="false">
             <column ascending="true" name="updated_by"/>
          </index>
-         <checkConstraint constraint="((((project_type)::text = ANY ((ARRAY['lastMile'::character varying, 'lastMileAndTransport'::character varying, 'transport'::character varying])::text[])) OR (project_type IS NULL)))" name="application_project_type_project_type_check"/>
+         <checkConstraint constraint="(((project_type)::text = ANY ((ARRAY['lastMile'::character varying, 'lastMileAndTransport'::character varying, 'transport'::character varying])::text[])) OR (project_type IS NULL))" name="application_project_type_project_type_check"/>
       </table>
       <table name="application_rd" remarks="" schema="ccbc_public" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="application_id" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="ccbc_number" nullable="true" remarks="" size="255" type="varchar" typeCode="12"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="rd" nullable="true" remarks="" size="255" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="ccbc_number" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="rd" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="true" defaultValue="nextval('ccbc_public.application_rd_id_seq'::regclass)" digits="0" id="3" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="er" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="application_rd_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
       </table>
       <table name="application_rfi_data" remarks="Table to pair an application to RFI data" schema="ccbc_public" type="TABLE">
          <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="rfi_data_id" nullable="false" remarks="The foreign key of a form" size="10" type="int4" typeCode="4">
@@ -1021,7 +1039,7 @@
          <index name="application_status_type_order_is_unique" unique="true">
             <column ascending="true" name="status_order"/>
          </index>
-         <checkConstraint constraint="((visible_by_analyst OR visible_by_applicant))" name="no_invisible_status"/>
+         <checkConstraint constraint="(visible_by_analyst OR visible_by_applicant)" name="no_invisible_status"/>
       </table>
       <table name="assessment_data" remarks="" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
@@ -1257,6 +1275,86 @@
             <column ascending="true" name="updated_by"/>
          </index>
       </table>
+      <table name="cbc_last_mile_coverage" remarks="Table containing CBC last mile coverage geometries imported from shapefiles" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('ccbc_public.cbc_last_mile_coverage_gid_seq'::regclass)" digits="0" id="0" name="gid" nullable="false" remarks="Unique ID for the row" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="proj_num" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="project__" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="program" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="original_p" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="phase" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="intake_num" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="zones" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="internal_s" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="external_s" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="change_req" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="project_ti" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="project_de" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="13" name="applicant_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="14" name="current_op" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="15" name="f_830_mill" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="16" name="federal_fu" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="17" name="federal_pr" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="18" name="project_ty" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="19" name="transport_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="20" name="highway_pr" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="21" name="last_mile_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="22" name="last_mile1" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="23" name="connected_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="24" name="crtc_proje" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="25" name="project_lo" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="26" name="economic_r" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="27" name="regional_d" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="28" name="communitie" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="29" name="indigenous" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="30" name="household_" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="31" name="transport1" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="32" name="highway_km" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="33" name="rest_areas" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="34" name="funding_so" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="35" name="bc_funding" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="36" name="federal__1" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="37" name="applicant1" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="38" name="other_fund" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="39" name="total_fnha" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="40" name="total_proj" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="41" name="conditiona" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="42" name="agreement_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="43" name="announced_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="44" name="date_appli" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="45" name="date_condi" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="46" name="date_exter" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="47" name="date_agree" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="48" name="proposed_s" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="49" name="proposed_c" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="50" name="reporting_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="51" name="date_annou" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="52" name="f__project" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="53" name="constructi" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="54" name="milestone_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="55" name="primary_ne" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="56" name="secondary_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="57" name="notes" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="58" name="locked" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="59" name="last_revie" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="60" name="review_not" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="61" name="error_log" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="17" id="62" name="objectid_1" nullable="true" remarks="" size="17" type="float8" typeCode="8"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="63" name="shape_leng" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="64" name="shape_area" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="65" name="geom" nullable="true" remarks="The geometry of the coverage area (MultiPolygonZM, SRID 4326)" size="2147483647" type="geometry" typeCode="1111"/>
+         <primaryKey column="gid" sequenceNumberInPK="1"/>
+         <index name="cbc_last_mile_coverage_pkey" unique="true">
+            <column ascending="true" name="gid"/>
+         </index>
+         <index name="cbc_last_mile_coverage_geom_idx" unique="false">
+            <column ascending="true" name="geom"/>
+         </index>
+      </table>
+      <table name="cbc_last_mile_coverage_geojson" numRows="0" remarks="View returning CBC last mile coverage geometries as GeoJSON" schema="ccbc_public" type="VIEW" viewSql=" SELECT gid,&#10;    project__,&#10;    (st_asgeojson(st_transform(st_setsrid(geom, 3005), 4326)))::json AS geometry&#10;   FROM ccbc_public.cbc_last_mile_coverage;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="gid" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="project__" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="geometry" nullable="true" remarks="" size="2147483647" type="json" typeCode="1111"/>
+      </table>
       <table name="cbc_project" remarks="Table containing the data imported from the CBC projects excel file" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the row" size="10" type="int4" typeCode="4"/>
          <column autoUpdated="false" defaultValue="'{}'::jsonb" digits="0" id="1" name="json_data" nullable="false" remarks="The data imported from the excel for that cbc project" size="2147483647" type="jsonb" typeCode="1111"/>
@@ -1319,6 +1417,102 @@
          </index>
          <index name="ccbc_public_cbc_project_communities_updated_by_foreign_key" unique="false">
             <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="cbc_transport" remarks="Table containing CBC transport geometries imported from shapefiles" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('ccbc_public.cbc_transport_gid_seq'::regclass)" digits="0" id="0" name="gid" nullable="false" remarks="Unique ID for the row" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="project_nu" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="project__" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="program" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="original_p" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="phase" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="intake_num" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="zones" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="internal_s" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="external_s" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="change_req" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="project_ti" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="project_de" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="13" name="applicant_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="14" name="current_op" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="15" name="f_830_mill" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="16" name="federal_fu" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="17" name="federal_pr" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="18" name="project_ty" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="19" name="transport_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="20" name="highway_pr" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="21" name="last_mile_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="22" name="last_mile1" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="23" name="connected_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="24" name="crtc_proje" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="25" name="project_lo" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="26" name="communitie" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="27" name="indigenous" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="28" name="household_" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="29" name="transport1" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="30" name="highway_km" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="31" name="rest_areas" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="32" name="bc_funding" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="33" name="federal__1" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="34" name="applicant1" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="35" name="other_fund" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="36" name="total_fnha" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="37" name="total_proj" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="38" name="conditiona" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="39" name="agreement_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="40" name="announced_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="41" name="date_appli" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="42" name="date_condi" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="43" name="date_exter" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="44" name="date_agree" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="45" name="proposed_s" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="46" name="proposed_c" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="47" name="reporting_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="48" name="date_annou" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="49" name="f__project" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="50" name="constructi" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="51" name="milestone_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="52" name="primary_ne" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="53" name="secondary_" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="54" name="notes" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="55" name="locked" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="56" name="last_revie" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="57" name="review_not" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="58" name="error_log" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="17" id="59" name="objectid_1" nullable="true" remarks="" size="17" type="float8" typeCode="8"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="60" name="shape_leng" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="61" name="geom" nullable="true" remarks="The geometry of the transport line (MultiLineStringZM, SRID 4326)" size="2147483647" type="geometry" typeCode="1111"/>
+         <primaryKey column="gid" sequenceNumberInPK="1"/>
+         <index name="cbc_transport_pkey" unique="true">
+            <column ascending="true" name="gid"/>
+         </index>
+         <index name="cbc_transport_geom_idx" unique="false">
+            <column ascending="true" name="geom"/>
+         </index>
+      </table>
+      <table name="cbc_transports_geojson" numRows="0" remarks="View returning CBC transport geometries as GeoJSON" schema="ccbc_public" type="VIEW" viewSql=" SELECT gid,&#10;    project__,&#10;    (st_asgeojson(st_transform(st_setsrid(geom, 3005), 4326)))::json AS geometry&#10;   FROM ccbc_public.cbc_transport;">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="gid" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="project__" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="geometry" nullable="true" remarks="" size="2147483647" type="json" typeCode="1111"/>
+      </table>
+      <table name="ccbc_applications_coverages" remarks="" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('ccbc_public.ccbc_applications_coverages_gid_seq'::regclass)" digits="0" id="0" name="gid" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="ccbc_numbe" nullable="true" remarks="" size="12" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="17" id="2" name="ccbc_appli" nullable="true" remarks="" size="17" type="float8" typeCode="8"/>
+         <column autoUpdated="false" defaultValue="null" digits="17" id="3" name="intake_id" nullable="true" remarks="" size="17" type="float8" typeCode="8"/>
+         <column autoUpdated="false" defaultValue="null" digits="17" id="4" name="map_max_do" nullable="true" remarks="" size="17" type="float8" typeCode="8"/>
+         <column autoUpdated="false" defaultValue="null" digits="17" id="5" name="map_max_up" nullable="true" remarks="" size="17" type="float8" typeCode="8"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="map_access" nullable="true" remarks="" size="50" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="map_transp" nullable="true" remarks="" size="50" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="shape_leng" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="shape_area" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="geom" nullable="true" remarks="" size="2147483647" type="geometry" typeCode="1111"/>
+         <primaryKey column="gid" sequenceNumberInPK="1"/>
+         <index name="ccbc_applications_coverages_pkey" unique="true">
+            <column ascending="true" name="gid"/>
+         </index>
+         <index name="ccbc_applications_coverages_geom_idx" unique="false">
+            <column ascending="true" name="geom"/>
          </index>
       </table>
       <table name="ccbc_user" remarks="Table containing information about the application's users, this is business contact information not personally identifiable information" schema="ccbc_public" type="TABLE">
@@ -1670,6 +1864,7 @@
             <parent column="id" foreignKey="coverages_upload_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="6" id="7" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="file_name" nullable="true" remarks="The original file name of the uploaded coverage file" size="1000" type="varchar" typeCode="12"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
          <index name="coverages_upload_pkey" unique="true">
             <column ascending="true" name="id"/>
@@ -1682,6 +1877,23 @@
          </index>
          <index name="ccbc_public_coverages_upload_updated_by_foreign_key" unique="false">
             <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="economic_regions" remarks="" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('ccbc_public.economic_regions_gid_seq'::regclass)" digits="0" id="0" name="gid" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="17" id="1" name="cnssr" nullable="true" remarks="" size="17" type="float8" typeCode="8"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="cnmcrgnd" nullable="true" remarks="" size="4" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="cnmcrgnnm" nullable="true" remarks="" size="100" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="area_sqm" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="feat_len" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="objectid" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="geom" nullable="true" remarks="" size="2147483647" type="geometry" typeCode="1111"/>
+         <primaryKey column="gid" sequenceNumberInPK="1"/>
+         <index name="economic_regions_pkey" unique="true">
+            <column ascending="true" name="gid"/>
+         </index>
+         <index name="economic_regions_geom_idx" unique="false">
+            <column ascending="true" name="geom"/>
          </index>
       </table>
       <table name="email_record" remarks="Table containing list of application email_records" schema="ccbc_public" type="TABLE">
@@ -2041,11 +2253,41 @@
          <index name="record_version_ts" unique="false">
             <column ascending="true" name="ts"/>
          </index>
-         <checkConstraint constraint="(((COALESCE(record_id, old_record_id) IS NOT NULL) OR (op = 'TRUNCATE'::audit.operation)))" name="record_version_check"/>
-         <checkConstraint constraint="(((op = ANY (ARRAY['INSERT'::audit.operation, 'UPDATE'::audit.operation])) = (record_id IS NOT NULL)))" name="record_version_check1"/>
-         <checkConstraint constraint="(((op = ANY (ARRAY['INSERT'::audit.operation, 'UPDATE'::audit.operation])) = (record IS NOT NULL)))" name="record_version_check2"/>
-         <checkConstraint constraint="(((op = ANY (ARRAY['UPDATE'::audit.operation, 'DELETE'::audit.operation])) = (old_record_id IS NOT NULL)))" name="record_version_check3"/>
-         <checkConstraint constraint="(((op = ANY (ARRAY['UPDATE'::audit.operation, 'DELETE'::audit.operation])) = (old_record IS NOT NULL)))" name="record_version_check4"/>
+         <checkConstraint constraint="((COALESCE(record_id, old_record_id) IS NOT NULL) OR (op = 'TRUNCATE'::audit.operation))" name="record_version_check"/>
+         <checkConstraint constraint="((op = ANY (ARRAY['INSERT'::audit.operation, 'UPDATE'::audit.operation])) = (record_id IS NOT NULL))" name="record_version_check1"/>
+         <checkConstraint constraint="((op = ANY (ARRAY['INSERT'::audit.operation, 'UPDATE'::audit.operation])) = (record IS NOT NULL))" name="record_version_check2"/>
+         <checkConstraint constraint="((op = ANY (ARRAY['UPDATE'::audit.operation, 'DELETE'::audit.operation])) = (old_record_id IS NOT NULL))" name="record_version_check3"/>
+         <checkConstraint constraint="((op = ANY (ARRAY['UPDATE'::audit.operation, 'DELETE'::audit.operation])) = (old_record IS NOT NULL))" name="record_version_check4"/>
+      </table>
+      <table name="regional_districts" remarks="" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('ccbc_public.regional_districts_gid_seq'::regclass)" digits="0" id="0" name="gid" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="17" id="1" name="aa_id" nullable="true" remarks="" size="17" type="float8" typeCode="8"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="aa_name" nullable="true" remarks="" size="200" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="abrvn" nullable="true" remarks="" size="40" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="bdy_type" nullable="true" remarks="" size="20" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="aa_parent" nullable="true" remarks="" size="200" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="6" name="chng_org" nullable="true" remarks="" size="30" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="upt_type" nullable="true" remarks="" size="50" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="8" name="upt_date" nullable="true" remarks="" size="25" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="map_status" nullable="true" remarks="" size="12" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="10" name="oc_m_nmbr" nullable="true" remarks="" size="7" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="11" name="oc_m_yr" nullable="true" remarks="" size="4" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="12" name="oc_m_type" nullable="true" remarks="" size="20" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="13" name="wbst_rl" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="14" name="image_url" nullable="true" remarks="" size="254" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="15" name="afctd_area" nullable="true" remarks="" size="120" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="16" name="area_sqm" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="17" name="length_m" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="18" name="shape" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="19" name="obejctid" nullable="true" remarks="" size="0" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="20" name="geom" nullable="true" remarks="" size="2147483647" type="geometry" typeCode="1111"/>
+         <primaryKey column="gid" sequenceNumberInPK="1"/>
+         <index name="regional_districts_pkey" unique="true">
+            <column ascending="true" name="gid"/>
+         </index>
+         <index name="regional_districts_geom_idx" unique="false">
+            <column ascending="true" name="geom"/>
+         </index>
       </table>
       <table name="reporting_gcpe" remarks="Table containing the gcpe report data" schema="ccbc_public" type="TABLE">
          <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the row for that report" size="10" type="int4" typeCode="4"/>

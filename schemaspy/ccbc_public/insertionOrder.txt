@@ -63,4 +63,9 @@ notification
 application_merge
 application_er
 application_rd
+cbc_last_mile_coverage
+cbc_transport
+ccbc_applications_coverages
+economic_regions
 history_item
+regional_districts
