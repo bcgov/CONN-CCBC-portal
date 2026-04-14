@@ -43,6 +43,7 @@ import templateNine from './backend/lib/excel_import/template_nine';
 import milestoneDue from './backend/lib/milestoneDueDate';
 import communityReport from './backend/lib/communityReportsDueDate';
 import map from './backend/lib/map/map';
+import cbcMap from './backend/lib/cbc-map';
 import dashboardExport from './backend/lib/dashboard/dashboard_export';
 import intake from './backend/lib/intake';
 import cbc from './backend/lib/cbc/cbc';
@@ -171,6 +172,7 @@ app.prepare().then(async () => {
   server.use('/', milestoneDue);
   server.use('/', communityReport);
   server.use('/', map);
+  server.use('/', cbcMap);
   server.use('/', dashboardExport);
   server.use('/', intake);
   server.use('/', cbc);

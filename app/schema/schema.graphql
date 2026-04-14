@@ -424,7 +424,7 @@ type Query implements Node {
     after: Cursor
 
     """The method to use when ordering `ApplicationEr`."""
-    orderBy: [ApplicationErsOrderBy!] = [NATURAL]
+    orderBy: [ApplicationErsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -952,7 +952,7 @@ type Query implements Node {
     after: Cursor
 
     """The method to use when ordering `ApplicationRd`."""
-    orderBy: [ApplicationRdsOrderBy!] = [NATURAL]
+    orderBy: [ApplicationRdsOrderBy!] = [PRIMARY_KEY_ASC]
 
     """
     A condition to be used in determining which values should be returned by the collection.
@@ -1341,6 +1341,76 @@ type Query implements Node {
     filter: CbcDataChangeReasonFilter
   ): CbcDataChangeReasonsConnection
 
+  """Reads and enables pagination through a set of `CbcLastMileCoverage`."""
+  allCbcLastMileCoverages(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcLastMileCoverage`."""
+    orderBy: [CbcLastMileCoveragesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcLastMileCoverageCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcLastMileCoverageFilter
+  ): CbcLastMileCoveragesConnection
+
+  """
+  Reads and enables pagination through a set of `CbcLastMileCoverageGeojson`.
+  """
+  allCbcLastMileCoverageGeojsons(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcLastMileCoverageGeojson`."""
+    orderBy: [CbcLastMileCoverageGeojsonsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcLastMileCoverageGeojsonCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcLastMileCoverageGeojsonFilter
+  ): CbcLastMileCoverageGeojsonsConnection
+
   """Reads and enables pagination through a set of `CbcProject`."""
   allCbcProjects(
     """Only read the first `n` values of the set."""
@@ -1408,6 +1478,110 @@ type Query implements Node {
     """
     filter: CbcProjectCommunityFilter
   ): CbcProjectCommunitiesConnection
+
+  """Reads and enables pagination through a set of `CbcTransport`."""
+  allCbcTransports(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcTransport`."""
+    orderBy: [CbcTransportsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcTransportCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcTransportFilter
+  ): CbcTransportsConnection
+
+  """Reads and enables pagination through a set of `CbcTransportsGeojson`."""
+  allCbcTransportsGeojsons(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CbcTransportsGeojson`."""
+    orderBy: [CbcTransportsGeojsonsOrderBy!] = [NATURAL]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CbcTransportsGeojsonCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CbcTransportsGeojsonFilter
+  ): CbcTransportsGeojsonsConnection
+
+  """
+  Reads and enables pagination through a set of `CcbcApplicationsCoverage`.
+  """
+  allCcbcApplicationsCoverages(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `CcbcApplicationsCoverage`."""
+    orderBy: [CcbcApplicationsCoveragesOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: CcbcApplicationsCoverageCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: CcbcApplicationsCoverageFilter
+  ): CcbcApplicationsCoveragesConnection
 
   """Reads and enables pagination through a set of `CcbcUser`."""
   allCcbcUsers(
@@ -1614,6 +1788,40 @@ type Query implements Node {
     """
     filter: CoveragesUploadFilter
   ): CoveragesUploadsConnection
+
+  """Reads and enables pagination through a set of `EconomicRegion`."""
+  allEconomicRegions(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `EconomicRegion`."""
+    orderBy: [EconomicRegionsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: EconomicRegionCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: EconomicRegionFilter
+  ): EconomicRegionsConnection
 
   """Reads and enables pagination through a set of `EmailRecord`."""
   allEmailRecords(
@@ -2059,6 +2267,40 @@ type Query implements Node {
     filter: RecordVersionFilter
   ): RecordVersionsConnection
 
+  """Reads and enables pagination through a set of `RegionalDistrict`."""
+  allRegionalDistricts(
+    """Only read the first `n` values of the set."""
+    first: Int
+
+    """Only read the last `n` values of the set."""
+    last: Int
+
+    """
+    Skip the first `n` values from our `after` cursor, an alternative to cursor
+    based pagination. May not be used with `last`.
+    """
+    offset: Int
+
+    """Read all values in the set before (above) this cursor."""
+    before: Cursor
+
+    """Read all values in the set after (below) this cursor."""
+    after: Cursor
+
+    """The method to use when ordering `RegionalDistrict`."""
+    orderBy: [RegionalDistrictsOrderBy!] = [PRIMARY_KEY_ASC]
+
+    """
+    A condition to be used in determining which values should be returned by the collection.
+    """
+    condition: RegionalDistrictCondition
+
+    """
+    A filter to be used in determining which values should be returned by the collection.
+    """
+    filter: RegionalDistrictFilter
+  ): RegionalDistrictsConnection
+
   """Reads and enables pagination through a set of `ReportingGcpe`."""
   allReportingGcpes(
     """Only read the first `n` values of the set."""
@@ -2307,6 +2549,7 @@ type Query implements Node {
   applicationCommunityProgressReportDataByRowId(rowId: Int!): ApplicationCommunityProgressReportData
   applicationCommunityReportExcelDataByRowId(rowId: Int!): ApplicationCommunityReportExcelData
   applicationDependencyByRowId(rowId: Int!): ApplicationDependency
+  applicationErByRowId(rowId: Int!): ApplicationEr
   applicationFnhaContributionByRowId(rowId: Int!): ApplicationFnhaContribution
   applicationFormDataByFormDataIdAndApplicationId(formDataId: Int!, applicationId: Int!): ApplicationFormData
   applicationFormTemplate9DataByRowId(rowId: Int!): ApplicationFormTemplate9Data
@@ -2321,6 +2564,7 @@ type Query implements Node {
   applicationPackageByRowId(rowId: Int!): ApplicationPackage
   applicationPendingChangeRequestByRowId(rowId: Int!): ApplicationPendingChangeRequest
   applicationProjectTypeByRowId(rowId: Int!): ApplicationProjectType
+  applicationRdByRowId(rowId: Int!): ApplicationRd
   applicationRfiDataByRfiDataIdAndApplicationId(rfiDataId: Int!, applicationId: Int!): ApplicationRfiData
   applicationSowDataByRowId(rowId: Int!): ApplicationSowData
   applicationStatusByRowId(rowId: Int!): ApplicationStatus
@@ -2334,8 +2578,11 @@ type Query implements Node {
   cbcApplicationPendingChangeRequestByRowId(rowId: Int!): CbcApplicationPendingChangeRequest
   cbcDataByRowId(rowId: Int!): CbcData
   cbcDataChangeReasonByRowId(rowId: Int!): CbcDataChangeReason
+  cbcLastMileCoverageByGid(gid: Int!): CbcLastMileCoverage
   cbcProjectByRowId(rowId: Int!): CbcProject
   cbcProjectCommunityByRowId(rowId: Int!): CbcProjectCommunity
+  cbcTransportByGid(gid: Int!): CbcTransport
+  ccbcApplicationsCoverageByGid(gid: Int!): CcbcApplicationsCoverage
   ccbcUserByRowId(rowId: Int!): CcbcUser
   changeLogDataByRowId(rowId: Int!): ChangeLogData
   changeRequestDataByRowId(rowId: Int!): ChangeRequestData
@@ -2343,6 +2590,7 @@ type Query implements Node {
   communitiesSourceDataByGeographicNameId(geographicNameId: Int!): CommunitiesSourceData
   conditionalApprovalDataByRowId(rowId: Int!): ConditionalApprovalData
   coveragesUploadByRowId(rowId: Int!): CoveragesUpload
+  economicRegionByGid(gid: Int!): EconomicRegion
   emailRecordByRowId(rowId: Int!): EmailRecord
   formByRowId(rowId: Int!): Form
   formBySlug(slug: String!): Form
@@ -2357,6 +2605,7 @@ type Query implements Node {
   notificationByRowId(rowId: Int!): Notification
   projectInformationDataByRowId(rowId: Int!): ProjectInformationData
   recordVersionByRowId(rowId: BigInt!): RecordVersion
+  regionalDistrictByGid(gid: Int!): RegionalDistrict
   reportingGcpeByRowId(rowId: Int!): ReportingGcpe
   rfiDataByRowId(rowId: Int!): RfiData
   rfiDataStatusTypeByName(name: String!): RfiDataStatusType
@@ -2530,6 +2779,14 @@ type Query implements Node {
     id: ID!
   ): ApplicationDependency
 
+  """Reads a single `ApplicationEr` using its globally unique `ID`."""
+  applicationEr(
+    """
+    The globally unique `ID` to be used in selecting a single `ApplicationEr`.
+    """
+    id: ID!
+  ): ApplicationEr
+
   """
   Reads a single `ApplicationFnhaContribution` using its globally unique `ID`.
   """
@@ -2660,6 +2917,14 @@ type Query implements Node {
     id: ID!
   ): ApplicationProjectType
 
+  """Reads a single `ApplicationRd` using its globally unique `ID`."""
+  applicationRd(
+    """
+    The globally unique `ID` to be used in selecting a single `ApplicationRd`.
+    """
+    id: ID!
+  ): ApplicationRd
+
   """Reads a single `ApplicationRfiData` using its globally unique `ID`."""
   applicationRfiData(
     """
@@ -2746,6 +3011,14 @@ type Query implements Node {
     id: ID!
   ): CbcDataChangeReason
 
+  """Reads a single `CbcLastMileCoverage` using its globally unique `ID`."""
+  cbcLastMileCoverage(
+    """
+    The globally unique `ID` to be used in selecting a single `CbcLastMileCoverage`.
+    """
+    id: ID!
+  ): CbcLastMileCoverage
+
   """Reads a single `CbcProject` using its globally unique `ID`."""
   cbcProject(
     """
@@ -2761,6 +3034,24 @@ type Query implements Node {
     """
     id: ID!
   ): CbcProjectCommunity
+
+  """Reads a single `CbcTransport` using its globally unique `ID`."""
+  cbcTransport(
+    """
+    The globally unique `ID` to be used in selecting a single `CbcTransport`.
+    """
+    id: ID!
+  ): CbcTransport
+
+  """
+  Reads a single `CcbcApplicationsCoverage` using its globally unique `ID`.
+  """
+  ccbcApplicationsCoverage(
+    """
+    The globally unique `ID` to be used in selecting a single `CcbcApplicationsCoverage`.
+    """
+    id: ID!
+  ): CcbcApplicationsCoverage
 
   """Reads a single `CcbcUser` using its globally unique `ID`."""
   ccbcUser(
@@ -2809,6 +3100,14 @@ type Query implements Node {
     """
     id: ID!
   ): CoveragesUpload
+
+  """Reads a single `EconomicRegion` using its globally unique `ID`."""
+  economicRegion(
+    """
+    The globally unique `ID` to be used in selecting a single `EconomicRegion`.
+    """
+    id: ID!
+  ): EconomicRegion
 
   """Reads a single `EmailRecord` using its globally unique `ID`."""
   emailRecord(
@@ -2897,6 +3196,14 @@ type Query implements Node {
     """
     id: ID!
   ): RecordVersion
+
+  """Reads a single `RegionalDistrict` using its globally unique `ID`."""
+  regionalDistrict(
+    """
+    The globally unique `ID` to be used in selecting a single `RegionalDistrict`.
+    """
+    id: ID!
+  ): RegionalDistrict
 
   """Reads a single `ReportingGcpe` using its globally unique `ID`."""
   reportingGcpe(
@@ -33557,6 +33864,9 @@ input CoveragesUploadFilter {
   """Filter by the object’s `archivedAt` field."""
   archivedAt: DatetimeFilter
 
+  """Filter by the object’s `fileName` field."""
+  fileName: StringFilter
+
   """Filter by the object’s `ccbcUserByCreatedBy` relation."""
   ccbcUserByCreatedBy: CcbcUserFilter
 
@@ -62547,6 +62857,9 @@ type CoveragesUpload implements Node {
   """archived at timestamp"""
   archivedAt: Datetime
 
+  """The original file name of the uploaded coverage file"""
+  fileName: String
+
   """Reads a single `CcbcUser` that is related to this `CoveragesUpload`."""
   ccbcUserByCreatedBy: CcbcUser
 
@@ -62585,6 +62898,8 @@ enum CoveragesUploadsOrderBy {
   ARCHIVED_BY_DESC
   ARCHIVED_AT_ASC
   ARCHIVED_AT_DESC
+  FILE_NAME_ASC
+  FILE_NAME_DESC
   PRIMARY_KEY_ASC
   PRIMARY_KEY_DESC
 }
@@ -62617,6 +62932,9 @@ input CoveragesUploadCondition {
 
   """Checks for equality with the object’s `archivedAt` field."""
   archivedAt: Datetime
+
+  """Checks for equality with the object’s `fileName` field."""
+  fileName: String
 }
 
 """A connection to a list of `ChangeLogData` values."""
@@ -94137,10 +94455,15 @@ type ApplicationErsConnection {
   totalCount: Int!
 }
 
-type ApplicationEr {
+type ApplicationEr implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
   applicationId: Int
   ccbcNumber: String
   er: String
+  rowId: Int!
 }
 
 """A `ApplicationEr` edge in the connection."""
@@ -94161,6 +94484,10 @@ enum ApplicationErsOrderBy {
   CCBC_NUMBER_DESC
   ER_ASC
   ER_DESC
+  ID_ASC
+  ID_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
 }
 
 """
@@ -94176,6 +94503,9 @@ input ApplicationErCondition {
 
   """Checks for equality with the object’s `er` field."""
   er: String
+
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
 }
 
 """
@@ -94190,6 +94520,9 @@ input ApplicationErFilter {
 
   """Filter by the object’s `er` field."""
   er: StringFilter
+
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
 
   """Checks for all expressions in this list."""
   and: [ApplicationErFilter!]
@@ -94218,10 +94551,16 @@ type ApplicationRdsConnection {
   totalCount: Int!
 }
 
-type ApplicationRd {
+type ApplicationRd implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
   applicationId: Int
   ccbcNumber: String
   rd: String
+  rowId: Int!
+  er: String
 }
 
 """A `ApplicationRd` edge in the connection."""
@@ -94242,6 +94581,12 @@ enum ApplicationRdsOrderBy {
   CCBC_NUMBER_DESC
   RD_ASC
   RD_DESC
+  ID_ASC
+  ID_DESC
+  ER_ASC
+  ER_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
 }
 
 """
@@ -94257,6 +94602,12 @@ input ApplicationRdCondition {
 
   """Checks for equality with the object’s `rd` field."""
   rd: String
+
+  """Checks for equality with the object’s `rowId` field."""
+  rowId: Int
+
+  """Checks for equality with the object’s `er` field."""
+  er: String
 }
 
 """
@@ -94271,6 +94622,12 @@ input ApplicationRdFilter {
 
   """Filter by the object’s `rd` field."""
   rd: StringFilter
+
+  """Filter by the object’s `rowId` field."""
+  rowId: IntFilter
+
+  """Filter by the object’s `er` field."""
+  er: StringFilter
 
   """Checks for all expressions in this list."""
   and: [ApplicationRdFilter!]
@@ -94334,6 +94691,1735 @@ type AssessmentTypesEdge {
 
   """The `AssessmentType` at the end of the edge."""
   node: AssessmentType
+}
+
+"""A connection to a list of `CbcLastMileCoverage` values."""
+type CbcLastMileCoveragesConnection {
+  """A list of `CbcLastMileCoverage` objects."""
+  nodes: [CbcLastMileCoverage]!
+
+  """
+  A list of edges which contains the `CbcLastMileCoverage` and cursor to aid in pagination.
+  """
+  edges: [CbcLastMileCoveragesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `CbcLastMileCoverage` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""
+Table containing CBC last mile coverage geometries imported from shapefiles
+"""
+type CbcLastMileCoverage implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """Unique ID for the row"""
+  gid: Int!
+  projNum: BigFloat
+  project__: String
+  program: String
+  originalP: String
+  phase: String
+  intakeNum: BigFloat
+  zones: String
+  internalS: String
+  externalS: String
+  changeReq: String
+  projectTi: String
+  projectDe: String
+  applicant_: String
+  currentOp: String
+  f830Mill: String
+  federalFu: String
+  federalPr: String
+  projectTy: String
+  transport_: String
+  highwayPr: String
+  lastMile_: String
+  lastMile1: String
+  connected_: String
+  crtcProje: String
+  projectLo: String
+  economicR: String
+  regionalD: String
+  communitie: BigFloat
+  indigenous: BigFloat
+  household_: BigFloat
+  transport1: BigFloat
+  highwayKm: String
+  restAreas: String
+  fundingSo: String
+  bcFunding: BigFloat
+  federal1: BigFloat
+  applicant1: BigFloat
+  otherFund: BigFloat
+  totalFnha: BigFloat
+  totalProj: BigFloat
+  conditiona: String
+  agreement_: String
+  announced_: String
+  dateAppli: String
+  dateCondi: String
+  dateExter: String
+  dateAgree: String
+  proposedS: String
+  proposedC: String
+  reporting_: String
+  dateAnnou: String
+  fProject: BigFloat
+  constructi: String
+  milestone_: String
+  primaryNe: String
+  secondary_: String
+  notes: String
+  locked: String
+  lastRevie: String
+  reviewNot: String
+  errorLog: String
+  objectid1: Float
+  shapeLeng: BigFloat
+  shapeArea: BigFloat
+
+  """The geometry of the coverage area (MultiPolygonZM, SRID 4326)"""
+  geom: String
+}
+
+"""A `CbcLastMileCoverage` edge in the connection."""
+type CbcLastMileCoveragesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CbcLastMileCoverage` at the end of the edge."""
+  node: CbcLastMileCoverage
+}
+
+"""Methods to use when ordering `CbcLastMileCoverage`."""
+enum CbcLastMileCoveragesOrderBy {
+  NATURAL
+  GID_ASC
+  GID_DESC
+  PROJ_NUM_ASC
+  PROJ_NUM_DESC
+  PROJECT_ASC
+  PROJECT_DESC
+  PROGRAM_ASC
+  PROGRAM_DESC
+  ORIGINAL_P_ASC
+  ORIGINAL_P_DESC
+  PHASE_ASC
+  PHASE_DESC
+  INTAKE_NUM_ASC
+  INTAKE_NUM_DESC
+  ZONES_ASC
+  ZONES_DESC
+  INTERNAL_S_ASC
+  INTERNAL_S_DESC
+  EXTERNAL_S_ASC
+  EXTERNAL_S_DESC
+  CHANGE_REQ_ASC
+  CHANGE_REQ_DESC
+  PROJECT_TI_ASC
+  PROJECT_TI_DESC
+  PROJECT_DE_ASC
+  PROJECT_DE_DESC
+  APPLICANT_ASC
+  APPLICANT_DESC
+  CURRENT_OP_ASC
+  CURRENT_OP_DESC
+  F_830_MILL_ASC
+  F_830_MILL_DESC
+  FEDERAL_FU_ASC
+  FEDERAL_FU_DESC
+  FEDERAL_PR_ASC
+  FEDERAL_PR_DESC
+  PROJECT_TY_ASC
+  PROJECT_TY_DESC
+  TRANSPORT_ASC
+  TRANSPORT_DESC
+  HIGHWAY_PR_ASC
+  HIGHWAY_PR_DESC
+  LAST_MILE_ASC
+  LAST_MILE_DESC
+  LAST_MILE1_ASC
+  LAST_MILE1_DESC
+  CONNECTED_ASC
+  CONNECTED_DESC
+  CRTC_PROJE_ASC
+  CRTC_PROJE_DESC
+  PROJECT_LO_ASC
+  PROJECT_LO_DESC
+  ECONOMIC_R_ASC
+  ECONOMIC_R_DESC
+  REGIONAL_D_ASC
+  REGIONAL_D_DESC
+  COMMUNITIE_ASC
+  COMMUNITIE_DESC
+  INDIGENOUS_ASC
+  INDIGENOUS_DESC
+  HOUSEHOLD_ASC
+  HOUSEHOLD_DESC
+  TRANSPORT1_ASC
+  TRANSPORT1_DESC
+  HIGHWAY_KM_ASC
+  HIGHWAY_KM_DESC
+  REST_AREAS_ASC
+  REST_AREAS_DESC
+  FUNDING_SO_ASC
+  FUNDING_SO_DESC
+  BC_FUNDING_ASC
+  BC_FUNDING_DESC
+  FEDERAL_1_ASC
+  FEDERAL_1_DESC
+  APPLICANT1_ASC
+  APPLICANT1_DESC
+  OTHER_FUND_ASC
+  OTHER_FUND_DESC
+  TOTAL_FNHA_ASC
+  TOTAL_FNHA_DESC
+  TOTAL_PROJ_ASC
+  TOTAL_PROJ_DESC
+  CONDITIONA_ASC
+  CONDITIONA_DESC
+  AGREEMENT_ASC
+  AGREEMENT_DESC
+  ANNOUNCED_ASC
+  ANNOUNCED_DESC
+  DATE_APPLI_ASC
+  DATE_APPLI_DESC
+  DATE_CONDI_ASC
+  DATE_CONDI_DESC
+  DATE_EXTER_ASC
+  DATE_EXTER_DESC
+  DATE_AGREE_ASC
+  DATE_AGREE_DESC
+  PROPOSED_S_ASC
+  PROPOSED_S_DESC
+  PROPOSED_C_ASC
+  PROPOSED_C_DESC
+  REPORTING_ASC
+  REPORTING_DESC
+  DATE_ANNOU_ASC
+  DATE_ANNOU_DESC
+  F_PROJECT_ASC
+  F_PROJECT_DESC
+  CONSTRUCTI_ASC
+  CONSTRUCTI_DESC
+  MILESTONE_ASC
+  MILESTONE_DESC
+  PRIMARY_NE_ASC
+  PRIMARY_NE_DESC
+  SECONDARY_ASC
+  SECONDARY_DESC
+  NOTES_ASC
+  NOTES_DESC
+  LOCKED_ASC
+  LOCKED_DESC
+  LAST_REVIE_ASC
+  LAST_REVIE_DESC
+  REVIEW_NOT_ASC
+  REVIEW_NOT_DESC
+  ERROR_LOG_ASC
+  ERROR_LOG_DESC
+  OBJECTID_1_ASC
+  OBJECTID_1_DESC
+  SHAPE_LENG_ASC
+  SHAPE_LENG_DESC
+  SHAPE_AREA_ASC
+  SHAPE_AREA_DESC
+  GEOM_ASC
+  GEOM_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `CbcLastMileCoverage` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input CbcLastMileCoverageCondition {
+  """Checks for equality with the object’s `gid` field."""
+  gid: Int
+
+  """Checks for equality with the object’s `projNum` field."""
+  projNum: BigFloat
+
+  """Checks for equality with the object’s `project__` field."""
+  project__: String
+
+  """Checks for equality with the object’s `program` field."""
+  program: String
+
+  """Checks for equality with the object’s `originalP` field."""
+  originalP: String
+
+  """Checks for equality with the object’s `phase` field."""
+  phase: String
+
+  """Checks for equality with the object’s `intakeNum` field."""
+  intakeNum: BigFloat
+
+  """Checks for equality with the object’s `zones` field."""
+  zones: String
+
+  """Checks for equality with the object’s `internalS` field."""
+  internalS: String
+
+  """Checks for equality with the object’s `externalS` field."""
+  externalS: String
+
+  """Checks for equality with the object’s `changeReq` field."""
+  changeReq: String
+
+  """Checks for equality with the object’s `projectTi` field."""
+  projectTi: String
+
+  """Checks for equality with the object’s `projectDe` field."""
+  projectDe: String
+
+  """Checks for equality with the object’s `applicant_` field."""
+  applicant_: String
+
+  """Checks for equality with the object’s `currentOp` field."""
+  currentOp: String
+
+  """Checks for equality with the object’s `f830Mill` field."""
+  f830Mill: String
+
+  """Checks for equality with the object’s `federalFu` field."""
+  federalFu: String
+
+  """Checks for equality with the object’s `federalPr` field."""
+  federalPr: String
+
+  """Checks for equality with the object’s `projectTy` field."""
+  projectTy: String
+
+  """Checks for equality with the object’s `transport_` field."""
+  transport_: String
+
+  """Checks for equality with the object’s `highwayPr` field."""
+  highwayPr: String
+
+  """Checks for equality with the object’s `lastMile_` field."""
+  lastMile_: String
+
+  """Checks for equality with the object’s `lastMile1` field."""
+  lastMile1: String
+
+  """Checks for equality with the object’s `connected_` field."""
+  connected_: String
+
+  """Checks for equality with the object’s `crtcProje` field."""
+  crtcProje: String
+
+  """Checks for equality with the object’s `projectLo` field."""
+  projectLo: String
+
+  """Checks for equality with the object’s `economicR` field."""
+  economicR: String
+
+  """Checks for equality with the object’s `regionalD` field."""
+  regionalD: String
+
+  """Checks for equality with the object’s `communitie` field."""
+  communitie: BigFloat
+
+  """Checks for equality with the object’s `indigenous` field."""
+  indigenous: BigFloat
+
+  """Checks for equality with the object’s `household_` field."""
+  household_: BigFloat
+
+  """Checks for equality with the object’s `transport1` field."""
+  transport1: BigFloat
+
+  """Checks for equality with the object’s `highwayKm` field."""
+  highwayKm: String
+
+  """Checks for equality with the object’s `restAreas` field."""
+  restAreas: String
+
+  """Checks for equality with the object’s `fundingSo` field."""
+  fundingSo: String
+
+  """Checks for equality with the object’s `bcFunding` field."""
+  bcFunding: BigFloat
+
+  """Checks for equality with the object’s `federal1` field."""
+  federal1: BigFloat
+
+  """Checks for equality with the object’s `applicant1` field."""
+  applicant1: BigFloat
+
+  """Checks for equality with the object’s `otherFund` field."""
+  otherFund: BigFloat
+
+  """Checks for equality with the object’s `totalFnha` field."""
+  totalFnha: BigFloat
+
+  """Checks for equality with the object’s `totalProj` field."""
+  totalProj: BigFloat
+
+  """Checks for equality with the object’s `conditiona` field."""
+  conditiona: String
+
+  """Checks for equality with the object’s `agreement_` field."""
+  agreement_: String
+
+  """Checks for equality with the object’s `announced_` field."""
+  announced_: String
+
+  """Checks for equality with the object’s `dateAppli` field."""
+  dateAppli: String
+
+  """Checks for equality with the object’s `dateCondi` field."""
+  dateCondi: String
+
+  """Checks for equality with the object’s `dateExter` field."""
+  dateExter: String
+
+  """Checks for equality with the object’s `dateAgree` field."""
+  dateAgree: String
+
+  """Checks for equality with the object’s `proposedS` field."""
+  proposedS: String
+
+  """Checks for equality with the object’s `proposedC` field."""
+  proposedC: String
+
+  """Checks for equality with the object’s `reporting_` field."""
+  reporting_: String
+
+  """Checks for equality with the object’s `dateAnnou` field."""
+  dateAnnou: String
+
+  """Checks for equality with the object’s `fProject` field."""
+  fProject: BigFloat
+
+  """Checks for equality with the object’s `constructi` field."""
+  constructi: String
+
+  """Checks for equality with the object’s `milestone_` field."""
+  milestone_: String
+
+  """Checks for equality with the object’s `primaryNe` field."""
+  primaryNe: String
+
+  """Checks for equality with the object’s `secondary_` field."""
+  secondary_: String
+
+  """Checks for equality with the object’s `notes` field."""
+  notes: String
+
+  """Checks for equality with the object’s `locked` field."""
+  locked: String
+
+  """Checks for equality with the object’s `lastRevie` field."""
+  lastRevie: String
+
+  """Checks for equality with the object’s `reviewNot` field."""
+  reviewNot: String
+
+  """Checks for equality with the object’s `errorLog` field."""
+  errorLog: String
+
+  """Checks for equality with the object’s `objectid1` field."""
+  objectid1: Float
+
+  """Checks for equality with the object’s `shapeLeng` field."""
+  shapeLeng: BigFloat
+
+  """Checks for equality with the object’s `shapeArea` field."""
+  shapeArea: BigFloat
+
+  """Checks for equality with the object’s `geom` field."""
+  geom: String
+}
+
+"""
+A filter to be used against `CbcLastMileCoverage` object types. All fields are combined with a logical ‘and.’
+"""
+input CbcLastMileCoverageFilter {
+  """Filter by the object’s `gid` field."""
+  gid: IntFilter
+
+  """Filter by the object’s `projNum` field."""
+  projNum: BigFloatFilter
+
+  """Filter by the object’s `project__` field."""
+  project__: StringFilter
+
+  """Filter by the object’s `program` field."""
+  program: StringFilter
+
+  """Filter by the object’s `originalP` field."""
+  originalP: StringFilter
+
+  """Filter by the object’s `phase` field."""
+  phase: StringFilter
+
+  """Filter by the object’s `intakeNum` field."""
+  intakeNum: BigFloatFilter
+
+  """Filter by the object’s `zones` field."""
+  zones: StringFilter
+
+  """Filter by the object’s `internalS` field."""
+  internalS: StringFilter
+
+  """Filter by the object’s `externalS` field."""
+  externalS: StringFilter
+
+  """Filter by the object’s `changeReq` field."""
+  changeReq: StringFilter
+
+  """Filter by the object’s `projectTi` field."""
+  projectTi: StringFilter
+
+  """Filter by the object’s `projectDe` field."""
+  projectDe: StringFilter
+
+  """Filter by the object’s `applicant_` field."""
+  applicant_: StringFilter
+
+  """Filter by the object’s `currentOp` field."""
+  currentOp: StringFilter
+
+  """Filter by the object’s `f830Mill` field."""
+  f830Mill: StringFilter
+
+  """Filter by the object’s `federalFu` field."""
+  federalFu: StringFilter
+
+  """Filter by the object’s `federalPr` field."""
+  federalPr: StringFilter
+
+  """Filter by the object’s `projectTy` field."""
+  projectTy: StringFilter
+
+  """Filter by the object’s `transport_` field."""
+  transport_: StringFilter
+
+  """Filter by the object’s `highwayPr` field."""
+  highwayPr: StringFilter
+
+  """Filter by the object’s `lastMile_` field."""
+  lastMile_: StringFilter
+
+  """Filter by the object’s `lastMile1` field."""
+  lastMile1: StringFilter
+
+  """Filter by the object’s `connected_` field."""
+  connected_: StringFilter
+
+  """Filter by the object’s `crtcProje` field."""
+  crtcProje: StringFilter
+
+  """Filter by the object’s `projectLo` field."""
+  projectLo: StringFilter
+
+  """Filter by the object’s `economicR` field."""
+  economicR: StringFilter
+
+  """Filter by the object’s `regionalD` field."""
+  regionalD: StringFilter
+
+  """Filter by the object’s `communitie` field."""
+  communitie: BigFloatFilter
+
+  """Filter by the object’s `indigenous` field."""
+  indigenous: BigFloatFilter
+
+  """Filter by the object’s `household_` field."""
+  household_: BigFloatFilter
+
+  """Filter by the object’s `transport1` field."""
+  transport1: BigFloatFilter
+
+  """Filter by the object’s `highwayKm` field."""
+  highwayKm: StringFilter
+
+  """Filter by the object’s `restAreas` field."""
+  restAreas: StringFilter
+
+  """Filter by the object’s `fundingSo` field."""
+  fundingSo: StringFilter
+
+  """Filter by the object’s `bcFunding` field."""
+  bcFunding: BigFloatFilter
+
+  """Filter by the object’s `federal1` field."""
+  federal1: BigFloatFilter
+
+  """Filter by the object’s `applicant1` field."""
+  applicant1: BigFloatFilter
+
+  """Filter by the object’s `otherFund` field."""
+  otherFund: BigFloatFilter
+
+  """Filter by the object’s `totalFnha` field."""
+  totalFnha: BigFloatFilter
+
+  """Filter by the object’s `totalProj` field."""
+  totalProj: BigFloatFilter
+
+  """Filter by the object’s `conditiona` field."""
+  conditiona: StringFilter
+
+  """Filter by the object’s `agreement_` field."""
+  agreement_: StringFilter
+
+  """Filter by the object’s `announced_` field."""
+  announced_: StringFilter
+
+  """Filter by the object’s `dateAppli` field."""
+  dateAppli: StringFilter
+
+  """Filter by the object’s `dateCondi` field."""
+  dateCondi: StringFilter
+
+  """Filter by the object’s `dateExter` field."""
+  dateExter: StringFilter
+
+  """Filter by the object’s `dateAgree` field."""
+  dateAgree: StringFilter
+
+  """Filter by the object’s `proposedS` field."""
+  proposedS: StringFilter
+
+  """Filter by the object’s `proposedC` field."""
+  proposedC: StringFilter
+
+  """Filter by the object’s `reporting_` field."""
+  reporting_: StringFilter
+
+  """Filter by the object’s `dateAnnou` field."""
+  dateAnnou: StringFilter
+
+  """Filter by the object’s `fProject` field."""
+  fProject: BigFloatFilter
+
+  """Filter by the object’s `constructi` field."""
+  constructi: StringFilter
+
+  """Filter by the object’s `milestone_` field."""
+  milestone_: StringFilter
+
+  """Filter by the object’s `primaryNe` field."""
+  primaryNe: StringFilter
+
+  """Filter by the object’s `secondary_` field."""
+  secondary_: StringFilter
+
+  """Filter by the object’s `notes` field."""
+  notes: StringFilter
+
+  """Filter by the object’s `locked` field."""
+  locked: StringFilter
+
+  """Filter by the object’s `lastRevie` field."""
+  lastRevie: StringFilter
+
+  """Filter by the object’s `reviewNot` field."""
+  reviewNot: StringFilter
+
+  """Filter by the object’s `errorLog` field."""
+  errorLog: StringFilter
+
+  """Filter by the object’s `objectid1` field."""
+  objectid1: FloatFilter
+
+  """Filter by the object’s `shapeLeng` field."""
+  shapeLeng: BigFloatFilter
+
+  """Filter by the object’s `shapeArea` field."""
+  shapeArea: BigFloatFilter
+
+  """Checks for all expressions in this list."""
+  and: [CbcLastMileCoverageFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [CbcLastMileCoverageFilter!]
+
+  """Negates the expression."""
+  not: CbcLastMileCoverageFilter
+}
+
+"""A connection to a list of `CbcLastMileCoverageGeojson` values."""
+type CbcLastMileCoverageGeojsonsConnection {
+  """A list of `CbcLastMileCoverageGeojson` objects."""
+  nodes: [CbcLastMileCoverageGeojson]!
+
+  """
+  A list of edges which contains the `CbcLastMileCoverageGeojson` and cursor to aid in pagination.
+  """
+  edges: [CbcLastMileCoverageGeojsonsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `CbcLastMileCoverageGeojson` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""View returning CBC last mile coverage geometries as GeoJSON"""
+type CbcLastMileCoverageGeojson {
+  gid: Int
+  project__: String
+  geometry: JSON
+}
+
+"""A `CbcLastMileCoverageGeojson` edge in the connection."""
+type CbcLastMileCoverageGeojsonsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CbcLastMileCoverageGeojson` at the end of the edge."""
+  node: CbcLastMileCoverageGeojson
+}
+
+"""Methods to use when ordering `CbcLastMileCoverageGeojson`."""
+enum CbcLastMileCoverageGeojsonsOrderBy {
+  NATURAL
+  GID_ASC
+  GID_DESC
+  PROJECT_ASC
+  PROJECT_DESC
+  GEOMETRY_ASC
+  GEOMETRY_DESC
+}
+
+"""
+A condition to be used against `CbcLastMileCoverageGeojson` object types. All
+fields are tested for equality and combined with a logical ‘and.’
+"""
+input CbcLastMileCoverageGeojsonCondition {
+  """Checks for equality with the object’s `gid` field."""
+  gid: Int
+
+  """Checks for equality with the object’s `project__` field."""
+  project__: String
+
+  """Checks for equality with the object’s `geometry` field."""
+  geometry: JSON
+}
+
+"""
+A filter to be used against `CbcLastMileCoverageGeojson` object types. All fields are combined with a logical ‘and.’
+"""
+input CbcLastMileCoverageGeojsonFilter {
+  """Filter by the object’s `gid` field."""
+  gid: IntFilter
+
+  """Filter by the object’s `project__` field."""
+  project__: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [CbcLastMileCoverageGeojsonFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [CbcLastMileCoverageGeojsonFilter!]
+
+  """Negates the expression."""
+  not: CbcLastMileCoverageGeojsonFilter
+}
+
+"""A connection to a list of `CbcTransport` values."""
+type CbcTransportsConnection {
+  """A list of `CbcTransport` objects."""
+  nodes: [CbcTransport]!
+
+  """
+  A list of edges which contains the `CbcTransport` and cursor to aid in pagination.
+  """
+  edges: [CbcTransportsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `CbcTransport` you could get from the connection."""
+  totalCount: Int!
+}
+
+"""Table containing CBC transport geometries imported from shapefiles"""
+type CbcTransport implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+
+  """Unique ID for the row"""
+  gid: Int!
+  projectNu: BigFloat
+  project__: String
+  program: String
+  originalP: String
+  phase: String
+  intakeNum: BigFloat
+  zones: String
+  internalS: String
+  externalS: String
+  changeReq: String
+  projectTi: String
+  projectDe: String
+  applicant_: String
+  currentOp: String
+  f830Mill: String
+  federalFu: String
+  federalPr: String
+  projectTy: String
+  transport_: String
+  highwayPr: String
+  lastMile_: String
+  lastMile1: String
+  connected_: String
+  crtcProje: String
+  projectLo: String
+  communitie: BigFloat
+  indigenous: BigFloat
+  household_: BigFloat
+  transport1: BigFloat
+  highwayKm: String
+  restAreas: String
+  bcFunding: BigFloat
+  federal1: BigFloat
+  applicant1: BigFloat
+  otherFund: BigFloat
+  totalFnha: String
+  totalProj: BigFloat
+  conditiona: String
+  agreement_: String
+  announced_: String
+  dateAppli: String
+  dateCondi: String
+  dateExter: String
+  dateAgree: String
+  proposedS: String
+  proposedC: String
+  reporting_: String
+  dateAnnou: String
+  fProject: BigFloat
+  constructi: String
+  milestone_: String
+  primaryNe: String
+  secondary_: String
+  notes: String
+  locked: String
+  lastRevie: String
+  reviewNot: String
+  errorLog: String
+  objectid1: Float
+  shapeLeng: BigFloat
+
+  """The geometry of the transport line (MultiLineStringZM, SRID 4326)"""
+  geom: String
+}
+
+"""A `CbcTransport` edge in the connection."""
+type CbcTransportsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CbcTransport` at the end of the edge."""
+  node: CbcTransport
+}
+
+"""Methods to use when ordering `CbcTransport`."""
+enum CbcTransportsOrderBy {
+  NATURAL
+  GID_ASC
+  GID_DESC
+  PROJECT_NU_ASC
+  PROJECT_NU_DESC
+  PROJECT_ASC
+  PROJECT_DESC
+  PROGRAM_ASC
+  PROGRAM_DESC
+  ORIGINAL_P_ASC
+  ORIGINAL_P_DESC
+  PHASE_ASC
+  PHASE_DESC
+  INTAKE_NUM_ASC
+  INTAKE_NUM_DESC
+  ZONES_ASC
+  ZONES_DESC
+  INTERNAL_S_ASC
+  INTERNAL_S_DESC
+  EXTERNAL_S_ASC
+  EXTERNAL_S_DESC
+  CHANGE_REQ_ASC
+  CHANGE_REQ_DESC
+  PROJECT_TI_ASC
+  PROJECT_TI_DESC
+  PROJECT_DE_ASC
+  PROJECT_DE_DESC
+  APPLICANT_ASC
+  APPLICANT_DESC
+  CURRENT_OP_ASC
+  CURRENT_OP_DESC
+  F_830_MILL_ASC
+  F_830_MILL_DESC
+  FEDERAL_FU_ASC
+  FEDERAL_FU_DESC
+  FEDERAL_PR_ASC
+  FEDERAL_PR_DESC
+  PROJECT_TY_ASC
+  PROJECT_TY_DESC
+  TRANSPORT_ASC
+  TRANSPORT_DESC
+  HIGHWAY_PR_ASC
+  HIGHWAY_PR_DESC
+  LAST_MILE_ASC
+  LAST_MILE_DESC
+  LAST_MILE1_ASC
+  LAST_MILE1_DESC
+  CONNECTED_ASC
+  CONNECTED_DESC
+  CRTC_PROJE_ASC
+  CRTC_PROJE_DESC
+  PROJECT_LO_ASC
+  PROJECT_LO_DESC
+  COMMUNITIE_ASC
+  COMMUNITIE_DESC
+  INDIGENOUS_ASC
+  INDIGENOUS_DESC
+  HOUSEHOLD_ASC
+  HOUSEHOLD_DESC
+  TRANSPORT1_ASC
+  TRANSPORT1_DESC
+  HIGHWAY_KM_ASC
+  HIGHWAY_KM_DESC
+  REST_AREAS_ASC
+  REST_AREAS_DESC
+  BC_FUNDING_ASC
+  BC_FUNDING_DESC
+  FEDERAL_1_ASC
+  FEDERAL_1_DESC
+  APPLICANT1_ASC
+  APPLICANT1_DESC
+  OTHER_FUND_ASC
+  OTHER_FUND_DESC
+  TOTAL_FNHA_ASC
+  TOTAL_FNHA_DESC
+  TOTAL_PROJ_ASC
+  TOTAL_PROJ_DESC
+  CONDITIONA_ASC
+  CONDITIONA_DESC
+  AGREEMENT_ASC
+  AGREEMENT_DESC
+  ANNOUNCED_ASC
+  ANNOUNCED_DESC
+  DATE_APPLI_ASC
+  DATE_APPLI_DESC
+  DATE_CONDI_ASC
+  DATE_CONDI_DESC
+  DATE_EXTER_ASC
+  DATE_EXTER_DESC
+  DATE_AGREE_ASC
+  DATE_AGREE_DESC
+  PROPOSED_S_ASC
+  PROPOSED_S_DESC
+  PROPOSED_C_ASC
+  PROPOSED_C_DESC
+  REPORTING_ASC
+  REPORTING_DESC
+  DATE_ANNOU_ASC
+  DATE_ANNOU_DESC
+  F_PROJECT_ASC
+  F_PROJECT_DESC
+  CONSTRUCTI_ASC
+  CONSTRUCTI_DESC
+  MILESTONE_ASC
+  MILESTONE_DESC
+  PRIMARY_NE_ASC
+  PRIMARY_NE_DESC
+  SECONDARY_ASC
+  SECONDARY_DESC
+  NOTES_ASC
+  NOTES_DESC
+  LOCKED_ASC
+  LOCKED_DESC
+  LAST_REVIE_ASC
+  LAST_REVIE_DESC
+  REVIEW_NOT_ASC
+  REVIEW_NOT_DESC
+  ERROR_LOG_ASC
+  ERROR_LOG_DESC
+  OBJECTID_1_ASC
+  OBJECTID_1_DESC
+  SHAPE_LENG_ASC
+  SHAPE_LENG_DESC
+  GEOM_ASC
+  GEOM_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `CbcTransport` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input CbcTransportCondition {
+  """Checks for equality with the object’s `gid` field."""
+  gid: Int
+
+  """Checks for equality with the object’s `projectNu` field."""
+  projectNu: BigFloat
+
+  """Checks for equality with the object’s `project__` field."""
+  project__: String
+
+  """Checks for equality with the object’s `program` field."""
+  program: String
+
+  """Checks for equality with the object’s `originalP` field."""
+  originalP: String
+
+  """Checks for equality with the object’s `phase` field."""
+  phase: String
+
+  """Checks for equality with the object’s `intakeNum` field."""
+  intakeNum: BigFloat
+
+  """Checks for equality with the object’s `zones` field."""
+  zones: String
+
+  """Checks for equality with the object’s `internalS` field."""
+  internalS: String
+
+  """Checks for equality with the object’s `externalS` field."""
+  externalS: String
+
+  """Checks for equality with the object’s `changeReq` field."""
+  changeReq: String
+
+  """Checks for equality with the object’s `projectTi` field."""
+  projectTi: String
+
+  """Checks for equality with the object’s `projectDe` field."""
+  projectDe: String
+
+  """Checks for equality with the object’s `applicant_` field."""
+  applicant_: String
+
+  """Checks for equality with the object’s `currentOp` field."""
+  currentOp: String
+
+  """Checks for equality with the object’s `f830Mill` field."""
+  f830Mill: String
+
+  """Checks for equality with the object’s `federalFu` field."""
+  federalFu: String
+
+  """Checks for equality with the object’s `federalPr` field."""
+  federalPr: String
+
+  """Checks for equality with the object’s `projectTy` field."""
+  projectTy: String
+
+  """Checks for equality with the object’s `transport_` field."""
+  transport_: String
+
+  """Checks for equality with the object’s `highwayPr` field."""
+  highwayPr: String
+
+  """Checks for equality with the object’s `lastMile_` field."""
+  lastMile_: String
+
+  """Checks for equality with the object’s `lastMile1` field."""
+  lastMile1: String
+
+  """Checks for equality with the object’s `connected_` field."""
+  connected_: String
+
+  """Checks for equality with the object’s `crtcProje` field."""
+  crtcProje: String
+
+  """Checks for equality with the object’s `projectLo` field."""
+  projectLo: String
+
+  """Checks for equality with the object’s `communitie` field."""
+  communitie: BigFloat
+
+  """Checks for equality with the object’s `indigenous` field."""
+  indigenous: BigFloat
+
+  """Checks for equality with the object’s `household_` field."""
+  household_: BigFloat
+
+  """Checks for equality with the object’s `transport1` field."""
+  transport1: BigFloat
+
+  """Checks for equality with the object’s `highwayKm` field."""
+  highwayKm: String
+
+  """Checks for equality with the object’s `restAreas` field."""
+  restAreas: String
+
+  """Checks for equality with the object’s `bcFunding` field."""
+  bcFunding: BigFloat
+
+  """Checks for equality with the object’s `federal1` field."""
+  federal1: BigFloat
+
+  """Checks for equality with the object’s `applicant1` field."""
+  applicant1: BigFloat
+
+  """Checks for equality with the object’s `otherFund` field."""
+  otherFund: BigFloat
+
+  """Checks for equality with the object’s `totalFnha` field."""
+  totalFnha: String
+
+  """Checks for equality with the object’s `totalProj` field."""
+  totalProj: BigFloat
+
+  """Checks for equality with the object’s `conditiona` field."""
+  conditiona: String
+
+  """Checks for equality with the object’s `agreement_` field."""
+  agreement_: String
+
+  """Checks for equality with the object’s `announced_` field."""
+  announced_: String
+
+  """Checks for equality with the object’s `dateAppli` field."""
+  dateAppli: String
+
+  """Checks for equality with the object’s `dateCondi` field."""
+  dateCondi: String
+
+  """Checks for equality with the object’s `dateExter` field."""
+  dateExter: String
+
+  """Checks for equality with the object’s `dateAgree` field."""
+  dateAgree: String
+
+  """Checks for equality with the object’s `proposedS` field."""
+  proposedS: String
+
+  """Checks for equality with the object’s `proposedC` field."""
+  proposedC: String
+
+  """Checks for equality with the object’s `reporting_` field."""
+  reporting_: String
+
+  """Checks for equality with the object’s `dateAnnou` field."""
+  dateAnnou: String
+
+  """Checks for equality with the object’s `fProject` field."""
+  fProject: BigFloat
+
+  """Checks for equality with the object’s `constructi` field."""
+  constructi: String
+
+  """Checks for equality with the object’s `milestone_` field."""
+  milestone_: String
+
+  """Checks for equality with the object’s `primaryNe` field."""
+  primaryNe: String
+
+  """Checks for equality with the object’s `secondary_` field."""
+  secondary_: String
+
+  """Checks for equality with the object’s `notes` field."""
+  notes: String
+
+  """Checks for equality with the object’s `locked` field."""
+  locked: String
+
+  """Checks for equality with the object’s `lastRevie` field."""
+  lastRevie: String
+
+  """Checks for equality with the object’s `reviewNot` field."""
+  reviewNot: String
+
+  """Checks for equality with the object’s `errorLog` field."""
+  errorLog: String
+
+  """Checks for equality with the object’s `objectid1` field."""
+  objectid1: Float
+
+  """Checks for equality with the object’s `shapeLeng` field."""
+  shapeLeng: BigFloat
+
+  """Checks for equality with the object’s `geom` field."""
+  geom: String
+}
+
+"""
+A filter to be used against `CbcTransport` object types. All fields are combined with a logical ‘and.’
+"""
+input CbcTransportFilter {
+  """Filter by the object’s `gid` field."""
+  gid: IntFilter
+
+  """Filter by the object’s `projectNu` field."""
+  projectNu: BigFloatFilter
+
+  """Filter by the object’s `project__` field."""
+  project__: StringFilter
+
+  """Filter by the object’s `program` field."""
+  program: StringFilter
+
+  """Filter by the object’s `originalP` field."""
+  originalP: StringFilter
+
+  """Filter by the object’s `phase` field."""
+  phase: StringFilter
+
+  """Filter by the object’s `intakeNum` field."""
+  intakeNum: BigFloatFilter
+
+  """Filter by the object’s `zones` field."""
+  zones: StringFilter
+
+  """Filter by the object’s `internalS` field."""
+  internalS: StringFilter
+
+  """Filter by the object’s `externalS` field."""
+  externalS: StringFilter
+
+  """Filter by the object’s `changeReq` field."""
+  changeReq: StringFilter
+
+  """Filter by the object’s `projectTi` field."""
+  projectTi: StringFilter
+
+  """Filter by the object’s `projectDe` field."""
+  projectDe: StringFilter
+
+  """Filter by the object’s `applicant_` field."""
+  applicant_: StringFilter
+
+  """Filter by the object’s `currentOp` field."""
+  currentOp: StringFilter
+
+  """Filter by the object’s `f830Mill` field."""
+  f830Mill: StringFilter
+
+  """Filter by the object’s `federalFu` field."""
+  federalFu: StringFilter
+
+  """Filter by the object’s `federalPr` field."""
+  federalPr: StringFilter
+
+  """Filter by the object’s `projectTy` field."""
+  projectTy: StringFilter
+
+  """Filter by the object’s `transport_` field."""
+  transport_: StringFilter
+
+  """Filter by the object’s `highwayPr` field."""
+  highwayPr: StringFilter
+
+  """Filter by the object’s `lastMile_` field."""
+  lastMile_: StringFilter
+
+  """Filter by the object’s `lastMile1` field."""
+  lastMile1: StringFilter
+
+  """Filter by the object’s `connected_` field."""
+  connected_: StringFilter
+
+  """Filter by the object’s `crtcProje` field."""
+  crtcProje: StringFilter
+
+  """Filter by the object’s `projectLo` field."""
+  projectLo: StringFilter
+
+  """Filter by the object’s `communitie` field."""
+  communitie: BigFloatFilter
+
+  """Filter by the object’s `indigenous` field."""
+  indigenous: BigFloatFilter
+
+  """Filter by the object’s `household_` field."""
+  household_: BigFloatFilter
+
+  """Filter by the object’s `transport1` field."""
+  transport1: BigFloatFilter
+
+  """Filter by the object’s `highwayKm` field."""
+  highwayKm: StringFilter
+
+  """Filter by the object’s `restAreas` field."""
+  restAreas: StringFilter
+
+  """Filter by the object’s `bcFunding` field."""
+  bcFunding: BigFloatFilter
+
+  """Filter by the object’s `federal1` field."""
+  federal1: BigFloatFilter
+
+  """Filter by the object’s `applicant1` field."""
+  applicant1: BigFloatFilter
+
+  """Filter by the object’s `otherFund` field."""
+  otherFund: BigFloatFilter
+
+  """Filter by the object’s `totalFnha` field."""
+  totalFnha: StringFilter
+
+  """Filter by the object’s `totalProj` field."""
+  totalProj: BigFloatFilter
+
+  """Filter by the object’s `conditiona` field."""
+  conditiona: StringFilter
+
+  """Filter by the object’s `agreement_` field."""
+  agreement_: StringFilter
+
+  """Filter by the object’s `announced_` field."""
+  announced_: StringFilter
+
+  """Filter by the object’s `dateAppli` field."""
+  dateAppli: StringFilter
+
+  """Filter by the object’s `dateCondi` field."""
+  dateCondi: StringFilter
+
+  """Filter by the object’s `dateExter` field."""
+  dateExter: StringFilter
+
+  """Filter by the object’s `dateAgree` field."""
+  dateAgree: StringFilter
+
+  """Filter by the object’s `proposedS` field."""
+  proposedS: StringFilter
+
+  """Filter by the object’s `proposedC` field."""
+  proposedC: StringFilter
+
+  """Filter by the object’s `reporting_` field."""
+  reporting_: StringFilter
+
+  """Filter by the object’s `dateAnnou` field."""
+  dateAnnou: StringFilter
+
+  """Filter by the object’s `fProject` field."""
+  fProject: BigFloatFilter
+
+  """Filter by the object’s `constructi` field."""
+  constructi: StringFilter
+
+  """Filter by the object’s `milestone_` field."""
+  milestone_: StringFilter
+
+  """Filter by the object’s `primaryNe` field."""
+  primaryNe: StringFilter
+
+  """Filter by the object’s `secondary_` field."""
+  secondary_: StringFilter
+
+  """Filter by the object’s `notes` field."""
+  notes: StringFilter
+
+  """Filter by the object’s `locked` field."""
+  locked: StringFilter
+
+  """Filter by the object’s `lastRevie` field."""
+  lastRevie: StringFilter
+
+  """Filter by the object’s `reviewNot` field."""
+  reviewNot: StringFilter
+
+  """Filter by the object’s `errorLog` field."""
+  errorLog: StringFilter
+
+  """Filter by the object’s `objectid1` field."""
+  objectid1: FloatFilter
+
+  """Filter by the object’s `shapeLeng` field."""
+  shapeLeng: BigFloatFilter
+
+  """Checks for all expressions in this list."""
+  and: [CbcTransportFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [CbcTransportFilter!]
+
+  """Negates the expression."""
+  not: CbcTransportFilter
+}
+
+"""A connection to a list of `CbcTransportsGeojson` values."""
+type CbcTransportsGeojsonsConnection {
+  """A list of `CbcTransportsGeojson` objects."""
+  nodes: [CbcTransportsGeojson]!
+
+  """
+  A list of edges which contains the `CbcTransportsGeojson` and cursor to aid in pagination.
+  """
+  edges: [CbcTransportsGeojsonsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `CbcTransportsGeojson` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+"""View returning CBC transport geometries as GeoJSON"""
+type CbcTransportsGeojson {
+  gid: Int
+  project__: String
+  geometry: JSON
+}
+
+"""A `CbcTransportsGeojson` edge in the connection."""
+type CbcTransportsGeojsonsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CbcTransportsGeojson` at the end of the edge."""
+  node: CbcTransportsGeojson
+}
+
+"""Methods to use when ordering `CbcTransportsGeojson`."""
+enum CbcTransportsGeojsonsOrderBy {
+  NATURAL
+  GID_ASC
+  GID_DESC
+  PROJECT_ASC
+  PROJECT_DESC
+  GEOMETRY_ASC
+  GEOMETRY_DESC
+}
+
+"""
+A condition to be used against `CbcTransportsGeojson` object types. All fields
+are tested for equality and combined with a logical ‘and.’
+"""
+input CbcTransportsGeojsonCondition {
+  """Checks for equality with the object’s `gid` field."""
+  gid: Int
+
+  """Checks for equality with the object’s `project__` field."""
+  project__: String
+
+  """Checks for equality with the object’s `geometry` field."""
+  geometry: JSON
+}
+
+"""
+A filter to be used against `CbcTransportsGeojson` object types. All fields are combined with a logical ‘and.’
+"""
+input CbcTransportsGeojsonFilter {
+  """Filter by the object’s `gid` field."""
+  gid: IntFilter
+
+  """Filter by the object’s `project__` field."""
+  project__: StringFilter
+
+  """Checks for all expressions in this list."""
+  and: [CbcTransportsGeojsonFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [CbcTransportsGeojsonFilter!]
+
+  """Negates the expression."""
+  not: CbcTransportsGeojsonFilter
+}
+
+"""A connection to a list of `CcbcApplicationsCoverage` values."""
+type CcbcApplicationsCoveragesConnection {
+  """A list of `CcbcApplicationsCoverage` objects."""
+  nodes: [CcbcApplicationsCoverage]!
+
+  """
+  A list of edges which contains the `CcbcApplicationsCoverage` and cursor to aid in pagination.
+  """
+  edges: [CcbcApplicationsCoveragesEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `CcbcApplicationsCoverage` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type CcbcApplicationsCoverage implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+  gid: Int!
+  ccbcNumbe: String
+  ccbcAppli: Float
+  intakeId: Float
+  mapMaxDo: Float
+  mapMaxUp: Float
+  mapAccess: String
+  mapTransp: String
+  shapeLeng: BigFloat
+  shapeArea: BigFloat
+  geom: String
+}
+
+"""A `CcbcApplicationsCoverage` edge in the connection."""
+type CcbcApplicationsCoveragesEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `CcbcApplicationsCoverage` at the end of the edge."""
+  node: CcbcApplicationsCoverage
+}
+
+"""Methods to use when ordering `CcbcApplicationsCoverage`."""
+enum CcbcApplicationsCoveragesOrderBy {
+  NATURAL
+  GID_ASC
+  GID_DESC
+  CCBC_NUMBE_ASC
+  CCBC_NUMBE_DESC
+  CCBC_APPLI_ASC
+  CCBC_APPLI_DESC
+  INTAKE_ID_ASC
+  INTAKE_ID_DESC
+  MAP_MAX_DO_ASC
+  MAP_MAX_DO_DESC
+  MAP_MAX_UP_ASC
+  MAP_MAX_UP_DESC
+  MAP_ACCESS_ASC
+  MAP_ACCESS_DESC
+  MAP_TRANSP_ASC
+  MAP_TRANSP_DESC
+  SHAPE_LENG_ASC
+  SHAPE_LENG_DESC
+  SHAPE_AREA_ASC
+  SHAPE_AREA_DESC
+  GEOM_ASC
+  GEOM_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `CcbcApplicationsCoverage` object types. All
+fields are tested for equality and combined with a logical ‘and.’
+"""
+input CcbcApplicationsCoverageCondition {
+  """Checks for equality with the object’s `gid` field."""
+  gid: Int
+
+  """Checks for equality with the object’s `ccbcNumbe` field."""
+  ccbcNumbe: String
+
+  """Checks for equality with the object’s `ccbcAppli` field."""
+  ccbcAppli: Float
+
+  """Checks for equality with the object’s `intakeId` field."""
+  intakeId: Float
+
+  """Checks for equality with the object’s `mapMaxDo` field."""
+  mapMaxDo: Float
+
+  """Checks for equality with the object’s `mapMaxUp` field."""
+  mapMaxUp: Float
+
+  """Checks for equality with the object’s `mapAccess` field."""
+  mapAccess: String
+
+  """Checks for equality with the object’s `mapTransp` field."""
+  mapTransp: String
+
+  """Checks for equality with the object’s `shapeLeng` field."""
+  shapeLeng: BigFloat
+
+  """Checks for equality with the object’s `shapeArea` field."""
+  shapeArea: BigFloat
+
+  """Checks for equality with the object’s `geom` field."""
+  geom: String
+}
+
+"""
+A filter to be used against `CcbcApplicationsCoverage` object types. All fields are combined with a logical ‘and.’
+"""
+input CcbcApplicationsCoverageFilter {
+  """Filter by the object’s `gid` field."""
+  gid: IntFilter
+
+  """Filter by the object’s `ccbcNumbe` field."""
+  ccbcNumbe: StringFilter
+
+  """Filter by the object’s `ccbcAppli` field."""
+  ccbcAppli: FloatFilter
+
+  """Filter by the object’s `intakeId` field."""
+  intakeId: FloatFilter
+
+  """Filter by the object’s `mapMaxDo` field."""
+  mapMaxDo: FloatFilter
+
+  """Filter by the object’s `mapMaxUp` field."""
+  mapMaxUp: FloatFilter
+
+  """Filter by the object’s `mapAccess` field."""
+  mapAccess: StringFilter
+
+  """Filter by the object’s `mapTransp` field."""
+  mapTransp: StringFilter
+
+  """Filter by the object’s `shapeLeng` field."""
+  shapeLeng: BigFloatFilter
+
+  """Filter by the object’s `shapeArea` field."""
+  shapeArea: BigFloatFilter
+
+  """Checks for all expressions in this list."""
+  and: [CcbcApplicationsCoverageFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [CcbcApplicationsCoverageFilter!]
+
+  """Negates the expression."""
+  not: CcbcApplicationsCoverageFilter
+}
+
+"""A connection to a list of `EconomicRegion` values."""
+type EconomicRegionsConnection {
+  """A list of `EconomicRegion` objects."""
+  nodes: [EconomicRegion]!
+
+  """
+  A list of edges which contains the `EconomicRegion` and cursor to aid in pagination.
+  """
+  edges: [EconomicRegionsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """The count of *all* `EconomicRegion` you could get from the connection."""
+  totalCount: Int!
+}
+
+type EconomicRegion implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+  gid: Int!
+  cnssr: Float
+  cnmcrgnd: String
+  cnmcrgnnm: String
+  areaSqm: BigFloat
+  featLen: BigFloat
+  objectid: BigFloat
+  geom: String
+}
+
+"""A `EconomicRegion` edge in the connection."""
+type EconomicRegionsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `EconomicRegion` at the end of the edge."""
+  node: EconomicRegion
+}
+
+"""Methods to use when ordering `EconomicRegion`."""
+enum EconomicRegionsOrderBy {
+  NATURAL
+  GID_ASC
+  GID_DESC
+  CNSSR_ASC
+  CNSSR_DESC
+  CNMCRGND_ASC
+  CNMCRGND_DESC
+  CNMCRGNNM_ASC
+  CNMCRGNNM_DESC
+  AREA_SQM_ASC
+  AREA_SQM_DESC
+  FEAT_LEN_ASC
+  FEAT_LEN_DESC
+  OBJECTID_ASC
+  OBJECTID_DESC
+  GEOM_ASC
+  GEOM_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `EconomicRegion` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input EconomicRegionCondition {
+  """Checks for equality with the object’s `gid` field."""
+  gid: Int
+
+  """Checks for equality with the object’s `cnssr` field."""
+  cnssr: Float
+
+  """Checks for equality with the object’s `cnmcrgnd` field."""
+  cnmcrgnd: String
+
+  """Checks for equality with the object’s `cnmcrgnnm` field."""
+  cnmcrgnnm: String
+
+  """Checks for equality with the object’s `areaSqm` field."""
+  areaSqm: BigFloat
+
+  """Checks for equality with the object’s `featLen` field."""
+  featLen: BigFloat
+
+  """Checks for equality with the object’s `objectid` field."""
+  objectid: BigFloat
+
+  """Checks for equality with the object’s `geom` field."""
+  geom: String
+}
+
+"""
+A filter to be used against `EconomicRegion` object types. All fields are combined with a logical ‘and.’
+"""
+input EconomicRegionFilter {
+  """Filter by the object’s `gid` field."""
+  gid: IntFilter
+
+  """Filter by the object’s `cnssr` field."""
+  cnssr: FloatFilter
+
+  """Filter by the object’s `cnmcrgnd` field."""
+  cnmcrgnd: StringFilter
+
+  """Filter by the object’s `cnmcrgnnm` field."""
+  cnmcrgnnm: StringFilter
+
+  """Filter by the object’s `areaSqm` field."""
+  areaSqm: BigFloatFilter
+
+  """Filter by the object’s `featLen` field."""
+  featLen: BigFloatFilter
+
+  """Filter by the object’s `objectid` field."""
+  objectid: BigFloatFilter
+
+  """Checks for all expressions in this list."""
+  and: [EconomicRegionFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [EconomicRegionFilter!]
+
+  """Negates the expression."""
+  not: EconomicRegionFilter
 }
 
 """A connection to a list of `FormDataStatusType` values."""
@@ -94513,6 +96599,254 @@ input HistoryItemCondition {
 
   """Checks for equality with the object’s `createdBy` field."""
   createdBy: Int
+}
+
+"""A connection to a list of `RegionalDistrict` values."""
+type RegionalDistrictsConnection {
+  """A list of `RegionalDistrict` objects."""
+  nodes: [RegionalDistrict]!
+
+  """
+  A list of edges which contains the `RegionalDistrict` and cursor to aid in pagination.
+  """
+  edges: [RegionalDistrictsEdge!]!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """
+  The count of *all* `RegionalDistrict` you could get from the connection.
+  """
+  totalCount: Int!
+}
+
+type RegionalDistrict implements Node {
+  """
+  A globally unique identifier. Can be used in various places throughout the system to identify this single value.
+  """
+  id: ID!
+  gid: Int!
+  aaId: Float
+  aaName: String
+  abrvn: String
+  bdyType: String
+  aaParent: String
+  chngOrg: String
+  uptType: String
+  uptDate: String
+  mapStatus: String
+  ocMNmbr: String
+  ocMYr: String
+  ocMType: String
+  wbstRl: String
+  imageUrl: String
+  afctdArea: String
+  areaSqm: BigFloat
+  lengthM: BigFloat
+  shape: BigFloat
+  obejctid: BigFloat
+  geom: String
+}
+
+"""A `RegionalDistrict` edge in the connection."""
+type RegionalDistrictsEdge {
+  """A cursor for use in pagination."""
+  cursor: Cursor
+
+  """The `RegionalDistrict` at the end of the edge."""
+  node: RegionalDistrict
+}
+
+"""Methods to use when ordering `RegionalDistrict`."""
+enum RegionalDistrictsOrderBy {
+  NATURAL
+  GID_ASC
+  GID_DESC
+  AA_ID_ASC
+  AA_ID_DESC
+  AA_NAME_ASC
+  AA_NAME_DESC
+  ABRVN_ASC
+  ABRVN_DESC
+  BDY_TYPE_ASC
+  BDY_TYPE_DESC
+  AA_PARENT_ASC
+  AA_PARENT_DESC
+  CHNG_ORG_ASC
+  CHNG_ORG_DESC
+  UPT_TYPE_ASC
+  UPT_TYPE_DESC
+  UPT_DATE_ASC
+  UPT_DATE_DESC
+  MAP_STATUS_ASC
+  MAP_STATUS_DESC
+  OC_M_NMBR_ASC
+  OC_M_NMBR_DESC
+  OC_M_YR_ASC
+  OC_M_YR_DESC
+  OC_M_TYPE_ASC
+  OC_M_TYPE_DESC
+  WBST_RL_ASC
+  WBST_RL_DESC
+  IMAGE_URL_ASC
+  IMAGE_URL_DESC
+  AFCTD_AREA_ASC
+  AFCTD_AREA_DESC
+  AREA_SQM_ASC
+  AREA_SQM_DESC
+  LENGTH_M_ASC
+  LENGTH_M_DESC
+  SHAPE_ASC
+  SHAPE_DESC
+  OBEJCTID_ASC
+  OBEJCTID_DESC
+  GEOM_ASC
+  GEOM_DESC
+  PRIMARY_KEY_ASC
+  PRIMARY_KEY_DESC
+}
+
+"""
+A condition to be used against `RegionalDistrict` object types. All fields are
+tested for equality and combined with a logical ‘and.’
+"""
+input RegionalDistrictCondition {
+  """Checks for equality with the object’s `gid` field."""
+  gid: Int
+
+  """Checks for equality with the object’s `aaId` field."""
+  aaId: Float
+
+  """Checks for equality with the object’s `aaName` field."""
+  aaName: String
+
+  """Checks for equality with the object’s `abrvn` field."""
+  abrvn: String
+
+  """Checks for equality with the object’s `bdyType` field."""
+  bdyType: String
+
+  """Checks for equality with the object’s `aaParent` field."""
+  aaParent: String
+
+  """Checks for equality with the object’s `chngOrg` field."""
+  chngOrg: String
+
+  """Checks for equality with the object’s `uptType` field."""
+  uptType: String
+
+  """Checks for equality with the object’s `uptDate` field."""
+  uptDate: String
+
+  """Checks for equality with the object’s `mapStatus` field."""
+  mapStatus: String
+
+  """Checks for equality with the object’s `ocMNmbr` field."""
+  ocMNmbr: String
+
+  """Checks for equality with the object’s `ocMYr` field."""
+  ocMYr: String
+
+  """Checks for equality with the object’s `ocMType` field."""
+  ocMType: String
+
+  """Checks for equality with the object’s `wbstRl` field."""
+  wbstRl: String
+
+  """Checks for equality with the object’s `imageUrl` field."""
+  imageUrl: String
+
+  """Checks for equality with the object’s `afctdArea` field."""
+  afctdArea: String
+
+  """Checks for equality with the object’s `areaSqm` field."""
+  areaSqm: BigFloat
+
+  """Checks for equality with the object’s `lengthM` field."""
+  lengthM: BigFloat
+
+  """Checks for equality with the object’s `shape` field."""
+  shape: BigFloat
+
+  """Checks for equality with the object’s `obejctid` field."""
+  obejctid: BigFloat
+
+  """Checks for equality with the object’s `geom` field."""
+  geom: String
+}
+
+"""
+A filter to be used against `RegionalDistrict` object types. All fields are combined with a logical ‘and.’
+"""
+input RegionalDistrictFilter {
+  """Filter by the object’s `gid` field."""
+  gid: IntFilter
+
+  """Filter by the object’s `aaId` field."""
+  aaId: FloatFilter
+
+  """Filter by the object’s `aaName` field."""
+  aaName: StringFilter
+
+  """Filter by the object’s `abrvn` field."""
+  abrvn: StringFilter
+
+  """Filter by the object’s `bdyType` field."""
+  bdyType: StringFilter
+
+  """Filter by the object’s `aaParent` field."""
+  aaParent: StringFilter
+
+  """Filter by the object’s `chngOrg` field."""
+  chngOrg: StringFilter
+
+  """Filter by the object’s `uptType` field."""
+  uptType: StringFilter
+
+  """Filter by the object’s `uptDate` field."""
+  uptDate: StringFilter
+
+  """Filter by the object’s `mapStatus` field."""
+  mapStatus: StringFilter
+
+  """Filter by the object’s `ocMNmbr` field."""
+  ocMNmbr: StringFilter
+
+  """Filter by the object’s `ocMYr` field."""
+  ocMYr: StringFilter
+
+  """Filter by the object’s `ocMType` field."""
+  ocMType: StringFilter
+
+  """Filter by the object’s `wbstRl` field."""
+  wbstRl: StringFilter
+
+  """Filter by the object’s `imageUrl` field."""
+  imageUrl: StringFilter
+
+  """Filter by the object’s `afctdArea` field."""
+  afctdArea: StringFilter
+
+  """Filter by the object’s `areaSqm` field."""
+  areaSqm: BigFloatFilter
+
+  """Filter by the object’s `lengthM` field."""
+  lengthM: BigFloatFilter
+
+  """Filter by the object’s `shape` field."""
+  shape: BigFloatFilter
+
+  """Filter by the object’s `obejctid` field."""
+  obejctid: BigFloatFilter
+
+  """Checks for all expressions in this list."""
+  and: [RegionalDistrictFilter!]
+
+  """Checks for any expressions in this list."""
+  or: [RegionalDistrictFilter!]
+
+  """Negates the expression."""
+  not: RegionalDistrictFilter
 }
 
 """A connection to a list of `RfiDataStatusType` values."""
@@ -95115,6 +97449,22 @@ type Mutation {
     input: CreateCbcDataChangeReasonInput!
   ): CreateCbcDataChangeReasonPayload
 
+  """Creates a single `CbcLastMileCoverage`."""
+  createCbcLastMileCoverage(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateCbcLastMileCoverageInput!
+  ): CreateCbcLastMileCoveragePayload
+
+  """Creates a single `CbcLastMileCoverageGeojson`."""
+  createCbcLastMileCoverageGeojson(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateCbcLastMileCoverageGeojsonInput!
+  ): CreateCbcLastMileCoverageGeojsonPayload
+
   """Creates a single `CbcProjectCommunity`."""
   createCbcProjectCommunity(
     """
@@ -95122,6 +97472,30 @@ type Mutation {
     """
     input: CreateCbcProjectCommunityInput!
   ): CreateCbcProjectCommunityPayload
+
+  """Creates a single `CbcTransport`."""
+  createCbcTransport(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateCbcTransportInput!
+  ): CreateCbcTransportPayload
+
+  """Creates a single `CbcTransportsGeojson`."""
+  createCbcTransportsGeojson(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateCbcTransportsGeojsonInput!
+  ): CreateCbcTransportsGeojsonPayload
+
+  """Creates a single `CcbcApplicationsCoverage`."""
+  createCcbcApplicationsCoverage(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateCcbcApplicationsCoverageInput!
+  ): CreateCcbcApplicationsCoveragePayload
 
   """Creates a single `CcbcUser`."""
   createCcbcUser(
@@ -95170,6 +97544,14 @@ type Mutation {
     """
     input: CreateCoveragesUploadInput!
   ): CreateCoveragesUploadPayload
+
+  """Creates a single `EconomicRegion`."""
+  createEconomicRegion(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateEconomicRegionInput!
+  ): CreateEconomicRegionPayload
 
   """Creates a single `EmailRecord`."""
   createEmailRecord(
@@ -95266,6 +97648,14 @@ type Mutation {
     """
     input: CreateRecordVersionInput!
   ): CreateRecordVersionPayload
+
+  """Creates a single `RegionalDistrict`."""
+  createRegionalDistrict(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: CreateRegionalDistrictInput!
+  ): CreateRegionalDistrictPayload
 
   """Creates a single `ReportingGcpe`."""
   createReportingGcpe(
@@ -95516,6 +97906,24 @@ type Mutation {
     """
     input: UpdateApplicationDependencyByRowIdInput!
   ): UpdateApplicationDependencyPayload
+
+  """
+  Updates a single `ApplicationEr` using its globally unique id and a patch.
+  """
+  updateApplicationEr(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationErInput!
+  ): UpdateApplicationErPayload
+
+  """Updates a single `ApplicationEr` using a unique key and a patch."""
+  updateApplicationErByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationErByRowIdInput!
+  ): UpdateApplicationErPayload
 
   """
   Updates a single `ApplicationFnhaContribution` using its globally unique id and a patch.
@@ -95788,6 +98196,24 @@ type Mutation {
   ): UpdateApplicationProjectTypePayload
 
   """
+  Updates a single `ApplicationRd` using its globally unique id and a patch.
+  """
+  updateApplicationRd(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationRdInput!
+  ): UpdateApplicationRdPayload
+
+  """Updates a single `ApplicationRd` using a unique key and a patch."""
+  updateApplicationRdByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateApplicationRdByRowIdInput!
+  ): UpdateApplicationRdPayload
+
+  """
   Updates a single `ApplicationRfiData` using its globally unique id and a patch.
   """
   updateApplicationRfiData(
@@ -96004,6 +98430,24 @@ type Mutation {
   ): UpdateCbcDataChangeReasonPayload
 
   """
+  Updates a single `CbcLastMileCoverage` using its globally unique id and a patch.
+  """
+  updateCbcLastMileCoverage(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCbcLastMileCoverageInput!
+  ): UpdateCbcLastMileCoveragePayload
+
+  """Updates a single `CbcLastMileCoverage` using a unique key and a patch."""
+  updateCbcLastMileCoverageByGid(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCbcLastMileCoverageByGidInput!
+  ): UpdateCbcLastMileCoveragePayload
+
+  """
   Updates a single `CbcProject` using its globally unique id and a patch.
   """
   updateCbcProject(
@@ -96038,6 +98482,44 @@ type Mutation {
     """
     input: UpdateCbcProjectCommunityByRowIdInput!
   ): UpdateCbcProjectCommunityPayload
+
+  """
+  Updates a single `CbcTransport` using its globally unique id and a patch.
+  """
+  updateCbcTransport(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCbcTransportInput!
+  ): UpdateCbcTransportPayload
+
+  """Updates a single `CbcTransport` using a unique key and a patch."""
+  updateCbcTransportByGid(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCbcTransportByGidInput!
+  ): UpdateCbcTransportPayload
+
+  """
+  Updates a single `CcbcApplicationsCoverage` using its globally unique id and a patch.
+  """
+  updateCcbcApplicationsCoverage(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCcbcApplicationsCoverageInput!
+  ): UpdateCcbcApplicationsCoveragePayload
+
+  """
+  Updates a single `CcbcApplicationsCoverage` using a unique key and a patch.
+  """
+  updateCcbcApplicationsCoverageByGid(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateCcbcApplicationsCoverageByGidInput!
+  ): UpdateCcbcApplicationsCoveragePayload
 
   """Updates a single `CcbcUser` using its globally unique id and a patch."""
   updateCcbcUser(
@@ -96158,6 +98640,24 @@ type Mutation {
     """
     input: UpdateCoveragesUploadByRowIdInput!
   ): UpdateCoveragesUploadPayload
+
+  """
+  Updates a single `EconomicRegion` using its globally unique id and a patch.
+  """
+  updateEconomicRegion(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateEconomicRegionInput!
+  ): UpdateEconomicRegionPayload
+
+  """Updates a single `EconomicRegion` using a unique key and a patch."""
+  updateEconomicRegionByGid(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateEconomicRegionByGidInput!
+  ): UpdateEconomicRegionPayload
 
   """
   Updates a single `EmailRecord` using its globally unique id and a patch.
@@ -96360,6 +98860,24 @@ type Mutation {
   ): UpdateRecordVersionPayload
 
   """
+  Updates a single `RegionalDistrict` using its globally unique id and a patch.
+  """
+  updateRegionalDistrict(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateRegionalDistrictInput!
+  ): UpdateRegionalDistrictPayload
+
+  """Updates a single `RegionalDistrict` using a unique key and a patch."""
+  updateRegionalDistrictByGid(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: UpdateRegionalDistrictByGidInput!
+  ): UpdateRegionalDistrictPayload
+
+  """
   Updates a single `ReportingGcpe` using its globally unique id and a patch.
   """
   updateReportingGcpe(
@@ -96559,6 +99077,22 @@ type Mutation {
     input: DeleteApplicationDependencyByRowIdInput!
   ): DeleteApplicationDependencyPayload
 
+  """Deletes a single `ApplicationEr` using its globally unique id."""
+  deleteApplicationEr(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationErInput!
+  ): DeleteApplicationErPayload
+
+  """Deletes a single `ApplicationEr` using a unique key."""
+  deleteApplicationErByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationErByRowIdInput!
+  ): DeleteApplicationErPayload
+
   """
   Deletes a single `ApplicationFnhaContribution` using its globally unique id.
   """
@@ -96747,6 +99281,22 @@ type Mutation {
     input: DeleteApplicationProjectTypeByRowIdInput!
   ): DeleteApplicationProjectTypePayload
 
+  """Deletes a single `ApplicationRd` using its globally unique id."""
+  deleteApplicationRd(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationRdInput!
+  ): DeleteApplicationRdPayload
+
+  """Deletes a single `ApplicationRd` using a unique key."""
+  deleteApplicationRdByRowId(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteApplicationRdByRowIdInput!
+  ): DeleteApplicationRdPayload
+
   """Deletes a single `ApplicationRfiData` using its globally unique id."""
   deleteApplicationRfiData(
     """
@@ -96927,6 +99477,22 @@ type Mutation {
     input: DeleteCbcDataChangeReasonByRowIdInput!
   ): DeleteCbcDataChangeReasonPayload
 
+  """Deletes a single `CbcLastMileCoverage` using its globally unique id."""
+  deleteCbcLastMileCoverage(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCbcLastMileCoverageInput!
+  ): DeleteCbcLastMileCoveragePayload
+
+  """Deletes a single `CbcLastMileCoverage` using a unique key."""
+  deleteCbcLastMileCoverageByGid(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCbcLastMileCoverageByGidInput!
+  ): DeleteCbcLastMileCoveragePayload
+
   """Deletes a single `CbcProjectCommunity` using its globally unique id."""
   deleteCbcProjectCommunity(
     """
@@ -96942,6 +99508,40 @@ type Mutation {
     """
     input: DeleteCbcProjectCommunityByRowIdInput!
   ): DeleteCbcProjectCommunityPayload
+
+  """Deletes a single `CbcTransport` using its globally unique id."""
+  deleteCbcTransport(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCbcTransportInput!
+  ): DeleteCbcTransportPayload
+
+  """Deletes a single `CbcTransport` using a unique key."""
+  deleteCbcTransportByGid(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCbcTransportByGidInput!
+  ): DeleteCbcTransportPayload
+
+  """
+  Deletes a single `CcbcApplicationsCoverage` using its globally unique id.
+  """
+  deleteCcbcApplicationsCoverage(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCcbcApplicationsCoverageInput!
+  ): DeleteCcbcApplicationsCoveragePayload
+
+  """Deletes a single `CcbcApplicationsCoverage` using a unique key."""
+  deleteCcbcApplicationsCoverageByGid(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteCcbcApplicationsCoverageByGidInput!
+  ): DeleteCcbcApplicationsCoveragePayload
 
   """Deletes a single `CcbcUser` using its globally unique id."""
   deleteCcbcUser(
@@ -97048,6 +99648,22 @@ type Mutation {
     """
     input: DeleteCoveragesUploadByRowIdInput!
   ): DeleteCoveragesUploadPayload
+
+  """Deletes a single `EconomicRegion` using its globally unique id."""
+  deleteEconomicRegion(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteEconomicRegionInput!
+  ): DeleteEconomicRegionPayload
+
+  """Deletes a single `EconomicRegion` using a unique key."""
+  deleteEconomicRegionByGid(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteEconomicRegionByGidInput!
+  ): DeleteEconomicRegionPayload
 
   """Deletes a single `EmailRecord` using its globally unique id."""
   deleteEmailRecord(
@@ -97234,6 +99850,22 @@ type Mutation {
     """
     input: DeleteRecordVersionByRowIdInput!
   ): DeleteRecordVersionPayload
+
+  """Deletes a single `RegionalDistrict` using its globally unique id."""
+  deleteRegionalDistrict(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRegionalDistrictInput!
+  ): DeleteRegionalDistrictPayload
+
+  """Deletes a single `RegionalDistrict` using a unique key."""
+  deleteRegionalDistrictByGid(
+    """
+    The exclusive input argument for this mutation. An object type, make sure to see documentation for this object’s fields.
+    """
+    input: DeleteRegionalDistrictByGidInput!
+  ): DeleteRegionalDistrictPayload
 
   """Deletes a single `ReportingGcpe` using its globally unique id."""
   deleteReportingGcpe(
@@ -98213,7 +100845,7 @@ type CreateApplicationErPayload {
   """An edge for our `ApplicationEr`. May be used by Relay 1."""
   applicationErEdge(
     """The method to use when ordering `ApplicationEr`."""
-    orderBy: [ApplicationErsOrderBy!] = [NATURAL]
+    orderBy: [ApplicationErsOrderBy!] = [PRIMARY_KEY_ASC]
   ): ApplicationErsEdge
 }
 
@@ -98234,6 +100866,7 @@ input ApplicationErInput {
   applicationId: Int
   ccbcNumber: String
   er: String
+  rowId: Int
 }
 
 """The output of our create `ApplicationFnhaContribution` mutation."""
@@ -99167,7 +101800,7 @@ type CreateApplicationRdPayload {
   """An edge for our `ApplicationRd`. May be used by Relay 1."""
   applicationRdEdge(
     """The method to use when ordering `ApplicationRd`."""
-    orderBy: [ApplicationRdsOrderBy!] = [NATURAL]
+    orderBy: [ApplicationRdsOrderBy!] = [PRIMARY_KEY_ASC]
   ): ApplicationRdsEdge
 }
 
@@ -99188,6 +101821,8 @@ input ApplicationRdInput {
   applicationId: Int
   ccbcNumber: String
   rd: String
+  rowId: Int
+  er: String
 }
 
 """The output of our create `ApplicationRfiData` mutation."""
@@ -99943,6 +102578,156 @@ input CbcDataChangeReasonInput {
   archivedAt: Datetime
 }
 
+"""The output of our create `CbcLastMileCoverage` mutation."""
+type CreateCbcLastMileCoveragePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CbcLastMileCoverage` that was created by this mutation."""
+  cbcLastMileCoverage: CbcLastMileCoverage
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `CbcLastMileCoverage`. May be used by Relay 1."""
+  cbcLastMileCoverageEdge(
+    """The method to use when ordering `CbcLastMileCoverage`."""
+    orderBy: [CbcLastMileCoveragesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CbcLastMileCoveragesEdge
+}
+
+"""All input for the create `CbcLastMileCoverage` mutation."""
+input CreateCbcLastMileCoverageInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `CbcLastMileCoverage` to be created by this mutation."""
+  cbcLastMileCoverage: CbcLastMileCoverageInput!
+}
+
+"""An input for mutations affecting `CbcLastMileCoverage`"""
+input CbcLastMileCoverageInput {
+  """Unique ID for the row"""
+  gid: Int
+  projNum: BigFloat
+  project__: String
+  program: String
+  originalP: String
+  phase: String
+  intakeNum: BigFloat
+  zones: String
+  internalS: String
+  externalS: String
+  changeReq: String
+  projectTi: String
+  projectDe: String
+  applicant_: String
+  currentOp: String
+  f830Mill: String
+  federalFu: String
+  federalPr: String
+  projectTy: String
+  transport_: String
+  highwayPr: String
+  lastMile_: String
+  lastMile1: String
+  connected_: String
+  crtcProje: String
+  projectLo: String
+  economicR: String
+  regionalD: String
+  communitie: BigFloat
+  indigenous: BigFloat
+  household_: BigFloat
+  transport1: BigFloat
+  highwayKm: String
+  restAreas: String
+  fundingSo: String
+  bcFunding: BigFloat
+  federal1: BigFloat
+  applicant1: BigFloat
+  otherFund: BigFloat
+  totalFnha: BigFloat
+  totalProj: BigFloat
+  conditiona: String
+  agreement_: String
+  announced_: String
+  dateAppli: String
+  dateCondi: String
+  dateExter: String
+  dateAgree: String
+  proposedS: String
+  proposedC: String
+  reporting_: String
+  dateAnnou: String
+  fProject: BigFloat
+  constructi: String
+  milestone_: String
+  primaryNe: String
+  secondary_: String
+  notes: String
+  locked: String
+  lastRevie: String
+  reviewNot: String
+  errorLog: String
+  objectid1: Float
+  shapeLeng: BigFloat
+  shapeArea: BigFloat
+
+  """The geometry of the coverage area (MultiPolygonZM, SRID 4326)"""
+  geom: String
+}
+
+"""The output of our create `CbcLastMileCoverageGeojson` mutation."""
+type CreateCbcLastMileCoverageGeojsonPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CbcLastMileCoverageGeojson` that was created by this mutation."""
+  cbcLastMileCoverageGeojson: CbcLastMileCoverageGeojson
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `CbcLastMileCoverageGeojson`. May be used by Relay 1."""
+  cbcLastMileCoverageGeojsonEdge(
+    """The method to use when ordering `CbcLastMileCoverageGeojson`."""
+    orderBy: [CbcLastMileCoverageGeojsonsOrderBy!] = [NATURAL]
+  ): CbcLastMileCoverageGeojsonsEdge
+}
+
+"""All input for the create `CbcLastMileCoverageGeojson` mutation."""
+input CreateCbcLastMileCoverageGeojsonInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `CbcLastMileCoverageGeojson` to be created by this mutation."""
+  cbcLastMileCoverageGeojson: CbcLastMileCoverageGeojsonInput!
+}
+
+"""An input for mutations affecting `CbcLastMileCoverageGeojson`"""
+input CbcLastMileCoverageGeojsonInput {
+  gid: Int
+  project__: String
+  geometry: JSON
+}
+
 """The output of our create `CbcProjectCommunity` mutation."""
 type CreateCbcProjectCommunityPayload {
   """
@@ -100026,6 +102811,202 @@ input CbcProjectCommunityInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+}
+
+"""The output of our create `CbcTransport` mutation."""
+type CreateCbcTransportPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CbcTransport` that was created by this mutation."""
+  cbcTransport: CbcTransport
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `CbcTransport`. May be used by Relay 1."""
+  cbcTransportEdge(
+    """The method to use when ordering `CbcTransport`."""
+    orderBy: [CbcTransportsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CbcTransportsEdge
+}
+
+"""All input for the create `CbcTransport` mutation."""
+input CreateCbcTransportInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `CbcTransport` to be created by this mutation."""
+  cbcTransport: CbcTransportInput!
+}
+
+"""An input for mutations affecting `CbcTransport`"""
+input CbcTransportInput {
+  """Unique ID for the row"""
+  gid: Int
+  projectNu: BigFloat
+  project__: String
+  program: String
+  originalP: String
+  phase: String
+  intakeNum: BigFloat
+  zones: String
+  internalS: String
+  externalS: String
+  changeReq: String
+  projectTi: String
+  projectDe: String
+  applicant_: String
+  currentOp: String
+  f830Mill: String
+  federalFu: String
+  federalPr: String
+  projectTy: String
+  transport_: String
+  highwayPr: String
+  lastMile_: String
+  lastMile1: String
+  connected_: String
+  crtcProje: String
+  projectLo: String
+  communitie: BigFloat
+  indigenous: BigFloat
+  household_: BigFloat
+  transport1: BigFloat
+  highwayKm: String
+  restAreas: String
+  bcFunding: BigFloat
+  federal1: BigFloat
+  applicant1: BigFloat
+  otherFund: BigFloat
+  totalFnha: String
+  totalProj: BigFloat
+  conditiona: String
+  agreement_: String
+  announced_: String
+  dateAppli: String
+  dateCondi: String
+  dateExter: String
+  dateAgree: String
+  proposedS: String
+  proposedC: String
+  reporting_: String
+  dateAnnou: String
+  fProject: BigFloat
+  constructi: String
+  milestone_: String
+  primaryNe: String
+  secondary_: String
+  notes: String
+  locked: String
+  lastRevie: String
+  reviewNot: String
+  errorLog: String
+  objectid1: Float
+  shapeLeng: BigFloat
+
+  """The geometry of the transport line (MultiLineStringZM, SRID 4326)"""
+  geom: String
+}
+
+"""The output of our create `CbcTransportsGeojson` mutation."""
+type CreateCbcTransportsGeojsonPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CbcTransportsGeojson` that was created by this mutation."""
+  cbcTransportsGeojson: CbcTransportsGeojson
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `CbcTransportsGeojson`. May be used by Relay 1."""
+  cbcTransportsGeojsonEdge(
+    """The method to use when ordering `CbcTransportsGeojson`."""
+    orderBy: [CbcTransportsGeojsonsOrderBy!] = [NATURAL]
+  ): CbcTransportsGeojsonsEdge
+}
+
+"""All input for the create `CbcTransportsGeojson` mutation."""
+input CreateCbcTransportsGeojsonInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `CbcTransportsGeojson` to be created by this mutation."""
+  cbcTransportsGeojson: CbcTransportsGeojsonInput!
+}
+
+"""An input for mutations affecting `CbcTransportsGeojson`"""
+input CbcTransportsGeojsonInput {
+  gid: Int
+  project__: String
+  geometry: JSON
+}
+
+"""The output of our create `CcbcApplicationsCoverage` mutation."""
+type CreateCcbcApplicationsCoveragePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CcbcApplicationsCoverage` that was created by this mutation."""
+  ccbcApplicationsCoverage: CcbcApplicationsCoverage
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `CcbcApplicationsCoverage`. May be used by Relay 1."""
+  ccbcApplicationsCoverageEdge(
+    """The method to use when ordering `CcbcApplicationsCoverage`."""
+    orderBy: [CcbcApplicationsCoveragesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CcbcApplicationsCoveragesEdge
+}
+
+"""All input for the create `CcbcApplicationsCoverage` mutation."""
+input CreateCcbcApplicationsCoverageInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `CcbcApplicationsCoverage` to be created by this mutation."""
+  ccbcApplicationsCoverage: CcbcApplicationsCoverageInput!
+}
+
+"""An input for mutations affecting `CcbcApplicationsCoverage`"""
+input CcbcApplicationsCoverageInput {
+  gid: Int
+  ccbcNumbe: String
+  ccbcAppli: Float
+  intakeId: Float
+  mapMaxDo: Float
+  mapMaxUp: Float
+  mapAccess: String
+  mapTransp: String
+  shapeLeng: BigFloat
+  shapeArea: BigFloat
+  geom: String
 }
 
 """The output of our create `CcbcUser` mutation."""
@@ -100501,6 +103482,56 @@ input CoveragesUploadInput {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """The original file name of the uploaded coverage file"""
+  fileName: String
+}
+
+"""The output of our create `EconomicRegion` mutation."""
+type CreateEconomicRegionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `EconomicRegion` that was created by this mutation."""
+  economicRegion: EconomicRegion
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `EconomicRegion`. May be used by Relay 1."""
+  economicRegionEdge(
+    """The method to use when ordering `EconomicRegion`."""
+    orderBy: [EconomicRegionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): EconomicRegionsEdge
+}
+
+"""All input for the create `EconomicRegion` mutation."""
+input CreateEconomicRegionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `EconomicRegion` to be created by this mutation."""
+  economicRegion: EconomicRegionInput!
+}
+
+"""An input for mutations affecting `EconomicRegion`"""
+input EconomicRegionInput {
+  gid: Int
+  cnssr: Float
+  cnmcrgnd: String
+  cnmcrgnnm: String
+  areaSqm: BigFloat
+  featLen: BigFloat
+  objectid: BigFloat
+  geom: String
 }
 
 """The output of our create `EmailRecord` mutation."""
@@ -101329,6 +104360,66 @@ input RecordVersionInput {
 
   """The previous version of the record in JSON format"""
   oldRecord: JSON
+}
+
+"""The output of our create `RegionalDistrict` mutation."""
+type CreateRegionalDistrictPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RegionalDistrict` that was created by this mutation."""
+  regionalDistrict: RegionalDistrict
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `RegionalDistrict`. May be used by Relay 1."""
+  regionalDistrictEdge(
+    """The method to use when ordering `RegionalDistrict`."""
+    orderBy: [RegionalDistrictsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RegionalDistrictsEdge
+}
+
+"""All input for the create `RegionalDistrict` mutation."""
+input CreateRegionalDistrictInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """The `RegionalDistrict` to be created by this mutation."""
+  regionalDistrict: RegionalDistrictInput!
+}
+
+"""An input for mutations affecting `RegionalDistrict`"""
+input RegionalDistrictInput {
+  gid: Int
+  aaId: Float
+  aaName: String
+  abrvn: String
+  bdyType: String
+  aaParent: String
+  chngOrg: String
+  uptType: String
+  uptDate: String
+  mapStatus: String
+  ocMNmbr: String
+  ocMYr: String
+  ocMType: String
+  wbstRl: String
+  imageUrl: String
+  afctdArea: String
+  areaSqm: BigFloat
+  lengthM: BigFloat
+  shape: BigFloat
+  obejctid: BigFloat
+  geom: String
 }
 
 """The output of our create `ReportingGcpe` mutation."""
@@ -102961,6 +106052,73 @@ input UpdateApplicationDependencyByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our update `ApplicationEr` mutation."""
+type UpdateApplicationErPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationEr` that was updated by this mutation."""
+  applicationEr: ApplicationEr
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `ApplicationEr`. May be used by Relay 1."""
+  applicationErEdge(
+    """The method to use when ordering `ApplicationEr`."""
+    orderBy: [ApplicationErsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationErsEdge
+}
+
+"""All input for the `updateApplicationEr` mutation."""
+input UpdateApplicationErInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationEr` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `ApplicationEr` being updated.
+  """
+  applicationErPatch: ApplicationErPatch!
+}
+
+"""
+Represents an update to a `ApplicationEr`. Fields that are set will be updated.
+"""
+input ApplicationErPatch {
+  applicationId: Int
+  ccbcNumber: String
+  er: String
+  rowId: Int
+}
+
+"""All input for the `updateApplicationErByRowId` mutation."""
+input UpdateApplicationErByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ApplicationEr` being updated.
+  """
+  applicationErPatch: ApplicationErPatch!
+  rowId: Int!
+}
+
 """The output of our update `ApplicationFnhaContribution` mutation."""
 type UpdateApplicationFnhaContributionPayload {
   """
@@ -104502,6 +107660,74 @@ input UpdateApplicationProjectTypeByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our update `ApplicationRd` mutation."""
+type UpdateApplicationRdPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationRd` that was updated by this mutation."""
+  applicationRd: ApplicationRd
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `ApplicationRd`. May be used by Relay 1."""
+  applicationRdEdge(
+    """The method to use when ordering `ApplicationRd`."""
+    orderBy: [ApplicationRdsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationRdsEdge
+}
+
+"""All input for the `updateApplicationRd` mutation."""
+input UpdateApplicationRdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationRd` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `ApplicationRd` being updated.
+  """
+  applicationRdPatch: ApplicationRdPatch!
+}
+
+"""
+Represents an update to a `ApplicationRd`. Fields that are set will be updated.
+"""
+input ApplicationRdPatch {
+  applicationId: Int
+  ccbcNumber: String
+  rd: String
+  rowId: Int
+  er: String
+}
+
+"""All input for the `updateApplicationRdByRowId` mutation."""
+input UpdateApplicationRdByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `ApplicationRd` being updated.
+  """
+  applicationRdPatch: ApplicationRdPatch!
+  rowId: Int!
+}
+
 """The output of our update `ApplicationRfiData` mutation."""
 type UpdateApplicationRfiDataPayload {
   """
@@ -105665,6 +108891,140 @@ input UpdateCbcDataChangeReasonByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our update `CbcLastMileCoverage` mutation."""
+type UpdateCbcLastMileCoveragePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CbcLastMileCoverage` that was updated by this mutation."""
+  cbcLastMileCoverage: CbcLastMileCoverage
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `CbcLastMileCoverage`. May be used by Relay 1."""
+  cbcLastMileCoverageEdge(
+    """The method to use when ordering `CbcLastMileCoverage`."""
+    orderBy: [CbcLastMileCoveragesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CbcLastMileCoveragesEdge
+}
+
+"""All input for the `updateCbcLastMileCoverage` mutation."""
+input UpdateCbcLastMileCoverageInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `CbcLastMileCoverage` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `CbcLastMileCoverage` being updated.
+  """
+  cbcLastMileCoveragePatch: CbcLastMileCoveragePatch!
+}
+
+"""
+Represents an update to a `CbcLastMileCoverage`. Fields that are set will be updated.
+"""
+input CbcLastMileCoveragePatch {
+  """Unique ID for the row"""
+  gid: Int
+  projNum: BigFloat
+  project__: String
+  program: String
+  originalP: String
+  phase: String
+  intakeNum: BigFloat
+  zones: String
+  internalS: String
+  externalS: String
+  changeReq: String
+  projectTi: String
+  projectDe: String
+  applicant_: String
+  currentOp: String
+  f830Mill: String
+  federalFu: String
+  federalPr: String
+  projectTy: String
+  transport_: String
+  highwayPr: String
+  lastMile_: String
+  lastMile1: String
+  connected_: String
+  crtcProje: String
+  projectLo: String
+  economicR: String
+  regionalD: String
+  communitie: BigFloat
+  indigenous: BigFloat
+  household_: BigFloat
+  transport1: BigFloat
+  highwayKm: String
+  restAreas: String
+  fundingSo: String
+  bcFunding: BigFloat
+  federal1: BigFloat
+  applicant1: BigFloat
+  otherFund: BigFloat
+  totalFnha: BigFloat
+  totalProj: BigFloat
+  conditiona: String
+  agreement_: String
+  announced_: String
+  dateAppli: String
+  dateCondi: String
+  dateExter: String
+  dateAgree: String
+  proposedS: String
+  proposedC: String
+  reporting_: String
+  dateAnnou: String
+  fProject: BigFloat
+  constructi: String
+  milestone_: String
+  primaryNe: String
+  secondary_: String
+  notes: String
+  locked: String
+  lastRevie: String
+  reviewNot: String
+  errorLog: String
+  objectid1: Float
+  shapeLeng: BigFloat
+  shapeArea: BigFloat
+
+  """The geometry of the coverage area (MultiPolygonZM, SRID 4326)"""
+  geom: String
+}
+
+"""All input for the `updateCbcLastMileCoverageByGid` mutation."""
+input UpdateCbcLastMileCoverageByGidInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `CbcLastMileCoverage` being updated.
+  """
+  cbcLastMileCoveragePatch: CbcLastMileCoveragePatch!
+
+  """Unique ID for the row"""
+  gid: Int!
+}
+
 """The output of our update `CbcProject` mutation."""
 type UpdateCbcProjectPayload {
   """
@@ -105871,6 +109231,210 @@ input UpdateCbcProjectCommunityByRowIdInput {
 
   """Unique ID for the row"""
   rowId: Int!
+}
+
+"""The output of our update `CbcTransport` mutation."""
+type UpdateCbcTransportPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CbcTransport` that was updated by this mutation."""
+  cbcTransport: CbcTransport
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `CbcTransport`. May be used by Relay 1."""
+  cbcTransportEdge(
+    """The method to use when ordering `CbcTransport`."""
+    orderBy: [CbcTransportsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CbcTransportsEdge
+}
+
+"""All input for the `updateCbcTransport` mutation."""
+input UpdateCbcTransportInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `CbcTransport` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `CbcTransport` being updated.
+  """
+  cbcTransportPatch: CbcTransportPatch!
+}
+
+"""
+Represents an update to a `CbcTransport`. Fields that are set will be updated.
+"""
+input CbcTransportPatch {
+  """Unique ID for the row"""
+  gid: Int
+  projectNu: BigFloat
+  project__: String
+  program: String
+  originalP: String
+  phase: String
+  intakeNum: BigFloat
+  zones: String
+  internalS: String
+  externalS: String
+  changeReq: String
+  projectTi: String
+  projectDe: String
+  applicant_: String
+  currentOp: String
+  f830Mill: String
+  federalFu: String
+  federalPr: String
+  projectTy: String
+  transport_: String
+  highwayPr: String
+  lastMile_: String
+  lastMile1: String
+  connected_: String
+  crtcProje: String
+  projectLo: String
+  communitie: BigFloat
+  indigenous: BigFloat
+  household_: BigFloat
+  transport1: BigFloat
+  highwayKm: String
+  restAreas: String
+  bcFunding: BigFloat
+  federal1: BigFloat
+  applicant1: BigFloat
+  otherFund: BigFloat
+  totalFnha: String
+  totalProj: BigFloat
+  conditiona: String
+  agreement_: String
+  announced_: String
+  dateAppli: String
+  dateCondi: String
+  dateExter: String
+  dateAgree: String
+  proposedS: String
+  proposedC: String
+  reporting_: String
+  dateAnnou: String
+  fProject: BigFloat
+  constructi: String
+  milestone_: String
+  primaryNe: String
+  secondary_: String
+  notes: String
+  locked: String
+  lastRevie: String
+  reviewNot: String
+  errorLog: String
+  objectid1: Float
+  shapeLeng: BigFloat
+
+  """The geometry of the transport line (MultiLineStringZM, SRID 4326)"""
+  geom: String
+}
+
+"""All input for the `updateCbcTransportByGid` mutation."""
+input UpdateCbcTransportByGidInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `CbcTransport` being updated.
+  """
+  cbcTransportPatch: CbcTransportPatch!
+
+  """Unique ID for the row"""
+  gid: Int!
+}
+
+"""The output of our update `CcbcApplicationsCoverage` mutation."""
+type UpdateCcbcApplicationsCoveragePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CcbcApplicationsCoverage` that was updated by this mutation."""
+  ccbcApplicationsCoverage: CcbcApplicationsCoverage
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `CcbcApplicationsCoverage`. May be used by Relay 1."""
+  ccbcApplicationsCoverageEdge(
+    """The method to use when ordering `CcbcApplicationsCoverage`."""
+    orderBy: [CcbcApplicationsCoveragesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CcbcApplicationsCoveragesEdge
+}
+
+"""All input for the `updateCcbcApplicationsCoverage` mutation."""
+input UpdateCcbcApplicationsCoverageInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `CcbcApplicationsCoverage` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `CcbcApplicationsCoverage` being updated.
+  """
+  ccbcApplicationsCoveragePatch: CcbcApplicationsCoveragePatch!
+}
+
+"""
+Represents an update to a `CcbcApplicationsCoverage`. Fields that are set will be updated.
+"""
+input CcbcApplicationsCoveragePatch {
+  gid: Int
+  ccbcNumbe: String
+  ccbcAppli: Float
+  intakeId: Float
+  mapMaxDo: Float
+  mapMaxUp: Float
+  mapAccess: String
+  mapTransp: String
+  shapeLeng: BigFloat
+  shapeArea: BigFloat
+  geom: String
+}
+
+"""All input for the `updateCcbcApplicationsCoverageByGid` mutation."""
+input UpdateCcbcApplicationsCoverageByGidInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `CcbcApplicationsCoverage` being updated.
+  """
+  ccbcApplicationsCoveragePatch: CcbcApplicationsCoveragePatch!
+  gid: Int!
 }
 
 """The output of our update `CcbcUser` mutation."""
@@ -106502,6 +110066,9 @@ input CoveragesUploadPatch {
 
   """archived at timestamp"""
   archivedAt: Datetime
+
+  """The original file name of the uploaded coverage file"""
+  fileName: String
 }
 
 """All input for the `updateCoveragesUploadByRowId` mutation."""
@@ -106519,6 +110086,77 @@ input UpdateCoveragesUploadByRowIdInput {
 
   """Unique id for the row"""
   rowId: Int!
+}
+
+"""The output of our update `EconomicRegion` mutation."""
+type UpdateEconomicRegionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `EconomicRegion` that was updated by this mutation."""
+  economicRegion: EconomicRegion
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `EconomicRegion`. May be used by Relay 1."""
+  economicRegionEdge(
+    """The method to use when ordering `EconomicRegion`."""
+    orderBy: [EconomicRegionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): EconomicRegionsEdge
+}
+
+"""All input for the `updateEconomicRegion` mutation."""
+input UpdateEconomicRegionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `EconomicRegion` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `EconomicRegion` being updated.
+  """
+  economicRegionPatch: EconomicRegionPatch!
+}
+
+"""
+Represents an update to a `EconomicRegion`. Fields that are set will be updated.
+"""
+input EconomicRegionPatch {
+  gid: Int
+  cnssr: Float
+  cnmcrgnd: String
+  cnmcrgnnm: String
+  areaSqm: BigFloat
+  featLen: BigFloat
+  objectid: BigFloat
+  geom: String
+}
+
+"""All input for the `updateEconomicRegionByGid` mutation."""
+input UpdateEconomicRegionByGidInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `EconomicRegion` being updated.
+  """
+  economicRegionPatch: EconomicRegionPatch!
+  gid: Int!
 }
 
 """The output of our update `EmailRecord` mutation."""
@@ -107567,6 +111205,90 @@ input UpdateRecordVersionByRowIdInput {
   rowId: BigInt!
 }
 
+"""The output of our update `RegionalDistrict` mutation."""
+type UpdateRegionalDistrictPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RegionalDistrict` that was updated by this mutation."""
+  regionalDistrict: RegionalDistrict
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `RegionalDistrict`. May be used by Relay 1."""
+  regionalDistrictEdge(
+    """The method to use when ordering `RegionalDistrict`."""
+    orderBy: [RegionalDistrictsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RegionalDistrictsEdge
+}
+
+"""All input for the `updateRegionalDistrict` mutation."""
+input UpdateRegionalDistrictInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `RegionalDistrict` to be updated.
+  """
+  id: ID!
+
+  """
+  An object where the defined keys will be set on the `RegionalDistrict` being updated.
+  """
+  regionalDistrictPatch: RegionalDistrictPatch!
+}
+
+"""
+Represents an update to a `RegionalDistrict`. Fields that are set will be updated.
+"""
+input RegionalDistrictPatch {
+  gid: Int
+  aaId: Float
+  aaName: String
+  abrvn: String
+  bdyType: String
+  aaParent: String
+  chngOrg: String
+  uptType: String
+  uptDate: String
+  mapStatus: String
+  ocMNmbr: String
+  ocMYr: String
+  ocMType: String
+  wbstRl: String
+  imageUrl: String
+  afctdArea: String
+  areaSqm: BigFloat
+  lengthM: BigFloat
+  shape: BigFloat
+  obejctid: BigFloat
+  geom: String
+}
+
+"""All input for the `updateRegionalDistrictByGid` mutation."""
+input UpdateRegionalDistrictByGidInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  An object where the defined keys will be set on the `RegionalDistrict` being updated.
+  """
+  regionalDistrictPatch: RegionalDistrictPatch!
+  gid: Int!
+}
+
 """The output of our update `ReportingGcpe` mutation."""
 type UpdateReportingGcpePayload {
   """
@@ -108594,6 +112316,54 @@ input DeleteApplicationDependencyByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our delete `ApplicationEr` mutation."""
+type DeleteApplicationErPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationEr` that was deleted by this mutation."""
+  applicationEr: ApplicationEr
+  deletedApplicationErId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `ApplicationEr`. May be used by Relay 1."""
+  applicationErEdge(
+    """The method to use when ordering `ApplicationEr`."""
+    orderBy: [ApplicationErsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationErsEdge
+}
+
+"""All input for the `deleteApplicationEr` mutation."""
+input DeleteApplicationErInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationEr` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteApplicationErByRowId` mutation."""
+input DeleteApplicationErByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  rowId: Int!
+}
+
 """The output of our delete `ApplicationFnhaContribution` mutation."""
 type DeleteApplicationFnhaContributionPayload {
   """
@@ -109368,6 +113138,54 @@ input DeleteApplicationProjectTypeByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our delete `ApplicationRd` mutation."""
+type DeleteApplicationRdPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `ApplicationRd` that was deleted by this mutation."""
+  applicationRd: ApplicationRd
+  deletedApplicationRdId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `ApplicationRd`. May be used by Relay 1."""
+  applicationRdEdge(
+    """The method to use when ordering `ApplicationRd`."""
+    orderBy: [ApplicationRdsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): ApplicationRdsEdge
+}
+
+"""All input for the `deleteApplicationRd` mutation."""
+input DeleteApplicationRdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `ApplicationRd` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteApplicationRdByRowId` mutation."""
+input DeleteApplicationRdByRowIdInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  rowId: Int!
+}
+
 """The output of our delete `ApplicationRfiData` mutation."""
 type DeleteApplicationRfiDataPayload {
   """
@@ -110028,6 +113846,56 @@ input DeleteCbcDataChangeReasonByRowIdInput {
   rowId: Int!
 }
 
+"""The output of our delete `CbcLastMileCoverage` mutation."""
+type DeleteCbcLastMileCoveragePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CbcLastMileCoverage` that was deleted by this mutation."""
+  cbcLastMileCoverage: CbcLastMileCoverage
+  deletedCbcLastMileCoverageId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `CbcLastMileCoverage`. May be used by Relay 1."""
+  cbcLastMileCoverageEdge(
+    """The method to use when ordering `CbcLastMileCoverage`."""
+    orderBy: [CbcLastMileCoveragesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CbcLastMileCoveragesEdge
+}
+
+"""All input for the `deleteCbcLastMileCoverage` mutation."""
+input DeleteCbcLastMileCoverageInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `CbcLastMileCoverage` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteCbcLastMileCoverageByGid` mutation."""
+input DeleteCbcLastMileCoverageByGidInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """Unique ID for the row"""
+  gid: Int!
+}
+
 """The output of our delete `CbcProjectCommunity` mutation."""
 type DeleteCbcProjectCommunityPayload {
   """
@@ -110099,6 +113967,104 @@ input DeleteCbcProjectCommunityByRowIdInput {
 
   """Unique ID for the row"""
   rowId: Int!
+}
+
+"""The output of our delete `CbcTransport` mutation."""
+type DeleteCbcTransportPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CbcTransport` that was deleted by this mutation."""
+  cbcTransport: CbcTransport
+  deletedCbcTransportId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `CbcTransport`. May be used by Relay 1."""
+  cbcTransportEdge(
+    """The method to use when ordering `CbcTransport`."""
+    orderBy: [CbcTransportsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CbcTransportsEdge
+}
+
+"""All input for the `deleteCbcTransport` mutation."""
+input DeleteCbcTransportInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `CbcTransport` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteCbcTransportByGid` mutation."""
+input DeleteCbcTransportByGidInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """Unique ID for the row"""
+  gid: Int!
+}
+
+"""The output of our delete `CcbcApplicationsCoverage` mutation."""
+type DeleteCcbcApplicationsCoveragePayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `CcbcApplicationsCoverage` that was deleted by this mutation."""
+  ccbcApplicationsCoverage: CcbcApplicationsCoverage
+  deletedCcbcApplicationsCoverageId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `CcbcApplicationsCoverage`. May be used by Relay 1."""
+  ccbcApplicationsCoverageEdge(
+    """The method to use when ordering `CcbcApplicationsCoverage`."""
+    orderBy: [CcbcApplicationsCoveragesOrderBy!] = [PRIMARY_KEY_ASC]
+  ): CcbcApplicationsCoveragesEdge
+}
+
+"""All input for the `deleteCcbcApplicationsCoverage` mutation."""
+input DeleteCcbcApplicationsCoverageInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `CcbcApplicationsCoverage` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteCcbcApplicationsCoverageByGid` mutation."""
+input DeleteCcbcApplicationsCoverageByGidInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  gid: Int!
 }
 
 """The output of our delete `CcbcUser` mutation."""
@@ -110487,6 +114453,54 @@ input DeleteCoveragesUploadByRowIdInput {
 
   """Unique id for the row"""
   rowId: Int!
+}
+
+"""The output of our delete `EconomicRegion` mutation."""
+type DeleteEconomicRegionPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `EconomicRegion` that was deleted by this mutation."""
+  economicRegion: EconomicRegion
+  deletedEconomicRegionId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `EconomicRegion`. May be used by Relay 1."""
+  economicRegionEdge(
+    """The method to use when ordering `EconomicRegion`."""
+    orderBy: [EconomicRegionsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): EconomicRegionsEdge
+}
+
+"""All input for the `deleteEconomicRegion` mutation."""
+input DeleteEconomicRegionInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `EconomicRegion` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteEconomicRegionByGid` mutation."""
+input DeleteEconomicRegionByGidInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  gid: Int!
 }
 
 """The output of our delete `EmailRecord` mutation."""
@@ -111138,6 +115152,54 @@ input DeleteRecordVersionByRowIdInput {
 
   """Primary key and unique identifier"""
   rowId: BigInt!
+}
+
+"""The output of our delete `RegionalDistrict` mutation."""
+type DeleteRegionalDistrictPayload {
+  """
+  The exact same `clientMutationId` that was provided in the mutation input,
+  unchanged and unused. May be used by a client to track mutations.
+  """
+  clientMutationId: String
+
+  """The `RegionalDistrict` that was deleted by this mutation."""
+  regionalDistrict: RegionalDistrict
+  deletedRegionalDistrictId: ID
+
+  """
+  Our root query field type. Allows us to run any query from our mutation payload.
+  """
+  query: Query
+
+  """An edge for our `RegionalDistrict`. May be used by Relay 1."""
+  regionalDistrictEdge(
+    """The method to use when ordering `RegionalDistrict`."""
+    orderBy: [RegionalDistrictsOrderBy!] = [PRIMARY_KEY_ASC]
+  ): RegionalDistrictsEdge
+}
+
+"""All input for the `deleteRegionalDistrict` mutation."""
+input DeleteRegionalDistrictInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+
+  """
+  The globally unique `ID` which will identify a single `RegionalDistrict` to be deleted.
+  """
+  id: ID!
+}
+
+"""All input for the `deleteRegionalDistrictByGid` mutation."""
+input DeleteRegionalDistrictByGidInput {
+  """
+  An arbitrary string value with no semantic meaning. Will be included in the
+  payload verbatim. May be used to track mutations by the client.
+  """
+  clientMutationId: String
+  gid: Int!
 }
 
 """The output of our delete `ReportingGcpe` mutation."""

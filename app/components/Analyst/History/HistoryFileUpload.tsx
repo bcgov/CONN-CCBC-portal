@@ -144,6 +144,9 @@ const HistoryFileUpload = ({ historyTableList }) => {
   const table = useMaterialReactTable({
     columns,
     data: historyTableList,
+    initialState: {
+      sorting: [{ id: 'createdAt', desc: true }],
+    },
     enablePagination: false,
     enableBottomToolbar: false,
     enableGlobalFilter: false,

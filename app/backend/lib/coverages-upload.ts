@@ -74,6 +74,7 @@ coveragesUpload.post('/api/coverages/upload', limiter, async (req, res) => {
         input: {
           coveragesUpload: {
             uuid: newFilename,
+            fileName: originalFilename,
           },
         },
       },

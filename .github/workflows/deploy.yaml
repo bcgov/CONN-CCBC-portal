@@ -49,6 +49,7 @@ on:
       COVERAGES_FILE: { required: true }
       SESSION_SECRET: { required: true }
       TEST_PG_PASSWORD: { required: true }
+      CBC_COVERAGE_FILE: { required: true }
 
 env:
   TAG: sha-${{ github.sha }}
@@ -128,6 +129,7 @@ jobs:
           er_file: ${{ secrets.ER_FILE }}
           rd_file: ${{ secrets.RD_FILE }}
           coverages_file: ${{ secrets.COVERAGES_FILE }}
+          cbc_coverage_file: ${{ secrets.CBC_COVERAGE_FILE }}
           session_secret: ${{ secrets.SESSION_SECRET }}
           environment: dev
 

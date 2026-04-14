@@ -129,9 +129,11 @@ const Cbc = ({
   const [isMapExpanded, setIsMapExpanded] = useState(
     cookie.get('map_expanded') === 'true'
   );
-  const [mapData, setMapData] = useState({}); // Empty map data for CBC
+  const [mapData, setMapData] = useState(null);
+  const [cbcMapJson, setCbcMapJson] = useState(null);
 
-  const { rowId, applicationMergesByParentCbcId } = query.cbcByRowId;
+  const { rowId, projectNumber, applicationMergesByParentCbcId } =
+    query.cbcByRowId;
   const [formData, setFormData] = useState(null);
   const [baseFormData, setBaseFormData] = useState({} as any);
   const [addedCommunities, setAddedCommunities] = useState([]);
@@ -286,12 +288,30 @@ const Cbc = ({
     applicationMergesByParentCbcId,
   ]);
 
-  // Update mapData when isMapExpanded changes
   useEffect(() => {
-    if (isMapExpanded) {
-      setMapData({ map: { setIsMapExpanded } });
+    if (!projectNumber) return;
+
+    const fetchCbcMap = async () => {
+      try {
+        const response = await fetch(`/api/cbc-map/${projectNumber}`);
+        const json = await response.json();
+        setCbcMapJson(json);
+        setMapData(json);
+      } catch {
+        setMapData(null);
+      }
+    };
+
+    fetchCbcMap();
+  }, [projectNumber]);
+
+  useEffect(() => {
+    if (isMapExpanded && cbcMapJson) {
+      setMapData({ map: { json: cbcMapJson, setIsMapExpanded } });
+    } else if (cbcMapJson) {
+      setMapData(cbcMapJson);
     }
-  }, [isMapExpanded]);
+  }, [isMapExpanded, cbcMapJson]);
 
   // Create final schemas with map when expanded
   const finalReviewUiSchema = isMapExpanded

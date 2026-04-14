@@ -1,3 +1,10 @@
+# [1.295.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.294.0...v1.295.0) (2026-04-14)
+
+### Features
+
+- cbc map data and upload ([7830525](https://github.com/bcgov/CONN-CCBC-portal/commit/78305258032cacd1394e57a3592011bf088674e1))
+- display cbc map data ([b048cfa](https://github.com/bcgov/CONN-CCBC-portal/commit/b048cfaf8f0ba953e8702df89e1e0ac404284541))
+
 # [1.294.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.293.3...v1.294.0) (2026-02-25)
 
 ### Features
