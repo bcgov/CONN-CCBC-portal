@@ -378,24 +378,24 @@ describe('The Gis history page', () => {
     const rows = document.querySelectorAll('tbody tr');
     expect(rows).toHaveLength(3);
 
-    // Table sorts by "Uploaded by" by default (User1 before User2), so row order is:
-    // 1) User1 Tester (record with no file_name, fallback to CCBC name), 2) User2 + CBC_Coverage, 3) User2 + CCBC_APPLICATION
+    // Table sorts by date uploaded descending (newest first), so row order is:
+    // 1) User2 Tester + CCBC file (Jan 7, newest), 2) User1 Tester + CCBC fallback (Jan 6 23:47), 3) User2 Tester + CBC file (Jan 6 21:11, oldest)
     const firstRowCells = rows[0].querySelectorAll('td');
-    expect(firstRowCells[0]).toHaveTextContent('User1 Tester');
+    expect(firstRowCells[0]).toHaveTextContent('User2 Tester');
     expect(firstRowCells[1].querySelector('button')).toHaveTextContent(
       'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip'
     );
 
     const secondRowCells = rows[1].querySelectorAll('td');
-    expect(secondRowCells[0]).toHaveTextContent('User2 Tester');
+    expect(secondRowCells[0]).toHaveTextContent('User1 Tester');
     expect(secondRowCells[1].querySelector('button')).toHaveTextContent(
-      'CBC_Coverage.zip'
+      'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip'
     );
 
     const thirdRowCells = rows[2].querySelectorAll('td');
     expect(thirdRowCells[0]).toHaveTextContent('User2 Tester');
     expect(thirdRowCells[1].querySelector('button')).toHaveTextContent(
-      'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip'
+      'CBC_Coverage.zip'
     );
   });
 
