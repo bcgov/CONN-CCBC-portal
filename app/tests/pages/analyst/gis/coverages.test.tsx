@@ -89,7 +89,7 @@ const mockQueryPayload = {
             ccbcUserByCreatedBy: {
               familyName: 'Tester',
               givenName: 'User1',
-              id: 'WyJjY2JjX3VzZXJzIiwzMzZd',
+              id: 'WyJjY2JjX3VzZXJzIiwzMzBd',
             },
             id: 'WyJyZWNvcmRfdmVyc2lvbnMiLDM0MDcxXQ==',
           },
