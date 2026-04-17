@@ -96,3 +96,26 @@ jobs:
           done
 
           echo "Feature database and Helm cleanup completed."
+
+          # Delete orphaned ndt- secrets in OpenShift that don't match any open PR
+          echo "Getting ndt- secrets from OpenShift namespace..."
+          NDT_SECRETS=$(oc -n ${{ secrets.OPENSHIFT_APP_NAMESPACE }} get secrets \
+            -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}' | grep '^ndt-')
+
+          for secret in $NDT_SECRETS; do
+            SECRET_VALID=false
+            for valid_db in "${VALID_DBS[@]}"; do
+              if [[ "$secret" == "$valid_db" ]]; then
+                SECRET_VALID=true
+                echo "Keeping secret: $secret (matches open PR)"
+                break
+              fi
+            done
+
+            if [[ "$SECRET_VALID" == "false" ]]; then
+              echo "Deleting orphaned OpenShift secret: $secret"
+              oc -n ${{ secrets.OPENSHIFT_APP_NAMESPACE }} delete secret "$secret"
+            fi
+          done
+
+          echo "OpenShift secret cleanup completed."
