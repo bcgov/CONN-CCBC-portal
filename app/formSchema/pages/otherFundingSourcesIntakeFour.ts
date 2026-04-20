@@ -20,6 +20,12 @@ const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
         minimum: 0,
         maximum: 0,
       },
+      infrastructureBankFunding2425: {
+        title: '2024-25',
+        type: 'number',
+        minimum: 0,
+        maximum: 0,
+      },
     },
     dependencies: {
       otherFundingSources: {
@@ -45,9 +51,10 @@ const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
                     'statusOfFunding',
                     'funderType',
                     'totalRequestedFundingPartner',
-                    'requestedFundingPartner2425',
                     'requestedFundingPartner2526',
                     'requestedFundingPartner2627',
+                    'requestedFundingPartner2728',
+                    'requestedFundingPartner2829',
                   ],
                   properties: {
                     ...forcedAnyOtherFundingSources.otherFundingSources
@@ -61,6 +68,12 @@ const otherFundingSourcesIntakeFour: Record<string, RJSFSchema> = {
                     },
                     requestedFundingPartner2324: {
                       title: '2023-24',
+                      type: 'number',
+                      minimum: 0,
+                      maximum: 0,
+                    },
+                    requestedFundingPartner2425: {
+                      title: '2024-25',
                       type: 'number',
                       minimum: 0,
                       maximum: 0,

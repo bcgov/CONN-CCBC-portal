@@ -10,7 +10,9 @@ const StyledContainer = styled('div')`
 const StyledValue = styled(CurrencyInput)`
   margin-top: 12px;
   margin-bottom: 4px;
-  width: 50%;
+  width: 100%;
+  // Match MoneyWidget: wide enough to fit 8-digit amounts with "$" prefix.
+  min-width: 160px;
   padding: 0.5em 0.6em;
   font-weight: 700;
   white-space: nowrap;

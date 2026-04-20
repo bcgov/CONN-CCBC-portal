@@ -41,6 +41,14 @@ const projectFunding: Record<string, RJSFSchema> = {
         title: '2026-27',
         type: 'number',
       },
+      fundingRequestedCCBC2728: {
+        title: '2027-28',
+        type: 'number',
+      },
+      fundingRequestedCCBC2829: {
+        title: '2028-29',
+        type: 'number',
+      },
       totalFundingRequestedCCBC: {
         title: 'Total amount requested under CCBC',
         type: 'number',
@@ -64,6 +72,14 @@ const projectFunding: Record<string, RJSFSchema> = {
       },
       applicationContribution2627: {
         title: '2026-27',
+        type: 'number',
+      },
+      applicationContribution2728: {
+        title: '2027-28',
+        type: 'number',
+      },
+      applicationContribution2829: {
+        title: '2028-29',
         type: 'number',
       },
       totalApplicantContribution: {
