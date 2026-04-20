@@ -99,6 +99,18 @@ const otherFundingSourcesArray = {
       .items.properties.requestedFundingPartner2627 as Object),
     ...amountRequestedUnderSource,
   },
+  requestedFundingPartner2728: {
+    ...(otherFundingSources.otherFundingSources.dependencies
+      .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
+      .items.properties.requestedFundingPartner2728 as Object),
+    ...amountRequestedUnderSource,
+  },
+  requestedFundingPartner2829: {
+    ...(otherFundingSources.otherFundingSources.dependencies
+      .otherFundingSources['oneOf'][1]!.properties.otherFundingSourcesArray
+      .items.properties.requestedFundingPartner2829 as Object),
+    ...amountRequestedUnderSource,
+  },
 };
 
 const applicationDiffSchema = {
@@ -279,6 +291,21 @@ const applicationDiffSchema = {
           .infrastructureBankFunding2223 as Object),
         ...amountRequestedUnderCIB,
       },
+      infrastructureBankFunding2627: {
+        ...(otherFundingSources.otherFundingSources.properties
+          .infrastructureBankFunding2223 as Object),
+        ...amountRequestedUnderCIB,
+      },
+      infrastructureBankFunding2728: {
+        ...(otherFundingSources.otherFundingSources.properties
+          .infrastructureBankFunding2223 as Object),
+        ...amountRequestedUnderCIB,
+      },
+      infrastructureBankFunding2829: {
+        ...(otherFundingSources.otherFundingSources.properties
+          .infrastructureBankFunding2223 as Object),
+        ...amountRequestedUnderCIB,
+      },
       otherFundingSourcesArray: {
         requiresHeading: true,
         heading: 'Funding Source',
@@ -331,6 +358,16 @@ const applicationDiffSchema = {
           .fundingRequestedCCBC2627 as Object),
         ...amountRequestedUnderCCBC,
       },
+      fundingRequestedCCBC2728: {
+        ...(projectFunding.projectFunding.properties
+          .fundingRequestedCCBC2728 as Object),
+        ...amountRequestedUnderCCBC,
+      },
+      fundingRequestedCCBC2829: {
+        ...(projectFunding.projectFunding.properties
+          .fundingRequestedCCBC2829 as Object),
+        ...amountRequestedUnderCCBC,
+      },
       applicationContribution2223: {
         ...(projectFunding.projectFunding.properties
           .applicationContribution2223 as Object),
@@ -354,6 +391,16 @@ const applicationDiffSchema = {
       applicationContribution2627: {
         ...(projectFunding.projectFunding.properties
           .applicationContribution2627 as Object),
+        ...amountApplicantWillContribute,
+      },
+      applicationContribution2728: {
+        ...(projectFunding.projectFunding.properties
+          .applicationContribution2728 as Object),
+        ...amountApplicantWillContribute,
+      },
+      applicationContribution2829: {
+        ...(projectFunding.projectFunding.properties
+          .applicationContribution2829 as Object),
         ...amountApplicantWillContribute,
       },
       totalApplicantContribution: {

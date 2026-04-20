@@ -7,12 +7,14 @@ const projectFundingIntakeFour: Record<string, RJSFSchema> = {
     required: [
       'totalFundingRequestedCCBC',
       'totalApplicantContribution',
-      'applicationContribution2425',
       'applicationContribution2526',
       'applicationContribution2627',
-      'fundingRequestedCCBC2425',
+      'applicationContribution2728',
+      'applicationContribution2829',
       'fundingRequestedCCBC2526',
       'fundingRequestedCCBC2627',
+      'fundingRequestedCCBC2728',
+      'fundingRequestedCCBC2829',
     ],
     properties: {
       ...projectFunding.projectFunding.properties,
@@ -28,6 +30,12 @@ const projectFundingIntakeFour: Record<string, RJSFSchema> = {
         minimum: 0,
         maximum: 0,
       },
+      fundingRequestedCCBC2425: {
+        title: '2024-25',
+        type: 'number',
+        minimum: 0,
+        maximum: 0,
+      },
       applicationContribution2223: {
         title: '2022-23',
         type: 'number',
@@ -36,6 +44,12 @@ const projectFundingIntakeFour: Record<string, RJSFSchema> = {
       },
       applicationContribution2324: {
         title: '2023-24',
+        type: 'number',
+        minimum: 0,
+        maximum: 0,
+      },
+      applicationContribution2425: {
+        title: '2024-25',
         type: 'number',
         minimum: 0,
         maximum: 0,

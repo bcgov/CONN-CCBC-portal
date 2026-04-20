@@ -24,6 +24,18 @@ const otherFundingSources: Record<string, RJSFSchema> = {
         title: '2025-26',
         type: 'number',
       },
+      infrastructureBankFunding2627: {
+        title: '2026-27',
+        type: 'number',
+      },
+      infrastructureBankFunding2728: {
+        title: '2027-28',
+        type: 'number',
+      },
+      infrastructureBankFunding2829: {
+        title: '2028-29',
+        type: 'number',
+      },
       totalInfrastructureBankFunding: {
         title: 'Total amount requested under Canadian Infrastructure Bank',
         type: ['number', 'null'],
@@ -119,6 +131,14 @@ const otherFundingSources: Record<string, RJSFSchema> = {
                     },
                     requestedFundingPartner2627: {
                       title: '2026-27',
+                      type: 'number',
+                    },
+                    requestedFundingPartner2728: {
+                      title: '2027-28',
+                      type: 'number',
+                    },
+                    requestedFundingPartner2829: {
+                      title: '2028-29',
                       type: 'number',
                     },
                     totalRequestedFundingPartner: {

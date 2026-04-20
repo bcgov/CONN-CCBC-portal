@@ -6,7 +6,10 @@ import Label from 'components/Form/Label';
 const StyledCurrencyInput = styled(CurrencyInput)`
   margin-top: 8px;
   margin-bottom: 4px;
-  width: 50%;
+  width: 100%;
+  // Wide enough to fit an 8-digit amount with "$" prefix, thousand separators
+  // and cursor padding (e.g. "$99,999,999").
+  min-width: 160px;
   border: 2px solid #606060;
   border-radius: 0;
   padding: 0.5em 0.6em;
