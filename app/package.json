@@ -100,7 +100,7 @@
     "openid-client": "^5.7.1",
     "passport": "^0.7.0",
     "patch-package": "^8.0.1",
-    "path-to-regexp": "^6.3.0",
+    "path-to-regexp": "^8.4.2",
     "pg": "^8.20.0",
     "pluralize": "^7.0.0",
     "postgraphile": "^4.14.1",
