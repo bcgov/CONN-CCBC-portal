@@ -11,6 +11,7 @@ import {
   TextWidget,
   DatePickerWidget,
   LinkArrayWidget,
+  MultiSelectWidget,
 } from 'lib/theme/widgets';
 import ArrayLocationFieldTemplate from 'lib/theme/fields/ArrayLocationDataField';
 import CommunitySourceWidget from 'lib/theme/widgets/custom/CommunitySourceWidget';
@@ -51,6 +52,7 @@ const CbcTheme: ThemeProps = {
     ReadOnlyWidget: DefaultWidget,
     CommunitySourceWidget,
     LinkArrayWidget,
+    MultiSelectWidget,
   },
   templates: {
     ...templates,

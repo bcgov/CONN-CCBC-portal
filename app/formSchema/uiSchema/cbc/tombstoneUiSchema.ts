@@ -10,7 +10,7 @@ const tombstoneUiSchema = {
     'ui:label': 'Original Project Number',
   },
   phase: {
-    'ui:widget': 'SelectWidget',
+    'ui:widget': 'MultiSelectWidget',
     'ui:placeholder': 'Select a phase',
     'ui:label': 'Phase',
   },

@@ -12,6 +12,7 @@ import { HEADER_ROW } from './header';
 import {
   convertStatus,
   getFundingSource,
+  getSortedPhases,
   getSortedZones,
   handleCbcCommunities,
   handleCcbcCommunities,
@@ -517,7 +518,7 @@ export const generateDashboardExport = async (applicationData, cbcData) => {
       },
       // phase
       {
-        value: cbcDataByCbcId?.phase,
+        value: getSortedPhases(cbcDataByCbcId?.phase),
       },
       // zone
       { value: getSortedZones(cbcDataByCbcId?.zones) },

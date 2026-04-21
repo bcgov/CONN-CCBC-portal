@@ -2,7 +2,10 @@
  * @jest-environment node
  */
 
-import { convertStatus } from '../../../../backend/lib/dashboard/util';
+import {
+  convertStatus,
+  getSortedPhases,
+} from '../../../../backend/lib/dashboard/util';
 
 describe('Dashboard util functions', () => {
   it('should return "Withdrawn" for "analyst_withdrawn"', () => {
@@ -95,5 +98,18 @@ describe('Dashboard util functions', () => {
 
   it('should return the same status for unknown status', () => {
     expect(convertStatus('unknown_status')).toBe('unknown_status');
+  });
+
+  it('should sort and join CBC phases when phases are an array', () => {
+    expect(getSortedPhases([3, 1, 2])).toBe('1, 2, 3');
+  });
+
+  it('should return a CBC phase as a string when phases are not an array', () => {
+    expect(getSortedPhases(2)).toBe('2');
+  });
+
+  it('should preserve null and undefined CBC phases', () => {
+    expect(getSortedPhases(null)).toBeNull();
+    expect(getSortedPhases(undefined)).toBeUndefined();
   });
 });

@@ -13,7 +13,7 @@ const cbcTombstone: RJSFSchema = {
     phase: {
       type: 'string',
       title: 'Project Phase',
-      enum: ['1', '2', '3', '4', '4b'],
+      enum: ['1', '2', '3', '4a', '4c', '5'],
     },
     intake: {
       type: 'string',
