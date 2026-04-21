@@ -1789,8 +1789,13 @@ const getTab7Extended = (includesFNHA = false): any[] => {
   return getTab7(includesFNHA).map((row: any) => {
     if (!row) return row;
 
-    // Part 4 year-header row — triggers extended-format detection
-    if (row.G === '2023-24' && row.K === 'Total') {
+    // Part 4 year-header row — triggers extended-format detection (must not match
+    // Part 2/3 headers, which use the same G/K but have B set — e.g. 'Project Funding')
+    if (
+      row.G === '2023-24' &&
+      row.K === 'Total' &&
+      (row.B === undefined || row.B === '')
+    ) {
       return { G: '2023-24', H: '2024-25', I: '2025-26', J: '2026-27', K: '2027-28', L: '2028-29', M: 'Total' };
     }
 
