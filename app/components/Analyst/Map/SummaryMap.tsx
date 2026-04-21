@@ -212,6 +212,11 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            // OSM's tile usage policy requires a Referer header. Our backend
+            // sets Referrer-Policy: no-referrer via helmet, which causes 403
+            // responses from tile.openstreetmap.org. Override the policy for
+            // tile image requests only so the browser attaches a Referer.
+            referrerPolicy="strict-origin-when-cross-origin"
           />
           {expanded && (
             <FullscreenControl
