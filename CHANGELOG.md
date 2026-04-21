@@ -1,3 +1,13 @@
+# [1.296.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.295.0...v1.296.0) (2026-04-21)
+
+### Bug Fixes
+
+- soanr failing ([c190c32](https://github.com/bcgov/CONN-CCBC-portal/commit/c190c3233941d7069799d43e37395031f2caac6a))
+
+### Features
+
+- cleanup orphaned feature env secrets ([46148a0](https://github.com/bcgov/CONN-CCBC-portal/commit/46148a0799ef7865406c327fe7bdf6652b25807c))
+
 # [1.295.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.294.0...v1.295.0) (2026-04-14)
 
 ### Features
