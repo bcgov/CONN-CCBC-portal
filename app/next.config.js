@@ -58,8 +58,6 @@ const moduleExports = {
     ENABLE_MOCK_TIME: convictConfig.get('ENABLE_MOCK_TIME'),
     OPENSHIFT_APP_NAMESPACE: convictConfig.get('OPENSHIFT_APP_NAMESPACE'),
     SITEMINDER_LOGOUT_URL: convictConfig.get('SITEMINDER_LOGOUT_URL'),
-    SENTRY_ENVIRONMENT: convictConfig.get('SENTRY_ENVIRONMENT'),
-    SENTRY_RELEASE: convictConfig.get('SENTRY_RELEASE'),
     COVERAGES_FILE_NAME: convictConfig.get('COVERAGES_FILE_NAME'),
   },
   eslint: {

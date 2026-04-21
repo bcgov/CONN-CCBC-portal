@@ -24,7 +24,7 @@ export type ExpressMiddleware<
   | void;
 
 export const parseForm = (
-  form: IncomingForm,
+  form: InstanceType<typeof IncomingForm>,
   req
 ): Promise<formidable.Files<string>> => {
   return new Promise((resolve, reject) => {
