@@ -275,7 +275,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
         uiSchema={claimsUiSchema}
         formData={formData}
         formHeader={FormHeader}
-        theme={ProjectTheme}
+        rjsfTheme={ProjectTheme}
         onSubmit={handleSubmit}
         formAnimationHeight={600}
         formAnimationHeightOffset={claimsList.length > 0 ? 70 : 20}

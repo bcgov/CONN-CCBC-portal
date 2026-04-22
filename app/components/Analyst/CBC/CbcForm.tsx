@@ -67,7 +67,7 @@ const CbcForm: React.FC<ProjectFormProps> = ({
   setIsFormEditMode,
   submitting = false,
   submittingText,
-  theme,
+  rjsfTheme,
   title,
   uiSchema,
   validate,
@@ -101,7 +101,7 @@ const CbcForm: React.FC<ProjectFormProps> = ({
               skipUnsavedWarning: !isFormEditMode,
               ...additionalContext,
             }}
-            theme={theme || ProjectTheme}
+            theme={rjsfTheme ?? ProjectTheme}
             liveValidate={liveValidate}
             omitExtraData={false}
             onChange={handleChange}
