@@ -108,7 +108,7 @@
     "re-resizable": "^6.11.2",
     "react": "19.2.5",
     "react-currency-input-field": "^4.0.5",
-    "react-leaflet": "4.2.1",
+    "react-leaflet": "5.0.0",
     "react-leaflet-fullscreen": "^4.1.1",
     "react-relay": "^20.1.1",
     "react-relay-network-modern": "6.2.2",
