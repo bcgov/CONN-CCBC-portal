@@ -30,7 +30,7 @@ export interface ProjectFormProps {
   setIsFormEditMode: any;
   submitting?: boolean;
   submittingText?: string;
-  theme?: any;
+  rjsfTheme?: any;
   title: string;
   uiSchema?: any;
   saveDataTestId?: string;

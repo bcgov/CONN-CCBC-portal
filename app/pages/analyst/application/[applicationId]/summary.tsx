@@ -418,7 +418,7 @@ const Summary = ({
           isFormAnimated={false}
           isFormEditMode={editMode}
           title="Summary"
-          theme={ReviewTheme}
+          rjsfTheme={ReviewTheme}
           schema={isMapExpanded ? finalSchema : summaryReviewSchema}
           uiSchema={isMapExpanded ? finalUiSchema : summaryReviewUiSchema}
           resetFormData={() => {}}

@@ -151,7 +151,7 @@ const ConditionalApprovalForm: React.FC<Props> = ({
         isFormEditMode={isFormEditMode}
         title="Conditional approval"
         schema={conditionalApprovalSchema}
-        theme={
+        rjsfTheme={
           isFormEditMode
             ? ConditionalApprovalTheme
             : ConditionalApprovalReadOnlyTheme

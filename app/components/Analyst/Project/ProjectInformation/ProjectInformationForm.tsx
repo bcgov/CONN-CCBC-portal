@@ -680,7 +680,7 @@ const ProjectInformationForm: React.FC<Props> = ({
         formAnimationHeightOffset={68}
         isFormAnimated
         schema={formSchema}
-        theme={isChangeRequest ? ChangeRequestTheme : ProjectTheme}
+        rjsfTheme={isChangeRequest ? ChangeRequestTheme : ProjectTheme}
         uiSchema={uiSchema}
         resetFormData={handleResetFormData}
         onSubmit={handleSubmit}

@@ -85,7 +85,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
   setIsFormEditMode,
   submitting = false,
   submittingText,
-  theme,
+  rjsfTheme,
   title,
   uiSchema,
   validate,
@@ -178,7 +178,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
             formData: { ...formData },
             ...additionalContext,
           }}
-          theme={theme || ProjectTheme}
+          theme={rjsfTheme ?? ProjectTheme}
           liveValidate={liveValidate}
           omitExtraData={false}
           onChange={handleChange}
@@ -215,7 +215,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
               formData: { ...formData },
               ...additionalContext,
             }}
-            theme={theme || ProjectTheme}
+            theme={rjsfTheme ?? ProjectTheme}
             liveValidate={liveValidate}
             omitExtraData={false}
             onChange={handleChange}

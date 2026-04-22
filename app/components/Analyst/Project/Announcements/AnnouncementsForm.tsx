@@ -318,7 +318,7 @@ const AnnouncementsForm: React.FC<Props> = ({ query, isExpanded }) => {
       title="Announcements"
       schema={announcementsSchema}
       uiSchema={announcementsUiSchema}
-      theme={ProjectTheme}
+      rjsfTheme={ProjectTheme}
       resetFormData={handleResetFormData}
       onSubmit={handleSubmit}
       setIsFormEditMode={(boolean) => setIsFormEditMode(boolean)}
