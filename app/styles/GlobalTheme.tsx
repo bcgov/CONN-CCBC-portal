@@ -51,7 +51,7 @@ export const theme = {
 };
 
 type Props = {
-  children: JSX.Element | JSX.Element[];
+  children: React.ReactNode;
 };
 
 const GlobalTheme: React.FC<Props> = ({ children }) => {

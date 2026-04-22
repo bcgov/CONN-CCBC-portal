@@ -1,3 +1,4 @@
+import React from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { RfiFormStatus_application$key } from '__generated__/RfiFormStatus_application.graphql';
 import GenericFormStatus from './GenericFormStatus';
@@ -5,7 +6,7 @@ import GenericFormStatus from './GenericFormStatus';
 interface Props {
   application: RfiFormStatus_application$key;
   isSaving: boolean;
-  error?: JSX.Element;
+  error?: React.ReactNode;
 }
 
 const RfiFormStatus: React.FC<Props> = ({ application, isSaving, error }) => {

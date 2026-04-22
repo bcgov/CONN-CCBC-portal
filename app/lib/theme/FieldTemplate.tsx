@@ -1,3 +1,4 @@
+import React from 'react';
 import { FieldTemplateProps } from '@rjsf/utils';
 import styled from 'styled-components';
 import Description from './components/Description';
@@ -34,7 +35,7 @@ const FieldTemplate: React.FC<FieldTemplateProps> = ({
   const boldTitle = uiOptions?.boldTitle as boolean;
   const showCreatedAt = Boolean(uiOptions?.showCreatedAt);
   const altOptionalText = uiOptions?.altOptionalText;
-  const customTitle = uiOptions?.customTitle as JSX.Element;
+  const customTitle = uiOptions?.customTitle as React.ReactNode;
   const isAddHorizontalLine = uiOptions?.addHorizontalLine as boolean;
   const showLabel = displayLabel && !customTitle;
   const createdAt = formContext?.createdAt;

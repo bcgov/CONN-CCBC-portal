@@ -16,7 +16,7 @@ const ReviewInlineArrayField: React.FC<FieldProps> = ({
   const hasError =
     formErrorSchema?.[pageName]?.[fieldName]?.__errors?.length > 0;
   const sortArray =
-    (uiSchema?.['ui:options']?.sort as JSX.Element) && Array.isArray(formData);
+    Boolean(uiSchema?.['ui:options']?.sort) && Array.isArray(formData);
   const sortedArray = sortArray
     ? [...formData].sort((a, b) => a - b)
     : formData;
