@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
 import { ThemeProvider } from '@mui/material';
@@ -25,16 +25,27 @@ config.autoAddCss = false;
 const growthbook = new GrowthBook();
 
 const { publicRuntimeConfig } = getConfig();
+const growthbookApiKey = publicRuntimeConfig.NEXT_PUBLIC_GROWTHBOOK_API_KEY;
 // Using convict to declare it but using nextjs public env due to convict fs import
-const growthbookUrl = `https://cdn.growthbook.io/api/features/${publicRuntimeConfig.NEXT_PUBLIC_GROWTHBOOK_API_KEY}`;
-try {
-  await fetch(growthbookUrl)
-    .then((res) => res.json())
-    .then((res) => {
-      growthbook.setFeatures(res.features);
-    });
-} catch (err) {
-  reportClientError(err, { source: 'growthbook-bootstrap' });
+const growthbookUrl = growthbookApiKey
+  ? `https://cdn.growthbook.io/api/features/${growthbookApiKey}`
+  : null;
+
+if (growthbookUrl) {
+  try {
+    await fetch(growthbookUrl)
+      .then((res) => res.json())
+      .then((res) => {
+        growthbook.setFeatures(res.features);
+      });
+  } catch (err) {
+    reportClientError(err, { source: 'growthbook-bootstrap' });
+  }
+} else {
+  // Visible in server logs (e.g. Docker) and browser console; reportClientError is browser-only.
+  console.warn(
+    '[GrowthBook] NEXT_PUBLIC_GROWTHBOOK_API_KEY is not set; feature flags disabled'
+  );
 }
 
 class AppErrorBoundary extends React.Component<
@@ -82,15 +93,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   trackPageView();
 
-  const [appMounted, setAppMounted] = useState(false);
-
-  useEffect(() => {
-    // nextjs.org/docs/messages/react-hydration-error
-    setAppMounted(true);
-  }, []);
-
   useEffect(() => {
     const fetchGrowthbook = async () => {
+      if (!growthbookUrl) return null;
       try {
         const data = await fetch(growthbookUrl)
           .then((res) => res.json())
@@ -106,12 +111,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     fetchGrowthbook();
   }, [router.asPath]);
 
-  const component = appMounted ? (
+  const component = (
     <Suspense fallback={<div>Loading...</div>}>
       <Component {...pageProps} {...relayProps} />
     </Suspense>
-  ) : (
-    <Component {...pageProps} {...relayProps} />
   );
 
   return (
