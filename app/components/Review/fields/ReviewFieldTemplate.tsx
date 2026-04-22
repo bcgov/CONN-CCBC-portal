@@ -44,7 +44,8 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
     return children;
 
   const fieldTitle =
-    (uiSchema?.['ui:options']?.customTitle as JSX.Element) ?? schema.title;
+    (uiSchema?.['ui:options']?.customTitle as React.ReactNode) ??
+    schema.title;
 
   const isExcludeTableFormat = uiSchema?.['ui:options']?.excludeTableFormat;
 
