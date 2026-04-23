@@ -2,7 +2,7 @@ import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import statusStyles from 'data/statusStyles';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface DropdownProps {
   statusStyles: {
@@ -103,7 +103,17 @@ const CbcChangeStatus: React.FC<Props> = ({
     cbc
   );
   const [updateStatus] = useUpdateCbcDataByRowIdMutation();
-  const [currentStatus, setCurrentStatus] = useState(getStatus(status));
+  const normalizedFromProp = getStatus(status);
+  const [currentStatus, setCurrentStatus] = useState(normalizedFromProp);
+
+  useEffect(() => {
+    setCurrentStatus(getStatus(status));
+  }, [status]);
+
+  const pillStyles =
+    statusStyles[currentStatus as keyof typeof statusStyles] ??
+    statusStyles[normalizedFromProp as keyof typeof statusStyles] ??
+    statusStyles.closed;
 
   const handleChange = (e) => {
     const newStatus = e.target.value;
@@ -134,8 +144,8 @@ const CbcChangeStatus: React.FC<Props> = ({
         // eslint-disable-next-line no-void
         void (() => handleChange(e))();
       }}
-      statusStyles={statusStyles[getStatus(status)]}
-      value={currentStatus}
+      statusStyles={pillStyles}
+      value={currentStatus ?? ''}
       id="change-status"
     >
       {statusList?.map((statusType) => {
