@@ -113,7 +113,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, [router.asPath]);
 
   const component = (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense
+      fallback={
+        <div data-testid="app-suspense-loading">Loading...</div>
+      }
+    >
       <Component {...pageProps} {...relayProps} />
     </Suspense>
   );

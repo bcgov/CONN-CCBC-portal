@@ -9,7 +9,7 @@ const testLoad = (screenShotTitle, setupFunction) => {
   setupFunction();
   cy.visit('/analyst/application/1/assessments/project-management');
   cy.contains('a', 'Project Management');
-  cy.get('body').happoScreenshot({
+  cy.stableHappoScreenshot({
     component: screenShotTitle,
   });
 };
@@ -20,7 +20,7 @@ describe('The analyst project management assessment page', () => {
     assessmentsSetup();
     cy.visit('/analyst/application/1/assessments/project-management');
     cy.contains('a', 'Project Management');
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
       component: 'Analyst project management assessment page',
     });
   });
@@ -61,7 +61,9 @@ describe('The analyst project management assessment page', () => {
     cy.contains('button', /^Save$/).click();
     cy.contains('button', 'Saved').should('exist');
     cy.visit('/analyst/application/1/assessments/project-management');
-    cy.get('body').happoScreenshot({
+    cy.contains('a', 'Project Management');
+    cy.wait('@graphql');
+    cy.stableHappoScreenshot({
       component: 'Filled Analyst project management assessment page',
     });
   });

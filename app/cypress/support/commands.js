@@ -237,6 +237,7 @@ Cypress.Commands.add('ensureConsistentState', () => {
 Cypress.Commands.add('waitForLoadingComplete', () => {
   // Common loading indicators
   const loadingSelectors = [
+    '[data-testid="app-suspense-loading"]',
     '[data-testid="loading"]',
     '[class*="loading"]',
     '[class*="spinner"]',

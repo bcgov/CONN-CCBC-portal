@@ -14,7 +14,7 @@ const testLoad = (screenShotTitle, setupFunction) => {
   setupFunction();
   cy.visit('/analyst/application/1/assessments/technical');
   cy.contains('a', 'Technical');
-  cy.get('body').happoScreenshot({
+  cy.stableHappoScreenshot({
     component: screenShotTitle,
   });
 };
@@ -25,7 +25,7 @@ describe('The analyst technical assessment page', () => {
     assessmentsSetup();
     cy.visit('/analyst/application/1/assessments/technical');
     cy.contains('a', 'Technical');
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
       component: 'Analyst technical assessment page',
     });
   });
@@ -67,7 +67,9 @@ describe('The analyst technical assessment page', () => {
     cy.contains('button', /^Save$/).click();
     cy.contains('button', 'Saved').should('exist');
     cy.visit('/analyst/application/1/assessments/technical');
-    cy.get('body').happoScreenshot({
+    cy.contains('a', 'Technical');
+    cy.wait('@graphql');
+    cy.stableHappoScreenshot({
       component: 'Filled Analyst Technical Assessment Page',
     });
   });

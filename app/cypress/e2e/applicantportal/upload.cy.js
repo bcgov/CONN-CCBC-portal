@@ -15,7 +15,7 @@ context('Homepage', () => {
   });
 
   it('should start, open dashboard, select draft application and skip to page 12 of the form', () => {
-    cy.get('body').happoScreenshot({ component: 'Applicant Landing Page' });
+    cy.stableHappoScreenshot({ component: 'Applicant Landing Page' });
 
     cy.contains('h1', 'Welcome');
 
