@@ -55,7 +55,10 @@ describe('The analyst project management assessment page', () => {
     cy.visit('/analyst/application/1/assessments/project-management');
     cy.contains('a', 'Project Management');
     cy.wait('@graphql');
-    cy.get('select[id="root_assignedTo"]').select('Meherzad Romer');
+    cy.get('select[id="root_assignedTo"]')
+      .filter(':visible')
+      .first()
+      .select('Meherzad Romer');
     cy.get('input[id="root_targetDate"]').invoke('val', '2023-03-10');
     cy.get('input[id="root_nextStep-1"]').parent().click({ force: true });
     cy.contains('button', /^Save$/).click();

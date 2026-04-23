@@ -115,7 +115,8 @@ Cypress.Commands.add('waitForAnimations', () => {
           styles.visibility === 'hidden' ||
           styles.display === 'none';
 
-        if (!isHiddenByDesign) {
+        // Skip descendants of collapsed panels, modals, etc. (parent display:none)
+        if (!isHiddenByDesign && Cypress.dom.isVisible(el)) {
           cy.wrap(el).should('be.visible');
         }
       }
@@ -146,6 +147,10 @@ Cypress.Commands.add('waitForOpacityTransitions', () => {
       const elements = $body.find(selector);
       if (elements.length > 0) {
         cy.get(selector).each(($el) => {
+          const el = $el[0];
+          if (!Cypress.dom.isVisible(el)) {
+            return;
+          }
           // Wait for element to have stable opacity (either 0 or > 0)
           cy.wrap($el).should(($element) => {
             const opacity = parseFloat($element.css('opacity'));
@@ -184,13 +189,13 @@ Cypress.Commands.add('clearHoverStates', () => {
     document.body.appendChild(tempElement);
     tempElement.focus();
 
-    // Trigger a mouse move to a neutral area to clear hover states
-    // Use force: true to avoid issues when body element might be considered "hidden"
-    cy.get('body').trigger(
-      'mousemove',
-      { clientX: 0, clientY: 0 },
-      { force: true }
-    );
+    // Trigger a mouse move to clear hover states. `force` must be in the same
+    // options object as coordinates (Cypress does not apply a third-arg options bag).
+    cy.get('body').trigger('mousemove', {
+      clientX: 1,
+      clientY: 1,
+      force: true,
+    });
 
     // Clean up
     setTimeout(() => {

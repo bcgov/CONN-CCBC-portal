@@ -55,7 +55,10 @@ describe('The analyst screening assessment page', () => {
     cy.visit('/analyst/application/1/assessments/screening');
     cy.contains('a', 'Screening');
     cy.wait('@graphql');
-    cy.get('select[id="root_assignedTo"]').select('Meherzad Romer');
+    cy.get('select[id="root_assignedTo"]')
+      .filter(':visible')
+      .first()
+      .select('Meherzad Romer');
     cy.get('input[id="root_targetDate"]').invoke('val', '2023-03-10');
     cy.get('input[id="root_nextStep-1"]').parent().click({ force: true });
     cy.get('input[id="root_decision-1"]').parent().click({ force: true });
