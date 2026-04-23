@@ -60,7 +60,7 @@ describe('The analyst application summary page', () => {
           cy.contains('$250,000'); // totalApplicantContribution
           cy.contains('$1,250,000'); // totalProjectCost
 
-          cy.get('body').happoScreenshot({
+          cy.stableHappoScreenshot({
             component: `Analyst application summary - application status - ${role}`,
           });
         });
@@ -104,7 +104,7 @@ describe('The analyst application summary page', () => {
             'be.visible'
           );
 
-          cy.get('body').happoScreenshot({
+          cy.stableHappoScreenshot({
             component: `Analyst application summary - conditionally approved status - ${role}`,
           });
         });
@@ -174,7 +174,7 @@ describe('The analyst application summary page', () => {
           cy.contains('3'); // indigenousCommunitiesNumber
           cy.contains('600'); // numberOfHouseholds
 
-          cy.get('body').happoScreenshot({
+          cy.stableHappoScreenshot({
             component: `Analyst application summary - approved status - ${role}`,
           });
         });
@@ -202,7 +202,7 @@ describe('The analyst application summary page', () => {
             '[data-testid="root_eventsAndDates_dateAgreementSigned-value"]'
           ).should('be.visible');
 
-          cy.get('body').happoScreenshot({
+          cy.stableHappoScreenshot({
             component: `Analyst application summary - approved no SOW - ${role}`,
           });
         });
@@ -227,7 +227,7 @@ describe('The analyst application summary page', () => {
           cy.get('svg[data-testid="InfoIcon"]').trigger('mouseover');
           cy.contains('The fields on this page are read-only');
 
-          cy.get('body').happoScreenshot({
+          cy.stableHappoScreenshot({
             component: `Analyst application summary - expand collapse - ${role}`,
           });
         });
@@ -267,7 +267,7 @@ describe('The analyst application summary page', () => {
           ).should('be.visible');
           cy.contains('Yes'); // announced should be true
 
-          cy.get('body').happoScreenshot({
+          cy.stableHappoScreenshot({
             component: `Analyst application summary - announced - ${role}`,
           });
         });
@@ -282,7 +282,7 @@ describe('The analyst application summary page', () => {
           ).should('be.visible');
           cy.contains('75%'); // from fixture overallMilestoneProgress: 0.75
 
-          cy.get('body').happoScreenshot({
+          cy.stableHappoScreenshot({
             component: `Analyst application summary - with milestones - ${role}`,
           });
         });

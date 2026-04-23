@@ -9,7 +9,7 @@ const testLoad = (screenShotTitle, setupFunction) => {
   setupFunction();
   cy.visit('/analyst/application/1/assessments/financial-risk');
   cy.contains('a', 'Financial Risk');
-  cy.get('body').happoScreenshot({
+  cy.stableHappoScreenshot({
     component: screenShotTitle,
   });
 };
@@ -19,7 +19,7 @@ describe('The analyst financial risk assessment page', () => {
     assessmentsSetup();
     cy.visit('/analyst/application/1/assessments/financial-risk');
     cy.contains('a', 'Financial Risk');
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
       component: 'Analyst financial risk assessment page',
     });
   });
@@ -57,7 +57,9 @@ describe('The analyst financial risk assessment page', () => {
     cy.contains('button', /^Save$/).click();
     cy.contains('button', 'Saved');
     cy.visit('/analyst/application/1/assessments/financial-risk');
-    cy.get('body').happoScreenshot({
+    cy.contains('a', 'Financial Risk');
+    cy.wait('@graphql');
+    cy.stableHappoScreenshot({
       component: 'Filled Analyst Financial Risk Assessment Page',
     });
   });

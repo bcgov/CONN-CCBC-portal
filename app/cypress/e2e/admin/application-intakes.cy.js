@@ -9,7 +9,7 @@ describe('The admin Application intakes page', () => {
   it('loads', () => {
     cy.visit('/analyst/admin/application-intakes');
     cy.contains('a', 'Application intakes');
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
       component: 'The admin Application intakes page',
     });
   });

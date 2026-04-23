@@ -23,7 +23,7 @@ describe('The RFI index page', () => {
       it('loads', () => {
         cy.visit('/analyst/application/1/rfi');
         cy.contains('h2', 'RFI');
-        cy.get('body').happoScreenshot({
+        cy.stableHappoScreenshot({
           component: `Empty Rfi Page - ${role}`,
         });
       });
@@ -43,12 +43,12 @@ describe('The RFI index page', () => {
         cy.get('input[id="root_rfiType-0"]').parent().click({ force: true });
         cy.contains('button', /^Save$/).click();
         cy.get('svg[data-icon="pen"]').should('exist');
-        cy.get('body').happoScreenshot({
+        cy.stableHappoScreenshot({
           component: `Saved RFI Index Page - ${role}`,
         });
         cy.get('svg[data-icon="pen"]').click();
         cy.get('[data-testid=file-test]').should('exist');
-        cy.get('body').happoScreenshot({
+        cy.stableHappoScreenshot({
           component: `Saved RFI Page - ${role}`,
         });
       });

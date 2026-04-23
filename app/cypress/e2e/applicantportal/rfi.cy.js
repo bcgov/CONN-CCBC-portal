@@ -15,6 +15,6 @@ describe('Rfi on Applicant side', () => {
     cy.visit('applicantportal/form/1/rfi/1');
     // check if the text rendered for the due date is there
     cy.contains('p', '2023-03-23').should('be.visible');
-    cy.get('body').happoScreenshot({ component: 'RFI Upload Page Blank' });
+    cy.stableHappoScreenshot({ component: 'RFI Upload Page Blank' });
   });
 });
