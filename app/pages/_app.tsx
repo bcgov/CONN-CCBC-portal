@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { Suspense, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import getConfig from 'next/config';
