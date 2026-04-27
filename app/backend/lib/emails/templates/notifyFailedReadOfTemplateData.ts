@@ -1,4 +1,3 @@
-import getConfig from 'next/config';
 import {
   EmailTemplate,
   EmailTemplateProvider,
@@ -18,7 +17,7 @@ const notifyFailedReadOfTemplateData: EmailTemplateProvider = (
   initiator,
   params: EmailTemplateParams
 ): EmailTemplate => {
-  const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
+  const namespace = process.env.OPENSHIFT_APP_NAMESPACE;
   let env = 'Dev';
   if (namespace?.endsWith('-prod')) {
     env = 'Prod';

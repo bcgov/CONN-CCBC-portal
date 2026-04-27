@@ -1,13 +1,10 @@
 import React from 'react';
 import Head from 'next/head';
 import { Footer } from '@button-inc/bcgov-theme';
-import getConfig from 'next/config';
 import styled from 'styled-components';
 import FooterLinks from './FooterLinks';
 import Navigation from './Navigation';
 import TimeTravel from './TimeTravel';
-
-const runtimeConfig = getConfig()?.publicRuntimeConfig ?? {};
 
 const StyledFooter = styled(Footer)`
   width: 100%;
@@ -74,7 +71,8 @@ const Layout: React.FC<Props> = ({
   title,
   provisionRightNav = false,
 }) => {
-  const enableTimeMachine = runtimeConfig.ENABLE_MOCK_TIME;
+  const enableTimeMachine =
+    process.env.NEXT_PUBLIC_ENABLE_MOCK_TIME === 'true';
   const isLoggedIn = session?.sub;
   return (
     <StyledLayout>

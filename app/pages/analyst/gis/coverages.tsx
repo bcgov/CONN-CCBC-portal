@@ -3,7 +3,6 @@ import { useMemo, useState } from 'react';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import styled from 'styled-components';
-import getConfig from 'next/config';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
 import { ButtonLink, Layout } from 'components';
@@ -41,9 +40,9 @@ const getCoveragesQuery = graphql`
   }
 `;
 
-const {
-  publicRuntimeConfig: { COVERAGES_FILE_NAME },
-} = getConfig();
+const COVERAGES_FILE_NAME =
+  process.env.NEXT_PUBLIC_COVERAGES_FILE_NAME ||
+  'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip';
 
 const CBC_COVERAGE_FILE_NAME = 'CBC_Coverage.zip';
 
