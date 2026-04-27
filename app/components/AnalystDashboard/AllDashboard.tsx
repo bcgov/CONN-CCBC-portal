@@ -30,7 +30,7 @@ import StatusInformationIcon from 'components/Analyst/StatusInformationIcon';
 import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
 import { Box, IconButton, MenuItem, TableCellProps } from '@mui/material';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import getConfig from 'next/config';
 import { DateTime } from 'luxon';
 import { useToast } from 'components/AppProvider';
@@ -308,11 +308,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
-  const showLeadFeatureFlag = useFeature('show_lead').value ?? false;
-  const showCbcProjects = useFeature('show_cbc_projects').value ?? false;
+  const showLeadFeatureFlag = useDeferredFeature('show_lead');
+  const showCbcProjects = useDeferredFeature('show_cbc_projects');
   const showCbcProjectsLink = false;
-  const freezeHeader = useFeature('freeze_dashboard_header').value ?? false;
-  const enableGlobalFilter = useFeature('show_global_filter').value ?? false;
+  const freezeHeader = useDeferredFeature('freeze_dashboard_header');
+  const enableGlobalFilter = useDeferredFeature('show_global_filter');
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
     { Lead: false, program: false }
   );

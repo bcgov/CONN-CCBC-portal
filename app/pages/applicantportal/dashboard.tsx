@@ -5,7 +5,7 @@ import { usePreloadedQuery, graphql } from 'react-relay';
 import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import styled from 'styled-components';
 import Link from '@button-inc/bcgov-theme/Link';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import StyledGovButton from 'components/StyledGovButton';
 import { useCreateApplicationMutation } from 'schema/mutations/application/createApplication';
@@ -100,7 +100,7 @@ const Dashboard = ({
     ? `Intake ${openIntake.ccbcIntakeNumber}`
     : 'The intake';
 
-  const isInternalIntakeEnabled = useFeature('internal_intake').value ?? false;
+  const isInternalIntakeEnabled = useDeferredFeature('internal_intake');
   const [isApplicationCreated, setIsApplicationCreated] = useState(false);
 
   // Disable intake if user does not have access to invite only intake
@@ -149,9 +149,9 @@ const Dashboard = ({
     }
   };
 
-  const openIntakeBanner = useFeature('open_intake_alert').value || {};
-  const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
-  const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
+  const openIntakeBanner = useDeferredFeature('open_intake_alert', {});
+  const closedIntakeBanner = useDeferredFeature('closed_intake_alert', {});
+  const showSubtractedTime = useDeferredFeature('show_subtracted_time', 0);
 
   return (
     <Layout session={session} title="Connecting Communities BC">

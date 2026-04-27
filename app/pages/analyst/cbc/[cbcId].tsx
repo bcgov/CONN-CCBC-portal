@@ -13,7 +13,7 @@ import { useUpdateCbcDataAndInsertChangeRequest } from 'schema/mutations/cbc/upd
 import review from 'formSchema/analyst/cbc/review';
 import reviewUiSchema from 'formSchema/uiSchema/cbc/reviewUiSchema';
 import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import CbcTheme from 'components/Analyst/CBC/CbcTheme';
 import {
   createCbcSchemaData,
@@ -115,13 +115,7 @@ const Cbc = ({
   const isCbcAdmin =
     query.session.authRole === 'cbc_admin' ||
     query.session.authRole === 'super_admin';
-  const editFeatureFlag = useFeature('show_cbc_edit').value ?? false;
-  // Defer the feature flag so the initial render matches SSR (where
-  // GrowthBook features aren't loaded yet and default to false).
-  const [editFeatureEnabled, setEditFeatureEnabled] = useState(false);
-  useEffect(() => {
-    setEditFeatureEnabled(editFeatureFlag);
-  }, [editFeatureFlag]);
+  const editFeatureEnabled = useDeferredFeature('show_cbc_edit');
   const { session } = query;
 
   const [toggleOverrideReadOnly, setToggleExpandOrCollapseAllReadOnly] =

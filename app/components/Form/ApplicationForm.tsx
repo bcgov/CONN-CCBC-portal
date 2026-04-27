@@ -16,7 +16,7 @@ import { updateApplicationFormMutation } from '__generated__/updateApplicationFo
 import { useUpdateApplicationForm } from 'schema/mutations/application/updateApplicationForm';
 import verifyFormFields from 'utils/verifyFormFields';
 import ReviewField from 'components/Review/ReviewPageField';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import { applicantBenefits as applicantBenefitsSchema } from 'formSchema/pages';
 import { applicantBenefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
@@ -223,12 +223,9 @@ const ApplicationForm: React.FC<Props> = ({
     query
   );
 
-  const draftAppsUseLatestSchema = useFeature('draft_apps_use_latest_schema');
-  const forceLatestSchema =
-    draftAppsUseLatestSchema?.value &&
-    typeof draftAppsUseLatestSchema.value === 'boolean'
-      ? draftAppsUseLatestSchema?.value
-      : null;
+  const forceLatestSchema = useDeferredFeature(
+    'draft_apps_use_latest_schema'
+  ) || null;
   const { openIntake, allIntakes, session } = applicationFormQuery;
   const latestJsonSchema = applicationFormQuery.allForms.nodes[0].jsonSchema;
   const latestFormSchemaId = applicationFormQuery.allForms.nodes[0].rowId;
