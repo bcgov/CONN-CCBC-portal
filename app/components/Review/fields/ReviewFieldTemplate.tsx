@@ -16,12 +16,12 @@ const StyledSpan = styled.span`
 `;
 
 interface StyledRowProps {
-  isSubField?: boolean;
+  $isSubField?: boolean;
 }
 
 const StyledRow = styled.tr<StyledRowProps>`
   border-top: ${(props) =>
-    props.isSubField ? 'none' : '1px solid rgba(0, 0, 0, 0.16)'};
+    props.$isSubField ? 'none' : '1px solid rgba(0, 0, 0, 0.16)'};
 `;
 
 const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
@@ -82,7 +82,7 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
   return (
     <>
       {before}
-      <StyledRow isSubField={isSubField}>
+      <StyledRow $isSubField={isSubField}>
         {showTitle && title && (
           <StyledColLeft id={`${id}_title`}>
             {isSubField ? '\u2003\u2003> ' : ''}
@@ -91,10 +91,10 @@ const ReviewFieldTemplate: React.FC<FieldTemplateProps> = ({
         )}
         <StyledColRight
           data-testid={`${id}-value`}
-          hasError={hasError}
-          errorColor={errorColor}
-          errorTextColor={errorTextColor}
-          hideColLeft={hideTitleInEditMode}
+          $hasError={hasError}
+          $errorColor={errorColor}
+          $errorTextColor={errorTextColor}
+          $hideColLeft={hideTitleInEditMode}
         >
           {!showTitle && fieldTitle}
           {fallBackField && <StyledSpan>{fallBackField}</StyledSpan>}

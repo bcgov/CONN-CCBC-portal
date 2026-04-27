@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 interface AnimateProps {
-  isExpanded: boolean;
+  $isExpanded: boolean;
 }
 
 const StyledContainer = styled.div<AnimateProps>`
@@ -12,7 +12,7 @@ const StyledContainer = styled.div<AnimateProps>`
   width: 100%;
   position: relative;
   height: 100px;
-  max-height: ${({ isExpanded }) => (isExpanded ? '86px' : '70px')};
+  max-height: ${({ $isExpanded }) => ($isExpanded ? '86px' : '70px')};
   transition: max-height 0.4s;
 `;
 
@@ -44,7 +44,7 @@ const StyledTextArea = styled.textarea<AnimateProps>`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  max-height: ${({ isExpanded }) => (isExpanded ? '92px' : '20px')};
+  max-height: ${({ $isExpanded }) => ($isExpanded ? '92px' : '20px')};
   transition: max-height 0.4s;
 
   &:focus {
@@ -90,7 +90,7 @@ const InlineTextArea: React.FC<TextAreaProps> = ({
   };
 
   return (
-    <StyledContainer isExpanded={isEditing}>
+    <StyledContainer $isExpanded={isEditing}>
       {isEditing ? (
         <StyledTextArea
           ref={(ref) => ref && ref.focus()}
@@ -101,7 +101,7 @@ const InlineTextArea: React.FC<TextAreaProps> = ({
               e.currentTarget.value.length
             )
           }
-          isExpanded={isEditing}
+          $isExpanded={isEditing}
           autoFocus
           value={text}
           onChange={(e) => setText(e.target.value)}

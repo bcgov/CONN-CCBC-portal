@@ -23,7 +23,7 @@ const ArrayBooleanField: React.FC<FieldProps> = ({
           <tr key={item}>
             <StyledColLeft id={id}>{item}</StyledColLeft>
             {isError ? (
-              <StyledColRight id={`${id}-error`} hasError />
+              <StyledColRight id={`${id}-error`} $hasError />
             ) : (
               <StyledColRight id={`${id}-value`}>
                 {isValueTrue ? 'Yes' : 'No'}

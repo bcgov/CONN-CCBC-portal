@@ -35,16 +35,16 @@ const StyledContainer = styled.div`
 `;
 
 interface StyledInputWrapperProps {
-  errorColor?: string;
-  hasError?: boolean;
+  $errorColor?: string;
+  $hasError?: boolean;
 }
 
 const StyledInputWrapper = styled.div<StyledInputWrapperProps>`
   ${(props) =>
-    props.hasError &&
+    props.$hasError &&
     `
       position: relative;
-      background-color: ${props.errorColor};
+      background-color: ${props.$errorColor};
       padding: 8px;
       margin-bottom: 8px;
       max-width: calc(100% - 8px) !important;
@@ -96,7 +96,7 @@ const ProjectFieldTemplate: React.FC<FieldTemplateProps> = ({
       {!hidden && (
         <StyledContainer>
           {uiTitle && <StyledH4>{uiTitle}</StyledH4>}
-          <StyledInputWrapper errorColor={errorColor} hasError={showError}>
+          <StyledInputWrapper $errorColor={errorColor} $hasError={showError}>
             <div>{children}</div>
             {showError && (
               <Tooltip title={formContextErrors?.join()}>
