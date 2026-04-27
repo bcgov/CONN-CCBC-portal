@@ -16,7 +16,12 @@ begin
   where id = _milestone_id;
 
   -- archive the old milestone excel data
-  if exists (select * from ccbc_public.application_milestone_excel_data where id = _excel_data_id)
+  if exists (
+    select *
+    from ccbc_public.application_milestone_excel_data
+    where id = _excel_data_id
+    and archived_at is null
+  )
     then update ccbc_public.application_milestone_excel_data
     set archived_at = now(), archived_by = user_id
     where id = _excel_data_id;
