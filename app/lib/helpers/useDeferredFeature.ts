@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useFeature } from '@growthbook/growthbook-react';
+import type { JSONValue } from '@growthbook/growthbook';
 
 /**
  * Wrapper around GrowthBook's `useFeature` that defers the value until after
@@ -7,7 +8,7 @@ import { useFeature } from '@growthbook/growthbook-react';
  * this returns `defaultValue` so the server and client trees are identical.
  * After mount the real feature-flag value is adopted.
  */
-export default function useDeferredFeature<T = boolean>(
+export default function useDeferredFeature<T extends JSONValue = boolean>(
   featureKey: string,
   defaultValue: T = false as unknown as T
 ): T {
@@ -15,7 +16,7 @@ export default function useDeferredFeature<T = boolean>(
   const [deferred, setDeferred] = useState<T>(defaultValue);
 
   useEffect(() => {
-    setDeferred(value ?? defaultValue);
+    setDeferred((value as T) ?? defaultValue);
   }, [value, defaultValue]);
 
   return deferred;
