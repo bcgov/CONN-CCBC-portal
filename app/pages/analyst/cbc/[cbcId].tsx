@@ -115,7 +115,13 @@ const Cbc = ({
   const isCbcAdmin =
     query.session.authRole === 'cbc_admin' ||
     query.session.authRole === 'super_admin';
-  const editFeatureEnabled = useFeature('show_cbc_edit').value ?? false;
+  const editFeatureFlag = useFeature('show_cbc_edit').value ?? false;
+  // Defer the feature flag so the initial render matches SSR (where
+  // GrowthBook features aren't loaded yet and default to false).
+  const [editFeatureEnabled, setEditFeatureEnabled] = useState(false);
+  useEffect(() => {
+    setEditFeatureEnabled(editFeatureFlag);
+  }, [editFeatureFlag]);
   const { session } = query;
 
   const [toggleOverrideReadOnly, setToggleExpandOrCollapseAllReadOnly] =
@@ -198,9 +204,9 @@ const Cbc = ({
   const changeModal = useModal();
 
   const [recordLocked, setRecordLocked] = useState(false);
-  const [allowEdit, setAllowEdit] = useState(
-    isCbcAdmin && editFeatureEnabled && !recordLocked
-  );
+  // Initialize to false so SSR matches CSR (GrowthBook features aren't
+  // available on the server); the useEffect below syncs after mount.
+  const [allowEdit, setAllowEdit] = useState(false);
 
   const allCommunitiesSourceData = query.allCommunitiesSourceData.nodes;
 
