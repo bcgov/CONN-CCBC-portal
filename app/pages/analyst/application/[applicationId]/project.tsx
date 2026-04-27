@@ -7,7 +7,7 @@ import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
 import { projectQuery } from '__generated__/projectQuery.graphql';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import ConditionalApprovalForm from 'components/Analyst/Project/ConditionalApproval/ConditionalApprovalForm';
 import AnnouncementsForm from 'components/Analyst/Project/Announcements/AnnouncementsForm';
 import ProjectInformationForm from 'components/Analyst/Project/ProjectInformation/ProjectInformationForm';
@@ -64,14 +64,14 @@ const Project = ({
   const { applicationByRowId, session } = query;
   const { conditionalApproval, projectInformation } = applicationByRowId || {};
 
-  const showConditionalApproval = useFeature('show_conditional_approval').value;
-  const showAnnouncement = useFeature('show_announcement').value;
-  const showProjectInformation = useFeature('show_project_information').value;
-  const showCommunityProgressReport = useFeature(
+  const showConditionalApproval = useDeferredFeature('show_conditional_approval');
+  const showAnnouncement = useDeferredFeature('show_announcement');
+  const showProjectInformation = useDeferredFeature('show_project_information');
+  const showCommunityProgressReport = useDeferredFeature(
     'show_community_progress_report'
-  ).value;
-  const showClaims = useFeature('show_claims').value;
-  const showMilestones = useFeature('show_milestones').value;
+  );
+  const showClaims = useDeferredFeature('show_claims');
+  const showMilestones = useDeferredFeature('show_milestones');
 
   const today = DateTime.now().toFormat('yyyy-MM-dd');
   const date = cookie.get('mocks.mocked_date') || today;

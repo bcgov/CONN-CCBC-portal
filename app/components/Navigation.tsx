@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { BaseNavigation } from '@button-inc/bcgov-theme/Navigation';
 import { BaseHeader } from '@button-inc/bcgov-theme/Header';
@@ -6,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { IDP_HINTS, IDP_HINT_PARAM } from 'data/ssoConstants';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import SubHeader from './SubHeader';
 import NavLoginForm from './NavLoginForm';
 import HeaderBanner from './HeaderBanner';
@@ -56,18 +55,12 @@ interface Props {
 const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   const router = useRouter();
   const isApplicantPortal = router?.pathname.startsWith('/applicantportal');
-  const useNewHeader = useFeature('use_new_header').value;
-  const { value: banner } = useFeature('header-banner');
+  const useNewHeader = useDeferredFeature('use_new_header');
+  const banner = useDeferredFeature<any>('header-banner', null);
 
-  // GrowthBook features aren't available during SSR, so always start with the
-  // default logo to keep the server/client render identical, then swap after mount.
-  const defaultLogo = '/icons/BCID_CC_RGB_rev.svg';
-  const [logoSrc, setLogoSrc] = useState(defaultLogo);
-  useEffect(() => {
-    setLogoSrc(
-      useNewHeader ? '/icons/connectivity_portal.svg' : defaultLogo
-    );
-  }, [useNewHeader]);
+  const logoSrc = useNewHeader
+    ? '/icons/connectivity_portal.svg'
+    : '/icons/BCID_CC_RGB_rev.svg';
 
   const action = `/api/login/${IDP_HINT_PARAM}=${IDP_HINTS['IDIR']}`;
 

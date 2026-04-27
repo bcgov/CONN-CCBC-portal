@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import statusStyles from 'data/statusStyles';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
 import { diff } from 'json-diff';
 import { processArrayDiff } from 'components/DiffTable';
@@ -86,7 +86,7 @@ const HistoryContent = ({
     op,
     mergeChildren,
   } = historyItem;
-  const showHistoryDetails = useFeature('show_history_details').value;
+  const showHistoryDetails = useDeferredFeature('show_history_details');
   const isAnalyst = sessionSub.includes('idir') || externalAnalyst;
   const fullName = `${givenName} ${familyName}`;
   const displayName = isAnalyst ? fullName : 'The applicant';

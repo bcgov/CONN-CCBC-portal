@@ -1,5 +1,5 @@
 import { FieldProps } from '@rjsf/utils';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import Description from '../components/Description';
 
@@ -17,7 +17,7 @@ const SubmissionField: React.FC<FieldProps> = (props) => {
     registry,
   } = props;
 
-  const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
+  const showSubtractedTime = useDeferredFeature('show_subtracted_time', 0);
 
   // Remove the title so it isn't rendered twice.
   const submissionSchemaWithoutTitle = { ...schema };

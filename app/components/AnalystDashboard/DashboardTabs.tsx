@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 
 interface LinkProps {
   $isAdmin: boolean;
@@ -42,8 +42,8 @@ const DashboardTabs = ({ session }) => {
   const { authRole } = queryFragment;
   const isAdmin = authRole === 'ccbc_admin' || authRole === 'super_admin';
   const router = useRouter();
-  const showGisUpload = useFeature('show_gis_upload').value;
-  const showReporting = useFeature('show_reporting').value;
+  const showGisUpload = useDeferredFeature('show_gis_upload');
+  const showReporting = useDeferredFeature('show_reporting');
   return (
     <StyledNav>
       <StyledLink

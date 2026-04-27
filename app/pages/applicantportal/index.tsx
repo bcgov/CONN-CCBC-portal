@@ -1,7 +1,7 @@
 import type { NextPageContext } from 'next';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
 import { useMemo } from 'react';
@@ -78,9 +78,9 @@ const Home = ({
   );
   // const isRollingIntake = openIntake?.rollingIntake || false;
 
-  const openIntakeBanner = useFeature('open_intake_alert').value || {};
-  const closedIntakeBanner = useFeature('closed_intake_alert').value || {};
-  const showSubtractedTime = useFeature('show_subtracted_time').value || 0;
+  const openIntakeBanner = useDeferredFeature('open_intake_alert', {});
+  const closedIntakeBanner = useDeferredFeature('closed_intake_alert', {});
+  const showSubtractedTime = useDeferredFeature('show_subtracted_time', 0);
 
   const intakeCalloutChildren = useMemo(() => {
     if (!openIntake)

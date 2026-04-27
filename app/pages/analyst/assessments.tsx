@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import {
   AssessmentAssignmentTable,
   DashboardTabs,
@@ -31,7 +31,7 @@ const Assessments = ({
   const query = usePreloadedQuery(getAssessmentsTableQuery, preloadedQuery);
   const { session } = query;
 
-  const showTable = useFeature('show_assessment_assignment_table').value;
+  const showTable = useDeferredFeature('show_assessment_assignment_table');
   return (
     <Layout
       session={session}

@@ -3,7 +3,7 @@ import { graphql, useFragment } from 'react-relay';
 import AssignLead from 'components/Analyst/AssignLead';
 import AssignPackage from 'components/Analyst/AssignPackage';
 import ChangeStatus from 'components/Analyst/ChangeStatus';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import EditProjectDescription from './EditProjectDescription';
 import StatusInformationIcon from './StatusInformationIcon';
 import AssignProjectType from './AssignProjectType';
@@ -223,7 +223,7 @@ const ApplicationHeader: React.FC<Props> = ({ query }) => {
 
   const allMergeParentOptions = [...allParentApplications, ...allCbcProjects];
 
-  const showLead = useFeature('show_lead').value;
+  const showLead = useDeferredFeature('show_lead');
   const isInternalIntake = intakeNumber === 99;
 
   if (isInternalIntake) {
