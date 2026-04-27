@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import React, { Suspense, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import getConfig from 'next/config';
 import { ThemeProvider } from '@mui/material';
 import theme from 'styles/muiTheme';
 import { RelayEnvironmentProvider } from 'react-relay';
@@ -24,7 +25,8 @@ config.autoAddCss = false;
 
 const growthbook = new GrowthBook();
 
-const growthbookApiKey = process.env.NEXT_PUBLIC_GROWTHBOOK_API_KEY ?? '';
+const { publicRuntimeConfig } = getConfig();
+const growthbookApiKey = publicRuntimeConfig.NEXT_PUBLIC_GROWTHBOOK_API_KEY;
 // Using convict to declare it but using nextjs public env due to convict fs import
 const growthbookUrl = growthbookApiKey
   ? `https://cdn.growthbook.io/api/features/${growthbookApiKey}`

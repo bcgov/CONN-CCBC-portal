@@ -1,3 +1,4 @@
+import getConfig from 'next/config';
 import getAuthRole from '../../../utils/getAuthRole';
 import getAuthUser from '../../../utils/getAuthUser';
 import getAccessToken from '../ches/getAccessToken';
@@ -52,7 +53,7 @@ const isAuthorized = (authRole: any) => {
 };
 
 const isProd = () => {
-  const namespace = process.env.OPENSHIFT_APP_NAMESPACE;
+  const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
   return namespace?.endsWith('-prod');
 };
 

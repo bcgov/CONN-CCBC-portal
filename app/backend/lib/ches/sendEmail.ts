@@ -1,3 +1,4 @@
+import getConfig from 'next/config';
 import config from '../../../config';
 import toTitleCase from '../../../utils/formatString';
 import { recordEmailRecord } from '../emails/utils/emailRecord';
@@ -22,7 +23,7 @@ const sendEmail = async (
   req: any = null,
   applicationId: number | null = null
 ) => {
-  const namespace = process.env.OPENSHIFT_APP_NAMESPACE;
+  const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
   const environment = toTitleCase(namespace?.split('-')[1] || '');
   try {
     const request = {
