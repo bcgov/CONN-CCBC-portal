@@ -2,6 +2,7 @@ import type { NextPageContext } from 'next';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import useDeferredFeature from 'lib/helpers/useDeferredFeature';
+import type { JSONValue } from '@growthbook/growthbook';
 import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
 import { useMemo } from 'react';
@@ -10,6 +11,13 @@ import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import { ButtonLink, DynamicAlert, Layout, LoginForm } from '../../components';
 import defaultRelayOptions from '../../lib/relay/withRelayOptions';
 import { applicantportalQuery } from '../../__generated__/applicantportalQuery.graphql';
+
+interface IntakeBanner {
+  text?: string;
+  variant?: string;
+  displayOpenDate?: boolean;
+  [key: string]: JSONValue | undefined;
+}
 
 const StyledOl = styled('ol')`
   max-width: 300px;
@@ -78,8 +86,14 @@ const Home = ({
   );
   // const isRollingIntake = openIntake?.rollingIntake || false;
 
-  const openIntakeBanner = useDeferredFeature('open_intake_alert', {});
-  const closedIntakeBanner = useDeferredFeature('closed_intake_alert', {});
+  const openIntakeBanner = useDeferredFeature<IntakeBanner>(
+    'open_intake_alert',
+    {}
+  );
+  const closedIntakeBanner = useDeferredFeature<IntakeBanner>(
+    'closed_intake_alert',
+    {}
+  );
   const showSubtractedTime = useDeferredFeature('show_subtracted_time', 0);
 
   const intakeCalloutChildren = useMemo(() => {
