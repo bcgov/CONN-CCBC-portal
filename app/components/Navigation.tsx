@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { BaseNavigation } from '@button-inc/bcgov-theme/Navigation';
 import { BaseHeader } from '@button-inc/bcgov-theme/Header';
@@ -58,6 +59,16 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   const useNewHeader = useFeature('use_new_header').value;
   const { value: banner } = useFeature('header-banner');
 
+  // GrowthBook features aren't available during SSR, so always start with the
+  // default logo to keep the server/client render identical, then swap after mount.
+  const defaultLogo = '/icons/BCID_CC_RGB_rev.svg';
+  const [logoSrc, setLogoSrc] = useState(defaultLogo);
+  useEffect(() => {
+    setLogoSrc(
+      useNewHeader ? '/icons/connectivity_portal.svg' : defaultLogo
+    );
+  }, [useNewHeader]);
+
   const action = `/api/login/${IDP_HINT_PARAM}=${IDP_HINTS['IDIR']}`;
 
   return (
@@ -76,11 +87,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
               <Image
                 style={{ cursor: 'pointer', marginBottom: 0 }}
                 priority
-                src={
-                  useNewHeader
-                    ? '/icons/connectivity_portal.svg'
-                    : '/icons/BCID_CC_RGB_rev.svg'
-                }
+                src={logoSrc}
                 alt="Logo for Province of British Columbia Connected Communities"
                 height={100}
                 width={300}

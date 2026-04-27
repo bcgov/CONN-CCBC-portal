@@ -5,21 +5,21 @@ import styled from 'styled-components';
 import { useFeature } from '@growthbook/growthbook-react';
 
 interface LinkProps {
-  isAdmin: boolean;
-  selected: boolean;
+  $isAdmin: boolean;
+  $selected: boolean;
 }
 
 const StyledLink = styled(Link)<LinkProps>`
   text-decoration: none;
-  font-weight: ${(props) => (props.selected ? 700 : 400)};
+  font-weight: ${(props) => (props.$selected ? 700 : 400)};
   font-size: 32px;
-  color: ${(props) => (props.selected ? props.theme.color.text : '#9B9B9B')};
+  color: ${(props) => (props.$selected ? props.theme.color.text : '#9B9B9B')};
   padding: 0px 16px;
   border-bottom: ${(props) =>
-    props.selected && props.isAdmin ? '2px solid #000000' : 'none'};
+    props.$selected && props.$isAdmin ? '2px solid #000000' : 'none'};
 
   &:hover {
-    opacity: ${(props) => (props.selected ? `1` : `0.6`)};
+    opacity: ${(props) => (props.$selected ? `1` : `0.6`)};
   }
 `;
 
@@ -49,8 +49,8 @@ const DashboardTabs = ({ session }) => {
       <StyledLink
         href="/analyst/dashboard"
         passHref
-        isAdmin={isAdmin}
-        selected={
+        $isAdmin={isAdmin}
+        $selected={
           router?.pathname.startsWith('/analyst/dashboard') ||
           router?.pathname.startsWith('/analyst/assessments') ||
           router?.pathname.startsWith('/analyst/change-log')
@@ -62,8 +62,8 @@ const DashboardTabs = ({ session }) => {
         <StyledLink
           href="/analyst/admin/download-attachments"
           passHref
-          isAdmin={isAdmin}
-          selected={router?.pathname.startsWith('/analyst/admin')}
+          $isAdmin={isAdmin}
+          $selected={router?.pathname.startsWith('/analyst/admin')}
         >
           Administrative
         </StyledLink>
@@ -72,8 +72,8 @@ const DashboardTabs = ({ session }) => {
         <StyledLink
           href="/analyst/gis"
           passHref
-          isAdmin={isAdmin}
-          selected={router?.pathname.startsWith('/analyst/gis')}
+          $isAdmin={isAdmin}
+          $selected={router?.pathname.startsWith('/analyst/gis')}
         >
           GIS
         </StyledLink>
@@ -82,8 +82,8 @@ const DashboardTabs = ({ session }) => {
         <StyledLink
           href="/analyst/reporting/gcpe"
           passHref
-          isAdmin={isAdmin}
-          selected={router?.pathname.startsWith('/analyst/reporting')}
+          $isAdmin={isAdmin}
+          $selected={router?.pathname.startsWith('/analyst/reporting')}
         >
           Reporting
         </StyledLink>
