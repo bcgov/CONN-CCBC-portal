@@ -25,7 +25,7 @@ const ReviewInlineArrayField: React.FC<FieldProps> = ({
       <StyledColLeft id={id}>{schema.title}</StyledColLeft>
       <StyledColRight
         id={hasError ? `${id}-error` : `${id}-value`}
-        hasError={hasError}
+        $hasError={hasError}
       >
         {hasError
           ? null
