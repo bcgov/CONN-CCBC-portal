@@ -1,3 +1,4 @@
+import getConfig from 'next/config';
 import config from '../../../config';
 import toTitleCase from '../../../utils/formatString';
 import { reportServerError } from '../emails/errorNotification';
@@ -20,7 +21,7 @@ const sendEmailMerge = async (
   subject: string,
   contexts: Contexts
 ) => {
-  const namespace = process.env.OPENSHIFT_APP_NAMESPACE;
+  const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
   const environment = toTitleCase(namespace?.split('-')[1] || 'Dev');
   try {
     const request = {

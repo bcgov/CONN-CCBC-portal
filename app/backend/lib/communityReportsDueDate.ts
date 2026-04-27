@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import RateLimit from 'express-rate-limit';
+import getConfig from 'next/config';
 import getAuthRole from '../../utils/getAuthRole';
 import { performQuery } from './graphql';
 import handleEmailNotification from './emails/handleEmailNotification';
@@ -32,7 +33,8 @@ function getNextQuarterStartDate(today: Date): Date {
 }
 
 const processCommunityReportsDueDates = async (req, res) => {
-  const isEnabledTimeMachine = process.env.ENABLE_MOCK_TIME === 'true';
+  const runtimeConfig = getConfig()?.publicRuntimeConfig ?? {};
+  const isEnabledTimeMachine = runtimeConfig.ENABLE_MOCK_TIME;
   // GraphQL query to get all milestones with archivedAt: null
   const sowCommunityProgressQuery = `
     query MilestoneDatesQuery {

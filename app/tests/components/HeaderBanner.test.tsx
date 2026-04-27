@@ -2,13 +2,12 @@ import { render, screen } from '@testing-library/react';
 import HeaderBanner from 'components/HeaderBanner';
 import GlobalTheme from 'styles/GlobalTheme';
 
-beforeEach(() => {
-  process.env.NEXT_PUBLIC_OPENSHIFT_APP_NAMESPACE = 'environment-dev';
-});
-
-afterEach(() => {
-  delete process.env.NEXT_PUBLIC_OPENSHIFT_APP_NAMESPACE;
-});
+const mockOpenshiftNamespace = jest.fn(() => 'environment-dev');
+jest.mock('next/config', () => () => ({
+  publicRuntimeConfig: {
+    OPENSHIFT_APP_NAMESPACE: mockOpenshiftNamespace(),
+  },
+}));
 
 const renderStaticLayout = (
   environmentIndicator = false,
@@ -60,7 +59,7 @@ describe('The Header Banner component', () => {
   });
 
   test('does not display environment indicator content for prod environment', () => {
-    process.env.NEXT_PUBLIC_OPENSHIFT_APP_NAMESPACE = 'environment-prod';
+    mockOpenshiftNamespace.mockImplementationOnce(() => 'environment-prod');
     renderStaticLayout(true);
     expect(
       screen.queryByText(/Connecting Communities BC portal/)
@@ -68,7 +67,7 @@ describe('The Header Banner component', () => {
   });
 
   test('displays correct environment indicator content for test environment', () => {
-    process.env.NEXT_PUBLIC_OPENSHIFT_APP_NAMESPACE = 'environment-test';
+    mockOpenshiftNamespace.mockImplementationOnce(() => 'environment-test');
     renderStaticLayout(true);
     expect(screen.getByText(/Test environment/)).toBeInTheDocument();
   });

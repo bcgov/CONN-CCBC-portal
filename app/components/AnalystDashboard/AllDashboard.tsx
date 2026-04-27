@@ -31,6 +31,7 @@ import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
 import { Box, IconButton, MenuItem, TableCellProps } from '@mui/material';
 import useDeferredFeature from 'lib/helpers/useDeferredFeature';
+import getConfig from 'next/config';
 import { DateTime } from 'luxon';
 import { useToast } from 'components/AppProvider';
 import { useRouter } from 'next/router';
@@ -304,7 +305,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];
   const enableTimeMachine =
-    process.env.NEXT_PUBLIC_ENABLE_MOCK_TIME === 'true';
+    getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const showLeadFeatureFlag = useDeferredFeature('show_lead');
