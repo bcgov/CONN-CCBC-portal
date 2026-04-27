@@ -32,17 +32,7 @@ const growthbookUrl = growthbookApiKey
   ? `https://cdn.growthbook.io/api/features/${growthbookApiKey}`
   : null;
 
-if (growthbookUrl) {
-  try {
-    await fetch(growthbookUrl)
-      .then((res) => res.json())
-      .then((res) => {
-        growthbook.setFeatures(res.features);
-      });
-  } catch (err) {
-    reportClientError(err, { source: 'growthbook-bootstrap' });
-  }
-} else {
+if (!growthbookUrl) {
   // Visible in server logs (e.g. Docker) and browser console; reportClientError is browser-only.
   console.warn(
     '[GrowthBook] NEXT_PUBLIC_GROWTHBOOK_API_KEY is not set; feature flags disabled'

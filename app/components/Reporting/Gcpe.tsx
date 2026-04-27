@@ -7,6 +7,10 @@ import styled from 'styled-components';
 import LoadingSpinner from 'components/LoadingSpinner';
 import reportClientError from 'lib/helpers/reportClientError';
 
+const StyledH2 = styled.h2`
+  margin-top: 12px;
+`;
+
 const formatReportDate = (date) =>
   DateTime.fromISO(date)
     .setZone('America/Los_Angeles')
@@ -97,10 +101,6 @@ const Gcpe = ({ reportList, session }) => {
     reportClientError(error, { source: 'gcpe-reporting' });
     showToast('An error occurred. Please try again.', 'error', 15000);
   };
-
-  const StyledH2 = styled.h2`
-    margin-top: 12px;
-  `;
 
   return (
     <div>
