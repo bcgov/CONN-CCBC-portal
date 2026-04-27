@@ -253,9 +253,13 @@ const Summary = ({
   const { section: toggledSection } = router.query;
   const showMap = useFeature('show_summary_map').value;
   const [mapData, setMapData] = useState(null);
-  const [isMapExpanded, setIsMapExpanded] = useState(
-    cookie.get('map_expanded') === 'true'
-  );
+  // Initialize to false to match SSR (where document.cookie is unavailable),
+  // then sync from the cookie after mount to avoid a hydration mismatch that
+  // would change the order of accordion sections (Map vs first review section).
+  const [isMapExpanded, setIsMapExpanded] = useState(false);
+  useEffect(() => {
+    setIsMapExpanded(cookie.get('map_expanded') === 'true');
+  }, []);
   const query = usePreloadedQuery(getSummaryQuery, preloadedQuery);
   const {
     applicationByRowId,

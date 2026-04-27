@@ -61,7 +61,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   const action = `/api/login/${IDP_HINT_PARAM}=${IDP_HINTS['IDIR']}`;
 
   return (
-    <StyledBaseNavigation>
+    <StyledBaseNavigation id="ccbc-main-navigation">
       {banner && (
         <HeaderBanner
           type={banner.type}

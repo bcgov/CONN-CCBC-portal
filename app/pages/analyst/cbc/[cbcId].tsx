@@ -126,9 +126,13 @@ const Cbc = ({
   const [editMode, setEditMode] = useState(recent === 'true');
   const [changeReason, setChangeReason] = useState<null | string>(null);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
-  const [isMapExpanded, setIsMapExpanded] = useState(
-    cookie.get('map_expanded') === 'true'
-  );
+  // Initialize to false to match SSR (where document.cookie is unavailable),
+  // then sync from the cookie after mount to avoid a hydration mismatch that
+  // would change the order of accordion sections (Map vs Tombstone).
+  const [isMapExpanded, setIsMapExpanded] = useState(false);
+  useEffect(() => {
+    setIsMapExpanded(cookie.get('map_expanded') === 'true');
+  }, []);
   const [mapData, setMapData] = useState(null);
   const [cbcMapJson, setCbcMapJson] = useState(null);
 
