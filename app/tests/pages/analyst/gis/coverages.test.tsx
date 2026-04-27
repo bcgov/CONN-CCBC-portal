@@ -2,12 +2,6 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('next/config', () => () => ({
-  publicRuntimeConfig: {
-    COVERAGES_FILE_NAME: 'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip',
-  },
-}));
-
 // eslint-disable-next-line import/first
 import coverages from 'pages/analyst/gis/coverages';
 

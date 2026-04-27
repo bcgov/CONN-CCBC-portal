@@ -47,12 +47,20 @@ const moduleExports = {
     resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
   },
 
-  publicRuntimeConfig: {
-    NEXT_PUBLIC_GROWTHBOOK_API_KEY: process.env.NEXT_PUBLIC_GROWTHBOOK_API_KEY,
-    ENABLE_MOCK_TIME: convictConfig.get('ENABLE_MOCK_TIME'),
-    OPENSHIFT_APP_NAMESPACE: convictConfig.get('OPENSHIFT_APP_NAMESPACE'),
-    SITEMINDER_LOGOUT_URL: convictConfig.get('SITEMINDER_LOGOUT_URL'),
-    COVERAGES_FILE_NAME: convictConfig.get('COVERAGES_FILE_NAME'),
+  // Expose server env vars to the client-side bundle.
+  // These are evaluated when `next build` runs (same point convict reads them).
+  env: {
+    NEXT_PUBLIC_GROWTHBOOK_API_KEY:
+      process.env.NEXT_PUBLIC_GROWTHBOOK_API_KEY ?? '',
+    NEXT_PUBLIC_ENABLE_MOCK_TIME: String(
+      convictConfig.get('ENABLE_MOCK_TIME') ?? false
+    ),
+    NEXT_PUBLIC_OPENSHIFT_APP_NAMESPACE:
+      convictConfig.get('OPENSHIFT_APP_NAMESPACE') ?? '',
+    NEXT_PUBLIC_SITEMINDER_LOGOUT_URL:
+      convictConfig.get('SITEMINDER_LOGOUT_URL') ?? '',
+    NEXT_PUBLIC_COVERAGES_FILE_NAME:
+      convictConfig.get('COVERAGES_FILE_NAME') ?? '',
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if

@@ -6,7 +6,6 @@ import request from 'supertest';
 import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
-import getConfig from 'next/config';
 import cookieParser from 'cookie-parser';
 import reportClientError from 'lib/helpers/reportClientError';
 import communityDueDate from '../../../backend/lib/communityReportsDueDate';
@@ -17,7 +16,6 @@ import getAuthRole from '../../../utils/getAuthRole';
 jest.mock('../../../backend/lib/graphql');
 jest.mock('../../../utils/getAuthRole');
 jest.mock('../../../backend/lib/emails/handleEmailNotification');
-jest.mock('next/config');
 
 jest.setTimeout(100000);
 
@@ -52,11 +50,7 @@ describe('The Community Progress Report api route', () => {
         landingRoute: '/',
       };
     });
-    mocked(getConfig).mockReturnValue({
-      publicRuntimeConfig: {
-        ENABLE_MOCK_TIME: true,
-      },
-    });
+    process.env.ENABLE_MOCK_TIME = 'true';
 
     mocked(performQuery).mockImplementation(async () => {
       return {
