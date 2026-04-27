@@ -6,12 +6,20 @@ import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import styled from 'styled-components';
 import Link from '@button-inc/bcgov-theme/Link';
 import useDeferredFeature from 'lib/helpers/useDeferredFeature';
+import type { JSONValue } from '@growthbook/growthbook';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import StyledGovButton from 'components/StyledGovButton';
 import { useCreateApplicationMutation } from 'schema/mutations/application/createApplication';
 import { DynamicAlert, Layout } from 'components';
 import { DashboardTable } from 'components/Dashboard';
 import { dashboardQuery } from '__generated__/dashboardQuery.graphql';
+
+interface IntakeBanner {
+  text?: string;
+  variant?: string;
+  displayOpenDate?: boolean;
+  [key: string]: JSONValue | undefined;
+}
 
 const getDashboardQuery = graphql`
   query dashboardQuery($formOwner: ApplicationCondition!, $code: String!) {
@@ -149,8 +157,14 @@ const Dashboard = ({
     }
   };
 
-  const openIntakeBanner = useDeferredFeature('open_intake_alert', {});
-  const closedIntakeBanner = useDeferredFeature('closed_intake_alert', {});
+  const openIntakeBanner = useDeferredFeature<IntakeBanner>(
+    'open_intake_alert',
+    {}
+  );
+  const closedIntakeBanner = useDeferredFeature<IntakeBanner>(
+    'closed_intake_alert',
+    {}
+  );
   const showSubtractedTime = useDeferredFeature('show_subtracted_time', 0);
 
   return (
