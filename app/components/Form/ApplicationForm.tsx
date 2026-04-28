@@ -307,7 +307,10 @@ const ApplicationForm: React.FC<Props> = ({
       jsonSchema: resolvedSchema,
       formSchemaId: baseFormSchemaId,
       finalUiSchema: resolvedFinalUiSchema,
-      sectionName: getSectionNameFromPageNumber(resolvedFinalUiSchema, pageNumber),
+      sectionName: getSectionNameFromPageNumber(
+        resolvedFinalUiSchema,
+        pageNumber
+      ) as string,
     };
   };
 
