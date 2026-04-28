@@ -40,10 +40,9 @@ describe('The applicant dashboard', () => {
       component: 'Dashboard Page',
     });
 
-    cy.findByRole('button', { name: /Create application/i }).should(
-      'not.be.disabled'
-    );
-    cy.findByRole('button', { name: /Create application/i }).click();
+    cy.findByRole('button', { name: /Create application/i })
+      .should('not.be.disabled')
+      .click();
 
     // Project information page
     cy.findByRole('heading', { name: /^Project information/i }).should('exist');
@@ -622,7 +621,12 @@ describe('The applicant dashboard', () => {
       clearHovers: false,
     });
 
-    cy.contains('a', 'View').click();
+    cy.contains('a', 'View')
+      .should('have.attr', 'href')
+      .invoke('attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
 
     // Project information page
     cy.url().should('include', '/applicantportal/form/');
