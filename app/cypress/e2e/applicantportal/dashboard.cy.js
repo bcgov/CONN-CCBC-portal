@@ -45,6 +45,14 @@ describe('The applicant dashboard', () => {
       .click();
 
     // Project information page
+    cy.url({ timeout: 15000 }).should(
+      'match',
+      /\/applicantportal\/form\/\d+\/1$/
+    );
+    cy.waitForElementStable('h1', {
+      timeout: 15000,
+      stabilityTime: 500,
+    });
     cy.findByRole('heading', { name: /^Project information/i }).should('exist');
     cy.get('[id="root_projectTitle"]');
 
@@ -623,13 +631,16 @@ describe('The applicant dashboard', () => {
 
     cy.contains('a', 'View')
       .should('have.attr', 'href')
-      .invoke('attr', 'href')
       .then((href) => {
         cy.visit(href);
       });
 
     // Project information page
     cy.url().should('include', '/applicantportal/form/');
+    cy.waitForElementStable('h1', {
+      timeout: 15000,
+      stabilityTime: 500,
+    });
     cy.findByRole('heading', { name: /^Project information/i }).should('exist');
 
     cy.get('[id="root_projectTitle"]').should('be.disabled');
