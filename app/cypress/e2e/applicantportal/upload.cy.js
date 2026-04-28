@@ -20,26 +20,18 @@ context('Homepage', () => {
     cy.contains('h1', 'Welcome');
 
     cy.contains('a', 'program details');
+    cy.contains('a', 'Go to dashboard')
+      .should('have.attr', 'href', '/applicantportal/dashboard');
 
-    // Todo: find a way around using these wait
-    cy.wait(4000);
-
-    cy.contains('button', 'Go to dashboard').click();
-
-    cy.url().should('contain', '/dashboard');
-
-    // Dashboard page
-    cy.contains('h1', 'Dashboard');
-    cy.contains('a', 'Edit').click();
-    cy.wait(2000);
-    cy.contains('a', 'Supporting documents').click();
-    cy.wait(2000);
+    cy.visit('/applicantportal/form/1/12');
+    cy.findByRole('heading', { name: /^Supporting documents/i }).should(
+      'exist'
+    );
 
     cy.get('[id="root_copiesOfRegistration-btn"]').click();
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('cypress/fixtures/doc.txt', { force: true });
-    cy.wait(2000);
     cy.contains('button', 'doc.txt');
   });
 
