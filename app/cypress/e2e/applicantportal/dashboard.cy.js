@@ -40,11 +40,24 @@ describe('The applicant dashboard', () => {
       component: 'Dashboard Page',
     });
 
+    cy.intercept('POST', '/graphql', (req) => {
+      if (req.body?.operationName === 'createApplicationMutation') {
+        req.alias = 'createApplicationMutation';
+      }
+    });
+
     cy.findByRole('button', { name: /Create application/i })
       .should('not.be.disabled')
       .click();
 
     // Project information page
+    cy.wait('@createApplicationMutation')
+      .its('response.body.data.createApplication.application.rowId')
+      .then((applicationId) => {
+        expect(applicationId).to.exist;
+        cy.visit(`/applicantportal/form/${applicationId}/1`);
+      });
+
     cy.url({ timeout: 15000 }).should(
       'match',
       /\/applicantportal\/form\/\d+\/1$/
