@@ -28,13 +28,38 @@ context('Homepage', () => {
       'exist'
     );
 
+    cy.intercept('POST', '/graphql', (req) => {
+      const body = req.body;
+      const createAttachmentRequestId = '952d8b3aa0c2b5d39021c0aa9d5768b4';
+
+      if (body?.id === createAttachmentRequestId) {
+        req.alias = 'createAttachmentMutation';
+        return;
+      }
+
+      if (typeof body === 'string' && body.includes(createAttachmentRequestId)) {
+        req.alias = 'createAttachmentMutation';
+        return;
+      }
+
+      if (body?.get && typeof body.get === 'function') {
+        const operations = body.get('operations');
+        if (
+          typeof operations === 'string' &&
+          operations.includes(createAttachmentRequestId)
+        ) {
+          req.alias = 'createAttachmentMutation';
+        }
+      }
+    });
+
     cy.get('[id="root_copiesOfRegistration-btn"]').click();
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('cypress/fixtures/doc.txt', { force: true });
-    cy.contains('[data-testid="file-download-link"]', 'doc.txt').should(
-      'exist'
-    );
+    cy.wait('@createAttachmentMutation')
+      .its('response.body.data.createAttachment.attachment.rowId')
+      .should('exist');
   });
 
   afterEach(function () {
