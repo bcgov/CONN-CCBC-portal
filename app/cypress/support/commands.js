@@ -32,13 +32,25 @@ Cypress.Commands.add('mockLogin', (roleName) => {
 Cypress.Commands.add('waitForStableUI', (options = {}) => {
   const { timeout = 10000, stabilityTimeout = 500 } = options;
 
+  // Hard cap so this command always settles. Continuous DOM mutations (e.g.
+  // feature flags hydrating via useDeferredFeature) can reset the debounced
+  // MutationObserver indefinitely and hit Cypress defaultCommandTimeout.
+  const absoluteMaxMs = Math.min(timeout, 12000);
+
   // Wait for any pending GraphQL requests
   cy.window().then((win) => {
     if (win.fetch) {
-      // Wait for any ongoing fetch requests to complete
       return new Cypress.Promise((resolve) => {
+        let done = false;
+        const settle = () => {
+          if (done) return;
+          done = true;
+          resolve();
+        };
+
         let pendingRequests = 0;
         const originalFetch = win.fetch;
+        const deadline = Date.now() + absoluteMaxMs;
 
         win.fetch = function (...args) {
           pendingRequests++;
@@ -47,32 +59,48 @@ Cypress.Commands.add('waitForStableUI', (options = {}) => {
           });
         };
 
-        // Check if requests are done every 100ms
         const checkComplete = () => {
+          if (done) return;
+          if (Date.now() >= deadline) {
+            win.fetch = originalFetch;
+            settle();
+            return;
+          }
           if (pendingRequests === 0) {
-            win.fetch = originalFetch; // Restore original fetch
-            setTimeout(resolve, stabilityTimeout); // Additional stability time
+            win.fetch = originalFetch;
+            setTimeout(settle, stabilityTimeout);
           } else {
             setTimeout(checkComplete, 100);
           }
         };
 
-        // Start checking after a small delay
         setTimeout(checkComplete, 100);
       });
     }
+    return undefined;
   });
 
   // Wait for DOM to be stable (no mutations for stabilityTimeout)
   cy.window().then((win) => {
     return new Cypress.Promise((resolve) => {
-      let timeoutId;
-      const observer = new win.MutationObserver(() => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-          observer.disconnect();
-          resolve();
-        }, stabilityTimeout);
+      let done = false;
+      let debounceId;
+      let observer;
+      /** Declared before `finish` — `finish` clears this timeout */
+      let absoluteCapId;
+
+      const finish = () => {
+        if (done) return;
+        done = true;
+        if (debounceId) clearTimeout(debounceId);
+        if (absoluteCapId != null) clearTimeout(absoluteCapId);
+        if (observer) observer.disconnect();
+        resolve();
+      };
+
+      observer = new win.MutationObserver(() => {
+        clearTimeout(debounceId);
+        debounceId = setTimeout(finish, stabilityTimeout);
       });
 
       observer.observe(win.document.body, {
@@ -84,11 +112,8 @@ Cypress.Commands.add('waitForStableUI', (options = {}) => {
         characterDataOldValue: true,
       });
 
-      // Initial timeout in case there are no mutations
-      timeoutId = setTimeout(() => {
-        observer.disconnect();
-        resolve();
-      }, stabilityTimeout);
+      debounceId = setTimeout(finish, stabilityTimeout);
+      absoluteCapId = setTimeout(finish, absoluteMaxMs);
     });
   });
 });
