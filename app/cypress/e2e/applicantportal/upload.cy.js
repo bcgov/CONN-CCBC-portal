@@ -32,7 +32,9 @@ context('Homepage', () => {
     cy.get('[data-testid=file-test]')
       .first()
       .selectFile('cypress/fixtures/doc.txt', { force: true });
-    cy.contains('button', 'doc.txt');
+    cy.contains('[data-testid="file-download-link"]', 'doc.txt').should(
+      'exist'
+    );
   });
 
   afterEach(function () {
