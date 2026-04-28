@@ -223,9 +223,14 @@ const ApplicationForm: React.FC<Props> = ({
     query
   );
 
-  const forceLatestSchema = useDeferredFeature(
+  const draftAppsUseLatestSchema = useDeferredFeature(
     'draft_apps_use_latest_schema'
-  ) || null;
+  );
+  // Only enable when GrowthBook returns an actual boolean true. Tests (and
+  // misconfigured flags) may return non-boolean truthy values from useFeature;
+  // those must not switch the form to the "latest schema" path.
+  const forceLatestSchema =
+    draftAppsUseLatestSchema === true ? true : null;
   const { openIntake, allIntakes, session } = applicationFormQuery;
   const latestJsonSchema = applicationFormQuery.allForms.nodes[0].jsonSchema;
   const latestFormSchemaId = applicationFormQuery.allForms.nodes[0].rowId;
