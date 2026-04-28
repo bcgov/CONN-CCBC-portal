@@ -48,10 +48,10 @@ const FormPage = ({
   const forceLatestSchema = useDeferredFeature('draft_apps_use_latest_schema');
   const { applicationByRowId, session } = query;
   const { status } = applicationByRowId;
-  const latestJsonSchema = query.allForms.nodes[0].jsonSchema;
+  const latestJsonSchema = query.allForms.nodes[0]?.jsonSchema;
   let jsonSchema: any;
   // eslint-disable-next-line no-self-compare
-  if (forceLatestSchema && status === 'draft') {
+  if (forceLatestSchema && status === 'draft' && latestJsonSchema) {
     jsonSchema = latestJsonSchema;
   } else {
     jsonSchema = applicationByRowId.formData.formByFormSchemaId.jsonSchema;

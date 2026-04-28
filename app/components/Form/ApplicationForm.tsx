@@ -232,8 +232,8 @@ const ApplicationForm: React.FC<Props> = ({
   const forceLatestSchema =
     draftAppsUseLatestSchema === true ? true : null;
   const { openIntake, allIntakes, session } = applicationFormQuery;
-  const latestJsonSchema = applicationFormQuery.allForms.nodes[0].jsonSchema;
-  const latestFormSchemaId = applicationFormQuery.allForms.nodes[0].rowId;
+  const latestJsonSchema = applicationFormQuery.allForms.nodes[0]?.jsonSchema;
+  const latestFormSchemaId = applicationFormQuery.allForms.nodes[0]?.rowId;
   const {
     rowId,
     formData: {
@@ -275,7 +275,7 @@ const ApplicationForm: React.FC<Props> = ({
   let formSchemaId: number;
   let finalUiSchema: any;
   // eslint-disable-next-line no-constant-condition, no-self-compare
-  if (forceLatestSchema && status === 'draft') {
+  if (forceLatestSchema && status === 'draft' && latestJsonSchema) {
     jsonSchema = latestJsonSchema;
     formSchemaId = latestFormSchemaId;
   } else {
@@ -413,7 +413,13 @@ const ApplicationForm: React.FC<Props> = ({
     jsonSchema as object
   );
 
-  const sectionSchema = jsonSchema.properties[sectionName] as RJSFSchema;
+  const sectionSchema = jsonSchema.properties?.[sectionName] as RJSFSchema;
+
+  // During the one-render transition when useDeferredFeature switches the schema,
+  // sectionName may not yet exist in the new schema's properties. Return null
+  // to skip that frame; React will re-render immediately with valid data.
+  if (!sectionSchema) return null;
+
   const isWithdrawn = status === 'withdrawn';
   const isSubmitted = status === 'submitted';
   const isSubmitPage = sectionName === 'submission';
