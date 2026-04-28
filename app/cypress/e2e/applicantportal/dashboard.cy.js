@@ -40,7 +40,9 @@ describe('The applicant dashboard', () => {
       component: 'Dashboard Page',
     });
 
-    cy.findByRole('button', { name: /Create application/i }).not('be.disabled');
+    cy.findByRole('button', { name: /Create application/i }).should(
+      'not.be.disabled'
+    );
     cy.findByRole('button', { name: /Create application/i }).click();
 
     // Project information page
@@ -623,6 +625,8 @@ describe('The applicant dashboard', () => {
     cy.contains('a', 'View').click();
 
     // Project information page
+    cy.url().should('include', '/applicantportal/form/');
+    cy.findByRole('heading', { name: /^Project information/i }).should('exist');
 
     cy.get('[id="root_projectTitle"]').should('be.disabled');
     cy.get('[id="root_geographicAreaDescription"]').should('be.disabled');
