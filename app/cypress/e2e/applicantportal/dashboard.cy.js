@@ -41,7 +41,10 @@ describe('The applicant dashboard', () => {
     });
 
     cy.intercept('POST', '/graphql', (req) => {
-      if (req.body?.operationName === 'createApplicationMutation') {
+      if (
+        req.body?.variables?.input &&
+        Object.prototype.hasOwnProperty.call(req.body.variables.input, 'code')
+      ) {
         req.alias = 'createApplicationMutation';
       }
     });
