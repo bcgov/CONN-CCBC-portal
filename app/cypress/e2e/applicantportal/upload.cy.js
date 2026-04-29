@@ -53,8 +53,8 @@ context('Homepage', () => {
       }
     });
 
-    cy.get('[id="root_copiesOfRegistration-btn"]').click();
     cy.get('[data-testid=file-test]')
+      .should('have.length.at.least', 1)
       .first()
       .selectFile('cypress/fixtures/doc.txt', { force: true });
     cy.wait('@createAttachmentMutation')
