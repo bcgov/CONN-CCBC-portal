@@ -1,3 +1,9 @@
+# [1.298.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.296.1...v1.298.0) (2026-04-29)
+
+### Features
+
+- add 27-29 fiscals, handle past fiscals ([c86f37d](https://github.com/bcgov/CONN-CCBC-portal/commit/c86f37dff96154c2a3b0a5422b7807e8857172d8))
+
 # [1.297.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.296.1...v1.297.0) (2026-04-28)
 
 ### Features
