@@ -1064,14 +1064,18 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         );
 
       if (targetRowIndex !== -1) {
-        setTimeout(() => {
-          // accounting for detail panels hence *2
-          rowVirtualizerInstanceRef.current?.scrollToIndex(targetRowIndex * 2, {
+        const rowCount = table.getSortedRowModel().rows?.length ?? 0;
+        const safeTargetRowIndex = Math.min(targetRowIndex, rowCount - 1);
+
+        const timeoutId = setTimeout(() => {
+          rowVirtualizerInstanceRef.current?.scrollToIndex(safeTargetRowIndex, {
             align: 'center',
           });
           console.timeEnd('[AllDashboardTable] scrollToLastVisited');
           /* ---- END DEGUG ---- */
         }, 0);
+
+        return () => clearTimeout(timeoutId);
       } else {
         console.timeEnd('[AllDashboardTable] scrollToLastVisited');
         /* ---- END DEGUG ---- */
