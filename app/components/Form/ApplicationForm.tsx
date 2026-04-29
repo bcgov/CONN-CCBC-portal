@@ -491,7 +491,7 @@ const ApplicationForm: React.FC<Props> = ({
     return 'pre-submitted';
   };
 
-  const isSubmitEnabled = useMemo(() => {
+  const isSubmitEnabled = (() => {
     if (isUpdating) return false;
 
     if (isWithdrawn) return false;
@@ -514,20 +514,7 @@ const ApplicationForm: React.FC<Props> = ({
       );
 
     return true;
-  }, [
-    sectionName,
-    noErrors,
-    areAllAcknowledgementsChecked,
-    areAllSubmissionFieldsSet,
-    isWithdrawn,
-    jsonData,
-    isSubmitted,
-    isApplicationEditable,
-    isAcknowledgeIncomplete,
-    isUpdating,
-    isProjectAreaInvalid,
-    isProjectAreaSelected,
-  ]);
+  })();
 
   if (subschemaArray.length < pageNumber) {
     // Todo: proper 404
