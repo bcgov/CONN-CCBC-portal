@@ -14,8 +14,9 @@ const headersMiddleware = () => {
       res.append('X-Robots-Tag', 'noindex, noimageindex, nofollow, noarchive');
     }
 
-    // https://www.zaproxy.org/docs/alerts/10063-1/
-    res.append('Permissions-Policy', "display-capture 'none'");
+    // Structured Permissions-Policy syntax (not Feature-Policy `'none'` strings).
+    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy
+    res.append('Permissions-Policy', 'display-capture=()');
 
     helmetMiddleware(req, res, next);
   };

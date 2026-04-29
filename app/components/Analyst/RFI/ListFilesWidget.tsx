@@ -1,7 +1,7 @@
 import { WidgetProps } from '@rjsf/utils';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import { AddButton } from '../Project';
 import TemplateDescription from './TemplateDescription';
 
@@ -43,7 +43,7 @@ const ListFilesWidget: React.FC<WidgetProps> = ({
   value,
   uiSchema,
 }) => {
-  const showRfiUpload = useFeature('show_analyst_rfi_upload').value;
+  const showRfiUpload = useDeferredFeature('show_analyst_rfi_upload');
   const router = useRouter();
   const isFiles = value?.length > 0;
   const templateNumber =

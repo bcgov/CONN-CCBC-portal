@@ -167,7 +167,7 @@ const Intake: React.FC<IntakeProps> = ({
   const isAllowedDelete = currentDateTime <= startDateTime;
   const isAllowedEdit = currentDateTime <= endDateTime;
   const hiddenIntakeLink =
-    origin && hiddenCode
+    typeof window !== 'undefined' && hiddenCode
       ? `${window.location.origin}/api/intake?code=${hiddenCode}`
       : null;
 

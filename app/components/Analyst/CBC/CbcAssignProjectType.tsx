@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
 import styled from 'styled-components';
@@ -42,8 +42,12 @@ const CbcAssignProjectType: React.FC<Props> = ({ cbc, isHeaderEditable }) => {
   );
   const { rowId, jsonData } =
     queryFragment?.cbcDataByCbcId?.edges[0].node || {};
-  const [projectType, setProjectType] = useState(jsonData?.projectType);
+  const [projectType, setProjectType] = useState(jsonData?.projectType ?? '');
   const [updateStatus] = useUpdateCbcDataByRowIdMutation();
+
+  useEffect(() => {
+    setProjectType(jsonData?.projectType ?? '');
+  }, [jsonData?.projectType]);
 
   const handleAssignProjectType = (e: any) => {
     const newProjectType = e.target.value || null;
@@ -74,20 +78,21 @@ const CbcAssignProjectType: React.FC<Props> = ({ cbc, isHeaderEditable }) => {
     'Last-Mile & Cellular',
     'Cellular',
   ];
+  const selectValue =
+    projectType && options.includes(projectType) ? projectType : '';
   return (
     <StyledDropdown
       id="assign-project-type"
+      value={selectValue}
       onChange={handleAssignProjectType}
       data-testid="assign-cbc-project_type"
     >
+      <option value="" disabled={!isHeaderEditable}>
+        Select project type
+      </option>
       {options.map((option) => {
         return (
-          <option
-            key={option}
-            value={option}
-            selected={projectType === option}
-            disabled={!isHeaderEditable}
-          >
+          <option key={option} value={option} disabled={!isHeaderEditable}>
             {option}
           </option>
         );

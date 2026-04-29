@@ -63,7 +63,7 @@ describe('The analyst application view', () => {
 
         cy.get('[data-testid="project-form-edit-button"]').first().click();
 
-        cy.get('body').happoScreenshot({
+        cy.stableHappoScreenshot({
           component: `Conditional approval form - ${role}`,
         });
         // Province decision section
@@ -212,7 +212,7 @@ describe('The analyst application view', () => {
         cy.wait('@sow-upload-validate', { timeout: 50000 });
         cy.contains('button', 'mock_excel.xlsx');
 
-        cy.get('body').happoScreenshot({
+        cy.stableHappoScreenshot({
           component: `Statement of work form - ${role}`,
         });
 
@@ -252,7 +252,7 @@ describe('The analyst application view', () => {
 
         cy.get('[id="root_additionalComments"]').type('test');
 
-        cy.get('body').happoScreenshot({
+        cy.stableHappoScreenshot({
           component: `Change request form - ${role}`,
         });
 
@@ -309,7 +309,7 @@ describe('The analyst application view', () => {
           });
         cy.wait('@community-report-validate', { timeout: 50000 });
         cy.contains('button', 'mock_excel.xlsx');
-        cy.get('body').happoScreenshot({
+        cy.stableHappoScreenshot({
           component: `Community progress form - ${role}`,
         });
 
@@ -354,7 +354,7 @@ describe('The analyst application view', () => {
           });
 
         cy.contains('button', 'mock_excel.xlsx');
-        cy.get('body').happoScreenshot({
+        cy.stableHappoScreenshot({
           component: `Milestones form - ${role}`,
         });
 

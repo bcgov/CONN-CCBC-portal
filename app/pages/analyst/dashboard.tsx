@@ -1,7 +1,7 @@
 import { Profiler, useEffect } from 'react';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import cookie from 'js-cookie';
 import { DashboardTabs, TableTabs } from 'components/AnalystDashboard';
 import styled from 'styled-components';
@@ -54,7 +54,7 @@ const AnalystDashboard = ({
   const query = usePreloadedQuery(getDashboardAnalystQuery, preloadedQuery);
   const router = useRouter();
   const { session } = query;
-  const isMaxWidthOverride = useFeature('max_width_override').value;
+  const isMaxWidthOverride = useDeferredFeature('max_width_override');
   cookie.set('role', session.authRole);
   const scrollHandler = () => {
     sessionStorage.setItem('dashboard_scroll_position', String(window.scrollY));

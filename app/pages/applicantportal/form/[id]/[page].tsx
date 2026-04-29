@@ -3,7 +3,7 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import Alert from '@button-inc/bcgov-theme/Alert';
 import styled from 'styled-components';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import defaultRelayOptions from '../../../../lib/relay/withRelayOptions';
 import FormDiv from '../../../../components/FormDiv';
 import { Layout, Stepper } from '../../../../components';
@@ -45,13 +45,13 @@ const FormPage = ({
 }: RelayProps<Record<string, unknown>, PageQuery>) => {
   const query = usePreloadedQuery(getPageQuery, preloadedQuery);
 
-  const forceLatestSchema = useFeature('draft_apps_use_latest_schema').value;
+  const forceLatestSchema = useDeferredFeature('draft_apps_use_latest_schema');
   const { applicationByRowId, session } = query;
   const { status } = applicationByRowId;
-  const latestJsonSchema = query.allForms.nodes[0].jsonSchema;
+  const latestJsonSchema = query.allForms.nodes[0]?.jsonSchema;
   let jsonSchema: any;
   // eslint-disable-next-line no-self-compare
-  if (forceLatestSchema && status === 'draft') {
+  if (forceLatestSchema && status === 'draft' && latestJsonSchema) {
     jsonSchema = latestJsonSchema;
   } else {
     jsonSchema = applicationByRowId.formData.formByFormSchemaId.jsonSchema;

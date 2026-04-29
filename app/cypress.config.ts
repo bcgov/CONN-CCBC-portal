@@ -7,6 +7,8 @@ export default defineConfig({
   video: false,
   pageLoadTimeout: 100000,
   retries: 3,
+  // waitForStableUI can run nested Cypress.Promise timers (fetch + MutationObserver)
+  defaultCommandTimeout: 15000,
   fixturesFolder: '../db/data',
   e2e: {
     setupNodeEvents(on, config) {

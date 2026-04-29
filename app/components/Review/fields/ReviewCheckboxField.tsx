@@ -18,7 +18,7 @@ const ReviewCheckboxField: React.FC<FieldProps> = ({
           {isChecked ? (
             <StyledColRight id={`${id}-value`}>Yes</StyledColRight>
           ) : (
-            <StyledColRight id={`${id}-error`} hasError />
+            <StyledColRight id={`${id}-error`} $hasError />
           )}
         </>
       ) : (

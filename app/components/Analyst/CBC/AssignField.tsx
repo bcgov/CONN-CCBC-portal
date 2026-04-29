@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { useUpdateCbcDataByRowIdMutation } from 'schema/mutations/cbc/updateCbcData';
 import styled from 'styled-components';
@@ -42,11 +42,15 @@ const AssignField = ({
   const { jsonData } = queryFragment.cbcDataByCbcId.edges[0].node;
 
   const [updateField] = useUpdateCbcDataByRowIdMutation();
-  const [fieldValue, setFieldValue] = useState(
+  const initialValue =
     fieldType === 'string'
-      ? jsonData[fieldName].toString() || null
-      : jsonData[fieldName] || null
-  );
+      ? jsonData[fieldName]?.toString() ?? ''
+      : (jsonData[fieldName] ?? '');
+  const [fieldValue, setFieldValue] = useState(initialValue);
+
+  useEffect(() => {
+    setFieldValue(initialValue);
+  }, [initialValue]);
 
   const handleChange = (e) => {
     const { rowId } = queryFragment.cbcDataByCbcId.edges[0].node;
@@ -75,17 +79,13 @@ const AssignField = ({
   return (
     <StyledDropdown
       id={`assign-${fieldName}`}
+      value={fieldValue ?? ''}
       onChange={(e) => handleChange(e)}
       data-testid={`assign-${fieldName}`}
     >
       {fieldOptions.map((option) => {
         return (
-          <option
-            key={option}
-            value={option}
-            selected={fieldValue === option}
-            disabled={!isFormEditable}
-          >
+          <option key={option} value={option} disabled={!isFormEditable}>
             {option}
           </option>
         );

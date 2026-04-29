@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react-hooks/dom';
+import { renderHook, act } from '@testing-library/react';
 import useDisposeOnRouteChange from 'lib/helpers/useDisposeOnRouteChange';
 import { useRouter } from 'next/router';
 // Mock the Next.js router

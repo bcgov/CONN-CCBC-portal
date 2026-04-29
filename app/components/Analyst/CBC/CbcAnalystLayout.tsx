@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import FormDiv from 'components/FormDiv';
@@ -57,7 +58,7 @@ const StyledOuterContainer = styled.div`
 `;
 
 interface Props {
-  children: JSX.Element[] | JSX.Element;
+  children: React.ReactNode;
   query: any;
   isFormEditable?: boolean;
   mapData?: any;

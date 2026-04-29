@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { graphql, useFragment } from 'react-relay';
 import NavigationSidebar from 'components/Analyst/NavigationSidebar';
@@ -51,7 +52,7 @@ const StyledFormDiv = styled(FormDiv)`
 `;
 
 interface Props {
-  children: JSX.Element[] | JSX.Element;
+  children: React.ReactNode;
   query: any;
   mapData?: any;
   isMapExpanded?: boolean;

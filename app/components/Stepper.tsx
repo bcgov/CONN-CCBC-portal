@@ -54,7 +54,7 @@ interface StepperProps {
 const Stepper: React.FC<StepperProps> = ({ schema }) => {
   const router = useRouter();
   const rowId = router.query.id;
-  const formSchema = schema.properties;
+  const formSchema = schema?.properties ?? {};
 
   const formPageList = formPageListNoSubmission.filter((formName) => {
     return Object.prototype.hasOwnProperty.call(formSchema, formName);

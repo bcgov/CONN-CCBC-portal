@@ -15,32 +15,51 @@ context('Homepage', () => {
   });
 
   it('should start, open dashboard, select draft application and skip to page 12 of the form', () => {
-    cy.get('body').happoScreenshot({ component: 'Applicant Landing Page' });
+    cy.stableHappoScreenshot({ component: 'Applicant Landing Page' });
 
     cy.contains('h1', 'Welcome');
 
     cy.contains('a', 'program details');
+    cy.contains('a', 'Go to dashboard')
+      .should('have.attr', 'href', '/applicantportal/dashboard');
 
-    // Todo: find a way around using these wait
-    cy.wait(4000);
+    cy.visit('/applicantportal/form/1/12');
+    cy.findByRole('heading', { name: /^Supporting documents/i }).should(
+      'exist'
+    );
 
-    cy.contains('button', 'Go to dashboard').click();
+    cy.intercept('POST', '/graphql', (req) => {
+      const body = req.body;
+      const createAttachmentRequestId = '952d8b3aa0c2b5d39021c0aa9d5768b4';
 
-    cy.url().should('contain', '/dashboard');
+      if (body?.id === createAttachmentRequestId) {
+        req.alias = 'createAttachmentMutation';
+        return;
+      }
 
-    // Dashboard page
-    cy.contains('h1', 'Dashboard');
-    cy.contains('a', 'Edit').click();
-    cy.wait(2000);
-    cy.contains('a', 'Supporting documents').click();
-    cy.wait(2000);
+      if (typeof body === 'string' && body.includes(createAttachmentRequestId)) {
+        req.alias = 'createAttachmentMutation';
+        return;
+      }
 
-    cy.get('[id="root_copiesOfRegistration-btn"]').click();
+      if (body?.get && typeof body.get === 'function') {
+        const operations = body.get('operations');
+        if (
+          typeof operations === 'string' &&
+          operations.includes(createAttachmentRequestId)
+        ) {
+          req.alias = 'createAttachmentMutation';
+        }
+      }
+    });
+
     cy.get('[data-testid=file-test]')
+      .should('have.length.at.least', 1)
       .first()
       .selectFile('cypress/fixtures/doc.txt', { force: true });
-    cy.wait(2000);
-    cy.contains('button', 'doc.txt');
+    cy.wait('@createAttachmentMutation')
+      .its('response.body.data.createAttachment.attachment.rowId')
+      .should('exist');
   });
 
   afterEach(function () {

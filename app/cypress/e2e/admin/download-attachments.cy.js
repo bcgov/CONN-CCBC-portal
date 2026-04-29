@@ -9,7 +9,7 @@ describe('The admin Download attachments page', () => {
   it('loads', () => {
     cy.visit('/analyst/admin/download-attachments');
     cy.contains('a', 'Download attachments');
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
       component: 'The admin Download attachments page',
     });
   });

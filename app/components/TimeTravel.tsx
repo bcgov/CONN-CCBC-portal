@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '@button-inc/bcgov-theme/Button';
 import cookie from 'js-cookie';
@@ -38,7 +38,14 @@ const StyledDatePicker = styled(DesktopDatePicker)`
 
 const TimeTravel = () => {
   const today = DateTime.now().toFormat('yyyy-MM-dd');
-  const [date, setDate] = useState(cookie.get('mocks.mocked_date') || today);
+  // Avoid an SSR/CSR hydration mismatch: cookies are not readable on the
+  // server, so initialize with today's date and then sync from the cookie
+  // after mount.
+  const [date, setDate] = useState(today);
+  useEffect(() => {
+    const saved = cookie.get('mocks.mocked_date');
+    if (saved) setDate(saved);
+  }, []);
 
   const setMockDate = (value: Date) => {
     if (value) {

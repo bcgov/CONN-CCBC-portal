@@ -16,7 +16,7 @@ import { updateApplicationFormMutation } from '__generated__/updateApplicationFo
 import { useUpdateApplicationForm } from 'schema/mutations/application/updateApplicationForm';
 import verifyFormFields from 'utils/verifyFormFields';
 import ReviewField from 'components/Review/ReviewPageField';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import { applicantBenefits as applicantBenefitsSchema } from 'formSchema/pages';
 import { applicantBenefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
@@ -223,15 +223,17 @@ const ApplicationForm: React.FC<Props> = ({
     query
   );
 
-  const draftAppsUseLatestSchema = useFeature('draft_apps_use_latest_schema');
+  const draftAppsUseLatestSchema = useDeferredFeature(
+    'draft_apps_use_latest_schema'
+  );
+  // Only enable when GrowthBook returns an actual boolean true. Tests (and
+  // misconfigured flags) may return non-boolean truthy values from useFeature;
+  // those must not switch the form to the "latest schema" path.
   const forceLatestSchema =
-    draftAppsUseLatestSchema?.value &&
-    typeof draftAppsUseLatestSchema.value === 'boolean'
-      ? draftAppsUseLatestSchema?.value
-      : null;
+    draftAppsUseLatestSchema === true ? true : null;
   const { openIntake, allIntakes, session } = applicationFormQuery;
-  const latestJsonSchema = applicationFormQuery.allForms.nodes[0].jsonSchema;
-  const latestFormSchemaId = applicationFormQuery.allForms.nodes[0].rowId;
+  const latestJsonSchema = applicationFormQuery.allForms.nodes[0]?.jsonSchema;
+  const latestFormSchemaId = applicationFormQuery.allForms.nodes[0]?.rowId;
   const {
     rowId,
     formData: {
@@ -269,52 +271,76 @@ const ApplicationForm: React.FC<Props> = ({
     allIntakes?.edges[0]?.node?.zones;
   const acceptedProjectAreasArray = [...(intakeZones ?? ALL_INTAKE_ZONES)];
 
-  let jsonSchema: any;
-  let formSchemaId: number;
-  let finalUiSchema: any;
-  // eslint-disable-next-line no-constant-condition, no-self-compare
-  if (forceLatestSchema && status === 'draft') {
-    jsonSchema = latestJsonSchema;
-    formSchemaId = latestFormSchemaId;
-  } else {
-    jsonSchema = application.formData.formByFormSchemaId.jsonSchema;
-    formSchemaId = application.formData.formByFormSchemaId.rowId;
-  }
-  const filteredUiSchemaOrder = getFilteredSchemaOrderFromUiSchema(
-    jsonSchema,
-    uiSchema
+  // Resolve the full schema context (jsonSchema, formSchemaId, finalUiSchema,
+  // sectionName) for a given base schema. Defined here so we can try the
+  // "latest" schema first and gracefully fall back to the application's own
+  // schema without duplicating logic.
+  const buildSchemaContext = (
+    baseSchema: any,
+    baseFormSchemaId: number
+  ): {
+    jsonSchema: any;
+    formSchemaId: number;
+    finalUiSchema: any;
+    sectionName: string;
+  } => {
+    let resolvedSchema = baseSchema;
+    const order = getFilteredSchemaOrderFromUiSchema(resolvedSchema, uiSchema);
+    let resolvedFinalUiSchema: any;
+    if (ccbcIntakeNumber !== null && ccbcIntakeNumber <= 2) {
+      resolvedFinalUiSchema = { ...uiSchema, 'ui:order': order };
+    } else {
+      const isIntake4AndAfter =
+        latestIntakeNumber >= 4 &&
+        (ccbcIntakeNumber === null || ccbcIntakeNumber >= 4);
+      resolvedFinalUiSchema = {
+        ...(isIntake4AndAfter ? uiSchemaV3 : uiSchema),
+        benefits: { ...applicantBenefits },
+        'ui:order': order,
+      };
+      resolvedSchema = {
+        ...resolvedSchema,
+        properties: { ...resolvedSchema.properties, ...applicantBenefitsSchema },
+      };
+    }
+    return {
+      jsonSchema: resolvedSchema,
+      formSchemaId: baseFormSchemaId,
+      finalUiSchema: resolvedFinalUiSchema,
+      sectionName: getSectionNameFromPageNumber(
+        resolvedFinalUiSchema,
+        pageNumber
+      ) as string,
+    };
+  };
+
+  const applicationOwnSchema = application.formData.formByFormSchemaId.jsonSchema;
+  const applicationOwnFormSchemaId = application.formData.formByFormSchemaId.rowId;
+  const wantsLatestSchema =
+    forceLatestSchema === true && status === 'draft' && latestJsonSchema != null;
+
+  let { jsonSchema, formSchemaId, finalUiSchema, sectionName } = buildSchemaContext(
+    wantsLatestSchema ? latestJsonSchema : applicationOwnSchema,
+    wantsLatestSchema ? latestFormSchemaId : applicationOwnFormSchemaId
   );
-  if (ccbcIntakeNumber !== null && ccbcIntakeNumber <= 2) {
-    finalUiSchema = {
-      ...uiSchema,
-      'ui:order': filteredUiSchemaOrder,
-    };
-  } else {
-    // if it is intake 4, use v3 of UIschema
-    const isIntake4AndAfter =
-      latestIntakeNumber >= 4 &&
-      (ccbcIntakeNumber === null || ccbcIntakeNumber >= 4);
-    finalUiSchema = {
-      ...(isIntake4AndAfter ? uiSchemaV3 : uiSchema),
-      benefits: {
-        ...applicantBenefits,
-      },
-      'ui:order': filteredUiSchemaOrder,
-    };
-    jsonSchema = {
-      ...jsonSchema,
-      properties: {
-        ...jsonSchema.properties,
-        ...applicantBenefitsSchema,
-      },
-    };
+
+  // If the selected schema doesn't cover the current page, fall back to the
+  // application's own schema. This handles the transition when
+  // useDeferredFeature switches to a "latest" intake schema whose top-level
+  // sections differ from the schema the application was originally created with,
+  // and any other case where pageNumber / ui:order yields an unknown section.
+  if (!jsonSchema.properties?.[sectionName]) {
+    ({ jsonSchema, formSchemaId, finalUiSchema, sectionName } = buildSchemaContext(
+      applicationOwnSchema,
+      applicationOwnFormSchemaId
+    ));
   }
+
   const formErrorSchema = useMemo(
     () => validate(jsonData, jsonSchema),
     [jsonData, jsonSchema]
   );
 
-  const sectionName = getSectionNameFromPageNumber(finalUiSchema, pageNumber);
   const noErrors = Object.keys(formErrorSchema).length === 0;
 
   const [savingError, setSavingError] = useState(null);
@@ -411,7 +437,12 @@ const ApplicationForm: React.FC<Props> = ({
     jsonSchema as object
   );
 
-  const sectionSchema = jsonSchema.properties[sectionName] as RJSFSchema;
+  const sectionSchema = jsonSchema.properties?.[sectionName] as RJSFSchema;
+
+  // Defensive guard: sectionSchema should always be defined after the fallback
+  // logic above, but guard here in case of an unexpected data state.
+  if (!sectionSchema) return null;
+
   const isWithdrawn = status === 'withdrawn';
   const isSubmitted = status === 'submitted';
   const isSubmitPage = sectionName === 'submission';
@@ -460,7 +491,7 @@ const ApplicationForm: React.FC<Props> = ({
     return 'pre-submitted';
   };
 
-  const isSubmitEnabled = useMemo(() => {
+  const isSubmitEnabled = (() => {
     if (isUpdating) return false;
 
     if (isWithdrawn) return false;
@@ -483,20 +514,7 @@ const ApplicationForm: React.FC<Props> = ({
       );
 
     return true;
-  }, [
-    sectionName,
-    noErrors,
-    areAllAcknowledgementsChecked,
-    areAllSubmissionFieldsSet,
-    isWithdrawn,
-    jsonData,
-    isSubmitted,
-    isApplicationEditable,
-    isAcknowledgeIncomplete,
-    isUpdating,
-    isProjectAreaInvalid,
-    isProjectAreaSelected,
-  ]);
+  })();
 
   if (subschemaArray.length < pageNumber) {
     // Todo: proper 404

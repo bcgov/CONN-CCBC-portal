@@ -22,6 +22,6 @@ describe('The applicant landing page', () => {
     cy.contains('footer', 'Accessibility');
     cy.contains('footer', 'Copyright');
 
-    cy.get('body').happoScreenshot({ component: 'Applicant Landing Page' });
+    cy.stableHappoScreenshot({ component: 'Applicant Landing Page' });
   });
 });

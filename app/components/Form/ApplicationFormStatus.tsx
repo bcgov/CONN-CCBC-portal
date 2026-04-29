@@ -1,3 +1,4 @@
+import React from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { ApplicationFormStatus_application$key } from '__generated__/ApplicationFormStatus_application.graphql';
 import GenericFormStatus from './GenericFormStatus';
@@ -5,7 +6,7 @@ import GenericFormStatus from './GenericFormStatus';
 interface Props {
   application: ApplicationFormStatus_application$key;
   isSaving: boolean;
-  error?: JSX.Element;
+  error?: React.ReactNode;
 }
 
 const ApplicationFormStatus: React.FC<Props> = ({

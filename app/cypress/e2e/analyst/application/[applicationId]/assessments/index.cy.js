@@ -9,7 +9,7 @@ const testLoad = (screenShotTitle, setupFunction) => {
   setupFunction();
   cy.visit('/analyst/application/1/assessments');
   cy.contains('h2', 'Assessments');
-  cy.get('body').happoScreenshot({
+  cy.stableHappoScreenshot({
     component: screenShotTitle,
   });
 };
@@ -19,7 +19,7 @@ describe('The analyst assessments dashboard view', () => {
     assessmentsSetup();
     cy.visit('/analyst/application/1/assessments');
     cy.contains('h2', 'Assessments');
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
       component: 'Analyst assessments dashboard',
     });
   });

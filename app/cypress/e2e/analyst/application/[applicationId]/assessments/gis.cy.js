@@ -9,7 +9,7 @@ const testLoad = (screenShotTitle, setupFunction) => {
   setupFunction();
   cy.visit('/analyst/application/1/assessments/gis');
   cy.contains('a', 'GIS');
-  cy.get('body').happoScreenshot({
+  cy.stableHappoScreenshot({
     component: screenShotTitle,
   });
 };
@@ -19,7 +19,7 @@ describe('The analyst GIS assessment page', () => {
     assessmentsSetup();
     cy.visit('/analyst/application/1/assessments/gis');
     cy.contains('a', 'GIS');
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
       component: 'Analyst GIS assessment page',
     });
   });
@@ -50,12 +50,17 @@ describe('The analyst GIS assessment page', () => {
     cy.visit('/analyst/application/1/assessments/gis');
     cy.contains('a', 'GIS');
     cy.wait('@graphql');
-    cy.get('select[id="root_assignedTo"]').select('Meherzad Romer');
+    cy.get('select[id="root_assignedTo"]')
+      .filter(':visible')
+      .first()
+      .select('Meherzad Romer');
     cy.get('input[id="root_targetDate"]').invoke('val', '2023-03-10');
     cy.contains('button', /^Save$/).click();
     cy.contains('button', 'Saved');
     cy.visit('/analyst/application/1/assessments/gis');
-    cy.get('body').happoScreenshot({
+    cy.contains('a', 'GIS');
+    cy.wait('@graphql');
+    cy.stableHappoScreenshot({
       component: 'Filled Analyst GIS Assessment Page',
     });
   });

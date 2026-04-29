@@ -20,6 +20,7 @@ export function createClientNetwork() {
     }),
     urlMiddleware({
       url: async () => Promise.resolve('/graphql'),
+      credentials: 'include',
     }),
     debounceMutationMiddleware(500),
     uploadMiddleware(),
@@ -27,6 +28,7 @@ export function createClientNetwork() {
       batchUrl: async () => Promise.resolve('/graphql'),
       batchTimeout: 10,
       allowMutations: false,
+      credentials: 'include',
     }),
   ]);
 
