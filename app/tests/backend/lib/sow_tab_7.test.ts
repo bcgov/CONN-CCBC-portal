@@ -1747,6 +1747,81 @@ const getTab7 = (includesFNHA = false) => [
 const tab7 = getTab7();
 const tab7WithFNHA = getTab7(true);
 
+// ---------------------------------------------------------------------------
+// Extended-format test data (template version with 2027-28 and 2028-29 cols)
+//
+// The new template inserts two fiscal-year columns (K=2027-28, L=2028-29)
+// before the total, which shifts from column K to column M.  Only the rows
+// that the parser actually reads need to be updated; the rest of the sheet
+// (Part 1 detailed labour/equipment etc.) is identical.
+//
+// Strategy: clone the old array and patch only the B-identified rows that
+// appear in Parts 3/4.  For each such row the old K value (total) becomes M,
+// while K and L receive new-year amounts (1000 and 500 respectively so the
+// test can verify the new columns are actually being read).
+//
+// The Part 4 year-header row (G='2023-24', K='Total') is also patched to
+// G='2023-24', K='2027-28', L='2028-29', M='Total' — this is what the
+// format-detection logic looks for.
+// ---------------------------------------------------------------------------
+
+const EXTENDED_YEAR_ROWS = new Set([
+  'Federal Contribution',
+  'Recipient Contribution',
+  'Provincial Contribution',
+  'Applicant Contribution Funded by CIB',
+  'First Nations Health Authority (FNHA)',
+  'Other Funding Source',
+  'Total Financial Contributions',
+  'April – June',
+  'July – September',
+  'October – December',
+  'January - March',
+  'Fiscal Year Total',
+]);
+
+const toExtendedRow = (row: any) => {
+  const { G, H, I, J, K: oldTotal, ...rest } = row;
+  return { ...rest, G, H, I, J, K: 1000, L: 500, M: oldTotal };
+};
+
+const getTab7Extended = (includesFNHA = false): any[] => {
+  return getTab7(includesFNHA).map((row: any) => {
+    if (!row) return row;
+
+    // Part 4 year-header row — triggers extended-format detection (must not match
+    // Part 2/3 headers, which use the same G/K but have B set — e.g. 'Project Funding')
+    if (
+      row.G === '2023-24' &&
+      row.K === 'Total' &&
+      (row.B === undefined || row.B === '')
+    ) {
+      return { G: '2023-24', H: '2024-25', I: '2025-26', J: '2026-27', K: '2027-28', L: '2028-29', M: 'Total' };
+    }
+
+    // Per-fiscal-year project-cost rows (column B, no trailing colon)
+    if (
+      typeof row.B === 'string' &&
+      (row.B === 'Total Eligible Costs' ||
+        row.B === 'Total Ineligible Costs' ||
+        row.B === 'Total Project Costs') &&
+      typeof row.G === 'number'
+    ) {
+      return toExtendedRow(row);
+    }
+
+    // Funding and quarter rows identified by B value
+    if (typeof row.B === 'string' && EXTENDED_YEAR_ROWS.has(row.B) && typeof row.G === 'number') {
+      return toExtendedRow(row);
+    }
+
+    return row;
+  });
+};
+
+const tab7Extended = getTab7Extended();
+const tab7ExtendedWithFNHA = getTab7Extended(true);
+
 describe('sow tab 7 tests', () => {
   beforeEach(() => {
     mocked(performQuery).mockImplementation(async () => {
@@ -2194,6 +2269,166 @@ describe('sow tab 7 tests', () => {
       },
     };
     jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(tab7WithFNHA);
+    const wb = XLSX.read(null);
+
+    await LoadTab7Data(1, wb, '7', request);
+    expect(performQuery).toHaveBeenCalledWith(
+      expect.anything(),
+      expectedInput,
+      expect.anything()
+    );
+  });
+
+  it('should parse the extended-format worksheet (2027-28 / 2028-29 columns) and submit expected mutation', async () => {
+    // toExtendedRow shifts the old K total to M, and adds K=1000, L=500 for
+    // the two new fiscal years.  Verify the parser reads those new columns.
+    const expectedInput = {
+      input: {
+        sowId: 1,
+        jsonData: {
+          summaryTable: {
+            targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity: false,
+            totalEligibleCosts: 500000,
+            totalIneligibleCosts: 250000,
+            totalProjectCost: 750000,
+            amountRequestedFromFederalGovernment: 225000,
+            totalApplicantContribution: 300000,
+            fundingFromAllOtherSources: 225000,
+            amountRequestedFromProvince: 225000,
+            totalInfrastructureBankFunding: 0,
+            totalFundingRequestedCCBC: 450000,
+            totalFNHAFunding: 0,
+          },
+          detailedBudget: {
+            federalSharingRatio: 0.45,
+            provincialSharingRatio: 0.45,
+          },
+          summaryOfEstimatedProjectCosts: {
+            estimatedProjectCosts: {
+              eligibleRuralBroadband: 500000,
+              eligibleVeryRemoteSatelliteIndigenousBroadband: 0,
+              eligibleMobile: 0,
+              totalEligibleCosts: 500000,
+              totalIneligibleCosts: 250000,
+              totalProjectCost: 750000,
+            },
+            totalCostsPerCostCategory: {
+              directLabour: { cost: 80000, percentOfTotalEligibleCosts: 0.16 },
+              directEquipment: { cost: 140000, percentOfTotalEligibleCosts: 0.28 },
+              directMaterials: { cost: 180000, percentOfTotalEligibleCosts: 0.36 },
+              directSatellite: { cost: 0, percentOfTotalEligibleCosts: 0 },
+              directTravel: { cost: 0, percentOfTotalEligibleCosts: 0 },
+              directOther: { cost: 100000, percentOfTotalEligibleCosts: 0.2 },
+              totalEligible: { cost: 500000, percentOfTotalEligibleCosts: 1 },
+            },
+            thirtyPercentOfTotalEligibleCosts: 150000,
+            projectCosts: {
+              totalEligibleCosts:   { '2324': 100000, '2425': 150000, '2526': 150000, '2627': 100000, '2728': 1000, '2829': 500, total: 500000 },
+              totalIneligibleCosts: { '2324': 50000,  '2425': 100000, '2526': 100000, '2627': 0,      '2728': 1000, '2829': 500, total: 250000 },
+              totalProjectCost:     { '2324': 150000, '2425': 250000, '2526': 250000, '2627': 100000, '2728': 1000, '2829': 500, total: 750000 },
+            },
+          },
+          summaryOfEstimatedProjectFunding: {
+            federalContribution:       { '2324': 0,      '2425': 75000,  '2526': 75000,  '2627': 75000, '2728': 1000, '2829': 500, total: 225000 },
+            applicationContribution:   { '2324': 125000, '2425': 100000, '2526': 75000,  '2627': 0,     '2728': 1000, '2829': 500, total: 300000 },
+            provincialContribution:    { '2324': 25000,  '2425': 75000,  '2526': 100000, '2627': 25000, '2728': 1000, '2829': 500, total: 225000 },
+            fnhaFunding:               { '2324': 0,      '2425': 0,      '2526': 0,      '2627': 0,     '2728': 0,    '2829': 0,   total: 0 },
+            infrastructureBankFunding: { '2324': 0,      '2425': 0,      '2526': 0,      '2627': 0,     '2728': 1000, '2829': 500, total: 0 },
+            otherFundingPartners: [
+              { '2324': 1, '2425': 2, '2526': 3, '2627': 4, '2728': 1000, '2829': 500, fundingPartnersName: 'Other Funding Source', total: 10 },
+            ],
+            totalFinancialContribution: { '2324': 150001, '2425': 250002, '2526': 250003, '2627': 100004, '2728': 1000, '2829': 500, total: 750010 },
+          },
+          currentFiscalProvincialContributionForecastByQuarter: {
+            aprilToJune:      { '2324': 0,                    '2425': 18750, '2526': 25000,  '2627': 8333.333333333334,  '2728': 1000, '2829': 500, total: 52083.333333333336 },
+            julyToSeptember:  { '2324': 8333.333333333334,    '2425': 18750, '2526': 25000,  '2627': 8333.333333333334,  '2728': 1000, '2829': 500, total: 60416.66666666667 },
+            octoberToDecember:{ '2324': 8333.333333333334,    '2425': 18750, '2526': 25000,  '2627': 8333.333333333334,  '2728': 1000, '2829': 500, total: 60416.66666666667 },
+            januaryToMarch:   { '2324': 8333.333333333334,    '2425': 18750, '2526': 25000,  '2627': undefined,          '2728': 1000, '2829': 500, total: 52083.333333333336 },
+            fiscalYearTotal:  { '2324': 25000,                '2425': 75000, '2526': 100000, '2627': 25000,              '2728': 1000, '2829': 500, total: 225000 },
+          },
+        },
+      },
+    };
+    jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(tab7Extended);
+    const wb = XLSX.read(null);
+
+    await LoadTab7Data(1, wb, '7', request);
+    expect(performQuery).toHaveBeenCalledWith(
+      expect.anything(),
+      expectedInput,
+      expect.anything()
+    );
+  });
+
+  it('should parse the extended-format worksheet with FNHA funding', async () => {
+    const expectedInput = {
+      input: {
+        sowId: 1,
+        jsonData: {
+          summaryTable: {
+            targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity: false,
+            totalEligibleCosts: 500000,
+            totalIneligibleCosts: 250000,
+            totalProjectCost: 750000,
+            amountRequestedFromFederalGovernment: 225000,
+            totalApplicantContribution: 300000,
+            fundingFromAllOtherSources: 225000,
+            amountRequestedFromProvince: 225000,
+            totalInfrastructureBankFunding: 0,
+            totalFundingRequestedCCBC: 450000,
+            totalFNHAFunding: 80000,
+          },
+          detailedBudget: {
+            federalSharingRatio: 0.45,
+            provincialSharingRatio: 0.45,
+          },
+          summaryOfEstimatedProjectCosts: {
+            estimatedProjectCosts: {
+              eligibleRuralBroadband: 500000,
+              eligibleVeryRemoteSatelliteIndigenousBroadband: 0,
+              eligibleMobile: 0,
+              totalEligibleCosts: 500000,
+              totalIneligibleCosts: 250000,
+              totalProjectCost: 750000,
+            },
+            totalCostsPerCostCategory: {
+              directLabour: { cost: 80000, percentOfTotalEligibleCosts: 0.16 },
+              directEquipment: { cost: 140000, percentOfTotalEligibleCosts: 0.28 },
+              directMaterials: { cost: 180000, percentOfTotalEligibleCosts: 0.36 },
+              directSatellite: { cost: 0, percentOfTotalEligibleCosts: 0 },
+              directTravel: { cost: 0, percentOfTotalEligibleCosts: 0 },
+              directOther: { cost: 100000, percentOfTotalEligibleCosts: 0.2 },
+              totalEligible: { cost: 500000, percentOfTotalEligibleCosts: 1 },
+            },
+            thirtyPercentOfTotalEligibleCosts: 150000,
+            projectCosts: {
+              totalEligibleCosts:   { '2324': 100000, '2425': 150000, '2526': 150000, '2627': 100000, '2728': 1000, '2829': 500, total: 500000 },
+              totalIneligibleCosts: { '2324': 50000,  '2425': 100000, '2526': 100000, '2627': 0,      '2728': 1000, '2829': 500, total: 250000 },
+              totalProjectCost:     { '2324': 150000, '2425': 250000, '2526': 250000, '2627': 100000, '2728': 1000, '2829': 500, total: 750000 },
+            },
+          },
+          summaryOfEstimatedProjectFunding: {
+            federalContribution:       { '2324': 0,      '2425': 75000,  '2526': 75000,  '2627': 75000, '2728': 1000, '2829': 500, total: 225000 },
+            applicationContribution:   { '2324': 125000, '2425': 100000, '2526': 75000,  '2627': 0,     '2728': 1000, '2829': 500, total: 300000 },
+            provincialContribution:    { '2324': 25000,  '2425': 75000,  '2526': 100000, '2627': 25000, '2728': 1000, '2829': 500, total: 225000 },
+            fnhaFunding:               { '2324': 10000,  '2425': 25000,  '2526': 35000,  '2627': 10000, '2728': 1000, '2829': 500, total: 80000 },
+            infrastructureBankFunding: { '2324': 0,      '2425': 0,      '2526': 0,      '2627': 0,     '2728': 1000, '2829': 500, total: 0 },
+            otherFundingPartners: [
+              { '2324': 1, '2425': 2, '2526': 3, '2627': 4, '2728': 1000, '2829': 500, fundingPartnersName: 'Other Funding Source', total: 10 },
+            ],
+            totalFinancialContribution: { '2324': 150001, '2425': 250002, '2526': 250003, '2627': 100004, '2728': 1000, '2829': 500, total: 750010 },
+          },
+          currentFiscalProvincialContributionForecastByQuarter: {
+            aprilToJune:      { '2324': 0,                    '2425': 18750, '2526': 25000,  '2627': 8333.333333333334,  '2728': 1000, '2829': 500, total: 52083.333333333336 },
+            julyToSeptember:  { '2324': 8333.333333333334,    '2425': 18750, '2526': 25000,  '2627': 8333.333333333334,  '2728': 1000, '2829': 500, total: 60416.66666666667 },
+            octoberToDecember:{ '2324': 8333.333333333334,    '2425': 18750, '2526': 25000,  '2627': 8333.333333333334,  '2728': 1000, '2829': 500, total: 60416.66666666667 },
+            januaryToMarch:   { '2324': 8333.333333333334,    '2425': 18750, '2526': 25000,  '2627': undefined,          '2728': 1000, '2829': 500, total: 52083.333333333336 },
+            fiscalYearTotal:  { '2324': 25000,                '2425': 75000, '2526': 100000, '2627': 25000,              '2728': 1000, '2829': 500, total: 225000 },
+          },
+        },
+      },
+    };
+    jest.spyOn(XLSX.utils, 'sheet_to_json').mockReturnValue(tab7ExtendedWithFNHA);
     const wb = XLSX.read(null);
 
     await LoadTab7Data(1, wb, '7', request);
