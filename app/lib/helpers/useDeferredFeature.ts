@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFeature } from '@growthbook/growthbook-react';
 import type { JSONValue } from '@growthbook/growthbook';
 
@@ -13,11 +13,15 @@ export default function useDeferredFeature<T extends JSONValue = boolean>(
   defaultValue: T = false as unknown as T
 ): T {
   const { value } = useFeature<T>(featureKey);
-  const [deferred, setDeferred] = useState<T>(defaultValue);
+  const defaultValueRef = useRef(defaultValue);
+  const [deferred, setDeferred] = useState<T>(defaultValueRef.current);
 
   useEffect(() => {
-    setDeferred((value as T) ?? defaultValue);
-  }, [value, defaultValue]);
+    const nextValue = (value as T) ?? defaultValueRef.current;
+    setDeferred((currentValue) =>
+      Object.is(currentValue, nextValue) ? currentValue : nextValue
+    );
+  }, [value]);
 
   return deferred;
 }
