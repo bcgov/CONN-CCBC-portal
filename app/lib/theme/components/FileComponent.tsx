@@ -74,6 +74,7 @@ const StyledH4 = styled('h4')`
 `;
 
 const StyledLink = styled.button`
+  cursor: pointer;
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
 `;
