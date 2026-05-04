@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import reportClientError from 'lib/helpers/reportClientError';
 
 const StyledLink = styled.button`
+  cursor: pointer;
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
   word-break: break-word;

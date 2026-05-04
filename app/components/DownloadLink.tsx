@@ -3,6 +3,7 @@ import { useState } from 'react';
 import reportClientError from 'lib/helpers/reportClientError';
 
 const StyledLink = styled.a`
+  cursor: pointer;
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
   word-break: break-word;
