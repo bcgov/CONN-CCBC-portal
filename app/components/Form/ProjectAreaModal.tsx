@@ -1,6 +1,10 @@
 import Modal from 'components/Modal';
 import styled from 'styled-components';
 
+const StyledContainer = styled.div`
+  text-align: center;
+`;
+
 function getModalText(intakeZones, modalType, allowUnlistedFnLedZones) {
   if (!allowUnlistedFnLedZones) {
     if (
@@ -34,9 +38,6 @@ const ProjectAreaModal = ({
         }`
       : acceptedProjectAreasArray.join(', ');
 
-  const StyledContainer = styled.div`
-    text-align: center;
-  `;
   return (
     <Modal
       id="project-area-warning"

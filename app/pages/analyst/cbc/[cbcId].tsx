@@ -13,7 +13,7 @@ import { useUpdateCbcDataAndInsertChangeRequest } from 'schema/mutations/cbc/upd
 import review from 'formSchema/analyst/cbc/review';
 import reviewUiSchema from 'formSchema/uiSchema/cbc/reviewUiSchema';
 import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import CbcTheme from 'components/Analyst/CBC/CbcTheme';
 import {
   createCbcSchemaData,
@@ -115,7 +115,7 @@ const Cbc = ({
   const isCbcAdmin =
     query.session.authRole === 'cbc_admin' ||
     query.session.authRole === 'super_admin';
-  const editFeatureEnabled = useFeature('show_cbc_edit').value ?? false;
+  const editFeatureEnabled = useDeferredFeature('show_cbc_edit');
   const { session } = query;
 
   const [toggleOverrideReadOnly, setToggleExpandOrCollapseAllReadOnly] =
@@ -126,9 +126,13 @@ const Cbc = ({
   const [editMode, setEditMode] = useState(recent === 'true');
   const [changeReason, setChangeReason] = useState<null | string>(null);
   const hiddenSubmitRef = useRef<HTMLButtonElement>(null);
-  const [isMapExpanded, setIsMapExpanded] = useState(
-    cookie.get('map_expanded') === 'true'
-  );
+  // Initialize to false to match SSR (where document.cookie is unavailable),
+  // then sync from the cookie after mount to avoid a hydration mismatch that
+  // would change the order of accordion sections (Map vs Tombstone).
+  const [isMapExpanded, setIsMapExpanded] = useState(false);
+  useEffect(() => {
+    setIsMapExpanded(cookie.get('map_expanded') === 'true');
+  }, []);
   const [mapData, setMapData] = useState(null);
   const [cbcMapJson, setCbcMapJson] = useState(null);
 
@@ -194,9 +198,9 @@ const Cbc = ({
   const changeModal = useModal();
 
   const [recordLocked, setRecordLocked] = useState(false);
-  const [allowEdit, setAllowEdit] = useState(
-    isCbcAdmin && editFeatureEnabled && !recordLocked
-  );
+  // Initialize to false so SSR matches CSR (GrowthBook features aren't
+  // available on the server); the useEffect below syncs after mount.
+  const [allowEdit, setAllowEdit] = useState(false);
 
   const allCommunitiesSourceData = query.allCommunitiesSourceData.nodes;
 
@@ -560,7 +564,7 @@ const Cbc = ({
           isFormEditMode={editMode}
           title="CBC Form"
           schema={finalReviewSchema}
-          theme={editMode ? CbcTheme : ReviewTheme}
+          rjsfTheme={editMode ? CbcTheme : ReviewTheme}
           uiSchema={editMode ? finalEditUiSchema : finalReviewUiSchema}
           resetFormData={handleResetFormData}
           onSubmit={handleChangeRequestModal}

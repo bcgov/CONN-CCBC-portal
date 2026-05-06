@@ -28,10 +28,10 @@ export const StyledColLeft = styled('th')`
 `;
 
 interface StyledColRightProps {
-  errorColor?: string;
-  errorTextColor?: string;
-  hasError?: boolean;
-  hideColLeft?: boolean;
+  $errorColor?: string;
+  $errorTextColor?: string;
+  $hasError?: boolean;
+  $hideColLeft?: boolean;
 }
 
 export const StyledColRight = styled('td')<StyledColRightProps>`
@@ -41,13 +41,16 @@ export const StyledColRight = styled('td')<StyledColRightProps>`
   border-top: 0;
   border-bottom: 0;
   border-right: 0;
-  border-left: ${(props) => (props?.hideColLeft ? '0 !important' : 'inherit')};
+  border-left: ${(props) =>
+    props?.$hideColLeft ? '0 !important' : 'inherit'};
   font-weight: 400;
   white-space: pre-line;
   background-color: ${(props) =>
-    props.hasError &&
-    (props?.errorColor ? props.errorColor : props.theme.color.errorBackground)};
-  color: ${(props) => props?.errorTextColor || 'inherit'};
+    props.$hasError &&
+    (props?.$errorColor
+      ? props.$errorColor
+      : props.theme.color.errorBackground)};
+  color: ${(props) => props?.$errorTextColor || 'inherit'};
 
   .pg-select-wrapper {
     background-color: white !important;

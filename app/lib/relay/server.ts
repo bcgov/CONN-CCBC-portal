@@ -1,30 +1,55 @@
 import { Network, Environment, Store, RecordSource } from 'relay-runtime';
-import getConfig from 'next/config';
 
-const {
-  serverRuntimeConfig: { PORT },
-} = getConfig();
+const ssrGraphqlUrl = () => {
+  const port = process.env.PORT ?? '3000';
+  return `http://127.0.0.1:${port}/graphql`;
+};
 
 export function createServerNetwork({ cookieHeader }: any) {
   return Network.create(async (params, variables) => {
-    const response = await fetch(`http://localhost:3000/graphql`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        cookie: cookieHeader,
-      },
-      body: JSON.stringify({
-        id: params.id,
-        variables,
-      }),
-    });
+    const url = ssrGraphqlUrl();
+    let response: Response;
+    try {
+      response = await fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          cookie: cookieHeader,
+        },
+        body: JSON.stringify({
+          id: params.id,
+          variables,
+        }),
+      });
+    } catch (e) {
+      console.error('[relay-ssr] GraphQL fetch failed', {
+        url,
+        port: process.env.PORT ?? '(unset, using 3000)',
+        error: e,
+      });
+      throw e;
+    }
+
+    if (!response.ok) {
+      const text = await response.text();
+      console.error('[relay-ssr] GraphQL non-OK response', {
+        url,
+        status: response.status,
+        bodyPreview: text.slice(0, 500),
+      });
+      return undefined;
+    }
 
     try {
       return await response.json();
     } catch (e) {
-      // Server-side relay fetch failures should not pull backend-only deps into client bundles.
-      console.error(e);
+      console.error('[relay-ssr] GraphQL response JSON parse failed', {
+        url,
+        status: response.status,
+        error: e,
+      });
+      return undefined;
     }
   });
 }

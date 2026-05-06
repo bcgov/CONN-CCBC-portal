@@ -9,7 +9,7 @@ const testLoad = (screenShotTitle, setupFunction) => {
   setupFunction();
   cy.visit('/analyst/application/1/assessments/financial-risk');
   cy.contains('a', 'Financial Risk');
-  cy.get('body').happoScreenshot({
+  cy.stableHappoScreenshot({
     component: screenShotTitle,
   });
 };
@@ -19,7 +19,7 @@ describe('The analyst financial risk assessment page', () => {
     assessmentsSetup();
     cy.visit('/analyst/application/1/assessments/financial-risk');
     cy.contains('a', 'Financial Risk');
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
       component: 'Analyst financial risk assessment page',
     });
   });
@@ -50,14 +50,19 @@ describe('The analyst financial risk assessment page', () => {
     cy.visit('/analyst/application/1/assessments/financial-risk');
     cy.contains('a', 'Financial Risk');
     cy.wait('@graphql');
-    cy.get('select[id="root_assignedTo"]').select('Meherzad Romer');
+    cy.get('select[id="root_assignedTo"]')
+      .filter(':visible')
+      .first()
+      .select('Meherzad Romer');
     cy.get('input[id="root_targetDate"]').invoke('val', '2023-03-10');
     cy.get('input[id="root_nextStep-1"]').parent().click({ force: true });
     cy.get('input[id="root_decision-1"]').parent().click({ force: true });
     cy.contains('button', /^Save$/).click();
     cy.contains('button', 'Saved');
     cy.visit('/analyst/application/1/assessments/financial-risk');
-    cy.get('body').happoScreenshot({
+    cy.contains('a', 'Financial Risk');
+    cy.wait('@graphql');
+    cy.stableHappoScreenshot({
       component: 'Filled Analyst Financial Risk Assessment Page',
     });
   });

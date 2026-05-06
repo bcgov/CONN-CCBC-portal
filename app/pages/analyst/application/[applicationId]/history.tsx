@@ -1,6 +1,6 @@
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
@@ -23,7 +23,7 @@ const History = ({
   const query = usePreloadedQuery(getHistoryQuery, preloadedQuery);
   const { session } = query;
 
-  const showHistory = useFeature('show_history').value;
+  const showHistory = useDeferredFeature('show_history');
 
   return (
     <Layout session={session} title="Connecting Communities BC">

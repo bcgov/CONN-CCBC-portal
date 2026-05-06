@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material';
-import { theme as globalTheme } from './GlobalTheme';
+import { theme as globalTheme } from './theme';
 
 const theme = createTheme({
   typography: {

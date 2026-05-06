@@ -304,7 +304,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
         uiSchema={milestonesUiSchema}
         formData={formData}
         formHeader={FormHeader}
-        theme={ProjectTheme}
+        rjsfTheme={ProjectTheme}
         onSubmit={handleSubmit}
         formAnimationHeight={1600}
         isExpanded={isExpanded}

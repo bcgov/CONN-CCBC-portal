@@ -1,3 +1,4 @@
+import React from 'react';
 import { render } from '@testing-library/react';
 import { MockPayloadGenerator } from 'relay-test-utils';
 import { RelayEnvironmentProvider, useLazyLoadQuery } from 'react-relay';
@@ -17,7 +18,7 @@ import TestingHelper from './TestingHelper';
 import mockGrowthBook from './mockGrowthBook';
 
 interface ComponentTestingHelperOptions<TQuery extends OperationType> {
-  component: (props: any) => JSX.Element;
+  component: (props: any) => React.ReactElement;
   testQuery: GraphQLTaggedNode;
   compiledQuery: ConcreteRequest;
   getPropsFromTestQuery?: (data: TQuery['response']) => any;

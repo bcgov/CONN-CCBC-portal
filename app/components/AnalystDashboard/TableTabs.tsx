@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import { StyledTab } from 'components/Admin/AdminTabs';
 
 const StyledNav = styled.nav`
@@ -14,10 +14,10 @@ const TableTabs = () => {
   const assessmentsHref = '/analyst/assessments';
   const changeLogHref = '/analyst/change-log';
 
-  const showAssessmentsTab = useFeature(
+  const showAssessmentsTab = useDeferredFeature(
     'show_assessment_assignment_table'
-  ).value;
-  const showChangeLogTab = useFeature('show_project_change_log_table').value;
+  );
+  const showChangeLogTab = useDeferredFeature('show_project_change_log_table');
 
   return (
     <StyledNav>

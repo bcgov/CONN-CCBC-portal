@@ -32,13 +32,25 @@ Cypress.Commands.add('mockLogin', (roleName) => {
 Cypress.Commands.add('waitForStableUI', (options = {}) => {
   const { timeout = 10000, stabilityTimeout = 500 } = options;
 
+  // Hard cap so this command always settles. Continuous DOM mutations (e.g.
+  // feature flags hydrating via useDeferredFeature) can reset the debounced
+  // MutationObserver indefinitely and hit Cypress defaultCommandTimeout.
+  const absoluteMaxMs = Math.min(timeout, 12000);
+
   // Wait for any pending GraphQL requests
   cy.window().then((win) => {
     if (win.fetch) {
-      // Wait for any ongoing fetch requests to complete
       return new Cypress.Promise((resolve) => {
+        let done = false;
+        const settle = () => {
+          if (done) return;
+          done = true;
+          resolve();
+        };
+
         let pendingRequests = 0;
         const originalFetch = win.fetch;
+        const deadline = Date.now() + absoluteMaxMs;
 
         win.fetch = function (...args) {
           pendingRequests++;
@@ -47,32 +59,48 @@ Cypress.Commands.add('waitForStableUI', (options = {}) => {
           });
         };
 
-        // Check if requests are done every 100ms
         const checkComplete = () => {
+          if (done) return;
+          if (Date.now() >= deadline) {
+            win.fetch = originalFetch;
+            settle();
+            return;
+          }
           if (pendingRequests === 0) {
-            win.fetch = originalFetch; // Restore original fetch
-            setTimeout(resolve, stabilityTimeout); // Additional stability time
+            win.fetch = originalFetch;
+            setTimeout(settle, stabilityTimeout);
           } else {
             setTimeout(checkComplete, 100);
           }
         };
 
-        // Start checking after a small delay
         setTimeout(checkComplete, 100);
       });
     }
+    return undefined;
   });
 
   // Wait for DOM to be stable (no mutations for stabilityTimeout)
   cy.window().then((win) => {
     return new Cypress.Promise((resolve) => {
-      let timeoutId;
-      const observer = new win.MutationObserver(() => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-          observer.disconnect();
-          resolve();
-        }, stabilityTimeout);
+      let done = false;
+      let debounceId;
+      let observer;
+      /** Declared before `finish` — `finish` clears this timeout */
+      let absoluteCapId;
+
+      const finish = () => {
+        if (done) return;
+        done = true;
+        if (debounceId) clearTimeout(debounceId);
+        if (absoluteCapId != null) clearTimeout(absoluteCapId);
+        if (observer) observer.disconnect();
+        resolve();
+      };
+
+      observer = new win.MutationObserver(() => {
+        clearTimeout(debounceId);
+        debounceId = setTimeout(finish, stabilityTimeout);
       });
 
       observer.observe(win.document.body, {
@@ -84,11 +112,8 @@ Cypress.Commands.add('waitForStableUI', (options = {}) => {
         characterDataOldValue: true,
       });
 
-      // Initial timeout in case there are no mutations
-      timeoutId = setTimeout(() => {
-        observer.disconnect();
-        resolve();
-      }, stabilityTimeout);
+      debounceId = setTimeout(finish, stabilityTimeout);
+      absoluteCapId = setTimeout(finish, absoluteMaxMs);
     });
   });
 });
@@ -115,7 +140,8 @@ Cypress.Commands.add('waitForAnimations', () => {
           styles.visibility === 'hidden' ||
           styles.display === 'none';
 
-        if (!isHiddenByDesign) {
+        // Skip descendants of collapsed panels, modals, etc. (parent display:none)
+        if (!isHiddenByDesign && Cypress.dom.isVisible(el)) {
           cy.wrap(el).should('be.visible');
         }
       }
@@ -146,6 +172,10 @@ Cypress.Commands.add('waitForOpacityTransitions', () => {
       const elements = $body.find(selector);
       if (elements.length > 0) {
         cy.get(selector).each(($el) => {
+          const el = $el[0];
+          if (!Cypress.dom.isVisible(el)) {
+            return;
+          }
           // Wait for element to have stable opacity (either 0 or > 0)
           cy.wrap($el).should(($element) => {
             const opacity = parseFloat($element.css('opacity'));
@@ -184,13 +214,13 @@ Cypress.Commands.add('clearHoverStates', () => {
     document.body.appendChild(tempElement);
     tempElement.focus();
 
-    // Trigger a mouse move to a neutral area to clear hover states
-    // Use force: true to avoid issues when body element might be considered "hidden"
-    cy.get('body').trigger(
-      'mousemove',
-      { clientX: 0, clientY: 0 },
-      { force: true }
-    );
+    // Trigger a mouse move to clear hover states. `force` must be in the same
+    // options object as coordinates (Cypress does not apply a third-arg options bag).
+    cy.get('body').trigger('mousemove', {
+      clientX: 1,
+      clientY: 1,
+      force: true,
+    });
 
     // Clean up
     setTimeout(() => {
@@ -237,6 +267,7 @@ Cypress.Commands.add('ensureConsistentState', () => {
 Cypress.Commands.add('waitForLoadingComplete', () => {
   // Common loading indicators
   const loadingSelectors = [
+    '[data-testid="app-suspense-loading"]',
     '[data-testid="loading"]',
     '[class*="loading"]',
     '[class*="spinner"]',

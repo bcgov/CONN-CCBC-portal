@@ -40,10 +40,35 @@ describe('The applicant dashboard', () => {
       component: 'Dashboard Page',
     });
 
-    cy.findByRole('button', { name: /Create application/i }).not('be.disabled');
-    cy.findByRole('button', { name: /Create application/i }).click();
+    cy.intercept('POST', '/graphql', (req) => {
+      if (
+        req.body?.variables?.input &&
+        Object.prototype.hasOwnProperty.call(req.body.variables.input, 'code')
+      ) {
+        req.alias = 'createApplicationMutation';
+      }
+    });
+
+    cy.findByRole('button', { name: /Create application/i })
+      .should('not.be.disabled')
+      .click();
 
     // Project information page
+    cy.wait('@createApplicationMutation')
+      .its('response.body.data.createApplication.application.rowId')
+      .then((applicationId) => {
+        expect(applicationId).to.exist;
+        cy.visit(`/applicantportal/form/${applicationId}/1`);
+      });
+
+    cy.url({ timeout: 15000 }).should(
+      'match',
+      /\/applicantportal\/form\/\d+\/1$/
+    );
+    cy.waitForElementStable('h1', {
+      timeout: 15000,
+      stabilityTime: 500,
+    });
     cy.findByRole('heading', { name: /^Project information/i }).should('exist');
     cy.get('[id="root_projectTitle"]');
 
@@ -620,9 +645,19 @@ describe('The applicant dashboard', () => {
       clearHovers: false,
     });
 
-    cy.contains('a', 'View').click();
+    cy.contains('a', 'View')
+      .should('have.attr', 'href')
+      .then((href) => {
+        cy.visit(href);
+      });
 
     // Project information page
+    cy.url().should('include', '/applicantportal/form/');
+    cy.waitForElementStable('h1', {
+      timeout: 15000,
+      stabilityTime: 500,
+    });
+    cy.findByRole('heading', { name: /^Project information/i }).should('exist');
 
     cy.get('[id="root_projectTitle"]').should('be.disabled');
     cy.get('[id="root_geographicAreaDescription"]').should('be.disabled');

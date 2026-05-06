@@ -1,3 +1,4 @@
+import React from 'react';
 import Head from 'next/head';
 import { Footer } from '@button-inc/bcgov-theme';
 import getConfig from 'next/config';
@@ -12,8 +13,8 @@ const StyledFooter = styled(Footer)`
   width: 100%;
 `;
 interface MainProps {
-  maxWidthOverride?: string;
-  provisionRightNav?: boolean;
+  $maxWidthOverride?: string;
+  $provisionRightNav?: boolean;
 }
 
 const StyledLayout = styled('div')`
@@ -29,16 +30,16 @@ const StyledMain = styled('main')<MainProps>`
   width: 100%;
   flex: 1;
   padding: 1em 2em;
-  ${({ theme, provisionRightNav, maxWidthOverride }) => {
+  ${({ theme, $provisionRightNav, $maxWidthOverride }) => {
     const { pageMaxWidth } = theme.width;
     const dynamicCalc = `calc(${pageMaxWidth} - 4em + ((100vw - ${pageMaxWidth}) / 2))`;
     const dynamicMargin = `calc(((100vw - ${pageMaxWidth}) / 2) - 4em)`;
 
     return {
-      maxWidth: provisionRightNav
+      maxWidth: $provisionRightNav
         ? dynamicCalc
-        : (maxWidthOverride ?? pageMaxWidth),
-      marginLeft: provisionRightNav ? dynamicMargin : '0',
+        : ($maxWidthOverride ?? pageMaxWidth),
+      marginLeft: $provisionRightNav ? dynamicMargin : '0',
     };
   }}
 
@@ -60,7 +61,7 @@ const StyledDiv = styled('div')`
 
 type Props = {
   title: string;
-  children: JSX.Element | JSX.Element[] | string | string[];
+  children: React.ReactNode;
   maxWidthOverride?: string;
   session: any;
   provisionRightNav?: boolean;
@@ -107,8 +108,8 @@ const Layout: React.FC<Props> = ({
       </Head>
       <Navigation isLoggedIn={isLoggedIn} />
       <StyledMain
-        maxWidthOverride={maxWidthOverride}
-        provisionRightNav={provisionRightNav}
+        $maxWidthOverride={maxWidthOverride}
+        $provisionRightNav={provisionRightNav}
       >
         {children}
       </StyledMain>

@@ -1,3 +1,4 @@
+import type React from 'react';
 import { RJSFSchema } from '@rjsf/utils';
 
 export interface ProjectFormProps {
@@ -8,7 +9,7 @@ export interface ProjectFormProps {
   formAnimationHeight?: number;
   formAnimationHeightOffset?: number;
   formData: any;
-  formHeader?: string | React.ReactNode | JSX.Element;
+  formHeader?: string | React.ReactNode;
   handleChange: any;
   showEditBtn?: boolean;
   /** The hidden submit button's ref, used to enforce validation on the form
@@ -29,7 +30,7 @@ export interface ProjectFormProps {
   setIsFormEditMode: any;
   submitting?: boolean;
   submittingText?: string;
-  theme?: any;
+  rjsfTheme?: any;
   title: string;
   uiSchema?: any;
   saveDataTestId?: string;

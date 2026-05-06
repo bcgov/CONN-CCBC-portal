@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useRef } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { Button } from '@button-inc/bcgov-theme';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -74,6 +74,7 @@ const StyledH4 = styled('h4')`
 `;
 
 const StyledLink = styled.button`
+  cursor: pointer;
   color: ${(props) => props.theme.color.links};
   text-decoration-line: underline;
 `;
@@ -247,7 +248,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
   templateNumber,
   showTemplateUploadIndication,
 }) => {
-  const hiddenFileInput = useRef() as MutableRefObject<HTMLInputElement>;
+  const hiddenFileInput = useRef<HTMLInputElement>(null);
   const isFiles = value?.length > 0;
   const hideIfFailed = errors?.length > 0 && hideFailedUpload;
   const isSecondary = buttonVariant === 'secondary';
@@ -265,7 +266,7 @@ const FileComponent: React.FC<FileComponentProps> = ({
   };
 
   const handleClick = () => {
-    hiddenFileInput.current.click();
+    hiddenFileInput.current?.click();
   };
 
   const buttonLabel = () => {

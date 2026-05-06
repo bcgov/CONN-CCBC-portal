@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { IDP_HINTS, IDP_HINT_PARAM } from 'data/ssoConstants';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import SubHeader from './SubHeader';
 import NavLoginForm from './NavLoginForm';
 import HeaderBanner from './HeaderBanner';
@@ -55,13 +55,17 @@ interface Props {
 const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   const router = useRouter();
   const isApplicantPortal = router?.pathname.startsWith('/applicantportal');
-  const useNewHeader = useFeature('use_new_header').value;
-  const { value: banner } = useFeature('header-banner');
+  const useNewHeader = useDeferredFeature('use_new_header');
+  const banner = useDeferredFeature<any>('header-banner', null);
+
+  const logoSrc = useNewHeader
+    ? '/icons/connectivity_portal.svg'
+    : '/icons/BCID_CC_RGB_rev.svg';
 
   const action = `/api/login/${IDP_HINT_PARAM}=${IDP_HINTS['IDIR']}`;
 
   return (
-    <StyledBaseNavigation>
+    <StyledBaseNavigation id="ccbc-main-navigation">
       {banner && (
         <HeaderBanner
           type={banner.type}
@@ -76,11 +80,7 @@ const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
               <Image
                 style={{ cursor: 'pointer', marginBottom: 0 }}
                 priority
-                src={
-                  useNewHeader
-                    ? '/icons/connectivity_portal.svg'
-                    : '/icons/BCID_CC_RGB_rev.svg'
-                }
+                src={logoSrc}
                 alt="Logo for Province of British Columbia Connected Communities"
                 height={100}
                 width={300}

@@ -18,7 +18,7 @@ describe('The headers middleware', () => {
 
     expect(mockResponse.append).toHaveBeenCalledWith(
       'Permissions-Policy',
-      "display-capture 'none'"
+      'display-capture=()'
     );
   });
 });

@@ -14,7 +14,7 @@ const testLoad = (screenShotTitle, setupFunction) => {
   setupFunction();
   cy.visit('/analyst/application/1/assessments/technical');
   cy.contains('a', 'Technical');
-  cy.get('body').happoScreenshot({
+  cy.stableHappoScreenshot({
     component: screenShotTitle,
   });
 };
@@ -25,7 +25,7 @@ describe('The analyst technical assessment page', () => {
     assessmentsSetup();
     cy.visit('/analyst/application/1/assessments/technical');
     cy.contains('a', 'Technical');
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
       component: 'Analyst technical assessment page',
     });
   });
@@ -60,14 +60,19 @@ describe('The analyst technical assessment page', () => {
     cy.visit('/analyst/application/1/assessments/technical');
     cy.contains('a', 'Technical');
     cy.wait('@graphql');
-    cy.get('select[id="root_assignedTo"]').select('Meherzad Romer');
+    cy.get('select[id="root_assignedTo"]')
+      .filter(':visible')
+      .first()
+      .select('Meherzad Romer');
     cy.get('input[id="root_targetDate"]').invoke('val', '2023-03-10');
     cy.get('input[id="root_nextStep-1"]').parent().click({ force: true });
     cy.get('input[id="root_decision-1"]').parent().click({ force: true });
     cy.contains('button', /^Save$/).click();
     cy.contains('button', 'Saved').should('exist');
     cy.visit('/analyst/application/1/assessments/technical');
-    cy.get('body').happoScreenshot({
+    cy.contains('a', 'Technical');
+    cy.wait('@graphql');
+    cy.stableHappoScreenshot({
       component: 'Filled Analyst Technical Assessment Page',
     });
   });

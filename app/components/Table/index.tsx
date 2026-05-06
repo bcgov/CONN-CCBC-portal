@@ -32,7 +32,7 @@ interface Props {
   paginated?: boolean;
   totalRowCount?: number;
   availableRowCount?: number;
-  emptyStateContents?: JSX.Element | string;
+  emptyStateContents?: React.ReactNode;
   /**
    * The top-level query used by the page rendenring the table.
    * If provided, when the table filters, ordering or pagination are updated,

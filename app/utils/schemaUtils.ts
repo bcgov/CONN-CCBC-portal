@@ -19,8 +19,16 @@ export const getFilteredSchemaOrderFromUiSchema = (
   schema: any,
   uiSchema: any
 ) => {
-  return uiSchema['ui:order'].filter((formName) => {
-    return Object.hasOwn(schema.properties, formName);
+  const order = uiSchema?.['ui:order'];
+  const properties = schema?.properties;
+  if (!Array.isArray(order)) {
+    return [];
+  }
+  if (!properties || typeof properties !== 'object') {
+    return order;
+  }
+  return order.filter((formName) => {
+    return Object.hasOwn(properties, formName);
   });
 };
 

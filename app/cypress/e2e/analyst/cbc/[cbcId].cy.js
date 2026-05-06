@@ -9,7 +9,7 @@ const loadTest = (role) => {
   cy.contains('h2', 'Events and dates');
   cy.contains('h2', 'Miscellaneous');
   cy.contains('h2', 'Project data reviews');
-  cy.get('body').happoScreenshot({ component: `CBC project view - ${role}` });
+  cy.stableHappoScreenshot({ component: `CBC project view - ${role}` });
 };
 describe('The cbc project view', () => {
   beforeEach(() => {
@@ -35,7 +35,7 @@ describe('The cbc project view', () => {
   it('triggers quick edit cbc_admin', () => {
     cy.visit('/analyst/cbc/1');
     cy.get('button').contains('Quick edit').click();
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
       component: 'CBC project view - quick edit cbc_admin',
     });
   });
@@ -44,7 +44,7 @@ describe('The cbc project view', () => {
     cy.mockLogin('super_admin');
     cy.visit('/analyst/cbc/1');
     cy.get('button').contains('Quick edit').click();
-    cy.get('body').happoScreenshot({
+    cy.stableHappoScreenshot({
       component: 'CBC project view - quick edit super_admin',
     });
   });

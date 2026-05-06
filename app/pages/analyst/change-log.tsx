@@ -1,6 +1,6 @@
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import { DashboardTabs, TableTabs } from 'components/AnalystDashboard';
 import styled from 'styled-components';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
@@ -26,8 +26,8 @@ const ChangeLog = ({
 }: RelayProps<Record<string, unknown>, changeLogQuery>) => {
   const query = usePreloadedQuery(getChangeLogQuery, preloadedQuery);
   const { session } = query;
-  const isMaxWidthOverride = useFeature('max_width_override').value;
-  const showChangeLogTab = useFeature('show_project_change_log_table').value;
+  const isMaxWidthOverride = useDeferredFeature('max_width_override');
+  const showChangeLogTab = useDeferredFeature('show_project_change_log_table');
 
   if (!showChangeLogTab) return null;
 

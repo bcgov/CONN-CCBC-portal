@@ -19,7 +19,7 @@ import generateFormData from 'lib/helpers/ccbcSummaryGenerateFormData';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import mapUiSchema from 'formSchema/uiSchema/summary/mapUiSchema';
-import { useFeature } from '@growthbook/growthbook-react';
+import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import useApplicationMerge from 'lib/helpers/useApplicationMerge';
 
 const getSummaryQuery = graphql`
@@ -251,11 +251,15 @@ const Summary = ({
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
   const { section: toggledSection } = router.query;
-  const showMap = useFeature('show_summary_map').value;
+  const showMap = useDeferredFeature('show_summary_map');
   const [mapData, setMapData] = useState(null);
-  const [isMapExpanded, setIsMapExpanded] = useState(
-    cookie.get('map_expanded') === 'true'
-  );
+  // Initialize to false to match SSR (where document.cookie is unavailable),
+  // then sync from the cookie after mount to avoid a hydration mismatch that
+  // would change the order of accordion sections (Map vs first review section).
+  const [isMapExpanded, setIsMapExpanded] = useState(false);
+  useEffect(() => {
+    setIsMapExpanded(cookie.get('map_expanded') === 'true');
+  }, []);
   const query = usePreloadedQuery(getSummaryQuery, preloadedQuery);
   const {
     applicationByRowId,
@@ -418,7 +422,7 @@ const Summary = ({
           isFormAnimated={false}
           isFormEditMode={editMode}
           title="Summary"
-          theme={ReviewTheme}
+          rjsfTheme={ReviewTheme}
           schema={isMapExpanded ? finalSchema : summaryReviewSchema}
           uiSchema={isMapExpanded ? finalUiSchema : summaryReviewUiSchema}
           resetFormData={() => {}}

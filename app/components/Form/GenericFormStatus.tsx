@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import LoadingSpinner from 'components/LoadingSpinner';
@@ -41,7 +42,7 @@ const ErrorContainer = styled('div')`
 interface Props {
   updatedAt: string;
   isSaving: boolean;
-  error?: JSX.Element;
+  error?: React.ReactNode;
   projectName: string;
   status: string;
   showProjectDetails?: boolean;
