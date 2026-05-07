@@ -9,7 +9,10 @@ const notifyDocumentUpload: EmailTemplateProvider = (
   initiator: any,
   params: any
 ): EmailTemplate => {
-  const { ccbcNumber, documentType, timestamp, documentNames } = params;
+  const { ccbcNumber, documentTypes, timestamp, documentNames } = params;
+
+  const documentTypeFormatted =
+    documentTypes.length > 1 ? 'multiple files' : `A ${documentTypes[0]}`;
 
   const section = {
     'Claim & Progress Report': 'project?section=claimsReport',
@@ -18,16 +21,16 @@ const notifyDocumentUpload: EmailTemplateProvider = (
     'Statement of Work': 'project?section=projectInformation',
   };
 
-  const link = `<a href='${url}/analyst/application/${applicationId}/${section[documentType] ?? 'rfi'}'>${ccbcNumber}</a>`;
+  const link = `<a href='${url}/analyst/application/${applicationId}/${section[documentTypes[0]] ?? 'rfi'}'>${ccbcNumber}</a>`;
   return {
     emailTo: [112, 10, 111],
     emailCC: [],
     tag: 'document-upload-notification',
-    subject: `${documentType} uploaded in Portal`,
+    subject: `${documentTypeFormatted} uploaded in Portal`,
     body: `
-        <h1>${documentType} uploaded in Portal</h1>
+        <h1>${documentTypeFormatted} uploaded in Portal</h1>
 
-        <p>Notification: A ${documentType} has been uploaded in the Portal for ${link} on ${timestamp}.</p>
+        <p>Notification: ${documentTypeFormatted} has been uploaded in the Portal for ${link} on ${timestamp}.</p>
         <ul>
           ${documentNames.map((file) => `<li><em>${file}</em></li>`).join('')}
         </ul>
