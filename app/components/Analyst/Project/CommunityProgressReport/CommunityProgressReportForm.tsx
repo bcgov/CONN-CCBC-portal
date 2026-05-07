@@ -218,7 +218,7 @@ const CommunityProgressReportForm: React.FC<Props> = ({
             setShowToast(true);
             notifyDocumentUpload(applicationRowId, {
               ccbcNumber,
-              documentType: 'Community Progress Report',
+              documentTypes: ['Community Progress Report'],
               documentNames: [excelFile.name],
             });
           }

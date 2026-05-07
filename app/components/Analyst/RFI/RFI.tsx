@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useUpdateRfiJsonDataMutation } from 'schema/mutations/application/updateRfiJsonData';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
 
 interface Props {
   id: string;
@@ -40,6 +41,8 @@ const StyledFontAwesome = styled(FontAwesomeIcon)`
   cursor: pointer;
 `;
 
+const getFileKey = (file: any) => file?.uuid ?? file?.id ?? file?.name;
+
 const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
   const router = useRouter();
   const applicationId = router.query.applicationId as string;
@@ -58,12 +61,22 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
   const { jsonData, rfiNumber, rowId } = queryFragment;
 
   const [updateRfiJsonData] = useUpdateRfiJsonDataMutation();
+  const { notifyDocumentUpload } = useEmailNotification();
 
   const handleClickEditButton = () => {
     router.push(`/analyst/application/${applicationId}/rfi/${rowId}`);
   };
 
   const handleChange = (e: IChangeEvent<any>) => {
+    const previousEmailCorrespondence = jsonData?.rfiEmailCorrespondance ?? [];
+    const updatedEmailCorrespondence = e.formData?.rfiEmailCorrespondance ?? [];
+    const previousFileKeys = new Set(
+      previousEmailCorrespondence.map(getFileKey)
+    );
+    const uploadedEmailCorrespondence = updatedEmailCorrespondence.filter(
+      (file) => !previousFileKeys.has(getFileKey(file))
+    );
+
     updateRfiJsonData({
       variables: {
         input: {
@@ -75,6 +88,15 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
       },
       optimisticResponse: {
         jsonData: e.formData,
+      },
+      onCompleted: () => {
+        if (uploadedEmailCorrespondence.length > 0) {
+          notifyDocumentUpload(applicationId, {
+            ccbcNumber: rfiNumber,
+            documentTypes: ['Email Correspondence'],
+            documentNames: uploadedEmailCorrespondence.map((file) => file.name),
+          });
+        }
       },
       onError: (err) => {
         // eslint-disable-next-line no-console

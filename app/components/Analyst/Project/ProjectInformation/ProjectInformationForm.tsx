@@ -285,7 +285,7 @@ const ProjectInformationForm: React.FC<Props> = ({
 
     notifyDocumentUpload(rowId, {
       ccbcNumber,
-      documentType: 'Statement of Work',
+      documentTypes: ['Statement of Work'],
       documentNames: [sowFile.name],
     });
   };
