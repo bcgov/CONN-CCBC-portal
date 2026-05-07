@@ -89,7 +89,7 @@ describe('notifyDocumentUpload', () => {
 
     await result.current.notifyDocumentUpload('12345', {
       ccbcNumber: 'CCBC-10001',
-      documentType: 'Claim & Progress Report',
+      documentTypes: ['Claim & Progress Report'],
       documentNames: ['sow.xls'],
     });
 
@@ -111,7 +111,7 @@ describe('notifyDocumentUpload', () => {
 
     await result.current.notifyDocumentUpload('12345', {
       ccbcNumber: 'CCBC-10001',
-      documentType: 'Claim & Progress Report',
+      documentTypes: ['Claim & Progress Report'],
       documentNames: ['sow.xls'],
     });
 
