@@ -1,0 +1,103 @@
+{
+    "title": "Conditional approval",
+    "description": "",
+    "type": "object",
+    "properties": {
+        "decision": {
+            "title": "Minister's decision",
+            "type": "object",
+            "required": [
+                "ministerDecision",
+                "ministerDate",
+                "ministerAnnouncement"
+            ],
+            "properties": {
+                "ministerDecision": {
+                    "type": "string",
+                    "enum": [
+                        "Approved",
+                        "Not approved",
+                        "Hold"
+                    ]
+                },
+                "ministerDate": {
+                    "type": "string"
+                },
+                "ministerAnnouncement": {
+                    "type": "string",
+                    "enum": [
+                        "Announce immediately",
+                        "Hold announcement"
+                    ]
+                }
+            }
+        },
+        "isedDecisionObj": {
+            "title": "",
+            "type": "object",
+            "required": [
+                "isedDecision",
+                "isedDate",
+                "isedAnnouncement"
+            ],
+            "properties": {
+                "isedDecision": {
+                    "type": "string",
+                    "enum": [
+                        "Approved",
+                        "Not approved",
+                        "Hold"
+                    ]
+                },
+                "isedDate": {
+                    "type": "string"
+                },
+                "isedAnnouncement": {
+                    "type": "string",
+                    "enum": [
+                        "Announce immediately",
+                        "Hold announcement"
+                    ]
+                }
+            }
+        },
+        "letterOfApproval": {
+            "type": "object",
+            "required": [
+                "letterOfApprovalUpload",
+                "letterOfApprovalDateSent"
+            ],
+            "properties": {
+                "letterOfApprovalUpload": {
+                    "title": " ",
+                    "type": "string"
+                },
+                "letterOfApprovalDateSent": {
+                    "type": "string"
+                }
+            }
+        },
+        "response": {
+            "type": "object",
+            "required": [
+                "applicantResponse",
+                "statusApplicantSees"
+            ],
+            "properties": {
+                "applicantResponse": {
+                    "type": "string",
+                    "enum": [
+                        "Accepted",
+                        "Rejected"
+                    ]
+                },
+                "statusApplicantSees": {
+                    "type": "string",
+                    "enum": [
+                        "Conditionally Approved"
+                    ]
+                }
+            }
+        }
+    }
+}
