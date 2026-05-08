@@ -22,7 +22,7 @@ describe('notifyDocumentUpload template', () => {
         emailTo: [112, 10, 111],
         emailCC: [],
         tag: 'document-upload-notification',
-        subject: 'Claim & Progress Report uploaded in Portal',
+        subject: 'A Claim & Progress Report uploaded in Portal',
         body: expect.anything(),
       })
     );
@@ -93,7 +93,7 @@ describe('notifyDocumentUpload template', () => {
     );
   });
 
-  it('should contain the correct list of filenames', () => {
+  it('should contain the correct list of filenames and document types', () => {
     const applicationId = '1';
     const url = 'http://mock_host.ca';
 
@@ -109,7 +109,7 @@ describe('notifyDocumentUpload template', () => {
       }
     );
     expect(emailTemplate.body).toContain(
-      `<li><em>template_1.xls</em></li><li><em>template_2.xls</em></li><li><em>template_9.xls</em></li>`
+      `<li><em>template_1.xls</em> (Template 1)</li><li><em>template_2.xls</em> (Template 2)</li><li><em>template_9.xls</em> (Template 9)</li>`
     );
   });
 });
