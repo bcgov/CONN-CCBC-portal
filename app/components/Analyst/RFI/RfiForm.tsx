@@ -12,6 +12,8 @@ import { RfiForm_RfiData$key } from '__generated__/RfiForm_RfiData.graphql';
 import { useUpdateWithTrackingRfiMutation } from 'schema/mutations/application/updateWithTrackingRfiMutation';
 import removeFalseyValuesFromObject from 'utils/removeFalseValuesFromObject';
 import { useState } from 'react';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
+import { notifyRfiEmailCorrespondenceUpload } from 'lib/helpers/rfiUploadNotification';
 import RfiTheme from './RfiTheme';
 
 const StyledCancel = styled(Button)`
@@ -46,6 +48,7 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
   const [createRfi] = useCreateRfiMutation();
   const [updateRfi] = useUpdateWithTrackingRfiMutation();
   const [formData, setFormData] = useState(rfiFormData?.jsonData ?? {});
+  const { notifyDocumentUpload } = useEmailNotification();
 
   const handleSubmit = (e: IChangeEvent<any>) => {
     const newFormData = {
@@ -65,7 +68,14 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
             jsonData: newFormData,
           },
         },
-        onCompleted: () => {
+        onCompleted: (response) => {
+          notifyRfiEmailCorrespondenceUpload({
+            previousRfiFormData: rfiFormData?.jsonData,
+            rfiFormData: newFormData,
+            applicationId: applicationId as string,
+            rfiNumber: response.createRfi.rfiData.rfiNumber,
+            notifyDocumentUpload,
+          });
           router.push(rfiUrl);
         },
         onError: (err) => {
@@ -81,7 +91,14 @@ const RfiForm = ({ rfiDataKey }: RfiFormProps) => {
             rfiRowId: parseInt(rfiId as string, 10),
           },
         },
-        onCompleted: () => {
+        onCompleted: (response) => {
+          notifyRfiEmailCorrespondenceUpload({
+            previousRfiFormData: rfiFormData?.jsonData,
+            rfiFormData: newFormData,
+            applicationId: applicationId as string,
+            rfiNumber: response.updateRfi.rfiData.rfiNumber,
+            notifyDocumentUpload,
+          });
           router.push(rfiUrl);
         },
         onError: (err) => {
