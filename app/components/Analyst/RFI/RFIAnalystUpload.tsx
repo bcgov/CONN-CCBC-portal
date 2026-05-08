@@ -19,7 +19,9 @@ import { useUpdateRfiAndCreateTemplateNineDataMutation } from 'schema/mutations/
 import { useUpdateFormRfiAndCreateTemplateNineDataMutation } from 'schema/mutations/application/updateFormRfiAndCreateTemplateNineDataMutation';
 import { useUpdateRfiAndFormDataMutation } from 'schema/mutations/application/updateRfiAndFormDataMutation';
 import useTemplateUpload from 'lib/helpers/useTemplateUpload';
-import getNewlyUploadedRfiFiles from 'lib/helpers/rfiUploadNotification';
+import getNewlyUploadedRfiFiles, {
+  notifyRfiEmailCorrespondenceUpload,
+} from 'lib/helpers/rfiUploadNotification';
 
 const Flex = styled('header')`
   display: flex;
@@ -147,10 +149,19 @@ const RfiAnalystUpload = ({ query }) => {
       if (documentTypes?.length > 0) {
         notifyDocumentUpload(applicationId, {
           ccbcNumber,
+          rfiNumber,
           documentTypes,
           documentNames,
         });
       }
+      notifyRfiEmailCorrespondenceUpload({
+        previousRfiFormData: rfiDataByRowId?.jsonData,
+        rfiFormData,
+        applicationId,
+        rfiNumber,
+        ccbcNumber,
+        notifyDocumentUpload,
+      });
       if (rfiFormData?.rfiAdditionalFiles?.geographicCoverageMap?.length > 0) {
         notifyRfiCoverageMapKmzUploaded(
           rfiDataByRowId,
