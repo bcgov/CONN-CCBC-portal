@@ -19,7 +19,8 @@ import { useUpdateRfiAndCreateTemplateNineDataMutation } from 'schema/mutations/
 import { useUpdateFormRfiAndCreateTemplateNineDataMutation } from 'schema/mutations/application/updateFormRfiAndCreateTemplateNineDataMutation';
 import { useUpdateRfiAndFormDataMutation } from 'schema/mutations/application/updateRfiAndFormDataMutation';
 import useTemplateUpload from 'lib/helpers/useTemplateUpload';
-import getNewlyUploadedRfiFiles, {
+import {
+  notifyRfiDocumentUpload,
   notifyRfiEmailCorrespondenceUpload,
 } from 'lib/helpers/rfiUploadNotification';
 
@@ -141,19 +142,14 @@ const RfiAnalystUpload = ({ query }) => {
         );
         showToast(message, 'success', 100000000);
       }
-      // Notify document upload if there are newly uploaded files
-      const { documentTypes, documentNames } = getNewlyUploadedRfiFiles(
-        rfiDataByRowId?.jsonData,
-        rfiFormData
-      );
-      if (documentTypes?.length > 0) {
-        notifyDocumentUpload(applicationId, {
-          ccbcNumber,
-          rfiNumber,
-          documentTypes,
-          documentNames,
-        });
-      }
+      notifyRfiDocumentUpload({
+        previousRfiFormData: rfiDataByRowId?.jsonData,
+        rfiFormData,
+        applicationId,
+        rfiNumber,
+        ccbcNumber,
+        notifyDocumentUpload,
+      });
       notifyRfiEmailCorrespondenceUpload({
         previousRfiFormData: rfiDataByRowId?.jsonData,
         rfiFormData,

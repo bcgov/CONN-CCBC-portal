@@ -1,5 +1,7 @@
 import { rfiSchema } from 'formSchema/analyst';
 
+export const getFileKey = (file: any) => file?.uuid ?? file?.id ?? file?.name;
+
 const getRfiAdditionalFileFields = () => {
   const { dependencies } = (rfiSchema as any).properties.rfiAdditionalFiles;
 
@@ -15,18 +17,6 @@ const getRfiAdditionalFileFields = () => {
 
 const rfiAdditionalFileFields = getRfiAdditionalFileFields();
 
-export const getFileKey = (file: any) => file?.uuid ?? file?.id ?? file?.name;
-
-export const getCcbcNumberFromRfiNumber = (rfiNumber: string) => {
-  if (!rfiNumber) return rfiNumber;
-
-  const rfiNumberParts = rfiNumber.split('-');
-
-  if (rfiNumberParts.length <= 2) return rfiNumber;
-
-  return rfiNumberParts.slice(0, -1).join('-');
-};
-
 export const getNewlyUploadedRfiEmailCorrespondence = (
   previousFormData: any,
   updatedFormData: any
@@ -40,38 +30,6 @@ export const getNewlyUploadedRfiEmailCorrespondence = (
   return updatedEmailCorrespondence.filter(
     (file) => !previousFileKeys.has(getFileKey(file))
   );
-};
-
-export const notifyRfiEmailCorrespondenceUpload = ({
-  previousRfiFormData,
-  rfiFormData,
-  applicationId,
-  rfiNumber,
-  ccbcNumber,
-  notifyDocumentUpload,
-}: {
-  previousRfiFormData: any;
-  rfiFormData: any;
-  applicationId: string | number;
-  rfiNumber: string;
-  ccbcNumber?: string;
-  notifyDocumentUpload: (applicationId: string | number, params: any) => void;
-}) => {
-  const uploadedEmailCorrespondence = getNewlyUploadedRfiEmailCorrespondence(
-    previousRfiFormData,
-    rfiFormData
-  );
-
-  if (uploadedEmailCorrespondence.length === 0) return;
-
-  notifyDocumentUpload(applicationId, {
-    ccbcNumber: ccbcNumber ?? getCcbcNumberFromRfiNumber(rfiNumber),
-    rfiNumber,
-    documentTypes: ['Email Correspondence'],
-    documentNames: uploadedEmailCorrespondence
-      .map((file) => file.name)
-      .filter(Boolean),
-  });
 };
 
 const getNewlyUploadedRfiFiles = (
@@ -110,4 +68,64 @@ const getNewlyUploadedRfiFiles = (
   return { documentTypes, documentNames };
 };
 
-export default getNewlyUploadedRfiFiles;
+export const notifyRfiEmailCorrespondenceUpload = ({
+  previousRfiFormData,
+  rfiFormData,
+  applicationId,
+  rfiNumber,
+  ccbcNumber,
+  notifyDocumentUpload,
+}: {
+  previousRfiFormData: any;
+  rfiFormData: any;
+  applicationId: string | number;
+  rfiNumber: string;
+  ccbcNumber?: string;
+  notifyDocumentUpload: (applicationId: string | number, params: any) => void;
+}) => {
+  const uploadedEmailCorrespondence = getNewlyUploadedRfiEmailCorrespondence(
+    previousRfiFormData,
+    rfiFormData
+  );
+
+  if (uploadedEmailCorrespondence.length === 0) return;
+
+  notifyDocumentUpload(applicationId, {
+    ccbcNumber: ccbcNumber ?? undefined,
+    rfiNumber,
+    documentTypes: ['Email Correspondence'],
+    documentNames: uploadedEmailCorrespondence
+      .map((file) => file.name)
+      .filter(Boolean),
+  });
+};
+
+export const notifyRfiDocumentUpload = ({
+  previousRfiFormData,
+  rfiFormData,
+  applicationId,
+  rfiNumber,
+  ccbcNumber,
+  notifyDocumentUpload,
+}: {
+  previousRfiFormData: any;
+  rfiFormData: any;
+  applicationId: string | number;
+  rfiNumber: string;
+  ccbcNumber?: string;
+  notifyDocumentUpload: (applicationId: string | number, params: any) => void;
+}) => {
+  const { documentTypes, documentNames } = getNewlyUploadedRfiFiles(
+    previousRfiFormData,
+    rfiFormData
+  );
+
+  if (documentTypes.length === 0) return;
+
+  notifyDocumentUpload(applicationId, {
+    ccbcNumber: ccbcNumber ?? undefined,
+    rfiNumber,
+    documentTypes,
+    documentNames,
+  });
+};
