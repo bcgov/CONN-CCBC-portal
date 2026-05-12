@@ -1,3 +1,9 @@
+# [1.300.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.299.0...v1.300.0) (2026-05-12)
+
+### Features
+
+- sow import tab 7 new fiscals ([2511263](https://github.com/bcgov/CONN-CCBC-portal/commit/2511263c00319ff8d7c036775cb9943d7601ba5f))
+
 # [1.299.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.298.3...v1.299.0) (2026-05-12)
 
 ### Features

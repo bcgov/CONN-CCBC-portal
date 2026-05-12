@@ -13,10 +13,118 @@ const tab7Mutation = `
   }
 `;
 
+// ---------------------------------------------------------------------------
+// Template version detection and column maps
+//
+// Old template (through 2026-27): fiscal-year columns G–J, total in K.
+// Extended template (through 2028-29): fiscal-year columns G–L, total in M.
+//
+// All sections that break down funding or costs by fiscal year (Parts 2, 3
+// and 4) use the same column layout, so a single map drives every read.
+// ---------------------------------------------------------------------------
+
+interface YearCols {
+  2324: string;
+  2425: string;
+  2526: string;
+  2627: string;
+  2728: string | null;
+  2829: string | null;
+  total: string;
+}
+
+const OLD_YEAR_COLS: YearCols = {
+  2324: 'G',
+  2425: 'H',
+  2526: 'I',
+  2627: 'J',
+  2728: null,
+  2829: null,
+  total: 'K',
+};
+
+const EXTENDED_YEAR_COLS: YearCols = {
+  2324: 'G',
+  2425: 'H',
+  2526: 'I',
+  2627: 'J',
+  2728: 'K',
+  2829: 'L',
+  total: 'M',
+};
+
+// Scan the sheet for the Part 4 year-header row (where G='2023-24').
+// Old template: K='Total'. Extended template: K='2027-28'.
+//
+// Part 2 and Part 3 also have year-header rows with G='2023-24' but they set
+// B to 'Project Costs' or 'Project Funding'. Only the Part 4 header omits B,
+// so we must not treat the first '2023-24' in column G as authoritative.
+const detectExtendedYears = (budget: any[]): boolean => {
+  // Scan the whole sheet: test mocks (and some real uploads) may have fewer than
+  // 1000 rows before Part 4, so starting at index 1000 would miss the fiscal
+  // header row and mis-detect the template version.
+  for (let row = 0; row < budget.length; row++) {
+    const rowData = budget[row];
+    if (!rowData) continue;
+    const gVal = rowData['G'];
+    if (typeof gVal !== 'string' || !gVal.includes('2023-24')) continue;
+    const bVal = rowData['B'];
+    if (bVal !== undefined && bVal !== '') continue;
+    const kVal = rowData['K'];
+    return typeof kVal === 'string' && kVal.includes('2027');
+  }
+  return false;
+};
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+// Build a fiscal-year object from one spreadsheet row using the active column
+// map.  New-format years are only included when the map has a non-null column
+// for them, keeping old-format objects compact.  Callers merge the result into
+// the appropriate detailedBudget sub-object via Object.assign.
+const readFiscalYearRow = (
+  rowData: any,
+  cols: YearCols
+): Record<string | number, any> => {
+  const result: Record<string | number, any> = {
+    2324: rowData[cols[2324]],
+    2425: rowData[cols[2425]],
+    2526: rowData[cols[2526]],
+    2627: rowData[cols[2627]],
+    total: rowData[cols.total],
+  };
+  if (cols[2728]) result[2728] = rowData[cols[2728]];
+  if (cols[2829]) result[2829] = rowData[cols[2829]];
+  return result;
+};
+
+// Returns an initialised per-fiscal-year object that matches the template
+// version in use. Only old-format objects when isExtended=false so that old
+// uploads produce the same JSON shape as before.
+const makeFiscalYears = (isExtended: boolean) =>
+  isExtended
+    ? { 2324: '', 2425: '', 2526: '', 2627: '', 2728: '', 2829: '', total: '' }
+    : { 2324: '', 2425: '', 2526: '', 2627: '', total: '' };
+
+// ---------------------------------------------------------------------------
+// Main reader
+// ---------------------------------------------------------------------------
+
 const readBudget = async (sow_id, wb, sheet_name) => {
   const budget = XLSX.utils.sheet_to_json(wb.Sheets[sheet_name], {
     header: 'A',
   });
+
+  const isExtended = detectExtendedYears(budget);
+  const cols: YearCols = isExtended ? EXTENDED_YEAR_COLS : OLD_YEAR_COLS;
+  // Keys that need a 0 fallback for the FNHA row when it is absent.
+  const fiscalYearKeys: (number | string)[] = isExtended
+    ? [2324, 2425, 2526, 2627, 2728, 2829, 'total']
+    : [2324, 2425, 2526, 2627, 'total'];
+
+  const fy = () => makeFiscalYears(isExtended);
 
   const getRowNumber = (rowData: any, fallbackIndex: number) => {
     if (rowData && typeof rowData.__rowNum__ === 'number') {
@@ -86,115 +194,31 @@ const readBudget = async (sow_id, wb, sheet_name) => {
       },
       thirtyPercentOfTotalEligibleCosts: '',
       projectCosts: {
-        totalEligibleCosts: {
-          2324: '',
-          2425: '',
-          2526: '',
-          2627: '',
-          total: '',
-        },
-        totalIneligibleCosts: {
-          2324: '',
-          2425: '',
-          2526: '',
-          2627: '',
-          total: '',
-        },
-        totalProjectCost: {
-          2324: '',
-          2425: '',
-          2526: '',
-          2627: '',
-          total: '',
-        },
+        totalEligibleCosts: fy(),
+        totalIneligibleCosts: fy(),
+        totalProjectCost: fy(),
       },
     },
     summaryOfEstimatedProjectFunding: {
-      federalContribution: {
-        2324: '',
-        2425: '',
-        2526: '',
-        2627: '',
-        total: '',
-      },
-      applicationContribution: {
-        2324: '',
-        2425: '',
-        2526: '',
-        2627: '',
-        total: '',
-      },
-      provincialContribution: {
-        2324: '',
-        2425: '',
-        2526: '',
-        2627: '',
-        total: '',
-      },
-      infrastructureBankFunding: {
-        2324: '',
-        2425: '',
-        2526: '',
-        2627: '',
-        total: '',
-      },
-      fnhaFunding: {
-        2324: '',
-        2425: '',
-        2526: '',
-        2627: '',
-        total: '',
-      },
+      federalContribution: fy(),
+      applicationContribution: fy(),
+      provincialContribution: fy(),
+      infrastructureBankFunding: fy(),
+      fnhaFunding: fy(),
       otherFundingPartners: [],
-      totalFinancialContribution: {
-        2324: '',
-        2425: '',
-        2526: '',
-        2627: '',
-        total: '',
-      },
+      totalFinancialContribution: fy(),
     },
     currentFiscalProvincialContributionForecastByQuarter: {
-      aprilToJune: {
-        2324: '',
-        2425: '',
-        2526: '',
-        2627: '',
-        total: '',
-      },
-      julyToSeptember: {
-        2324: '',
-        2425: '',
-        2526: '',
-        2627: '',
-        total: '',
-      },
-      octoberToDecember: {
-        2324: '',
-        2425: '',
-        2526: '',
-        2627: '',
-        total: '',
-      },
-      januaryToMarch: {
-        2324: '',
-        2425: '',
-        2526: '',
-        2627: '',
-        total: '',
-      },
-      fiscalYearTotal: {
-        2324: '',
-        2425: '',
-        2526: '',
-        2627: '',
-        total: '',
-      },
+      aprilToJune: fy(),
+      julyToSeptember: fy(),
+      octoberToDecember: fy(),
+      januaryToMarch: fy(),
+      fiscalYearTotal: fy(),
     },
   };
 
   // -- SUMMARY TABLE --
-  // first pass - column B
+  // first pass - column C
   for (let row = 1; row < 50; row++) {
     const rowData = budget[row];
     const suspect = rowData['C'];
@@ -212,7 +236,6 @@ const readBudget = async (sow_id, wb, sheet_name) => {
       cellValues[key] = rowData[column];
     };
 
-    // if (typeof(value) !== 'string') continue;
     if (value.indexOf('Are you targeting a very remote community') > -1) {
       detailedBudget.summaryTable.targetingVeryRemoteOrIndigenousOrSatelliteDependentCommunity =
         convertExcelDropdownToBoolean(budget[row]['D']);
@@ -399,7 +422,7 @@ const readBudget = async (sow_id, wb, sheet_name) => {
     }
   }
 
-  // last pass - column B project costs
+  // last pass - column B, per-fiscal-year project cost breakdown
   for (let row = 1076; row < 1090; row++) {
     const suspect = budget[row]['B'];
     let value;
@@ -411,40 +434,25 @@ const readBudget = async (sow_id, wb, sheet_name) => {
     }
 
     if (value.indexOf('Total Eligible Costs') > -1) {
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalEligibleCosts[2324] =
-        budget[row]['G'];
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalEligibleCosts[2425] =
-        budget[row]['H'];
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalEligibleCosts[2526] =
-        budget[row]['I'];
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalEligibleCosts[2627] =
-        budget[row]['J'];
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalEligibleCosts.total =
-        budget[row]['K'];
+      Object.assign(
+        detailedBudget.summaryOfEstimatedProjectCosts.projectCosts
+          .totalEligibleCosts,
+        readFiscalYearRow(budget[row], cols)
+      );
     }
     if (value.indexOf('Total Ineligible Costs') > -1) {
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalIneligibleCosts[2324] =
-        budget[row]['G'];
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalIneligibleCosts[2425] =
-        budget[row]['H'];
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalIneligibleCosts[2526] =
-        budget[row]['I'];
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalIneligibleCosts[2627] =
-        budget[row]['J'];
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalIneligibleCosts.total =
-        budget[row]['K'];
+      Object.assign(
+        detailedBudget.summaryOfEstimatedProjectCosts.projectCosts
+          .totalIneligibleCosts,
+        readFiscalYearRow(budget[row], cols)
+      );
     }
     if (value.indexOf('Total Project Costs') > -1) {
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalProjectCost[2324] =
-        budget[row]['G'];
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalProjectCost[2425] =
-        budget[row]['H'];
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalProjectCost[2526] =
-        budget[row]['I'];
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalProjectCost[2627] =
-        budget[row]['J'];
-      detailedBudget.summaryOfEstimatedProjectCosts.projectCosts.totalProjectCost.total =
-        budget[row]['K'];
+      Object.assign(
+        detailedBudget.summaryOfEstimatedProjectCosts.projectCosts
+          .totalProjectCost,
+        readFiscalYearRow(budget[row], cols)
+      );
     }
   }
 
@@ -465,55 +473,32 @@ const readBudget = async (sow_id, wb, sheet_name) => {
 
     // we are on Project funding
     if (value.indexOf('Project Funding') > -1) {
-      // next 4 rows are present funding sources
-      // Federal contribution
+      // next 4 rows are the fixed funding sources
       row++;
-      detailedBudget.summaryOfEstimatedProjectFunding.federalContribution[2324] =
-        budget[row]['G'];
-      detailedBudget.summaryOfEstimatedProjectFunding.federalContribution[2425] =
-        budget[row]['H'];
-      detailedBudget.summaryOfEstimatedProjectFunding.federalContribution[2526] =
-        budget[row]['I'];
-      detailedBudget.summaryOfEstimatedProjectFunding.federalContribution[2627] =
-        budget[row]['J'];
-      detailedBudget.summaryOfEstimatedProjectFunding.federalContribution.total =
-        budget[row]['K'];
+      // Federal contribution
+      Object.assign(
+        detailedBudget.summaryOfEstimatedProjectFunding.federalContribution,
+        readFiscalYearRow(budget[row], cols)
+      );
       row++;
       // recipient/application contribution
-      detailedBudget.summaryOfEstimatedProjectFunding.applicationContribution[2324] =
-        budget[row]['G'];
-      detailedBudget.summaryOfEstimatedProjectFunding.applicationContribution[2425] =
-        budget[row]['H'];
-      detailedBudget.summaryOfEstimatedProjectFunding.applicationContribution[2526] =
-        budget[row]['I'];
-      detailedBudget.summaryOfEstimatedProjectFunding.applicationContribution[2627] =
-        budget[row]['J'];
-      detailedBudget.summaryOfEstimatedProjectFunding.applicationContribution.total =
-        budget[row]['K'];
+      Object.assign(
+        detailedBudget.summaryOfEstimatedProjectFunding.applicationContribution,
+        readFiscalYearRow(budget[row], cols)
+      );
       row++;
       // provincial contribution
-      detailedBudget.summaryOfEstimatedProjectFunding.provincialContribution[2324] =
-        budget[row]['G'];
-      detailedBudget.summaryOfEstimatedProjectFunding.provincialContribution[2425] =
-        budget[row]['H'];
-      detailedBudget.summaryOfEstimatedProjectFunding.provincialContribution[2526] =
-        budget[row]['I'];
-      detailedBudget.summaryOfEstimatedProjectFunding.provincialContribution[2627] =
-        budget[row]['J'];
-      detailedBudget.summaryOfEstimatedProjectFunding.provincialContribution.total =
-        budget[row]['K'];
+      Object.assign(
+        detailedBudget.summaryOfEstimatedProjectFunding.provincialContribution,
+        readFiscalYearRow(budget[row], cols)
+      );
       row++;
       // applicant contribution by CIB/Infrastructure banking
-      detailedBudget.summaryOfEstimatedProjectFunding.infrastructureBankFunding[2324] =
-        budget[row]['G'];
-      detailedBudget.summaryOfEstimatedProjectFunding.infrastructureBankFunding[2425] =
-        budget[row]['H'];
-      detailedBudget.summaryOfEstimatedProjectFunding.infrastructureBankFunding[2526] =
-        budget[row]['I'];
-      detailedBudget.summaryOfEstimatedProjectFunding.infrastructureBankFunding[2627] =
-        budget[row]['J'];
-      detailedBudget.summaryOfEstimatedProjectFunding.infrastructureBankFunding.total =
-        budget[row]['K'];
+      Object.assign(
+        detailedBudget.summaryOfEstimatedProjectFunding
+          .infrastructureBankFunding,
+        readFiscalYearRow(budget[row], cols)
+      );
       row++;
       // next 7 are possible other
       let fnhaFundingRow = {};
@@ -538,50 +523,47 @@ const readBudget = async (sow_id, wb, sheet_name) => {
           fnhaFundingRow = budget[otherRow];
           fnhaFundingIndex = otherRow;
         } else {
+          const partner: Record<string | number, any> = {
+            fundingPartnersName: budget[otherRow]['B'],
+            2324: budget[otherRow][cols[2324]],
+            2425: budget[otherRow][cols[2425]],
+            2526: budget[otherRow][cols[2526]],
+            2627: budget[otherRow][cols[2627]],
+            total: budget[otherRow][cols.total],
+          };
+          if (cols[2728]) partner[2728] = budget[otherRow][cols[2728]];
+          if (cols[2829]) partner[2829] = budget[otherRow][cols[2829]];
           detailedBudget.summaryOfEstimatedProjectFunding.otherFundingPartners.push(
-            {
-              fundingPartnersName: budget[otherRow]['B'],
-              2324: budget[otherRow]['G'],
-              2425: budget[otherRow]['H'],
-              2526: budget[otherRow]['I'],
-              2627: budget[otherRow]['J'],
-              total: budget[otherRow]['K'],
-            }
+            partner
           );
         }
       }
 
-      // FNHA Funding
-      detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding[2324] =
-        fnhaFundingRow['G'] ?? 0;
-      detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding[2425] =
-        fnhaFundingRow['H'] ?? 0;
-      detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding[2526] =
-        fnhaFundingRow['I'] ?? 0;
-      detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding[2627] =
-        fnhaFundingRow['J'] ?? 0;
-      detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding.total =
-        fnhaFundingRow['K'] ?? 0;
-      detailedBudget.summaryTable.totalFNHAFunding = fnhaFundingRow['K'] ?? 0;
+      // FNHA Funding — apply ?? 0 fallback for missing/absent rows
+      const fnhaValues = readFiscalYearRow(fnhaFundingRow, cols);
+      fiscalYearKeys.forEach((key) => {
+        if (fnhaValues[key] === undefined) fnhaValues[key] = 0;
+      });
+      Object.assign(
+        detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding,
+        fnhaValues
+      );
+      detailedBudget.summaryTable.totalFNHAFunding =
+        detailedBudget.summaryOfEstimatedProjectFunding.fnhaFunding.total;
       const fnhaRowNumber = getRowNumber(
         budget[fnhaFundingIndex],
         fnhaFundingIndex
       );
-      cellRefs.totalFNHAFunding = `K${fnhaRowNumber}`;
-      cellValues.totalFNHAFunding = fnhaFundingRow['K'];
+      cellRefs.totalFNHAFunding = `${cols.total}${fnhaRowNumber}`;
+      cellValues.totalFNHAFunding = fnhaFundingRow[cols.total];
     }
     // get totals
     if (value.indexOf('Total Financial Contributions') > -1) {
-      detailedBudget.summaryOfEstimatedProjectFunding.totalFinancialContribution[2324] =
-        budget[row]['G'];
-      detailedBudget.summaryOfEstimatedProjectFunding.totalFinancialContribution[2425] =
-        budget[row]['H'];
-      detailedBudget.summaryOfEstimatedProjectFunding.totalFinancialContribution[2526] =
-        budget[row]['I'];
-      detailedBudget.summaryOfEstimatedProjectFunding.totalFinancialContribution[2627] =
-        budget[row]['J'];
-      detailedBudget.summaryOfEstimatedProjectFunding.totalFinancialContribution.total =
-        budget[row]['K'];
+      Object.assign(
+        detailedBudget.summaryOfEstimatedProjectFunding
+          .totalFinancialContribution,
+        readFiscalYearRow(budget[row], cols)
+      );
     }
   }
 
@@ -601,70 +583,50 @@ const readBudget = async (sow_id, wb, sheet_name) => {
     }
 
     if (value.indexOf('April') > -1) {
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.aprilToJune[2324] =
-        budget[row]['G'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.aprilToJune[2425] =
-        budget[row]['H'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.aprilToJune[2526] =
-        budget[row]['I'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.aprilToJune[2627] =
-        budget[row]['J'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.aprilToJune.total =
-        budget[row]['K'];
+      Object.assign(
+        detailedBudget.currentFiscalProvincialContributionForecastByQuarter
+          .aprilToJune,
+        readFiscalYearRow(budget[row], cols)
+      );
     }
     if (value.indexOf('July') > -1) {
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.julyToSeptember[2324] =
-        budget[row]['G'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.julyToSeptember[2425] =
-        budget[row]['H'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.julyToSeptember[2526] =
-        budget[row]['I'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.julyToSeptember[2627] =
-        budget[row]['J'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.julyToSeptember.total =
-        budget[row]['K'];
+      Object.assign(
+        detailedBudget.currentFiscalProvincialContributionForecastByQuarter
+          .julyToSeptember,
+        readFiscalYearRow(budget[row], cols)
+      );
     }
     if (value.indexOf('October') > -1) {
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.octoberToDecember[2324] =
-        budget[row]['G'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.octoberToDecember[2425] =
-        budget[row]['H'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.octoberToDecember[2526] =
-        budget[row]['I'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.octoberToDecember[2627] =
-        budget[row]['J'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.octoberToDecember.total =
-        budget[row]['K'];
+      Object.assign(
+        detailedBudget.currentFiscalProvincialContributionForecastByQuarter
+          .octoberToDecember,
+        readFiscalYearRow(budget[row], cols)
+      );
     }
     if (value.indexOf('January') > -1) {
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.januaryToMarch[2324] =
-        budget[row]['G'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.januaryToMarch[2425] =
-        budget[row]['H'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.januaryToMarch[2526] =
-        budget[row]['I'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.januaryToMarch[2627] =
-        budget[row]['J'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.januaryToMarch.total =
-        budget[row]['K'];
+      Object.assign(
+        detailedBudget.currentFiscalProvincialContributionForecastByQuarter
+          .januaryToMarch,
+        readFiscalYearRow(budget[row], cols)
+      );
     }
     if (value.indexOf('Fiscal Year Total') > -1) {
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.fiscalYearTotal[2324] =
-        budget[row]['G'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.fiscalYearTotal[2425] =
-        budget[row]['H'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.fiscalYearTotal[2526] =
-        budget[row]['I'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.fiscalYearTotal[2627] =
-        budget[row]['J'];
-      detailedBudget.currentFiscalProvincialContributionForecastByQuarter.fiscalYearTotal.total =
-        budget[row]['K'];
+      Object.assign(
+        detailedBudget.currentFiscalProvincialContributionForecastByQuarter
+          .fiscalYearTotal,
+        readFiscalYearRow(budget[row], cols)
+      );
     }
   }
 
   // -- END CURRENT FISCAL PROVINCIAL CONTRIBUTION FORECAST BY QUARTER --
   return { ...detailedBudget, cellRefs, cellValues };
 };
+
+// ---------------------------------------------------------------------------
+// Validation — same rules apply to both template versions; the summary table
+// values being checked are all single-cell totals unaffected by format.
+// ---------------------------------------------------------------------------
 
 const ValidateData = (
   data,
