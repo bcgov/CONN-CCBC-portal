@@ -165,6 +165,52 @@ const mockTimeMachineQueryPayload = {
   },
 };
 
+const mockEditInviteOnlyQueryPayload = {
+  Query() {
+    return {
+      allIntakes: {
+        edges: [
+          {
+            node: {
+              ccbcIntakeNumber: 3,
+              closeTimestamp: '2030-01-15T23:00:00-08:00',
+              description: 'Intake 3 description',
+              openTimestamp: '2031-01-15T00:00:00-08:00',
+              rowId: 3,
+              rollingIntake: false,
+              zones: [1],
+              allowUnlistedFnLedZones: false,
+              hidden: false,
+              hiddenCode: null,
+            },
+          },
+          {
+            node: {
+              ccbcIntakeNumber: 2,
+              closeTimestamp: '2029-01-15T23:00:00-08:00',
+              description: 'Intake 2 description',
+              openTimestamp: '2024-01-15T00:00:00-08:00',
+              rowId: 2,
+              rollingIntake: true,
+              zones: [1, 2],
+              allowUnlistedFnLedZones: false,
+              hidden: false,
+              hiddenCode: '11111111-1111-1111-1111',
+            },
+          },
+        ],
+      },
+      openIntake: {
+        ccbcIntakeNumber: 2,
+      },
+      session: {
+        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
+        authRole: 'ccbc_admin',
+      },
+    };
+  },
+};
+
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
 
 jest.mock('js-cookie', () => ({
@@ -457,6 +503,54 @@ describe('The Application intakes admin page', () => {
         intakeZones: [1, 2],
         isAllowUnlistedFnLedZones: false,
         hiddenIntakeCode: null,
+      },
+    });
+
+    await act(async () => {
+      pageTestingHelper.environment.mock.resolveMostRecentOperation({
+        data: {},
+      });
+    });
+  });
+
+  it('should not update intake code when editing an invite only intake', async () => {
+    pageTestingHelper.loadQuery(mockEditInviteOnlyQueryPayload);
+    pageTestingHelper.renderPage();
+
+    const editButton = screen.getAllByTestId('edit-intake')[1];
+
+    await act(async () => {
+      fireEvent.click(editButton);
+    });
+
+    const descriptionInput = screen.getByTestId('root_description');
+
+    await act(async () => {
+      fireEvent.change(descriptionInput, {
+        target: {
+          value: 'Updated description',
+        },
+      });
+    });
+
+    const saveButton = screen.getByRole('button', {
+      name: 'Save',
+    });
+
+    await act(async () => {
+      fireEvent.click(saveButton);
+    });
+
+    pageTestingHelper.expectMutationToBeCalled('updateIntakeMutation', {
+      input: {
+        intakeNumber: 2,
+        startTime: '2024-01-15T00:00:00-08:00',
+        endTime: '2029-01-15T23:00:00-08:00',
+        intakeDescription: 'Updated description',
+        isRollingIntake: true,
+        intakeZones: [1, 2],
+        isAllowUnlistedFnLedZones: false,
+        hiddenIntakeCode: '11111111-1111-1111-1111',
       },
     });
 
