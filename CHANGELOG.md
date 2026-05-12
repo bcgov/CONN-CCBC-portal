@@ -1,3 +1,9 @@
+# [1.299.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.298.3...v1.299.0) (2026-05-12)
+
+### Features
+
+- gcpe report ccbc status log ([e294442](https://github.com/bcgov/CONN-CCBC-portal/commit/e294442c02a3743b446054073a983242c5d7f6b9))
+
 ## [1.298.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.298.2...v1.298.3) (2026-05-12)
 
 ### Bug Fixes
