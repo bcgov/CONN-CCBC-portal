@@ -178,6 +178,10 @@ const getCcbcQuery = `
             applicationStatusesByApplicationId {
               nodes {
                 status
+                applicationStatusTypeByStatus {
+                  visibleByApplicant
+                  description
+                }
               }
             }
             ccbcNumber
@@ -582,17 +586,8 @@ const generateExcelData = async (
       node?.applicationMilestoneExcelDataByApplicationId?.nodes[0]?.jsonData
         ?.overallMilestoneProgress ?? null;
 
-    const statusHistory = node?.applicationStatusesByApplicationId?.nodes
-      ?.map((statusNode) => statusNode?.status)
-      .filter(Boolean);
-    const currentStatusFromHistory =
-      statusHistory?.length > 0
-        ? statusHistory[statusHistory.length - 1]
-        : null;
-    const previousStatusFromHistory =
-      statusHistory?.length > 1
-        ? statusHistory[statusHistory.length - 2]
-        : null;
+    const statusNodes =
+      node?.applicationStatusesByApplicationId?.nodes || [];
 
     const row: Row = [
       // program
@@ -641,8 +636,7 @@ const generateExcelData = async (
       // status
       {
         value: convertStatus(node?.analystStatus),
-        previousStatus: previousStatusFromHistory,
-        currentStatus: currentStatusFromHistory,
+        statusNodes,
       } as any,
       // project milestone complete percent
       {

@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 
 const REPORT_TIMEZONE = 'America/Los_Angeles';
+const IGNORED_STATUSES = new Set(['draft', 'submitted']);
 
 const formatTimestamp = (timestamp?: string): string | null => {
   if (!timestamp) {
@@ -47,6 +48,61 @@ export const convertStatus = (status: string): string => {
     default:
       return status;
   }
+};
+
+export const buildStatusTransition = (
+  statusNodes: any[],
+  fromStatus?: string | null
+): string => {
+  let startIndex = 0;
+
+  if (fromStatus) {
+    const normalizedFrom = fromStatus.toLowerCase().replace(/\s+/g, '');
+    let lastMatchIdx = -1;
+    statusNodes.forEach((node, idx) => {
+      // Only anchor on analyst-visible nodes so the fromStatus survives the
+      // visibleByApplicant filter below (applicant_* mirror nodes share the
+      // same description but are filtered out, which would drop the "from"
+      // side of the transition).
+      const { visibleByApplicant } = node?.applicationStatusTypeByStatus || {};
+      if (visibleByApplicant) return;
+      const desc = (
+        node?.applicationStatusTypeByStatus?.description || ''
+      )
+        .toLowerCase()
+        .replace(/\s+/g, '');
+      const converted = convertStatus(node?.status)
+        .toLowerCase()
+        .replace(/\s+/g, '');
+      if (desc === normalizedFrom || converted === normalizedFrom) {
+        lastMatchIdx = idx;
+      }
+    });
+    if (lastMatchIdx >= 0) {
+      startIndex = lastMatchIdx;
+    }
+  }
+
+  const relevantNodes = statusNodes.slice(startIndex);
+
+  const filteredDescriptions = relevantNodes
+    .filter((node) => {
+      const status = node?.status;
+      const { visibleByApplicant } =
+        node?.applicationStatusTypeByStatus || {};
+      return !IGNORED_STATUSES.has(status) && !visibleByApplicant;
+    })
+    .map(
+      (node) =>
+        node?.applicationStatusTypeByStatus?.description ||
+        convertStatus(node?.status)
+    );
+
+  const dedupedDescriptions = filteredDescriptions.filter(
+    (desc, index) => index === 0 || desc !== filteredDescriptions[index - 1]
+  );
+
+  return dedupedDescriptions.join(' --> ') || 'Unknown';
 };
 
 export const findPrimaryAnnouncement = (announcements: any): any => {
@@ -225,10 +281,6 @@ export const compareAndMarkArrays = (
       const statusIndex =
         statusHeaderIndex >= 0 ? statusHeaderIndex : fallbackStatusIndex;
       const statusCell = statusIndex >= 0 ? row?.[statusIndex] : null;
-      const statusValue = statusCell?.value ?? null;
-      const previousStatus =
-        statusCell?.previousStatus || statusCell?.previousAnalystStatus || null;
-      const currentStatus = statusCell?.currentStatus || statusValue || null;
       const programValue = row?.[0]?.value;
       const cbcCreatedAt = formatTimestamp(
         cbcCreatedAtByProjectNumber.get(normalizedId)
@@ -238,9 +290,9 @@ export const compareAndMarkArrays = (
           ? `New record added to Connectivity Portal on ${
               cbcCreatedAt || 'Unknown'
             }`
-          : `Record added to GCPE list due to status change: ${convertStatus(
-              previousStatus || 'Unknown'
-            )} --> ${convertStatus(currentStatus || 'Unknown')}`;
+          : `Record added to GCPE list due to status change: ${buildStatusTransition(
+              statusCell?.statusNodes || []
+            )}`;
       const highlightedRow = row.map((item) =>
         item ? { ...item, backgroundColor: '#2FA7DD' } : item
       );
@@ -301,24 +353,34 @@ export const compareAndMarkArrays = (
       const normalizedValue2 = normalizeValue(item2?.value);
 
       if (normalizedValue1 !== normalizedValue2) {
-        // Track the change for the changelog
         const columnName = headerName;
-        let oldValue =
-          item2?.value === null || item2?.value === undefined
-            ? 'Null'
-            : item2.value;
-        let newValue =
-          item?.value === null || item?.value === undefined
-            ? 'Null'
-            : item.value;
-        // Show "Blank" instead of empty string for clarity
-        if (oldValue === '') {
-          oldValue = 'Blank';
+        const programValue = row?.[0]?.value;
+
+        if (
+          normalizedHeaderName === 'status' &&
+          programValue !== 'CBC' &&
+          item?.statusNodes?.length > 0
+        ) {
+          changes.push(
+            `${columnName}: ${buildStatusTransition(item.statusNodes, item2?.value)}`
+          );
+        } else {
+          let oldValue =
+            item2?.value === null || item2?.value === undefined
+              ? 'Null'
+              : item2.value;
+          let newValue =
+            item?.value === null || item?.value === undefined
+              ? 'Null'
+              : item.value;
+          if (oldValue === '') {
+            oldValue = 'Blank';
+          }
+          if (newValue === '') {
+            newValue = 'Blank';
+          }
+          changes.push(`${columnName}: ${oldValue} --> ${newValue}`);
         }
-        if (newValue === '') {
-          newValue = 'Blank';
-        }
-        changes.push(`${columnName}: ${oldValue} --> ${newValue}`);
 
         return {
           ...item,
