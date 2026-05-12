@@ -1,3 +1,9 @@
+## [1.298.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.298.2...v1.298.3) (2026-05-12)
+
+### Bug Fixes
+
+- intake code getting updated when updating intake details ([d98edc9](https://github.com/bcgov/CONN-CCBC-portal/commit/d98edc9033f478e602aa4ffb2f4b448c949fb2b8))
+
 ## [1.298.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.298.1...v1.298.2) (2026-05-12)
 
 ### Bug Fixes
