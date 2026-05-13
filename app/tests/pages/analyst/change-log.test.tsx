@@ -7689,7 +7689,7 @@ describe('The index page', () => {
     expect(screen.getAllByText('The system')).toHaveLength(3);
     expect(screen.getAllByText(/Project Zone/)[0]).toBeInTheDocument();
     expect(screen.getAllByText(/Project Zone/)).toHaveLength(3);
-    expect(screen.getByText('11')).toBeInTheDocument();
+    expect(screen.getAllByText('11')[0]).toBeInTheDocument();
     expect(screen.getAllByText('N/A')[0]).toBeInTheDocument();
 
     expect(screen.getAllByText('6036')[0]).toBeInTheDocument();
@@ -7773,6 +7773,78 @@ describe('The index page', () => {
         screen.queryByText('BC Funding Requested')
       ).not.toBeInTheDocument();
       expect(screen.getByText('5070')).toBeInTheDocument();
+    });
+  });
+
+  it('correctly filters by old and new values', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    // wait for the first one to ensure loading spinner is gone
+    await waitFor(() => {
+      expect(screen.getAllByText('6036')[0]).toBeInTheDocument();
+    });
+    expect(screen.getAllByText('Project Zone')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('N/A')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('11')[0]).toBeInTheDocument();
+    expect(screen.getByText('BC Funding Requested')).toBeInTheDocument();
+
+    const oldValueInput = screen.getByPlaceholderText('Filter by Old Value');
+    await userEvent.type(oldValueInput, 'N/A');
+    await userEvent.keyboard('{Enter}');
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Project Zone')[0]).toBeInTheDocument();
+      expect(screen.getAllByText('N/A')[0]).toBeInTheDocument();
+      expect(
+        screen.queryByText('BC Funding Requested')
+      ).not.toBeInTheDocument();
+    });
+
+    await userEvent.click(screen.getByText('Clear Filtering'));
+
+    const newValueInput = screen.getByPlaceholderText('Filter by New Value');
+    await userEvent.type(newValueInput, '11');
+    await userEvent.keyboard('{Enter}');
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Project Zone')[0]).toBeInTheDocument();
+      expect(screen.getAllByText('11')[0]).toBeInTheDocument();
+      expect(
+        screen.queryByText('BC Funding Requested')
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  it('correctly filters section multi-select by any selected values', async () => {
+    pageTestingHelper.loadQuery();
+    pageTestingHelper.renderPage();
+
+    // wait for the first one to ensure loading spinner is gone
+    await waitFor(() => {
+      expect(screen.getAllByText('6036')[0]).toBeInTheDocument();
+    });
+    expect(screen.getAllByText('Funding')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('Locations')[0]).toBeInTheDocument();
+    expect(screen.getByText('5070')).toBeInTheDocument();
+    expect(screen.getAllByText('Child Application')[0]).toBeInTheDocument();
+
+    const [sectionFilter] = screen.getAllByRole('combobox');
+    await userEvent.click(sectionFilter);
+    await userEvent.click(
+      await screen.findByRole('option', { name: 'Funding' })
+    );
+    await userEvent.click(sectionFilter);
+    await userEvent.click(
+      await screen.findByRole('option', { name: 'Locations' })
+    );
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Funding')[0]).toBeInTheDocument();
+      expect(screen.getAllByText('Locations')[0]).toBeInTheDocument();
+      expect(screen.getAllByText('6036')[0]).toBeInTheDocument();
+      expect(screen.getByText('5070')).toBeInTheDocument();
+      expect(screen.queryByText('Child Application')).not.toBeInTheDocument();
     });
   });
 
