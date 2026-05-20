@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="ccbc" schema="ccbc_public" type="PostgreSQL - 17.9">
+<database name="ccbc" schema="ccbc_public" type="PostgreSQL - 17.10">
    <sequences>
       <sequence increment="1" name="application_er_id_seq" startValue="1"/>
       <sequence increment="1" name="application_rd_id_seq" startValue="1"/>
