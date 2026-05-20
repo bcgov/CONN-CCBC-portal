@@ -18,7 +18,6 @@ import {
   StyledAside,
   StyledNav,
   StyledUpperSection,
-  StyledLowerSection,
 } from './NavigationSidebar.styles';
 
 const NavigationSidebar = ({
@@ -58,7 +57,7 @@ const NavigationSidebar = ({
             label="Dashboard"
           />
         </StyledUpperSection>
-        <StyledLowerSection>
+        <section>
           <NavItem
             currentPath={asPath}
             href={`/analyst/application/${applicationId}/summary`}
@@ -95,7 +94,7 @@ const NavigationSidebar = ({
             icon={faClockRotateLeft}
             label="History"
           />
-        </StyledLowerSection>
+        </section>
         {asPath.includes('summary') && mapData && (
           <SideMap
             mapData={mapData}
