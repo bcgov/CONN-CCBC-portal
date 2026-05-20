@@ -343,7 +343,7 @@ describe('Email API Endpoints', () => {
       ccbcNumber: 'CCBC-00001',
       params: {
         ccbcNumber: 'CCBC-00001',
-        documentType: 'Statement of Work',
+        documentTypes: ['Statement of Work'],
         timestamp: '2024-06-26',
         documentNames: ['file1', 'file2'],
       },
@@ -355,7 +355,7 @@ describe('Email API Endpoints', () => {
       notifyDocumentUpload,
       {
         ccbcNumber: 'CCBC-00001',
-        documentType: 'Statement of Work',
+        documentTypes: ['Statement of Work'],
         timestamp: '2024-06-26',
         documentNames: ['file1', 'file2'],
       }
@@ -364,12 +364,14 @@ describe('Email API Endpoints', () => {
 
   it('notifyError returns 200 and sends notification', async () => {
     (sendErrorNotification as jest.Mock).mockResolvedValue('sent');
-    const res = await request(app).post('/api/email/notifyError').send({
-      error: { name: 'Error', message: 'boom' },
-      context: { source: 'client-test', metadata: { foo: 'bar' } },
-      location: 'http://localhost/foo',
-      userAgent: 'jest',
-    });
+    const res = await request(app)
+      .post('/api/email/notifyError')
+      .send({
+        error: { name: 'Error', message: 'boom' },
+        context: { source: 'client-test', metadata: { foo: 'bar' } },
+        location: 'http://localhost/foo',
+        userAgent: 'jest',
+      });
 
     expect(res.status).toBe(200);
     expect(sendErrorNotification).toHaveBeenCalledWith(
@@ -388,9 +390,11 @@ describe('Email API Endpoints', () => {
       throw new Error('send failed');
     });
 
-    const res = await request(app).post('/api/email/notifyError').send({
-      error: { name: 'Error', message: 'boom' },
-    });
+    const res = await request(app)
+      .post('/api/email/notifyError')
+      .send({
+        error: { name: 'Error', message: 'boom' },
+      });
 
     expect(res.status).toBe(500);
     expect(reportServerError).toHaveBeenCalledWith(
