@@ -8,6 +8,14 @@ resources:
       cpu: 300m
       memory: '512Mi'
 
+crunchy-postgres:
+  pgBackRest:
+    volume:
+      storage: 50Gi
+  instances:
+    dataVolumeClaimSpec:
+      storage: 25Gi
+
 db:
   postMigrationCommand: |
     sqitch --chdir mocks_schema deploy;

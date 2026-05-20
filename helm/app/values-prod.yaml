@@ -21,10 +21,10 @@ instances:
 crunchy-postgres:
   pgBackRest:
     volume:
-      storage: 20Gi
+      storage: 50Gi
   instances:
     dataVolumeClaimSpec:
-      storage: 5Gi
+      storage: 25Gi
 
 autoscaling:
   enabled: true
