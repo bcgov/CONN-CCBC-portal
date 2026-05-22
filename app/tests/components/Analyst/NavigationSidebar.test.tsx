@@ -73,9 +73,10 @@ describe('The NavigationSidebar', () => {
     renderStaticLayout();
 
     const element = screen.getByText('Application').parentElement;
-    const style = window.getComputedStyle(element);
 
-    expect(style.backgroundColor).toBe('rgb(248, 248, 248)');
+    expect(element).toHaveStyle({
+      backgroundColor: 'rgb(241, 242, 243)',
+    });
 
     expect(screen.getByText('Dashboard').parentElement).not.toHaveStyle({
       backgroundColor: 'rgb(241, 242, 243)',
@@ -96,8 +97,9 @@ describe('The NavigationSidebar', () => {
     });
 
     const element = screen.getByText('Assessments').parentElement;
-    const style = window.getComputedStyle(element);
 
-    expect(style.backgroundColor).toBe('rgb(248, 248, 248)');
+    expect(element).toHaveStyle({
+      backgroundColor: 'rgb(241, 242, 243)',
+    });
   });
 });

@@ -53,7 +53,7 @@ describe('The Header Banner component', () => {
 
   test('applies correct message type styling', () => {
     renderStaticLayout(false, 'warn');
-    expect(screen.getByText(/test message/)).toHaveStyle(
+    expect(screen.getByText(/test message/).parentElement).toHaveStyle(
       'background-color: rgb(227 168 43)'
     );
   });

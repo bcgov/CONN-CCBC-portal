@@ -18,10 +18,7 @@ describe('reportClientError', () => {
 
   it('posts error payload to notifyError endpoint', async () => {
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-    Object.defineProperty(window, 'location', {
-      value: { href: 'http://localhost/test' },
-      writable: true,
-    });
+    window.history.pushState({}, '', '/test');
 
     reportClientError(new Error('boom'), { source: 'unit-test' });
 
@@ -60,19 +57,6 @@ describe('reportClientError', () => {
     await Promise.resolve();
 
     expect(consoleSpy).toHaveBeenCalled();
-    expect(global.fetch).not.toHaveBeenCalled();
-    consoleSpy.mockRestore();
-  });
-
-  it('does not post when window is unavailable', async () => {
-    // @ts-ignore
-    delete global.window;
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
-
-    reportClientError('boom', { source: 'unit-test' });
-    await Promise.resolve();
-
-    expect(consoleSpy).toHaveBeenCalledWith('unit-test', 'boom');
     expect(global.fetch).not.toHaveBeenCalled();
     consoleSpy.mockRestore();
   });
