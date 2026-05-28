@@ -53,6 +53,19 @@ const generateUniqueKey = () => {
   return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
 };
 
+// Recursively strips null/non-number values so Leaflet never receives null in latlngs
+const sanitizeCoords = (coords: any): any[][] | null => {
+  if (!Array.isArray(coords) || coords.length === 0) return null;
+  // Leaf: [lat, lng] pair
+  if (typeof coords[0] === 'number') {
+    return typeof coords[1] === 'number' ? (coords as any) : null;
+  }
+  const cleaned = coords
+    .map(sanitizeCoords)
+    .filter((r): r is any[][] => r !== null && (r as any).length > 0);
+  return cleaned.length > 0 ? cleaned : null;
+};
+
 const sortAndMarkLatest = (coverages: any[]): any[] => {
   const sorted = [...coverages].filter(Boolean).sort((a, b) => {
     if (a.source?.includes('SOW')) return 1;
@@ -243,11 +256,15 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                         expanded={expanded}
                       />
                       {geoData?.polygons
-                        ?.filter((polygon) => polygon?.coordinates?.length)
+                        ?.filter((polygon) =>
+                          sanitizeCoords(polygon?.coordinates)
+                        )
                         .map((polygon) => (
                           <Polygon
                             key={`finalized-polygon-${polygon?.fileNam}`}
-                            positions={polygon.coordinates}
+                            positions={
+                              sanitizeCoords(polygon.coordinates) as any
+                            }
                             color="purple"
                             pathOptions={pathOptions}
                           >
@@ -258,11 +275,11 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                           </Polygon>
                         ))}
                       {geoData?.lineStrings
-                        ?.filter((line) => line?.coordinates?.length)
+                        ?.filter((line) => sanitizeCoords(line?.coordinates))
                         .map((line) => (
                           <Polyline
                             key={`finalized-line-${line?.fileName}`}
-                            positions={line.coordinates}
+                            positions={sanitizeCoords(line.coordinates) as any}
                             color={
                               convertKmlColorToHex(
                                 line?.style?.lineStyle?.color
@@ -303,11 +320,15 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                           expanded={expanded}
                         />
                         {geoData?.polygons
-                          ?.filter((polygon) => polygon?.coordinates?.length)
+                          ?.filter((polygon) =>
+                            sanitizeCoords(polygon?.coordinates)
+                          )
                           .map((polygon) => (
                             <Polygon
                               key={`geo-polygon-${generateUniqueKey()}`}
-                              positions={polygon.coordinates}
+                              positions={
+                                sanitizeCoords(polygon.coordinates) as any
+                              }
                               color="blue"
                               pathOptions={pathOptions}
                             >
@@ -339,11 +360,15 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                         expanded={expanded}
                       />
                       {geoData?.polygons
-                        ?.filter((polygon) => polygon?.coordinates?.length)
+                        ?.filter((polygon) =>
+                          sanitizeCoords(polygon?.coordinates)
+                        )
                         .map((polygon) => (
                           <Polygon
                             key={`current-polygon-${generateUniqueKey()}`}
-                            positions={polygon.coordinates}
+                            positions={
+                              sanitizeCoords(polygon.coordinates) as any
+                            }
                             color="red"
                           >
                             <Popup>
@@ -372,11 +397,15 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                         expanded={expanded}
                       />
                       {geoData?.polygons
-                        ?.filter((polygon) => polygon?.coordinates?.length)
+                        ?.filter((polygon) =>
+                          sanitizeCoords(polygon?.coordinates)
+                        )
                         .map((polygon) => (
                           <Polygon
                             key={`upgraded-polygon-${generateUniqueKey()}`}
-                            positions={polygon.coordinates}
+                            positions={
+                              sanitizeCoords(polygon.coordinates) as any
+                            }
                             color="green"
                           >
                             <Popup>
