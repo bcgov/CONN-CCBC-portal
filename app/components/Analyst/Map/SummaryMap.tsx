@@ -242,37 +242,42 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                         name="finalized-marker"
                         expanded={expanded}
                       />
-                      {geoData?.polygons?.map((polygon) => (
-                        <Polygon
-                          key={`finalized-polygon-${polygon?.fileNam}`}
-                          positions={polygon.coordinates}
-                          color="purple"
-                          pathOptions={pathOptions}
-                        >
-                          <Popup>
-                            <h4>{polygon?.name}</h4>
-                            <p>{polygon?.description}</p>
-                          </Popup>
-                        </Polygon>
-                      ))}
-                      {geoData?.lineStrings?.map((line) => (
-                        <Polyline
-                          key={`finalized-line-${line?.fileName}`}
-                          positions={line.coordinates}
-                          color={
-                            convertKmlColorToHex(line?.style?.lineStyle?.color)
-                              .hex
-                          }
-                          pathOptions={pathOptions}
-                        >
-                          <Popup>
-                            <h4>{line?.name}</h4>
-                            {line?.description && (
-                              <div>{parse(line.description)}</div>
-                            )}
-                          </Popup>
-                        </Polyline>
-                      ))}
+                      {geoData?.polygons
+                        ?.filter((polygon) => polygon?.coordinates?.length)
+                        .map((polygon) => (
+                          <Polygon
+                            key={`finalized-polygon-${polygon?.fileNam}`}
+                            positions={polygon.coordinates}
+                            color="purple"
+                            pathOptions={pathOptions}
+                          >
+                            <Popup>
+                              <h4>{polygon?.name}</h4>
+                              <p>{polygon?.description}</p>
+                            </Popup>
+                          </Polygon>
+                        ))}
+                      {geoData?.lineStrings
+                        ?.filter((line) => line?.coordinates?.length)
+                        .map((line) => (
+                          <Polyline
+                            key={`finalized-line-${line?.fileName}`}
+                            positions={line.coordinates}
+                            color={
+                              convertKmlColorToHex(
+                                line?.style?.lineStyle?.color
+                              ).hex
+                            }
+                            pathOptions={pathOptions}
+                          >
+                            <Popup>
+                              <h4>{line?.name}</h4>
+                              {line?.description && (
+                                <div>{parse(line.description)}</div>
+                              )}
+                            </Popup>
+                          </Polyline>
+                        ))}
                     </LayerGroup>
                   </LayersControl.Overlay>
                 ))}
@@ -297,20 +302,22 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                           name="geo-marker"
                           expanded={expanded}
                         />
-                        {geoData?.polygons?.map((polygon) => (
-                          <Polygon
-                            key={`geo-polygon-${generateUniqueKey()}`}
-                            positions={polygon.coordinates}
-                            color="blue"
-                            pathOptions={pathOptions}
-                          >
-                            <Popup>
-                              {polygon?.balloonData && (
-                                <div>{parse(polygon.balloonData)}</div>
-                              )}
-                            </Popup>
-                          </Polygon>
-                        ))}
+                        {geoData?.polygons
+                          ?.filter((polygon) => polygon?.coordinates?.length)
+                          .map((polygon) => (
+                            <Polygon
+                              key={`geo-polygon-${generateUniqueKey()}`}
+                              positions={polygon.coordinates}
+                              color="blue"
+                              pathOptions={pathOptions}
+                            >
+                              <Popup>
+                                {polygon?.balloonData && (
+                                  <div>{parse(polygon.balloonData)}</div>
+                                )}
+                              </Popup>
+                            </Polygon>
+                          ))}
                       </LayerGroup>
                     </LayersControl.Overlay>
                   )
@@ -331,18 +338,20 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                         name="current-marker"
                         expanded={expanded}
                       />
-                      {geoData?.polygons?.map((polygon) => (
-                        <Polygon
-                          key={`current-polygon-${generateUniqueKey()}`}
-                          positions={polygon.coordinates}
-                          color="red"
-                        >
-                          <Popup>
-                            <h4>{polygon?.name}</h4>
-                            <p>{polygon?.description}</p>
-                          </Popup>
-                        </Polygon>
-                      ))}
+                      {geoData?.polygons
+                        ?.filter((polygon) => polygon?.coordinates?.length)
+                        .map((polygon) => (
+                          <Polygon
+                            key={`current-polygon-${generateUniqueKey()}`}
+                            positions={polygon.coordinates}
+                            color="red"
+                          >
+                            <Popup>
+                              <h4>{polygon?.name}</h4>
+                              <p>{polygon?.description}</p>
+                            </Popup>
+                          </Polygon>
+                        ))}
                     </LayerGroup>
                   </LayersControl.Overlay>
                 ))}
@@ -362,18 +371,20 @@ const SummaryMap = ({ initialData, height, width, expanded = true }) => {
                         name="upgraded-marker"
                         expanded={expanded}
                       />
-                      {geoData?.polygons?.map((polygon) => (
-                        <Polygon
-                          key={`upgraded-polygon-${generateUniqueKey()}`}
-                          positions={polygon.coordinates}
-                          color="green"
-                        >
-                          <Popup>
-                            <h4>{polygon?.name}</h4>
-                            <p>{polygon?.description}</p>
-                          </Popup>
-                        </Polygon>
-                      ))}
+                      {geoData?.polygons
+                        ?.filter((polygon) => polygon?.coordinates?.length)
+                        .map((polygon) => (
+                          <Polygon
+                            key={`upgraded-polygon-${generateUniqueKey()}`}
+                            positions={polygon.coordinates}
+                            color="green"
+                          >
+                            <Popup>
+                              <h4>{polygon?.name}</h4>
+                              <p>{polygon?.description}</p>
+                            </Popup>
+                          </Polygon>
+                        ))}
                     </LayerGroup>
                   </LayersControl.Overlay>
                 ))}
