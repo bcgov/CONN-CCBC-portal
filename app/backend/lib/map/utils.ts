@@ -213,9 +213,10 @@ const parseKML = (
           balloonData,
         });
       } else if (type === 'Polygon') {
-        const polygonCoordinates = (coordinates as [number, number][][]).map(
-          (ring) => ring.map(([lng, lat]) => [lat, lng])
-        );
+        const polygonCoordinates = (coordinates as [number, number][][])
+          .filter(Boolean)
+          .map((ring) => ring.map(([lng, lat]) => [lat, lng]));
+        if (!polygonCoordinates.length) return;
         polygons.push({
           coordinates: polygonCoordinates,
           name,
@@ -262,6 +263,7 @@ const parseKML = (
           const coordinatesText =
             lineString.getElementsByTagName('coordinates')[0]?.textContent ||
             '';
+          if (!coordinatesText.trim()) continue;
           const cords = coordinatesText
             .trim()
             .split(/\s+/)
@@ -289,6 +291,7 @@ const parseKML = (
             const coordinatesText =
               lineString.getElementsByTagName('coordinates')[0]?.textContent ||
               '';
+            if (!coordinatesText.trim()) continue;
             const cords = coordinatesText
               .trim()
               .split(/\s+/)

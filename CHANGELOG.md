@@ -1,3 +1,11 @@
+## [1.300.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.0...v1.300.1) (2026-05-28)
+
+### Bug Fixes
+
+- map issue ([9ca0b08](https://github.com/bcgov/CONN-CCBC-portal/commit/9ca0b0894e7d3c1df26fabd8cb5f207f4b613bb9))
+- portal map issue ([f86f9d6](https://github.com/bcgov/CONN-CCBC-portal/commit/f86f9d68b706e7cabb0c93f31ba29313784b546c))
+- yarn lock ([8f42f8b](https://github.com/bcgov/CONN-CCBC-portal/commit/8f42f8b8ff79f26682ec149f617feb954feb6b50))
+
 # [1.300.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.299.0...v1.300.0) (2026-05-12)
 
 ### Features
