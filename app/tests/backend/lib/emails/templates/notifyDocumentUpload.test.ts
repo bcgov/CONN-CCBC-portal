@@ -11,7 +11,7 @@ describe('notifyDocumentUpload template', () => {
       {},
       {
         ccbcNumber: 'CCBC-101',
-        documentType: 'Claim & Progress Report',
+        documentTypes: ['Claim & Progress Report'],
         documentNames: ['sow.xls'],
         timeStamp: '2024/08/24 11:00:00',
       }
@@ -22,7 +22,7 @@ describe('notifyDocumentUpload template', () => {
         emailTo: [112, 10, 111],
         emailCC: [],
         tag: 'document-upload-notification',
-        subject: 'Claim & Progress Report uploaded in Portal',
+        subject: 'A Claim & Progress Report uploaded in Portal',
         body: expect.anything(),
       })
     );
@@ -38,7 +38,7 @@ describe('notifyDocumentUpload template', () => {
       {},
       {
         ccbcNumber: 'CCBC-10001',
-        documentType: 'Claim & Progress Report',
+        documentTypes: ['Claim & Progress Report'],
         documentNames: ['sow.xls'],
         timeStamp: '2024/08/24 11:00:00',
       }
@@ -53,7 +53,7 @@ describe('notifyDocumentUpload template', () => {
       {},
       {
         ccbcNumber: 'CCBC-10001',
-        documentType: 'Milestone Report',
+        documentTypes: ['Milestone Report'],
         documentNames: ['milestone.xls'],
         timeStamp: '2024/08/24 11:00:00',
       }
@@ -68,7 +68,7 @@ describe('notifyDocumentUpload template', () => {
       {},
       {
         ccbcNumber: 'CCBC-10001',
-        documentType: 'Community Progress Report',
+        documentTypes: ['Community Progress Report'],
         documentNames: ['communityProgress.xls'],
         timeStamp: '2024/08/24 11:00:00',
       }
@@ -83,7 +83,7 @@ describe('notifyDocumentUpload template', () => {
       {},
       {
         ccbcNumber: 'CCBC-10001',
-        documentType: 'Statement of Work',
+        documentTypes: ['Statement of Work'],
         documentNames: ['sow.xls'],
         timeStamp: '2024/08/24 11:00:00',
       }
@@ -93,7 +93,7 @@ describe('notifyDocumentUpload template', () => {
     );
   });
 
-  it('should contain the correct list of filenames', () => {
+  it('should contain the correct list of filenames and document types', () => {
     const applicationId = '1';
     const url = 'http://mock_host.ca';
 
@@ -103,13 +103,13 @@ describe('notifyDocumentUpload template', () => {
       {},
       {
         ccbcNumber: 'CCBC-10001',
-        documentType: 'Template 1, Template 2 and Template 9',
+        documentTypes: ['Template 1', 'Template 2', 'Template 9'],
         documentNames: ['template_1.xls', 'template_2.xls', 'template_9.xls'],
         timeStamp: '2024/08/24 11:00:00',
       }
     );
     expect(emailTemplate.body).toContain(
-      `<li><em>template_1.xls</em></li><li><em>template_2.xls</em></li><li><em>template_9.xls</em></li>`
+      `<li><em>template_1.xls</em> (Template 1)</li><li><em>template_2.xls</em> (Template 2)</li><li><em>template_9.xls</em> (Template 9)</li>`
     );
   });
 });

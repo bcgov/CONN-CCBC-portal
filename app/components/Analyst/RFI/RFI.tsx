@@ -9,6 +9,8 @@ import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useUpdateRfiJsonDataMutation } from 'schema/mutations/application/updateRfiJsonData';
+import useEmailNotification from 'lib/helpers/useEmailNotification';
+import { notifyRfiEmailCorrespondenceUpload } from 'lib/helpers/rfiUploadNotification';
 
 interface Props {
   id: string;
@@ -58,6 +60,7 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
   const { jsonData, rfiNumber, rowId } = queryFragment;
 
   const [updateRfiJsonData] = useUpdateRfiJsonDataMutation();
+  const { notifyDocumentUpload } = useEmailNotification();
 
   const handleClickEditButton = () => {
     router.push(`/analyst/application/${applicationId}/rfi/${rowId}`);
@@ -75,6 +78,15 @@ const RFI: React.FC<Props> = ({ rfiDataByRfiDataId, id }) => {
       },
       optimisticResponse: {
         jsonData: e.formData,
+      },
+      onCompleted: () => {
+        notifyRfiEmailCorrespondenceUpload({
+          previousRfiFormData: jsonData,
+          rfiFormData: e.formData,
+          applicationId,
+          rfiNumber,
+          notifyDocumentUpload,
+        });
       },
       onError: (err) => {
         // eslint-disable-next-line no-console
