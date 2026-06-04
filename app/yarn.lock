@@ -12396,10 +12396,10 @@ regjsparser@^0.13.0:
   dependencies:
     jsesc "~3.1.0"
 
-relay-compiler@^20.1.1:
-  version "20.1.1"
-  resolved "https://registry.yarnpkg.com/relay-compiler/-/relay-compiler-20.1.1.tgz#91914a1f6386f2e20b35c22516a0c6d80dfa630d"
-  integrity sha512-J/FFFLS/3vnbDkyQMw8l3Ev7dNHXMgC1RAs0fITz4Q63TFPOw142knKxY1Mm5ZZBABkAs9g2JghXaqM+phwTxw==
+relay-compiler@^21.0.1:
+  version "21.0.1"
+  resolved "https://registry.yarnpkg.com/relay-compiler/-/relay-compiler-21.0.1.tgz#dbb4aece811a377fd08da83bd9255f0b7848251d"
+  integrity sha512-Wqlg3MtHyBlAYByVo24Wy9H3n2bAw991gPmzdo3XfNv+TzhI8zuGogtiae+7NORI7zhghgZaHC7Sp8S8ZPRYEA==
 
 relay-nextjs@^3.0.1:
   version "3.0.1"
@@ -12409,16 +12409,7 @@ relay-nextjs@^3.0.1:
     lodash.isequal "^4.5.0"
     serialize-javascript "^5.0.1"
 
-relay-runtime@20.1.1:
-  version "20.1.1"
-  resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-20.1.1.tgz#e1217a56af7739c8ae8d67db811ed471fd9af895"
-  integrity sha512-N98ZkkyuIHdXmHaPuljihM1QbFYXATF0gxA0CESFphszsQzXs9A/zZloVfzdOI/xg3B3CfM/5nozvIoeTDIcfw==
-  dependencies:
-    "@babel/runtime" "^7.25.0"
-    fbjs "^3.0.2"
-    invariant "^2.2.4"
-
-relay-runtime@21.0.1:
+relay-runtime@21.0.1, relay-runtime@^21.0.1:
   version "21.0.1"
   resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-21.0.1.tgz#06583e227d155dfd9d93fc5b5c79e3bfa0ab4da5"
   integrity sha512-OS+We56sp6gkGVEcce9VCNOeg/sMbxT9unEoerQPgNAICHowSWrXNc6LJxF2OqjypxYF7kaLDSPPiaPii2Pw1g==
@@ -12427,15 +12418,15 @@ relay-runtime@21.0.1:
     fbjs "^3.0.2"
     invariant "^2.2.4"
 
-relay-test-utils@^20.1.1:
-  version "20.1.1"
-  resolved "https://registry.yarnpkg.com/relay-test-utils/-/relay-test-utils-20.1.1.tgz#7dbb7cdd3439ad1278ee1ce217ebdfbe75e9568a"
-  integrity sha512-9E6+smojY43XmBi7un5l+8xWpqq1AgJtNEJZHDOLbdF8NIOzxI1n/HF2zZeGbqVQWjpvl/EyqegL6LLrIIJpcA==
+relay-test-utils@^21.0.1:
+  version "21.0.1"
+  resolved "https://registry.yarnpkg.com/relay-test-utils/-/relay-test-utils-21.0.1.tgz#eddb5a24ce3c07434256d9ac7e9fd79f9b54bd09"
+  integrity sha512-Or9qrzdGpiNMMXCZ/eKbVeMiBNijILdyFIuf2/FYnV+7YvDkxFq+oE/g4/gZhYqd1G5/Cejjjavv/xqs86MrzA==
   dependencies:
     "@babel/runtime" "^7.25.0"
     fbjs "^3.0.2"
     invariant "^2.2.4"
-    relay-runtime "20.1.1"
+    relay-runtime "21.0.1"
 
 remove-accents@0.5.0:
   version "0.5.0"
