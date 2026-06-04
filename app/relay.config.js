@@ -3,7 +3,7 @@ module.exports = {
   schema: './schema/schema.graphql',
   language: 'typescript',
   artifactDirectory: './__generated__',
-  exclude: [
+  excludes: [
     '**/.next/**',
     '**/node_modules/**',
     '**/__generated__/**',
