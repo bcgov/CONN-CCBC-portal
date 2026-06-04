@@ -25,8 +25,8 @@ const saveLinkPreviewMutation = `
 const allowedHostnames = [
   'news.gov.bc.ca',
   'gov.bc.ca',
-  'canada.ca',
-  'www.canada.ca',
+  // 'canada.ca', -- allowing all canada.ca domains was causing issues with link previews, so only allowing www.canada.ca for now
+  // 'www.canada.ca',
   'www2.gov.bc.ca',
 ];
 
@@ -57,7 +57,11 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
       return res.status(400).json({ error: 'Invalid URL' }).end();
     }
   } catch (e) {
-    reportServerError(e, { source: 'link-preview-url-parse', metadata: { url } }, req);
+    reportServerError(
+      e,
+      { source: 'link-preview-url-parse', metadata: { url } },
+      req
+    );
     return res.status(400).json({ error: 'Invalid URL' }).end();
   }
   if (!allowedHostnames.includes(urlObj.hostname)) {
@@ -74,11 +78,7 @@ linkPreview.post('/api/announcement/linkPreview', limiter, (req, res) => {
         { input: jsonData, id: rowId, ccbcNumbers, updateOnly: true },
         req
       ).catch((e) => {
-        reportServerError(
-          e,
-          { source: 'link-preview-save-no-preview' },
-          req
-        );
+        reportServerError(e, { source: 'link-preview-save-no-preview' }, req);
         return res.status(400).json({ error: e }).end();
       });
     })();

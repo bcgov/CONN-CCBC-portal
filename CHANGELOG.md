@@ -1,3 +1,10 @@
+## [1.300.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.1...v1.300.2) (2026-06-04)
+
+### Bug Fixes
+
+- add agent ([690a902](https://github.com/bcgov/CONN-CCBC-portal/commit/690a902c1d831239ed1778b4b1f3d9655781c9ac))
+- announcement controller ([d60579f](https://github.com/bcgov/CONN-CCBC-portal/commit/d60579fd633a03173372f405d3c36ebaa7566bbd))
+
 ## [1.300.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.0...v1.300.1) (2026-05-28)
 
 ### Bug Fixes
