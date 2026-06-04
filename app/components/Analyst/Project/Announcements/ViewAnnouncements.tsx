@@ -51,8 +51,8 @@ const ViewAnnouncements: React.FC<Props> = ({
 
   useEffect(() => {
     // need abort controller to cancel fetches when component unmounts
-    let controller = new AbortController();
-    let { signal } = controller;
+    const controller = new AbortController();
+    const { signal } = controller;
 
     const getLinkPreview = async (a) => {
       try {
@@ -67,8 +67,6 @@ const ViewAnnouncements: React.FC<Props> = ({
               };
             }
             const url = announcement?.jsonData?.announcementUrl;
-            controller = new AbortController();
-            signal = controller.signal;
             const response = await fetch(`/api/announcement/linkPreview`, {
               method: 'POST',
               headers: {
@@ -99,12 +97,16 @@ const ViewAnnouncements: React.FC<Props> = ({
         );
         setFullAnnouncements(previews);
       } catch (error) {
-        reportClientError(error, { source: 'announcements-preview' });
+        if (error?.name !== 'AbortError') {
+          reportClientError(error, { source: 'announcements-preview' });
+        }
       }
     };
 
     getLinkPreview(announcements).catch((error) => {
-      reportClientError(error, { source: 'announcements-link-preview' });
+      if (error?.name !== 'AbortError') {
+        reportClientError(error, { source: 'announcements-link-preview' });
+      }
     });
 
     return () => {
