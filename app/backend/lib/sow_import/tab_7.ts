@@ -60,6 +60,7 @@ const EXTENDED_YEAR_COLS: YearCols = {
 // B to 'Project Costs' or 'Project Funding'. Only the Part 4 header omits B,
 // so we must not treat the first '2023-24' in column G as authoritative.
 const detectExtendedYears = (budget: any[]): boolean => {
+  let fallback: boolean | null = null;
   // Scan the whole sheet: test mocks (and some real uploads) may have fewer than
   // 1000 rows before Part 4, so starting at index 1000 would miss the fiscal
   // header row and mis-detect the template version.
@@ -68,12 +69,17 @@ const detectExtendedYears = (budget: any[]): boolean => {
     if (!rowData) continue;
     const gVal = rowData['G'];
     if (typeof gVal !== 'string' || !gVal.includes('2023-24')) continue;
-    const bVal = rowData['B'];
-    if (bVal !== undefined && bVal !== '') continue;
     const kVal = rowData['K'];
-    return typeof kVal === 'string' && kVal.includes('2027');
+    if (typeof kVal !== 'string') continue;
+    const bVal = rowData['B'];
+    if (bVal === undefined || bVal === '') {
+      return kVal.includes('2027');
+    }
+    if (fallback === null) {
+      fallback = kVal.includes('2027');
+    }
   }
-  return false;
+  return fallback ?? false;
 };
 
 // ---------------------------------------------------------------------------
