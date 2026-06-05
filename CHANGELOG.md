@@ -1,3 +1,9 @@
+## [1.300.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.2...v1.300.3) (2026-06-05)
+
+### Bug Fixes
+
+- sow extended year import ([60689ad](https://github.com/bcgov/CONN-CCBC-portal/commit/60689adf930f152cba82554da9bff84bf4431f2d))
+
 ## [1.300.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.1...v1.300.2) (2026-06-04)
 
 ### Bug Fixes
