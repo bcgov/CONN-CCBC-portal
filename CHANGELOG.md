@@ -1,3 +1,32 @@
+## [1.300.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.3...v1.300.4) (2026-06-08)
+
+### Bug Fixes
+
+- rfi doc update email notification ([cde7d66](https://github.com/bcgov/CONN-CCBC-portal/commit/cde7d660d549fd5b7ecc53f363e8d7f3d0218c8a))
+- rfi doc update for multiple uploads ([981ba0d](https://github.com/bcgov/CONN-CCBC-portal/commit/981ba0d54abfaf83bfa9e5b04a2f22c992dc84ca))
+- tests ([f317c75](https://github.com/bcgov/CONN-CCBC-portal/commit/f317c75b44341e8470ec87352d9790543e5f02ca))
+
+## [1.300.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.2...v1.300.3) (2026-06-05)
+
+### Bug Fixes
+
+- sow extended year import ([60689ad](https://github.com/bcgov/CONN-CCBC-portal/commit/60689adf930f152cba82554da9bff84bf4431f2d))
+
+## [1.300.2](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.1...v1.300.2) (2026-06-04)
+
+### Bug Fixes
+
+- add agent ([690a902](https://github.com/bcgov/CONN-CCBC-portal/commit/690a902c1d831239ed1778b4b1f3d9655781c9ac))
+- announcement controller ([d60579f](https://github.com/bcgov/CONN-CCBC-portal/commit/d60579fd633a03173372f405d3c36ebaa7566bbd))
+
+## [1.300.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.0...v1.300.1) (2026-05-28)
+
+### Bug Fixes
+
+- map issue ([9ca0b08](https://github.com/bcgov/CONN-CCBC-portal/commit/9ca0b0894e7d3c1df26fabd8cb5f207f4b613bb9))
+- portal map issue ([f86f9d6](https://github.com/bcgov/CONN-CCBC-portal/commit/f86f9d68b706e7cabb0c93f31ba29313784b546c))
+- yarn lock ([8f42f8b](https://github.com/bcgov/CONN-CCBC-portal/commit/8f42f8b8ff79f26682ec149f617feb954feb6b50))
+
 # [1.300.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.299.0...v1.300.0) (2026-05-12)
 
 ### Features

@@ -360,7 +360,8 @@ describe('The RFIAnalystUpload component', () => {
 
     expect(mockNotifyDocumentUpload).toHaveBeenCalledWith(1, {
       ccbcNumber: 'CCBC-12345',
-      documentType: 'Template 1',
+      rfiNumber: 'RFI-01',
+      documentTypes: ['Template 1 - Eligibility and Impacts Calculator'],
       documentNames: ['template_one.xlsx'],
     });
 

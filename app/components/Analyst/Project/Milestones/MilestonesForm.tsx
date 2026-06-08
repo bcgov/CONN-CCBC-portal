@@ -236,7 +236,7 @@ const MilestonesForm: React.FC<Props> = ({ application, isExpanded }) => {
           if (res?.status === 200) {
             setShowToast(true);
             notifyDocumentUpload(applicationRowId, {
-              documentType: 'Milestone Report',
+              documentTypes: ['Milestone Report'],
               documentNames: [excelFile.name],
               ccbcNumber,
             });

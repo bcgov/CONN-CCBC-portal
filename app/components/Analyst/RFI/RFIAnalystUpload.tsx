@@ -15,11 +15,14 @@ import useEmailNotification from 'lib/helpers/useEmailNotification';
 import useRfiCoverageMapKmzUploadedEmail from 'lib/helpers/useRfiCoverageMapKmzUploadedEmail';
 import { useToast } from 'components/AppProvider';
 import Link from 'next/link';
-import joinWithAnd from 'utils/formatArray';
 import { useUpdateRfiAndCreateTemplateNineDataMutation } from 'schema/mutations/application/updateRfiAndCreateTemplateNineDataMutation';
 import { useUpdateFormRfiAndCreateTemplateNineDataMutation } from 'schema/mutations/application/updateFormRfiAndCreateTemplateNineDataMutation';
 import { useUpdateRfiAndFormDataMutation } from 'schema/mutations/application/updateRfiAndFormDataMutation';
 import useTemplateUpload from 'lib/helpers/useTemplateUpload';
+import {
+  notifyRfiDocumentUpload,
+  notifyRfiEmailCorrespondenceUpload,
+} from 'lib/helpers/rfiUploadNotification';
 
 const Flex = styled('header')`
   display: flex;
@@ -94,7 +97,6 @@ const RfiAnalystUpload = ({ query }) => {
     hasApplicationFormDataUpdated,
     templateNineData,
     excelImportFields,
-    excelImportFiles,
     setTemplateData,
     clearTemplateUpload,
   } = useTemplateUpload({
@@ -140,10 +142,21 @@ const RfiAnalystUpload = ({ query }) => {
         );
         showToast(message, 'success', 100000000);
       }
-      notifyDocumentUpload(applicationId, {
+      notifyRfiDocumentUpload({
+        previousRfiFormData: rfiDataByRowId?.jsonData,
+        rfiFormData,
+        applicationId,
+        rfiNumber,
         ccbcNumber,
-        documentType: joinWithAnd(excelImportFields),
-        documentNames: excelImportFiles,
+        notifyDocumentUpload,
+      });
+      notifyRfiEmailCorrespondenceUpload({
+        previousRfiFormData: rfiDataByRowId?.jsonData,
+        rfiFormData,
+        applicationId,
+        rfiNumber,
+        ccbcNumber,
+        notifyDocumentUpload,
       });
       if (rfiFormData?.rfiAdditionalFiles?.geographicCoverageMap?.length > 0) {
         notifyRfiCoverageMapKmzUploaded(

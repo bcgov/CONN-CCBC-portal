@@ -146,8 +146,7 @@ describe('The Stepper component', () => {
 
   it('should have correct background colour when not active active', () => {
     const link = screen.getByText('Project area').parentElement;
-    const style = window.getComputedStyle(link);
 
-    expect(style.backgroundColor).toBe('rgba(196, 196, 196, 0.06)');
+    expect(link).toHaveStyle({ backgroundColor: theme.color.stepperGrey });
   });
 });
