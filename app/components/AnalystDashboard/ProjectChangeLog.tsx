@@ -218,6 +218,35 @@ const formatProjectType = (projectType: string | null | undefined) => {
   return 'Last Mile & Transport';
 };
 
+const getFilterableValue = (row, id: string) => {
+  const valueString = row.original?.[`${id}String`];
+  const value = row.getValue(id);
+
+  if (valueString != null) return valueString;
+  if (typeof value === 'object' && value !== null) return JSON.stringify(value);
+  return value ?? '';
+};
+
+export const containsFilter = (row, id: string, filterValue) => {
+  const normalizedValue = String(getFilterableValue(row, id))
+    .toLowerCase()
+    .trim();
+
+  if (!normalizedValue) return false;
+
+  if (Array.isArray(filterValue)) {
+    const filters = filterValue
+      .map((filter) => filter?.toString().toLowerCase().trim())
+      .filter(Boolean);
+
+    if (filters.length === 0) return true;
+
+    return filters.some((filter) => normalizedValue.includes(filter));
+  }
+
+  return normalizedValue.includes(filterValue.toString().toLowerCase().trim());
+};
+
 const communityArrayToHistoryString = (
   communitiesArray: any[],
   keys: string[]
@@ -359,8 +388,13 @@ const ProjectChangeLog: React.FC<Props> = () => {
     useState<MRT_ColumnFiltersState>(defaultFilters);
 
   // Use the caching hook instead of local state and useEffect
-  const { data: allData, isLoading, error, cacheUpdatedAt, hasUpdates } =
-    useChangeLogCache();
+  const {
+    data: allData,
+    isLoading,
+    error,
+    cacheUpdatedAt,
+    hasUpdates,
+  } = useChangeLogCache();
 
   const isLargeUp = useMediaQuery('(min-width:1007px)');
 
@@ -1311,6 +1345,9 @@ const ProjectChangeLog: React.FC<Props> = () => {
     autoResetAll: false,
     enablePagination: false,
     enableGlobalFilter: true,
+    filterFns: {
+      contains: containsFilter,
+    },
     globalFilterFn: filterVariant,
     enableBottomToolbar: false,
     onColumnFiltersChange: setColumnFilters,
