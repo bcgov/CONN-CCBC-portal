@@ -155,7 +155,7 @@
     "aws-sdk-client-mock": "^4.1.0",
     "babel-jest": "^30.4.1",
     "babel-plugin-module-resolver": "^5.0.3",
-    "babel-plugin-relay": "^20.1.1",
+    "babel-plugin-relay": "^21.0.1",
     "babel-plugin-styled-components": "^2.3.0",
     "cypress": "15.16.0",
     "eslint": "^8.57.0",
