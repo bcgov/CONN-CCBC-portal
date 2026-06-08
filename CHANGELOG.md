@@ -1,3 +1,9 @@
+## [1.300.5](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.4...v1.300.5) (2026-06-08)
+
+### Bug Fixes
+
+- fixed filters not filtering out rows in the changelog table for all column filters ([6c64608](https://github.com/bcgov/CONN-CCBC-portal/commit/6c646084d1742254e09b2faa77efe87259b1525c))
+
 ## [1.300.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.3...v1.300.4) (2026-06-08)
 
 ### Bug Fixes
