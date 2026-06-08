@@ -1,3 +1,11 @@
+## [1.300.4](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.3...v1.300.4) (2026-06-08)
+
+### Bug Fixes
+
+- rfi doc update email notification ([cde7d66](https://github.com/bcgov/CONN-CCBC-portal/commit/cde7d660d549fd5b7ecc53f363e8d7f3d0218c8a))
+- rfi doc update for multiple uploads ([981ba0d](https://github.com/bcgov/CONN-CCBC-portal/commit/981ba0d54abfaf83bfa9e5b04a2f22c992dc84ca))
+- tests ([f317c75](https://github.com/bcgov/CONN-CCBC-portal/commit/f317c75b44341e8470ec87352d9790543e5f02ca))
+
 ## [1.300.3](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.2...v1.300.3) (2026-06-05)
 
 ### Bug Fixes

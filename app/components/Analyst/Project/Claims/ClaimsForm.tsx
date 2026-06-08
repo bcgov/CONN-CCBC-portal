@@ -205,7 +205,7 @@ const ClaimsForm: React.FC<Props> = ({ application, isExpanded }) => {
           if (res?.status === 200) {
             setShowToast(true);
             notifyDocumentUpload(applicationRowId, {
-              documentType: 'Claim & Progress Report',
+              documentTypes: ['Claim & Progress Report'],
               ccbcNumber,
               documentNames: [excelFile.name],
             });
