@@ -110,7 +110,7 @@
     "react-currency-input-field": "^4.0.5",
     "react-leaflet": "5.0.0",
     "react-leaflet-fullscreen": "^4.1.1",
-    "react-relay": "^20.1.1",
+    "react-relay": "^21.0.1",
     "react-relay-network-modern": "6.2.2",
     "react-typography": "^0.16.23",
     "relay-nextjs": "^3.0.1",
