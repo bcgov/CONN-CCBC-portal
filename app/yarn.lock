@@ -3545,11 +3545,12 @@
   dependencies:
     tslib "^2.4.0"
 
-"@types/archiver@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@types/archiver/-/archiver-7.0.0.tgz#475d5aa4076ffc05f2c78dc7540b0ea4ab8c7d7a"
-  integrity sha512-/3vwGwx9n+mCQdYZ2IKGGHEFL30I96UgBlk8EtRDDFQ9uxM1l4O5Ci6r00EMAkiDaTqD9DQ6nVrWRICnBPtzzg==
+"@types/archiver@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@types/archiver/-/archiver-8.0.0.tgz#f04dac346f47ed489d5212a317bcf0b4bc895f7d"
+  integrity sha512-YpXPbEuv9+eUIPPQWUPahj3cvs9isWRuF+J4z+KbdYVDO3rWorWQFxUVHnwPu2AgKwvgpki5F2VMX0Xx+mX45A==
   dependencies:
+    "@types/node" "*"
     "@types/readdir-glob" "*"
 
 "@types/aria-query@^5.0.1":
