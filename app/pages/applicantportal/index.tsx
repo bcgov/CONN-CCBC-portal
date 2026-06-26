@@ -100,13 +100,14 @@ const Home = ({
     if (!openIntake)
       return (
         <>
-          <BoldText>Applications are not currently being accepted.</BoldText>
+          <BoldText>Application intake is currently closed.</BoldText>
           <br />
-          Please check the{' '}
-          <Link href="https://www.gov.bc.ca/connectingcommunitiesbc">
-            program webpage
+          Intakes are now closed for the Connecting Communities BC program. We
+          welcome you to contact us at{' '}
+          <Link href="mailto:connectingcommunitiesbc@gov.bc.ca">
+            connectingcommunitiesbc@gov.bc.ca
           </Link>{' '}
-          for updates.
+          to discuss your project or future opportunities.
         </>
       );
 
