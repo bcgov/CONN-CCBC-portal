@@ -13,7 +13,7 @@ import compileddashboardQuery, {
 
 const openedIntakeMessage =
   'New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.';
-const closedIntakeMessage = 'Application intake is currently closed.';
+const closedIntakeMessage = 'Intake is closed banner message.';
 
 const mockOpenIntakeData: JSONValue = {
   variant: 'warning',
