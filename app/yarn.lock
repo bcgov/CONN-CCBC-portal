@@ -2091,6 +2091,11 @@
   dependencies:
     heap ">= 0.2.0"
 
+"@exodus/bytes@^1.15.1":
+  version "1.15.1"
+  resolved "https://registry.yarnpkg.com/@exodus/bytes/-/bytes-1.15.1.tgz#b13bc464ca162c17abf0837fb3a11aeab79e45d1"
+  integrity sha512-S6mL0yNB/Abt9Ei4tq8gDhcczc4S3+vQ4ra7vxnAf+YHC02srtqxKKZghx2Dq6p0e66THKwR6r8N6P95wEty7Q==
+
 "@fastify/ajv-compiler@^3.5.0":
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/@fastify/ajv-compiler/-/ajv-compiler-3.6.0.tgz#907497a0e62a42b106ce16e279cf5788848e8e79"
@@ -13888,10 +13893,10 @@ webidl-conversions@^7.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-7.0.0.tgz#256b4e1882be7debbf01d05f0aa2039778ea080a"
   integrity sha512-VwddBukDzu71offAQR975unBIGqfKZpM+8ZX6ySk8nYhVoo5CYaZyzt3YBvYtRtO+aoGlqxPg/B87NGVZ/fu6g==
 
-webidl-conversions@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-8.0.0.tgz#821c92aa4f88d88a31264d887e244cb9655690c6"
-  integrity sha512-n4W4YFyz5JzOfQeA8oN7dUYpR+MBP3PIUsn2jLjWXwK5ASUzt0Jc/A5sAUZoCYFJRGF0FBKJ+1JjN43rNdsQzA==
+webidl-conversions@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-8.0.1.tgz#0657e571fe6f06fcb15ca50ed1fdbcb495cd1686"
+  integrity sha512-BMhLD/Sw+GbJC21C/UgyaZX41nPt8bUTg+jWyDeg7e7YN4xOM05YPSIXceACnXVtqyEw/LMClUQMtMZ+PGGpqQ==
 
 whatwg-encoding@^3.1.1:
   version "3.1.1"
@@ -13913,13 +13918,14 @@ whatwg-url@^14.0.0, whatwg-url@^14.1.0, whatwg-url@^14.1.1:
     tr46 "^5.1.0"
     webidl-conversions "^7.0.0"
 
-whatwg-url@^15.1.0:
-  version "15.1.0"
-  resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-15.1.0.tgz#5c433439b9a5789eeb3806bbd0da89a8bd40b8d7"
-  integrity sha512-2ytDk0kiEj/yu90JOAp44PVPUkO9+jVhyf+SybKlRHSDlvOOZhdPIrr7xTH64l4WixO2cP+wQIcgujkGBPPz6g==
+whatwg-url@^17.0.0:
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-17.0.0.tgz#232dfb3776c58787e0b5aaf6e045d69700aa8c7e"
+  integrity sha512-0IKj/JAtsksq59+qoSgMDu43OXK1lsSF7Hpo6eawvQ2ml5ZmRWTw0L1RB1R2SE3+IWia/eDy16AqdDnu1RXnWw==
   dependencies:
+    "@exodus/bytes" "^1.15.1"
     tr46 "^6.0.0"
-    webidl-conversions "^8.0.0"
+    webidl-conversions "^8.0.1"
 
 whatwg-url@^5.0.0:
   version "5.0.0"
