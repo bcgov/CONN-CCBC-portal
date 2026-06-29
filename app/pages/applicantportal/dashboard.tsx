@@ -209,17 +209,16 @@ const Dashboard = ({
             </p>
           ) : (
             <div>
-              <p>Applications are currently not being accepted.</p>
               <p>
-                Please check the{' '}
-                <Link
-                  href="https://www.gov.bc.ca/connectingcommunitiesbc"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  program webpage
+                <b>Application intake is currently closed.</b>
+              </p>
+              <p>
+                Intakes are now closed for the Connecting Communities BC
+                program. We welcome you to contact us at{' '}
+                <Link href="mailto:connectingcommunitiesbc@gov.bc.ca">
+                  connectingcommunitiesbc@gov.bc.ca
                 </Link>{' '}
-                for updates.
+                to discuss your project or future opportunities.
               </p>
             </div>
           )}
