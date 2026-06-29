@@ -12,12 +12,7 @@ begin
   where id = _claims_data_id;
 
   -- archive the old claim excel data
-  if exists (
-    select *
-    from ccbc_public.application_claims_excel_data
-    where id = _excel_data_id
-    and archived_at is null
-  )
+  if exists (select * from ccbc_public.application_claims_excel_data where id = _excel_data_id)
     then update ccbc_public.application_claims_excel_data
     set archived_at = now()
     where id = _excel_data_id;
@@ -25,7 +20,7 @@ begin
 
   -- archive the claim
   update ccbc_public.application_claims_data
-  set archived_at = now(), history_operation = 'deleted'
+  set archived_at = now()
   where id = _claims_data_id
   and archived_at is null;
 
