@@ -114,7 +114,7 @@
     "react-relay-network-modern": "6.2.2",
     "react-typography": "^0.16.23",
     "relay-nextjs": "^3.0.1",
-    "relay-runtime": "^20.1.1",
+    "relay-runtime": "^21.0.1",
     "styled-components": "^6",
     "typography": "^0.16.24",
     "url": "^0.11.4",
