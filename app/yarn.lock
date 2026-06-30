@@ -12092,7 +12092,7 @@ relay-nextjs@^3.0.1:
     lodash.isequal "^4.5.0"
     serialize-javascript "^5.0.1"
 
-relay-runtime@20.1.1, relay-runtime@^20.1.1:
+relay-runtime@20.1.1:
   version "20.1.1"
   resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-20.1.1.tgz#e1217a56af7739c8ae8d67db811ed471fd9af895"
   integrity sha512-N98ZkkyuIHdXmHaPuljihM1QbFYXATF0gxA0CESFphszsQzXs9A/zZloVfzdOI/xg3B3CfM/5nozvIoeTDIcfw==
@@ -12101,7 +12101,7 @@ relay-runtime@20.1.1, relay-runtime@^20.1.1:
     fbjs "^3.0.2"
     invariant "^2.2.4"
 
-relay-runtime@21.0.1:
+relay-runtime@21.0.1, relay-runtime@^21.0.1:
   version "21.0.1"
   resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-21.0.1.tgz#06583e227d155dfd9d93fc5b5c79e3bfa0ab4da5"
   integrity sha512-OS+We56sp6gkGVEcce9VCNOeg/sMbxT9unEoerQPgNAICHowSWrXNc6LJxF2OqjypxYF7kaLDSPPiaPii2Pw1g==
