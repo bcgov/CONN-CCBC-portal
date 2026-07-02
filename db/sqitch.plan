@@ -886,3 +886,4 @@ tables/ccbc_applications_coverages 2026-02-25T00:09:00Z Rafael Solorzano <612892
 mutations/archive_application_milestone_data [mutations/archive_application_milestone_data@1.288.2] 2026-04-26T22:10:03Z ,,, <rranathu@NH504670> # update archieve logic when file already archieved
 mutations/archive_application_community_progress_report [mutations/archive_application_community_progress_report@1.288.2] 2026-04-26T22:12:26Z ,,, <rranathu@NH504670> # update archieve logic when file already archieved
 mutations/archive_application_claims_data [mutations/archive_application_claims_data@1.288.2] 2026-04-26T22:14:54Z ,,, <rranathu@NH504670> # update archieve logic when file already archieved
+@1.300.8 2026-07-02T12:58:35Z CCBC Service Account <116113628+ccbc-service-account@users.noreply.github.com> # release v1.300.8
