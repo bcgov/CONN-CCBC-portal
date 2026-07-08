@@ -1,3 +1,9 @@
+# [1.301.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.8...v1.301.0) (2026-07-08)
+
+### Features
+
+- all dashboard extra icons screen readable ([49e89f9](https://github.com/bcgov/CONN-CCBC-portal/commit/49e89f99c981c1a069cf1e6da36c73261fd05ead))
+
 ## [1.300.8](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.7...v1.300.8) (2026-07-02)
 
 ## [1.300.7](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.6...v1.300.7) (2026-06-29)

@@ -16,6 +16,7 @@ const CbcCreateIcon = ({ handleClick }) => {
   return (
     <div
       role="button"
+      aria-label="Add CBC project"
       tabIndex={0}
       onClick={handleClick}
       onKeyDown={handleKeyDown}

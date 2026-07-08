@@ -30,6 +30,7 @@ const StatusInformationIcon = ({ type }: StatusInformationIconProps) => {
       <StatusInformationModal type={type} {...modalProps} />
       <div
         role="button"
+        aria-label="Status information"
         tabIndex={0}
         onClick={handleClick}
         onKeyDown={handleKeyDown}

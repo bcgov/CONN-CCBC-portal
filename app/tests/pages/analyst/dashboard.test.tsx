@@ -1203,9 +1203,8 @@ describe('The index page', () => {
     pageTestingHelper.renderPage();
 
     const downloadButton = screen.getByTestId('download-dashboard-icon');
-    await act(async () => {
-      fireEvent.keyDown(downloadButton, { key: 'Enter', code: 'Enter' });
-    });
+    downloadButton.focus();
+    await userEvent.keyboard('{Enter}');
 
     expect(global.fetch).toHaveBeenCalledTimes(1);
   });
