@@ -20,7 +20,7 @@ SLOT_DOMAIN="apps.silver.devops.gov.bc.ca"
 EXISTING_HOST=$(oc -n "$OPENSHIFT_NAMESPACE" get route "$RELEASE_NAME" -o=jsonpath='{.spec.host}' 2>/dev/null)
 
 # Redeploys of an open PR keep the slot they already hold, so the feature
-# URL stays stable for the life of the PR.
+# URL stays stable for the life of the PR lives.
 if [ -n "$EXISTING_HOST" ]; then
     echo "$RELEASE_NAME is already routed at $EXISTING_HOST" >&2
     echo "$EXISTING_HOST"
