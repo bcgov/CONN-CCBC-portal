@@ -6,6 +6,10 @@ This document outlines the steps to change the password of the service account u
 
 Access pwchange.gov.bc.ca (Gov access only). Generate a new password for the service account and save it.
 
+### update password in IDIR setup in Metabase
+
+Log in to metabase and navigate to admin settings, under Auth setup update CCBCPRTL password for LDAP
+
 ## 2. Update Repository Secret on GitHub
 
 1. Navigate to the GitHub repository.
