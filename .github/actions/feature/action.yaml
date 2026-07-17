@@ -23,9 +23,10 @@ inputs:
   client_secret:
     description: 'Client secret for sso keycloak login'
     required: true
-  secure_route:
-    description: 'Domain where the application can be accessed securely'
-    required: true
+  slot_count:
+    description: 'Number of feature environment slot hostnames registered in the SSO CSS Dev integration'
+    required: false
+    default: '20'
   next_public_growthbook_api_key:
     description: 'Growthbook API key'
     required: true
@@ -107,6 +108,11 @@ inputs:
     description: 'Production password for postgres'
     required: true
 
+outputs:
+  feature_url:
+    description: 'URL the deployed feature environment is reachable at'
+    value: https://${{ steps.assign_slot.outputs.host }}
+
 runs:
   using: composite
   steps:
@@ -133,6 +139,26 @@ runs:
         metabase_embed_secret: ${{ inputs.metabase_embed_secret }}
         feature_name: ${{ inputs.feature_name }}
         insecure_skip_tls_verify: true
+    # The hostname is drawn from a fixed pool rather than from the branch name,
+    # because Keycloak no longer matches redirect URIs by hostname wildcard.
+    - name: Assign feature environment slot
+      id: assign_slot
+      run: |
+        FEATURE_NAME_LOWER=$(echo "${{ inputs.feature_name }}" | tr '[:upper:]' '[:lower:]' | sed 's/-*$//')
+        FEATURE_NAME_LOWER_SHORT=$(echo $FEATURE_NAME_LOWER | cut -c -30 | sed 's/-*$//')
+        chmod +x ./lib/feature_envs/assign_slot.sh
+        SLOT_HOST=$(./lib/feature_envs/assign_slot.sh \
+          "$FEATURE_NAME_LOWER_SHORT" \
+          "${{ inputs.openshift_app_namespace }}" \
+          "${{ inputs.slot_count }}")
+        # An empty host would leave OpenShift to generate one, which Keycloak
+        # would then reject at login: fail the deploy instead.
+        if [ -z "$SLOT_HOST" ]; then
+          echo "Could not assign a feature environment slot." >&2
+          exit 1
+        fi
+        echo "host=$SLOT_HOST" >> $GITHUB_OUTPUT
+      shell: bash
     # Generate two versions of the branch name,
     # one in lowercase and one in lowercase with a max length of 62
     # the max length of 30 is due to the max container name in OpenShift (63)
@@ -179,7 +205,7 @@ runs:
           --set ches.clientSecret="${{ inputs.ches_client_secret }}" \
           --set ches.to="${{ inputs.ches_to }}" \
           --set ches.keycloakHost="${{ inputs.ches_keycloak_host }}" \
-          --set secureRoute.host="$FEATURE_NAME_LOWER_SHORT"-ccbc.apps.silver.devops.gov.bc.ca \
+          --set secureRoute.host=${{ steps.assign_slot.outputs.host }} \
           "$FEATURE_NAME_LOWER_SHORT"
 
       shell: bash
