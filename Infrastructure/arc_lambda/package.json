@@ -2,7 +2,7 @@
     "name": "ccbc_archiver_lambda",
     "dependencies": {
         "adm-zip": "^0.6.0",
-        "archiver": "^5.3.1",
+        "archiver": "^8.0.0",
         "aws-sdk": "^2.1357.0",
         "luxon": "^3.2.1"
     }
