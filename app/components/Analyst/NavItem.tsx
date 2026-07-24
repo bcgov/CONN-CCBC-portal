@@ -14,7 +14,7 @@ interface StyledProps {
 }
 
 const StyledNavItem = styled.div<StyledProps>`
-  margin: 4px 0;
+  margin: 0;
   padding: 8px;
   display: flex;
   flex-direction: row;
