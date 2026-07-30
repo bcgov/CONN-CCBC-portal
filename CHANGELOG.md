@@ -1,3 +1,9 @@
+## [1.301.1](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.301.0...v1.301.1) (2026-07-30)
+
+### Bug Fixes
+
+- sqitch failure ([20e6293](https://github.com/bcgov/CONN-CCBC-portal/commit/20e629304be1f26078b0d6da74618fc2a9d804ed))
+
 # [1.301.0](https://github.com/bcgov/CONN-CCBC-portal/compare/v1.300.8...v1.301.0) (2026-07-08)
 
 ### Features
