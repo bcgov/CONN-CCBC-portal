@@ -46,12 +46,12 @@ jobs:
       - name: Run Schemaspy
         run: docker run --network host -v "$PWD/output:/output" schemaspy/schemaspy:latest -t pgsql -db ccbc -host 127.0.0.1 -port 5432 -u postgres -p mysecretpassword -schemas ccbc_public
       - name: Deploy to Pages
-        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # tag=v4
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # tag=v4
         with:
           folder: output
           target-folder: schemaspy
       - name: Deploy to Pages
-        uses: JamesIves/github-pages-deploy-action@d92aa235d04922e8f08b40ce78cc5442fcfbfa2f # tag=v4
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # tag=v4
         with:
           folder: app/public/data
           target-folder: schemaspy/data
