@@ -57,7 +57,7 @@ const WithdrawModal = ({ application, setApplication, isOpen, close }) => {
         actions={[
           {
             id: 'withdraw-yes-btn',
-            label: 'Yes, withdraw',
+            label: 'Yes, withdraw Updated',
             onClick: handleWithdraw,
           },
           {
