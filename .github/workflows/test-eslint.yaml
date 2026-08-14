@@ -11,7 +11,7 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # tag=v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
       - name: dev env setup
         uses: ./.github/actions/dev-env-setup
       - run: yarn run eslint -f @microsoft/eslint-formatter-sarif -o results.sarif . || true
@@ -34,6 +34,6 @@ jobs:
           fs.writeFileSync('results.sarif', JSON.stringify(sarifJson, null, 2));
           EOF
         working-directory: ./app
-      - uses: github/codeql-action/upload-sarif@99df26d4f13ea111d4ec1a7dddef6063f76b97e9 # tag=v4.37.0
+      - uses: github/codeql-action/upload-sarif@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # tag=v4.37.4
         with:
           sarif_file: app/results.sarif
