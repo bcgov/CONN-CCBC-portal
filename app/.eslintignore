@@ -1,4 +1,0 @@
-*.js
-!*.cy.js
-!e2e.js
-instrumentation.ts

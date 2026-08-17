@@ -16,7 +16,7 @@ import {
 } from 'material-react-table';
 import { diff } from 'json-diff';
 import { generateRawDiff, processArrayDiff } from 'components/DiffTable';
-import getConfig from 'next/config';
+import publicRuntimeConfig from 'lib/runtimeConfig';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
 import communities from 'formSchema/uiSchema/history/communities';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
@@ -376,8 +376,7 @@ const OldValueCell = (props) => (
 );
 
 const ProjectChangeLog: React.FC<Props> = () => {
-  const enableTimeMachine =
-    getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
+  const enableTimeMachine = publicRuntimeConfig.ENABLE_MOCK_TIME || false;
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
   const enableProjectTypeFilters = useDeferredFeature(
@@ -558,7 +557,6 @@ const ProjectChangeLog: React.FC<Props> = () => {
         };
       }) || [];
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const allApplicationsFlatMap =
       allData.allApplications
         ?.filter((item) => {

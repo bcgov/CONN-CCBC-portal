@@ -48,3 +48,5 @@ yalc.lock
 .persisted_operations
 /schema/queryMap.json
 
+# next-agents-md
+.next-docs/

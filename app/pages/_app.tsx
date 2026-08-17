@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { Suspense, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import getConfig from 'next/config';
+import publicRuntimeConfig from 'lib/runtimeConfig';
 import { ThemeProvider } from '@mui/material';
 import theme from 'styles/muiTheme';
 import { RelayEnvironmentProvider } from 'react-relay';
@@ -25,7 +25,6 @@ config.autoAddCss = false;
 
 const growthbook = new GrowthBook();
 
-const { publicRuntimeConfig } = getConfig();
 const growthbookApiKey = publicRuntimeConfig.NEXT_PUBLIC_GROWTHBOOK_API_KEY;
 // Using convict to declare it but using nextjs public env due to convict fs import
 const growthbookUrl = growthbookApiKey
@@ -75,8 +74,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     createClientEnvironment: () => getClientEnvironment()!,
   });
   const router = useRouter();
-  Settings.defaultZone = 'America/Vancouver';
-  Settings.defaultLocale = 'en-CA';
+
+  useEffect(() => {
+    Settings.defaultZone = 'America/Vancouver';
+    Settings.defaultLocale = 'en-CA';
+  }, []);
 
   newTracker('ccbcTracker', 'spt.apps.gov.bc.ca', {
     appId: 'Snowplow_standalone_NWBC',
@@ -104,9 +106,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   const component = (
     <Suspense
-      fallback={
-        <div data-testid="app-suspense-loading">Loading...</div>
-      }
+      fallback={<div data-testid="app-suspense-loading">Loading...</div>}
     >
       <Component {...pageProps} {...relayProps} />
     </Suspense>

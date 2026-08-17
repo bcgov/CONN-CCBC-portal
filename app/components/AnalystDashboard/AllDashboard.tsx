@@ -31,7 +31,7 @@ import ClearFilters from 'components/Table/ClearFilters';
 import type { AllDashboardTable_query$key } from '__generated__/AllDashboardTable_query.graphql';
 import { Box, MenuItem, TableCellProps } from '@mui/material';
 import useDeferredFeature from 'lib/helpers/useDeferredFeature';
-import getConfig from 'next/config';
+import publicRuntimeConfig from 'lib/runtimeConfig';
 import { DateTime } from 'luxon';
 import { useToast } from 'components/AppProvider';
 import { useRouter } from 'next/router';
@@ -163,6 +163,7 @@ interface Props {
 
 const AllDashboardTable: React.FC<Props> = ({ query }) => {
   /* ---- BEGIN DEBUG ---- */
+  /* eslint-disable no-console, react-hooks/immutability */
   if (typeof window !== 'undefined') {
     const origin = window.location?.origin;
     const env =
@@ -178,6 +179,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       });
     }
   }
+  /* eslint-enable no-console, react-hooks/immutability */
   /* ---- END DEGUG ---- */
   const queryFragment = useFragment<AllDashboardTable_query$key>(
     graphql`
@@ -304,8 +306,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const { showToast, hideToast } = useToast();
 
   const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];
-  const enableTimeMachine =
-    getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
+  const enableTimeMachine = publicRuntimeConfig.ENABLE_MOCK_TIME || false;
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const showLeadFeatureFlag = useDeferredFeature('show_lead');
@@ -368,6 +369,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const handleDownload = async (rows: MRT_Row<any>[]) => {
     /* ---- BEGIN DEBUG ---- */
+    /* eslint-disable no-console */
     console.time('[AllDashboardTable] export');
     setIsLoading(true);
     hideToast();
@@ -414,11 +416,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     });
     setIsLoading(false);
     console.timeEnd('[AllDashboardTable] export');
+    /* eslint-enable no-console */
     /* ---- END DEGUG ---- */
   };
 
   const statusOrderMap = useMemo(() => {
     /* ---- BEGIN DEBUG ---- */
+    /* eslint-disable no-console, react-hooks/purity */
     const start = performance.now();
     const map = allApplicationStatusTypes?.nodes?.reduce((acc, status) => {
       acc[status.name] = status.statusOrder;
@@ -428,12 +432,14 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     console.log('[AllDashboardTable] statusOrderMap time', {
       durationMs: performance.now() - start,
     });
+    /* eslint-enable no-console, react-hooks/purity */
     /* ---- END DEGUG ---- */
     return map;
   }, [allApplicationStatusTypes?.nodes]);
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    /* eslint-disable no-console */
     console.log('[AllDashboardTable] flags', {
       showLeadFeatureFlag,
       showCbcProjects,
@@ -441,6 +447,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       enableGlobalFilter,
       enableTimeMachine,
     });
+    /* eslint-enable no-console */
     /* ---- END DEGUG ---- */
   }, [
     showLeadFeatureFlag,
@@ -452,16 +459,19 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    /* eslint-disable no-console */
     console.log('[AllDashboardTable] counts', {
       allApplications: allApplications?.edges?.length ?? 0,
       allCbcData: allCbcData?.edges?.length ?? 0,
       allApplicationStatusTypes: allApplicationStatusTypes?.nodes?.length ?? 0,
     });
+    /* eslint-enable no-console */
     /* ---- END DEGUG ---- */
   }, [allApplications?.edges?.length, allCbcData?.edges?.length]);
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    /* eslint-disable no-console */
     console.time('[AllDashboardTable] loadInitialState');
     const loadInitialState = () => {
       const settings = [
@@ -498,12 +508,14 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
     loadInitialState();
     console.timeEnd('[AllDashboardTable] loadInitialState');
+    /* eslint-enable no-console */
     /* ---- END DEGUG ---- */
   }, [showLeadFeatureFlag]);
 
   useEffect(() => {
     if (!isFirstRender) {
       /* ---- BEGIN DEBUG ---- */
+      /* eslint-disable no-console */
       console.time('[AllDashboardTable] saveStateToCookies');
       const saveToCookies = [
         { key: 'mrt_columnVisibility_application', value: columnVisibility },
@@ -517,6 +529,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         cookie.set(key, JSON.stringify(value));
       });
       console.timeEnd('[AllDashboardTable] saveStateToCookies');
+      /* eslint-enable no-console */
       /* ---- END DEGUG ---- */
     }
   }, [
@@ -529,7 +542,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   ]);
 
   useEffect(() => {
+    // Syncs the visibilityPreference prop (a feature-flag-derived value) into
+    // local column-visibility state; eliminating this would need a larger
+    // restructure to derive columnVisibility instead of storing it.
     if (visibilityPreference) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setColumnVisibility((prev) => ({
         ...prev,
         ...visibilityPreference,
@@ -545,11 +562,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    /* eslint-disable no-console */
     console.time('[AllDashboardTable] globalFilterExpanded');
     const newExpanded = globalFilter ? expandedRowsRef.current : {};
     setExpanded(newExpanded);
     expandedRowsRef.current = {};
     console.timeEnd('[AllDashboardTable] globalFilterExpanded');
+    /* eslint-enable no-console */
     /* ---- END DEGUG ---- */
   }, [globalFilter]);
 
@@ -664,6 +683,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const tableData = useMemo(() => {
     /* ---- BEGIN DEBUG ---- */
+    /* eslint-disable no-console */
     console.time('[AllDashboardTable] buildTableData');
     const allCcbcApplications = allApplications.edges.map((application) => ({
       ...application.node,
@@ -723,6 +743,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       cbc: allCbcApplications.length,
       total: combined.length,
     });
+    /* eslint-enable no-console */
     /* ---- END DEGUG ---- */
     return combined;
   }, [
@@ -735,6 +756,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
     /* ---- BEGIN DEBUG ---- */
+    /* eslint-disable no-console */
     console.time('[AllDashboardTable] buildColumns');
     const uniqueIntakeNumbers = [
       ...new Set(
@@ -881,6 +903,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       uniquePackages: uniquePackages.length,
       columns: columnDefs.length,
     });
+    /* eslint-enable no-console */
     /* ---- END DEGUG ---- */
     return columnDefs;
   }, [AssignAnalystLead, allApplications, allCbcData.edges, statusOrderMap]);
@@ -1031,6 +1054,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    /* eslint-disable no-console */
     console.log('[AllDashboardTable] tableState', {
       columnFiltersCount: columnFilters?.length ?? 0,
       sortingCount: sorting?.length ?? 0,
@@ -1041,6 +1065,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       globalFilter,
       isLargeUp,
     });
+    /* eslint-enable no-console */
     /* ---- END DEGUG ---- */
   }, [
     columnFilters,
@@ -1054,6 +1079,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   ]);
 
   useEffect(() => {
+    /* eslint-disable no-console */
     if (!isFirstRender && lastVisitedRow) {
       /* ---- BEGIN DEBUG ---- */
       console.time('[AllDashboardTable] scrollToLastVisited');
@@ -1076,19 +1102,23 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         }, 0);
 
         return () => clearTimeout(timeoutId);
-      } else {
-        console.timeEnd('[AllDashboardTable] scrollToLastVisited');
-        /* ---- END DEGUG ---- */
       }
+      console.timeEnd('[AllDashboardTable] scrollToLastVisited');
+      /* ---- END DEGUG ---- */
+      /* eslint-enable no-console */
+      return undefined;
     }
+    return undefined;
   }, [isFirstRender, lastVisitedRow]);
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    /* eslint-disable no-console */
     console.time('[AllDashboardTable] saveRowModel');
     const rowModel = table.getRowModel().rows?.map((row) => row.original);
     localStorage.setItem('dashboard_row_model', JSON.stringify(rowModel));
     console.timeEnd('[AllDashboardTable] saveRowModel');
+    /* eslint-enable no-console */
     /* ---- END DEGUG ---- */
   }, [table.getRowModel().rows]);
 

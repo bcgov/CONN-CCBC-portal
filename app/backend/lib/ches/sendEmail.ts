@@ -1,6 +1,6 @@
-import getConfig from 'next/config';
 import config from '../../../config';
 import toTitleCase from '../../../utils/formatString';
+// eslint-disable-next-line import/no-cycle -- pre-existing cycle through the emails module
 import { recordEmailRecord } from '../emails/utils/emailRecord';
 import { reportServerError } from '../emails/errorNotification';
 
@@ -23,7 +23,7 @@ const sendEmail = async (
   req: any = null,
   applicationId: number | null = null
 ) => {
-  const namespace = getConfig()?.publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
+  const namespace = config.get('OPENSHIFT_APP_NAMESPACE');
   const environment = toTitleCase(namespace?.split('-')[1] || '');
   try {
     const request = {

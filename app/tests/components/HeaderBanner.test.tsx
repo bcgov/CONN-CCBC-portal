@@ -3,9 +3,10 @@ import HeaderBanner from 'components/HeaderBanner';
 import GlobalTheme from 'styles/GlobalTheme';
 
 const mockOpenshiftNamespace = jest.fn(() => 'environment-dev');
-jest.mock('next/config', () => () => ({
-  publicRuntimeConfig: {
-    OPENSHIFT_APP_NAMESPACE: mockOpenshiftNamespace(),
+jest.mock('lib/runtimeConfig', () => ({
+  __esModule: true,
+  get default() {
+    return { OPENSHIFT_APP_NAMESPACE: mockOpenshiftNamespace() };
   },
 }));
 

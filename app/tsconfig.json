@@ -10,10 +10,10 @@
     "esModuleInterop": true,
     "module": "esnext",
     "sourceMap": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "baseUrl": ".",
     "types": ["@testing-library/jest-dom"],
@@ -27,7 +27,8 @@
     "public",
     "cypress",
     "./cypress.config.ts",
-    "./node_modules/**/*"
+    "./node_modules/**/*",
+    "tests"
   ],
-  "include": ["./**/*", "./.eslintrc.js"]
+  "include": ["./**/*"]
 }

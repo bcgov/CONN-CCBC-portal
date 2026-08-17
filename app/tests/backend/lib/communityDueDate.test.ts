@@ -6,9 +6,9 @@ import request from 'supertest';
 import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
-import getConfig from 'next/config';
 import cookieParser from 'cookie-parser';
 import reportClientError from 'lib/helpers/reportClientError';
+import config from '../../../config';
 import communityDueDate from '../../../backend/lib/communityReportsDueDate';
 import { performQuery } from '../../../backend/lib/graphql';
 import handleEmailNotification from '../../../backend/lib/emails/handleEmailNotification';
@@ -17,7 +17,6 @@ import getAuthRole from '../../../utils/getAuthRole';
 jest.mock('../../../backend/lib/graphql');
 jest.mock('../../../utils/getAuthRole');
 jest.mock('../../../backend/lib/emails/handleEmailNotification');
-jest.mock('next/config');
 
 jest.setTimeout(100000);
 
@@ -52,10 +51,13 @@ describe('The Community Progress Report api route', () => {
         landingRoute: '/',
       };
     });
-    mocked(getConfig).mockReturnValue({
-      publicRuntimeConfig: {
-        ENABLE_MOCK_TIME: true,
-      },
+    // Spy rather than replace config.get entirely: other modules imported in
+    // this chain (e.g. backend/lib/s3client.ts) read real config values like
+    // AWS_S3_REGION at module load time and need their real defaults intact.
+    const realConfigGet = config.get.bind(config);
+    jest.spyOn(config, 'get').mockImplementation((name: any) => {
+      if (name === 'ENABLE_MOCK_TIME') return true;
+      return realConfigGet(name);
     });
 
     mocked(performQuery).mockImplementation(async () => {
@@ -147,7 +149,6 @@ describe('The Community Progress Report api route', () => {
   });
 
   afterEach(async () => {
-    // eslint-disable-next-line no-promise-executor-return
     // await new Promise<void>((resolve) => setTimeout(() => resolve(), 500)); // avoid jest open handle error
     jest.resetAllMocks();
   });
