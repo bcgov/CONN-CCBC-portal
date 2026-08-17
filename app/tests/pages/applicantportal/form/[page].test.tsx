@@ -48,20 +48,12 @@ const mockQueryPayload = {
   },
 };
 
-const mockForceLatestSchema: moduleApi.FeatureResult<moduleApi.JSONValue> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'draft_apps_use_latest_schema',
-};
-
 const mockAcceptedZones: moduleApi.FeatureResult<moduleApi.JSONValue> = {
   value: { '1': [1, 2, 3, 4, 5], '2': [6, 7, 8], '3': [9, 10] },
   source: 'defaultValue',
   on: null,
   off: null,
-  ruleId: 'intake_zones_json',
+  ruleId: '',
 };
 
 const mockAllZones: moduleApi.FeatureResult<moduleApi.JSONValue> = {
@@ -73,7 +65,7 @@ const mockAllZones: moduleApi.FeatureResult<moduleApi.JSONValue> = {
   source: 'defaultValue',
   on: null,
   off: null,
-  ruleId: 'intake_zones_json',
+  ruleId: '',
 };
 
 const pageTestingHelper = new PageTestingHelper<PageQuery>({
@@ -98,9 +90,7 @@ describe('The form page', () => {
     pageTestingHelper.renderPage();
 
     expect(screen.getByText('Logout')).toBeInTheDocument();
-    expect(
-      screen.getByText('Estimated project employment')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Benefits')).toBeInTheDocument();
   });
 
   it('does not display the alert or info banner when editing a draft application', () => {
@@ -204,15 +194,7 @@ describe('The form page', () => {
     });
   });
 
-  it('uses the latest schema if the flag is on and estimated project employment is not present', async () => {
-    // jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockForceLatestSchema);
-    jest.spyOn(moduleApi, 'useFeature').mockImplementation((id) => {
-      if (id === 'intake_zones_json') {
-        return mockAcceptedZones;
-      }
-      return mockForceLatestSchema;
-    });
-
+  it('uses the latest schema for a draft application and estimated project employment is not present', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 

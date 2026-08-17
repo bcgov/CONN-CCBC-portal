@@ -13,7 +13,6 @@ import { useUpdateCbcDataAndInsertChangeRequest } from 'schema/mutations/cbc/upd
 import review from 'formSchema/analyst/cbc/review';
 import reviewUiSchema from 'formSchema/uiSchema/cbc/reviewUiSchema';
 import editUiSchema from 'formSchema/uiSchema/cbc/editUiSchema';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import CbcTheme from 'components/Analyst/CBC/CbcTheme';
 import {
   createCbcSchemaData,
@@ -115,7 +114,6 @@ const Cbc = ({
   const isCbcAdmin =
     query.session.authRole === 'cbc_admin' ||
     query.session.authRole === 'super_admin';
-  const editFeatureEnabled = useDeferredFeature('show_cbc_edit');
   const { session } = query;
 
   const [toggleOverrideReadOnly, setToggleExpandOrCollapseAllReadOnly] =
@@ -281,16 +279,8 @@ const Cbc = ({
       projectDataReviews,
     });
     setRecordLocked(projectDataReviews?.locked || false);
-    setAllowEdit(
-      isCbcAdmin && editFeatureEnabled && !projectDataReviews?.locked
-    );
-  }, [
-    query,
-    isCbcAdmin,
-    editFeatureEnabled,
-    cbcCommunitiesData,
-    applicationMergesByParentCbcId,
-  ]);
+    setAllowEdit(isCbcAdmin && !projectDataReviews?.locked);
+  }, [query, isCbcAdmin, cbcCommunitiesData, applicationMergesByParentCbcId]);
 
   useEffect(() => {
     if (!projectNumber) return;
@@ -409,7 +399,7 @@ const Cbc = ({
             (proj) => proj.communitiesSourceDataByCommunitiesSourceDataId
           )
         );
-        setAllowEdit(isCbcAdmin && editFeatureEnabled);
+        setAllowEdit(isCbcAdmin);
       },
     });
   };
@@ -417,7 +407,7 @@ const Cbc = ({
   const handleResetFormData = () => {
     setFormData(baseFormData);
     setEditMode(false);
-    setAllowEdit(isCbcAdmin && editFeatureEnabled);
+    setAllowEdit(isCbcAdmin);
   };
 
   const validate = (data, schema) => {
@@ -528,14 +518,14 @@ const Cbc = ({
             </StyledButton>
             {' | '}
           </>
-          {isCbcAdmin && editFeatureEnabled && getQuickEditButton()}
+          {isCbcAdmin && getQuickEditButton()}
         </RightAlignText>
         <StyledCbcForm
           additionalContext={{
             toggleOverride: editMode
               ? toggleOverrideEdit
               : toggleOverrideReadOnly,
-            isEditable: isCbcAdmin && editFeatureEnabled,
+            isEditable: isCbcAdmin,
             isCBC: true,
             cbcId: rowId,
             errors: formErrors,

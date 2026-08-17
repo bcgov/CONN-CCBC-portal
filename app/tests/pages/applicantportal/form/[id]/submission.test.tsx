@@ -15,7 +15,7 @@ const mockAcceptedZones: moduleApi.FeatureResult<moduleApi.JSONValue> = {
   source: 'defaultValue',
   on: null,
   off: null,
-  ruleId: 'intake_zones_json',
+  ruleId: '',
 };
 
 const testQuery = graphql`

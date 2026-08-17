@@ -1,6 +1,5 @@
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import { DashboardTabs, TableTabs } from 'components/AnalystDashboard';
 import styled from 'styled-components';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
@@ -26,16 +25,12 @@ const ChangeLog = ({
 }: RelayProps<Record<string, unknown>, changeLogQuery>) => {
   const query = usePreloadedQuery(getChangeLogQuery, preloadedQuery);
   const { session } = query;
-  const isMaxWidthOverride = useDeferredFeature('max_width_override');
-  const showChangeLogTab = useDeferredFeature('show_project_change_log_table');
-
-  if (!showChangeLogTab) return null;
 
   return (
     <Layout
       session={session}
       title="Connecting Communities BC"
-      maxWidthOverride={isMaxWidthOverride && '1600px'}
+      maxWidthOverride="1600px"
     >
       <StyledDashboardContainer>
         <DashboardTabs session={session} />

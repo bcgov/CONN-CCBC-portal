@@ -3,7 +3,6 @@ import { withRelay, RelayProps } from 'relay-nextjs';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import {
   ApplicationGisData,
   AssessmentsTabs,
@@ -51,13 +50,11 @@ const GisAssessment = ({
   const { applicationByRowId, session } = query;
   const createdAt = applicationByRowId?.assessmentForm?.createdAt;
 
-  const showApplicationGisData = useDeferredFeature('show_application_gis_data');
-
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <AssessmentsTabs />
-        {showApplicationGisData && <ApplicationGisData query={query} />}
+        <ApplicationGisData query={query} />
         <AssessmentsForm
           addedContext={{
             createdAt,

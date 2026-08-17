@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { DateTime } from 'luxon';
 import statusStyles from 'data/statusStyles';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import rfiDiffSchema from 'formSchema/uiSchema/history/rfi';
 import { diff } from 'json-diff';
 import { processArrayDiff } from 'components/DiffTable';
@@ -86,7 +85,6 @@ const HistoryContent = ({
     op,
     mergeChildren,
   } = historyItem;
-  const showHistoryDetails = useDeferredFeature('show_history_details');
   const isAnalyst = sessionSub.includes('idir') || externalAnalyst;
   const fullName = `${givenName} ${familyName}`;
   const displayName = isAnalyst ? fullName : 'The applicant';
@@ -220,28 +218,24 @@ const HistoryContent = ({
         <span>
           {displayName} {operation} an announcement on {createdAtFormatted}
         </span>
-        {showHistoryDetails && (
-          <div>
-            {isUpdated && (
-              <StyledAnnouncementLabel>New</StyledAnnouncementLabel>
-            )}
-            <HistoryAnnouncementCard
-              announcement={announcement}
-              applicationId={record.application_id}
-              isStriked={isDeleted}
-            />
-            {isUpdated && (
-              <>
-                <StyledAnnouncementLabel>Old</StyledAnnouncementLabel>
-                <HistoryAnnouncementCard
-                  announcement={previousAnnouncement}
-                  applicationId={record.application_id}
-                  isStriked
-                />
-              </>
-            )}
-          </div>
-        )}
+        <div>
+          {isUpdated && <StyledAnnouncementLabel>New</StyledAnnouncementLabel>}
+          <HistoryAnnouncementCard
+            announcement={announcement}
+            applicationId={record.application_id}
+            isStriked={isDeleted}
+          />
+          {isUpdated && (
+            <>
+              <StyledAnnouncementLabel>Old</StyledAnnouncementLabel>
+              <HistoryAnnouncementCard
+                announcement={previousAnnouncement}
+                applicationId={record.application_id}
+                isStriked
+              />
+            </>
+          )}
+        </div>
       </StyledContent>
     );
   }
@@ -252,19 +246,17 @@ const HistoryContent = ({
         <span>
           {displayName} updated <b>Announcement info</b> on {createdAtFormatted}
         </span>
-        {showHistoryDetails && (
-          <HistoryDetails
-            json={record}
-            prevJson={prevHistoryItem?.record || {}}
-            excludedKeys={
-              getTableConfig('application_announced')?.excludedKeys || []
-            }
-            diffSchema={getTableConfig('application_announced')?.schema}
-            overrideParent={
-              getTableConfig('application_announced')?.overrideParent
-            }
-          />
-        )}
+        <HistoryDetails
+          json={record}
+          prevJson={prevHistoryItem?.record || {}}
+          excludedKeys={
+            getTableConfig('application_announced')?.excludedKeys || []
+          }
+          diffSchema={getTableConfig('application_announced')?.schema}
+          overrideParent={
+            getTableConfig('application_announced')?.overrideParent
+          }
+        />
       </StyledContent>
     );
   }
@@ -338,7 +330,7 @@ const HistoryContent = ({
           </span>
           on {createdAtFormatted}
         </StyledContent>
-        {showHistoryDetails && prevHistoryItem?.record && (
+        {prevHistoryItem?.record && (
           <HistoryDetails
             json={record.json_data}
             prevJson={prevJson}
@@ -521,19 +513,17 @@ const HistoryContent = ({
             {displayName} updated <b>Internal Notes</b> on {createdAtFormatted}
           </span>
         </StyledContent>
-        {showHistoryDetails && (
-          <HistoryDetails
-            json={record}
-            prevJson={prevHistoryItem?.record || {}}
-            excludedKeys={
-              getTableConfig('application_internal_notes')?.excludedKeys || []
-            }
-            diffSchema={getTableConfig('application_internal_notes')?.schema}
-            overrideParent={
-              getTableConfig('application_internal_notes')?.overrideParent
-            }
-          />
-        )}
+        <HistoryDetails
+          json={record}
+          prevJson={prevHistoryItem?.record || {}}
+          excludedKeys={
+            getTableConfig('application_internal_notes')?.excludedKeys || []
+          }
+          diffSchema={getTableConfig('application_internal_notes')?.schema}
+          overrideParent={
+            getTableConfig('application_internal_notes')?.overrideParent
+          }
+        />
         {changeReason && <ChangeReason reason={changeReason} />}
       </div>
     );
@@ -596,15 +586,13 @@ const HistoryContent = ({
           <b>{formatAssessment(assessmentType)} Assessment</b>
           <span> on {createdAtFormatted}</span>
         </StyledContent>
-        {showHistoryDetails && (
-          <HistoryDetails
-            json={record.json_data}
-            prevJson={prevHistoryItem?.record?.json_data || {}}
-            diffSchema={assessmentConfig?.schema}
-            excludedKeys={assessmentConfig?.excludedKeys || []}
-            overrideParent={assessmentConfig?.overrideParent}
-          />
-        )}
+        <HistoryDetails
+          json={record.json_data}
+          prevJson={prevHistoryItem?.record?.json_data || {}}
+          diffSchema={assessmentConfig?.schema}
+          excludedKeys={assessmentConfig?.excludedKeys || []}
+          overrideParent={assessmentConfig?.overrideParent}
+        />
         {showAssessmentFilesDiff && (
           <HistoryFile
             filesArray={assessmentFilesArray}
@@ -670,19 +658,17 @@ const HistoryContent = ({
           </span>
           on {createdAtFormatted}
         </StyledContent>
-        {showHistoryDetails && (
-          <HistoryDetails
-            json={record.json_data}
-            prevJson={prevHistoryItem?.record?.json_data || {}}
-            excludedKeys={
-              getTableConfig('application_gis_data')?.excludedKeys || []
-            }
-            diffSchema={getTableConfig('application_gis_data')?.schema}
-            overrideParent={
-              getTableConfig('application_gis_data')?.overrideParent
-            }
-          />
-        )}
+        <HistoryDetails
+          json={record.json_data}
+          prevJson={prevHistoryItem?.record?.json_data || {}}
+          excludedKeys={
+            getTableConfig('application_gis_data')?.excludedKeys || []
+          }
+          diffSchema={getTableConfig('application_gis_data')?.schema}
+          overrideParent={
+            getTableConfig('application_gis_data')?.overrideParent
+          }
+        />
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
       </div>
     );
@@ -699,20 +685,17 @@ const HistoryContent = ({
           </span>
           on {createdAtFormatted}
         </StyledContent>
-        {showHistoryDetails && (
-          <HistoryDetails
-            json={record}
-            prevJson={prevHistoryItem?.record || {}}
-            excludedKeys={
-              getTableConfig(`application_gis_assessment_hh`)?.excludedKeys ||
-              []
-            }
-            diffSchema={getTableConfig(`application_gis_assessment_hh`)?.schema}
-            overrideParent={
-              getTableConfig(`application_gis_assessment_hh`)?.overrideParent
-            }
-          />
-        )}
+        <HistoryDetails
+          json={record}
+          prevJson={prevHistoryItem?.record || {}}
+          excludedKeys={
+            getTableConfig(`application_gis_assessment_hh`)?.excludedKeys || []
+          }
+          diffSchema={getTableConfig(`application_gis_assessment_hh`)?.schema}
+          overrideParent={
+            getTableConfig(`application_gis_assessment_hh`)?.overrideParent
+          }
+        />
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
       </div>
     );
@@ -754,70 +737,67 @@ const HistoryContent = ({
           <b>Project information</b>
           <span> form on {createdAtFormatted}</span>
         </StyledContent>
-        {showHistoryDetails && (
-          <>
-            <HistoryDetails
-              json={record.json_data}
-              prevJson={prevHistoryItem?.record?.json_data || {}}
-              excludedKeys={
-                getTableConfig('project_information_data')?.excludedKeys || []
+        <>
+          <HistoryDetails
+            json={record.json_data}
+            prevJson={prevHistoryItem?.record?.json_data || {}}
+            excludedKeys={
+              getTableConfig('project_information_data')?.excludedKeys || []
+            }
+            diffSchema={getTableConfig('project_information_data')?.schema}
+            overrideParent="projectInformation"
+          />
+          {/* Only show if changes, set show hide title depending on previous one showing */}
+          {!!sowFileDiff && (
+            <HistoryFile
+              filesArray={record.json_data?.statementOfWorkUpload || []}
+              previousFileArray={
+                prevHistoryItem?.record?.json_data?.statementOfWorkUpload
               }
-              diffSchema={getTableConfig('project_information_data')?.schema}
-              overrideParent="projectInformation"
+              title="Statement of Work Excel"
             />
-            {/* Only show if changes, set show hide title depending on previous one showing */}
-            {!!sowFileDiff && (
-              <HistoryFile
-                filesArray={record.json_data?.statementOfWorkUpload || []}
-                previousFileArray={
-                  prevHistoryItem?.record?.json_data?.statementOfWorkUpload
-                }
-                title="Statement of Work Excel"
-              />
-            )}
-            {showSowWireless && (
-              <HistoryFile
-                filesArray={record.json_data?.sowWirelessUpload || []}
-                previousFileArray={
-                  prevHistoryItem?.record?.json_data?.sowWirelessUpload || []
-                }
-                title="SOW Wireless Table"
-                tableTitle={!showSow}
-              />
-            )}
-            {showFundingAgreement && (
-              <HistoryFile
-                filesArray={record.json_data?.fundingAgreementUpload || []}
-                previousFileArray={
-                  prevHistoryItem?.record?.json_data?.fundingAgreementUpload ||
-                  []
-                }
-                title="Funding agreement"
-                tableTitle={!showSowWireless}
-              />
-            )}
-            {showFinalizedMap && (
-              <HistoryFile
-                filesArray={record.json_data?.finalizedMapUpload || []}
-                previousFileArray={
-                  prevHistoryItem?.record?.json_data?.finalizedMapUpload || []
-                }
-                title="Finalized spatial data"
-                tableTitle={!showFundingAgreement}
-              />
-            )}
-            {showOtherFiles && (
-              <HistoryFile
-                filesArray={record.json_data?.otherFiles || []}
-                previousFileArray={
-                  prevHistoryItem?.record?.json_data?.otherFiles || []
-                }
-                title="Other files"
-                tableTitle={!showFinalizedMap}
-              />
-            )}
-          </>
-        )}
+          )}
+          {showSowWireless && (
+            <HistoryFile
+              filesArray={record.json_data?.sowWirelessUpload || []}
+              previousFileArray={
+                prevHistoryItem?.record?.json_data?.sowWirelessUpload || []
+              }
+              title="SOW Wireless Table"
+              tableTitle={!showSow}
+            />
+          )}
+          {showFundingAgreement && (
+            <HistoryFile
+              filesArray={record.json_data?.fundingAgreementUpload || []}
+              previousFileArray={
+                prevHistoryItem?.record?.json_data?.fundingAgreementUpload || []
+              }
+              title="Funding agreement"
+              tableTitle={!showSowWireless}
+            />
+          )}
+          {showFinalizedMap && (
+            <HistoryFile
+              filesArray={record.json_data?.finalizedMapUpload || []}
+              previousFileArray={
+                prevHistoryItem?.record?.json_data?.finalizedMapUpload || []
+              }
+              title="Finalized spatial data"
+              tableTitle={!showFundingAgreement}
+            />
+          )}
+          {showOtherFiles && (
+            <HistoryFile
+              filesArray={record.json_data?.otherFiles || []}
+              previousFileArray={
+                prevHistoryItem?.record?.json_data?.otherFiles || []
+              }
+              title="Other files"
+              tableTitle={!showFinalizedMap}
+            />
+          )}
+        </>
       </>
     );
   }
@@ -971,7 +951,7 @@ const HistoryContent = ({
             {createdAtFormatted}
           </span>
         </StyledContent>
-        {showHistoryDetails && filesDiff && (
+        {filesDiff && (
           <HistoryFile
             filesArray={currFiles}
             previousFileArray={prevFiles}
@@ -1024,7 +1004,7 @@ const HistoryContent = ({
           </b>
           <span> on {createdAtFormatted}</span>
         </StyledContent>
-        {op === 'INSERT' && showHistoryDetails && (
+        {op === 'INSERT' && (
           <HistoryDetails
             json={record.json_data}
             prevJson={prevHistoryItem?.record?.json_data || {}}
@@ -1037,21 +1017,19 @@ const HistoryContent = ({
             }
           />
         )}
-        {op === 'UPDATE' &&
-          record?.history_operation === 'deleted' &&
-          showHistoryDetails && (
-            <HistoryDetails
-              json={{}}
-              prevJson={record.json_data}
-              excludedKeys={
-                getTableConfig('application_milestone_data')?.excludedKeys || []
-              }
-              diffSchema={getTableConfig('application_milestone_data')?.schema}
-              overrideParent={
-                getTableConfig('application_milestone_data')?.overrideParent
-              }
-            />
-          )}
+        {op === 'UPDATE' && record?.history_operation === 'deleted' && (
+          <HistoryDetails
+            json={{}}
+            prevJson={record.json_data}
+            excludedKeys={
+              getTableConfig('application_milestone_data')?.excludedKeys || []
+            }
+            diffSchema={getTableConfig('application_milestone_data')?.schema}
+            overrideParent={
+              getTableConfig('application_milestone_data')?.overrideParent
+            }
+          />
+        )}
         {op === 'INSERT' && changedMilestoneFile && (
           <HistoryFile
             filesArray={record.json_data.milestoneFile || []}
@@ -1198,20 +1176,17 @@ const HistoryContent = ({
         <span>
           {displayName} updated <b>FNHA Contribution</b> on {createdAtFormatted}
         </span>
-        {showHistoryDetails && (
-          <HistoryDetails
-            json={record}
-            prevJson={prevHistoryItem?.record || {}}
-            excludedKeys={
-              getTableConfig('application_fnha_contribution')?.excludedKeys ||
-              []
-            }
-            diffSchema={getTableConfig('application_fnha_contribution')?.schema}
-            overrideParent={
-              getTableConfig('application_fnha_contribution')?.overrideParent
-            }
-          />
-        )}
+        <HistoryDetails
+          json={record}
+          prevJson={prevHistoryItem?.record || {}}
+          excludedKeys={
+            getTableConfig('application_fnha_contribution')?.excludedKeys || []
+          }
+          diffSchema={getTableConfig('application_fnha_contribution')?.schema}
+          overrideParent={
+            getTableConfig('application_fnha_contribution')?.overrideParent
+          }
+        />
         {reasonForChange && <ChangeReason reason={reasonForChange} />}
       </StyledContent>
     );

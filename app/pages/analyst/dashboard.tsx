@@ -1,7 +1,6 @@
 import { Profiler, useEffect } from 'react';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import cookie from 'js-cookie';
 import { DashboardTabs, TableTabs } from 'components/AnalystDashboard';
 import styled from 'styled-components';
@@ -43,6 +42,7 @@ const AnalystDashboard = ({
     // Log once per page load for cross-env comparisons
     if (!(window as any).__ccbcDashboardLogBoot) {
       (window as any).__ccbcDashboardLogBoot = true;
+      // eslint-disable-next-line no-console
       console.log('[AnalystDashboard] boot', {
         origin,
         env,
@@ -54,7 +54,6 @@ const AnalystDashboard = ({
   const query = usePreloadedQuery(getDashboardAnalystQuery, preloadedQuery);
   const router = useRouter();
   const { session } = query;
-  const isMaxWidthOverride = useDeferredFeature('max_width_override');
   cookie.set('role', session.authRole);
   const scrollHandler = () => {
     sessionStorage.setItem('dashboard_scroll_position', String(window.scrollY));
@@ -62,9 +61,9 @@ const AnalystDashboard = ({
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    // eslint-disable-next-line no-console
     console.log('[AnalystDashboard] effect:init', {
       authRole: session?.authRole,
-      isMaxWidthOverride,
     });
     // Scroll to saved scroll position
     const scrollPosition = sessionStorage.getItem('dashboard_scroll_position');
@@ -85,6 +84,7 @@ const AnalystDashboard = ({
         })
         .then(() => {
           if (scrollPosition) scrollTo();
+          // eslint-disable-next-line no-console
           console.log('[AnalystDashboard] router.replace done', {
             orderByParam,
             scrollPosition,
@@ -95,6 +95,7 @@ const AnalystDashboard = ({
     }
 
     window.addEventListener('scroll', scrollHandler);
+    // eslint-disable-next-line no-console
     console.log('[AnalystDashboard] scroll listener attached');
 
     // remove assessment_last_visited cookie
@@ -102,6 +103,7 @@ const AnalystDashboard = ({
 
     return () => {
       window.removeEventListener('scroll', scrollHandler);
+      // eslint-disable-next-line no-console
       console.log('[AnalystDashboard] scroll listener removed');
       /* ---- END DEGUG ---- */
     };
@@ -113,7 +115,7 @@ const AnalystDashboard = ({
     <Layout
       session={session}
       title="Connecting Communities BC"
-      maxWidthOverride={isMaxWidthOverride && '1600px'}
+      maxWidthOverride="1600px"
     >
       <StyledDashboardContainer>
         <DashboardTabs session={session} />
@@ -123,8 +125,10 @@ const AnalystDashboard = ({
           onRender={(id, phase, actualDuration) => {
             /* ---- BEGIN DEBUG ---- */
             if (phase === 'update') {
+              // eslint-disable-next-line no-console
               console.log(`AnalystDashboard render time: ${actualDuration}ms`);
             }
+            // eslint-disable-next-line no-console
             console.log('[AnalystDashboard] profiler', {
               id,
               phase,

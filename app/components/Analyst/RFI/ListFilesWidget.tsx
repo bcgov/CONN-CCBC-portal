@@ -1,7 +1,6 @@
 import { WidgetProps } from '@rjsf/utils';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import { AddButton } from '../Project';
 import TemplateDescription from './TemplateDescription';
 
@@ -43,7 +42,6 @@ const ListFilesWidget: React.FC<WidgetProps> = ({
   value,
   uiSchema,
 }) => {
-  const showRfiUpload = useDeferredFeature('show_analyst_rfi_upload');
   const router = useRouter();
   const isFiles = value?.length > 0;
   const templateNumber =
@@ -80,17 +78,15 @@ const ListFilesWidget: React.FC<WidgetProps> = ({
       ) : (
         <StyledP>Not received</StyledP>
       )}
-      {showRfiUpload && (
-        <AddButton
-          isFormEditMode={false}
-          title="Add file(s) sent by Email"
-          onClick={() => {
-            router.push(
-              `/analyst/application/${formContext.applicationId}/rfi/${formContext.rfiId}/upload`
-            );
-          }}
-        />
-      )}
+      <AddButton
+        isFormEditMode={false}
+        title="Add file(s) sent by Email"
+        onClick={() => {
+          router.push(
+            `/analyst/application/${formContext.applicationId}/rfi/${formContext.rfiId}/upload`
+          );
+        }}
+      />
       <TemplateDescription templateNumber={templateNumber} />
     </StyledContainer>
   );
