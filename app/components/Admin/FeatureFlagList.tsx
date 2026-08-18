@@ -6,7 +6,6 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import styled from 'styled-components';
 import FeatureFlagListRow from './FeatureFlagListRow';
 import { StyledHeaderCell } from './FeatureFlagStyledCells';
 
@@ -22,13 +21,9 @@ interface Props {
   featureFlags: FeatureFlag[];
 }
 
-const StyledTableContainer = styled(TableContainer)`
-  width: 100%;
-`;
-
 const FeatureFlagList: React.FC<Props> = ({ featureFlags }) => {
   return (
-    <StyledTableContainer component={Paper} variant="outlined">
+    <TableContainer component={Paper} variant="outlined" sx={{ width: '100%' }}>
       <Table>
         <TableHead>
           <TableRow>
@@ -45,7 +40,7 @@ const FeatureFlagList: React.FC<Props> = ({ featureFlags }) => {
           ))}
         </TableBody>
       </Table>
-    </StyledTableContainer>
+    </TableContainer>
   );
 };
 
