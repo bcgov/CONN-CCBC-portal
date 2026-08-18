@@ -7,15 +7,8 @@ import session from 'express-session';
 import request from 'supertest';
 import changeLog from '../../../../backend/lib/change_log/change_log';
 import { performQuery } from '../../../../backend/lib/graphql';
-import { gbClient } from '../../../../backend/lib/growthbook-client';
 
 jest.mock('../../../../backend/lib/graphql');
-jest.mock('../../../../backend/lib/growthbook-client', () => ({
-  gbClient: {
-    refreshFeatures: jest.fn(),
-    getFeatureValue: jest.fn(),
-  },
-}));
 
 const buildChangeLogResponse = (nodes) => ({
   data: {
@@ -33,8 +26,6 @@ describe('Change log cache endpoints', () => {
     app.use(session({ secret: crypto.randomUUID(), cookie: { secure: true } }));
     app.use(express.json());
     app.use('/', changeLog);
-    mocked(gbClient.refreshFeatures).mockResolvedValue(undefined);
-    mocked(gbClient.getFeatureValue).mockReturnValue({});
     jest.clearAllMocks();
   });
 

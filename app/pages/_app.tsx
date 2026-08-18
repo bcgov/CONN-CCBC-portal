@@ -1,7 +1,4 @@
-/* eslint-disable no-console */
-import React, { Suspense, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import getConfig from 'next/config';
+import React, { Suspense } from 'react';
 import { ThemeProvider } from '@mui/material';
 import theme from 'styles/muiTheme';
 import { RelayEnvironmentProvider } from 'react-relay';
@@ -11,7 +8,6 @@ import { Settings } from 'luxon';
 import type { AppProps } from 'next/app';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-import { GrowthBook, GrowthBookProvider } from '@growthbook/growthbook-react';
 import Error500 from 'pages/500';
 import { getClientEnvironment } from 'lib/relay/client';
 import reportClientError from 'lib/helpers/reportClientError';
@@ -20,24 +16,9 @@ import GlobalTheme from 'styles/GlobalTheme';
 import BCGovTypography from 'components/BCGovTypography';
 import { SessionExpiryHandler } from 'components';
 import { AppProvider } from 'components/AppProvider';
+import FeatureFlagProvider from 'components/FeatureFlagProvider';
 
 config.autoAddCss = false;
-
-const growthbook = new GrowthBook();
-
-const { publicRuntimeConfig } = getConfig();
-const growthbookApiKey = publicRuntimeConfig.NEXT_PUBLIC_GROWTHBOOK_API_KEY;
-// Using convict to declare it but using nextjs public env due to convict fs import
-const growthbookUrl = growthbookApiKey
-  ? `https://cdn.growthbook.io/api/features/${growthbookApiKey}`
-  : null;
-
-if (!growthbookUrl) {
-  // Visible in server logs (e.g. Docker) and browser console; reportClientError is browser-only.
-  console.warn(
-    '[GrowthBook] NEXT_PUBLIC_GROWTHBOOK_API_KEY is not set; feature flags disabled'
-  );
-}
 
 class AppErrorBoundary extends React.Component<
   { children: React.ReactNode },
@@ -74,7 +55,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   const { env, ...relayProps } = useRelayNextjs(pageProps, {
     createClientEnvironment: () => getClientEnvironment()!,
   });
-  const router = useRouter();
   Settings.defaultZone = 'America/Vancouver';
   Settings.defaultLocale = 'en-CA';
 
@@ -84,53 +64,33 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   trackPageView();
 
-  useEffect(() => {
-    const fetchGrowthbook = async () => {
-      if (!growthbookUrl) return null;
-      try {
-        const data = await fetch(growthbookUrl)
-          .then((res) => res.json())
-          .then((res) => {
-            growthbook.setFeatures(res.features);
-          });
-        return data;
-      } catch (err) {
-        reportClientError(err, { source: 'growthbook-refresh' });
-      }
-      return null;
-    };
-    fetchGrowthbook();
-  }, [router.asPath]);
-
   const component = (
     <Suspense
-      fallback={
-        <div data-testid="app-suspense-loading">Loading...</div>
-      }
+      fallback={<div data-testid="app-suspense-loading">Loading...</div>}
     >
       <Component {...pageProps} {...relayProps} />
     </Suspense>
   );
 
   return (
-    <GrowthBookProvider growthbook={growthbook}>
-      <GlobalTheme>
-        <ThemeProvider theme={theme}>
-          {React.createElement(GlobalStyle as any)}
-          <BCGovTypography />
-          <AppErrorBoundary>
-            {React.createElement(
-              RelayEnvironmentProvider as any,
-              { environment: env },
+    <GlobalTheme>
+      <ThemeProvider theme={theme}>
+        {React.createElement(GlobalStyle as any)}
+        <BCGovTypography />
+        <AppErrorBoundary>
+          {React.createElement(
+            RelayEnvironmentProvider as any,
+            { environment: env },
+            <FeatureFlagProvider>
               <AppProvider>
                 {typeof window !== 'undefined' && <SessionExpiryHandler />}
                 {component}
               </AppProvider>
-            )}
-          </AppErrorBoundary>
-        </ThemeProvider>
-      </GlobalTheme>
-    </GrowthBookProvider>
+            </FeatureFlagProvider>
+          )}
+        </AppErrorBoundary>
+      </ThemeProvider>
+    </GlobalTheme>
   );
 };
 

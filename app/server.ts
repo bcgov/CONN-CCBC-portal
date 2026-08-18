@@ -9,10 +9,6 @@ import cookieParser from 'cookie-parser';
 // eslint-disable-next-line import/extensions
 import graphqlUploadExpress from 'graphql-upload/graphqlUploadExpress.js';
 import morgan from 'morgan';
-import {
-  gbClient,
-  initializeGrowthBook,
-} from './backend/lib/growthbook-client';
 import reporting from './backend/lib/reporting/reporting';
 import validation from './backend/lib/validation';
 import email from './backend/lib/emails/email';
@@ -120,11 +116,6 @@ app.prepare().then(async () => {
 
   // passport needed to use req.logout() and req.session.destroy() in login.ts and logout.ts
   server.use(passport.initialize());
-
-  // Initialize growthbook client from the shared module
-  await initializeGrowthBook();
-  // Refresh once every 1 minute
-  setInterval(() => gbClient.refreshFeatures(), 1 * 60 * 1000);
 
   const { middleware: sessionMiddleware } = session();
 

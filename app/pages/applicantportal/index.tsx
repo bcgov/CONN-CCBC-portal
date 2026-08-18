@@ -1,8 +1,7 @@
 import type { NextPageContext } from 'next';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
-import type { JSONValue } from '@growthbook/growthbook';
+import useDeferredFeature, { JSONValue } from 'lib/helpers/useDeferredFeature';
 import Link from '@button-inc/bcgov-theme/Link';
 import styled from 'styled-components';
 import { useMemo } from 'react';
