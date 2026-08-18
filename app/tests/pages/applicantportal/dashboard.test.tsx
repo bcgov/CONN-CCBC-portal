@@ -1,8 +1,9 @@
 import { screen } from '@testing-library/react';
-import * as moduleApi from '@growthbook/growthbook-react';
-import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
+import { mocked } from 'jest-mock';
 import userEvent from '@testing-library/user-event';
 import { schema } from 'formSchema';
+import { JSONValue } from 'lib/helpers/useDeferredFeature';
+import { useFeatureFlagMap } from 'components/FeatureFlagProvider';
 import Dashboard, {
   withRelayOptions,
 } from '../../../pages/applicantportal/dashboard';
@@ -26,43 +27,9 @@ const mockClosedIntakeData: JSONValue = {
   displayOpenDate: false,
 };
 
-const mockInternalIntakeClosed: FeatureResult<boolean> = {
-  value: false,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'internal_intake',
-};
-const mockInternalIntakeOpen: FeatureResult<boolean> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'internal_intake',
-};
-
-const mockOpenIntake: FeatureResult<JSONValue> = {
-  value: mockOpenIntakeData,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'open_intake_alert',
-};
-const mockClosedIntake: FeatureResult<JSONValue> = {
-  value: mockClosedIntakeData,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'open_intake_alert',
-};
-
-const mockSubtractedValue: FeatureResult<JSONValue> = {
-  value: 30,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_subtracted_time',
-};
+// Business rule: the displayed close time is shown 30 minutes earlier than
+// the actual close timestamp.
+const mockSubtractedTimeValue = 30;
 
 const mockQueryPayload = {
   Query() {
@@ -311,6 +278,9 @@ describe('The index page', () => {
     pageTestingHelper.setMockRouterValues({
       pathname: '/applicantportal/dashboard',
     });
+    // Reset to no flags configured so each test starts from a clean slate
+    // and individual tests can opt in to the flag values they need.
+    mocked(useFeatureFlagMap).mockReturnValue({});
   });
 
   it('displays the correct nav links when user is logged in', () => {
@@ -336,17 +306,19 @@ describe('The index page', () => {
   });
 
   it('should have disabled create application when hidden intake open but feature flag is off', async () => {
+    mocked(useFeatureFlagMap).mockReturnValue({
+      internal_intake: { isEnabled: true, value: false },
+    });
     pageTestingHelper.loadQuery(mockClosedIntakeOpenHiddenIntakePayload);
     pageTestingHelper.renderPage();
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValueOnce(mockInternalIntakeClosed);
 
     expect(screen.getByText('Create application')).toBeDisabled();
   });
 
   it('displays the alert message when there is no open intake', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockClosedIntake);
+    mocked(useFeatureFlagMap).mockReturnValue({
+      closed_intake_alert: { isEnabled: true, value: mockClosedIntakeData },
+    });
     pageTestingHelper.loadQuery(mockClosedIntakePayload);
     pageTestingHelper.renderPage();
 
@@ -356,7 +328,9 @@ describe('The index page', () => {
   });
 
   it('displays the open intake message when there an open intake', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockOpenIntake);
+    mocked(useFeatureFlagMap).mockReturnValue({
+      open_intake_alert: { isEnabled: true, value: mockOpenIntakeData },
+    });
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -366,7 +340,9 @@ describe('The index page', () => {
   });
 
   it('displays the close intake message when there an open intake', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockSubtractedValue);
+    mocked(useFeatureFlagMap).mockReturnValue({
+      show_subtracted_time: { isEnabled: true, value: mockSubtractedTimeValue },
+    });
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -392,6 +368,9 @@ describe('The index page', () => {
   });
 
   it('has create application button enabled when open hidden intake returns a value', async () => {
+    mocked(useFeatureFlagMap).mockReturnValue({
+      internal_intake: { isEnabled: true, value: true },
+    });
     pageTestingHelper.loadQuery(mockClosedIntakeOpenHiddenIntakePayload);
     pageTestingHelper.renderPage();
     pageTestingHelper.router.query = { code: 'asdf' };
@@ -406,12 +385,12 @@ describe('The index page', () => {
   });
 
   it('has create application button enabled when hidden intake is open and feature flag is on', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValueOnce(mockInternalIntakeOpen)
-      .mockReturnValueOnce(mockClosedIntake)
-      .mockReturnValueOnce(mockClosedIntake)
-      .mockReturnValueOnce(mockSubtractedValue);
+    mocked(useFeatureFlagMap).mockReturnValue({
+      internal_intake: { isEnabled: true, value: true },
+      open_intake_alert: { isEnabled: true, value: mockClosedIntakeData },
+      closed_intake_alert: { isEnabled: true, value: mockClosedIntakeData },
+      show_subtracted_time: { isEnabled: true, value: mockSubtractedTimeValue },
+    });
     pageTestingHelper.loadQuery(mockClosedIntakeOpenHiddenIntakePayload);
     pageTestingHelper.renderPage();
 
@@ -484,6 +463,9 @@ describe('The index page', () => {
   });
 
   it('should show correct message for intake submission when rolling intake', async () => {
+    mocked(useFeatureFlagMap).mockReturnValue({
+      show_subtracted_time: { isEnabled: true, value: mockSubtractedTimeValue },
+    });
     pageTestingHelper.loadQuery(mockQueryPayloadRollingIntake);
     pageTestingHelper.renderPage();
 

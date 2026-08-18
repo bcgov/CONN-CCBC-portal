@@ -1,7 +1,7 @@
 import { mocked } from 'jest-mock';
+import { useFeatureFlagMap } from 'components/FeatureFlagProvider';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
-import * as moduleApi from '@growthbook/growthbook-react';
 import cookie from 'js-cookie';
 import userEvent from '@testing-library/user-event';
 import defaultRelayOptions from '../../../lib/relay/withRelayOptions';
@@ -376,24 +376,8 @@ global.fetch = jest.fn(() =>
   })
 ) as jest.Mock;
 
-const mockShowLeadColumn = (
-  value: boolean
-): moduleApi.FeatureResult<boolean> => ({
-  value,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_lead',
-});
-
-const mockShowCbcProjects = (
-  value: boolean
-): moduleApi.FeatureResult<boolean> => ({
-  value,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_cbc_projects',
+const mockShowLead = (value: boolean) => ({
+  show_lead: { isEnabled: true, value },
 });
 
 jest.mock('js-cookie', () => ({
@@ -411,9 +395,7 @@ const pageTestingHelper = new PageTestingHelper<dashboardAnalystQuery>({
 describe('The index page', () => {
   beforeEach(() => {
     cookie.get.mockImplementation(() => null);
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowLeadColumn(false));
+    mocked(useFeatureFlagMap).mockReturnValue(mockShowLead(false));
     // MRT Virtualization
     Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
       configurable: true,
@@ -490,10 +472,6 @@ describe('The index page', () => {
   });
 
   it('displays the Analyst Table', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -520,10 +498,6 @@ describe('The index page', () => {
   });
 
   it('renders expand all and expand buttons and opens detail panel with communities data', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -539,9 +513,7 @@ describe('The index page', () => {
   });
 
   it('analyst table lead only visible when feature enabled', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowLeadColumn(true));
+    mocked(useFeatureFlagMap).mockReturnValue(mockShowLead(true));
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -562,9 +534,7 @@ describe('The index page', () => {
   });
 
   it('analysts table will be hidden if user set to hidden', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowLeadColumn(true));
+    mocked(useFeatureFlagMap).mockReturnValue(mockShowLead(true));
     cookie.get.mockImplementation((key) => {
       if (key === 'mrt_show_lead_application') {
         return 'false';
@@ -578,9 +548,6 @@ describe('The index page', () => {
   });
 
   it('renders analyst table row counts once', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -602,9 +569,7 @@ describe('The index page', () => {
   });
 
   it('shows the assign lead dropdown when column enabled', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowLeadColumn(true));
+    mocked(useFeatureFlagMap).mockReturnValue(mockShowLead(true));
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -614,9 +579,7 @@ describe('The index page', () => {
   });
 
   it('shows the correct options in the assign lead dropdown', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowLeadColumn(true));
+    mocked(useFeatureFlagMap).mockReturnValue(mockShowLead(true));
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -629,9 +592,7 @@ describe('The index page', () => {
   });
 
   it('calls the mutation when a lead has been selected', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowLeadColumn(true));
+    mocked(useFeatureFlagMap).mockReturnValue(mockShowLead(true));
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -823,10 +784,6 @@ describe('The index page', () => {
   });
 
   it('correctly filters project type', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -863,10 +820,6 @@ describe('The index page', () => {
   });
 
   it('clear filters correctly restore project type filter', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -891,10 +844,6 @@ describe('The index page', () => {
   });
 
   it('shows global filter and filters results based on input', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -915,10 +864,6 @@ describe('The index page', () => {
   });
 
   it('global filter correctly filters communities and expand the row with match highlighting', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -943,10 +888,6 @@ describe('The index page', () => {
   });
 
   it('renders global filter modes', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -969,10 +910,6 @@ describe('The index page', () => {
   });
 
   it('global filter filters based on selected mode', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -1011,10 +948,6 @@ describe('The index page', () => {
   });
 
   it('clear filters correctly clears global filter and restore data', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -1039,10 +972,6 @@ describe('The index page', () => {
   });
 
   it('cbc statuses are duplicated for both analyst and external statuses', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -1050,10 +979,6 @@ describe('The index page', () => {
   });
 
   it('internal status filter works correctly on cbc projects', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -1061,10 +986,6 @@ describe('The index page', () => {
   });
 
   it('should correctly filter by package filter', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -1094,10 +1015,6 @@ describe('The index page', () => {
   });
 
   it('should correctly filter by zone filter', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -1127,10 +1044,6 @@ describe('The index page', () => {
   });
 
   it('should correctly filter the cbc projects by analyst status filter', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -1261,10 +1174,6 @@ describe('The index page', () => {
   });
 
   it('filters the applications by original project number', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -1290,10 +1199,6 @@ describe('The index page', () => {
   });
 
   it('filters the applications by federal project number', async () => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowCbcProjects(true));
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -1356,10 +1261,6 @@ describe('The index page', () => {
         },
       };
 
-      jest
-        .spyOn(moduleApi, 'useFeature')
-        .mockReturnValue(mockShowCbcProjects(true));
-
       pageTestingHelper.loadQuery(mockPayload);
       pageTestingHelper.renderPage();
 
@@ -1398,10 +1299,6 @@ describe('The index page', () => {
         },
       };
 
-      jest
-        .spyOn(moduleApi, 'useFeature')
-        .mockReturnValue(mockShowCbcProjects(true));
-
       pageTestingHelper.loadQuery(mockPayload);
       pageTestingHelper.renderPage();
 
@@ -1439,10 +1336,6 @@ describe('The index page', () => {
           };
         },
       };
-
-      jest
-        .spyOn(moduleApi, 'useFeature')
-        .mockReturnValue(mockShowCbcProjects(true));
 
       pageTestingHelper.loadQuery(mockPayload);
       pageTestingHelper.renderPage();
@@ -1485,10 +1378,6 @@ describe('The index page', () => {
         },
       };
 
-      jest
-        .spyOn(moduleApi, 'useFeature')
-        .mockReturnValue(mockShowCbcProjects(true));
-
       pageTestingHelper.loadQuery(mockPayload);
       pageTestingHelper.renderPage();
 
@@ -1527,10 +1416,6 @@ describe('The index page', () => {
         },
       };
 
-      jest
-        .spyOn(moduleApi, 'useFeature')
-        .mockReturnValue(mockShowCbcProjects(true));
-
       pageTestingHelper.loadQuery(mockPayload);
       pageTestingHelper.renderPage();
 
@@ -1568,10 +1453,6 @@ describe('The index page', () => {
           };
         },
       };
-
-      jest
-        .spyOn(moduleApi, 'useFeature')
-        .mockReturnValue(mockShowCbcProjects(true));
 
       pageTestingHelper.loadQuery(mockPayload);
       pageTestingHelper.renderPage();

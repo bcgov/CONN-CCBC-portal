@@ -1,7 +1,7 @@
 import { act, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import * as moduleApi from '@growthbook/growthbook-react';
-import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
+import { mocked } from 'jest-mock';
+import { useFeatureFlagMap } from 'components/FeatureFlagProvider';
 import GISAssessment from 'pages/analyst/application/[applicationId]/assessments/gis';
 import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
@@ -74,14 +74,6 @@ const pageTestingHelper = new PageTestingHelper<gisAssessmentQuery>({
   },
 });
 
-const mockShowApplicationGisData: FeatureResult<JSONValue> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_application_gis_data',
-};
-
 describe('The index page', () => {
   beforeEach(() => {
     pageTestingHelper.reinit();
@@ -89,9 +81,13 @@ describe('The index page', () => {
       asPath: '/analyst/application/1/assessments/gis',
       query: { applicationId: '1' },
     });
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockShowApplicationGisData);
+    // AnalystLayout renders ApplicationHeader, which reads `show_lead`;
+    // kept enabled here to preserve prior (blanket-mocked) test behavior.
+    // (mockShowApplicationGisData was a leftover mock for a flag that no
+    // longer exists in the rendered tree.)
+    mocked(useFeatureFlagMap).mockReturnValue({
+      show_lead: { isEnabled: true, value: true },
+    });
   });
 
   it('highlights the correct nav tab', async () => {

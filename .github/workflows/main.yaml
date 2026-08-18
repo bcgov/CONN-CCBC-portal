@@ -229,7 +229,6 @@ jobs:
       OPENSHIFT_APP_NAMESPACE: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
       OPENSHIFT_METABASE_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
       OPENSHIFT_METABASE_PROD_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_PROD_NAMESPACE }}
-      NEXT_PUBLIC_GROWTHBOOK_API_KEY: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       OPENSHIFT_SECURE_ROUTE: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
       AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
@@ -282,7 +281,6 @@ jobs:
       OPENSHIFT_APP_NAMESPACE: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
       OPENSHIFT_METABASE_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
       OPENSHIFT_METABASE_PROD_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_PROD_NAMESPACE }}
-      NEXT_PUBLIC_GROWTHBOOK_API_KEY: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       OPENSHIFT_SECURE_ROUTE: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
       AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
@@ -326,7 +324,18 @@ jobs:
 
   ci-status:
     if: always()
-    needs: [build, test-code, test-eslint, test-schema, test-db, test-checks, test-containers, test-zap, test-e2e]
+    needs:
+      [
+        build,
+        test-code,
+        test-eslint,
+        test-schema,
+        test-db,
+        test-checks,
+        test-containers,
+        test-zap,
+        test-e2e,
+      ]
     runs-on: ubuntu-latest
     steps:
       - name: Check CI status

@@ -13,9 +13,7 @@ import GlobalStyle from 'styles/GobalStyles';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { AppProvider } from 'components/AppProvider';
 import UnsavedChangesProvider from 'components/UnsavedChangesProvider';
-import { GrowthBookProvider } from '@growthbook/growthbook-react';
 import TestingHelper from './TestingHelper';
-import mockGrowthBook from './mockGrowthBook';
 
 interface ComponentTestingHelperOptions<TQuery extends OperationType> {
   component: (props: any) => React.ReactElement;
@@ -62,6 +60,7 @@ class ComponentTestingHelper<
   }
 
   private TestRenderer: React.FC<{
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getPropsFromTestQuery: (data: TQuery['response']) => any;
     extraProps: any;
   }> = ({ getPropsFromTestQuery, extraProps }) => {
@@ -86,23 +85,21 @@ class ComponentTestingHelper<
     extraProps: any = this.options.defaultComponentProps
   ) {
     this.renderResult = render(
-      <GrowthBookProvider growthbook={mockGrowthBook as any}>
-        <GlobalTheme>
-          <GlobalStyle />
-          <RouterContext.Provider value={this.router}>
-            <RelayEnvironmentProvider environment={this.environment}>
-              <AppProvider>
-                <UnsavedChangesProvider>
-                  <this.TestRenderer
-                    getPropsFromTestQuery={getPropsFromTestQuery}
-                    extraProps={extraProps}
-                  />
-                </UnsavedChangesProvider>
-              </AppProvider>
-            </RelayEnvironmentProvider>
-          </RouterContext.Provider>
-        </GlobalTheme>
-      </GrowthBookProvider>
+      <GlobalTheme>
+        <GlobalStyle />
+        <RouterContext.Provider value={this.router}>
+          <RelayEnvironmentProvider environment={this.environment}>
+            <AppProvider>
+              <UnsavedChangesProvider>
+                <this.TestRenderer
+                  getPropsFromTestQuery={getPropsFromTestQuery}
+                  extraProps={extraProps}
+                />
+              </UnsavedChangesProvider>
+            </AppProvider>
+          </RelayEnvironmentProvider>
+        </RouterContext.Provider>
+      </GlobalTheme>
     );
     return this.renderResult;
   }
@@ -113,19 +110,17 @@ class ComponentTestingHelper<
     extraProps: any = this.options.defaultComponentProps
   ) {
     this.renderResult.rerender(
-      <GrowthBookProvider growthbook={mockGrowthBook as any}>
-        <GlobalTheme>
-          <GlobalStyle />
-          <RouterContext.Provider value={this.router}>
-            <RelayEnvironmentProvider environment={this.environment}>
-              <this.TestRenderer
-                getPropsFromTestQuery={getPropsFromTestQuery}
-                extraProps={extraProps}
-              />
-            </RelayEnvironmentProvider>
-          </RouterContext.Provider>
-        </GlobalTheme>
-      </GrowthBookProvider>
+      <GlobalTheme>
+        <GlobalStyle />
+        <RouterContext.Provider value={this.router}>
+          <RelayEnvironmentProvider environment={this.environment}>
+            <this.TestRenderer
+              getPropsFromTestQuery={getPropsFromTestQuery}
+              extraProps={extraProps}
+            />
+          </RelayEnvironmentProvider>
+        </RouterContext.Provider>
+      </GlobalTheme>
     );
     return this.renderResult;
   }

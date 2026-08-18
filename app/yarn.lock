@@ -2082,20 +2082,6 @@
   resolved "https://registry.yarnpkg.com/@graphile/persisted-operations/-/persisted-operations-0.1.1.tgz#9a753a5fc46f7935d97620e3bf5a703202304ffb"
   integrity sha512-9GDVvGXCmg7Vo8Zbbpx083nHTgM8nPXV13K+IoS9qX5d1HyDcWDXvI+fj2Bb122dFOyhfCeGyhiYpWvMrABBgA==
 
-"@growthbook/growthbook-react@1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@growthbook/growthbook-react/-/growthbook-react-1.7.0.tgz#220377f877fb74df185d7f3b9aaa4c2a4f8e9ff5"
-  integrity sha512-7TU0Yjmkl2Me8LKpG5cjqIsLSK+sz9T/1vocJAm49KsBeTvse6QwR9544KB9sU7eJF9qYVGr4GekW/r9bqmaWg==
-  dependencies:
-    "@growthbook/growthbook" "^1.7.0"
-
-"@growthbook/growthbook@1.7.0", "@growthbook/growthbook@^1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@growthbook/growthbook/-/growthbook-1.7.0.tgz#4507d6ca08c9e9c8fa311b708292181d37ac1a17"
-  integrity sha512-Vmad3fWRh1XaFH4q+AS62ofX6Q3IxSTD7sBGuhEHCaad8VyZerxrVdojucjzlnJDUocfrnZFUSpEkR6R/wCV+A==
-  dependencies:
-    dom-mutator "^0.6.0"
-
 "@hapi/address@^5.1.1":
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-5.1.1.tgz#e9925fc1b65f5cc3fbea821f2b980e4652e84cb6"
@@ -6317,11 +6303,6 @@ dom-helpers@^5.0.1:
   dependencies:
     "@babel/runtime" "^7.8.7"
     csstype "^3.0.2"
-
-dom-mutator@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/dom-mutator/-/dom-mutator-0.6.0.tgz#079d7a4b3e8981a562cd777548b99baab51d65c5"
-  integrity sha512-iCt9o0aYfXMUkz/43ZOAUFQYotjGB+GNbYJiJdz4TgXkyToXbbRy5S6FbTp72lRBtfpUMwEc1KmpFEU4CZeoNg==
 
 dom-serializer@^1.0.1:
   version "1.4.1"

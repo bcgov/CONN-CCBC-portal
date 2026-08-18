@@ -1,6 +1,7 @@
 import { screen } from '@testing-library/react';
-import * as moduleApi from '@growthbook/growthbook-react';
-import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
+import { mocked } from 'jest-mock';
+import { JSONValue } from 'lib/helpers/useDeferredFeature';
+import { useFeatureFlagMap } from 'components/FeatureFlagProvider';
 import compiledPagesQuery, {
   applicantportalQuery,
 } from '__generated__/applicantportalQuery.graphql';
@@ -77,29 +78,9 @@ const mockClosedIntakeData: JSONValue = {
   displayOpenDate: false,
 };
 
-const mockOpenIntake: FeatureResult<JSONValue> = {
-  value: mockOpenIntakeData,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'open_intake_alert',
-};
-
-const mockClosedIntake: FeatureResult<JSONValue> = {
-  value: mockClosedIntakeData,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'closed_intake_alert',
-};
-
-const mockSubtractedValue: FeatureResult<JSONValue> = {
-  value: 30,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_subtracted_time',
-};
+// Business rule: the displayed close time is shown 30 minutes earlier than
+// the actual close timestamp.
+const mockSubtractedTimeValue = 30;
 
 const pageTestingHelper = new PageTestingHelper<applicantportalQuery>({
   pageComponent: Home,
@@ -110,6 +91,9 @@ const pageTestingHelper = new PageTestingHelper<applicantportalQuery>({
 describe('The index page', () => {
   beforeEach(() => {
     pageTestingHelper.reinit();
+    // Reset to no flags configured so each test starts from a clean slate
+    // and individual tests can opt in to the flag values they need.
+    mocked(useFeatureFlagMap).mockReturnValue({});
   });
 
   it('does not redirect an unauthorized user', async () => {
@@ -130,7 +114,9 @@ describe('The index page', () => {
   });
 
   it('Displays the alert message when there is no open intake', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockClosedIntake);
+    mocked(useFeatureFlagMap).mockReturnValue({
+      closed_intake_alert: { isEnabled: true, value: mockClosedIntakeData },
+    });
     pageTestingHelper.loadQuery(mockClosedIntakePayload);
     pageTestingHelper.renderPage();
 
@@ -140,7 +126,9 @@ describe('The index page', () => {
   });
 
   it('Displays the alert message when there is an open intake', () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockOpenIntake);
+    mocked(useFeatureFlagMap).mockReturnValue({
+      open_intake_alert: { isEnabled: true, value: mockOpenIntakeData },
+    });
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -150,7 +138,9 @@ describe('The index page', () => {
   });
 
   it('Displays the callout message with correct time when there is an open intake', () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockSubtractedValue);
+    mocked(useFeatureFlagMap).mockReturnValue({
+      show_subtracted_time: { isEnabled: true, value: mockSubtractedTimeValue },
+    });
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -167,7 +157,9 @@ describe('The index page', () => {
   });
 
   it('Displays the callout message with correct information about submission', () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockSubtractedValue);
+    mocked(useFeatureFlagMap).mockReturnValue({
+      show_subtracted_time: { isEnabled: true, value: mockSubtractedTimeValue },
+    });
     pageTestingHelper.loadQuery(mockQueryPayloadRollingIntake);
     pageTestingHelper.renderPage();
 

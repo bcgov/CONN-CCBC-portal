@@ -2,7 +2,6 @@ import { screen } from '@testing-library/react';
 import { NextPageContext } from 'next';
 import { schema, schemaV2 } from 'formSchema';
 import userEvent from '@testing-library/user-event';
-import * as moduleApi from '@growthbook/growthbook-react';
 import { withRelayOptions } from '../../../../pages/applicantportal/form/[id]/success';
 import FormPage from '../../../../pages/applicantportal/form/[id]/[page]';
 import PageTestingHelper from '../../../utils/pageTestingHelper';
@@ -46,26 +45,6 @@ const mockQueryPayload = {
       },
     };
   },
-};
-
-const mockAcceptedZones: moduleApi.FeatureResult<moduleApi.JSONValue> = {
-  value: { '1': [1, 2, 3, 4, 5], '2': [6, 7, 8], '3': [9, 10] },
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: '',
-};
-
-const mockAllZones: moduleApi.FeatureResult<moduleApi.JSONValue> = {
-  value: {
-    '1': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-    '2': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-    '3': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-  },
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: '',
 };
 
 const pageTestingHelper = new PageTestingHelper<PageQuery>({
@@ -252,8 +231,6 @@ describe('The form page', () => {
       query: { id: '1', page: '2' },
     });
 
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
-
     pageTestingHelper.loadQuery(payload);
     pageTestingHelper.renderPage();
 
@@ -307,8 +284,6 @@ describe('The form page', () => {
     pageTestingHelper.setMockRouterValues({
       query: { id: '1', page: '2' },
     });
-
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
 
     pageTestingHelper.loadQuery(payload);
     pageTestingHelper.renderPage();
@@ -419,8 +394,6 @@ describe('The form page', () => {
     pageTestingHelper.setMockRouterValues({
       query: { id: '1', page: '2' },
     });
-
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
 
     pageTestingHelper.loadQuery(payload);
     pageTestingHelper.renderPage();
@@ -550,14 +523,10 @@ describe('The form page', () => {
       query: { id: '1', page: '2' },
     });
 
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
-    const projectAreasText = screen.getByText(
-      new RegExp(`within zones ${mockAcceptedZones.value?.[1].toString()}`)
-    );
+    const projectAreasText = screen.getByText(/within zones 1,2,3,4,5/);
     expect(projectAreasText).toBeInTheDocument();
 
     const areas = screen.getAllByLabelText(
@@ -725,7 +694,6 @@ describe('The form page', () => {
       query: { id: '1', page: '2' },
     });
 
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
     pageTestingHelper.loadQuery(payload);
     pageTestingHelper.renderPage();
 
@@ -960,8 +928,6 @@ describe('The form page', () => {
       query: { id: '1', page: '2' },
     });
 
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
-
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -986,8 +952,6 @@ describe('The form page', () => {
     pageTestingHelper.setMockRouterValues({
       query: { id: '1', page: '2' },
     });
-
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAcceptedZones);
 
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
@@ -1017,8 +981,6 @@ describe('The form page', () => {
     pageTestingHelper.setMockRouterValues({
       query: { id: '1', page: '2' },
     });
-
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockAllZones);
 
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();

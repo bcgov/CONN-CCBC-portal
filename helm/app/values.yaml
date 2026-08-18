@@ -64,8 +64,6 @@ secureRoute:
   host: '' # The host value must be passed in via the deploy script
   wwwRoute:
     enable: false
-growthbook:
-  key: '' # The host value must be passed in via the deploy script
 resources:
   app:
     requests:

@@ -59,7 +59,6 @@ If the application eventually responds after a long delay, focus on what the ser
 
 External services may cause slow loading or failed startup. Check them too.
 
-- GrowthBook
 - CHES
 - AWS (the server won’t start with wrong AWS keys)
 
@@ -83,7 +82,7 @@ And,
 2. Run effected Database copy locally.
 3. Point effected environment to another environment's database. (This was the case in this scenario)
 4. Suspicious DB connection is usually resolves via a server restart.
-5. An image that logs every single connection the server makes, growthbook, graphql, postraphile, relay, fetches, anything going out of the server during ssr.
+5. An image that logs every single connection the server makes, graphql, postraphile, relay, fetches, anything going out of the server during ssr.
 6. Confirm whether a full GraphQL request completes
 
 ## Step 8: If Database is the culprit
