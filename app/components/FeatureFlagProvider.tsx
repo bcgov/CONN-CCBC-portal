@@ -5,7 +5,7 @@ import type { FeatureFlagProviderQuery } from '__generated__/FeatureFlagProvider
 
 const featureFlagsQuery = graphql`
   query FeatureFlagProviderQuery {
-    allFeatureFlags(first: 999) {
+    allFeatureFlags(first: 999, condition: { archivedAt: null }) {
       edges {
         node {
           flagKey

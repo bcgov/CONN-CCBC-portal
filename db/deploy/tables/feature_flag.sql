@@ -30,6 +30,9 @@ perform ccbc_private.grant_permissions('select', 'feature_flag', 'ccbc_service_a
 perform ccbc_private.grant_permissions('update', 'feature_flag', 'ccbc_admin');
 perform ccbc_private.grant_permissions('update', 'feature_flag', 'super_admin');
 
+perform ccbc_private.grant_permissions('insert', 'feature_flag', 'ccbc_admin');
+perform ccbc_private.grant_permissions('insert', 'feature_flag', 'super_admin');
+
 end
 $grant$;
 

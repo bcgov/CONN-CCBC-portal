@@ -1,8 +1,15 @@
 import { useState } from 'react';
+import { ConnectionHandler } from 'react-relay';
 import { Switch, TableRow, TextField } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faPen,
+  faTimes,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
+import Modal from 'components/Modal';
 import { useUpdateFeatureFlagMutation } from 'schema/mutations/featureFlag/updateFeatureFlag';
 import {
   StatusChip,
@@ -20,6 +27,7 @@ interface FeatureFlag {
 
 interface Props {
   featureFlag: FeatureFlag;
+  relayConnectionId: string;
 }
 
 const valueToText = (value: unknown) =>
@@ -27,6 +35,14 @@ const valueToText = (value: unknown) =>
 
 const StyledEdit = styled.button`
   color: ${({ theme }) => theme.color.links};
+
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
+const StyledDelete = styled.button`
+  color: ${({ theme }) => theme.color.error};
 
   &:hover {
     opacity: 0.7;
@@ -71,11 +87,15 @@ const StyledCancel = styled.button`
   }
 `;
 
-const FeatureFlagListRow: React.FC<Props> = ({ featureFlag }) => {
+const FeatureFlagListRow: React.FC<Props> = ({
+  featureFlag,
+  relayConnectionId,
+}) => {
   const { id, flagKey, isEnabled, value, description } = featureFlag;
   const [updateFeatureFlag, isUpdateInFlight] = useUpdateFeatureFlagMutation();
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [formIsEnabled, setFormIsEnabled] = useState(isEnabled);
   const [formValueText, setFormValueText] = useState(valueToText(value));
   const [formDescription, setFormDescription] = useState(description ?? '');
@@ -122,6 +142,27 @@ const FeatureFlagListRow: React.FC<Props> = ({ featureFlag }) => {
     });
   };
 
+  const handleConfirmDelete = () => {
+    updateFeatureFlag({
+      variables: {
+        input: {
+          id,
+          featureFlagPatch: { archivedAt: new Date().toISOString() },
+        },
+      },
+      onCompleted: () => {
+        setIsDeleteModalOpen(false);
+      },
+      updater: (store) => {
+        const connection = store.get(relayConnectionId);
+        if (connection) {
+          ConnectionHandler.deleteNode(connection, id);
+        }
+        store.delete(id);
+      },
+    });
+  };
+
   if (!isEditing) {
     return (
       <TableRow hover>
@@ -138,12 +179,48 @@ const FeatureFlagListRow: React.FC<Props> = ({ featureFlag }) => {
         </StyledValueCell>
         <StyledCell>{description}</StyledCell>
         <StyledCell>
-          <StyledEdit
-            onClick={() => setIsEditing(true)}
-            aria-label={`Edit ${flagKey}`}
+          <StyledActions>
+            <StyledEdit
+              onClick={() => setIsEditing(true)}
+              aria-label={`Edit ${flagKey}`}
+            >
+              <FontAwesomeIcon icon={faPen} />
+            </StyledEdit>
+            <StyledDelete
+              onClick={() => setIsDeleteModalOpen(true)}
+              disabled={isUpdateInFlight}
+              aria-label={`Delete ${flagKey}`}
+            >
+              <FontAwesomeIcon icon={faTrash} />
+            </StyledDelete>
+          </StyledActions>
+          <Modal
+            id={`delete-feature-flag-${flagKey}`}
+            open={isDeleteModalOpen}
+            onClose={() => setIsDeleteModalOpen(false)}
+            title="Delete flag"
+            size="sm"
+            actions={[
+              {
+                id: 'delete-feature-flag-yes-btn',
+                label: 'Yes, delete',
+                onClick: handleConfirmDelete,
+                isLoading: isUpdateInFlight,
+                disabled: isUpdateInFlight,
+              },
+              {
+                id: 'delete-feature-flag-cancel-btn',
+                label: 'No, keep',
+                onClick: () => setIsDeleteModalOpen(false),
+                variant: 'secondary',
+                disabled: isUpdateInFlight,
+              },
+            ]}
           >
-            <FontAwesomeIcon icon={faPen} />
-          </StyledEdit>
+            <p>
+              Are you sure you want to delete the <b>{flagKey}</b> flag?
+            </p>
+          </Modal>
         </StyledCell>
       </TableRow>
     );

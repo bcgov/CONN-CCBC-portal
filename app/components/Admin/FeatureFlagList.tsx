@@ -19,9 +19,13 @@ interface FeatureFlag {
 
 interface Props {
   featureFlags: FeatureFlag[];
+  relayConnectionId: string;
 }
 
-const FeatureFlagList: React.FC<Props> = ({ featureFlags }) => {
+const FeatureFlagList: React.FC<Props> = ({
+  featureFlags,
+  relayConnectionId,
+}) => {
   return (
     <TableContainer component={Paper} variant="outlined" sx={{ width: '100%' }}>
       <Table>
@@ -36,7 +40,11 @@ const FeatureFlagList: React.FC<Props> = ({ featureFlags }) => {
         </TableHead>
         <TableBody>
           {featureFlags?.map((flag) => (
-            <FeatureFlagListRow key={flag.id} featureFlag={flag} />
+            <FeatureFlagListRow
+              key={flag.id}
+              featureFlag={flag}
+              relayConnectionId={relayConnectionId}
+            />
           ))}
         </TableBody>
       </Table>
