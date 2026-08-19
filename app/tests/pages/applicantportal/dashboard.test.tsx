@@ -315,18 +315,6 @@ describe('The index page', () => {
     expect(screen.getByText('Create application')).toBeDisabled();
   });
 
-  it('displays the alert message when there is no open intake', async () => {
-    mocked(useFeatureFlagMap).mockReturnValue({
-      closed_intake_alert: { isEnabled: true, value: mockClosedIntakeData },
-    });
-    pageTestingHelper.loadQuery(mockClosedIntakePayload);
-    pageTestingHelper.renderPage();
-
-    expect(screen.getByTestId('custom-alert')).toBeInTheDocument();
-    expect(screen.getByText(closedIntakeMessage)).toBeInTheDocument();
-    expect(screen.queryByText(openedIntakeMessage)).toBeNull();
-  });
-
   it('displays the open intake message when there an open intake', async () => {
     mocked(useFeatureFlagMap).mockReturnValue({
       open_intake_alert: { isEnabled: true, value: mockOpenIntakeData },
@@ -336,7 +324,6 @@ describe('The index page', () => {
 
     expect(screen.getByTestId('custom-alert')).toBeInTheDocument();
     expect(screen.getByText(openedIntakeMessage)).toBeInTheDocument();
-    expect(screen.queryByText(closedIntakeMessage)).toBeNull();
   });
 
   it('displays the close intake message when there an open intake', async () => {
@@ -388,7 +375,6 @@ describe('The index page', () => {
     mocked(useFeatureFlagMap).mockReturnValue({
       internal_intake: { isEnabled: true, value: true },
       open_intake_alert: { isEnabled: true, value: mockClosedIntakeData },
-      closed_intake_alert: { isEnabled: true, value: mockClosedIntakeData },
       show_subtracted_time: { isEnabled: true, value: mockSubtractedTimeValue },
     });
     pageTestingHelper.loadQuery(mockClosedIntakeOpenHiddenIntakePayload);

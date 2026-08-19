@@ -24,17 +24,6 @@ const mockQueryPayload = {
   },
 };
 
-const mockClosedIntakePayload = {
-  Query() {
-    return {
-      session: {
-        sub: '4e0ac88c-bf05-49ac-948f-7fd53c7a9fd6',
-      },
-      openIntake: null,
-    };
-  },
-};
-
 const loggedOutPayload = {
   Query() {
     return {
@@ -64,17 +53,10 @@ const mockQueryPayloadRollingIntake = {
 
 const openedIntakeMessage =
   'New applications will be accepted after updates to ISED‘s Eligibility Mapping tool are released.';
-const closedIntakeMessage = 'Intake is closed.';
 
 const mockOpenIntakeData: JSONValue = {
   variant: 'warning',
   text: openedIntakeMessage,
-  displayOpenDate: false,
-};
-
-const mockClosedIntakeData: JSONValue = {
-  variant: 'warning',
-  text: closedIntakeMessage,
   displayOpenDate: false,
 };
 
@@ -113,18 +95,6 @@ describe('The index page', () => {
     expect(screen.getByText('Go to dashboard')).toBeInTheDocument();
   });
 
-  it('Displays the alert message when there is no open intake', async () => {
-    mocked(useFeatureFlagMap).mockReturnValue({
-      closed_intake_alert: { isEnabled: true, value: mockClosedIntakeData },
-    });
-    pageTestingHelper.loadQuery(mockClosedIntakePayload);
-    pageTestingHelper.renderPage();
-
-    expect(screen.getByTestId('custom-alert')).toBeInTheDocument();
-    expect(screen.getByText(closedIntakeMessage)).toBeInTheDocument();
-    expect(screen.queryByText(openedIntakeMessage)).toBeNull();
-  });
-
   it('Displays the alert message when there is an open intake', () => {
     mocked(useFeatureFlagMap).mockReturnValue({
       open_intake_alert: { isEnabled: true, value: mockOpenIntakeData },
@@ -134,7 +104,6 @@ describe('The index page', () => {
 
     expect(screen.getByTestId('custom-alert')).toBeInTheDocument();
     expect(screen.getByText(openedIntakeMessage)).toBeInTheDocument();
-    expect(screen.queryByText(closedIntakeMessage)).toBeNull();
   });
 
   it('Displays the callout message with correct time when there is an open intake', () => {

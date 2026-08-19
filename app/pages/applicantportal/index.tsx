@@ -79,7 +79,7 @@ const getApplicantportalQuery = graphql`
 const Home = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, applicantportalQuery>) => {
-  const { nextIntake, openIntake, session } = usePreloadedQuery(
+  const { openIntake, session } = usePreloadedQuery(
     getApplicantportalQuery,
     preloadedQuery
   );
@@ -87,10 +87,6 @@ const Home = ({
 
   const openIntakeBanner = useDeferredFeature<IntakeBanner>(
     'open_intake_alert',
-    {}
-  );
-  const closedIntakeBanner = useDeferredFeature<IntakeBanner>(
-    'closed_intake_alert',
     {}
   );
   const showSubtractedTime = useDeferredFeature('show_subtracted_time', 0);
@@ -135,14 +131,6 @@ const Home = ({
   return (
     <Layout session={session} title="Connecting Communities BC">
       <div>
-        {!openIntake && (
-          <DynamicAlert
-            dateTimestamp={nextIntake?.openTimestamp}
-            text={closedIntakeBanner.text}
-            variant={closedIntakeBanner.variant}
-            displayOpenDate={closedIntakeBanner.displayOpenDate}
-          />
-        )}
         {openIntake && (
           <DynamicAlert
             dateTimestamp={openIntake.closeTimestamp}

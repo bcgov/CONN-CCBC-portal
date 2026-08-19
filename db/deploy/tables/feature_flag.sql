@@ -43,7 +43,6 @@ comment on column ccbc_public.feature_flag.description is 'Human-readable note o
 insert into ccbc_public.feature_flag (flag_key, is_enabled, value, description) values
 ('header-banner', false, '{"message": null, "type": "warn", "environment-indicator": true}'::jsonb, 'Content for the site-wide header banner shown on the portal'),
 ('open_intake_alert', true, '{"variant": "success", "text": "Applications are now being accepted."}'::jsonb, 'Banner shown to applicants while an intake is open'),
-('closed_intake_alert', true, null, 'Banner shown to applicants while an intake is closed'),
 ('show_subtracted_time', true, '30'::jsonb, 'Number of minutes subtracted from submission description time'),
 ('internal_intake', true, null, 'Whether the internal (CBC-only) intake is enabled on the applicant dashboard'),
 ('show_lead', false, null, 'Whether the lead application column/actions are shown to analysts'),
