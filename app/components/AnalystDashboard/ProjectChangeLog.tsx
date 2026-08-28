@@ -39,7 +39,6 @@ import {
 import ClearFilters from 'components/Table/ClearFilters';
 import { getLabelForType } from 'components/Analyst/History/HistoryFilter';
 import { convertStatus } from 'backend/lib/dashboard/util';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import getCbcSectionFromKey from 'utils/historyCbcSection';
 import { useChangeLogCache } from 'hooks/useChangeLogCache';
 import reportClientError from 'lib/helpers/reportClientError';
@@ -380,9 +379,6 @@ const ProjectChangeLog: React.FC<Props> = () => {
     getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
-  const enableProjectTypeFilters = useDeferredFeature(
-    'filter_changelog_by_project_type'
-  );
   const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
@@ -1372,7 +1368,7 @@ const ProjectChangeLog: React.FC<Props> = () => {
           filters={columnFilters}
           setFilters={setColumnFilters}
           disabledFilters={
-            !isLoading && enableProjectTypeFilters
+            !isLoading
               ? []
               : [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }]
           }

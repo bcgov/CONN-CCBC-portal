@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import {
   AssessmentAssignmentTable,
   DashboardTabs,
@@ -31,7 +30,6 @@ const Assessments = ({
   const query = usePreloadedQuery(getAssessmentsTableQuery, preloadedQuery);
   const { session } = query;
 
-  const showTable = useDeferredFeature('show_assessment_assignment_table');
   return (
     <Layout
       session={session}
@@ -40,12 +38,8 @@ const Assessments = ({
     >
       <StyledContainer>
         <DashboardTabs session={session} />
-        {showTable && (
-          <>
-            <TableTabs />
-            <AssessmentAssignmentTable query={query} />
-          </>
-        )}
+        <TableTabs />
+        <AssessmentAssignmentTable query={query} />
       </StyledContainer>
     </Layout>
   );

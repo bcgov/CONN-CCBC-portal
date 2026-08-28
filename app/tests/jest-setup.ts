@@ -2,23 +2,15 @@ import crypto from 'crypto';
 import '@testing-library/jest-dom';
 import { Settings } from 'luxon';
 
-// Mock useFeature globally to fix issues with GrowthBook 1.6.2
-// When components import useFeature directly, jest.spyOn doesn't intercept
-// This global mock allows tests to override it per-test using jest.spyOn
-jest.mock('@growthbook/growthbook-react', () => {
-  const actual = jest.requireActual('@growthbook/growthbook-react');
+// Mock useFeatureFlagMap globally so tests can override flag values per-test
+// using jest.spyOn/mockReturnValue, since jest.spyOn doesn't intercept a hook
+// imported directly by the component under test.
+jest.mock('components/FeatureFlagProvider', () => {
+  const actual = jest.requireActual('components/FeatureFlagProvider');
   return {
     ...actual,
-    useFeature: jest.fn((id) => {
-      // Default return value when not explicitly mocked
-      return {
-        value: null,
-        source: 'unknownFeature',
-        on: false,
-        off: true,
-        ruleId: '',
-      };
-    }),
+    // Default: no flags configured, so useDeferredFeature falls back to its defaultValue
+    useFeatureFlagMap: jest.fn(() => ({})),
   };
 });
 

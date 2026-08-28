@@ -3,6 +3,5 @@
   "SITEMINDER_LOGOUT_URL": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi",
   "ARCHIVE_REQUEST_TOPIC_ARN": "arn:aws:sns:ca-central-1:780887525069:ccbc-export-files",
   "ENABLE_MOCK_TIME": true,
-  "ENABLE_MOCK_COOKIES": true,
-  "NEXT_PUBLIC_GROWTHBOOK_API_KEY": ""
+  "ENABLE_MOCK_COOKIES": true
 }

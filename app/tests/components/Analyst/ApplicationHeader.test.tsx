@@ -5,7 +5,8 @@ import compiledQuery, {
 import { act, screen, fireEvent } from '@testing-library/react';
 import allApplicationStatusTypes from 'tests/utils/mockStatusTypes';
 import ApplicationHeader from 'components/Analyst/ApplicationHeader';
-import * as moduleApi from '@growthbook/growthbook-react';
+import { mocked } from 'jest-mock';
+import { useFeatureFlagMap } from 'components/FeatureFlagProvider';
 import ComponentTestingHelper from '../../utils/componentTestingHelper';
 
 const testQuery = graphql`
@@ -109,14 +110,6 @@ const mockInternalIntakeQueryPayload = {
       },
     };
   },
-};
-
-const mockShowLeadColumn: moduleApi.FeatureResult<boolean> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_lead',
 };
 
 const componentTestingHelper =
@@ -296,7 +289,9 @@ describe('The application header component', () => {
   });
 
   it('displays the Lead column when feature enabled', () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowLeadColumn);
+    mocked(useFeatureFlagMap).mockReturnValue({
+      show_lead: { isEnabled: true, value: true },
+    });
     componentTestingHelper.loadQuery();
     componentTestingHelper.renderComponent();
 

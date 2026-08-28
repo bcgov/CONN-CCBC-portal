@@ -1,18 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
-import { useFeature } from '@growthbook/growthbook-react';
-import type { JSONValue } from '@growthbook/growthbook';
+import { useFeatureFlagMap } from 'components/FeatureFlagProvider';
 
-/**
- * Wrapper around GrowthBook's `useFeature` that defers the value until after
- * the first client-side render.  During SSR (and the initial hydration pass)
- * this returns `defaultValue` so the server and client trees are identical.
- * After mount the real feature-flag value is adopted.
- */
+export type JSONValue =
+  null | boolean | number | string | JSONValue[] | { [key: string]: JSONValue };
+
+// Returns `defaultValue` during SSR/hydration so server and client trees match, then adopts the real flag value after mount.
 export default function useDeferredFeature<T extends JSONValue = boolean>(
   featureKey: string,
   defaultValue: T = false as unknown as T
 ): T {
-  const { value } = useFeature<T>(featureKey);
+  const flags = useFeatureFlagMap();
+  const flag = flags[featureKey];
+  const value = flag?.isEnabled
+    ? ((flag.value as T) ?? (true as unknown as T))
+    : undefined;
+
   const defaultValueRef = useRef(defaultValue);
   const [deferred, setDeferred] = useState<T>(defaultValueRef.current);
 

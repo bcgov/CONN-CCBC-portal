@@ -6,7 +6,6 @@ import {
   act,
   waitFor,
 } from '@testing-library/react';
-import * as moduleApi from '@growthbook/growthbook-react';
 import FormTestRenderer from '../../utils/formTestRenderer';
 
 const schema = {
@@ -32,16 +31,6 @@ const uiSchema = {
   },
 };
 
-const mockEnableUnsavedChangesWarning = (
-  value: boolean
-): moduleApi.FeatureResult<boolean> => ({
-  value,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'enable_unsaved_changes_warning',
-});
-
 const renderStaticLayout = (
   rjsfSchema: RJSFSchema,
   rjsfUiSchema: RJSFSchema
@@ -61,9 +50,6 @@ const renderStaticLayout = (
 
 describe('Unsaved Changes Handling', () => {
   beforeEach(() => {
-    jest
-      .spyOn(moduleApi, 'useFeature')
-      .mockReturnValue(mockEnableUnsavedChangesWarning(true));
     renderStaticLayout(
       {
         ...schema,

@@ -8,7 +8,6 @@ on:
       OPENSHIFT_APP_NAMESPACE: { required: true }
       OPENSHIFT_METABASE_NAMESPACE: { required: true }
       OPENSHIFT_METABASE_PROD_NAMESPACE: { required: true }
-      NEXT_PUBLIC_GROWTHBOOK_API_KEY: { required: true }
       CLIENT_SECRET: { required: true }
       OPENSHIFT_SECURE_ROUTE: { required: true }
       AWS_S3_BUCKET: { required: true }
@@ -92,7 +91,6 @@ jobs:
           openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
           openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
           openshift_metabase_prod_namespace: ${{ secrets.OPENSHIFT_METABASE_PROD_NAMESPACE }}
-          next_public_growthbook_api_key: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           secure_route: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
@@ -170,7 +168,6 @@ jobs:
           openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
           openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
           openshift_metabase_prod_namespace: ${{ secrets.OPENSHIFT_METABASE_PROD_NAMESPACE }}
-          next_public_growthbook_api_key: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           secure_route: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
@@ -225,7 +222,6 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
           openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
-          next_public_growthbook_api_key: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           secure_route: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
@@ -273,7 +269,6 @@ jobs:
       OPENSHIFT_APP_NAMESPACE: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
       OPENSHIFT_METABASE_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
       OPENSHIFT_METABASE_PROD_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_PROD_NAMESPACE }}
-      NEXT_PUBLIC_GROWTHBOOK_API_KEY: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       OPENSHIFT_SECURE_ROUTE: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
       AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
@@ -315,7 +310,6 @@ jobs:
       OPENSHIFT_APP_NAMESPACE: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
       OPENSHIFT_METABASE_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
       OPENSHIFT_METABASE_PROD_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_PROD_NAMESPACE }}
-      NEXT_PUBLIC_GROWTHBOOK_API_KEY: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       OPENSHIFT_SECURE_ROUTE: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
       AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
@@ -357,7 +351,6 @@ jobs:
       OPENSHIFT_APP_NAMESPACE: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
       OPENSHIFT_METABASE_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
       OPENSHIFT_METABASE_PROD_NAMESPACE: ${{ secrets.OPENSHIFT_METABASE_PROD_NAMESPACE }}
-      NEXT_PUBLIC_GROWTHBOOK_API_KEY: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       OPENSHIFT_SECURE_ROUTE: ${{ secrets.OPENSHIFT_SECURE_ROUTE }}
       AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}

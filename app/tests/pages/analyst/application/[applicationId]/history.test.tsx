@@ -1,6 +1,6 @@
 import { act, fireEvent, screen, within } from '@testing-library/react';
-import * as moduleApi from '@growthbook/growthbook-react';
-import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
+import { mocked } from 'jest-mock';
+import { useFeatureFlagMap } from 'components/FeatureFlagProvider';
 import History from 'pages/analyst/application/[applicationId]/history';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledhistoryQuery, {
@@ -4023,22 +4023,6 @@ const mockChildMergeHistoryPayload = {
   },
 };
 
-const mockShowHistory: FeatureResult<JSONValue> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_history',
-};
-
-const mockShowHistoryDetails: FeatureResult<JSONValue> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_history_details',
-};
-
 const pageTestingHelper = new PageTestingHelper<historyQuery>({
   pageComponent: History,
   compiledQuery: compiledhistoryQuery,
@@ -4054,8 +4038,13 @@ describe('The index page', () => {
     pageTestingHelper.setMockRouterValues({
       query: { applicationId: '1' },
     });
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowHistory);
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowHistoryDetails);
+    // AnalystLayout renders ApplicationHeader, which reads `show_lead`;
+    // kept enabled here to preserve prior (blanket-mocked) test behavior.
+    // (mockShowHistory/mockShowHistoryDetails were leftover mocks for flags
+    // that no longer exist in the rendered tree.)
+    mocked(useFeatureFlagMap).mockReturnValue({
+      show_lead: { isEnabled: true, value: true },
+    });
   });
 
   it('displays the title', async () => {
@@ -4694,8 +4683,13 @@ describe('The filter', () => {
     pageTestingHelper.setMockRouterValues({
       query: { applicationId: '1' },
     });
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowHistory);
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowHistoryDetails);
+    // AnalystLayout renders ApplicationHeader, which reads `show_lead`;
+    // kept enabled here to preserve prior (blanket-mocked) test behavior.
+    // (mockShowHistory/mockShowHistoryDetails were leftover mocks for flags
+    // that no longer exist in the rendered tree.)
+    mocked(useFeatureFlagMap).mockReturnValue({
+      show_lead: { isEnabled: true, value: true },
+    });
   });
 
   it('render type filter and options correctly', async () => {

@@ -1,7 +1,5 @@
 import { act, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import * as moduleApi from '@growthbook/growthbook-react';
-import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import GisTab from 'pages/analyst/gis';
 
 import compiledGisUploadedJsonQuery, {
@@ -35,21 +33,12 @@ const pageTestingHelper = new PageTestingHelper<gisUploadedJsonQuery>({
   defaultQueryVariables: {},
 });
 
-const mockShowGisUpload: FeatureResult<JSONValue> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_gis_upload',
-};
-
 describe('The Gis upload admin page', () => {
   beforeEach(() => {
     pageTestingHelper.reinit();
     pageTestingHelper.setMockRouterValues({
       pathname: '/analyst/gis',
     });
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowGisUpload);
   });
 
   it('highlights the correct nav tabs', async () => {

@@ -26,9 +26,6 @@ inputs:
   secure_route:
     description: 'Domain where the application can be accessed securely'
     required: true
-  next_public_growthbook_api_key:
-    description: 'Growthbook API key'
-    required: true
   aws_s3_bucket:
     description: 'AWS S3 bucket name'
     required: true
@@ -76,7 +73,6 @@ runs:
         openshift_app_namespace: ${{ inputs.openshift_app_namespace }}
         openshift_metabase_namespace: ${{ inputs.openshift_metabase_namespace }}
         openshift_metabase_prod_namespace: ${{ inputs.openshift_metabase_prod_namespace }}
-        next_public_growthbook_api_key: ${{ inputs.next_public_growthbook_api_key }}
         aws_s3_bucket: ${{ inputs.aws_s3_bucket }}
         aws_s3_region: ${{ inputs.aws_s3_region }}
         aws_s3_key: ${{ inputs.aws_s3_key }}
@@ -93,7 +89,6 @@ runs:
           --set image.db.tag=${{ inputs.tag  }} \
           --set image.app.clientSecret=${{ inputs.client_secret }} \
           --set secureRoute.host=${{ inputs.secure_route }} \
-          --set growthbook.key=${{ inputs.next_public_growthbook_api_key }} \
           --set objectStorage.awsS3Bucket=${{ inputs.aws_s3_bucket }} \
           --set objectStorage.awsClamS3Bucket=${{ inputs.aws_clam_s3_bucket }} \
           --set objectStorage.awsS3Region=${{ inputs.aws_s3_region }} \
