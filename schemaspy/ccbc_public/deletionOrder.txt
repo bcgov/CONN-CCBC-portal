@@ -42,6 +42,7 @@ application_claims_excel_data
 application_claims_data
 application_announced
 reporting_gcpe
+feature_flag
 coverages_upload
 change_log_data
 cbc_project

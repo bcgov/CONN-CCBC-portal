@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>feature_flag - ccbc.ccbc_public</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
+        <!-- Bootstrap 3.3.5 -->
+        <link rel="stylesheet" href="../bower/admin-lte/bootstrap/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="../bower/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="../bower/ionicons/css/ionicons.min.css">
+        <!-- DataTables -->
+        <link rel="stylesheet" href="../bower/datatables.net-bs/css/dataTables.bootstrap.min.css">
+        <link rel="stylesheet" href="../bower/datatables.net-buttons-bs/css/buttons.bootstrap.min.css">
+        <!-- Code Mirror -->
+        <link rel="stylesheet" href="../bower/codemirror/codemirror.css">
+        <!-- Fonts -->
+        <link href='../fonts/indieflower/indie-flower.css' rel='stylesheet' type='text/css'>
+        <link href='../fonts/source-sans-pro/source-sans-pro.css' rel='stylesheet' type='text/css'>
+
+        <!-- Theme style -->
+        <link rel="stylesheet" href="../bower/admin-lte/dist/css/AdminLTE.min.css">
+        <!-- Salvattore -->
+        <link rel="stylesheet" href="../bower/salvattore/salvattore.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+           folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="../bower/admin-lte/dist/css/skins/_all-skins.min.css">
+        <!-- SchemaSpy -->
+        <link rel="stylesheet" href="../schemaSpy.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="../bower/html5shiv/html5shiv.min.js"></script>
+        <script src="../bower/respond/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+    <body class="hold-transition skin-blue layout-top-nav">
+        <div class="wrapper">
+            <header class="main-header">
+                <nav class="navbar navbar-static-top">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <a href="../../index.html" class="navbar-brand"><b>ccbc</b></a><span class="navbar-brand" style="padding-left: 0">.ccbc_public</span>
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"><i class="fa fa-bars"></i></button>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li><a href="../index.html">Tables <span class="sr-only">(current)</span></a></li>
+                                <li><a href="../columns.html" title="All of the columns in the schema">Columns</a></li>
+                                <li><a href="../constraints.html" title="Useful for diagnosing error messages that just give constraint name or number">Constraints</a></li>
+                                <li><a href="../relationships.html" title="Diagram of table relationships">Relationships</a></li>
+                                <li><a href="../orphans.html" title="View of tables with neither parents nor children">Orphan&nbsp;Tables</a></li>
+                                <li><a href="../anomalies.html" title="Things that might not be quite right">Anomalies</a></li>
+                                <li><a href="../routines.html" title="Procedures and functions">Routines</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                        <!-- Navbar Right Menu -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </nav>
+            </header>
+            <!-- Main content -->
+            <!-- Full Width Column -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                    <h1>feature_flag</h1><p><span id="recordNumber">-1</span> rows</p><br />
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <i class="fa fa-file-text-o"></i>
+                            <h3 id="Description" class="box-title">Description</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div><!-- /.box-header -->
+                        <div class="box-body clearfix">
+                            <p>Internally-managed feature flags, read by both portals to gate UI and content</p>
+                        </div><!-- /.box-body -->
+                    </div>
+                </section>
+                <!-- Main content -->
+                <section class="content">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                            <h3 id="Columns" class="box-title">Columns</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table
+                                    id="standard_table"
+                                    class="table table-bordered table-striped dataTable"
+                                    role="grid"
+                                    data-paging="true"
+                                    data-page-length="10"
+                                    data-length-change="false">
+                                <thead align='left'>
+                                <tr>
+                                    <th>Column</th>
+                                    <th>Type</th>
+                                    <th>Size</th>
+                                    <th title='Are nulls allowed?'>Nulls</th>
+                                    <th title='Is column automatically updated?'>Auto</th>
+                                    <th title='Default value'>Default</th>
+                                    <th title='Columns in tables that reference this column'>Children</th>
+                                    <th title='Columns in tables that are referenced by this column'>Parents</th>
+                                    <th title='Comments' class="toggle"><span>Comments</span></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="id">id</span></td>
+                                    <td>int4</td>
+                                    <td>10</td>
+                                    <td title=''></td>
+                                    <td title='Automatically updated by the database'>√</td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>Unique ID for the feature flag</p></td>
+                                </tr>
+                                <tr>
+                                    <td class='indexedColumn' title='Indexed'><i class='fa fa-sitemap fa-rotate-120' style='padding-right: 5px;'></i><span id="flag_key">flag_key</span></td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>The unique key code checks to look up this flag, e.g. show_lead</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="is_enabled">is_enabled</span></td>
+                                    <td>bool</td>
+                                    <td>1</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>false</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>Whether the flag is currently on; the single value most call sites need</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="value">value</span></td>
+                                    <td>jsonb</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>Optional JSON payload for flags that carry data beyond on/off, e.g. banner text/variant</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="description">description</span></td>
+                                    <td>text</td>
+                                    <td>2147483647</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>Human-readable note on what the flag controls, shown in the admin UI</p></td>
+                                </tr>
+                                <tr>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="created_by">created_by</span></td>
+                                    <td>int4</td>
+                                    <td>10</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                            <tr>
+                                                <td title="feature_flag.created_by references ccbc_user.id via feature_flag_created_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">feature_flag_created_by_fkey</td>
+                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td><p>created by user id</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="created_at">created_at</span></td>
+                                    <td>timestamptz</td>
+                                    <td>35,6</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>now()</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>created at timestamp</p></td>
+                                </tr>
+                                <tr>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="updated_by">updated_by</span></td>
+                                    <td>int4</td>
+                                    <td>10</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                            <tr>
+                                                <td title="feature_flag.updated_by references ccbc_user.id via feature_flag_updated_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">feature_flag_updated_by_fkey</td>
+                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td><p>updated by user id</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="updated_at">updated_at</span></td>
+                                    <td>timestamptz</td>
+                                    <td>35,6</td>
+                                    <td title=''></td>
+                                    <td title=''></td>
+                                    <td>now()</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>updated at timestamp</p></td>
+                                </tr>
+                                <tr>
+                                    <td class='foreignKey' title='Foreign Key'><i class='icon ion-key iconkey' style='padding-left: 5px;'></i><span id="archived_by">archived_by</span></td>
+                                    <td>int4</td>
+                                    <td>10</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                            <tr>
+                                                <td title="feature_flag.archived_by references ccbc_user.id via feature_flag_archived_by_fkey"><a href='ccbc_user.html'>ccbc_user</a><span class='relatedKey'>.id</span></td>
+                                                <td class="constraint detail">feature_flag_archived_by_fkey</td>
+                                                <td class="constraint detail"><span title='Restrict delete:&#10;Parent cannot be deleted if children exist'>R</span></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td><p>archived by user id</p></td>
+                                </tr>
+                                <tr>
+                                    <td><span id="archived_at">archived_at</span></td>
+                                    <td>timestamptz</td>
+                                    <td>35,6</td>
+                                    <td title='nullable'>√</td>
+                                    <td title=''></td>
+                                    <td>null</td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table border='0' cellspacing='0' cellpadding='0'>
+                                        </table>
+                                    </td>
+                                    <td><p>archived at timestamp</p></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <i class="fa fa-sitemap"></i>
+                            <h3 id="Indexes" class="box-title">Indexes</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <table
+                                    id="indexes_table"
+                                    class="table table-bordered table-striped dataTable"
+                                    role="grid"
+                                    data-paging="true"
+                                    data-page-length="10"
+                                    data-length-change="false">
+                                <thead>
+                                <tr>
+                                    <th>Constraint Name</th>
+                                    <th>Type</th>
+                                    <th>Sort</th>
+                                    <th>Column(s)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class='primaryKey' title='Primary Key'><i class='icon ion-key iconkey'></i> feature_flag_pkey</td>
+                                    <td>Primary key</td>
+                                    <td><span title='Ascending'>Asc</span></td>
+                                    <td>id</td>
+                                </tr>
+                                <tr>
+                                    <td title='Indexed'>ccbc_public_feature_flag_archived_by_foreign_key</td>
+                                    <td>Performance</td>
+                                    <td><span title='Ascending'>Asc</span></td>
+                                    <td>archived_by</td>
+                                </tr>
+                                <tr>
+                                    <td title='Indexed'>ccbc_public_feature_flag_created_by_foreign_key</td>
+                                    <td>Performance</td>
+                                    <td><span title='Ascending'>Asc</span></td>
+                                    <td>created_by</td>
+                                </tr>
+                                <tr>
+                                    <td title='Indexed'>ccbc_public_feature_flag_updated_by_foreign_key</td>
+                                    <td>Performance</td>
+                                    <td><span title='Ascending'>Asc</span></td>
+                                    <td>updated_by</td>
+                                </tr>
+                                <tr>
+                                    <td class='uniqueKey' title='Unique Key'><i class='icon ion-key iconkey'></i> feature_flag_flag_key_key</td>
+                                    <td>Must be unique</td>
+                                    <td><span title='Ascending'>Asc</span></td>
+                                    <td>flag_key</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.box-body -->
+                    </div>
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <i class="fa fa-code-fork"></i>
+                            <h3 id="Relationships" class="box-title">Relationships</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="nav-tabs-custom"><!-- Tabs within a box -->
+                                <h5>Close relationships within degrees of separation</h5>
+                                <ul class="nav nav-tabs pull-left ui-sortable-handle">
+                                    <li class="active"><a href="#oneDegreeImg-chart" data-toggle="tab" aria-expanded="true">One</a></li>
+                                    <li class=""><a href="#twodegreesDegreeImg-chart" data-toggle="tab" aria-expanded="true">Two degrees</a></li>
+                                </ul>
+                                <div class="tab-content no-padding">
+                                    <div class="chart tab-pane active" id="oneDegreeImg-chart" style="position: relative; overflow-x:auto;">
+                                        <map id="oneDegreeRelationshipsDiagram" name="oneDegreeRelationshipsDiagram">
+<area shape="rect" id="node1" href="feature_flag.html" target="_top" title="feature_flag" alt="" coords="260,5,581,397">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,213,216,448">
+</map>
+                                        <a name='diagram'><img id="oneDegreeImg" src="../diagrams/tables/feature_flag.1degree.png" usemap="#oneDegreeRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                    </div>
+                                    <div class="chart tab-pane " id="twodegreesDegreeImg-chart" style="position: relative; overflow-x:auto;">
+                                        <map id="twoDegreesRelationshipsDiagram" name="twoDegreesRelationshipsDiagram">
+<area shape="rect" id="node1" href="analyst.html" target="_top" title="analyst" alt="" coords="804,140,959,228">
+<area shape="rect" id="node2" href="ccbc_user.html" target="_top" title="ccbc_user" alt="" coords="5,2033,216,2268">
+<area shape="rect" id="node3" href="announcement.html" target="_top" title="announcement" alt="" coords="313,381,542,469">
+<area shape="rect" id="node4" href="application.html" target="_top" title="application" alt="" coords="785,1408,977,1496">
+<area shape="rect" id="node5" href="intake.html" target="_top" title="intake" alt="" coords="355,1680,500,1768">
+<area shape="rect" id="node6" href="application_analyst_lead.html" target="_top" title="application_analyst_lead" alt="" coords="1270,5,1593,93">
+<area shape="rect" id="node7" href="application_announced.html" target="_top" title="application_announced" alt="" coords="1277,111,1585,199">
+<area shape="rect" id="node8" href="application_announcement.html" target="_top" title="application_announcement" alt="" coords="1258,216,1605,304">
+<area shape="rect" id="node9" href="application_claims_data.html" target="_top" title="application_claims_data" alt="" coords="1273,427,1589,515">
+<area shape="rect" id="node10" href="application_claims_excel_data.html" target="_top" title="application_claims_excel_data" alt="" coords="1243,532,1619,620">
+<area shape="rect" id="node11" href="application_community_progress__3b268028.html" target="_top" title="application_community_progress_report_data" alt="" coords="1168,637,1695,725">
+<area shape="rect" id="node12" href="application_community_report_excel_data.html" target="_top" title="application_community_report_excel_data" alt="" coords="1185,743,1677,831">
+<area shape="rect" id="node13" href="application_dependencies.html" target="_top" title="application_dependencies" alt="" coords="1263,848,1599,936">
+<area shape="rect" id="node14" href="application_fnha_contribution.html" target="_top" title="application_fnha_contribution" alt="" coords="1245,953,1618,1041">
+<area shape="rect" id="node15" href="application_form_template_9_data.html" target="_top" title="application_form_template_9_data" alt="" coords="1223,1059,1640,1147">
+<area shape="rect" id="node16" href="application_gis_assessment_hh.html" target="_top" title="application_gis_assessment_hh" alt="" coords="1238,1164,1625,1252">
+<area shape="rect" id="node17" href="application_gis_data.html" target="_top" title="application_gis_data" alt="" coords="1290,321,1573,409">
+<area shape="rect" id="node18" href="gis_data.html" target="_top" title="gis_data" alt="" coords="345,623,510,711">
+<area shape="rect" id="node19" href="application_internal_description.html" target="_top" title="application_internal_description" alt="" coords="1233,1269,1629,1357">
+<area shape="rect" id="node20" href="application_internal_notes.html" target="_top" title="application_internal_notes" alt="" coords="1261,1375,1602,1463">
+<area shape="rect" id="node21" href="application_map_data.html" target="_top" title="application_map_data" alt="" coords="1283,1621,1579,1709">
+<area shape="rect" id="node22" href="application_merge.html" target="_top" title="application_merge" alt="" coords="1299,1727,1563,1815">
+<area shape="rect" id="node23" href="cbc.html" target="_top" title="cbc" alt="" coords="369,2397,485,2485">
+<area shape="rect" id="node24" href="application_milestone_data.html" target="_top" title="application_milestone_data" alt="" coords="1257,1832,1606,1920">
+<area shape="rect" id="node25" href="application_milestone_excel_data.html" target="_top" title="application_milestone_excel_data" alt="" coords="1227,1937,1636,2025">
+<area shape="rect" id="node26" href="application_package.html" target="_top" title="application_package" alt="" coords="1290,2043,1573,2131">
+<area shape="rect" id="node27" href="application_pending_change_request.html" target="_top" title="application_pending_change_request" alt="" coords="1209,2148,1653,2236">
+<area shape="rect" id="node28" href="application_project_type.html" target="_top" title="application_project_type" alt="" coords="1270,2253,1593,2341">
+<area shape="rect" id="node29" href="application_sow_data.html" target="_top" title="application_sow_data" alt="" coords="1285,4383,1577,4471">
+<area shape="rect" id="node30" href="application_status.html" target="_top" title="application_status" alt="" coords="1300,1516,1563,1604">
+<area shape="rect" id="node31" href="assessment_data.html" target="_top" title="assessment_data" alt="" coords="1306,2427,1557,2515">
+<area shape="rect" id="node32" href="attachment.html" target="_top" title="attachment" alt="" coords="1739,2337,1935,2425">
+<area shape="rect" id="node33" href="cbc_application_pending_change_request.html" target="_top" title="cbc_application_pending_change_request" alt="" coords="639,1748,1124,1836">
+<area shape="rect" id="node34" href="cbc_data.html" target="_top" title="cbc_data" alt="" coords="797,2465,966,2553">
+<area shape="rect" id="node35" href="cbc_data_change_reason.html" target="_top" title="cbc_data_change_reason" alt="" coords="1269,2600,1593,2688">
+<area shape="rect" id="node36" href="cbc_project.html" target="_top" title="cbc_project" alt="" coords="330,2639,525,2727">
+<area shape="rect" id="node37" href="cbc_project_communities.html" target="_top" title="cbc_project_communities" alt="" coords="717,2828,1045,2916">
+<area shape="rect" id="node38" href="communities_source_data.html" target="_top" title="communities_source_data" alt="" coords="260,2744,595,2832">
+<area shape="rect" id="node39" href="change_log_data.html" target="_top" title="change_log_data" alt="" coords="305,2917,550,3005">
+<area shape="rect" id="node40" href="change_request_data.html" target="_top" title="change_request_data" alt="" coords="1286,2964,1577,3052">
+<area shape="rect" id="node41" href="conditional_approval_data.html" target="_top" title="conditional_approval_data" alt="" coords="1261,3069,1601,3157">
+<area shape="rect" id="node42" href="coverages_upload.html" target="_top" title="coverages_upload" alt="" coords="298,3159,557,3247">
+<area shape="rect" id="node43" href="email_record.html" target="_top" title="email_record" alt="" coords="323,3931,532,4019">
+<area shape="rect" id="node44" href="feature_flag.html" target="_top" title="feature_flag" alt="" coords="267,3332,588,3724">
+<area shape="rect" id="node45" href="form_data.html" target="_top" title="form_data" alt="" coords="336,3741,519,3829">
+<area shape="rect" id="node46" href="intake_users.html" target="_top" title="intake_users" alt="" coords="778,3833,985,3921">
+<area shape="rect" id="node47" href="notification.html" target="_top" title="notification" alt="" coords="1333,3243,1529,3331">
+<area shape="rect" id="node48" href="project_information_data.html" target="_top" title="project_information_data" alt="" coords="1267,4015,1595,4103">
+<area shape="rect" id="node49" href="record_version.html" target="_top" title="record_version" alt="" coords="313,4104,541,4192">
+<area shape="rect" id="node50" href="reporting_gcpe.html" target="_top" title="reporting_gcpe" alt="" coords="312,4209,543,4297">
+<area shape="rect" id="node51" href="rfi_data.html" target="_top" title="rfi_data" alt="" coords="348,4315,507,4403">
+<area shape="rect" id="node52" href="sow_tab_1.html" target="_top" title="sow_tab_1" alt="" coords="1745,2511,1929,2599">
+<area shape="rect" id="node53" href="sow_tab_2.html" target="_top" title="sow_tab_2" alt="" coords="1745,4420,1929,4508">
+<area shape="rect" id="node54" href="sow_tab_7.html" target="_top" title="sow_tab_7" alt="" coords="1745,4525,1929,4613">
+<area shape="rect" id="node55" href="sow_tab_8.html" target="_top" title="sow_tab_8" alt="" coords="1745,4631,1929,4719">
+</map>
+                                        <a name='diagram'><img id="twodegreesDegreeImg" src="../diagrams/tables/feature_flag.2degrees.png" usemap="#twoDegreesRelationshipsDiagram" class="diagram" border="0" align="left"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.box-body -->
+                    </div>
+                </section>
+                <script>
+                    var config = {
+                        pagination: true
+                    }
+                </script>
+            </div>
+            <!-- /.content-wrapper -->
+            <footer class="main-footer">
+                <div>
+                    <div class="pull-right hidden-xs">
+                        <a href="https://github.com/schemaspy/schemaspy" title="GitHub for SchemaSpy"><i class="fa fa-github-square fa-2x"></i></a>
+                        <a href="http://stackoverflow.com/questions/tagged/schemaspy" title="StackOverflow for SchemaSpy"><i class="fa fa-stack-overflow fa-2x"></i></a>
+                    </div>
+                    <strong>Generated by <a href="http://schemaspy.org/" class="logo-text"><i class="fa fa-database"></i> SchemaSpy 7.0.2</a></strong>
+                </div>
+                <!-- /.container -->
+            </footer>
+        </div>
+        <!-- ./wrapper -->
+
+        <!-- jQuery 2.2.3 -->
+        <script src="../bower/admin-lte/plugins/jQuery/jquery-2.2.3.min.js"></script>
+        <script src="../bower/admin-lte/plugins/jQueryUI/jquery-ui.min.js"></script>
+        <!-- Bootstrap 3.3.5 -->
+        <script src="../bower/admin-lte/bootstrap/js/bootstrap.min.js"></script>
+        <!-- DataTables -->
+        <script src="../bower/datatables.net/jquery.dataTables.min.js"></script>
+        <script src="../bower/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script src="../bower/datatables.net-buttons/dataTables.buttons.min.js"></script>
+        <script src="../bower/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+        <script src="../bower/datatables.net-buttons/buttons.html5.min.js"></script>
+        <script src="../bower/datatables.net-buttons/buttons.print.min.js"></script>
+        <script src="../bower/datatables.net-buttons/buttons.colVis.min.js"></script>
+        <!-- SheetJS -->
+        <script src="../bower/js-xlsx/xlsx.full.min.js"></script>
+        <!-- pdfmake -->
+        <script src="../bower/pdfmake/pdfmake.min.js"></script>
+        <script src="../bower/pdfmake/vfs_fonts.js"></script>
+        <!-- SlimScroll -->
+        <script src="../bower/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <!-- FastClick -->
+        <script src="../bower/admin-lte/plugins/fastclick/fastclick.js"></script>
+        <!-- Salvattore -->
+        <script src="../bower/salvattore/salvattore.min.js"></script>
+        <!-- AnchorJS -->
+        <script src="../bower/anchor-js/anchor.min.js"></script>
+        <!-- CodeMirror -->
+        <script src="../bower/codemirror/codemirror.js"></script>
+        <script src="../bower/codemirror/sql.js"></script>
+        <!-- AdminLTE App -->
+        <script src="../bower/admin-lte/dist/js/app.min.js"></script>
+        <script src="table.js"></script>
+        <script src="../schemaSpy.js"></script>
+    </body>
+</html>

@@ -1640,6 +1640,9 @@
             <child column="archived_by" foreignKey="email_record_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="email_record"/>
             <child column="created_by" foreignKey="email_record_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="email_record"/>
             <child column="updated_by" foreignKey="email_record_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="email_record"/>
+            <child column="archived_by" foreignKey="feature_flag_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="feature_flag"/>
+            <child column="created_by" foreignKey="feature_flag_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="feature_flag"/>
+            <child column="updated_by" foreignKey="feature_flag_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="feature_flag"/>
             <child column="archived_by" foreignKey="form_data_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data"/>
             <child column="created_by" foreignKey="form_data_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data"/>
             <child column="updated_by" foreignKey="form_data_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="form_data"/>
@@ -1930,6 +1933,41 @@
          </index>
          <index name="ccbc_public_email_record_updated_by_foreign_key" unique="false">
             <column ascending="true" name="updated_by"/>
+         </index>
+      </table>
+      <table name="feature_flag" remarks="Internally-managed feature flags, read by both portals to gate UI and content" schema="ccbc_public" type="TABLE">
+         <column autoUpdated="true" defaultValue="null" digits="0" id="0" name="id" nullable="false" remarks="Unique ID for the feature flag" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="flag_key" nullable="false" remarks="The unique key code checks to look up this flag, e.g. show_lead" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="false" digits="0" id="2" name="is_enabled" nullable="false" remarks="Whether the flag is currently on; the single value most call sites need" size="1" type="bool" typeCode="-7"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="value" nullable="true" remarks="Optional JSON payload for flags that carry data beyond on/off, e.g. banner text/variant" size="2147483647" type="jsonb" typeCode="1111"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="description" nullable="true" remarks="Human-readable note on what the flag controls, shown in the admin UI" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="created_by" nullable="true" remarks="created by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="feature_flag_created_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="6" name="created_at" nullable="false" remarks="created at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="7" name="updated_by" nullable="true" remarks="updated by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="feature_flag_updated_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="now()" digits="6" id="8" name="updated_at" nullable="false" remarks="updated at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="9" name="archived_by" nullable="true" remarks="archived by user id" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="feature_flag_archived_by_fkey" implied="false" onDeleteCascade="false" schema="ccbc_public" table="ccbc_user"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="10" name="archived_at" nullable="true" remarks="archived at timestamp" size="35" type="timestamptz" typeCode="93"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="feature_flag_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="ccbc_public_feature_flag_archived_by_foreign_key" unique="false">
+            <column ascending="true" name="archived_by"/>
+         </index>
+         <index name="ccbc_public_feature_flag_created_by_foreign_key" unique="false">
+            <column ascending="true" name="created_by"/>
+         </index>
+         <index name="ccbc_public_feature_flag_updated_by_foreign_key" unique="false">
+            <column ascending="true" name="updated_by"/>
+         </index>
+         <index name="feature_flag_flag_key_key" unique="true">
+            <column ascending="true" name="flag_key"/>
          </index>
       </table>
       <table name="form" remarks="Table to hold the json_schema for forms" schema="ccbc_public" type="TABLE">
