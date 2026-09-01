@@ -1,12 +1,7 @@
 import { useEffect, useState } from 'react';
-import getConfig from 'next/config';
 import styled from 'styled-components';
 import IframeResizer from 'iframe-resizer-react';
-
-const publicRuntimeConfig = getConfig()?.publicRuntimeConfig;
-const namespace = publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
-
-const isProd = namespace?.endsWith('-prod');
+import { usePublicConfig } from 'components/PublicConfigProvider';
 
 const StyledIframe = styled(IframeResizer)`
   margin-top: 16px;
@@ -27,6 +22,8 @@ const MetabaseEmbed: React.FC<Props> = ({
   dashboardNumber,
   dashboardNumberTest,
 }) => {
+  const { OPENSHIFT_APP_NAMESPACE: namespace } = usePublicConfig();
+  const isProd = namespace?.endsWith('-prod');
   const [metabaseUrl, setMetabaseUrl] = useState<string>('');
   const dashboard = isProd ? dashboardNumber : dashboardNumberTest;
 

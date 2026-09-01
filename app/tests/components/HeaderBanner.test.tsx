@@ -1,13 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import HeaderBanner from 'components/HeaderBanner';
+import { PublicConfigProvider } from 'components/PublicConfigProvider';
 import GlobalTheme from 'styles/GlobalTheme';
 
 const mockOpenshiftNamespace = jest.fn(() => 'environment-dev');
-jest.mock('next/config', () => () => ({
-  publicRuntimeConfig: {
-    OPENSHIFT_APP_NAMESPACE: mockOpenshiftNamespace(),
-  },
-}));
 
 const renderStaticLayout = (
   environmentIndicator = false,
@@ -16,11 +12,19 @@ const renderStaticLayout = (
 ) => {
   return render(
     <GlobalTheme>
-      <HeaderBanner
-        message={message}
-        type={type}
-        environmentIndicator={environmentIndicator}
-      />
+      <PublicConfigProvider
+        value={{
+          OPENSHIFT_APP_NAMESPACE: mockOpenshiftNamespace(),
+          ENABLE_MOCK_TIME: false,
+          COVERAGES_FILE_NAME: '',
+        }}
+      >
+        <HeaderBanner
+          message={message}
+          type={type}
+          environmentIndicator={environmentIndicator}
+        />
+      </PublicConfigProvider>
     </GlobalTheme>
   );
 };

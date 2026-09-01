@@ -13,6 +13,11 @@ import GlobalTheme from 'styles/GlobalTheme';
 import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 import { AppProvider } from 'components/AppProvider';
 import UnsavedChangesProvider from 'components/UnsavedChangesProvider';
+import {
+  defaultPublicConfig,
+  PublicConfig,
+  PublicConfigProvider,
+} from 'components/PublicConfigProvider';
 import TestingHelper from './TestingHelper';
 
 interface PageTestingHelperOptions<TQuery extends OperationType> {
@@ -20,6 +25,7 @@ interface PageTestingHelperOptions<TQuery extends OperationType> {
   compiledQuery: ConcreteRequest;
   defaultQueryResolver?: MockResolvers;
   defaultQueryVariables?: TQuery['variables'];
+  publicConfig?: PublicConfig;
 }
 
 class PageTestingHelper<TQuery extends OperationType> extends TestingHelper {
@@ -30,6 +36,7 @@ class PageTestingHelper<TQuery extends OperationType> extends TestingHelper {
     this.options = {
       defaultQueryResolver: {},
       defaultQueryVariables: {},
+      publicConfig: defaultPublicConfig,
       ...options,
     };
 
@@ -69,14 +76,16 @@ class PageTestingHelper<TQuery extends OperationType> extends TestingHelper {
       <GlobalTheme>
         <RouterContext.Provider value={this.router}>
           <RelayEnvironmentProvider environment={this.environment}>
-            <AppProvider>
-              <UnsavedChangesProvider>
-                <this.options.pageComponent
-                  CSN
-                  preloadedQuery={this.initialQueryRef}
-                />
-              </UnsavedChangesProvider>
-            </AppProvider>
+            <PublicConfigProvider value={this.options.publicConfig}>
+              <AppProvider>
+                <UnsavedChangesProvider>
+                  <this.options.pageComponent
+                    CSN
+                    preloadedQuery={this.initialQueryRef}
+                  />
+                </UnsavedChangesProvider>
+              </AppProvider>
+            </PublicConfigProvider>
           </RelayEnvironmentProvider>
         </RouterContext.Provider>
       </GlobalTheme>

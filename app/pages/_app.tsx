@@ -5,7 +5,7 @@ import { RelayEnvironmentProvider } from 'react-relay';
 import { useRelayNextjs } from 'relay-nextjs/app';
 import { newTracker, trackPageView } from '@snowplow/browser-tracker';
 import { Settings } from 'luxon';
-import type { AppProps } from 'next/app';
+import NextApp, { AppContext, AppProps } from 'next/app';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import Error500 from 'pages/500';
@@ -17,6 +17,10 @@ import BCGovTypography from 'components/BCGovTypography';
 import { SessionExpiryHandler } from 'components';
 import { AppProvider } from 'components/AppProvider';
 import FeatureFlagProvider from 'components/FeatureFlagProvider';
+import {
+  PublicConfig,
+  PublicConfigProvider,
+} from 'components/PublicConfigProvider';
 
 config.autoAddCss = false;
 
@@ -52,7 +56,8 @@ class AppErrorBoundary extends React.Component<
 }
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const { env, ...relayProps } = useRelayNextjs(pageProps, {
+  const { publicConfig, ...relayPageProps } = pageProps;
+  const { env, ...relayProps } = useRelayNextjs(relayPageProps, {
     createClientEnvironment: () => getClientEnvironment()!,
   });
   Settings.defaultZone = 'America/Vancouver';
@@ -68,7 +73,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <Suspense
       fallback={<div data-testid="app-suspense-loading">Loading...</div>}
     >
-      <Component {...pageProps} {...relayProps} />
+      <Component {...relayPageProps} {...relayProps} />
     </Suspense>
   );
 
@@ -81,17 +86,43 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           {React.createElement(
             RelayEnvironmentProvider as any,
             { environment: env },
-            <FeatureFlagProvider>
-              <AppProvider>
-                {typeof window !== 'undefined' && <SessionExpiryHandler />}
-                {component}
-              </AppProvider>
-            </FeatureFlagProvider>
+            <PublicConfigProvider value={publicConfig}>
+              <FeatureFlagProvider>
+                <AppProvider>
+                  {typeof window !== 'undefined' && <SessionExpiryHandler />}
+                  {component}
+                </AppProvider>
+              </FeatureFlagProvider>
+            </PublicConfigProvider>
           )}
         </AppErrorBoundary>
       </ThemeProvider>
     </GlobalTheme>
   );
+};
+
+MyApp.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await NextApp.getInitialProps(appContext);
+
+  let publicConfig: PublicConfig;
+  if (typeof window === 'undefined') {
+    // Server-only: never let this branch reach the client bundle.
+    // eslint-disable-next-line global-require
+    const getServerPublicConfig = require('backend/lib/getServerPublicConfig')
+      .default as () => PublicConfig;
+    publicConfig = getServerPublicConfig();
+  } else {
+    // Client-side navigations re-run getInitialProps, but the value can't
+    // change within a running container, so reuse the snapshot embedded in
+    // the initial HTML instead of trying to read config in the browser.
+    publicConfig = (window as any).__NEXT_DATA__?.props?.pageProps
+      ?.publicConfig;
+  }
+
+  return {
+    ...appProps,
+    pageProps: { ...appProps.pageProps, publicConfig },
+  };
 };
 
 export default MyApp;

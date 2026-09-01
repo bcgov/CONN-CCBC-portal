@@ -6,18 +6,20 @@ import request from 'supertest';
 import express from 'express';
 import session from 'express-session';
 import crypto from 'crypto';
-import getConfig from 'next/config';
 import cookieParser from 'cookie-parser';
 import reportClientError from 'lib/helpers/reportClientError';
 import communityDueDate from '../../../backend/lib/communityReportsDueDate';
 import { performQuery } from '../../../backend/lib/graphql';
 import handleEmailNotification from '../../../backend/lib/emails/handleEmailNotification';
 import getAuthRole from '../../../utils/getAuthRole';
+import config from '../../../config';
 
-jest.mock('../../../backend/lib/graphql');
+jest.mock('../../../backend/lib/graphql', () => ({
+  performQuery: jest.fn(),
+}));
 jest.mock('../../../utils/getAuthRole');
 jest.mock('../../../backend/lib/emails/handleEmailNotification');
-jest.mock('next/config');
+jest.mock('../../../config');
 
 jest.setTimeout(100000);
 
@@ -52,10 +54,12 @@ describe('The Community Progress Report api route', () => {
         landingRoute: '/',
       };
     });
-    mocked(getConfig).mockReturnValue({
-      publicRuntimeConfig: {
+    mocked(config.get).mockImplementation((name: any) => {
+      const mockConfig = {
         ENABLE_MOCK_TIME: true,
-      },
+        OPENSHIFT_APP_NAMESPACE: '',
+      };
+      return mockConfig[name] as any;
     });
 
     mocked(performQuery).mockImplementation(async () => {

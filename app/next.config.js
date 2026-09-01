@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-const convictConfig = require('./config');
 const relay = require('./relay.config.js');
 
 const moduleExports = {
@@ -45,33 +44,27 @@ const moduleExports = {
   },
   turbopack: {
     resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
-  },
-
-  publicRuntimeConfig: {
-    ENABLE_MOCK_TIME: convictConfig.get('ENABLE_MOCK_TIME'),
-    OPENSHIFT_APP_NAMESPACE: convictConfig.get('OPENSHIFT_APP_NAMESPACE'),
-    SITEMINDER_LOGOUT_URL: convictConfig.get('SITEMINDER_LOGOUT_URL'),
-    COVERAGES_FILE_NAME: convictConfig.get('COVERAGES_FILE_NAME'),
-  },
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
+    resolveAlias: {
+      fs: {
+        browser: './empty-module.ts',
+      },
+      // leaflet.fullscreen's UMD wrapper does an optional `require('screenfull')`
+      // that was never a real dependency of this project; Next's supported
+      // browser baseline (Chrome/Edge/Firefox 111+, Safari 16.4+) all have
+      // native Fullscreen API support, so this legacy fallback is unneeded.
+      screenfull: {
+        browser: './empty-module.ts',
+      },
+      '~*': '*',
+    },
   },
   images: {
-    domains: [
-      'live.staticflickr.com',
-      'news.gov.bc.ca',
-      'gov.bc.ca',
-      'www2.gov.bc.ca',
+    remotePatterns: [
+      { protocol: 'https', hostname: 'live.staticflickr.com' },
+      { protocol: 'https', hostname: 'news.gov.bc.ca' },
+      { protocol: 'https', hostname: 'gov.bc.ca' },
+      { protocol: 'https', hostname: 'www2.gov.bc.ca' },
     ],
-  },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = { fs: false };
-    }
-    config.resolve.extensions = ['.ts', '.tsx', '.js', '.json'];
-    return config;
   },
 };
 

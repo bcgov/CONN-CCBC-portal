@@ -1,11 +1,6 @@
 import styled from 'styled-components';
-import getConfig from 'next/config';
+import { usePublicConfig } from 'components/PublicConfigProvider';
 import MetabaseIcon from './MetabaseIcon';
-
-const publicRuntimeConfig = getConfig()?.publicRuntimeConfig;
-const namespace = publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
-
-const isProd = namespace?.endsWith('-prod');
 
 const StyledFlex = styled.a`
   display: flex;
@@ -37,6 +32,8 @@ const MetabaseLink: React.FC<MetabaseLinkProps> = ({
   width = 326,
   testHref,
 }) => {
+  const { OPENSHIFT_APP_NAMESPACE: namespace } = usePublicConfig();
+  const isProd = namespace?.endsWith('-prod');
   const url = isProd ? href : testHref;
   const inlineStyle = { width };
   return (
