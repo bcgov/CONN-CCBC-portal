@@ -150,5 +150,6 @@ describe('The Community Progress Report api route', () => {
     // eslint-disable-next-line no-promise-executor-return
     // await new Promise<void>((resolve) => setTimeout(() => resolve(), 500)); // avoid jest open handle error
     jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
 });
