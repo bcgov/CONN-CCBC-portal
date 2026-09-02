@@ -4,7 +4,6 @@ import getAuthUser from 'utils/getAuthUser';
 import sendEmail from 'backend/lib/ches/sendEmail';
 import agreementSignedStatusChange from 'backend/lib/emails/templates/agreementSignedStatusChange';
 import getAccessToken from 'backend/lib/ches/getAccessToken';
-import getConfig from 'next/config';
 import handleEmailNotification, {
   getEmailRecipients,
   replaceEmailsInNonProd,
@@ -22,7 +21,6 @@ jest.mock('backend/lib/ches/getAccessToken');
 jest.mock('backend/lib/emails/templates/agreementSignedStatusChange');
 jest.mock('backend/lib/emails/templates/assessmentAssigneeChange');
 jest.mock('../../../../config');
-jest.mock('next/config');
 
 jest.mock('../../../../backend/lib/graphql', () => ({
   performQuery: jest.fn(),
@@ -37,9 +35,18 @@ const res = {
   end: jest.fn(),
 };
 
+let mockConfigValues: Record<string, string>;
+
 describe('The Email', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
+    mockConfigValues = {
+      CHES_TO_EMAIL: 'test@mail.com',
+      OPENSHIFT_APP_NAMESPACE: 'environment-dev',
+    };
+    mocked(config.get).mockImplementation(
+      (name: any) => mockConfigValues[name] as any
+    );
     mocked(getAccessToken).mockResolvedValue('test_token');
     mocked(getAuthRole).mockReturnValue({
       pgRole: 'ccbc_admin',
@@ -55,19 +62,6 @@ describe('The Email', () => {
       tag: 'test-tag',
       subject: 'Mock Subject',
       body: 'Mock email body',
-    });
-
-    mocked(config.get).mockImplementation((name: any) => {
-      const mockConfig = {
-        CHES_TO_EMAIL: 'test@mail.com',
-      };
-      return mockConfig[name] as any;
-    });
-
-    mocked(getConfig).mockReturnValue({
-      publicRuntimeConfig: {
-        OPENSHIFT_APP_NAMESPACE: 'environment-dev',
-      },
     });
   });
 
@@ -156,11 +150,7 @@ describe('The Email', () => {
   });
 
   it('should return analyst email if in a prod environment', async () => {
-    mocked(getConfig).mockReturnValue({
-      publicRuntimeConfig: {
-        OPENSHIFT_APP_NAMESPACE: 'environment-prod',
-      },
-    });
+    mockConfigValues.OPENSHIFT_APP_NAMESPACE = 'environment-prod';
     mocked(performQuery).mockResolvedValueOnce({
       data: {
         allAnalysts: { edges: [{ node: { email: 'test_analyst@mail.com' } }] },
@@ -172,21 +162,13 @@ describe('The Email', () => {
   });
 
   it('should return correct email based on environment', async () => {
-    mocked(getConfig).mockReturnValue({
-      publicRuntimeConfig: {
-        OPENSHIFT_APP_NAMESPACE: 'environment-prod',
-      },
-    });
+    mockConfigValues.OPENSHIFT_APP_NAMESPACE = 'environment-prod';
 
     const emailRecipient = replaceEmailsInNonProd(['test_analyst@mail.com']);
 
     expect(emailRecipient).toEqual(['test_analyst@mail.com']);
 
-    mocked(getConfig).mockReturnValue({
-      publicRuntimeConfig: {
-        OPENSHIFT_APP_NAMESPACE: 'environment-test',
-      },
-    });
+    mockConfigValues.OPENSHIFT_APP_NAMESPACE = 'environment-test';
 
     const emailRecipientTest = replaceEmailsInNonProd([
       'test_analyst@mail.com',
