@@ -16,20 +16,17 @@ import InputAdornment from '@mui/material/InputAdornment';
 // Project navigation components for left sidebar
 const StyledProjectNavigation = styled.div`
   width: 100%;
-  margin-bottom: 16px;
   z-index: 10;
 `;
 
 const StyledAutocomplete = styled(Autocomplete)`
   width: 100%;
-  margin-bottom: 12px;
 `;
 
 const StyledNavigationButtons = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 16px;
 `;
 
 const StyledNavButton = styled.button`
@@ -38,7 +35,7 @@ const StyledNavButton = styled.button`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8px 4px;
+  padding: 4px 4px 8px 4px;
   background: none;
   border: none;
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
