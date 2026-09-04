@@ -1,8 +1,6 @@
 import { mocked } from 'jest-mock';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { isAuthenticated } from '@bcgov-cas/sso-express/dist/helpers';
-import * as moduleApi from '@growthbook/growthbook-react';
-import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
 import cookie from 'js-cookie';
 import userEvent from '@testing-library/user-event';
 import compiledchangelogQuery, {
@@ -7574,14 +7572,6 @@ const mockData = {
   },
 };
 
-const mockShowTable: FeatureResult<JSONValue> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_project_change_log_table',
-};
-
 jest.mock('@bcgov-cas/sso-express/dist/helpers');
 
 jest.mock('js-cookie', () => ({
@@ -7634,10 +7624,6 @@ describe('The index page', () => {
       error: null,
       cacheUpdatedAt: '2026-02-04T18:00:00.000Z',
       hasUpdates: false,
-    });
-
-    jest.spyOn(moduleApi, 'useFeature').mockImplementation(() => {
-      return mockShowTable;
     });
   });
 

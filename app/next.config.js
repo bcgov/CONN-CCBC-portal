@@ -48,7 +48,6 @@ const moduleExports = {
   },
 
   publicRuntimeConfig: {
-    NEXT_PUBLIC_GROWTHBOOK_API_KEY: process.env.NEXT_PUBLIC_GROWTHBOOK_API_KEY,
     ENABLE_MOCK_TIME: convictConfig.get('ENABLE_MOCK_TIME'),
     OPENSHIFT_APP_NAMESPACE: convictConfig.get('OPENSHIFT_APP_NAMESPACE'),
     SITEMINDER_LOGOUT_URL: convictConfig.get('SITEMINDER_LOGOUT_URL'),

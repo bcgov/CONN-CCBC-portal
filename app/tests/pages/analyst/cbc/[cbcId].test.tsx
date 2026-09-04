@@ -1,18 +1,9 @@
 import Cbc from 'pages/analyst/cbc/[cbcId]';
 import { act, fireEvent, screen } from '@testing-library/react';
-import * as moduleApi from '@growthbook/growthbook-react';
 import compiledCbcIdQuery, {
   CbcIdQuery,
 } from '../../../../__generated__/CbcIdQuery.graphql';
 import PageTestingHelper from '../../../utils/pageTestingHelper';
-
-const mockShowCbcEdit: moduleApi.FeatureResult<boolean> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_cbc_edit',
-};
 
 const cbcJsonData = {
   phase: 2,
@@ -257,7 +248,6 @@ describe('Cbc', () => {
   });
 
   it('header should be editable for cbc admin', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -350,7 +340,6 @@ describe('Cbc', () => {
   });
 
   it('should reset the project number on escape', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -375,7 +364,6 @@ describe('Cbc', () => {
   });
 
   it('should not change input on failed project number mutation', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -411,7 +399,6 @@ describe('Cbc', () => {
   });
 
   it('should not change input on same project number', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -446,7 +433,6 @@ describe('Cbc', () => {
   });
 
   it('header should not be editable by non cbc admin users', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery(mockNonCbcQueryPayload);
     pageTestingHelper.renderPage();
 
@@ -457,7 +443,6 @@ describe('Cbc', () => {
   });
 
   it('header should not be editable when record locked', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery(mockLockedQueryPayload);
     pageTestingHelper.renderPage();
 
@@ -468,7 +453,6 @@ describe('Cbc', () => {
   });
 
   it('accordions should not be editable when record locked', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery(mockLockedQueryPayload);
     pageTestingHelper.renderPage();
 
@@ -487,7 +471,6 @@ describe('Cbc', () => {
   });
 
   it('should have the correct actions when edit enabled', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -497,7 +480,6 @@ describe('Cbc', () => {
   });
 
   it('should have the correct actions when record locked', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery(mockLockedQueryPayload);
     pageTestingHelper.renderPage();
 
@@ -507,7 +489,6 @@ describe('Cbc', () => {
   });
 
   it('should not have the quick edit actions when non cbc-admin', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery(mockNonCbcQueryPayload);
     pageTestingHelper.renderPage();
 
@@ -516,7 +497,6 @@ describe('Cbc', () => {
   });
 
   it('accordions should not be editable when non cbc-admin', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery(mockNonCbcQueryPayload);
     pageTestingHelper.renderPage();
 
@@ -575,7 +555,6 @@ describe('Cbc', () => {
   });
 
   it('should send the mutation on save', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -686,7 +665,6 @@ describe('Cbc', () => {
   });
 
   it('should fire community mutation for community source data', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -795,7 +773,6 @@ describe('Cbc', () => {
   });
 
   it('do nothing on cancel modal', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
 
@@ -829,7 +806,6 @@ describe('Cbc', () => {
   });
 
   it('should prompt confirmation on locked edit click', async () => {
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowCbcEdit);
     pageTestingHelper.loadQuery(mockLockedQueryPayload);
     pageTestingHelper.renderPage();
 

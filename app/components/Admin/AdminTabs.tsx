@@ -41,6 +41,7 @@ const AdminTabs = () => {
   const applicationIntakesHref = '/analyst/admin/application-intakes';
   const listOfAnalystsHref = '/analyst/admin/list-of-analysts';
   const utilitiesHref = '/analyst/admin/utilities';
+  const featureFlagsHref = '/analyst/admin/feature-flags';
 
   return (
     <StyledNav>
@@ -70,6 +71,13 @@ const AdminTabs = () => {
         selected={router?.pathname.includes(utilitiesHref)}
       >
         Utilities
+      </StyledTab>
+      <StyledTab
+        href={featureFlagsHref}
+        passHref
+        selected={router?.pathname.includes(featureFlagsHref)}
+      >
+        Feature Flags
       </StyledTab>
     </StyledNav>
   );

@@ -5,8 +5,7 @@ import { usePreloadedQuery, graphql } from 'react-relay';
 import dateTimeSubtracted from 'utils/dateTimeSubtracted';
 import styled from 'styled-components';
 import Link from '@button-inc/bcgov-theme/Link';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
-import type { JSONValue } from '@growthbook/growthbook';
+import useDeferredFeature, { JSONValue } from 'lib/helpers/useDeferredFeature';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import StyledGovButton from 'components/StyledGovButton';
 import { useCreateApplicationMutation } from 'schema/mutations/application/createApplication';
@@ -94,8 +93,7 @@ const Dashboard = ({
   preloadedQuery,
 }: RelayProps<Record<string, unknown>, dashboardQuery>) => {
   const query = usePreloadedQuery(getDashboardQuery, preloadedQuery);
-  const { allApplications, nextIntake, openIntake, session, openHiddenIntake } =
-    query;
+  const { allApplications, openIntake, session, openHiddenIntake } = query;
   const hasIntakeAccess =
     session?.ccbcUserBySub?.intakeUsersByUserId?.nodes.some(
       (node) => node.intakeId === openIntake?.rowId
@@ -161,10 +159,6 @@ const Dashboard = ({
     'open_intake_alert',
     {}
   );
-  const closedIntakeBanner = useDeferredFeature<IntakeBanner>(
-    'closed_intake_alert',
-    {}
-  );
   const showSubtractedTime = useDeferredFeature('show_subtracted_time', 0);
 
   return (
@@ -177,14 +171,6 @@ const Dashboard = ({
               text={openIntakeBanner.text}
               variant={openIntakeBanner.variant}
               displayOpenDate={false}
-            />
-          )}
-          {!openIntake && (
-            <DynamicAlert
-              dateTimestamp={nextIntake?.openTimestamp}
-              text={closedIntakeBanner.text}
-              variant={closedIntakeBanner.variant}
-              displayOpenDate={closedIntakeBanner.displayOpenDate}
             />
           )}
           <h1>Dashboard</h1>

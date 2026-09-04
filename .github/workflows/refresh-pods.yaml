@@ -15,7 +15,7 @@ jobs:
       name: development
     steps:
       - name: Install OpenShift CLI (oc)
-        uses: redhat-actions/openshift-tools-installer@144527c7d98999f2652264c048c7a9bd103f8a82 # tag=v1
+        uses: redhat-actions/openshift-tools-installer@37eb3cfb20ac2df6f0511ffa71cd917e4d49cabf # tag=v3.1
         with:
           oc: latest
       - name: Authenticate, set context and run deploy script
@@ -35,7 +35,7 @@ jobs:
       name: test
     steps:
       - name: Install OpenShift CLI (oc)
-        uses: redhat-actions/openshift-tools-installer@144527c7d98999f2652264c048c7a9bd103f8a82 # tag=v1
+        uses: redhat-actions/openshift-tools-installer@37eb3cfb20ac2df6f0511ffa71cd917e4d49cabf # tag=v3.1
         with:
           oc: latest
       - name: Authenticate, set context and run deploy script
@@ -55,7 +55,7 @@ jobs:
       name: production
     steps:
       - name: Install OpenShift CLI (oc)
-        uses: redhat-actions/openshift-tools-installer@144527c7d98999f2652264c048c7a9bd103f8a82 # tag=v1
+        uses: redhat-actions/openshift-tools-installer@37eb3cfb20ac2df6f0511ffa71cd917e4d49cabf # tag=v3.1
         with:
           oc: latest
       - name: Authenticate, set context and run deploy script

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import styled from 'styled-components';
@@ -49,6 +50,15 @@ const getApplicationIntakesQuery = graphql`
 
 const StyledContainer = styled.div`
   width: 100%;
+`;
+
+const StyledLink = styled(Link)`
+  color: ${(props) => props.theme.color.links};
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
 `;
 
 const ApplicationIntakes = ({
@@ -124,7 +134,11 @@ const ApplicationIntakes = ({
           <p>Applicants have a grace period after each deadline.</p>
           <p>
             To adjust the grace period or toggle visibility of upcoming intake
-            dates, go to https://app.growthbook.io/
+            dates, go to the{' '}
+            <StyledLink href="/analyst/admin/feature-flags">
+              Feature Flags
+            </StyledLink>{' '}
+            tab.
           </p>
         </section>
         <AddIntake

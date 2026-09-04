@@ -55,12 +55,9 @@ interface Props {
 const Navigation: React.FC<Props> = ({ isLoggedIn = false, title = '' }) => {
   const router = useRouter();
   const isApplicantPortal = router?.pathname.startsWith('/applicantportal');
-  const useNewHeader = useDeferredFeature('use_new_header');
   const banner = useDeferredFeature<any>('header-banner', null);
 
-  const logoSrc = useNewHeader
-    ? '/icons/connectivity_portal.svg'
-    : '/icons/BCID_CC_RGB_rev.svg';
+  const logoSrc = '/icons/connectivity_portal.svg';
 
   const action = `/api/login/${IDP_HINT_PARAM}=${IDP_HINTS['IDIR']}`;
 

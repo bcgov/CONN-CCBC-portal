@@ -171,6 +171,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       'unknown';
     if (!(window as any).__ccbcDashboardTableLogBoot) {
       (window as any).__ccbcDashboardTableLogBoot = true;
+      // eslint-disable-next-line no-console
       console.log('[AllDashboardTable] boot', {
         origin,
         env,
@@ -309,10 +310,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   const [columnFilters, setColumnFilters] =
     useState<MRT_ColumnFiltersState>(defaultFilters);
   const showLeadFeatureFlag = useDeferredFeature('show_lead');
-  const showCbcProjects = useDeferredFeature('show_cbc_projects');
   const showCbcProjectsLink = false;
-  const freezeHeader = useDeferredFeature('freeze_dashboard_header');
-  const enableGlobalFilter = useDeferredFeature('show_global_filter');
   const [columnVisibility, setColumnVisibility] = useState<MRT_VisibilityState>(
     { Lead: false, program: false }
   );
@@ -368,10 +366,12 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const handleDownload = async (rows: MRT_Row<any>[]) => {
     /* ---- BEGIN DEBUG ---- */
+    // eslint-disable-next-line no-console
     console.time('[AllDashboardTable] export');
     setIsLoading(true);
     hideToast();
     const rowData = rows.map((row) => row.original);
+    // eslint-disable-next-line no-console
     console.log('[AllDashboardTable] export rows', {
       count: rowData.length,
     });
@@ -413,6 +413,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         });
     });
     setIsLoading(false);
+    // eslint-disable-next-line no-console
     console.timeEnd('[AllDashboardTable] export');
     /* ---- END DEGUG ---- */
   };
@@ -425,6 +426,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       acc[normalizeStatusName(status.name)] = status.statusOrder;
       return acc;
     }, {});
+    // eslint-disable-next-line no-console
     console.log('[AllDashboardTable] statusOrderMap time', {
       durationMs: performance.now() - start,
     });
@@ -434,34 +436,29 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    // eslint-disable-next-line no-console
     console.log('[AllDashboardTable] flags', {
       showLeadFeatureFlag,
-      showCbcProjects,
-      freezeHeader,
-      enableGlobalFilter,
       enableTimeMachine,
     });
     /* ---- END DEGUG ---- */
-  }, [
-    showLeadFeatureFlag,
-    showCbcProjects,
-    freezeHeader,
-    enableGlobalFilter,
-    enableTimeMachine,
-  ]);
+  }, [showLeadFeatureFlag, enableTimeMachine]);
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    // eslint-disable-next-line no-console
     console.log('[AllDashboardTable] counts', {
       allApplications: allApplications?.edges?.length ?? 0,
       allCbcData: allCbcData?.edges?.length ?? 0,
       allApplicationStatusTypes: allApplicationStatusTypes?.nodes?.length ?? 0,
     });
     /* ---- END DEGUG ---- */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allApplications?.edges?.length, allCbcData?.edges?.length]);
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    // eslint-disable-next-line no-console
     console.time('[AllDashboardTable] loadInitialState');
     const loadInitialState = () => {
       const settings = [
@@ -497,6 +494,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     };
 
     loadInitialState();
+    // eslint-disable-next-line no-console
     console.timeEnd('[AllDashboardTable] loadInitialState');
     /* ---- END DEGUG ---- */
   }, [showLeadFeatureFlag]);
@@ -504,6 +502,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   useEffect(() => {
     if (!isFirstRender) {
       /* ---- BEGIN DEBUG ---- */
+      // eslint-disable-next-line no-console
       console.time('[AllDashboardTable] saveStateToCookies');
       const saveToCookies = [
         { key: 'mrt_columnVisibility_application', value: columnVisibility },
@@ -516,6 +515,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       saveToCookies.forEach(({ key, value }) => {
         cookie.set(key, JSON.stringify(value));
       });
+      // eslint-disable-next-line no-console
       console.timeEnd('[AllDashboardTable] saveStateToCookies');
       /* ---- END DEGUG ---- */
     }
@@ -545,10 +545,12 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    // eslint-disable-next-line no-console
     console.time('[AllDashboardTable] globalFilterExpanded');
     const newExpanded = globalFilter ? expandedRowsRef.current : {};
     setExpanded(newExpanded);
     expandedRowsRef.current = {};
+    // eslint-disable-next-line no-console
     console.timeEnd('[AllDashboardTable] globalFilterExpanded');
     /* ---- END DEGUG ---- */
   }, [globalFilter]);
@@ -664,6 +666,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   const tableData = useMemo(() => {
     /* ---- BEGIN DEBUG ---- */
+    // eslint-disable-next-line no-console
     console.time('[AllDashboardTable] buildTableData');
     const allCcbcApplications = allApplications.edges.map((application) => ({
       ...application.node,
@@ -682,42 +685,43 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       fundingSource: getFundingSource(application.node),
     }));
 
-    const allCbcApplications = showCbcProjects
-      ? (allCbcData.edges.map((project) => {
-          const cbcStatus = project.node.jsonData.projectStatus
-            ? cbcProjectStatusConverter(project.node.jsonData.projectStatus)
-            : null;
-          const cbcStatusOrder = cbcStatus
-            ? statusOrderMap[cbcProjectStatusConverter(cbcStatus)]
-            : null;
-          const cbcApplication = {
-            rowId: project.node.cbcId,
-            ...project.node.jsonData,
-            program: 'CBC',
-            zones: project.node.jsonData?.zones || [],
-            intakeNumber: project.node.jsonData?.intake || 'N/A',
-            projectId: project.node.projectNumber,
-            internalStatus: null,
-            externalStatus: cbcStatus,
-            analystStatus: cbcStatus,
-            externalStatusOrder: cbcStatusOrder,
-            internalStatusOrder: cbcStatusOrder,
-            packageNumber: null,
-            organizationName: project.node.jsonData.currentOperatingName || '',
-            lead: null,
-            isCbcProject: true,
-            showLink: showCbcProjectsLink,
-            communities: getCbcCommunities(project),
-          };
-          return {
-            ...cbcApplication,
-            fundingSource: getFundingSource(cbcApplication),
-          };
-        }) ?? [])
-      : [];
+    const allCbcApplications =
+      allCbcData.edges.map((project) => {
+        const cbcStatus = project.node.jsonData.projectStatus
+          ? cbcProjectStatusConverter(project.node.jsonData.projectStatus)
+          : null;
+        const cbcStatusOrder = cbcStatus
+          ? statusOrderMap[cbcProjectStatusConverter(cbcStatus)]
+          : null;
+        const cbcApplication = {
+          rowId: project.node.cbcId,
+          ...project.node.jsonData,
+          program: 'CBC',
+          zones: project.node.jsonData?.zones || [],
+          intakeNumber: project.node.jsonData?.intake || 'N/A',
+          projectId: project.node.projectNumber,
+          internalStatus: null,
+          externalStatus: cbcStatus,
+          analystStatus: cbcStatus,
+          externalStatusOrder: cbcStatusOrder,
+          internalStatusOrder: cbcStatusOrder,
+          packageNumber: null,
+          organizationName: project.node.jsonData.currentOperatingName || '',
+          lead: null,
+          isCbcProject: true,
+          showLink: showCbcProjectsLink,
+          communities: getCbcCommunities(project),
+        };
+        return {
+          ...cbcApplication,
+          fundingSource: getFundingSource(cbcApplication),
+        };
+      }) ?? [];
 
     const combined = [...allCcbcApplications, ...allCbcApplications];
+    // eslint-disable-next-line no-console
     console.timeEnd('[AllDashboardTable] buildTableData');
+    // eslint-disable-next-line no-console
     console.log('[AllDashboardTable] tableData counts', {
       ccbc: allCcbcApplications.length,
       cbc: allCbcApplications.length,
@@ -728,13 +732,13 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
   }, [
     allApplications.edges,
     allCbcData.edges,
-    showCbcProjects,
     showCbcProjectsLink,
     statusOrderMap,
   ]);
 
   const columns = useMemo<MRT_ColumnDef<Application>[]>(() => {
     /* ---- BEGIN DEBUG ---- */
+    // eslint-disable-next-line no-console
     console.time('[AllDashboardTable] buildColumns');
     const uniqueIntakeNumbers = [
       ...new Set(
@@ -871,7 +875,9 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
       // adding dummy columns for filter purposes
       ...(additionalFilterColumns as MRT_ColumnDef<Application>[]),
     ];
+    // eslint-disable-next-line no-console
     console.timeEnd('[AllDashboardTable] buildColumns');
+    // eslint-disable-next-line no-console
     console.log('[AllDashboardTable] columnOptions counts', {
       uniqueIntakeNumbers: uniqueIntakeNumbers.length,
       uniqueZones: uniqueZones.length,
@@ -910,7 +916,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     muiTableContainerProps: {
       sx: {
         padding: '0 8px 8px 8px',
-        maxHeight: freezeHeader ? `calc(100vh - ${tableHeightOffset})` : '100%',
+        maxHeight: `calc(100vh - ${tableHeightOffset})`,
       },
     },
     layoutMode: isLargeUp ? 'grid' : 'semantic',
@@ -932,7 +938,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           : 'inherit',
       },
     }),
-    enableStickyHeader: freezeHeader,
+    enableStickyHeader: true,
     onSortingChange: handleOnSortChange,
     onColumnFiltersChange: setColumnFilters,
     autoResetAll: false,
@@ -943,7 +949,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     onDensityChange: setDensity,
     onColumnSizingChange: setColumnSizing,
     enablePagination: false,
-    enableGlobalFilter,
+    enableGlobalFilter: true,
     enableGlobalFilterModes: true,
     globalFilterModeOptions: ['fuzzy', 'startsWith', 'contains'],
     enableBottomToolbar: false,
@@ -1031,6 +1037,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    // eslint-disable-next-line no-console
     console.log('[AllDashboardTable] tableState', {
       columnFiltersCount: columnFilters?.length ?? 0,
       sortingCount: sorting?.length ?? 0,
@@ -1053,9 +1060,11 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
     isLargeUp,
   ]);
 
+  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (!isFirstRender && lastVisitedRow) {
       /* ---- BEGIN DEBUG ---- */
+      // eslint-disable-next-line no-console
       console.time('[AllDashboardTable] scrollToLastVisited');
       const targetRowIndex = table
         .getSortedRowModel()
@@ -1071,25 +1080,32 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           rowVirtualizerInstanceRef.current?.scrollToIndex(safeTargetRowIndex, {
             align: 'center',
           });
+          // eslint-disable-next-line no-console
           console.timeEnd('[AllDashboardTable] scrollToLastVisited');
           /* ---- END DEGUG ---- */
         }, 0);
 
         return () => clearTimeout(timeoutId);
+        // eslint-disable-next-line no-else-return
       } else {
+        // eslint-disable-next-line no-console
         console.timeEnd('[AllDashboardTable] scrollToLastVisited');
         /* ---- END DEGUG ---- */
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFirstRender, lastVisitedRow]);
 
   useEffect(() => {
     /* ---- BEGIN DEBUG ---- */
+    // eslint-disable-next-line no-console
     console.time('[AllDashboardTable] saveRowModel');
     const rowModel = table.getRowModel().rows?.map((row) => row.original);
     localStorage.setItem('dashboard_row_model', JSON.stringify(rowModel));
+    // eslint-disable-next-line no-console
     console.timeEnd('[AllDashboardTable] saveRowModel');
     /* ---- END DEGUG ---- */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [table.getRowModel().rows]);
 
   const visibleRowCount = table.getRowModel().rows?.length ?? 0;
@@ -1108,7 +1124,6 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
         isOpen={isCreateCbcModalOpen}
         setIsOpen={setIsCreateCbcModalOpen}
       />
-      {!freezeHeader && renderRowCount()}
     </>
   );
 };

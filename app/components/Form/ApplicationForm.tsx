@@ -16,7 +16,6 @@ import { updateApplicationFormMutation } from '__generated__/updateApplicationFo
 import { useUpdateApplicationForm } from 'schema/mutations/application/updateApplicationForm';
 import verifyFormFields from 'utils/verifyFormFields';
 import ReviewField from 'components/Review/ReviewPageField';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import { applicantBenefits as applicantBenefitsSchema } from 'formSchema/pages';
 import { applicantBenefits } from 'formSchema/uiSchema/pages';
 import useModal from 'lib/helpers/useModal';
@@ -223,14 +222,6 @@ const ApplicationForm: React.FC<Props> = ({
     query
   );
 
-  const draftAppsUseLatestSchema = useDeferredFeature(
-    'draft_apps_use_latest_schema'
-  );
-  // Only enable when GrowthBook returns an actual boolean true. Tests (and
-  // misconfigured flags) may return non-boolean truthy values from useFeature;
-  // those must not switch the form to the "latest schema" path.
-  const forceLatestSchema =
-    draftAppsUseLatestSchema === true ? true : null;
   const { openIntake, allIntakes, session } = applicationFormQuery;
   const latestJsonSchema = applicationFormQuery.allForms.nodes[0]?.jsonSchema;
   const latestFormSchemaId = applicationFormQuery.allForms.nodes[0]?.rowId;
@@ -300,7 +291,10 @@ const ApplicationForm: React.FC<Props> = ({
       };
       resolvedSchema = {
         ...resolvedSchema,
-        properties: { ...resolvedSchema.properties, ...applicantBenefitsSchema },
+        properties: {
+          ...resolvedSchema.properties,
+          ...applicantBenefitsSchema,
+        },
       };
     }
     return {
@@ -314,26 +308,26 @@ const ApplicationForm: React.FC<Props> = ({
     };
   };
 
-  const applicationOwnSchema = application.formData.formByFormSchemaId.jsonSchema;
-  const applicationOwnFormSchemaId = application.formData.formByFormSchemaId.rowId;
-  const wantsLatestSchema =
-    forceLatestSchema === true && status === 'draft' && latestJsonSchema != null;
+  const applicationOwnSchema =
+    application.formData.formByFormSchemaId.jsonSchema;
+  const applicationOwnFormSchemaId =
+    application.formData.formByFormSchemaId.rowId;
+  const wantsLatestSchema = status === 'draft' && latestJsonSchema != null;
 
-  let { jsonSchema, formSchemaId, finalUiSchema, sectionName } = buildSchemaContext(
-    wantsLatestSchema ? latestJsonSchema : applicationOwnSchema,
-    wantsLatestSchema ? latestFormSchemaId : applicationOwnFormSchemaId
-  );
+  let { jsonSchema, formSchemaId, finalUiSchema, sectionName } =
+    buildSchemaContext(
+      wantsLatestSchema ? latestJsonSchema : applicationOwnSchema,
+      wantsLatestSchema ? latestFormSchemaId : applicationOwnFormSchemaId
+    );
 
   // If the selected schema doesn't cover the current page, fall back to the
-  // application's own schema. This handles the transition when
-  // useDeferredFeature switches to a "latest" intake schema whose top-level
-  // sections differ from the schema the application was originally created with,
-  // and any other case where pageNumber / ui:order yields an unknown section.
+  // application's own schema. This handles the case where the "latest" intake
+  // schema's top-level sections differ from the schema the application was
+  // originally created with, and any other case where pageNumber / ui:order
+  // yields an unknown section.
   if (!jsonSchema.properties?.[sectionName]) {
-    ({ jsonSchema, formSchemaId, finalUiSchema, sectionName } = buildSchemaContext(
-      applicationOwnSchema,
-      applicationOwnFormSchemaId
-    ));
+    ({ jsonSchema, formSchemaId, finalUiSchema, sectionName } =
+      buildSchemaContext(applicationOwnSchema, applicationOwnFormSchemaId));
   }
 
   const formErrorSchema = useMemo(

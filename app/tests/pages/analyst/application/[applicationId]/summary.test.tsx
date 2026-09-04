@@ -4,15 +4,8 @@ import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledSummaryQuery, {
   summaryQuery,
 } from '__generated__/summaryQuery.graphql';
-import * as moduleApi from '@growthbook/growthbook-react';
-
-const mockShowSummaryMap: moduleApi.FeatureResult<boolean> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_summary_map',
-};
+import { mocked } from 'jest-mock';
+import { useFeatureFlagMap } from 'components/FeatureFlagProvider';
 
 const fakeMarkerData = {
   coordinates: [49.2827, -123.1207],
@@ -1399,7 +1392,12 @@ describe('The Summary page', () => {
     pageTestingHelper.setMockRouterValues({
       query: { applicationId: '1' },
     });
-    jest.spyOn(moduleApi, 'useFeature').mockReturnValue(mockShowSummaryMap);
+    mocked(useFeatureFlagMap).mockReturnValue({
+      show_summary_map: { isEnabled: true, value: true },
+      // AnalystLayout renders ApplicationHeader, which reads `show_lead`;
+      // kept enabled here to preserve prior (blanket-mocked) test behavior.
+      show_lead: { isEnabled: true, value: true },
+    });
     // @ts-ignore
     global.fetch = jest.fn(() =>
       Promise.resolve({

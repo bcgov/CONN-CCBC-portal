@@ -1,7 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { act } from 'react';
-import * as moduleApi from '@growthbook/growthbook-react';
-import { FeatureResult, JSONValue } from '@growthbook/growthbook-react';
+import { mocked } from 'jest-mock';
+import { useFeatureFlagMap } from 'components/FeatureFlagProvider';
 import Project from 'pages/analyst/application/[applicationId]/project';
 import PageTestingHelper from 'tests/utils/pageTestingHelper';
 import compiledProjectQuery, {
@@ -124,14 +124,6 @@ const pageTestingHelper = new PageTestingHelper<projectQuery>({
   },
 });
 
-const mockShowAnnouncement: FeatureResult<JSONValue> = {
-  value: true,
-  source: 'defaultValue',
-  on: null,
-  off: null,
-  ruleId: 'show_announcement',
-};
-
 jest.setTimeout(10000000);
 
 describe('The Project page', () => {
@@ -140,8 +132,14 @@ describe('The Project page', () => {
     pageTestingHelper.setMockRouterValues({
       query: { applicationId: '1' },
     });
-    jest.spyOn(moduleApi, 'useFeature').mockImplementation(() => {
-      return mockShowAnnouncement;
+    mocked(useFeatureFlagMap).mockReturnValue({
+      // The page under test (project.tsx) reads `show_claims`, and the
+      // 'should expand and collapse all sections' test asserts on the
+      // "Add claim" section, which only renders when this flag is enabled.
+      // AnalystLayout also renders ApplicationHeader, which reads
+      // `show_lead`; kept enabled here to preserve prior test behavior.
+      show_claims: { isEnabled: true, value: true },
+      show_lead: { isEnabled: true, value: true },
     });
     global.fetch = jest.fn(() =>
       Promise.resolve({

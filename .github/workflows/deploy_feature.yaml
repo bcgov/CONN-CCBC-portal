@@ -8,7 +8,6 @@ on:
       OPENSHIFT_APP_NAMESPACE: { required: true }
       OPENSHIFT_METABASE_NAMESPACE: { required: true }
       OPENSHIFT_METABASE_PROD_NAMESPACE: { required: true }
-      NEXT_PUBLIC_GROWTHBOOK_API_KEY: { required: true }
       CLIENT_SECRET: { required: true }
       OPENSHIFT_SECURE_ROUTE: { required: true }
       AWS_S3_BUCKET: { required: true }
@@ -59,7 +58,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
       - name: Install OpenShift CLI (oc)
-        uses: redhat-actions/openshift-tools-installer@144527c7d98999f2652264c048c7a9bd103f8a82 # tag=v1
+        uses: redhat-actions/openshift-tools-installer@37eb3cfb20ac2df6f0511ffa71cd917e4d49cabf # tag=v3.1
         with:
           oc: latest
       - name: Authenticate with OpenShift
@@ -106,7 +105,6 @@ jobs:
           openshift_app_namespace: ${{ secrets.OPENSHIFT_APP_NAMESPACE }}
           openshift_metabase_namespace: ${{ secrets.OPENSHIFT_METABASE_NAMESPACE }}
           openshift_metabase_prod_namespace: ${{ secrets.OPENSHIFT_METABASE_PROD_NAMESPACE }}
-          next_public_growthbook_api_key: ${{ secrets.NEXT_PUBLIC_GROWTHBOOK_API_KEY }}
           tag: ${{ env.TAG }}
           client_secret: ${{ secrets.CLIENT_SECRET }}
           aws_s3_bucket: ${{ secrets.AWS_S3_FEAT_BUCKET }}

@@ -108,12 +108,6 @@ const config = convict({
     default: '',
     env: 'SESSION_SECRET',
   },
-  NEXT_PUBLIC_GROWTHBOOK_API_KEY: {
-    doc: 'Growthbook API key',
-    format: String,
-    default: '',
-    env: 'NEXT_PUBLIC_GROWTHBOOK_API_KEY',
-  },
   ENABLE_MOCK_AUTH: {
     doc: 'Enable mock auth',
     format: Boolean,

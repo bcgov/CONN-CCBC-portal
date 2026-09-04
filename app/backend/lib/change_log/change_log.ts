@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import RateLimit from 'express-rate-limit';
 import { performQuery } from '../graphql';
-import { gbClient } from '../growthbook-client';
 import { reportServerError } from '../emails/errorNotification';
 
 const changeLog = Router();
@@ -104,16 +103,7 @@ const writeChangeLogCache = async (
 };
 
 const generateChangeLogData = async (req) => {
-  const flag = 'change_log_variables';
-  // refresh and get feature value from GrowthBook
-  await gbClient.refreshFeatures();
-  const featureValue: any = gbClient.getFeatureValue(flag, false, {});
-  // generate the query based on the feature flag
-  const query = generateQuery(
-    featureValue?.limitCount,
-    featureValue?.offsetCount,
-    featureValue?.exclude_ccbc
-  );
+  const query = generateQuery();
 
   const changeLogData = await performQuery(query, {}, req);
   // Separate the change log data into cbc and ccbc based on table_name
@@ -165,8 +155,7 @@ changeLog.get('/api/change-log/refresh', limiter, async (req, res) => {
   try {
     const cached = await fetchCachedChangeLog(req);
     const cachedData = cached?.data as
-      | { allCbcs: any[]; allApplications: any[] }
-      | undefined;
+      { allCbcs: any[]; allApplications: any[] } | undefined;
     const cachedCount = cachedData
       ? cachedData.allCbcs.length + cachedData.allApplications.length
       : 0;

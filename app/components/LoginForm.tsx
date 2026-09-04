@@ -1,5 +1,4 @@
 import Button from '@button-inc/bcgov-theme/Button';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import { IDP_HINTS, IDP_HINT_PARAM } from 'data/ssoConstants';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
@@ -16,17 +15,11 @@ const StyledForm = styled('form')`
 const LoginForm: React.FC<Props> = ({ idp, loginText = null }) => {
   const router = useRouter();
   const { query } = router;
-  const useCustomLogin = useDeferredFeature('use_custom_login');
 
-  const customLoginUrl = query.redirect
+  const action = query.redirect
     ? `/api/login/${IDP_HINT_PARAM}=${IDP_HINTS[idp]}?redirect=${query.redirect}`
     : `/api/login/${IDP_HINT_PARAM}=${IDP_HINTS[idp]}`;
 
-  const loginUrl = query.redirect
-    ? `/login?${IDP_HINT_PARAM}=${IDP_HINTS[idp]}&redirect=${query.redirect}`
-    : `/login?${IDP_HINT_PARAM}=${IDP_HINTS[idp]}`;
-
-  const action = useCustomLogin ? customLoginUrl : loginUrl;
   return (
     <StyledForm action={`${action}`} method="POST">
       <Button style={{ minWidth: '172px' }} type="submit">

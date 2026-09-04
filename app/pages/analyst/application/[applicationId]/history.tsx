@@ -1,6 +1,5 @@
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
-import useDeferredFeature from 'lib/helpers/useDeferredFeature';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import Layout from 'components/Layout';
 import AnalystLayout from 'components/Analyst/AnalystLayout';
@@ -23,13 +22,11 @@ const History = ({
   const query = usePreloadedQuery(getHistoryQuery, preloadedQuery);
   const { session } = query;
 
-  const showHistory = useDeferredFeature('show_history');
-
   return (
     <Layout session={session} title="Connecting Communities BC">
       <AnalystLayout query={query}>
         <h2>History</h2>
-        {showHistory && <HistoryTable query={query} />}
+        <HistoryTable query={query} />
       </AnalystLayout>
     </Layout>
   );

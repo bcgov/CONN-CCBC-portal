@@ -64,14 +64,7 @@ const Project = ({
   const { applicationByRowId, session } = query;
   const { conditionalApproval, projectInformation } = applicationByRowId || {};
 
-  const showConditionalApproval = useDeferredFeature('show_conditional_approval');
-  const showAnnouncement = useDeferredFeature('show_announcement');
-  const showProjectInformation = useDeferredFeature('show_project_information');
-  const showCommunityProgressReport = useDeferredFeature(
-    'show_community_progress_report'
-  );
   const showClaims = useDeferredFeature('show_claims');
-  const showMilestones = useDeferredFeature('show_milestones');
 
   const today = DateTime.now().toFormat('yyyy-MM-dd');
   const date = cookie.get('mocks.mocked_date') || today;
@@ -209,50 +202,37 @@ const Project = ({
             </StyledButton>
           </>
         </RightAlignText>
-        {showConditionalApproval && (
-          <ConditionalApprovalForm
+        <ConditionalApprovalForm
+          application={applicationByRowId}
+          isExpanded={isConditionalApprovalExpanded}
+        />
+        <AnnouncementsForm query={query} isExpanded={isAnnouncementsExpanded} />
+        <div ref={projectInformationRef}>
+          <ProjectInformationForm
             application={applicationByRowId}
-            isExpanded={isConditionalApprovalExpanded}
+            isExpanded={
+              isProjectInformationExpanded ||
+              toggledSection === 'projectInformation'
+            }
           />
-        )}
-        {showAnnouncement && (
-          <AnnouncementsForm
-            query={query}
-            isExpanded={isAnnouncementsExpanded}
+        </div>
+        <div ref={communityProgressReportRef}>
+          <CommunityProgressReportForm
+            application={applicationByRowId}
+            isExpanded={
+              isCommunityProgressExpanded ||
+              toggledSection === 'communityProgressReport'
+            }
           />
-        )}
-        {showProjectInformation && (
-          <div ref={projectInformationRef}>
-            <ProjectInformationForm
-              application={applicationByRowId}
-              isExpanded={
-                isProjectInformationExpanded ||
-                toggledSection === 'projectInformation'
-              }
-            />
-          </div>
-        )}
-        {showCommunityProgressReport && (
-          <div ref={communityProgressReportRef}>
-            <CommunityProgressReportForm
-              application={applicationByRowId}
-              isExpanded={
-                isCommunityProgressExpanded ||
-                toggledSection === 'communityProgressReport'
-              }
-            />
-          </div>
-        )}
-        {showMilestones && (
-          <div ref={milestoneRef}>
-            <MilestonesForm
-              application={applicationByRowId}
-              isExpanded={
-                isMilestonesExpanded || toggledSection === 'milestoneReport'
-              }
-            />
-          </div>
-        )}
+        </div>
+        <div ref={milestoneRef}>
+          <MilestonesForm
+            application={applicationByRowId}
+            isExpanded={
+              isMilestonesExpanded || toggledSection === 'milestoneReport'
+            }
+          />
+        </div>
         {showClaims && (
           <div ref={claimsRef}>
             <ClaimsForm
