@@ -3,10 +3,8 @@ import HeaderBanner from 'components/HeaderBanner';
 import GlobalTheme from 'styles/GlobalTheme';
 
 const mockOpenshiftNamespace = jest.fn(() => 'environment-dev');
-jest.mock('next/config', () => () => ({
-  publicRuntimeConfig: {
-    OPENSHIFT_APP_NAMESPACE: mockOpenshiftNamespace(),
-  },
+jest.mock('lib/helpers/getPublicRuntimeConfig', () => () => ({
+  OPENSHIFT_APP_NAMESPACE: mockOpenshiftNamespace(),
 }));
 
 const renderStaticLayout = (

@@ -4,8 +4,8 @@ import {
   faSquareCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import getConfig from 'next/config';
 import styled from 'styled-components';
+import getPublicRuntimeConfig from 'lib/helpers/getPublicRuntimeConfig';
 
 interface StyledHeaderBannerProps {
   type?: 'success' | 'warn' | 'error' | 'custom';
@@ -55,7 +55,7 @@ const HeaderBanner: React.FC<Props> = ({
   customBannerColor,
   customFontColor,
 }) => {
-  const publicRuntimeConfig = getConfig()?.publicRuntimeConfig;
+  const publicRuntimeConfig = getPublicRuntimeConfig();
   const namespace = publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
   const isTest = namespace?.endsWith('-test');
   const isProd = namespace?.endsWith('-prod');

@@ -16,7 +16,7 @@ import {
 } from 'material-react-table';
 import { diff } from 'json-diff';
 import { generateRawDiff, processArrayDiff } from 'components/DiffTable';
-import getConfig from 'next/config';
+import getPublicRuntimeConfig from 'lib/helpers/getPublicRuntimeConfig';
 import cbcData from 'formSchema/uiSchema/history/cbcData';
 import communities from 'formSchema/uiSchema/history/communities';
 import { getFiscalQuarter, getFiscalYear } from 'utils/fiscalFormat';
@@ -375,8 +375,7 @@ const OldValueCell = (props) => (
 );
 
 const ProjectChangeLog: React.FC<Props> = () => {
-  const enableTimeMachine =
-    getConfig()?.publicRuntimeConfig?.ENABLE_MOCK_TIME || false;
+  const enableTimeMachine = getPublicRuntimeConfig()?.ENABLE_MOCK_TIME || false;
   const tableHeightOffset = enableTimeMachine ? '435px' : '360px';
   const filterVariant = 'contains';
   const defaultFilters = [{ id: 'program', value: ['CCBC', 'CBC', 'OTHER'] }];

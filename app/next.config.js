@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-const convictConfig = require('./config');
 const relay = require('./relay.config.js');
 
 const moduleExports = {
@@ -34,6 +33,11 @@ const moduleExports = {
     ];
   },
   reactStrictMode: true,
+  typescript: {
+    // tests/ are excluded here so the production build's typecheck isn't
+    // gated on test-file types; ts-jest still typechecks them in `yarn jest`.
+    tsconfigPath: './tsconfig.build.json',
+  },
   compiler: {
     // ssr and displayName are configured by default
     styledComponents: true,
@@ -45,33 +49,26 @@ const moduleExports = {
   },
   turbopack: {
     resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
-  },
-
-  publicRuntimeConfig: {
-    ENABLE_MOCK_TIME: convictConfig.get('ENABLE_MOCK_TIME'),
-    OPENSHIFT_APP_NAMESPACE: convictConfig.get('OPENSHIFT_APP_NAMESPACE'),
-    SITEMINDER_LOGOUT_URL: convictConfig.get('SITEMINDER_LOGOUT_URL'),
-    COVERAGES_FILE_NAME: convictConfig.get('COVERAGES_FILE_NAME'),
-  },
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
+    resolveAlias: {
+      fs: {
+        browser: './empty.ts',
+      },
+      // Some node_modules CSS (e.g. leaflet-defaulticon-compatibility) uses the
+      // legacy webpack tilde convention for node_modules-relative url()s.
+      '~*': '*',
+      // leaflet.fullscreen's UMD wrapper does `require('screenfull')` but the
+      // actual screenfull implementation is inlined in the same file, so the
+      // required value is discarded; the package isn't a real dependency.
+      screenfull: './empty.ts',
+    },
   },
   images: {
-    domains: [
-      'live.staticflickr.com',
-      'news.gov.bc.ca',
-      'gov.bc.ca',
-      'www2.gov.bc.ca',
+    remotePatterns: [
+      { protocol: 'https', hostname: 'live.staticflickr.com' },
+      { protocol: 'https', hostname: 'news.gov.bc.ca' },
+      { protocol: 'https', hostname: 'gov.bc.ca' },
+      { protocol: 'https', hostname: 'www2.gov.bc.ca' },
     ],
-  },
-  webpack: (config, { isServer }) => {
-    if (!isServer) {
-      config.resolve.fallback = { fs: false };
-    }
-    config.resolve.extensions = ['.ts', '.tsx', '.js', '.json'];
-    return config;
   },
 };
 

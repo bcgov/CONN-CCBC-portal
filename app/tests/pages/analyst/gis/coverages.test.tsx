@@ -2,10 +2,8 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { act } from 'react';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('next/config', () => () => ({
-  publicRuntimeConfig: {
-    COVERAGES_FILE_NAME: 'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip',
-  },
+jest.mock('lib/helpers/getPublicRuntimeConfig', () => () => ({
+  COVERAGES_FILE_NAME: 'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip',
 }));
 
 // eslint-disable-next-line import/first
@@ -31,8 +29,7 @@ const mockQueryPayload = {
             record: {
               id: 3,
               uuid: '56c849c1badc0b0ea5aa80001',
-              file_name:
-                'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip',
+              file_name: 'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip',
               created_at: '2025-01-07T15:28:41.793888+00:00',
               created_by: 336,
               updated_at: '2025-01-07T15:28:41.793888+00:00',
@@ -227,18 +224,18 @@ describe('The Gis coverages upload page', () => {
   it('handles incorrect file name for CBC upload', async () => {
     pageTestingHelper.loadQuery();
     pageTestingHelper.renderPage();
-    const wrongNameFile = new File(
-      [new ArrayBuffer(1)],
-      'wrong_name.zip',
-      { type: 'application/zip' }
-    );
+    const wrongNameFile = new File([new ArrayBuffer(1)], 'wrong_name.zip', {
+      type: 'application/zip',
+    });
 
     const inputFile = screen.getAllByTestId('file-test')[1];
 
     fireEvent.change(inputFile, { target: { files: [wrongNameFile] } });
 
     expect(
-      screen.getByText(/Please use an accepted file name\. Accepted name for this field is:\s*CBC_Coverage\.zip/)
+      screen.getByText(
+        /Please use an accepted file name\. Accepted name for this field is:\s*CBC_Coverage\.zip/
+      )
     ).toBeVisible();
   });
 
@@ -290,11 +287,9 @@ describe('The Gis coverages upload page', () => {
       'CCBC_APPLICATION_COVERAGES_AGGREGATED_NoDATA.zip',
       { type: 'application/zip' }
     );
-    const cbcFile = new File(
-      [new ArrayBuffer(1)],
-      'CBC_Coverage.zip',
-      { type: 'application/zip' }
-    );
+    const cbcFile = new File([new ArrayBuffer(1)], 'CBC_Coverage.zip', {
+      type: 'application/zip',
+    });
 
     const fileInputs = screen.getAllByTestId('file-test');
     fireEvent.change(fileInputs[0], { target: { files: [ccbcFile] } });

@@ -2,3 +2,16 @@
 !*.cy.js
 !e2e.js
 instrumentation.ts
+next-env.d.ts
+
+# `next lint` (removed in Next 16, forcing the switch to plain `eslint .`
+# in package.json) only ever linted pages/, components/, lib/, app/, and
+# src/ by default. Scoping back to that same coverage: eslint . now lints
+# everything else too, which surfaces a large pre-existing lint backlog
+# in these directories that predates this branch and isn't part of it.
+backend/
+cypress/
+cypress.config.ts
+schema/
+tests/
+utils/

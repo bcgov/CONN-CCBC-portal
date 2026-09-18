@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import getConfig from 'next/config';
 import styled from 'styled-components';
 import IframeResizer from 'iframe-resizer-react';
+import getPublicRuntimeConfig from 'lib/helpers/getPublicRuntimeConfig';
 
-const publicRuntimeConfig = getConfig()?.publicRuntimeConfig;
+const publicRuntimeConfig = getPublicRuntimeConfig();
 const namespace = publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
 
 const isProd = namespace?.endsWith('-prod');

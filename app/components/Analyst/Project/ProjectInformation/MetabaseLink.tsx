@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import getConfig from 'next/config';
+import getPublicRuntimeConfig from 'lib/helpers/getPublicRuntimeConfig';
 import MetabaseIcon from './MetabaseIcon';
 
-const publicRuntimeConfig = getConfig()?.publicRuntimeConfig;
+const publicRuntimeConfig = getPublicRuntimeConfig();
 const namespace = publicRuntimeConfig?.OPENSHIFT_APP_NAMESPACE;
 
 const isProd = namespace?.endsWith('-prod');

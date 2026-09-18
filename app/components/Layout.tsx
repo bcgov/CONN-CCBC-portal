@@ -1,13 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
 import { Footer } from '@button-inc/bcgov-theme';
-import getConfig from 'next/config';
 import styled from 'styled-components';
+import getPublicRuntimeConfig from 'lib/helpers/getPublicRuntimeConfig';
 import FooterLinks from './FooterLinks';
 import Navigation from './Navigation';
 import TimeTravel from './TimeTravel';
 
-const runtimeConfig = getConfig()?.publicRuntimeConfig ?? {};
+const runtimeConfig = getPublicRuntimeConfig();
 
 const StyledFooter = styled(Footer)`
   width: 100%;

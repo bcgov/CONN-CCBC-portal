@@ -1,9 +1,8 @@
-
 import { useMemo, useState } from 'react';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import { withRelay, RelayProps } from 'relay-nextjs';
 import styled from 'styled-components';
-import getConfig from 'next/config';
+import getPublicRuntimeConfig from 'lib/helpers/getPublicRuntimeConfig';
 import defaultRelayOptions from 'lib/relay/withRelayOptions';
 import { DashboardTabs } from 'components/AnalystDashboard';
 import { ButtonLink, Layout } from 'components';
@@ -41,9 +40,7 @@ const getCoveragesQuery = graphql`
   }
 `;
 
-const {
-  publicRuntimeConfig: { COVERAGES_FILE_NAME },
-} = getConfig();
+const { COVERAGES_FILE_NAME } = getPublicRuntimeConfig();
 
 const CBC_COVERAGE_FILE_NAME = 'CBC_Coverage.zip';
 
@@ -113,10 +110,7 @@ const UploadError = ({ error, expectedFileName }) => {
   return null;
 };
 
-const validateFile = (
-  file: globalThis.File,
-  expectedFileName?: string
-) => {
+const validateFile = (file: globalThis.File, expectedFileName?: string) => {
   if (!file) return { isValid: false, error: '' };
 
   if (!checkFileType(file.name, acceptedFileTypes)) {
@@ -203,10 +197,10 @@ const CoveragesTab = ({ historyList }) => {
     const filesToUpload = [ccbcFile, cbcFile].filter(Boolean);
 
     try {
-      for (const file of filesToUpload) {
-        // eslint-disable-next-line no-await-in-loop
-        await uploadFile(file);
-      }
+      await filesToUpload.reduce(
+        (previousUpload, file) => previousUpload.then(() => uploadFile(file)),
+        Promise.resolve()
+      );
       setCcbcFile(null);
       setCbcFile(null);
       setUploadSuccess(true);
@@ -267,7 +261,10 @@ const CoveragesTab = ({ historyList }) => {
           allowDragAndDrop
         />
         {ccbcError && (
-          <UploadError error={ccbcError} expectedFileName={COVERAGES_FILE_NAME} />
+          <UploadError
+            error={ccbcError}
+            expectedFileName={COVERAGES_FILE_NAME}
+          />
         )}
       </div>
 
@@ -280,9 +277,9 @@ const CoveragesTab = ({ historyList }) => {
           {CBC_COVERAGE_FILE_NAME}.
         </strong>
         <p>
-          The ZIP file should contain the data for both CBC_Transport and CBC_LastMile_Coverage.
-          It should contain the .shp files as well as their accompanying
-          files.
+          The ZIP file should contain the data for both CBC_Transport and
+          CBC_LastMile_Coverage. It should contain the .shp files as well as
+          their accompanying files.
         </p>
         <FileComponent
           allowMultipleFiles={false}
@@ -300,7 +297,10 @@ const CoveragesTab = ({ historyList }) => {
           allowDragAndDrop
         />
         {cbcError && (
-          <UploadError error={cbcError} expectedFileName={CBC_COVERAGE_FILE_NAME} />
+          <UploadError
+            error={cbcError}
+            expectedFileName={CBC_COVERAGE_FILE_NAME}
+          />
         )}
       </div>
 
