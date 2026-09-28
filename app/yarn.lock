@@ -2915,10 +2915,10 @@
   resolved "https://registry.yarnpkg.com/@next/env/-/env-16.3.6.tgz#47d93ed498a55f7db8bb309eeab0b5964b7964d6"
   integrity sha512-x9Vblze1EbtltQYnNH38xCPWU3TVfBd1eXqA3+w9+BTpedkkdNpAaltXlGQ/nsc1+E0mVTNrtcbX3GoO09zeLQ==
 
-"@next/eslint-plugin-next@15.5.25":
-  version "15.5.25"
-  resolved "https://registry.yarnpkg.com/@next/eslint-plugin-next/-/eslint-plugin-next-15.5.25.tgz#b12753d155a882192f53faeab7f8383c73a864aa"
-  integrity sha512-dAzOqZQCAOgIq5yQpsuMBZcwxK0AtzGqHMQpxNWYLQlvf79rsP3SDwdGPNQC4ySaMSihOQXMO/VXubQ3JWW+3A==
+"@next/eslint-plugin-next@15.5.26":
+  version "15.5.26"
+  resolved "https://registry.yarnpkg.com/@next/eslint-plugin-next/-/eslint-plugin-next-15.5.26.tgz#0e32893345b12c2a671746877daa1279a9409156"
+  integrity sha512-xeVpG8CbnTf9IelaFbZQ7TN4BXHV2x+ejnXXbY7Z4kD+sgJ8j97psraV+4/fGjLCjNQuEofUHMeIeieDMyKO/w==
   dependencies:
     fast-glob "3.3.1"
 
@@ -7028,12 +7028,12 @@ eslint-config-airbnb@^19.0.4:
     object.assign "^4.1.2"
     object.entries "^1.1.5"
 
-eslint-config-next@15.5.25:
-  version "15.5.25"
-  resolved "https://registry.yarnpkg.com/eslint-config-next/-/eslint-config-next-15.5.25.tgz#947148d96794cadcec0828e09dd76f87810dfd58"
-  integrity sha512-hB1oClZzRO3vMAeMmBMch0FHNJ4irH74LvQWDEMHkJtG/Us9+SAsg1f5Pvcw9jz4tc8wSGnvbmF050BRAAIbBg==
+eslint-config-next@15.5.26:
+  version "15.5.26"
+  resolved "https://registry.yarnpkg.com/eslint-config-next/-/eslint-config-next-15.5.26.tgz#57dd2f4f4c9fe1e59203fe0242234bf185acf09a"
+  integrity sha512-nekKvDmRQV8VRUhBTt2B/HFdgNR0vWKA/ao5W1L7lcaEvAXsuQYjIJqwLUGaux9uvXOrxnxLu5dQjnRnOixcfw==
   dependencies:
-    "@next/eslint-plugin-next" "15.5.25"
+    "@next/eslint-plugin-next" "15.5.26"
     "@rushstack/eslint-patch" "^1.10.3"
     "@typescript-eslint/eslint-plugin" "^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0"
     "@typescript-eslint/parser" "^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0"
