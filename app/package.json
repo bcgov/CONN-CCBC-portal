@@ -155,7 +155,7 @@
     "babel-plugin-module-resolver": "^5.0.3",
     "babel-plugin-relay": "^21.0.1",
     "babel-plugin-styled-components": "^2.3.0",
-    "cypress": "15.21.1",
+    "cypress": "16.1.1",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
