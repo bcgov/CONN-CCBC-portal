@@ -55,7 +55,10 @@ describe('Pacific timezone display policy', () => {
       { zone: 'America/Vancouver', locale: 'en-CA' }
     );
     expect(formatPacificDateTime(dateTime)).toBe(
-      expectedDateTime.toLocaleString(DateTime.DATETIME_FULL)
+      expectedDateTime
+        .toLocaleParts(DateTime.DATETIME_FULL)
+        .map(({ value }) => value)
+        .join('')
     );
   });
 

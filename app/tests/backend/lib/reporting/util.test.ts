@@ -333,7 +333,10 @@ describe('Dashboard util functions', () => {
       const createdAt = '2024-01-02T03:04:05.000Z';
       const expectedTimestamp = DateTime.fromISO(createdAt)
         .setZone('America/Vancouver')
-        .toLocaleString(DateTime.DATETIME_FULL);
+        .setLocale('en-CA')
+        .toLocaleParts(DateTime.DATETIME_FULL)
+        .map(({ value }) => value)
+        .join('');
 
       const result = compareAndMarkArrays(array1, array2, {
         cbcCreatedAtByProjectNumber: new Map([['ID1', createdAt]]),
