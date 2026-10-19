@@ -1,3 +1,4 @@
+import formatPacificDateTime from 'utils/formatPacificDateTime';
 import { DateTime } from 'luxon';
 import {
   DropdownOption,
@@ -67,9 +68,7 @@ const fileCell = ({ cell }) => {
 };
 
 const dateUploadedCell = ({ cell }) => {
-  return DateTime.fromISO(cell.row.original.createdAt)
-    .setZone('America/Los_Angeles')
-    .toLocaleString(DateTime.DATETIME_FULL);
+  return formatPacificDateTime(DateTime.fromISO(cell.row.original.createdAt));
 };
 
 const HistoryFileUpload = ({ historyTableList }) => {

@@ -1,3 +1,4 @@
+import formatPacificDateTime from 'utils/formatPacificDateTime';
 import { ConnectionHandler, graphql, useFragment } from 'react-relay';
 import styled from 'styled-components';
 import cookie from 'js-cookie';
@@ -146,16 +147,16 @@ const Intake: React.FC<IntakeProps> = ({
 
   const [archiveIntake] = useArchiveIntakeMutation();
 
-  const formattedOpenDate = DateTime.fromISO(openTimestamp).toLocaleString(
-    DateTime.DATETIME_FULL
+  const formattedOpenDate = formatPacificDateTime(
+    DateTime.fromISO(openTimestamp)
   );
 
-  const formattedCloseDate = DateTime.fromISO(closeTimestamp).toLocaleString(
-    DateTime.DATETIME_FULL
+  const formattedCloseDate = formatPacificDateTime(
+    DateTime.fromISO(closeTimestamp)
   );
-  const displayCloseDate = DateTime.fromISO(closeTimestamp)
-    .minus({ minutes: 30 })
-    .toLocaleString(DateTime.DATETIME_FULL);
+  const displayCloseDate = formatPacificDateTime(
+    DateTime.fromISO(closeTimestamp).minus({ minutes: 30 })
+  );
 
   const mockedDateCookie = cookie.get('mocks.mocked_date');
   const currentDateTime = mockedDateCookie

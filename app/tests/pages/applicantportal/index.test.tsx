@@ -115,7 +115,7 @@ describe('The index page', () => {
 
     expect(
       screen.getByText(
-        /Intake 7 is now open until August 19, 2027, 8:30:00 a.m. PDT. If you are interested in submitting an application, or for any questions about connectivity projects in your area, please email/
+        /Intake 7 is now open until August 19, 2027, 8:30:00 a.m. PCT. If you are interested in submitting an application, or for any questions about connectivity projects in your area, please email/
       )
     ).toBeInTheDocument();
     // expect(

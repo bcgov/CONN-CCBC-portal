@@ -1,3 +1,4 @@
+import formatPacificDateTime from 'utils/formatPacificDateTime';
 import { Button } from '@button-inc/bcgov-theme';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
@@ -12,9 +13,7 @@ const StyledH2 = styled.h2`
 `;
 
 const formatReportDate = (date) =>
-  DateTime.fromISO(date)
-    .setZone('America/Los_Angeles')
-    .toLocaleString(DateTime.DATETIME_FULL);
+  formatPacificDateTime(DateTime.fromISO(date));
 
 const getCreatorName = (edge) => {
   const givenName = edge?.node?.ccbcUserByCreatedBy?.givenName?.trim();
@@ -119,9 +118,7 @@ const Gcpe = ({ reportList, session }) => {
                   blob,
                   'The report has been generated and downloaded successfully',
                   true,
-                  DateTime.now()
-                    .setZone('America/Los_Angeles')
-                    .toLocaleString(DateTime.DATETIME_FULL),
+                  formatPacificDateTime(DateTime.now()),
                   rowId
                 );
                 setIsLoading(false);
@@ -233,9 +230,7 @@ const Gcpe = ({ reportList, session }) => {
                   blob,
                   'The comparison report has been generated and downloaded successfully',
                   true,
-                  DateTime.now()
-                    .setZone('America/Los_Angeles')
-                    .toLocaleString(DateTime.DATETIME_FULL),
+                  formatPacificDateTime(DateTime.now()),
                   rowId
                 );
                 setIsLoading(false);
@@ -326,9 +321,7 @@ const Gcpe = ({ reportList, session }) => {
                   blob,
                   'The comparison has been generated and downloaded successfully',
                   false,
-                  DateTime.now()
-                    .setZone('America/Los_Angeles')
-                    .toLocaleString(DateTime.DATETIME_FULL)
+                  formatPacificDateTime(DateTime.now())
                 );
                 setIsLoading(false);
               });

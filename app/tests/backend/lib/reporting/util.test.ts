@@ -95,15 +95,16 @@ describe('Dashboard util functions', () => {
     });
 
     it('uses description when available', () => {
-      const nodes = [
-        node('approved', false, 'Custom Description'),
-      ];
+      const nodes = [node('approved', false, 'Custom Description')];
       expect(buildStatusTransition(nodes)).toBe('Custom Description');
     });
 
     it('falls back to convertStatus when description is missing', () => {
       const nodes = [
-        { status: 'approved', applicationStatusTypeByStatus: { visibleByApplicant: false } },
+        {
+          status: 'approved',
+          applicationStatusTypeByStatus: { visibleByApplicant: false },
+        },
       ];
       expect(buildStatusTransition(nodes)).toBe('Agreement Signed');
     });
@@ -111,7 +112,11 @@ describe('Dashboard util functions', () => {
     it('deduplicates consecutive identical descriptions', () => {
       const nodes = [
         node('conditionally_approved', false, 'Conditionally Approved'),
-        node('applicant_conditionally_approved', false, 'Conditionally Approved'),
+        node(
+          'applicant_conditionally_approved',
+          false,
+          'Conditionally Approved'
+        ),
         node('approved', false, 'Agreement Signed'),
       ];
       expect(buildStatusTransition(nodes)).toBe(
@@ -195,7 +200,11 @@ describe('Dashboard util functions', () => {
         node('screening', false, 'Screening'),
         node('assessment', false, 'Assessment'),
         node('conditionally_approved', false, 'Conditionally Approved'),
-        node('applicant_conditionally_approved', true, 'Conditionally Approved'),
+        node(
+          'applicant_conditionally_approved',
+          true,
+          'Conditionally Approved'
+        ),
         node('approved', false, 'Agreement signed'),
         node('applicant_approved', true, 'Agreement signed'),
       ];
@@ -212,7 +221,11 @@ describe('Dashboard util functions', () => {
         node('screening', false, 'Screening'),
         node('assessment', false, 'Assessment'),
         node('conditionally_approved', false, 'Conditionally Approved'),
-        node('applicant_conditionally_approved', true, 'Conditionally Approved'),
+        node(
+          'applicant_conditionally_approved',
+          true,
+          'Conditionally Approved'
+        ),
         node('approved', false, 'Agreement signed'),
         node('applicant_approved', true, 'Agreement signed'),
       ];
@@ -227,7 +240,11 @@ describe('Dashboard util functions', () => {
     it('falls back to full history when all fromStatus matches are applicant-visible', () => {
       const nodes = [
         node('screening', false, 'Screening'),
-        node('applicant_conditionally_approved', true, 'Conditionally Approved'),
+        node(
+          'applicant_conditionally_approved',
+          true,
+          'Conditionally Approved'
+        ),
         node('approved', false, 'Agreement signed'),
       ];
       // No analyst-visible node matches "Conditionally Approved", so startIndex
@@ -315,7 +332,7 @@ describe('Dashboard util functions', () => {
       const array2 = [headerRow];
       const createdAt = '2024-01-02T03:04:05.000Z';
       const expectedTimestamp = DateTime.fromISO(createdAt)
-        .setZone('America/Los_Angeles')
+        .setZone('America/Vancouver')
         .toLocaleString(DateTime.DATETIME_FULL);
 
       const result = compareAndMarkArrays(array1, array2, {

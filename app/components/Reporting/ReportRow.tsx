@@ -1,3 +1,4 @@
+import formatPacificDateTime from 'utils/formatPacificDateTime';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useModal from 'lib/helpers/useModal';
@@ -41,9 +42,7 @@ const ReportRow = ({
 
   const deleteConfirmationModal = useModal();
 
-  const formattedFileName = `Generated ${DateTime.fromISO(createdAt)
-    .setZone('America/Los_Angeles')
-    .toLocaleString(DateTime.DATETIME_FULL)}`;
+  const formattedFileName = `Generated ${formatPacificDateTime(DateTime.fromISO(createdAt))}`;
 
   return (
     <>
