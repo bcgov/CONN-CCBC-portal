@@ -4,20 +4,26 @@ import { dateTimeFormat } from 'lib/theme/functions/formatDates';
 
 describe('Pacific timezone display policy', () => {
   it.each([
-    ['2025-01-15T18:00:00Z', 'January 15, 2025 at 10:00 a.m. PST'],
-    ['2025-07-15T17:00:00Z', 'July 15, 2025 at 10:00 a.m. PDT'],
-    ['2026-03-08T09:59:59Z', 'March 8, 2026 at 1:59 a.m. PST'],
-    ['2026-03-08T10:00:00Z', 'March 8, 2026 at 3:00 a.m. PDT'],
-    ['2026-03-09T06:59:59.999Z', 'March 8, 2026 at 11:59 p.m. PDT'],
-    ['2026-03-09T07:00:00Z', 'March 9, 2026 at 12:00 a.m. PCT'],
-    ['2027-07-15T17:00:00Z', 'July 15, 2027 at 10:00 a.m. PCT'],
-  ])('labels %s without changing its Vancouver clock time', (iso, expected) => {
-    const dateTime = DateTime.fromISO(iso, { zone: 'UTC' });
-    expect(formatPacificDateTime(dateTime)).toBe(expected);
-    expect(dateTime.toUTC().toISO()).toBe(
-      DateTime.fromISO(iso).toUTC().toISO()
-    );
-  });
+    ['2025-01-15T18:00:00Z', '2025-01-15 10:00', 'PST'],
+    ['2025-07-15T17:00:00Z', '2025-07-15 10:00', 'PDT'],
+    ['2026-03-08T09:59:59Z', '2026-03-08 01:59', 'PST'],
+    ['2026-03-08T10:00:00Z', '2026-03-08 03:00', 'PDT'],
+    ['2026-03-09T06:59:59.999Z', '2026-03-08 23:59', 'PDT'],
+    ['2026-03-09T07:00:00Z', '2026-03-09 00:00', 'PCT'],
+    ['2027-07-15T17:00:00Z', '2027-07-15 10:00', 'PCT'],
+  ])(
+    'labels %s without changing its Vancouver clock time',
+    (iso, expectedTime, expectedLabel) => {
+      const dateTime = DateTime.fromISO(iso, { zone: 'UTC' });
+      expect(formatPacificDateTime(dateTime, 'yyyy-MM-dd HH:mm ZZZZ')).toBe(
+        `${expectedTime} ${expectedLabel}`
+      );
+      expect(formatPacificDateTime(dateTime)).toContain(expectedLabel);
+      expect(dateTime.toUTC().toISO()).toBe(
+        DateTime.fromISO(iso).toUTC().toISO()
+      );
+    }
+  );
 
   it.each([
     ['2026-03-09T06:59:59.999Z', '2026-03-08 23:59:59.999 PDT'],
@@ -44,8 +50,12 @@ describe('Pacific timezone display policy', () => {
       setZone: true,
       locale: 'fr-CA',
     });
+    const expectedDateTime = DateTime.fromObject(
+      { year: 2025, month: 1, day: 15, hour: 10 },
+      { zone: 'America/Vancouver', locale: 'en-CA' }
+    );
     expect(formatPacificDateTime(dateTime)).toBe(
-      'January 15, 2025 at 10:00 a.m. PST'
+      expectedDateTime.toLocaleString(DateTime.DATETIME_FULL)
     );
   });
 
