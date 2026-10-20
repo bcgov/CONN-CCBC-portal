@@ -38,6 +38,27 @@ describe('Pacific timezone display policy', () => {
     ).toBe(expected);
   });
 
+  it.each([
+    ['yyyyMMddHHmmZZZZ', '202603090000PCT'],
+    ["'ZZZZ' ZZZZ", 'ZZZZ PCT'],
+    ["'ZZZZ'", 'ZZZZ'],
+    ["'ZZZZ'ZZZZ", 'ZZZZPCT'],
+    ["''ZZZZ", "'PCT"],
+    ["'ZZZZ", 'ZZZZ'],
+    ['ZZZZ / ZZZZ', 'PCT / PCT'],
+  ])('replaces only unquoted short-zone tokens in %s', (format, expected) => {
+    const dateTime = DateTime.fromISO('2026-03-09T07:00:00Z');
+    expect(formatPacificDateTime(dateTime, format)).toBe(expected);
+  });
+
+  it('preserves numeric offsets and other zone tokens', () => {
+    const dateTime = DateTime.fromISO('2026-03-09T07:00:00Z');
+    const format = 'Z ZZ ZZZ ZZZZZ ZZZZZZ z';
+    expect(formatPacificDateTime(dateTime, format)).toBe(
+      dateTime.setZone('America/Vancouver').setLocale('en-CA').toFormat(format)
+    );
+  });
+
   it('uses PCT for future winter labels independently of runtime zone names', () => {
     // This asserts the label policy, not correctness of the runtime's winter offset.
     expect(

@@ -17,7 +17,7 @@ const PCT_LABEL_START = DateTime.fromISO(
  * retain their PST/PDT labels, while dates from PCT_LABEL_START display PCT.
  * The cutoff applies to the timestamp being formatted, not the current date.
  *
- * Custom formats support the PCT override only for ZZZZ (short zone name).
+ * Custom formats support the PCT override only for unquoted ZZZZ (short zone name).
  * The z and ZZZZZ tokens retain Luxon's output. Only the label is overridden;
  * Vancouver's clock-time conversions still require updated runtime timezone data.
  */
@@ -33,7 +33,9 @@ const formatPacificDateTime = (dateTime: DateTime, format?: string): string => {
   if (format) {
     return pacificDateTime.toFormat(
       usePctLabel
-        ? format.replace(/\bZZZZ\b/g, `'${PACIFIC_TIME_LABEL}'`)
+        ? format.replace(/'[^']*(?:'|$)|Z+/g, (token) =>
+            token === 'ZZZZ' ? `'${PACIFIC_TIME_LABEL}'` : token
+          )
         : format
     );
   }
