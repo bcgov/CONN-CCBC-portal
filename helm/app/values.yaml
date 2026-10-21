@@ -154,6 +154,10 @@ crunchy-postgres:
   nameOverride: ccbc
   fullnameOverride: ccbc
   # crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres:ubi8-14.7-0
+  # TEMPORARY: pinned images with updated timezone data (tag 20260910).
+  # Remove these image overrides (crunchyImage, pgBackRest.image, proxy.pgBouncer.image,
+  # pgmonitor.exporter.image) once the Platform Team updates the operator defaults (end of Oct 2026).
+  crunchyImage: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres-gis:ubi8-17.7-3.4-20260910
   postgresVersion: 17
   postGISVersion: 3.4
   instances:
@@ -170,6 +174,7 @@ crunchy-postgres:
         cpu: 1m
         memory: 32Mi
   pgBackRest:
+    image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbackrest:ubi8-2.56.0-20260910
     retention: '30' # Ideally a larger number such as 30 backups/days
     # If retention-full-type set to 'count' then the oldest backups will expire when the number of backups reach the number defined in retention
     # If retention-full-type set to 'time' then the number defined in retention will take that many days worth of full backups before expiration
@@ -213,6 +218,7 @@ crunchy-postgres:
         max_slot_wal_keep_size: 128MB # default is -1, allowing unlimited wal growth when replicas fall behind
   proxy:
     pgBouncer:
+      image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-pgbouncer:ubi8-1.24-20260910
       replicas: 2
       requests:
         cpu: 2m
@@ -220,6 +226,7 @@ crunchy-postgres:
   pgmonitor:
     enabled: true
     exporter:
+      image: artifacts.developer.gov.bc.ca/bcgov-docker-local/crunchy-postgres-exporter:ubi8-0.18.1-20260910
       requests:
         cpu: 1m
         memory: 64Mi
