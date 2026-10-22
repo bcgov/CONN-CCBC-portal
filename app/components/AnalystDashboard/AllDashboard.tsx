@@ -1,3 +1,4 @@
+import formatPacificDateTime from 'utils/formatPacificDateTime';
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-pascal-case */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -402,9 +403,7 @@ const AllDashboardTable: React.FC<Props> = ({ query }) => {
           handleBlob(
             blob,
             'Export successful',
-            DateTime.now()
-              .setZone('America/Los_Angeles')
-              .toLocaleString(DateTime.DATETIME_FULL)
+            formatPacificDateTime(DateTime.now())
           );
         })
         .catch((error) => {

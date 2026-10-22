@@ -1,3 +1,4 @@
+import formatPacificDateTime from '../../../utils/formatPacificDateTime';
 import { DateTime } from 'luxon';
 import { Cell, Row } from 'write-excel-file';
 
@@ -305,7 +306,7 @@ const HEADER_ROW_WITH_CHANGE_LOG: Row = [...HEADER_ROW, CHANGE_LOG_HEADER_CELL];
 const generateHeaderInfoRow = () => {
   const INFO_ROW: Row = [
     {
-      value: `INTERNAL USE ONLY: Not to be distributed outside Ministry of Citizens' Services\nGENERATED: ${DateTime.now().setZone('America/Los_Angeles').toLocaleString(DateTime.DATETIME_FULL)}`,
+      value: `INTERNAL USE ONLY: Not to be distributed outside Ministry of Citizens' Services\nGENERATED: ${formatPacificDateTime(DateTime.now())}`,
       fontWeight: 'bold',
       fontSize: 16,
       type: String,

@@ -1,3 +1,4 @@
+import formatPacificDateTime from 'utils/formatPacificDateTime';
 import styled from 'styled-components';
 import { useToast } from 'components/AppProvider';
 import { useState } from 'react';
@@ -19,9 +20,7 @@ const ManageReports = ({ reportList, connectionId }) => {
 
   const handleArchive = (report) => {
     const { __id: reportConnectionId, rowId, createdAt } = report;
-    const formattedFileName = `Generated ${DateTime.fromISO(createdAt)
-      .setZone('America/Los_Angeles')
-      .toLocaleString(DateTime.DATETIME_FULL)}`;
+    const formattedFileName = `Generated ${formatPacificDateTime(DateTime.fromISO(createdAt))}`;
     hideToast();
     setIsLoading(true);
     const variables = {
@@ -72,11 +71,7 @@ const ManageReports = ({ reportList, connectionId }) => {
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
-          a.download = `${DateTime.fromISO(createdAt)
-            .setZone('America/Los_Angeles')
-            .toLocaleString(
-              DateTime.DATETIME_FULL
-            )}_Connectivity_Projects_GCPE_List.xlsx`;
+          a.download = `${formatPacificDateTime(DateTime.fromISO(createdAt))}_Connectivity_Projects_GCPE_List.xlsx`;
           document.body.appendChild(a);
           a.click();
           a.remove();

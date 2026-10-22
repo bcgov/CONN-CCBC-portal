@@ -127,10 +127,7 @@ const ApplicationIntakes = ({
         <AdminTabs />
         <section>
           <h2>Application Intakes</h2>
-          <p>
-            All times are in Pacific Time and automatically adjusted for
-            daylight saving time where necessary.
-          </p>
+          <p>All times are in Pacific Time.</p>
           <p>Applicants have a grace period after each deadline.</p>
           <p>
             To adjust the grace period or toggle visibility of upcoming intake

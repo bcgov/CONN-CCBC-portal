@@ -1,6 +1,6 @@
+import formatPacificDateTime from '../../../utils/formatPacificDateTime';
 import { DateTime } from 'luxon';
 
-const REPORT_TIMEZONE = 'America/Los_Angeles';
 const IGNORED_STATUSES = new Set(['draft', 'submitted']);
 
 const formatTimestamp = (timestamp?: string): string | null => {
@@ -8,9 +8,7 @@ const formatTimestamp = (timestamp?: string): string | null => {
     return null;
   }
   const parsed = DateTime.fromISO(timestamp);
-  return parsed.isValid
-    ? parsed.setZone(REPORT_TIMEZONE).toLocaleString(DateTime.DATETIME_FULL)
-    : timestamp;
+  return parsed.isValid ? formatPacificDateTime(parsed) : timestamp;
 };
 
 export const convertStatus = (status: string): string => {
@@ -66,9 +64,7 @@ export const buildStatusTransition = (
       // side of the transition).
       const { visibleByApplicant } = node?.applicationStatusTypeByStatus || {};
       if (visibleByApplicant) return;
-      const desc = (
-        node?.applicationStatusTypeByStatus?.description || ''
-      )
+      const desc = (node?.applicationStatusTypeByStatus?.description || '')
         .toLowerCase()
         .replace(/\s+/g, '');
       const converted = convertStatus(node?.status)
@@ -88,8 +84,7 @@ export const buildStatusTransition = (
   const filteredDescriptions = relevantNodes
     .filter((node) => {
       const status = node?.status;
-      const { visibleByApplicant } =
-        node?.applicationStatusTypeByStatus || {};
+      const { visibleByApplicant } = node?.applicationStatusTypeByStatus || {};
       return !IGNORED_STATUSES.has(status) && !visibleByApplicant;
     })
     .map(

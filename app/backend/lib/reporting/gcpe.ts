@@ -1,3 +1,4 @@
+import formatPacificDateTime from '../../../utils/formatPacificDateTime';
 import writeXlsxFile, { Row } from 'write-excel-file';
 import { DateTime } from 'luxon';
 import generateFormData, {
@@ -228,16 +229,13 @@ const getReportingGcpeQuery = `
   }
 `;
 
-const REPORT_TIMEZONE = 'America/Los_Angeles';
 const GENERATED_ON_PREFIX = 'Generated on ';
 const COMPARING_WITH_PREFIX = 'Comparing to previously created GCPE report on ';
 
 const methodsColumnOptions = [{ width: 80 }];
 
 const formatReportTimestamp = (): string =>
-  DateTime.now()
-    .setZone(REPORT_TIMEZONE)
-    .toLocaleString(DateTime.DATETIME_FULL);
+  formatPacificDateTime(DateTime.now());
 
 const extractGeneratedOnFromMethodsSheet = (methodsSheet) => {
   const value = methodsSheet?.[0]?.[0]?.value;
@@ -586,8 +584,7 @@ const generateExcelData = async (
       node?.applicationMilestoneExcelDataByApplicationId?.nodes[0]?.jsonData
         ?.overallMilestoneProgress ?? null;
 
-    const statusNodes =
-      node?.applicationStatusesByApplicationId?.nodes || [];
+    const statusNodes = node?.applicationStatusesByApplicationId?.nodes || [];
 
     const row: Row = [
       // program
