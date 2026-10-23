@@ -1,6 +1,6 @@
 # Offboarding Process
 
-This document outlines the steps to be followed when offboarding an employee from their technical access within the organization. It covers removing access from Sysdig, OpenShift roles, GitHub Teams, and AWS environments.
+This document outlines the steps to be followed when offboarding an employee from their technical access within the organization. It covers removing access from Sysdig, OpenShift roles, GitHub Teams, and AWS environments, and updating the SonarCloud token.
 
 ## Table of Contents
 
@@ -8,6 +8,7 @@ This document outlines the steps to be followed when offboarding an employee fro
 - [Removing User from Sysdig](#removing-user-from-sysdig)
 - [Revoking OpenShift Roles](#revoking-openshift-roles)
 - [Removing User from GitHub Team](#removing-user-from-github-team)
+- [Updating the SonarCloud Token](#updating-the-sonarcloud-token)
 - [Requesting AWS Access Removal](#requesting-aws-access-removal)
 - [Confirmation and Documentation](#confirmation-and-documentation)
 
@@ -35,6 +36,20 @@ This document outlines the steps to be followed when offboarding an employee fro
 1. All users should be managed on the [CITZ team](https://github.com/orgs/bcgov/teams/citz-connectivity) github
 2. Ensure that the team member has transferred ownership of any private repostories that they own to another member. These will be deleted once they are no longer part of this team.
 3. Remove any members of the team that are no longer contracted to work on the project.
+
+## Updating the SonarCloud Token
+
+Check whether the GitHub Actions `SONAR_TOKEN` secret is tied to the departing team member's SonarCloud account. Arrange replacement before their access is removed where possible.
+
+1. Confirm that the remaining team has access to the `CONN-CCBC-portal` SonarCloud project. If project administration access is needed, request it through the OCIO portal.
+2. Confirm that the account providing the replacement token has permission to run analysis on the project. Regenerating a token alone may not resolve a project permission issue.
+3. Generate a replacement token and update `SONAR_TOKEN` in the repository's GitHub Actions secrets.
+4. Retry the pipeline after updating the token and confirm that the SonarCloud scan succeeds. If it still fails with a permission error, follow up on the access request with the failure details.
+5. Once the replacement is verified, arrange revocation of the old token and removal of the departing member's SonarCloud access.
+
+### Reported permission issue
+
+The previous token was suspected to be tied to the former team lead's account and to have become invalid after their departure. Regenerating the token and updating `SONAR_TOKEN` did not resolve the permission issue. An access request was raised: [DEVXREQ-783](https://citz-do.atlassian.net/servicedesk/customer/portal/2/DEVXREQ-783). The proposed next steps are to request project admin access through the OCIO portal and retry the pipeline after updating the token with the required permissions.
 
 ## Requesting AWS Access Removal
 
