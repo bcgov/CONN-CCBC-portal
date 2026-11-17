@@ -236,11 +236,19 @@ const ProjectInformationForm: React.FC<Props> = ({
     return errors;
   };
 
+  // SOW upload state lives here rather than in the file widget, so it must be
+  // cleared explicitly whenever the form is opened, closed or saved; otherwise
+  // errors from a previous upload reappear on the next form that is opened.
+  const resetSowUploadState = useCallback(() => {
+    setSowFile(null);
+    setSowValidationErrors([]);
+  }, []);
+
   const handleResetFormData = (isEditMode = false) => {
     setFormData({});
     setIsFormEditMode(isEditMode);
     setIsFormSubmitting(false);
-    setSowFile(null);
+    resetSowUploadState();
     setShowToast(false);
     setIsSubmitAttempted(false);
     // Don't clear updatedTitles here - let it persist so titles update immediately
@@ -647,6 +655,7 @@ const ProjectInformationForm: React.FC<Props> = ({
                   setIsChangeRequest(true);
                   setFormData({});
                   setShowToast(false);
+                  resetSowUploadState();
                   setIsFormEditMode(true);
                   setOperation('INSERT');
                   setUpdatedTitles(null);
@@ -697,6 +706,7 @@ const ProjectInformationForm: React.FC<Props> = ({
         saveBtnDisabled={isFormSubmitting}
         setIsFormEditMode={(isEditMode: boolean) => {
           setShowToast(false);
+          resetSowUploadState();
           setIsFormEditMode(isEditMode);
           setIsChangeRequest((_isChangeRequest) =>
             isEditMode ? false : _isChangeRequest
@@ -744,6 +754,7 @@ const ProjectInformationForm: React.FC<Props> = ({
                 setCurrentChangeRequestData(changeRequest.node);
                 setFormData(jsonData);
                 setShowToast(false);
+                resetSowUploadState();
                 setOperation('UPDATE');
                 setUpdatedTitles(null);
                 latestTab7SummaryRef.current = null;
@@ -771,6 +782,7 @@ const ProjectInformationForm: React.FC<Props> = ({
               setFormData(projectInformationData);
               setIsFormEditMode(true);
               setShowToast(false);
+              resetSowUploadState();
               setOperation('UPDATE');
               setUpdatedTitles(null);
               latestTab7SummaryRef.current = null;
