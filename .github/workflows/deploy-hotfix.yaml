@@ -6,6 +6,12 @@ on:
 env:
   TAG: sha-${{ github.sha }}
 
+permissions:
+  actions: read
+  contents: read
+  packages: write
+  security-events: write
+
 jobs:
   build:
     uses: ./.github/workflows/build.yaml

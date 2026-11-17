@@ -49,6 +49,10 @@ on:
 env:
   FEATURE_NAME: ${{ github.event.pull_request.head.ref }}
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   setup-feature-database:
     runs-on: ubuntu-latest

@@ -9,6 +9,9 @@ env:
   PGUSER: postgres
   PGDATABASE: ccbc
 
+permissions:
+  contents: write
+
 jobs:
   generate_schemaspy:
     runs-on: ubuntu-latest
