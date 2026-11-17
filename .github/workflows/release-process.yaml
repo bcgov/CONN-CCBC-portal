@@ -8,6 +8,10 @@ on:
       RENOVATE_GITHUB_TOKEN: { required: true }
       RENOVATE_PRIVATE_KEY: { required: true }
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   checkbox_action:
     runs-on: ubuntu-latest
