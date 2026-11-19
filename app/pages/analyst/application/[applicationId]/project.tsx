@@ -81,7 +81,7 @@ const Project = ({
   const [isCommunityProgressExpanded, setIsCommunityProgressExpanded] =
     useState(false);
 
-  const { section: toggledSection } = useRouter().query;
+  const { section: toggledSection, applicationId } = useRouter().query;
   const projectInformationRef = useRef(null);
   const communityProgressReportRef = useRef(null);
   const milestoneRef = useRef(null);
@@ -209,6 +209,7 @@ const Project = ({
         <AnnouncementsForm query={query} isExpanded={isAnnouncementsExpanded} />
         <div ref={projectInformationRef}>
           <ProjectInformationForm
+            key={`project-information-${applicationId}`}
             application={applicationByRowId}
             isExpanded={
               isProjectInformationExpanded ||
