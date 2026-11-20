@@ -77,6 +77,8 @@ rules:
       - create
       - update
       - patch
+      - list
+      - watch
   - apiGroups:
       - apps
     attributeRestrictions: null
@@ -88,6 +90,8 @@ rules:
       - delete
       - update
       - patch
+      - list
+      - watch
   - apiGroups:
       - route.openshift.io
     attributeRestrictions: null
@@ -100,6 +104,7 @@ rules:
       - update
       - patch
       - delete
+      - watch
   - apiGroups:
       - template.openshift.io
     attributeRestrictions: null
@@ -139,6 +144,8 @@ rules:
       - update
       - patch
       - delete
+      - list
+      - watch
   - apiGroups:
       - ""
     resources:
@@ -150,6 +157,7 @@ rules:
       - update
       - patch
       - delete
+      - watch
   - apiGroups:
       - "rbac.authorization.k8s.io"
       - "authorization.openshift.io"
@@ -163,6 +171,7 @@ rules:
       - update
       - patch
       - delete
+      - watch
   - apiGroups:
       - extensions
       - apps
@@ -176,6 +185,7 @@ rules:
       - update
       - patch
       - delete
+      - watch
   - apiGroups:
       - networking.k8s.io
     resources:
@@ -187,6 +197,7 @@ rules:
       - update
       - patch
       - delete
+      - watch
   - apiGroups:
       - ""
     resources:
@@ -204,6 +215,7 @@ rules:
       - update
       - patch
       - delete
+      - watch
   - apiGroups:
     - postgres-operator.crunchydata.com
     resources:
@@ -214,4 +226,6 @@ rules:
     - update
     - patch
     - delete
+    - list
+    - watch
 {{ end }}
