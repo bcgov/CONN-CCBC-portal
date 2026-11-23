@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # tag=v7.0.1
       - name: Install OpenShift CLI (oc)
-        uses: redhat-actions/openshift-tools-installer@1f130822bb0930e0ee02a119adcc3271a22b1499 # tag=v3.2
+        uses: redhat-actions/openshift-tools-installer@bf1d8fd8fa963cff1d33688473e51f948748991e # tag=v3.3
         with:
           oc: latest
       - name: Authenticate, set context and run deploy script
@@ -25,4 +25,4 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           insecure_skip_tls_verify: true
       - run: |
-          helm upgrade ccbc-tools helm/ccbc-tools --install --atomic -n ${{ secrets.NAMESPACE_PREFIX }}-tools --set namespacePrefix=${{ secrets.NAMESPACE_PREFIX }} --set deployer.githubToken=${{ secrets.TEKTON_GITHUB}} --set deployer.headerSecret=${{ secrets.JIRA_SECRET }} --set redis.password=${{ secrets.REDIS_PASSWORD}} --set sveltekit.secret=${{ secrets.HEADER_SECRET }} --set sveltekit.githubToken=${{ secrets.TEKTON_GITHUB }}
+          helm upgrade ccbc-tools helm/ccbc-tools --install --rollback-on-failure -n ${{ secrets.NAMESPACE_PREFIX }}-tools --set namespacePrefix=${{ secrets.NAMESPACE_PREFIX }} --set deployer.githubToken=${{ secrets.TEKTON_GITHUB}} --set deployer.headerSecret=${{ secrets.JIRA_SECRET }} --set redis.password=${{ secrets.REDIS_PASSWORD}} --set sveltekit.secret=${{ secrets.HEADER_SECRET }} --set sveltekit.githubToken=${{ secrets.TEKTON_GITHUB }}
