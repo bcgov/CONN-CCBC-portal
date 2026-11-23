@@ -1,6 +1,8 @@
 # This workflow contains zap scanning
 name: test-zap
-permissions: write-all
+permissions:
+  contents: read
+  issues: write
 
 on:
   workflow_call:
